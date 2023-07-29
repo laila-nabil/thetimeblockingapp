@@ -75,14 +75,18 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
 
 - **Project Management**: Github issues with <https://zube.io/>
 - **Design**:
-  - *maybe* [visily.com](https://app.visily.ai/)
-  - *maybe* [justinmind](https://www.justinmind.com/)
-  - *maybe* [figma](https://www.figma.com/)
-  - *maybe* [recraft](app.recraft.ai)
-  - *maybe* <https://rydmike.com/flexcolorscheme/themesplayground-v7>
-  - *maybe* <https://realtimecolors.com/>
-  - *maybe* <https://rydmike.com/colorscheme>
-  - *maybe* <https://rydmike.com/flexcolorpicker>
+  - **Design Tools**:
+    - *maybe* [visily.com](https://app.visily.ai/)
+    - *maybe* [justinmind](https://www.justinmind.com/)
+    - *maybe* [figma](https://www.figma.com/)
+    - *maybe* [recraft](app.recraft.ai)
+    - *maybe* <https://rydmike.com/flexcolorscheme/themesplayground-v7>
+    - *maybe* <https://realtimecolors.com/>
+    - *maybe* <https://rydmike.com/colorscheme>
+    - *maybe* <https://rydmike.com/flexcolorpicker>
+  - **Design Resources**:
+    - [Design systems](https://component.gallery/design-systems/)
+      - [Material 3 Design Kit](https://www.figma.com/community/file/1035203688168086460/Material-3-Design-Kit)
 - *maybe* Firebase remote config
 - *maybe* mason
 - *maybe* freezed
