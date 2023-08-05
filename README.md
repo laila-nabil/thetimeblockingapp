@@ -15,7 +15,10 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
       - [Testing](#testing)
       - [Analytics and security](#analytics-and-security)
       - [Other](#other)
-
+    - [Plan](#plan)
+      - [Opportunity canvas](#opportunity-canvas)
+      - [Evaluating idea using Cynefin framework](#evaluating-idea-using-cynefin-framework)
+      - [Event Storming and User Stories](#event-storming-and-user-stories)
 
 ### Tech stack & tools used
 
@@ -95,3 +98,40 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
 - *maybe* accessability & tooltip
 - *maybe* flavors or just prod-main and dev-main
 - *maybe* permission handler package
+
+### Plan
+
+When planning for this project,I followed idea to MVP Series by [Essam Cafe](https://www.youtube.com/@essamcafe) [Miro board](https://miro.com/app/board/uXjVPjEXOcw=/) *though the series is more about making a product as a team not solo,I still found it useful*
+
+#### Opportunity canvas
+
+[Idea to MVP Sessoion 1: exploring ideas, ترشيح الافكار](https://www.youtube.com/watch?v=jokV1oT8jqU)
+> An opportunity canvas is a one-pager that helps you think through the ?>problem you're solving, the solution you're proposing, and the impact it >will have on your users and your business. It's a great tool for >validating ideas and ensuring that you're building the right thing.
+>It has four key areas:
+><ul>
+><li>Problem: What problem are you solving for your users?</li>
+><li>Solution: What is your proposed solution to the problem?</li>
+><li>Impact: What impact will your solution have on your users and your business?</li>
+><li>Metrics: How will you measure the success of your solution?</li>
+></ul>
+
+![documentation_files/opportunity_canvas.png](documentation_files/opportunity_canvas.png)
+
+
+#### Evaluating idea using Cynefin framework
+
+[Idea to MVP Session 2: evaluating ideas - تقييم الأفكار واختيار فكرة المشروع](https://www.youtube.com/watch?v=rPbYbTbxOjE&ab_channel=%D9%82%D9%87%D9%88%D8%A9%D8%B9%D8%B5%D8%A7%D9%85)
+
+![Cynefin framework explanation](https://646434472-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fh4sMh779BAhiSQWXmjLr%2Fuploads%2Fgit-blob-d36a6f71c865a0e6785bfd44397666f84d2eb1b4%2F2022-01-27%20(8).png?alt=media)
+
+![Cynefin framework](documentation_files/Cynefin.png)
+
+#### Event Storming and User Stories
+
+[Idea to MVP (3rd Session) Event storming
+](https://www.youtube.com/watch?v=VwOkVMI1WLM)
+
+[Idea to MVP Session 4: User Stories
+](https://www.youtube.com/watch?v=H_vh8emSZ0I)
+
+Features,User stories, Tasks and Spikes are inside github as issues, [The time blocking app overview](https://github.com/laila-nabil/thetimeblockingapp/issues/29) includes all of them ordered
