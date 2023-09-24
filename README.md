@@ -25,7 +25,7 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
           - [Splash screen](#splash-screen)
           - [Authentication screens](#authentication-screens)
           - [Schedule screens](#schedule-screens)
-          - [Add a task screens](#add-a-task-screens)
+          - [Add a task](#add-a-task)
           - [Lists screens](#lists-screens)
           - [Tags screens](#tags-screens)
           - [Settings screen](#settings-screen)
@@ -188,7 +188,17 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
   ![Clickup with other backend connect with Clickup](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)connect2.png)
 
 ###### Schedule screens
-###### Add a task screens
+  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule1.png)
+  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule2.png)
+  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule3.png)
+###### Add a task
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task1.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task2.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task3.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task4.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task5.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task5.png)
+  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task6.png)
 ###### Lists screens
   ![Lists page](documentation_files\design\wireframes\lists\lists0.png)
   ![Lists page](documentation_files\design\wireframes\lists\lists1.png)
