@@ -19,6 +19,16 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
       - [Opportunity canvas](#opportunity-canvas)
       - [Evaluating idea using Cynefin framework](#evaluating-idea-using-cynefin-framework)
       - [Event Storming and User Stories](#event-storming-and-user-stories)
+      - [Design](#design)
+        - [Competitors analysis](#competitors-analysis)
+        - [MVP Wireframes](#mvp-wireframes)
+          - [Splash screen](#splash-screen)
+          - [Authentication screens](#authentication-screens)
+          - [Schedule screens](#schedule-screens)
+          - [Add a task screens](#add-a-task-screens)
+          - [Lists screens](#lists-screens)
+          - [Tags screens](#tags-screens)
+          - [Settings screen](#settings-screen)
 
 ### Tech stack & tools used
 
@@ -180,6 +190,10 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 ###### Schedule screens
 ###### Add a task screens
 ###### Lists screens
+  ![Lists page](documentation_files\design\wireframes\lists\lists0.png)
+  ![Lists page](documentation_files\design\wireframes\lists\lists1.png)
 ###### Tags screens
+  ![Tags page](documentation_files\design\wireframes\tags\tags0.png)
+  ![Tags page](documentation_files\design\wireframes\tags\tags1.png)
 ###### Settings screen
 ![Settings screen](documentation_files\design\wireframes\settings.png)
