@@ -161,6 +161,25 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 ##### MVP Wireframes
 ###### Splash screen
+![Splash screen](documentation_files\design\wireframes\Splash_screen.png)
+###### Authentication screens
+- Only clickup APIs
+  ![Only clickup 1](documentation_files\design\wireframes\auth\Auth_page(clickup).png)
+  ![Only clickup 2](documentation_files\design\wireframes\auth\Auth_page(clickup2).png)
+  ![Only clickup 3](documentation_files\design\wireframes\auth\Auth_page(clickup3).png)
+- Anything but clickup  APIs
+  ![Not clickup 1](documentation_files\design\wireframes\auth\Auth_page(Not_clickup)sign_in.png)
+  ![Not clickup 2](documentation_files\design\wireframes\auth\Auth_page(Not_clickup)sign_up.png)
 
-###### Authentication screens
-###### Authentication screens
+- Clickup with other backend
+  ![Clickup with other backend sign up](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)sign_up.png)
+  ![Clickup with other backend sign in](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)sign_in.png)
+  ![Clickup with other backend connect with Clickup](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)connect1.png)
+  ![Clickup with other backend connect with Clickup](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)connect2.png)
+
+###### Schedule screens
+###### Add a task screens
+###### Lists screens
+###### Tags screens
+###### Settings screen
+![Settings screen](documentation_files\design\wireframes\settings.png)
