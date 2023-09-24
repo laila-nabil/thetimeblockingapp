@@ -79,9 +79,9 @@ Time blocking app made with Flutter,it is a powerful and intuitive task manageme
 - **Project Management**: Github issues with <https://zube.io/>
 - **Design**:
   - **Design Tools**:
+    - Mainly [figma](https://www.figma.com/)
     - *maybe* [visily.com](https://app.visily.ai/)
     - *maybe* [justinmind](https://www.justinmind.com/)
-    - *maybe* [figma](https://www.figma.com/)
     - *maybe* [recraft](app.recraft.ai)
     - *maybe* <https://rydmike.com/flexcolorscheme/themesplayground-v7>
     - *maybe* <https://realtimecolors.com/>
@@ -135,3 +135,32 @@ When planning for this project,I followed idea to MVP Series by [Essam Cafe](htt
 ](https://www.youtube.com/watch?v=H_vh8emSZ0I)
 
 Features,User stories, Tasks and Spikes are inside github as issues, [The time blocking app overview](https://github.com/laila-nabil/thetimeblockingapp/issues/29) includes all of them ordered
+
+#### Design
+
+##### Competitors analysis
+- Sorted
+![Sorted](documentation_files\design\competitors\sorted.png)
+
+- Apple reminder
+![Apple reminder](documentation_files\design\competitors\apple_reminders.png)
+
+
+- TickTick
+![TickTick](documentation_files\design\competitors\ticktick.png)
+
+- TickTick
+![TickTick](documentation_files\design\competitors\ticktick.png)
+
+- Fantastical
+![Fantastical](documentation_files\design\competitors\fantastical.png)
+
+- Clickup
+![Clickup](documentation_files\design\competitors\clickup.png)
+
+
+##### MVP Wireframes
+###### Splash screen
+
+###### Authentication screens
+###### Authentication screens
