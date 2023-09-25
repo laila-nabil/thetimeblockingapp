@@ -3,16 +3,20 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 import '../entities/tasks_order_by.dart';
 
 class GetClickUpTasksInWorkspaceUseCase
     implements UseCase<List<ClickupTask>, GetClickUpTasksInWorkspaceParams> {
+  final TasksRepo repo;
+
+  GetClickUpTasksInWorkspaceUseCase(this.repo);
+
   @override
   Future<Either<Failure, List<ClickupTask>>?> call(
       GetClickUpTasksInWorkspaceParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+    return repo.getTasksInWorkspace(params: params);
   }
 }
 
