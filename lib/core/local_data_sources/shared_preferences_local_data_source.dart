@@ -1,4 +1,3 @@
-import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thetimeblockingapp/core/error/exceptions.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';

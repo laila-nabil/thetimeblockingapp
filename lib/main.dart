@@ -1,10 +1,20 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'core/bloc_observer.dart';
 import 'core/config.dart';
+import 'core/localization/localization.dart';
 import 'core/resources/app_theme.dart';
+import 'core/injection_container.dart' as di;
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalizationImpl().ensureInitialized();
+  di.initSl();
+  // turn off the # in the URLs on the web
+  usePathUrlStrategy();
+  Bloc.observer = MyBlocObserver();
+  runApp(LocalizationImpl().localizationSetup(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -14,7 +14,8 @@ abstract class Localization {
   void setLanguage(BuildContext context, LanguagesEnum selectedLanguage);
   String translate(String key);
   bool isRTL(BuildContext context);
-  localizationSetup(Widget app);
+  dynamic localizationSetup(Widget app);
+  Future<void> ensureInitialized();
 }
 
 class LocalizationImpl implements Localization{
@@ -39,7 +40,7 @@ class LocalizationImpl implements Localization{
   }
 
   @override
-  localizationSetup(Widget app) {
+  dynamic localizationSetup(Widget app) {
     const assetsPath = 'assets/locales';
     const supportedLocales = [Locale('en', 'UK'), Locale('ar', 'EG')];
     final defaultLocale = supportedLocales[0];
@@ -82,6 +83,11 @@ class LocalizationImpl implements Localization{
         return LanguagesEnum.en;
     }
     return null;
+  }
+
+  @override
+  Future<void> ensureInitialized() {
+    return EasyLocalization.ensureInitialized();
   }
 
 }
