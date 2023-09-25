@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import '../common/enums/auth_mode.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'network/clickup_exception_handler.dart';
 import 'network/network.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
@@ -66,7 +67,9 @@ String  get  getClickUpUrl =>
     sl.get(instanceName:  NamedInstances.clickUpUrl.name);
 
 void initSl() {
-  _initSl(network: NetworkHttp(httpClient: Client()));
+  _initSl(
+      network: NetworkHttp(
+          httpClient: Client(), responseHandler: clickUpResponseHandler));
 }
 
 @visibleForTesting

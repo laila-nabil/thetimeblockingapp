@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 
 abstract class Network {
   final http.Client httpClient;
+  final Future<NetworkResponse> Function(
+          {required Future<http.Response> Function() httpResponse})
+      responseHandler;
 
   Future<NetworkResponse> post(
       {required String url,
@@ -14,7 +17,7 @@ abstract class Network {
   Future<NetworkResponse> get(
       {required String url, Map<String, String>? headers});
 
-  Network({required this.httpClient});
+  Network({required this.httpClient,required this.responseHandler});
 }
 
 class NetworkResponse {

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../error/exceptions.dart';
 import '../print_debug.dart';
 import 'network.dart';
 
@@ -10,9 +9,56 @@ class NetworkHttp implements Network {
   @override
   final http.Client httpClient;
 
-  NetworkHttp({required this.httpClient});
+  @override
+  final Future<NetworkResponse> Function(
+      {required Future<http.Response> Function() httpResponse}) responseHandler;
+
+  NetworkHttp({required this.httpClient, required this.responseHandler});
 
   @override
+  Future<NetworkResponse> post(
+      {required String url,
+      Map<String, String>? headers,
+      Object? body,
+      Encoding? encoding}) async {
+    Uri uri = Uri.parse(url);
+    printDebug(
+      "[url] start$url",
+    );
+    printDebug(
+      "[url] $url",
+    );
+    printDebug(
+      "[header] " "${headers ?? ""}",
+    );
+    printDebug(
+      "[body] " "${body ?? ""}",
+    );
+    return responseHandler(
+        httpResponse: () async => await httpClient.post(uri,
+            headers: headers, body: body, encoding: encoding));
+  }
+
+  @override
+  Future<NetworkResponse> get(
+      {required String url, Map<String, String>? headers}) async {
+    Uri uri = Uri.parse(url);
+    printDebug(
+      "[url] start$url",
+    );
+    printDebug(
+      "[url] $url",
+    );
+    printDebug(
+      "[header] " "${headers ?? ""}",
+    );
+    return responseHandler(
+        httpResponse: () async => await http.get(
+              uri,
+              headers: headers,
+            ));
+  }
+/*@override
   Future<NetworkResponse> post(
       {required String url,
       Map<String, String>? headers,
@@ -88,5 +134,5 @@ class NetworkHttp implements Network {
     );
     printDebug("[statusCode] ${response.statusCode}");
     return NetworkResponse.fromHttpResponse(response);
-  }
+  }*/
 }
