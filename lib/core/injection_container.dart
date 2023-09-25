@@ -18,7 +18,7 @@ import 'network/network.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
 
-final sl = GetIt.instance;
+final serviceLocator = GetIt.instance;
 
 enum NamedInstances {
   appName,
@@ -30,49 +30,49 @@ enum NamedInstances {
   clickUpUrl
 }
 
-void _initSl({required Network network}) {
+void _initServiceLocator({required Network network}) {
   /// Globals
-  sl.registerSingleton(Logger());
-  sl.registerSingleton('Time blocking app',
+  serviceLocator.registerSingleton(Logger());
+  serviceLocator.registerSingleton('Time blocking app',
       instanceName: NamedInstances.appName.name);
-  sl.registerSingleton('https://api.clickup.com/api/v2/',
+  serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
       instanceName: NamedInstances.clickUpUrl.name);
-  sl.registerSingleton<AuthMode>(AuthMode.clickUpOnly,
+  serviceLocator.registerSingleton<AuthMode>(AuthMode.clickUpOnly,
       instanceName: NamedInstances.authMode.name);
-  sl.registerSingleton("", instanceName: NamedInstances.clickUpClientId.name);
-  sl.registerSingleton("",
+  serviceLocator.registerSingleton("", instanceName: NamedInstances.clickUpClientId.name);
+  serviceLocator.registerSingleton("",
       instanceName: NamedInstances.clickUpClientSecret.name);
-  sl.registerSingleton("",
+  serviceLocator.registerSingleton("",
       instanceName: NamedInstances.clickUpRedirectUrl.name);
-  sl.registerSingleton("",
+  serviceLocator.registerSingleton("",
       instanceName: NamedInstances.clickUpAuthAccessToken.name);
 
   /// Bloc
-  sl.registerFactory(() => StartupBloc());
+  serviceLocator.registerFactory(() => StartupBloc());
 
   /// UseCases
 
-  sl.registerLazySingleton(() => GetClickUpAccessTokenUseCase(sl(),));
-  sl.registerLazySingleton(() => GetClickUpUserUseCase(sl(),));
-  sl.registerLazySingleton(() => GetClickUpWorkspacesUseCase(sl(),));
+  serviceLocator.registerLazySingleton(() => GetClickUpAccessTokenUseCase(serviceLocator(),));
+  serviceLocator.registerLazySingleton(() => GetClickUpUserUseCase(serviceLocator(),));
+  serviceLocator.registerLazySingleton(() => GetClickUpWorkspacesUseCase(serviceLocator(),));
 
-  sl.registerLazySingleton(() => GetClickUpTasksInWorkspaceUseCase(sl(),));
+  serviceLocator.registerLazySingleton(() => GetClickUpTasksInWorkspaceUseCase(serviceLocator(),));
 
   /// Repos
-  sl.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(sl()));
-  sl.registerLazySingleton<TasksRepo>(() => TasksRepoImpl(sl()));
+  serviceLocator.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
 
   /// DataSources
-  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(
-        network: sl(),
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(
+        network: serviceLocator(),
         clickUpClientId: getClickUpClientId,
         clickUpClientSecret: getClickUpClientSecret,
         clickUpUrl: getClickUpUrl,
         clickUpAccessToken: getClickUpAuthAccessToken
       ));
 
-  sl.registerLazySingleton<TasksRemoteDataSource>(() => TasksRemoteDataSourceImpl(
-      network: sl(),
+  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(() => TasksRemoteDataSourceImpl(
+      network: serviceLocator(),
       clickUpClientId: getClickUpClientId,
       clickUpClientSecret: getClickUpClientSecret,
       clickUpUrl: getClickUpUrl,
@@ -83,27 +83,27 @@ void _initSl({required Network network}) {
 }
 
 String get getClickUpClientSecret =>
-    sl.get(instanceName: NamedInstances.clickUpClientSecret.name);
+    serviceLocator.get(instanceName: NamedInstances.clickUpClientSecret.name);
 
 String  get getClickUpClientId =>
-    sl.get(instanceName: NamedInstances.clickUpClientId.name);
+    serviceLocator.get(instanceName: NamedInstances.clickUpClientId.name);
 
 String get  getAppName =>
-    sl.get(instanceName:  NamedInstances.appName.name);
+    serviceLocator.get(instanceName:  NamedInstances.appName.name);
 
 String  get  getClickUpUrl =>
-    sl.get(instanceName:  NamedInstances.clickUpUrl.name);
+    serviceLocator.get(instanceName:  NamedInstances.clickUpUrl.name);
 
 String  get  getClickUpAuthAccessToken =>
-    sl.get(instanceName:  NamedInstances.clickUpAuthAccessToken.name);
+    serviceLocator.get(instanceName:  NamedInstances.clickUpAuthAccessToken.name);
 
-void initSl() {
-  _initSl(
+void initServiceLocator() {
+  _initServiceLocator(
       network: NetworkHttp(
           httpClient: Client(), responseHandler: clickUpResponseHandler));
 }
 
 @visibleForTesting
-void initSlTesting({required Network mockNetwork}) {
-  _initSl(network: mockNetwork);
+void initServiceLocatorTesting({required Network mockNetwork}) {
+  _initServiceLocator(network: mockNetwork);
 }

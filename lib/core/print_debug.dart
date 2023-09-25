@@ -11,7 +11,7 @@ void printDebug(Object? object, {PrintLevel? printLevel = PrintLevel.trace}) {
 }
 
 void _printLogger(PrintLevel? printLevel, Object? object) {
-  final logger = sl<Logger>();
+  final logger = serviceLocator<Logger>();
   switch (printLevel) {
     case (PrintLevel.trace):
       logger.t(object);

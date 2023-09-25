@@ -13,14 +13,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
-  di.initSl();
-  di.sl.registerSingleton(
+  di.initServiceLocator();
+  di.serviceLocator.registerSingleton(
       const String.fromEnvironment('clickUpClientId', defaultValue: ""),
       instanceName: "clickUpClientId");
-  di.sl.registerSingleton(
+  di.serviceLocator.registerSingleton(
       const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
       instanceName: "clickUpClientSecret");
-  di.sl.registerSingleton(
+  di.serviceLocator.registerSingleton(
       const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
       instanceName: "clickUpRedirectUrl");
 
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.sl<StartupBloc>(),
+          create: (context) => di.serviceLocator<StartupBloc>(),
         ),
       ],
       child: MaterialApp.router(
