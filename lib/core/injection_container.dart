@@ -48,7 +48,8 @@ void _initSl({required Network network}) {
         network: sl(),
         clickUpClientId: getClickUpClientId,
         clickUpClientSecret: getClickUpClientSecret,
-        clickUpUrl: getClickUpUrl
+        clickUpUrl: getClickUpUrl,
+        clickUpAccessToken: getClickUpAuthAccessToken
       ));
 
   /// External
@@ -65,6 +66,9 @@ String get  getAppName =>
 
 String  get  getClickUpUrl =>
     sl.get(instanceName:  NamedInstances.clickUpUrl.name);
+
+String  get  getClickUpAuthAccessToken =>
+    sl.get(instanceName:  NamedInstances.clickUpAuthAccessToken.name);
 
 void initSl() {
   _initSl(
