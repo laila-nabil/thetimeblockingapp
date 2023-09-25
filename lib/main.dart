@@ -14,15 +14,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
-  di.serviceLocator.registerSingleton(
-      const String.fromEnvironment('clickUpClientId', defaultValue: ""),
-      instanceName: "clickUpClientId");
-  di.serviceLocator.registerSingleton(
-      const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
-      instanceName: "clickUpClientSecret");
-  di.serviceLocator.registerSingleton(
-      const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
-      instanceName: "clickUpRedirectUrl");
+  ///FIX
+  // di.serviceLocator.registerSingleton(
+  //     const String.fromEnvironment('clickUpClientId', defaultValue: ""),
+  //     instanceName: "clickUpClientId");
+  // di.serviceLocator.registerSingleton(
+  //     const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
+  //     instanceName: "clickUpClientSecret");
+  // di.serviceLocator.registerSingleton(
+  //     const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
+  //     instanceName: "clickUpRedirectUrl");
 
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
