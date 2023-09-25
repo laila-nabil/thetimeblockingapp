@@ -1,4 +1,4 @@
-import '../enums/clickup_user.dart';
+import '../entities/clickup_user.dart';
 
 /// id : 55230798
 /// username : "Laila Nabil"
