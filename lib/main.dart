@@ -5,6 +5,7 @@ import 'core/bloc_observer.dart';
 import 'core/localization/localization.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
+import 'core/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,17 +32,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig : router,
       title: di.getAppName,
       theme: appTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
+  static const routeName = "/";
   final String title;
 
   @override
