@@ -4,12 +4,12 @@ import 'package:thetimeblockingapp/common/widgets/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
-import '../main.dart';
+import '../features/startup/presentation/pages/startup_page.dart';
 
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: MyHomePage.routeName,
+    initialLocation: StartUpPage.routeName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver()],
     errorBuilder: (context, state) {
@@ -26,7 +26,12 @@ final router = GoRouter(
       }
       return null;
     },
-    routes: []);
+    routes: [
+      GoRoute(
+        path: StartUpPage.routeName,
+        builder: (context, state) => const StartUpPage(),
+      )
+    ]);
 
 class MyNavObserver extends NavigatorObserver {
   @override

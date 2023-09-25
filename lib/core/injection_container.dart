@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
+import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../common/enums/auth_mode.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -47,6 +48,7 @@ void _initSl({required Network network}) {
       instanceName: NamedInstances.clickUpAuthAccessToken.name);
 
   /// Bloc
+  sl.registerFactory(() => StartupBloc());
 
   /// UseCases
 
