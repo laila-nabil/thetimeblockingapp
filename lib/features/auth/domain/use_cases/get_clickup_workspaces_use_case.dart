@@ -5,7 +5,8 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 
 import '../../../../common/entities/clickup_workspace.dart';
 
-class GetClickUpWorkspacesUseCase implements UseCase<List<ClickupWorkspace>, NoParams> {
+class GetClickUpWorkspacesUseCase
+    implements UseCase<List<ClickupWorkspace>, NoParams> {
   final AuthRepo repo;
 
   GetClickUpWorkspacesUseCase(this.repo);
