@@ -30,6 +30,7 @@ void _printLogger(PrintLevel? printLevel, Object? object) {
   }
 }
 
+// ignore: unused_element
 void _printDebugPrint(
   Object? object,
 ) {

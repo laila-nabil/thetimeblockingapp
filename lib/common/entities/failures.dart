@@ -1,3 +1,0 @@
-class Failure {
-  ///TODO Failure
-}

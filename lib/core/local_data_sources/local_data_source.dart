@@ -3,7 +3,7 @@ abstract class LocalDataSource {
 
   Future<Object?> getData({required String key});
 
-  Future<bool> setData<T>({
+  Future<void> setData<T>({
     required String key,
     required T value,
   });

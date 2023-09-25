@@ -1,4 +1,6 @@
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thetimeblockingapp/core/error/exceptions.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 
 class SharedPrefLocalDataSource implements LocalDataSource {
@@ -10,18 +12,26 @@ class SharedPrefLocalDataSource implements LocalDataSource {
   }
 
   @override
-  Future<Object?> getData({required String key}) async {
+  Future<Object> getData({required String key}) async {
     await init();
-    return _sharedPreferences.get(key);
+    final result = _sharedPreferences.get(key);
+    if (result !=null) {
+      return result;
+    }
+    throw(EmptyCacheException());
   }
 
   @override
-  Future<bool> setData<T>({required String key, required T value}) async {
+  Future<void> setData<T>({required String key, required T value}) async {
     await init();
-    if (value is int) return await _sharedPreferences.setInt(key, value);
-    if (value is bool) return await _sharedPreferences.setBool(key, value);
-    if (value is double) return await _sharedPreferences.setDouble(key, value);
+    bool? result;
+    if (value is int) result = await _sharedPreferences.setInt(key, value);
+    if (value is bool) result =  await _sharedPreferences.setBool(key, value);
+    if (value is double) result =  await _sharedPreferences.setDouble(key, value);
 
-    return await _sharedPreferences.setString(key, value.toString());
+    result = await  _sharedPreferences.setString(key, value.toString());
+    if(result != true){
+      throw(FailedCachingException());
+    }
   }
 }
