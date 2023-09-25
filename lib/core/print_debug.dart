@@ -4,7 +4,7 @@ import 'injection_container.dart';
 
 enum PrintLevel { trace, debug, info, warning, error, fatalError }
 
-void printDebug(Object? object, {PrintLevel? printLevel}) {
+void printDebug(Object? object, {PrintLevel? printLevel = PrintLevel.trace}) {
   if (kDebugMode) {
     _printLogger(printLevel, object);
   }

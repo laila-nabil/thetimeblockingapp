@@ -1,19 +1,30 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 abstract class Network {
-  final Client httpClient;
+  final http.Client httpClient;
 
   Future<NetworkResponse> post(
-      {required Uri url,
+      {required String url,
       Map<String, String>? headers,
       Object? body,
       Encoding? encoding});
 
-  Future<NetworkResponse> get({required Uri url, Map<String, String>? headers});
+  Future<NetworkResponse> get(
+      {required String url, Map<String, String>? headers});
 
   Network({required this.httpClient});
 }
 
-abstract class NetworkResponse {}
+class NetworkResponse {
+  final String body;
+  final int statusCode;
+
+  NetworkResponse({required this.body, required this.statusCode});
+
+  static NetworkResponse fromHttpResponse(http.Response response) {
+    return NetworkResponse(
+        body: response.body, statusCode: response.statusCode);
+  }
+}
