@@ -33,16 +33,16 @@ class LocalizationImpl implements Localization{
   Locale languagesEnumToLocale(LanguagesEnum language) {
     switch(language){
       case LanguagesEnum.ar:
-        return const Locale('ar', 'EG');
+        return const Locale('ar',);
       case LanguagesEnum.en:
-        return const Locale('en', 'UK');
+        return const Locale('en',);
     }
   }
 
   @override
   dynamic localizationSetup(Widget app) {
-    const assetsPath = 'assets/locales';
-    const supportedLocales = [Locale('en', 'UK'), Locale('ar', 'EG')];
+    const assetsPath = 'localFiles';
+    const supportedLocales = [Locale('en',), Locale('ar',)];
     final defaultLocale = supportedLocales[0];
     return EasyLocalization(
         path: assetsPath,
