@@ -150,60 +150,60 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 ##### Competitors analysis
 - Sorted
-![Sorted](documentation_files\design\competitors\sorted.png)
+![Sorted](documentation_files/design/competitors/sorted.png)
 
 - Apple reminder
-![Apple reminder](documentation_files\design\competitors\apple_reminders.png)
+![Apple reminder](documentation_files/design/competitors/apple_reminders.png)
 
 
 - TickTick
-![TickTick](documentation_files\design\competitors\ticktick.png)
+![TickTick](documentation_files/design/competitors/ticktick.png)
 
 - TickTick
-![TickTick](documentation_files\design\competitors\ticktick.png)
+![TickTick](documentation_files/design/competitors/ticktick.png)
 
 - Fantastical
-![Fantastical](documentation_files\design\competitors\fantastical.png)
+![Fantastical](documentation_files/design/competitors/fantastical.png)
 
 - Clickup
-![Clickup](documentation_files\design\competitors\clickup.png)
+![Clickup](documentation_files/design/competitors/clickup.png)
 
 
 ##### MVP Wireframes
 ###### Splash screen
-![Splash screen](documentation_files\design\wireframes\Splash_screen.png)
+![Splash screen](documentation_files/design/wireframes/Splash_screen.png)
 ###### Authentication screens
 - Only clickup APIs
-  ![Only clickup 1](documentation_files\design\wireframes\auth\Auth_page(clickup).png)
-  ![Only clickup 2](documentation_files\design\wireframes\auth\Auth_page(clickup2).png)
-  ![Only clickup 3](documentation_files\design\wireframes\auth\Auth_page(clickup3).png)
+  ![Only clickup 1](documentation_files/design/wireframes/auth/Auth_page(clickup).png)
+  ![Only clickup 2](documentation_files/design/wireframes/auth/Auth_page(clickup2).png)
+  ![Only clickup 3](documentation_files/design/wireframes/auth/Auth_page(clickup3).png)
 - Anything but clickup  APIs
-  ![Not clickup 1](documentation_files\design\wireframes\auth\Auth_page(Not_clickup)sign_in.png)
-  ![Not clickup 2](documentation_files\design\wireframes\auth\Auth_page(Not_clickup)sign_up.png)
+  ![Not clickup 1](documentation_files/design/wireframes/auth/Auth_page(Not_clickup)sign_in.png)
+  ![Not clickup 2](documentation_files/design/wireframes/auth/Auth_page(Not_clickup)sign_up.png)
 
 - Clickup with other backend
-  ![Clickup with other backend sign up](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)sign_up.png)
-  ![Clickup with other backend sign in](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)sign_in.png)
-  ![Clickup with other backend connect with Clickup](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)connect1.png)
-  ![Clickup with other backend connect with Clickup](documentation_files\design\wireframes\auth\Auth_page(clickup_after_other)connect2.png)
+  ![Clickup with other backend sign up](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)sign_up.png)
+  ![Clickup with other backend sign in](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)sign_in.png)
+  ![Clickup with other backend connect with Clickup](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)connect1.png)
+  ![Clickup with other backend connect with Clickup](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)connect2.png)
 
 ###### Schedule screens
-  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule1.png)
-  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule2.png)
-  ![Schedule page](documentation_files\design\wireframes\schedule\Schedule3.png)
+  ![Schedule page](documentation_files/design/wireframes/schedule/Schedule1.png)
+  ![Schedule page](documentation_files/design/wireframes/schedule/Schedule2.png)
+  ![Schedule page](documentation_files/design/wireframes/schedule/Schedule3.png)
 ###### Add a task
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task1.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task2.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task3.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task4.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task5.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task5.png)
-  ![Add a task](documentation_files\design\wireframes\schedule\add_a_task\Add_a_task6.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task1.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task2.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task3.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task4.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task5.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task5.png)
+  ![Add a task](documentation_files/design/wireframes/schedule/add_a_task/Add_a_task6.png)
 ###### Lists screens
-  ![Lists page](documentation_files\design\wireframes\lists\lists0.png)
-  ![Lists page](documentation_files\design\wireframes\lists\lists1.png)
+  ![Lists page](documentation_files/design/wireframes/lists/lists0.png)
+  ![Lists page](documentation_files/design/wireframes/lists/lists1.png)
 ###### Tags screens
-  ![Tags page](documentation_files\design\wireframes\tags\tags0.png)
-  ![Tags page](documentation_files\design\wireframes\tags\tags1.png)
+  ![Tags page](documentation_files/design/wireframes/tags/tags0.png)
+  ![Tags page](documentation_files/design/wireframes/tags/tags1.png)
 ###### Settings screen
-![Settings screen](documentation_files\design\wireframes\settings.png)
+![Settings screen](documentation_files/design/wireframes/settings.png)
