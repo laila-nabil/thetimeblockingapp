@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'core/bloc_observer.dart';
-import 'core/config.dart';
 import 'core/localization/localization.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
@@ -11,6 +10,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initSl();
+  di.sl.registerSingleton(
+      const String.fromEnvironment('clickUpClientId', defaultValue: ""),
+      instanceName: "clickUpClientId");
+  di.sl.registerSingleton(
+      const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
+      instanceName: "clickUpClientSecret");
+  di.sl.registerSingleton(
+      const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
+      instanceName: "clickUpRedirectUrl");
+
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();
@@ -23,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Config.appName,
+      title: di.sl.get(instanceName: "appName"),
       theme: appTheme,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
