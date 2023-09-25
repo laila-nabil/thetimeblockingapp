@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: di.sl.get(instanceName: "appName"),
+      title: di.getAppName,
       theme: appTheme,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

@@ -11,11 +11,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Network network;
   final String clickUpClientId;
   final String clickUpClientSecret;
+  final String clickUpUrl;
 
   AuthRemoteDataSourceImpl({
     required this.network,
     required this.clickUpClientId,
     required this.clickUpClientSecret,
+    required this.clickUpUrl,
   });
 
   @override
@@ -23,7 +25,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required GetClickUpAccessTokenParams params}) async {
     final result = await network.post(
         url:
-            "https://api.clickup.com/api/v2/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
+            "$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
     return ClickUpAccessTokenModel.fromJson(result.body);
   }
 }
