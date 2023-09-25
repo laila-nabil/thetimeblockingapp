@@ -38,3 +38,19 @@ void _printDebugPrint(
     debugPrint(object.toString());
   }
 }
+
+class SimpleLogPrinter extends LogPrinter {
+  SimpleLogPrinter();
+  @override
+  List<String> log(LogEvent event) {
+    AnsiColor color = PrettyPrinter().levelColors?[event.level] ??
+        AnsiColor.fg(AnsiColor.grey(0.5));
+    String emoji = PrettyPrinter().levelEmojis?[event.level] ?? "-";
+    return [
+      if(event.stackTrace!=null)"\n",
+      if(event.stackTrace!=null)color('stackTrace: ${event.stackTrace}'),
+      // color!('${DateFormat("hh:mm:ss:ms").format(event.time)} - ${event.message}'),
+      color('$emoji ${event.message}'),
+    ];
+  }
+}

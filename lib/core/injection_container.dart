@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -32,7 +33,7 @@ enum NamedInstances {
 
 void _initServiceLocator({required Network network}) {
   /// Globals
-  serviceLocator.registerSingleton(Logger());
+  serviceLocator.registerSingleton(Logger(printer: SimpleLogPrinter()));
   serviceLocator.registerSingleton('Time blocking app',
       instanceName: NamedInstances.appName.name);
   serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
