@@ -75,6 +75,7 @@ class ResponsiveScaffold extends Scaffold {
     return Responsive.responsiveT(params: responsiveBody, context: context);
   }
 
+  ///FIX
   // @override
   // // ignore: recursive_getters
   // Widget? get drawer => Responsive.showSmallDesign(context) ? drawer : null;
