@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:thetimeblockingapp/network/network.dart';
+import 'network/network.dart';
 
 
 final sl = GetIt.instance;
@@ -11,17 +11,17 @@ void initSl(){
 
 void _initSl({required Network network}){
 
-  //! Globals
+  /// Globals
 
-  //! Bloc
+  /// Bloc
 
-  //! UseCases
+  /// UseCases
 
-  //! Repos
+  /// Repos
 
-  //! DataSources
+  /// DataSources
 
-  //! External
+  /// External
 
 
 }
