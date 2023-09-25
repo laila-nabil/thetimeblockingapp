@@ -9,8 +9,14 @@ class StartUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text(serviceLocator.get(instanceName: NamedInstances.appName.name)),
-    );
+    return ResponsiveScaffold(
+        responsiveBody: ResponsiveTParams(
+            mobile: Text(
+                serviceLocator.get(instanceName: NamedInstances.appName.name),
+                style: TextStyle(color: Colors.black)),
+            laptop: Text(
+                serviceLocator.get(instanceName: NamedInstances.appName.name),
+                style: TextStyle(color: Colors.blue))),
+        context: context);
   }
 }
