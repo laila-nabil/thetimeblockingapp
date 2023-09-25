@@ -9,12 +9,8 @@ class StartUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScaffold(
-        responsiveBody: ResponsiveTParams(
-            mobile: Text(
-                serviceLocator.get(instanceName: NamedInstances.appName.name)),
-            laptop: Text(
-                serviceLocator.get(instanceName: NamedInstances.appName.name))),
-        context: context);
+    return Scaffold(
+      body: Text(serviceLocator.get(instanceName: NamedInstances.appName.name)),
+    );
   }
 }
