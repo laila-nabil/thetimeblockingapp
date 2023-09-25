@@ -1,14 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 
-class GetClickUpWorkspacesUseCase
-    implements UseCase<ClickupUser, NoParams> {
+import '../../../../common/entities/clickup_workspace.dart';
+
+class GetClickUpWorkspacesUseCase implements UseCase<List<ClickupWorkspace>, NoParams> {
+  final AuthRepo repo;
+
+  GetClickUpWorkspacesUseCase(this.repo);
+
   @override
-  Future<Either<Failure, ClickupUser>?> call(NoParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, List<ClickupWorkspace>>?> call(NoParams params) {
+    return repo.getClickUpWorkspaces(params: params);
   }
-
 }
