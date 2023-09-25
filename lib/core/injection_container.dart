@@ -1,17 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'network/network.dart';
-
+import 'package:logger/logger.dart';
 
 final sl = GetIt.instance;
 
-void initSl(){
-  // _initSl();
+void initSl() {
+  _initSl();
 }
 
-void _initSl({required Network network}){
-
+// void _initSl({required Network network}){
+void _initSl() {
   /// Globals
+  sl.registerSingleton(Logger());
 
   /// Bloc
 
@@ -22,10 +23,9 @@ void _initSl({required Network network}){
   /// DataSources
 
   /// External
-
-
 }
+
 @visibleForTesting
-void initSlTesting({required Network mockNetwork}){
+void initSlTesting({required Network mockNetwork}) {
   // _initSl();
 }
