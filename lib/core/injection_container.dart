@@ -49,6 +49,8 @@ enum NamedInstances {
 }
 
 void _initServiceLocator({required Network network}) {
+  serviceLocator.allowReassignment=true;
+
   /// Globals
   serviceLocator.registerSingleton(
       Logger(printer:logPrinter ));
