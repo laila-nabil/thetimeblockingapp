@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 import '../error/exceptions.dart';
@@ -13,7 +15,7 @@ Future<NetworkResponse> clickUpResponseHandler(
     response = await httpResponse();
     if (response.statusCode != 200) {
       throw ServerException(
-          message: ClickUpError.fromJson(response.body).error.toString());
+          message: ClickUpError.fromJson(json.decode(response.body)).error.toString());
     }
   } catch (exception) {
     printDebug("[Exception] ${exception.toString()}", printLevel: PrintLevel.error);
@@ -39,7 +41,7 @@ class ClickUpError extends Equatable{
 
   const ClickUpError({required this.error, required this.errorCode});
 
-  factory ClickUpError.fromJson(dynamic json) {
+  factory ClickUpError.fromJson(Map<String,dynamic> json) {
     return ClickUpError(error: json["err"].toString(),errorCode: json["ECODE"].toString());
   }
   @override

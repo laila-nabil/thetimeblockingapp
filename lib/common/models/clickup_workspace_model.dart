@@ -15,7 +15,7 @@ class ClickupWorkspaceModel extends ClickupWorkspace {
     super.members,
   });
 
-  factory ClickupWorkspaceModel.fromJson(dynamic json) {
+  factory ClickupWorkspaceModel.fromJson(Map<String,dynamic> json) {
     String? id = json['id'];
     String? name = json['name'];
     String? color = json['color'];
@@ -52,7 +52,7 @@ class ClickupWorkspaceMembersModel extends ClickupWorkspaceMembers {
     super.user,
   });
 
-  factory ClickupWorkspaceMembersModel.fromJson(dynamic json) {
+  factory ClickupWorkspaceMembersModel.fromJson(Map<String,dynamic> json) {
     return ClickupWorkspaceMembersModel(
         user: json['user'] != null ? ClickupWorkspaceUserModel.fromJson(json['user']) : null);
   }
@@ -79,7 +79,7 @@ class ClickupWorkspaceUserModel extends ClickupWorkspaceUser {
     super.profilePicture,
   });
 
-  factory ClickupWorkspaceUserModel.fromJson(dynamic json) {
+  factory ClickupWorkspaceUserModel.fromJson(Map<String,dynamic> json) {
     return ClickupWorkspaceUserModel(
       id: json['id'],
       username: json['username'],

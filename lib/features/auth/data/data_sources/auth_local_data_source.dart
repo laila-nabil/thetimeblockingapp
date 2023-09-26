@@ -26,14 +26,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<ClickUpAccessTokenModel> getClickUpAccessToken() async {
-    return ClickUpAccessTokenModel.fromJson(await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name));
+    return ClickUpAccessTokenModel.fromJson((await localDataSource.getData(
+        key: LocalDataSourceKeys.clickUpAccessToken.name) as Map<String, dynamic>));
   }
 
   @override
   Future<ClickupUserModel> getClickUpUser() async {
     return ClickupUserModel.fromJson(await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpUser.name));
+        key: LocalDataSourceKeys.clickUpUser.name)as Map<String, dynamic>);
   }
 
   @override

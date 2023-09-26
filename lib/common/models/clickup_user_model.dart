@@ -23,7 +23,7 @@ class ClickupUserModel extends ClickupUser {
     super.timezone,
   });
 
-  factory ClickupUserModel.fromJson(dynamic json) {
+  factory ClickupUserModel.fromJson(Map<String,dynamic> json) {
     return ClickupUserModel(
         id: json['id'],
         username: json['username'],

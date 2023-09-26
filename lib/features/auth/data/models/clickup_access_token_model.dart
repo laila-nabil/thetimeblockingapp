@@ -3,7 +3,7 @@ import '../../domain/entities/clickup_access_token.dart';
 class ClickUpAccessTokenModel extends ClickUpAccessToken {
   const ClickUpAccessTokenModel({required super.accessToken, required super.tokenType});
 
-  factory ClickUpAccessTokenModel.fromJson(dynamic json) {
+  factory ClickUpAccessTokenModel.fromJson(Map<String,dynamic> json) {
     return ClickUpAccessTokenModel(
         accessToken: json["access_token"].toString(),tokenType:  json["token_type"].toString());
   }
