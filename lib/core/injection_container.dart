@@ -95,14 +95,6 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<Network>(() => network);
 }
 
-void reRegisterClickupVariables() {
-  Globals.clickUpClientId =
-      const String.fromEnvironment("clickUpClientId", defaultValue: "");
-  Globals.clickUpClientSecret =
-      const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
-  Globals.clickUpRedirectUrl =
-      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
-}
 
 void initServiceLocator() {
   _initServiceLocator(

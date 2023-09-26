@@ -20,6 +20,12 @@ Future<void> main() async {
   FlutterError.onError = (errorDetails) {
     printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
   };
+  Globals.clickUpClientId =
+  const String.fromEnvironment("clickUpClientId", defaultValue: "");
+  Globals.clickUpClientSecret =
+  const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
+  Globals.clickUpRedirectUrl =
+  const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();
