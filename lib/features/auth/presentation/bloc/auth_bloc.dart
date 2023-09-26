@@ -55,11 +55,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is GetClickUpUserWorkspaces) {
         final getClickUpUser = await _getClickUpUserUseCase(NoParams());
         getClickUpUser?.fold(
-            (l) => emit(AuthState(
+            (l) => emit(state.copyWith(
                 getClickUpUserFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickUpAUserFailed))), (r) {
-          emit(AuthState(
+                    AuthStateEnum.getClickUpAUserFailed)
+            )), (r) {
+          emit(state.copyWith(
               clickupUser: r,
               authStates: state
                   .updatedAuthStates(AuthStateEnum.getClickUpUserSuccess)));
@@ -67,11 +68,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final getClickUpWorkspaces =
             await _getClickUpWorkspacesUseCase(NoParams());
         getClickUpWorkspaces?.fold(
-            (l) => emit(AuthState(
+            (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,
                 authStates: state.updatedAuthStates(
                     AuthStateEnum.getClickUpWorkspacesFailed))), (r) {
-          emit(AuthState(
+          emit(state.copyWith(
               clickupWorkspaces: r,
               authStates: state.updatedAuthStates(
                   AuthStateEnum.getClickUpWorkspacesSuccess)));

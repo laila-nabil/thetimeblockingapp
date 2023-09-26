@@ -50,4 +50,27 @@ class AuthState extends Equatable {
         clickupWorkspaces,
         getClickupWorkspacesFailure,
       ];
+
+  AuthState copyWith({
+    Set<AuthStateEnum>? authStates,
+    Failure? getClickUpAccessTokenFailure,
+    ClickUpAccessToken? clickUpAccessToken,
+    ClickupUser? clickupUser,
+    Failure? getClickUpUserFailure,
+    List<ClickupWorkspace>? clickupWorkspaces,
+    Failure? getClickupWorkspacesFailure,
+  }) {
+    return AuthState(
+      authStates: authStates ?? this.authStates,
+      getClickUpAccessTokenFailure:
+          getClickUpAccessTokenFailure ?? this.getClickUpAccessTokenFailure,
+      clickUpAccessToken: clickUpAccessToken ?? this.clickUpAccessToken,
+      clickupUser: clickupUser ?? this.clickupUser,
+      getClickUpUserFailure:
+          getClickUpUserFailure ?? this.getClickUpUserFailure,
+      clickupWorkspaces: clickupWorkspaces ?? this.clickupWorkspaces,
+      getClickupWorkspacesFailure:
+          getClickupWorkspacesFailure ?? this.getClickupWorkspacesFailure,
+    );
+  }
 }

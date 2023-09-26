@@ -26,6 +26,18 @@ import 'package:http/http.dart';
 
 final serviceLocator = GetIt.instance;
 
+///TODO
+// Future<void> updateInstance<T>({
+//   required Object? instance,
+//   required Object? updateInstance,
+//   String? instanceName,
+// }) async {
+//   if(serviceLocator.isRegistered(instance: instance,instanceName: instanceName)){
+//     await serviceLocator.unregister(instance: instance,instanceName: instanceName);
+//   }
+  // serviceLocator.registerSingleton(updateInstance);
+// }
+
 enum NamedInstances {
   appName,
   authMode,

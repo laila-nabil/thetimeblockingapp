@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -23,9 +24,14 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<Either<Failure, ClickUpAccessToken>> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params}) {
-    return repoHandler<ClickUpAccessToken>(() async =>
+      {required GetClickUpAccessTokenParams params}) async {
+    final result = await repoHandler<ClickUpAccessToken>(() async =>
         await authRemoteDataSource.getClickUpAccessToken(params: params));
+    if(result.isRight()){
+      serviceLocator.registerSingleton(result,
+          instanceName: NamedInstances.clickUpAuthAccessToken.name);
+    }
+    return result;
   }
 
   @override

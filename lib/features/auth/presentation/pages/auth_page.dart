@@ -91,8 +91,7 @@ class ExplainClickupAuth extends StatelessWidget {
                 CustomButton(
                   child: const Text("submit"),
                   onPressed: () {
-                    authBloc.add(GetClickUpUserWorkspaces(
-                        authBloc.state.clickUpAccessToken?.accessToken ?? ""));
+                    authBloc.add(SubmitClickUpCode(controller.text));
                   },
                 )
               ],
