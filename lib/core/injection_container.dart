@@ -96,8 +96,7 @@ void _initServiceLocator({required Network network}) {
           network: serviceLocator(),
           clickUpClientId: getClickUpClientId,
           clickUpClientSecret: getClickUpClientSecret,
-          clickUpUrl: getClickUpUrl,
-          clickUpAccessToken: getClickUpAuthAccessToken));
+          clickUpUrl: getClickUpUrl,));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 

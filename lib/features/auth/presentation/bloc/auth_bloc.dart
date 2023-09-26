@@ -2,7 +2,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
-import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
@@ -53,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           add(GetClickUpUserWorkspaces(r.accessToken));
         });
       } else if (event is GetClickUpUserWorkspaces) {
-        final getClickUpUser = await _getClickUpUserUseCase(NoParams());
+        final getClickUpUser = await _getClickUpUserUseCase(GetClickUpUserParams(event.accessToken));
         getClickUpUser?.fold(
             (l) => emit(state.copyWith(
                 getClickUpUserFailure: l,
@@ -65,8 +64,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               authStates: state
                   .updatedAuthStates(AuthStateEnum.getClickUpUserSuccess)));
         });
-        final getClickUpWorkspaces =
-            await _getClickUpWorkspacesUseCase(NoParams());
+        final getClickUpWorkspaces = await _getClickUpWorkspacesUseCase(
+            GetClickUpWorkspacesParams(event.accessToken));
         getClickUpWorkspaces?.fold(
             (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,

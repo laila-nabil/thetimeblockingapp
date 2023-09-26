@@ -8,7 +8,6 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
-import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
@@ -18,6 +17,8 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_ac
 import '../../../../core/repo_handler.dart';
 import '../../../tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../../domain/repositories/auth_repo.dart';
+import '../../domain/use_cases/get_clickup_user_use_case.dart';
+import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -30,29 +31,26 @@ class AuthRepoImpl implements AuthRepo {
     final result = await repoHandler<ClickUpAccessToken>(() async =>
         await authRemoteDataSource.getClickUpAccessToken(params: params));
     if(result.isRight()){
-      serviceLocator.registerSingleton(result.getOrElse(() => ClickUpAccessToken(accessToken: "",tokenType:  "")).accessToken,
+      serviceLocator.registerSingleton(
+          result
+              .getOrElse(() =>
+                  const ClickUpAccessToken(accessToken: "", tokenType: ""))
+              .accessToken,
           instanceName: NamedInstances.clickUpAuthAccessToken.name);
-      printDebug("serviceLocator<AuthRemoteDataSourceImpl>() before ${serviceLocator<AuthRemoteDataSource>()}");
-      printDebug("serviceLocator<TasksRemoteDataSource>() before ${serviceLocator<TasksRemoteDataSource>()}");
-
-      await serviceLocator.resetLazySingleton(instance: serviceLocator<AuthRemoteDataSource>());
-      await serviceLocator.resetLazySingleton(instance: serviceLocator<TasksRemoteDataSource>());
-      printDebug("serviceLocator<AuthRemoteDataSourceImpl>() now ${serviceLocator<AuthRemoteDataSource>()}");
-      printDebug("serviceLocator<TasksRemoteDataSourceImpl>() now ${serviceLocator<TasksRemoteDataSource>()}");
     }
     return result;
   }
 
   @override
   Future<Either<Failure, ClickupUser>> getClickUpUser(
-      {required NoParams params}) {
+      {required GetClickUpUserParams params}) {
     return repoHandler(
         () async => await authRemoteDataSource.getClickUpUser(params: params));
   }
 
   @override
   Future<Either<Failure, List<ClickupWorkspace>>> getClickUpWorkspaces(
-      {required NoParams params}) {
+      {required GetClickUpWorkspacesParams params}) {
     return repoHandler(() async =>
         await authRemoteDataSource.getClickUpWorkspaces(params: params));
   }
