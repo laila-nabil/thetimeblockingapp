@@ -10,7 +10,7 @@ void printDebug(Object? object, {PrintLevel? printLevel = PrintLevel.trace}) {
   }
 }
 
-LogPrinter logPrinter = PrettyPrinter(noBoxingByDefault: true, methodCount: 0);
+LogPrinter logPrinter = PrettyPrinter(noBoxingByDefault: true, methodCount: 10);
 
 void _printLogger(PrintLevel? printLevel, Object? object) {
   final logger = serviceLocator<Logger>();
