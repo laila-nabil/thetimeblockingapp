@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="main.dart with inputs" type="FlutterRunConfigurationType" factoryName="Flutter">
-    <option name="additionalArgs" value="--dart-define=clickUpClientId= --dart-define=clickUpClientSecret= --dart-define=clickUpRedirectUrl=" />
+    <option name="additionalArgs" value="--dart-define=clickUpClientId= --dart-define=clickUpClientSecret= --dart-define=clickUpRedirectUrl= --web-browser-flag=&quot;--disable-web-security" />
     <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
     <method v="2" />
   </configuration>
