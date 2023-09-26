@@ -47,12 +47,6 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton<AuthMode>(AuthMode.clickUpOnly,
       instanceName: NamedInstances.authMode.name);
   serviceLocator.registerSingleton("",
-      instanceName: NamedInstances.clickUpClientId.name);
-  serviceLocator.registerSingleton("",
-      instanceName: NamedInstances.clickUpClientSecret.name);
-  serviceLocator.registerSingleton("",
-      instanceName: NamedInstances.clickUpRedirectUrl.name);
-  serviceLocator.registerSingleton("",
       instanceName: NamedInstances.clickUpAuthAccessToken.name);
 
   /// Bloc
@@ -194,7 +188,7 @@ Future<void> reRegisterClickupVariables() async {
       instanceName: NamedInstances.clickUpClientId.name);
   serviceLocator.registerSingleton(
       const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
-      instanceName: "NamedInstances.clickUpClientSecret.name");
+      instanceName: NamedInstances.clickUpClientSecret.name);
   serviceLocator.registerSingleton(
       const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
       instanceName: NamedInstances.clickUpRedirectUrl.name);
