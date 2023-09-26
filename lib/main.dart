@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'core/bloc_observer.dart';
+import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
@@ -14,16 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
-  ///FIX
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpClientId', defaultValue: ""),
-  //     instanceName: "clickUpClientId");
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
-  //     instanceName: "clickUpClientSecret");
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
-  //     instanceName: "clickUpRedirectUrl");
+  await di.reRegisterClickupVariables();
 
   // turn off the # in the URLs on the web
   usePathUrlStrategy();

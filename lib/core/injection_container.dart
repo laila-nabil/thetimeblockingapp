@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
@@ -34,7 +35,7 @@ enum NamedInstances {
 void _initServiceLocator({required Network network}) {
   /// Globals
   serviceLocator.registerSingleton(Logger(printer: SimpleLogPrinter()));
-  serviceLocator.registerSingleton('Time blocking app',
+  serviceLocator.registerSingleton(LocalizationImpl().translate("appName"),
       instanceName: NamedInstances.appName.name);
   serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
       instanceName: NamedInstances.clickUpUrl.name);
@@ -95,8 +96,32 @@ String get  getAppName =>
 String  get  getClickUpUrl =>
     serviceLocator.get(instanceName:  NamedInstances.clickUpUrl.name);
 
+String  get  getClickUpRedirectUrl =>
+    serviceLocator.get(instanceName:  NamedInstances.clickUpRedirectUrl.name);
+
 String  get  getClickUpAuthAccessToken =>
     serviceLocator.get(instanceName:  NamedInstances.clickUpAuthAccessToken.name);
+
+Future<void> reRegisterClickupVariables() async {
+  await serviceLocator.unregister(
+      instance: getClickUpClientId,
+      instanceName: NamedInstances.clickUpClientId.name);
+  await serviceLocator.unregister(
+      instance: getClickUpClientSecret,
+      instanceName: NamedInstances.clickUpClientSecret.name);
+  await serviceLocator.unregister(
+      instance: getClickUpRedirectUrl,
+      instanceName: NamedInstances.clickUpRedirectUrl.name);
+  serviceLocator.registerSingleton(
+      const String.fromEnvironment("clickUpClientId", defaultValue: ""),
+      instanceName: NamedInstances.clickUpClientId.name);
+  serviceLocator.registerSingleton(
+      const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
+      instanceName: "NamedInstances.clickUpClientSecret.name");
+  serviceLocator.registerSingleton(
+      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
+      instanceName: NamedInstances.clickUpRedirectUrl.name);
+}
 
 void initServiceLocator() {
   _initServiceLocator(
