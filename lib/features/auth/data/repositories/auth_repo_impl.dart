@@ -5,7 +5,6 @@ import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -14,6 +13,7 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 
+import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
 
@@ -28,8 +28,8 @@ class AuthRepoImpl implements AuthRepo {
     final result = await repoHandler<ClickUpAccessToken>(() async =>
         await authRemoteDataSource.getClickUpAccessToken(params: params));
     if(result.isRight()){
-      serviceLocator.registerSingleton(result,
-          instanceName: NamedInstances.clickUpAuthAccessToken.name);
+      Globals.clickUpAuthAccessToken =
+          result.getOrElse(() => const ClickUpAccessToken("", "")).accessToken;
     }
     return result;
   }

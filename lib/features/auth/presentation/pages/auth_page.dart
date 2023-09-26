@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
-import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 
 import '../../../../common/widgets/custom_button.dart';
@@ -72,7 +72,7 @@ class ExplainClickupAuth extends StatelessWidget {
               onPressed: () {
                 launchWithURL(
                     url:
-                        "https://app.clickup.com/api?client_id=$getClickUpClientId&redirect_uri=$getClickUpRedirectUrl");
+                        "https://app.clickup.com/api?client_id=${Globals.clickUpClientId}&redirect_uri=${Globals.clickUpRedirectUrl}");
 
                 if (kDebugMode) {
                   authBloc.add(const ShowCodeInputTextField(true));
