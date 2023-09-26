@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
@@ -15,6 +16,7 @@ final router = GoRouter(
     errorBuilder: (context, state) {
       String errorMessage = LocalizationImpl().translate("pageNotFound");
       return ResponsiveScaffold(
+          key: GlobalKey<ScaffoldState>(),
           responsiveBody: ResponsiveTParams(
               mobile: Text(errorMessage), laptop: Text(errorMessage)),
           context: context);
@@ -29,7 +31,7 @@ final router = GoRouter(
     routes: [
       GoRoute(
         path: StartUpPage.routeName,
-        builder: (context, state) => const StartUpPage(),
+        builder: (context, state) => StartUpPage(),
       )
     ]);
 

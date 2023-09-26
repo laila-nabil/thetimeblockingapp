@@ -71,7 +71,7 @@ class ResponsiveScaffold extends Scaffold {
   const ResponsiveScaffold({
     required this.responsiveBody,
     required this.context,
-    super.key,
+    required super.key,
     super.appBar,
     super.body,
     super.floatingActionButton,
@@ -103,8 +103,4 @@ class ResponsiveScaffold extends Scaffold {
     return Responsive.responsiveT(params: responsiveBody, context: context);
   }
 
-  ///FIX
-// @override
-// // ignore: recursive_getters
-// Widget? get drawer => Responsive.showSmallDesign(context) ? drawer : null;
 }
