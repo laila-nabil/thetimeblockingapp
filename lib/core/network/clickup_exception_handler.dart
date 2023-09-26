@@ -16,7 +16,7 @@ Future<NetworkResponse> clickUpResponseHandler(
           message: ClickUpError.fromJson(response.body).error.toString());
     }
   } catch (exception) {
-    printDebug("[Exception] $exception", printLevel: PrintLevel.error);
+    printDebug("[Exception] ${exception.toString()}", printLevel: PrintLevel.error);
     printDebug(
       "[response body] ${response?.body}",
     );
