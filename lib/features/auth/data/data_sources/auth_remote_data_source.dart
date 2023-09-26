@@ -36,14 +36,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required GetClickUpAccessTokenParams params}) async {
     final result = await network.post(
         url:
-            "$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
+            "${clickUpUrl}oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
     return ClickUpAccessTokenModel.fromJson(result.body);
   }
 
   @override
   Future<ClickupUserModel> getClickUpUser({required NoParams params}) async {
     final result = await network.get(
-        url: "$clickUpUrl/oauth/user",
+        url: "${clickUpUrl}oauth/user",
         headers: clickUpHeader(clickUpAccessToken: clickUpAccessToken));
     return ClickupUserModel.fromJson(result.body);
   }
@@ -53,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required NoParams params}) async {
     List<ClickupWorkspaceModel> result = [];
     final response = await network.get(
-        url: "$clickUpUrl/oauth/team",
+        url: "${clickUpUrl}oauth/team",
         headers: clickUpHeader(clickUpAccessToken: clickUpAccessToken));
     if (response.body is List) {
       for (var element in (response.body as List)) {
