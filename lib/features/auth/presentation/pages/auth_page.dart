@@ -30,12 +30,18 @@ class AuthPage extends StatelessWidget {
                 mobile: Column(
                   children: [
                     const Expanded(child: Placeholder()),
-                    Expanded(child: ExplainClickupAuth(authBloc: authBloc,))
+                    Expanded(
+                        child: ExplainClickupAuth(
+                      authBloc: authBloc,
+                    ))
                   ],
                 ),
                 laptop: Row(
                   children: [
-                    Expanded(child: ExplainClickupAuth(authBloc: authBloc,)),
+                    Expanded(
+                        child: ExplainClickupAuth(
+                      authBloc: authBloc,
+                    )),
                     const Expanded(child: Placeholder()),
                   ],
                 )),
@@ -73,9 +79,21 @@ class ExplainClickupAuth extends StatelessWidget {
                 }
               }),
           Text(LocalizationImpl().translate("agreeTermsConditions")),
-          if (authBloc.state.authStates.contains(AuthStateEnum.showCodeInputTextField))
-            CustomTextInputField(
-              controller: controller,
+          if (authBloc.state.authStates
+              .contains(AuthStateEnum.showCodeInputTextField))
+            Row(
+              children: [
+                CustomTextInputField(
+                  controller: controller,
+                ),
+                CustomButton(
+                  child: const Text("submit"),
+                  onPressed: () {
+                    authBloc.add(GetClickUpUserWorkspaces(
+                        authBloc.state.clickUpAccessToken?.accessToken ?? ""));
+                  },
+                )
+              ],
             )
         ],
       ),
