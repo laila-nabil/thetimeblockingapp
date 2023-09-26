@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -15,6 +16,7 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 
 import '../../../../core/repo_handler.dart';
+import '../../../tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../../domain/repositories/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
@@ -30,6 +32,13 @@ class AuthRepoImpl implements AuthRepo {
     if(result.isRight()){
       serviceLocator.registerSingleton(result.getOrElse(() => ClickUpAccessToken(accessToken: "",tokenType:  "")).accessToken,
           instanceName: NamedInstances.clickUpAuthAccessToken.name);
+      printDebug("serviceLocator<AuthRemoteDataSourceImpl>() before ${serviceLocator<AuthRemoteDataSource>()}");
+      printDebug("serviceLocator<TasksRemoteDataSource>() before ${serviceLocator<TasksRemoteDataSource>()}");
+
+      await serviceLocator.resetLazySingleton(instance: serviceLocator<AuthRemoteDataSource>());
+      await serviceLocator.resetLazySingleton(instance: serviceLocator<TasksRemoteDataSource>());
+      printDebug("serviceLocator<AuthRemoteDataSourceImpl>() now ${serviceLocator<AuthRemoteDataSource>()}");
+      printDebug("serviceLocator<TasksRemoteDataSourceImpl>() now ${serviceLocator<TasksRemoteDataSource>()}");
     }
     return result;
   }
