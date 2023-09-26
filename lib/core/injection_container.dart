@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import '../common/enums/auth_mode.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
@@ -17,6 +15,7 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_workspace_use_case.dart';
+import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
 import 'network/clickup_exception_handler.dart';
@@ -38,15 +37,6 @@ final serviceLocator = GetIt.instance;
 // serviceLocator.registerSingleton(updateInstance);
 // }
 
-enum NamedInstances {
-  appName,
-  authMode,
-  clickUpClientId,
-  clickUpClientSecret,
-  clickUpRedirectUrl,
-  clickUpAuthAccessToken,
-  clickUpUrl
-}
 
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment=true;
@@ -54,14 +44,6 @@ void _initServiceLocator({required Network network}) {
   /// Globals
   serviceLocator.registerSingleton(
       Logger(printer:logPrinter ));
-  serviceLocator.registerSingleton(LocalizationImpl().translate("Time blocking app"),
-      instanceName: NamedInstances.appName.name);
-  serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
-      instanceName: NamedInstances.clickUpUrl.name);
-  serviceLocator.registerSingleton<AuthMode>(AuthMode.clickUpOnly,
-      instanceName: NamedInstances.authMode.name);
-  serviceLocator.registerSingleton("",
-      instanceName: NamedInstances.clickUpAuthAccessToken.name);
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc());
@@ -94,19 +76,19 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() =>
       AuthRemoteDataSourceImpl(
           network: serviceLocator(),
-          clickUpClientId: getClickUpClientId,
-          clickUpClientSecret: getClickUpClientSecret,
-          clickUpUrl: getClickUpUrl,));
+          clickUpClientId: Globals.clickUpClientId,
+          clickUpClientSecret: Globals.clickUpClientSecret,
+          clickUpUrl: Globals.clickUpUrl,));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(() =>
       TasksRemoteDataSourceImpl(
           network: serviceLocator(),
-          clickUpClientId: getClickUpClientId,
-          clickUpClientSecret: getClickUpClientSecret,
-          clickUpUrl: getClickUpUrl,
-          clickUpAccessToken: getClickUpAuthAccessToken));
+          clickUpClientId: Globals.clickUpClientId,
+          clickUpClientSecret: Globals.clickUpClientSecret,
+          clickUpUrl: Globals.clickUpUrl,
+          clickUpAccessToken: Globals.clickUpAuthAccessToken));
 
   /// External
 
@@ -116,80 +98,13 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<Network>(() => network);
 }
 
-String get getClickUpClientSecret {
-  String result = "";
-  try {
-    result = serviceLocator.get(
-        instanceName: NamedInstances.clickUpClientSecret.name);
-  } catch (e) {
-    printDebug("try getClickUpClientSecret $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
-String get getClickUpClientId {
-  String result = "";
-  try {
-    result =
-        serviceLocator.get(instanceName: NamedInstances.clickUpClientId.name);
-  } catch (e) {
-    printDebug("try getClickUpClientId $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
-String get getAppName {
-  String result = "";
-  try {
-    result = serviceLocator.get(instanceName: NamedInstances.appName.name);
-  } catch (e) {
-    printDebug("try getAppName $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
-String get getClickUpUrl {
-  String result = "";
-  try {
-    result = serviceLocator.get(instanceName: NamedInstances.clickUpUrl.name);
-  } catch (e) {
-    printDebug("try getClickUpUrl $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
-String get getClickUpRedirectUrl {
-  String result = "";
-  try {
-    result = serviceLocator.get(
-        instanceName: NamedInstances.clickUpRedirectUrl.name);
-  } catch (e) {
-    printDebug("try getClickUpRedirectUrl $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
-String get getClickUpAuthAccessToken {
-  String result = "";
-  try {
-    result = serviceLocator.get(
-        instanceName: NamedInstances.clickUpAuthAccessToken.name);
-  } catch (e) {
-    printDebug("try getClickUpAuthAccessToken $e", printLevel: PrintLevel.error);
-  }
-  return result;
-}
-
 void reRegisterClickupVariables() async {
-  serviceLocator.registerSingleton(
-      const String.fromEnvironment("clickUpClientId", defaultValue: ""),
-      instanceName: NamedInstances.clickUpClientId.name);
-  serviceLocator.registerSingleton(
-      const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
-      instanceName: NamedInstances.clickUpClientSecret.name);
-  serviceLocator.registerSingleton(
-      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
-      instanceName: NamedInstances.clickUpRedirectUrl.name);
+  Globals.clickUpClientId =
+      const String.fromEnvironment("clickUpClientId", defaultValue: "");
+  Globals.clickUpClientSecret =
+      const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
+  Globals.clickUpRedirectUrl =
+      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
 }
 
 void initServiceLocator() {

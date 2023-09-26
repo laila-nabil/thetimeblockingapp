@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 
-import '../../../../core/injection_container.dart';
 
 class StartUpPage extends StatelessWidget {
   StartUpPage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class StartUpPage extends StatelessWidget {
             mobile: Column(
               children: [
                 Text(
-                    serviceLocator.get(instanceName: NamedInstances.appName.name),
+                    Globals.appName,
                     style: const TextStyle(color: Colors.black)),
                 TextButton(onPressed: (){
                   scaffoldKey.currentState?.openDrawer();
@@ -27,7 +27,7 @@ class StartUpPage extends StatelessWidget {
             laptop: Column(
               children: [
                 Text(
-                    serviceLocator.get(instanceName: NamedInstances.appName.name),
+                    Globals.appName,
                     style: const TextStyle(color: Colors.blue)),
                 TextButton(onPressed: (){
                   scaffoldKey.currentState?.openDrawer();
