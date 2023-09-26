@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_input_field.dart';
 import '../../../../core/launch_url.dart';
+import '../bloc/auth_bloc.dart';
 
 class AuthPage extends StatelessWidget {
   AuthPage({Key? key}) : super(key: key);
@@ -15,27 +19,38 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScaffold(
-        responsiveBody: ResponsiveTParams(
-            mobile: const Column(
-              children: [
-                Expanded(child: Placeholder()),
-                Expanded(child: ExplainClickupAuth())
-              ],
-            ),
-            laptop: const Row(
-              children: [
-                Expanded(child: ExplainClickupAuth()),
-                Expanded(child: Placeholder()),
-              ],
-            )),
-        context: context,
-        key: key);
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        final authBloc = BlocProvider.of<AuthBloc>(context);
+        return ResponsiveScaffold(
+            responsiveBody: ResponsiveTParams(
+                mobile: Column(
+                  children: [
+                    const Expanded(child: Placeholder()),
+                    Expanded(child: ExplainClickupAuth(authBloc: authBloc,))
+                  ],
+                ),
+                laptop: Row(
+                  children: [
+                    Expanded(child: ExplainClickupAuth(authBloc: authBloc,)),
+                    const Expanded(child: Placeholder()),
+                  ],
+                )),
+            context: context,
+            key: key);
+      },
+    );
   }
 }
 
 class ExplainClickupAuth extends StatelessWidget {
-  const ExplainClickupAuth({Key? key}) : super(key: key);
+  ExplainClickupAuth({Key? key, required this.authBloc}) : super(key: key);
+
+  final TextEditingController controller = TextEditingController();
+  final AuthBloc authBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +67,16 @@ class ExplainClickupAuth extends StatelessWidget {
                 launchWithURL(
                     url:
                         "https://app.clickup.com/api?client_id=$getClickUpClientId&redirect_uri=$getClickUpRedirectUrl");
+
+                if (kDebugMode) {
+                  authBloc.add(const ShowCodeInputTextField(true));
+                }
               }),
-          Text(LocalizationImpl().translate("agreeTermsConditions"))
+          Text(LocalizationImpl().translate("agreeTermsConditions")),
+          if (authBloc.state.authStates.contains(AuthStateEnum.showCodeInputTextField))
+            CustomTextInputField(
+              controller: controller,
+            )
         ],
       ),
     );

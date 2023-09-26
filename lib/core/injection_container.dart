@@ -12,6 +12,7 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_workspace_use_case.dart';
@@ -34,7 +35,8 @@ enum NamedInstances {
 
 void _initServiceLocator({required Network network}) {
   /// Globals
-  serviceLocator.registerSingleton(Logger(printer: SimpleLogPrinter()));
+  serviceLocator.registerSingleton(
+      Logger(printer: PrettyPrinter(noBoxingByDefault: true, methodCount: 0)));
   serviceLocator.registerSingleton(LocalizationImpl().translate("appName"),
       instanceName: NamedInstances.appName.name);
   serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
@@ -51,6 +53,7 @@ void _initServiceLocator({required Network network}) {
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc());
+  serviceLocator.registerFactory(() => AuthBloc());
 
   /// UseCases
 

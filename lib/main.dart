@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/bloc_observer.dart';
-import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => di.serviceLocator<StartupBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.serviceLocator<AuthBloc>(),
         ),
       ],
       child: MaterialApp.router(
