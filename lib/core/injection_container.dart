@@ -109,7 +109,7 @@ String get getClickUpClientSecret {
     result = serviceLocator.get(
         instanceName: NamedInstances.clickUpClientSecret.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getClickUpClientSecret $e", printLevel: PrintLevel.error);
   }
   return result;
 }
@@ -120,7 +120,7 @@ String get getClickUpClientId {
     result =
         serviceLocator.get(instanceName: NamedInstances.clickUpClientId.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getClickUpClientId $e", printLevel: PrintLevel.error);
   }
   return result;
 }
@@ -130,7 +130,7 @@ String get getAppName {
   try {
     result = serviceLocator.get(instanceName: NamedInstances.appName.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getAppName $e", printLevel: PrintLevel.error);
   }
   return result;
 }
@@ -140,7 +140,7 @@ String get getClickUpUrl {
   try {
     result = serviceLocator.get(instanceName: NamedInstances.clickUpUrl.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getClickUpUrl $e", printLevel: PrintLevel.error);
   }
   return result;
 }
@@ -151,7 +151,7 @@ String get getClickUpRedirectUrl {
     result = serviceLocator.get(
         instanceName: NamedInstances.clickUpRedirectUrl.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getClickUpRedirectUrl $e", printLevel: PrintLevel.error);
   }
   return result;
 }
@@ -162,7 +162,7 @@ String get getClickUpAuthAccessToken {
     result = serviceLocator.get(
         instanceName: NamedInstances.clickUpAuthAccessToken.name);
   } catch (e) {
-    printDebug(e, printLevel: PrintLevel.error);
+    printDebug("try getClickUpAuthAccessToken $e", printLevel: PrintLevel.error);
   }
   return result;
 }
