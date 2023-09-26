@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/bloc_observer.dart';
-import 'core/globals.dart';
 import 'core/localization/localization.dart';
 import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
@@ -17,6 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
+  await di.reRegisterClickupVariables();
   FlutterError.onError = (errorDetails) {
     printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
   };
@@ -49,13 +49,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: router,
-        title: Globals.appName,
+        title: di.getAppName,
         theme: appTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         onGenerateTitle: (BuildContext context) {
-          return Globals.appName;
+          return di.getAppName;
         },
         scrollBehavior: MyCustomScrollBehavior(),
       ),
