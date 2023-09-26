@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -108,39 +109,85 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<Network>(() => network);
 }
 
-String get getClickUpClientSecret =>
-    serviceLocator.get(instanceName: NamedInstances.clickUpClientSecret.name);
+String get getClickUpClientSecret {
+  String result = "";
+  try {
+    result = serviceLocator.get(
+        instanceName: NamedInstances.clickUpClientSecret.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
-String get getClickUpClientId =>
-    serviceLocator.get(instanceName: NamedInstances.clickUpClientId.name);
+String get getClickUpClientId {
+  String result = "";
+  try {
+    result =
+        serviceLocator.get(instanceName: NamedInstances.clickUpClientId.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
-String get getAppName =>
-    serviceLocator.get(instanceName: NamedInstances.appName.name);
+String get getAppName {
+  String result = "";
+  try {
+    result = serviceLocator.get(instanceName: NamedInstances.appName.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
-String get getClickUpUrl =>
-    serviceLocator.get(instanceName: NamedInstances.clickUpUrl.name);
+String get getClickUpUrl {
+  String result = "";
+  try {
+    result = serviceLocator.get(instanceName: NamedInstances.clickUpUrl.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
-String get getClickUpRedirectUrl =>
-    serviceLocator.get(instanceName: NamedInstances.clickUpRedirectUrl.name);
+String get getClickUpRedirectUrl {
+  String result = "";
+  try {
+    result = serviceLocator.get(
+        instanceName: NamedInstances.clickUpRedirectUrl.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
-String get getClickUpAuthAccessToken => serviceLocator.get(
-    instanceName: NamedInstances.clickUpAuthAccessToken.name);
+String get getClickUpAuthAccessToken {
+  String result = "";
+  try {
+    result = serviceLocator.get(
+        instanceName: NamedInstances.clickUpAuthAccessToken.name);
+  } catch (e) {
+    printDebug(e, printLevel: PrintLevel.error);
+  }
+  return result;
+}
 
 Future<void> reRegisterClickupVariables() async {
   if (serviceLocator.isRegistered(instance: getClickUpClientId)) {
     await serviceLocator.unregister(
-          instance: getClickUpClientId,
-          instanceName: NamedInstances.clickUpClientId.name);
+        instance: getClickUpClientId,
+        instanceName: NamedInstances.clickUpClientId.name);
   }
-  if(serviceLocator.isRegistered(instance: getClickUpClientSecret)) {
+  if (serviceLocator.isRegistered(instance: getClickUpClientSecret)) {
     await serviceLocator.unregister(
-          instance: getClickUpClientSecret,
-          instanceName: NamedInstances.clickUpClientSecret.name);
+        instance: getClickUpClientSecret,
+        instanceName: NamedInstances.clickUpClientSecret.name);
   }
-  if(serviceLocator.isRegistered(instance: getClickUpRedirectUrl)) {
+  if (serviceLocator.isRegistered(instance: getClickUpRedirectUrl)) {
     await serviceLocator.unregister(
-          instance: getClickUpRedirectUrl,
-          instanceName: NamedInstances.clickUpRedirectUrl.name);
+        instance: getClickUpRedirectUrl,
+        instanceName: NamedInstances.clickUpRedirectUrl.name);
   }
   serviceLocator.registerSingleton(
       const String.fromEnvironment("clickUpClientId", defaultValue: ""),

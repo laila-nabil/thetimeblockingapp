@@ -5,6 +5,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/localization/localization.dart';
+import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
 import 'core/router.dart';
@@ -16,7 +17,9 @@ Future<void> main() async {
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
   await di.reRegisterClickupVariables();
-
+  FlutterError.onError = (errorDetails) {
+    printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
+  };
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();

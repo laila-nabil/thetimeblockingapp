@@ -83,8 +83,10 @@ class ExplainClickupAuth extends StatelessWidget {
               .contains(AuthStateEnum.showCodeInputTextField))
             Row(
               children: [
-                CustomTextInputField(
-                  controller: controller,
+                Expanded(
+                  child: CustomTextInputField(
+                    controller: controller,
+                  ),
                 ),
                 CustomButton(
                   child: const Text("submit"),
