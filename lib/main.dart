@@ -16,7 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
-  await di.reRegisterClickupVariables();
+  di.reRegisterClickupVariables();
   FlutterError.onError = (errorDetails) {
     printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
   };

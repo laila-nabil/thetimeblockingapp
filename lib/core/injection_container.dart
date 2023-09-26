@@ -181,22 +181,7 @@ String get getClickUpAuthAccessToken {
   return result;
 }
 
-Future<void> reRegisterClickupVariables() async {
-  if (serviceLocator.isRegistered(instance: getClickUpClientId)) {
-    await serviceLocator.unregister(
-        instance: getClickUpClientId,
-        instanceName: NamedInstances.clickUpClientId.name);
-  }
-  if (serviceLocator.isRegistered(instance: getClickUpClientSecret)) {
-    await serviceLocator.unregister(
-        instance: getClickUpClientSecret,
-        instanceName: NamedInstances.clickUpClientSecret.name);
-  }
-  if (serviceLocator.isRegistered(instance: getClickUpRedirectUrl)) {
-    await serviceLocator.unregister(
-        instance: getClickUpRedirectUrl,
-        instanceName: NamedInstances.clickUpRedirectUrl.name);
-  }
+void reRegisterClickupVariables() async {
   serviceLocator.registerSingleton(
       const String.fromEnvironment("clickUpClientId", defaultValue: ""),
       instanceName: NamedInstances.clickUpClientId.name);
