@@ -39,7 +39,7 @@ enum NamedInstances {
 void _initServiceLocator({required Network network}) {
   /// Globals
   serviceLocator.registerSingleton(
-      Logger(printer: PrettyPrinter(noBoxingByDefault: true, methodCount: 0)));
+      Logger(printer:logPrinter ));
   serviceLocator.registerSingleton(LocalizationImpl().translate("Time blocking app"),
       instanceName: NamedInstances.appName.name);
   serviceLocator.registerSingleton('https://api.clickup.com/api/v2/',
