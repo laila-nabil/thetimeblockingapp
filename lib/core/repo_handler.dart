@@ -7,10 +7,12 @@ import 'error/failures.dart';
 
 Future<Either<Failure, T>> repoHandler<T>({
   required Future<T> Function() remoteDataSourceRequest,
+  Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
 }) async {
   late T result;
   try {
+    ///TODO tryGetFromLocalStorage and if failed then get from remote data source
     result = await remoteDataSourceRequest();
   } on ServerException {
     printDebug("repo ServerException",printLevel: PrintLevel.error);
