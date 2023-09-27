@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
@@ -21,23 +20,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(this._getClickUpAccessTokenUseCase, this._getClickUpUserUseCase,
       this._getClickUpWorkspacesUseCase)
-      : super(const AuthState(authStates: {})) {
+      : super(const AuthState(authStates: {AuthStateEnum.initial})) {
     on<AuthEvent>((event, emit) async {
       if (event is ShowCodeInputTextField) {
-        // Set<AuthStateEnum> authStates = Set.from(state.authStates);
-        // try {
-        //   if (event.showCodeInputTextField) {
-        //     authStates.add(AuthStateEnum.showCodeInputTextField);
-        //   } else {
-        //     authStates.remove(AuthStateEnum.showCodeInputTextField);
-        //   }
-        // } catch (e) {
-        //   printDebug("$e",printLevel: PrintLevel.error);
-        // }
         emit(AuthState(
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
-      } else if (event is SubmitClickUpCode) {
+      } else if (event is GetClickUpAccessToken) {
         final result = await _getClickUpAccessTokenUseCase(
             GetClickUpAccessTokenParams(event.clickUpCode));
         result?.fold(
@@ -52,13 +41,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           add(GetClickUpUserWorkspaces(r));
         });
       } else if (event is GetClickUpUserWorkspaces) {
-        final getClickUpUser = await _getClickUpUserUseCase(GetClickUpUserParams(event.accessToken));
+        final getClickUpUser = await _getClickUpUserUseCase(
+            GetClickUpUserParams(event.accessToken));
         getClickUpUser?.fold(
             (l) => emit(state.copyWith(
                 getClickUpUserFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickUpAUserFailed)
-            )), (r) {
+                    AuthStateEnum.getClickUpAUserFailed))), (r) {
           emit(state.copyWith(
               clickupUser: r,
               authStates: state

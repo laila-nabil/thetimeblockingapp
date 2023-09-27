@@ -40,12 +40,9 @@ class AuthRepoImpl implements AuthRepo {
               .saveClickUpAccessToken(result as ClickUpAccessTokenModel);
         printDebug(
             "getClickUpAccessToken $result ${Globals.clickUpAuthAccessToken}");
-        }
-    );
-    if(result.isRight()){
-
-
-    }
+      },
+        tryGetFromLocalStorage: () async =>
+            await authLocalDataSource.getClickUpAccessToken());
     return result;
   }
 
@@ -61,7 +58,9 @@ class AuthRepoImpl implements AuthRepo {
               "getClickUpUser $result ${Globals.clickUpUser}");
           await authLocalDataSource
               .saveClickUpUser(result as ClickupUserModel);
-        });
+        },
+        tryGetFromLocalStorage: () async =>
+            await authLocalDataSource.getClickUpUser());
   }
 
   @override
@@ -76,6 +75,8 @@ class AuthRepoImpl implements AuthRepo {
               "getClickUpWorkspaces $result ${Globals.clickUpWorkspaces}");
           await authLocalDataSource
               .saveClickUpWorkspaces(result as List<ClickupWorkspaceModel>);
-        });
+        },
+        tryGetFromLocalStorage: () async =>
+            await authLocalDataSource.getClickUpWorkspaces());
   }
 }
