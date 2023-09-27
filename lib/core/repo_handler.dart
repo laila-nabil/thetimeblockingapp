@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
@@ -12,8 +13,10 @@ Future<Either<Failure, T>> repoHandler<T>({
   try {
     result = await remoteDataSourceRequest();
   } on ServerException {
+    printDebug("repo ServerException",printLevel: PrintLevel.error);
     return const Left(ServerFailure(message: ''));
   } catch (error) {
+    printDebug(error,printLevel: PrintLevel.error);
     if (error is Exception) {
       return Left(exceptionToFailure(error));
     }
@@ -23,10 +26,7 @@ Future<Either<Failure, T>> repoHandler<T>({
     try {
       await trySaveResult(result);
     } catch (error) {
-      if (error is Exception) {
-        return Left(exceptionToFailure(error));
-      }
-      return Left(UnknownFailure(message: error.toString()));
+      printDebug("repo $error",printLevel: PrintLevel.error);
     }
   }
   return Right(result);
