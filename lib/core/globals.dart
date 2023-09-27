@@ -1,5 +1,6 @@
 import '../common/entities/clickup_user.dart';
 import '../common/entities/clickup_workspace.dart';
+import '../features/auth/domain/entities/clickup_access_token.dart';
 
 class Globals {
   static String appName = "Time blocking app";
@@ -7,7 +8,8 @@ class Globals {
   static String clickUpClientId = "";
   static String clickUpClientSecret = "";
   static String clickUpRedirectUrl = "";
-  static String clickUpAuthAccessToken = "";
+  static ClickUpAccessToken clickUpAuthAccessToken =
+      const ClickUpAccessToken(accessToken: "", tokenType: "");
   static ClickupUser? clickUpUser;
   static List<ClickupWorkspace>? clickUpWorkspaces;
 }

@@ -35,7 +35,7 @@ class AuthRepoImpl implements AuthRepo {
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickUpAccessToken(params: params),
       trySaveResult: (result)async{
-        Globals.clickUpAuthAccessToken =  result.accessToken;
+        Globals.clickUpAuthAccessToken =  result;
           await authLocalDataSource
               .saveClickUpAccessToken(result as ClickUpAccessTokenModel);
         printDebug(

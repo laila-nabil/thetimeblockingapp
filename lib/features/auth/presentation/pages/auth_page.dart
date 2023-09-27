@@ -29,7 +29,7 @@ class AuthPage extends StatelessWidget {
             "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
         printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
 
-        if (Globals.clickUpAuthAccessToken.isNotEmpty &&
+        if (Globals.clickUpAuthAccessToken.accessToken.isNotEmpty &&
             Globals.clickUpUser != null &&
             Globals.clickUpWorkspaces?.isNotEmpty == true) {
           context.go(SchedulePage.routeName);
