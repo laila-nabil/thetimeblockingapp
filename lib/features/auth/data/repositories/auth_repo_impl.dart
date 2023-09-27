@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
@@ -37,6 +38,8 @@ class AuthRepoImpl implements AuthRepo {
         Globals.clickUpAuthAccessToken =  result.accessToken;
           await authLocalDataSource
               .saveClickUpAccessToken(result as ClickUpAccessTokenModel);
+        printDebug(
+            "getClickUpAccessToken $result ${Globals.clickUpAuthAccessToken}");
         }
     );
     if(result.isRight()){
@@ -54,6 +57,8 @@ class AuthRepoImpl implements AuthRepo {
             await authRemoteDataSource.getClickUpUser(params: params),
         trySaveResult: (result)async{
           Globals.clickUpUser =  result;
+          printDebug(
+              "getClickUpUser $result ${Globals.clickUpUser}");
           await authLocalDataSource
               .saveClickUpUser(result as ClickupUserModel);
         });
@@ -67,6 +72,8 @@ class AuthRepoImpl implements AuthRepo {
             await authRemoteDataSource.getClickUpWorkspaces(params: params),
         trySaveResult: (result)async{
           Globals.clickUpWorkspaces =  result;
+          printDebug(
+              "getClickUpWorkspaces $result ${Globals.clickUpWorkspaces}");
           await authLocalDataSource
               .saveClickUpWorkspaces(result as List<ClickupWorkspaceModel>);
         });

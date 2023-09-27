@@ -46,7 +46,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final result = await network.get(
         url: "$clickUpUrl/user",
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    return ClickupUserModel.fromJson(json.decode(result.body));
+    return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
 
   @override
@@ -56,10 +56,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final response = await network.get(
         url: "$clickUpUrl/team",
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    if (response.body is List) {
-      for (var element in (response.body as List)) {
-        result.add(ClickupWorkspaceModel.fromJson(json.decode(element)));
-      }
+    for (var element in (json.decode(response.body)["teams"] as List)) {
+      result.add(ClickupWorkspaceModel.fromJson(element));
     }
     return result;
   }
