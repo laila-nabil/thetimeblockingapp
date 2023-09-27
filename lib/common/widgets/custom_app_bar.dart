@@ -7,6 +7,7 @@ class CustomAppBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       actions: [
         IconButton(onPressed: (){}, icon: const Icon(Icons.search)),
         IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),

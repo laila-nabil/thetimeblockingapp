@@ -70,7 +70,7 @@ class AuthPage extends StatelessWidget {
                   ],
                 )),
             context: context,
-            key: key);
+            key: scaffoldKey);
       },
     );
   }

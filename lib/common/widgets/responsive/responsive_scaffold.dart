@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 
 import '../custom_app_bar.dart';
@@ -10,11 +11,11 @@ class ResponsiveScaffold extends Scaffold {
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
-  const ResponsiveScaffold({
+  ResponsiveScaffold({
     required this.responsiveBody,
     required this.context,
 
-    Key? key,
+    required Key key,
     /// If true, and [bottomNavigationBar] or [persistentFooterButtons]
     /// is specified, then the [body] extends to the bottom of the Scaffold,
     /// instead of only extending to the top of the [bottomNavigationBar]
@@ -269,7 +270,7 @@ class ResponsiveScaffold extends Scaffold {
     ///    Flutter.
     String? restorationId,
   }) : super(
-      drawer: drawer,
+      drawer: CustomDrawer(key: key),
       body: body,
       key: key,
       appBar: const CustomAppBar(),
