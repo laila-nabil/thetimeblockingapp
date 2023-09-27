@@ -51,13 +51,15 @@ class _SchedulePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(Globals.clickUpUser.toString()),
-        Text(Globals.clickUpWorkspaces.toString()),
-        Text(scheduleBloc.state.toString()),
-        Text(scheduleBloc.state.clickUpTasks.toString())
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(Globals.clickUpUser.toString()),
+          Text(Globals.clickUpWorkspaces.toString()),
+          Text(scheduleBloc.state.toString()),
+          Text(scheduleBloc.state.clickUpTasks.toString())
+        ],
+      ),
     );
   }
 }

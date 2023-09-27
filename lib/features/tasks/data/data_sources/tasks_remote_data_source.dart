@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 
 import '../../../../core/network/clickup_header.dart';
@@ -32,10 +34,8 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         url: url,
         headers: clickUpHeader(
             clickUpAccessToken: params.filtersParams.clickUpAccessToken));
-    if (response.body is List) {
-      for (var element in (response.body as List)) {
-        result.add(ClickupTaskModel.fromJson(element));
-      }
+    for (var element in (json.decode(response.body)["tasks"] as List)) {
+      result.add(ClickupTaskModel.fromJson(element));
     }
     return result;
   }
