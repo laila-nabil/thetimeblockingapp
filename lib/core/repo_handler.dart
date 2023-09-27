@@ -12,23 +12,31 @@ Future<Either<Failure, T>> repoHandler<T>({
 }) async {
   late T result;
   try {
-    ///TODO tryGetFromLocalStorage and if failed then get from remote data source
-    result = await remoteDataSourceRequest();
+    if (tryGetFromLocalStorage != null) {
+      try {
+        result = await tryGetFromLocalStorage();
+      } catch (e) {
+        printDebug("tryGetFromLocalStorage error $e");
+        result = await remoteDataSourceRequest();
+      }
+    } else {
+      result = await remoteDataSourceRequest();
+    }
   } on ServerException {
-    printDebug("repo ServerException",printLevel: PrintLevel.error);
+    printDebug("repo ServerException", printLevel: PrintLevel.error);
     return const Left(ServerFailure(message: ''));
   } catch (error) {
-    printDebug(error,printLevel: PrintLevel.error);
+    printDebug(error, printLevel: PrintLevel.error);
     if (error is Exception) {
       return Left(exceptionToFailure(error));
     }
     return Left(UnknownFailure(message: error.toString()));
   }
-  if (trySaveResult!=null) {
+  if (trySaveResult != null) {
     try {
       await trySaveResult(result);
     } catch (error) {
-      printDebug("repo $error",printLevel: PrintLevel.error);
+      printDebug("repo $error", printLevel: PrintLevel.error);
     }
   }
   return Right(result);

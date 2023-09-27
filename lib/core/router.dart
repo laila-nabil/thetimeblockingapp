@@ -27,6 +27,10 @@ final router = GoRouter(
       if (state?.queryParameters != null &&
           state?.queryParameters["Code"] != null) {
         ///TODO
+      }else if (Globals.clickUpAuthAccessToken.isEmpty ||
+          Globals.clickUpUser == null ||
+          Globals.clickUpWorkspaces?.isNotEmpty == false) {
+        return AuthPage.routeName;
       }
       return null;
     },
