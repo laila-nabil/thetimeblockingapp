@@ -5,7 +5,8 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
-import '../../../../common/widgets/responsive.dart';
+import '../../../../common/widgets/responsive/responsive.dart';
+import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 
 class SchedulePage extends StatelessWidget {
   SchedulePage({Key? key}) : super(key: key);

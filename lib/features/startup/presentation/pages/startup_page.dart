@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thetimeblockingapp/common/widgets/responsive.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+
+import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 
 
 class StartUpPage extends StatelessWidget {

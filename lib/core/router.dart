@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/common/widgets/responsive.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
+import '../common/widgets/responsive/responsive_scaffold.dart';
 import '../features/auth/presentation/pages/auth_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/startup/presentation/pages/startup_page.dart';
