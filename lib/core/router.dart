@@ -5,12 +5,14 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../features/auth/presentation/pages/auth_page.dart';
+import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/startup/presentation/pages/startup_page.dart';
+import 'globals.dart';
 
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: AuthPage.routeName,
+    initialLocation: StartUpPage.routeName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver()],
     errorBuilder: (context, state) {
@@ -30,13 +32,21 @@ final router = GoRouter(
     },
     routes: [
       GoRoute(
-        path: StartUpPage.routeName,
-        builder: (context, state) => StartUpPage(),
-      ),
-      GoRoute(
         path: AuthPage.routeName,
         builder: (context, state) => AuthPage(),
-      )
+          redirect: (context, state) async {
+            if (Globals.clickUpAuthAccessToken.isNotEmpty &&
+                Globals.clickUpUser != null &&
+                Globals.clickUpWorkspaces?.isNotEmpty == true) {
+              return SchedulePage.routeName;
+            }
+            return null;
+          }
+      ),
+      GoRoute(
+        path: SchedulePage.routeName,
+        builder: (context, state) => SchedulePage(),
+      ),
     ]);
 
 class MyNavObserver extends NavigatorObserver {

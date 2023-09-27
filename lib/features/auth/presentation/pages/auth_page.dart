@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -8,6 +9,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_input_field.dart';
 import '../../../../core/launch_url.dart';
+import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
 
 class AuthPage extends StatelessWidget {
@@ -21,7 +23,11 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (Globals.clickUpAuthAccessToken.isNotEmpty &&
+            Globals.clickUpUser != null &&
+            Globals.clickUpWorkspaces?.isNotEmpty == true) {
+          context.go(SchedulePage.routeName);
+        }
       },
       builder: (context, state) {
         final authBloc = BlocProvider.of<AuthBloc>(context);
