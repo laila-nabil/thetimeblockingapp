@@ -3,6 +3,6 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 Map<String, String>? clickUpHeader({required ClickUpAccessToken clickUpAccessToken}) {
   return {
     "Authorization":
-        "${clickUpAccessToken.tokenType} ${clickUpAccessToken.accessToken}"
+        clickUpAccessToken.accessToken
   };
 }
