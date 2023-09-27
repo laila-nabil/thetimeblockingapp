@@ -67,8 +67,8 @@ void _initServiceLocator({required Network network}) {
       ));
 
   /// Repos
-  serviceLocator
-      .registerLazySingleton<AuthRepo>(() => AuthRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<AuthRepo>(
+      () => AuthRepoImpl(serviceLocator(), serviceLocator()));
   serviceLocator
       .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
 

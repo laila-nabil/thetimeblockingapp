@@ -26,7 +26,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
       {required GetClickUpTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
-    String url = "${clickUpUrl}/team/${params.workspaceId}/task";
+    String url = "$clickUpUrl/team/${params.workspaceId}/task";
     url += params.toUrlString;
     final response = await network.get(
         url: url,
