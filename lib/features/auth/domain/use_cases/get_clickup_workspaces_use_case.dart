@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
+import '../entities/clickup_access_token.dart';
 
 class GetClickUpWorkspacesUseCase
     implements UseCase<List<ClickupWorkspace>, GetClickUpWorkspacesParams> {
@@ -20,7 +21,7 @@ class GetClickUpWorkspacesUseCase
 }
 
 class GetClickUpWorkspacesParams extends Equatable {
-  final String clickUpAccessToken;
+  final ClickUpAccessToken clickUpAccessToken;
 
   const GetClickUpWorkspacesParams(this.clickUpAccessToken);
 

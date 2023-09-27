@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 
+import '../entities/clickup_access_token.dart';
+
 class GetClickUpUserUseCase
     implements UseCase<ClickupUser, GetClickUpUserParams> {
   final AuthRepo repo;
@@ -18,7 +20,7 @@ class GetClickUpUserUseCase
 }
 
 class GetClickUpUserParams extends Equatable {
-  final String clickUpAccessToken;
+  final ClickUpAccessToken clickUpAccessToken;
 
   const GetClickUpUserParams(this.clickUpAccessToken);
 

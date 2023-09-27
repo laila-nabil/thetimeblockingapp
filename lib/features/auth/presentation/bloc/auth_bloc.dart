@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               clickUpAccessToken: r,
               authStates: state.updatedAuthStates(
                   AuthStateEnum.getClickUpAccessTokenSuccess)));
-          add(GetClickUpUserWorkspaces(r.accessToken));
+          add(GetClickUpUserWorkspaces(r));
         });
       } else if (event is GetClickUpUserWorkspaces) {
         final getClickUpUser = await _getClickUpUserUseCase(GetClickUpUserParams(event.accessToken));
