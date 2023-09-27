@@ -87,8 +87,7 @@ void _initServiceLocator({required Network network}) {
           network: serviceLocator(),
           clickUpClientId: Globals.clickUpClientId,
           clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,
-          clickUpAccessToken: Globals.clickUpAuthAccessToken));
+          clickUpUrl: Globals.clickUpUrl,));
 
   /// External
 

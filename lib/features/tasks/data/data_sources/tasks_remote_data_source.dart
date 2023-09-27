@@ -14,14 +14,12 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   final String clickUpClientId;
   final String clickUpClientSecret;
   final String clickUpUrl;
-  final String clickUpAccessToken;
 
   TasksRemoteDataSourceImpl({
     required this.network,
     required this.clickUpClientId,
     required this.clickUpClientSecret,
     required this.clickUpUrl,
-    required this.clickUpAccessToken,
   });
 
   @override
@@ -32,7 +30,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     url += params.toUrlString;
     final response = await network.get(
         url: url,
-        headers: clickUpHeader(clickUpAccessToken: clickUpAccessToken));
+        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
     if (response.body is List) {
       for (var element in (response.body as List)) {
         result.add(ClickupTaskModel.fromJson(element));
