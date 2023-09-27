@@ -15,11 +15,10 @@ import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
 
 class AuthPage extends StatelessWidget {
-  AuthPage({Key? key}) : super(key: key);
+  const AuthPage({Key? key}) : super(key: key);
 
   static const routeName = "/Auth";
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +68,7 @@ class AuthPage extends StatelessWidget {
                     const Expanded(child: Placeholder()),
                   ],
                 )),
-            context: context,
-            key: scaffoldKey);
+            context: context,);
       },
     );
   }

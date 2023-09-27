@@ -9,10 +9,9 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 
 class SchedulePage extends StatelessWidget {
-  SchedulePage({Key? key}) : super(key: key);
+  const SchedulePage({Key? key}) : super(key: key);
   static const routeName = "/Schedule";
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,6 @@ class SchedulePage extends StatelessWidget {
                         Globals.clickUpAuthAccessToken))));
           }
           return ResponsiveScaffold(
-              key: scaffoldKey,
               responsiveBody: ResponsiveTParams(
                 mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
                 laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),

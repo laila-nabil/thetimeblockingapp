@@ -11,11 +11,11 @@ class ResponsiveScaffold extends Scaffold {
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
-  ResponsiveScaffold({
+  const ResponsiveScaffold({
     required this.responsiveBody,
     required this.context,
 
-    required Key key,
+    Key? key,
     /// If true, and [bottomNavigationBar] or [persistentFooterButtons]
     /// is specified, then the [body] extends to the bottom of the Scaffold,
     /// instead of only extending to the top of the [bottomNavigationBar]
@@ -270,7 +270,7 @@ class ResponsiveScaffold extends Scaffold {
     ///    Flutter.
     String? restorationId,
   }) : super(
-      drawer: CustomDrawer(key: key),
+      drawer: const CustomDrawer(),
       body: body,
       key: key,
       appBar: const CustomAppBar(),
