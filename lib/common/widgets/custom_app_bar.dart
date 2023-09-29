@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -8,6 +9,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
+      leading: Responsive.showSmallDesign(context)
+          ? null
+          : IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.deepPurpleAccent,
+              )),
       actions: [
         if (Globals.clickUpWorkspaces?.isNotEmpty == true)
           DropdownMenu(

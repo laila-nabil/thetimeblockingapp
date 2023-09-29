@@ -29,6 +29,7 @@ final router = GoRouter(
     errorBuilder: (context, state) {
       String errorMessage = LocalizationImpl().translate("pageNotFound");
       return ResponsiveScaffold(
+        showSmallDesign: Responsive.showSmallDesign(context),
           responsiveBody: ResponsiveTParams(
               mobile: Text(errorMessage), laptop: Text(errorMessage)),
           context: context);

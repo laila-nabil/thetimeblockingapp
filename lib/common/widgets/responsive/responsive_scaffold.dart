@@ -6,23 +6,36 @@ import '../custom_app_bar.dart';
 
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
-
+  final bool showSmallDesign;
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
-  const ResponsiveScaffold({
+  // ignore: prefer_const_constructors_in_immutables
+  ResponsiveScaffold({
     super.key,
     required this.responsiveBody,
     required this.context,
+    required this.showSmallDesign,
   });
 
   @override
   Widget? get body {
-    return Responsive.responsiveT(params: responsiveBody, context: context);
+    final responsiveT = Responsive.responsiveT(params: responsiveBody, context: context);
+    if (showSmallDesign) {
+      return responsiveT;
+    } else {
+      return Row(
+        children: [
+          const CustomDrawer(),
+          Expanded(child: responsiveT,),
+        ],
+      );
+    }
   }
 
   @override
-  Widget? get drawer => const CustomDrawer();
+  Widget? get drawer =>
+      showSmallDesign ? const CustomDrawer() : null;
 
   @override
   PreferredSizeWidget? get appBar => const CustomAppBar();
