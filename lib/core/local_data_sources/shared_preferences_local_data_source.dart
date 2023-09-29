@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thetimeblockingapp/core/error/exceptions.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
@@ -11,11 +13,11 @@ class SharedPrefLocalDataSource implements LocalDataSource {
   }
 
   @override
-  Future<Object> getData({required String key}) async {
+  Future<String?> getData({required String key}) async {
     await init();
     final result = _sharedPreferences.get(key);
     if (result !=null) {
-      return result;
+      return result.toString();
     }
     throw(EmptyCacheException());
   }
@@ -28,7 +30,7 @@ class SharedPrefLocalDataSource implements LocalDataSource {
     if (value is bool) result =  await _sharedPreferences.setBool(key, value);
     if (value is double) result =  await _sharedPreferences.setDouble(key, value);
 
-    result = await  _sharedPreferences.setString(key, value.toString());
+    result = await  _sharedPreferences.setString(key, jsonEncode(value));
     if(result != true){
       throw(FailedCachingException());
     }

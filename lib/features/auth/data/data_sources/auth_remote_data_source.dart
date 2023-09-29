@@ -37,16 +37,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required GetClickUpAccessTokenParams params}) async {
     final result = await network.post(
         url:
-            "${clickUpUrl}oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
+            "$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
     return ClickUpAccessTokenModel.fromJson(json.decode(result.body));
   }
 
   @override
   Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params}) async {
     final result = await network.get(
-        url: "${clickUpUrl}oauth/user",
+        url: "$clickUpUrl/user",
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    return ClickupUserModel.fromJson(json.decode(result.body));
+    return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
 
   @override
@@ -54,12 +54,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required GetClickUpWorkspacesParams params}) async {
     List<ClickupWorkspaceModel> result = [];
     final response = await network.get(
-        url: "${clickUpUrl}oauth/team",
+        url: "$clickUpUrl/team",
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    if (response.body is List) {
-      for (var element in (response.body as List)) {
-        result.add(ClickupWorkspaceModel.fromJson(json.decode(element)));
-      }
+    for (var element in (json.decode(response.body)["teams"] as List)) {
+      result.add(ClickupWorkspaceModel.fromJson(element));
     }
     return result;
   }

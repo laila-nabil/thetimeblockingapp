@@ -67,8 +67,8 @@ void _initServiceLocator({required Network network}) {
       ));
 
   /// Repos
-  serviceLocator
-      .registerLazySingleton<AuthRepo>(() => AuthRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<AuthRepo>(
+      () => AuthRepoImpl(serviceLocator(), serviceLocator()));
   serviceLocator
       .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
 
@@ -87,8 +87,7 @@ void _initServiceLocator({required Network network}) {
           network: serviceLocator(),
           clickUpClientId: Globals.clickUpClientId,
           clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,
-          clickUpAccessToken: Globals.clickUpAuthAccessToken));
+          clickUpUrl: Globals.clickUpUrl,));
 
   /// External
 

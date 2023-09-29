@@ -1,7 +1,9 @@
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../models/clickup_access_token_model.dart';
+import 'dart:convert';
 
 abstract class AuthLocalDataSource {
   Future<ClickUpAccessTokenModel> getClickUpAccessToken();
@@ -26,14 +28,16 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<ClickUpAccessTokenModel> getClickUpAccessToken() async {
-    return ClickUpAccessTokenModel.fromJson((await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name) as Map<String, dynamic>));
+    var data = await localDataSource.getData(
+        key: LocalDataSourceKeys.clickUpAccessToken.name);
+    return ClickUpAccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
   @override
   Future<ClickupUserModel> getClickUpUser() async {
-    return ClickupUserModel.fromJson(await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpUser.name)as Map<String, dynamic>);
+    var data = await localDataSource.getData(
+        key: LocalDataSourceKeys.clickUpUser.name);
+    return ClickupUserModel.fromJson(json.decode(data.toString()));
   }
 
   @override
@@ -41,8 +45,9 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     List<ClickupWorkspaceModel> result = [];
     final response = await localDataSource.getData(
         key: LocalDataSourceKeys.clickUpWorkspaces.name);
-    if (response is List) {
-      for (var element in response) {
+    final responseList = json.decode(response ?? "");
+    if (responseList is List) {
+      for (var element in responseList) {
         result.add(ClickupWorkspaceModel.fromJson(element));
       }
     }

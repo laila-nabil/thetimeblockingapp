@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_input_field.dart';
 import '../../../../core/launch_url.dart';
+import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
 
 class AuthPage extends StatelessWidget {
@@ -21,10 +24,30 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
+        printDebug("AuthBloc state listener $state");
+        printDebug(
+            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
+        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
+
+        if (Globals.clickUpAuthAccessToken.isNotEmpty &&
+            Globals.clickUpUser != null &&
+            Globals.clickUpWorkspaces?.isNotEmpty == true) {
+          context.go(SchedulePage.routeName);
+        }
+
       },
       builder: (context, state) {
+        printDebug("AuthBloc state builder $state");
+        printDebug(
+            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
+        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
+
         final authBloc = BlocProvider.of<AuthBloc>(context);
+        if (state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)) {
+
+          ///in case saved locally
+          authBloc.add(const GetClickUpAccessToken(""));
+        }
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
                 mobile: Column(
@@ -91,7 +114,7 @@ class ExplainClickupAuth extends StatelessWidget {
                 CustomButton(
                   child: const Text("submit"),
                   onPressed: () {
-                    authBloc.add(SubmitClickUpCode(controller.text));
+                    authBloc.add(GetClickUpAccessToken(controller.text));
                   },
                 )
               ],

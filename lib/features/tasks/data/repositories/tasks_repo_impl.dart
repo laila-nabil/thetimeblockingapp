@@ -16,6 +16,7 @@ class TasksRepoImpl implements TasksRepo {
   Future<Either<Failure, List<ClickupTask>>> getTasksInWorkspace(
       {required GetClickUpTasksInWorkspaceParams params}) {
     return repoHandler(
-        () async => await remoteDataSource.getTasksInWorkspace(params: params));
+        remoteDataSourceRequest: () async =>
+            await remoteDataSource.getTasksInWorkspace(params: params));
   }
 }

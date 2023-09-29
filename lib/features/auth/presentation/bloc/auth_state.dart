@@ -1,6 +1,7 @@
 part of 'auth_bloc.dart';
 
 enum AuthStateEnum {
+  initial,
   showCodeInputTextField,
   getClickUpAccessTokenSuccess,
   getClickUpAccessTokenFailed,
