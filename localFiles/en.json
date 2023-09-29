@@ -2,5 +2,15 @@
   "login": "login",
   "appName": "Time blocking app",
   "whyConnectClickup": "{} is powered by Clickup, to take full advantage of the app,You must connect with Clickup account, learn more",
-  "agreeTermsConditions": "By signing in you agree to our Terms of services and acknowledge you have read our Privacy statement"
+  "agreeTermsConditions": "By signing in you agree to our Terms of services and acknowledge you have read our Privacy statement",
+  "All": "All",
+  "Schedule": "Schedule",
+  "Someday": "Someday",
+  "Lists": "Lists",
+  "Tags": "Tags",
+  "Maps": "Maps",
+  "Archive": "Archive",
+  "Trash": "Trash",
+  "Help": "Help",
+  "Settings": "Settings"
 }

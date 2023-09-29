@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (Globals.clickUpWorkspaces?.isNotEmpty == true)
           DropdownMenu(
-              label: Text("workspaces"),
+              label: const Text("workspaces"),
               dropdownMenuEntries: Globals.clickUpWorkspaces
                       ?.map((e) => DropdownMenuEntry(
                             value: e,
