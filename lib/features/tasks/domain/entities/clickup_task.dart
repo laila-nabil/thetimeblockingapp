@@ -86,7 +86,7 @@ class ClickupTask extends Equatable {
   final List<ClickupChecklists>? checklists;
   final List<ClickupTags>? tags;
   final String? parent;
-  final num? priority;
+  final ClickupTaskPriority? priority;
   final String? dueDate;
   final String? startDate;
   final num? points;
@@ -499,4 +499,35 @@ class ClickupStatus extends Equatable {
         orderIndex,
         color,
       ];
+}
+
+///ex 1 :
+///priority : 1
+///ex 1 :
+///priority : 1
+///{
+///                 "color": "#ffcc00",
+///                 "id": "2",
+///                 "orderindex": "2",
+///                 "priority": "high"
+///             },
+class ClickupTaskPriority extends Equatable {
+  final bool isNum;
+  final num? priorityNum;
+  final String? color;
+  final String? id;
+  final String? orderIndex;
+  final String? priority;
+
+  const ClickupTaskPriority(
+      {required this.isNum,
+      this.priorityNum,
+      this.color,
+      this.id,
+      this.orderIndex,
+      this.priority});
+
+  @override
+  List<Object?> get props =>
+      [isNum, priorityNum, color, id, orderIndex, priority];
 }

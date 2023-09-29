@@ -6,7 +6,11 @@ enum PrintLevel { trace, debug, info, warning, error, fatalError }
 
 void printDebug(Object? object, {PrintLevel? printLevel = PrintLevel.trace}) {
   if (kDebugMode) {
-    _printLogger(printLevel, object);
+    try {
+      _printLogger(printLevel, object);
+    } catch (e) {
+      _printDebugPrint(object);
+    }
   }
 }
 
@@ -32,7 +36,6 @@ void _printLogger(PrintLevel? printLevel, Object? object) {
   }
 }
 
-// ignore: unused_element
 void _printDebugPrint(
   Object? object,
 ) {
