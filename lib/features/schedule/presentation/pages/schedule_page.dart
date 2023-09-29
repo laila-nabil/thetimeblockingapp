@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_t
 
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
+import '../../../startup/presentation/bloc/startup_bloc.dart';
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key}) : super(key: key);
@@ -17,27 +18,46 @@ class SchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ScheduleBloc>(),
-      child: BlocConsumer<ScheduleBloc, ScheduleState>(
-        listener: (context, state) {
-
-        },
-        builder: (context, state) {
+      child: BlocConsumer<StartupBloc, StartupState>(
+        listener: (context, startUpCurrentState) {
           final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-          if (state.isInitial) {
-            scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                GetClickUpTasksInWorkspaceParams(
-                    workspaceId: Globals.clickUpWorkspaces?.first.id ?? "",
-                    filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                        clickUpAccessToken:
-                        Globals.clickUpAuthAccessToken))));
-          }
-          return ResponsiveScaffold(
-              showSmallDesign: Responsive.showSmallDesign(context),
-              responsiveBody: ResponsiveTParams(
-                mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
-                laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),
-              ),
-              context: context);
+          scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+              GetClickUpTasksInWorkspaceParams(
+                  workspaceId:
+                  startUpCurrentState.selectedClickupWorkspace?.id ??
+                      Globals.clickUpWorkspaces?.first.id ??
+                      "",
+                  filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+                      clickUpAccessToken:
+                      Globals.clickUpAuthAccessToken))));
+        },
+        builder: (context, startUpCurrentState) {
+          return BlocConsumer<ScheduleBloc, ScheduleState>(
+            listener: (context, state) {
+
+            },
+            builder: (context, state) {
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              if (state.isInitial) {
+                scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+                    GetClickUpTasksInWorkspaceParams(
+                        workspaceId:
+                        startUpCurrentState.selectedClickupWorkspace?.id ??
+                            Globals.clickUpWorkspaces?.first.id ??
+                            "",
+                        filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+                            clickUpAccessToken:
+                            Globals.clickUpAuthAccessToken))));
+              }
+              return ResponsiveScaffold(
+                  showSmallDesign: Responsive.showSmallDesign(context),
+                  responsiveBody: ResponsiveTParams(
+                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
+                    laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),
+                  ),
+                  context: context);
+            },
+          );
         },
       ),
     );

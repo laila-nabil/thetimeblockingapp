@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
@@ -26,6 +27,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (Globals.clickUpWorkspaces?.isNotEmpty == true)
           DropdownMenu(
+              initialSelection: Globals.clickUpWorkspaces?.first,
+              onSelected: (selected) {
+                if (selected is ClickupWorkspace) {
+                  startUpBloc.add(SelectClickupWorkspace(selected));
+                }
+              },
               label: const Text("workspaces"),
               dropdownMenuEntries: Globals.clickUpWorkspaces
                       ?.map((e) => DropdownMenuEntry(
