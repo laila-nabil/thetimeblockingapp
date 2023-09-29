@@ -1,10 +1,10 @@
 part of 'startup_bloc.dart';
 
-abstract class StartupState extends Equatable {
-  const StartupState();
-}
+class StartupState extends Equatable {
+  final bool drawerLargerScreenOpen;
 
-class StartupInitial extends StartupState {
+  const StartupState({required this.drawerLargerScreenOpen});
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [drawerLargerScreenOpen];
 }

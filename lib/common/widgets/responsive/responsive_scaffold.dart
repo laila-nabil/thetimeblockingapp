@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 
+import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
 
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
   final bool showSmallDesign;
+
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
@@ -20,15 +23,23 @@ class ResponsiveScaffold extends Scaffold {
 
   @override
   Widget? get body {
-    final responsiveT = Responsive.responsiveT(params: responsiveBody, context: context);
+    final responsiveT = Responsive.responsiveT(
+        params: responsiveBody, context: context);
     if (showSmallDesign) {
       return responsiveT;
     } else {
-      return Row(
-        children: [
-          const CustomDrawer(),
-          Expanded(child: responsiveT,),
-        ],
+      return BlocBuilder<StartupBloc, StartupState>(
+        builder: (context, state) {
+          if(state.drawerLargerScreenOpen){
+            return Row(
+              children: [
+                const CustomDrawer(),
+                Expanded(child: responsiveT,),
+              ],
+            );
+          }
+          return responsiveT;
+        },
       );
     }
   }

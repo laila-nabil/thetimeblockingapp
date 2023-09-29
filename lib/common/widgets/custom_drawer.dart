@@ -21,7 +21,6 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizationImpl = LocalizationImpl();
 
-    ///TODO drawer must overlay in small screens and expand in large screens
     return Drawer(
       width: 200,
       child: ListView(
