@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/features/all/presentation/pages/all_page.dart';
+import 'package:thetimeblockingapp/features/archive/presentation/pages/archive_page.dart';
+import 'package:thetimeblockingapp/features/help/presentation/pages/help_page.dart';
+import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
+import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
+import 'package:thetimeblockingapp/features/maps/presentation/pages/maps_page.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/pages/schedule_page.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/pages/settings_page.dart';
+import 'package:thetimeblockingapp/features/someday/presentation/pages/someday_page.dart';
+import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
+import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
+import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -9,64 +20,105 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizationImpl = LocalizationImpl();
+
+    ///TODO drawer must overlay in small screens and expand in large screens
     return Container(
       color: Colors.white,
       width: 200,
       child: ListView(
         children: [
+          ///TODO logo
           _DrawerItem(
               title: localizationImpl.translate("All"),
               iconPath: Icons.all_inbox,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("All")),
+              onPressed: () {
+                context.go(AllPage.routeName);
+              },
+              isSelected:
+                  GoRouter.of(context).location.contains(AllPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Schedule"),
               iconPath: Icons.calendar_month,
               onPressed: () {
                 context.go(SchedulePage.routeName);
               },
-              isSelected: GoRouter.of(context).location.contains("Schedule")),
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(SchedulePage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Someday"),
               iconPath: Icons.calendar_today,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Someday")),
+              onPressed: () {
+                context.go(SomedayPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(SomedayPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Lists"),
               iconPath: Icons.list_sharp,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Lists")),
+              onPressed: () {
+                context.go(ListsPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                      .location
+                      .contains(ListsPage.routeName) ||
+                  GoRouter.of(context).location.contains(ListPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Tags"),
               iconPath: Icons.tag_sharp,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Tags")),
+              onPressed: () {
+                context.go(TagsPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                      .location
+                      .contains(TagsPage.routeName) ||
+                  GoRouter.of(context).location.contains(TagPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Maps"),
               iconPath: Icons.map_outlined,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Maps")),
+              onPressed: () {
+                context.go(MapsPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(MapsPage.routeName)),
           const Divider(),
           _DrawerItem(
               title: localizationImpl.translate("Archive"),
               iconPath: Icons.archive_outlined,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Archive")),
+              onPressed: () {
+                context.go(ArchivePage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(ArchivePage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Trash"),
               iconPath: Icons.delete,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Trash")),
+              onPressed: () {
+                context.go(TrashPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(TrashPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Help"),
               iconPath: Icons.help,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Help")),
+              onPressed: () {
+                context.go(HelpPage.routeName);
+              },
+              isSelected:
+                  GoRouter.of(context).location.contains(HelpPage.routeName)),
           _DrawerItem(
               title: localizationImpl.translate("Settings"),
               iconPath: Icons.settings,
-              onPressed: () {},
-              isSelected: GoRouter.of(context).location.contains("Settings")),
+              onPressed: () {
+                context.go(SettingsPage.routeName);
+              },
+              isSelected: GoRouter.of(context)
+                  .location
+                  .contains(SettingsPage.routeName)),
         ],
       ),
     );
