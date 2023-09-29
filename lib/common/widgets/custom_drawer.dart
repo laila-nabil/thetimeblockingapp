@@ -22,8 +22,7 @@ class CustomDrawer extends StatelessWidget {
     final localizationImpl = LocalizationImpl();
 
     ///TODO drawer must overlay in small screens and expand in large screens
-    return Container(
-      color: Colors.white,
+    return Drawer(
       width: 200,
       child: ListView(
         children: [
@@ -145,22 +144,20 @@ class _DrawerItem extends StatelessWidget {
         backgroundColor: MaterialStateColor.resolveWith(
             (states) => isSelected ? Colors.grey : Colors.white),
       ),
-      child: SizedBox(
-          height: 80,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(iconPath),
-              ),
-              Text(title),
-              const Spacer(),
-              const Icon(Icons.arrow_forward_ios),
-              const SizedBox(
-                width: 8,
-              )
-            ],
-          )),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(iconPath),
+          ),
+          Text(title),
+          const Spacer(),
+          const Icon(Icons.arrow_forward_ios),
+          const SizedBox(
+            width: 8,
+          )
+        ],
+      ),
     );
   }
 }
