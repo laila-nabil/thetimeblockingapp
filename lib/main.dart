@@ -2,8 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/bloc_observer.dart';
+import 'core/globals.dart';
 import 'core/localization/localization.dart';
+import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
 import 'core/router.dart';
@@ -14,17 +17,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalizationImpl().ensureInitialized();
   di.initServiceLocator();
-  ///FIX
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpClientId', defaultValue: ""),
-  //     instanceName: "clickUpClientId");
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpClientSecret', defaultValue: ""),
-  //     instanceName: "clickUpClientSecret");
-  // di.serviceLocator.registerSingleton(
-  //     const String.fromEnvironment('clickUpRedirectUrl', defaultValue: ""),
-  //     instanceName: "clickUpRedirectUrl");
-
+  di.reRegisterClickupVariables();
+  FlutterError.onError = (errorDetails) {
+    printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
+  };
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();
@@ -41,17 +37,20 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => di.serviceLocator<StartupBloc>(),
         ),
+        BlocProvider(
+          create: (context) => di.serviceLocator<AuthBloc>(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: router,
-        title: di.getAppName,
+        title: Globals.appName,
         theme: appTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         onGenerateTitle: (BuildContext context) {
-          return di.getAppName;
+          return Globals.appName;
         },
         scrollBehavior: MyCustomScrollBehavior(),
       ),

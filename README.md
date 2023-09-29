@@ -262,6 +262,7 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 ![Schedule page](documentation_files/design/wireframes/schedule/Schedule1.png)
 ![Schedule page](documentation_files/design/wireframes/schedule/Schedule2.png)
 ![Schedule page](documentation_files/design/wireframes/schedule/Schedule3.png)
+![Schedule page](documentation_files/design/wireframes/schedule/Schedule4.png)
 
 </details>
   

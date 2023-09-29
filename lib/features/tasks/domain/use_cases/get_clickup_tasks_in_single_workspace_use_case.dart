@@ -2,16 +2,17 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 import '../entities/tasks_order_by.dart';
 
-class GetClickUpTasksInWorkspaceUseCase
+class GetClickUpTasksInSingleWorkspaceUseCase
     implements UseCase<List<ClickupTask>, GetClickUpTasksInWorkspaceParams> {
   final TasksRepo repo;
 
-  GetClickUpTasksInWorkspaceUseCase(this.repo);
+  GetClickUpTasksInSingleWorkspaceUseCase(this.repo);
 
   @override
   Future<Either<Failure, List<ClickupTask>>?> call(
@@ -22,6 +23,20 @@ class GetClickUpTasksInWorkspaceUseCase
 
 class GetClickUpTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
+  final GetClickUpTasksInWorkspaceFiltersParams filtersParams;
+  const GetClickUpTasksInWorkspaceParams({
+    required this.workspaceId,
+    required this.filtersParams,
+  });
+
+  @override
+  List<Object?> get props => [
+        workspaceId,
+        filtersParams
+      ];
+}
+
+class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
   final int? page;
   final TasksOrderBy? tasksOrderBy;
   final bool? reverse;
@@ -44,9 +59,8 @@ class GetClickUpTasksInWorkspaceParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-
-  const GetClickUpTasksInWorkspaceParams({
-    required this.workspaceId,
+  final ClickUpAccessToken clickUpAccessToken;
+  const GetClickUpTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
     this.reverse,
@@ -69,6 +83,7 @@ class GetClickUpTasksInWorkspaceParams extends Equatable {
     this.customFields,
     this.customTaskIds,
     this.includeParentTaskId,
+    required this.clickUpAccessToken,
   });
 
   String get toUrlString {
@@ -173,23 +188,23 @@ class GetClickUpTasksInWorkspaceParams extends Equatable {
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result +=
-          "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
+      "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result +=
-          "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
+      "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result +=
-          "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
+      "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result +=
-          "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
+      "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
       result +=
-          "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
+      "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
       result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
@@ -209,28 +224,28 @@ class GetClickUpTasksInWorkspaceParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        workspaceId,
-        page,
-        tasksOrderBy,
-        reverse,
-        includeSubtasks,
-        filterBySpaceIds,
-        filterByListsIds,
-        filterByProjectIds,
-        filterByStatuses,
-        includeClosed,
-        filterByAssignees,
-        filterByTags,
-        filterByDueDateLessThanUnixTimeMilliseconds,
-        filterByDueDateGreaterThanUnixTimeMilliseconds,
-        filterByCreatedDateLessThanUnixTimeMilliseconds,
-        filterByCreatedDateGreaterThanUnixTimeMilliseconds,
-        filterByDateUpdatedLessThanUnixTimeMilliseconds,
-        filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
-        filterByDateDoneLessThanUnixTimeMilliseconds,
-        filterByDateDoneGreaterThanUnixTimeMilliseconds,
-        customFields,
-        customTaskIds,
-        includeParentTaskId,
-      ];
+    page,
+    tasksOrderBy,
+    reverse,
+    includeSubtasks,
+    filterBySpaceIds,
+    filterByListsIds,
+    filterByProjectIds,
+    filterByStatuses,
+    includeClosed,
+    filterByAssignees,
+    filterByTags,
+    filterByDueDateLessThanUnixTimeMilliseconds,
+    filterByDueDateGreaterThanUnixTimeMilliseconds,
+    filterByCreatedDateLessThanUnixTimeMilliseconds,
+    filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+    filterByDateUpdatedLessThanUnixTimeMilliseconds,
+    filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+    filterByDateDoneLessThanUnixTimeMilliseconds,
+    filterByDateDoneGreaterThanUnixTimeMilliseconds,
+    customFields,
+    customTaskIds,
+    includeParentTaskId,
+    clickUpAccessToken,
+  ];
 }

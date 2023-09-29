@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 import '../error/exceptions.dart';
@@ -8,27 +10,28 @@ import 'network.dart';
 
 Future<NetworkResponse> clickUpResponseHandler(
     {required Future<http.Response> Function() httpResponse}) async {
-  http.Response response;
+  http.Response? response;
   try {
     response = await httpResponse();
     if (response.statusCode != 200) {
       throw ServerException(
-          message: ClickUpError.fromJson(response.body).error);
+          message: ClickUpError.fromJson(json.decode(response.body)).error.toString());
     }
   } catch (exception) {
-    printDebug("[Exception] $exception", printLevel: PrintLevel.error);
+    printDebug("[Exception] ${exception.toString()}", printLevel: PrintLevel.error);
+    printDebug(
+      "[response body] ${response?.body}",
+    );
+    printDebug(
+      "[statusCode] " "${response?.statusCode}",
+    );
     if (exception is ServerException) {
       rethrow;
     } else {
       throw ServerException(message: exception.toString());
     }
   }
-  printDebug(
-    "[response body] ${response.body}",
-  );
-  printDebug(
-    "[statusCode] " "${response.statusCode}",
-  );
+
   return NetworkResponse.fromHttpResponse(response);
 }
 
@@ -38,8 +41,8 @@ class ClickUpError extends Equatable{
 
   const ClickUpError({required this.error, required this.errorCode});
 
-  factory ClickUpError.fromJson(dynamic json) {
-    return ClickUpError(error: json["err"],errorCode: json["ECODE"]);
+  factory ClickUpError.fromJson(Map<String,dynamic> json) {
+    return ClickUpError(error: json["err"].toString(),errorCode: json["ECODE"].toString());
   }
   @override
   List<Object?> get props => [error,errorCode];

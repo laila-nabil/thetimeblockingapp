@@ -69,7 +69,7 @@ class ClickupTaskModel extends ClickupTask {
     super.space,
   });
 
-  factory ClickupTaskModel.fromJson(dynamic json) {
+  factory ClickupTaskModel.fromJson(Map<String,dynamic> json) {
     String? id = json['id'];
     String? customId = json['custom_id'];
     String? name = json['name'];
@@ -266,7 +266,7 @@ class ClickupSpaceModel extends ClickupSpace {
     super.id,
   });
 
-  factory ClickupSpaceModel.fromJson(dynamic json) {
+  factory ClickupSpaceModel.fromJson(Map<String,dynamic> json) {
     return ClickupSpaceModel(id: json['id']);
   }
 
@@ -290,7 +290,7 @@ class ClickupFolderModel extends ClickupFolder {
     super.access,
   });
 
-  factory ClickupFolderModel.fromJson(dynamic json) {
+  factory ClickupFolderModel.fromJson(Map<String,dynamic> json) {
     return ClickupFolderModel(
       id: json['id'],
       name: json['name'],
@@ -322,7 +322,7 @@ class ClickupProjectModel extends ClickupProject {
     super.access,
   });
 
-  factory ClickupProjectModel.fromJson(dynamic json) {
+  factory ClickupProjectModel.fromJson(Map<String,dynamic> json) {
     return ClickupProjectModel(
       id: json['id'],
       name: json['name'],
@@ -352,7 +352,7 @@ class ClickupListModel extends ClickupList {
     super.access,
   });
 
-  factory ClickupListModel.fromJson(dynamic json) {
+  factory ClickupListModel.fromJson(Map<String,dynamic> json) {
     return ClickupListModel(
       id: json['id'],
       name: json['name'],
@@ -388,7 +388,7 @@ class ClickupCustomFieldsModel extends ClickupCustomFields {
     super.required,
   });
 
-  factory ClickupCustomFieldsModel.fromJson(dynamic json) {
+  factory ClickupCustomFieldsModel.fromJson(Map<String,dynamic> json) {
     return ClickupCustomFieldsModel(
       id: json['id'],
       name: json['name'],
@@ -424,7 +424,7 @@ class ClickupTagsModel extends ClickupTags {
     super.tagBg,
   });
 
-  factory ClickupTagsModel.fromJson(dynamic json) {
+  factory ClickupTagsModel.fromJson(Map<String,dynamic> json) {
     return ClickupTagsModel(
       name: json['name'],
       tagFg: json['tag_fg'],
@@ -464,7 +464,7 @@ class ClickupChecklistsModel extends ClickupChecklists {
     super.items,
   });
 
-  factory ClickupChecklistsModel.fromJson(dynamic json) {
+  factory ClickupChecklistsModel.fromJson(Map<String,dynamic> json) {
     List<ClickupItems>? items;
 
     if (json['items'] != null) {
@@ -523,7 +523,7 @@ class ClickupItemsModel extends ClickupItems {
     super.children,
   });
 
-  factory ClickupItemsModel.fromJson(dynamic json) {
+  factory ClickupItemsModel.fromJson(Map<String,dynamic> json) {
     List<String>? children;
     if (json['children'] != null) {
       children = [];
@@ -573,7 +573,7 @@ class ClickupWatchersModel extends ClickupWatchers {
     super.profilePicture,
   });
 
-  factory ClickupWatchersModel.fromJson(dynamic json) {
+  factory ClickupWatchersModel.fromJson(Map<String,dynamic> json) {
     return ClickupWatchersModel(
       id: json['id'],
       username: json['username'],
@@ -609,7 +609,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
     super.profilePicture,
   });
 
-  factory ClickupAssigneesModel.fromJson(dynamic json) {
+  factory ClickupAssigneesModel.fromJson(Map<String,dynamic> json) {
     return ClickupAssigneesModel(
       id: json['id'],
       username: json['username'],
@@ -645,7 +645,7 @@ class ClickupCreatorModel extends ClickupCreator {
     super.profilePicture,
   });
 
-  factory ClickupCreatorModel.fromJson(dynamic json) {
+  factory ClickupCreatorModel.fromJson(Map<String,dynamic> json) {
     return ClickupCreatorModel(
       id: json['id'],
       username: json['username'],
@@ -679,7 +679,7 @@ class ClickupStatusModel extends ClickupStatus {
     super.color,
   });
 
-  factory ClickupStatusModel.fromJson(dynamic json) {
+  factory ClickupStatusModel.fromJson(Map<String,dynamic> json) {
     return ClickupStatusModel(
       status: json['status'],
       type: json['type'],
