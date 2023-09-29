@@ -27,7 +27,7 @@ class CustomDrawer extends StatelessWidget {
       width: 200,
       child: ListView(
         children: [
-          ///TODO logo
+          const _Logo(),
           _DrawerItem(
               title: localizationImpl.translate("All"),
               iconPath: Icons.all_inbox,
@@ -161,6 +161,27 @@ class _DrawerItem extends StatelessWidget {
               )
             ],
           )),
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 45,
+      child: Row(
+        children: [
+          const Placeholder(
+            fallbackHeight: 35,
+            fallbackWidth: 35,
+          ),
+          const SizedBox(width: 10,),
+          Expanded(child: Text(LocalizationImpl().translate("appName")))
+        ],
+      ),
     );
   }
 }
