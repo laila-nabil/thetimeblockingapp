@@ -50,7 +50,6 @@ class SchedulePage extends StatelessWidget {
                             Globals.clickUpAuthAccessToken))));
               }
               return ResponsiveScaffold(
-                  showSmallDesign: Responsive.showSmallDesign(context),
                   responsiveBody: ResponsiveTParams(
                     mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
                     laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),

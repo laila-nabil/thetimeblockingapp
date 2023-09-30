@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bl
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
-  final List<PopupMenuEntry<int>>? pageActions;
+  final List<PopupMenuEntry<Object?>>? pageActions;
 
   @override
   Widget build(BuildContext context) {

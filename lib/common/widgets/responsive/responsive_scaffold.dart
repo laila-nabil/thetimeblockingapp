@@ -8,8 +8,7 @@ import '../custom_app_bar.dart';
 
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
-  final bool showSmallDesign;
-  final List<PopupMenuEntry<int>>? pageActions;
+  final List<PopupMenuEntry<Object?>>? pageActions;
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
@@ -18,7 +17,6 @@ class ResponsiveScaffold extends Scaffold {
     super.key,
     required this.responsiveBody,
     required this.context,
-    required this.showSmallDesign,
     this.pageActions,
   });
 
@@ -26,7 +24,7 @@ class ResponsiveScaffold extends Scaffold {
   Widget? get body {
     final responsiveT = Responsive.responsiveT(
         params: responsiveBody, context: context);
-    if (showSmallDesign) {
+    if (Responsive.showSmallDesign(context)) {
       return responsiveT;
     } else {
       return BlocBuilder<StartupBloc, StartupState>(
@@ -47,7 +45,7 @@ class ResponsiveScaffold extends Scaffold {
 
   @override
   Widget? get drawer =>
-      showSmallDesign ? const CustomDrawer() : null;
+      Responsive.showSmallDesign(context) ? const CustomDrawer() : null;
 
   @override
   PreferredSizeWidget? get appBar => CustomAppBar(pageActions: pageActions,);
