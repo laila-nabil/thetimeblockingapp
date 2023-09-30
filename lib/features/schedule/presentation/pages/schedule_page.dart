@@ -93,6 +93,16 @@ class _SchedulePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCalendar();
+    return CustomCalendar(tasksDataSource: TasksDataSource(tasks: scheduleBloc.state.clickUpTasks
+        ?.where((element) =>
+    element.startDate != null &&
+        element.dueDate != null ).map((e) => Appointment(
+        id: e.id,
+        notes: e.description,
+        subject: e.name??'',
+        startTime: e.startDate !,
+        endTime:e.dueDate!))
+        .toList() ??
+        []),);
   }
 }

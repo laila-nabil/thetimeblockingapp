@@ -76,10 +76,10 @@ class ClickupTask extends Equatable {
   final String? description;
   final ClickupStatus? status;
   final String? orderIndex;
-  final String? dateCreated;
-  final String? dateUpdated;
-  final String? dateClosed;
-  final String? dateDone;
+  final DateTime? dateCreated;
+  final DateTime? dateUpdated;
+  final DateTime? dateClosed;
+  final DateTime? dateDone;
   final ClickupCreator? creator;
   final List<ClickupAssignees>? assignees;
   final List<ClickupWatchers>? watchers;
@@ -87,8 +87,8 @@ class ClickupTask extends Equatable {
   final List<ClickupTags>? tags;
   final String? parent;
   final ClickupTaskPriority? priority;
-  final String? dueDate;
-  final String? startDate;
+  final DateTime? dueDate;
+  final DateTime? startDate;
   final num? points;
   final num? timeEstimate;
   final List<ClickupCustomFields>? customFields;

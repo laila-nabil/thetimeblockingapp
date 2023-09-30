@@ -3,8 +3,9 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CustomCalendar extends StatelessWidget {
   const CustomCalendar({
-    super.key, this.onTap,
+    super.key, this.onTap, required this.tasksDataSource,
   });
+  final TasksDataSource tasksDataSource;
   final void Function(CalendarTapDetails)? onTap;
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,31 @@ class CustomCalendar extends StatelessWidget {
       allowDragAndDrop: true,
       allowAppointmentResize: true,
       allowViewNavigation: true,
-      onTap: onTap,
       firstDayOfWeek: 6,
       showTodayButton: true,
-      // dataSource: ,
+      dataSource: tasksDataSource,
+      appointmentBuilder: (context, calendarAppointmentDetails) {
+        return Container(
+            color: Colors.deepPurpleAccent.shade100.withOpacity(0.5),
+            child: Text(calendarAppointmentDetails.appointments
+                .map((e) =>
+                    "${(e as Appointment).subject} ${e.notes?.isNotEmpty == true ? (": ${e.notes}") : ""}")
+                .toString()));
+        return Column(
+          children: calendarAppointmentDetails.appointments
+              .map((e) => Container(
+            width: double.infinity,
+              color: (e as Appointment).color,
+              child: Text("${(e).subject}: ${(e).notes}")
+          )).toList(),
+        );
+      },
     );
+  }
+}
+
+class TasksDataSource extends CalendarDataSource {
+  TasksDataSource({required List<Appointment> tasks}) {
+    appointments = tasks;
   }
 }

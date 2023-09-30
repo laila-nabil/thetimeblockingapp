@@ -1,3 +1,5 @@
+import 'package:thetimeblockingapp/core/print_debug.dart';
+
 import '../../domain/entities/clickup_task.dart';
 
 /// id : "av1"
@@ -157,6 +159,10 @@ class ClickupTaskModel extends ClickupTask {
         ? ClickupSpaceModel.fromJson(json['space'])
         : null;
 
+    printDebug("dueDate $dueDate ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(dueDate ?? "") ?? 0)}");
+    printDebug("startDate $startDate ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(startDate ?? "") ?? 0)}");
     return ClickupTaskModel(
         name: name,
         id: id,
@@ -166,12 +172,27 @@ class ClickupTaskModel extends ClickupTask {
         creator: creator,
         customFields: customFields,
         customId: customId,
-        dateClosed: dateClosed,
-        dateCreated: dateCreated,
-        dateDone: dateDone,
-        dateUpdated: dateUpdated,
+        dateClosed: dateClosed == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+                int.tryParse(dateClosed) ?? 0),
+        dateCreated:  dateCreated == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(dateCreated) ?? 0),
+        dateDone:  dateDone == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(dateDone) ?? 0),
+        dateUpdated:  dateUpdated == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(dateUpdated) ?? 0),
         dependencies: dependencies,
-        dueDate: dueDate,
+        dueDate:  dueDate == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(dueDate) ?? 0),
         folder: folder,
         linkedTasks: linkedTasks,
         list: list,
@@ -182,7 +203,10 @@ class ClickupTaskModel extends ClickupTask {
         priority: priority,
         project: project,
         space: space,
-        startDate: startDate,
+        startDate: startDate == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(startDate) ?? 0),
         status: status,
         tags: tags,
         teamId: teamId,
@@ -191,6 +215,7 @@ class ClickupTaskModel extends ClickupTask {
         url: url,
         watchers: watchers);
   }
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
