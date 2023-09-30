@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
@@ -50,6 +51,26 @@ class SchedulePage extends StatelessWidget {
                             Globals.clickUpAuthAccessToken))));
               }
               return ResponsiveScaffold(
+                  pageActions: [
+                    PopupMenuItem(
+                      child: Text(LocalizationImpl().translate("filterBy") +
+                          LocalizationImpl().translate("Lists").toLowerCase()),
+                      onTap: () {},
+                    ),
+                    PopupMenuItem(
+                      child: Text(LocalizationImpl().translate("filterBy") +
+                          LocalizationImpl().translate("Tags").toLowerCase()),
+                      onTap: () {},
+                    ),
+                    PopupMenuItem(
+                      child: Text(LocalizationImpl().translate("autoSchedule")),
+                      onTap: () {},
+                    ),
+                    PopupMenuItem(
+                      child: Text(LocalizationImpl().translate("showCompleted")),
+                      onTap: () {},
+                    ),
+                  ],
                   responsiveBody: ResponsiveTParams(
                     mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
                     laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),
