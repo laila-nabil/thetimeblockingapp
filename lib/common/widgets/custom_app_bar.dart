@@ -6,7 +6,8 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
+  final List<PopupMenuEntry<int>>? pageActions;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       .toList() ??
                   []),
         IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+        if (pageActions?.isNotEmpty == true)
+          PopupMenuButton(itemBuilder: (context) {
+            return pageActions ?? [];
+          })
       ],
     );
   }

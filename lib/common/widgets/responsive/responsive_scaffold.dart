@@ -9,7 +9,7 @@ import '../custom_app_bar.dart';
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
   final bool showSmallDesign;
-
+  final List<PopupMenuEntry<int>>? pageActions;
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
@@ -19,6 +19,7 @@ class ResponsiveScaffold extends Scaffold {
     required this.responsiveBody,
     required this.context,
     required this.showSmallDesign,
+    this.pageActions,
   });
 
   @override
@@ -49,5 +50,5 @@ class ResponsiveScaffold extends Scaffold {
       showSmallDesign ? const CustomDrawer() : null;
 
   @override
-  PreferredSizeWidget? get appBar => const CustomAppBar();
+  PreferredSizeWidget? get appBar => CustomAppBar(pageActions: pageActions,);
 }
