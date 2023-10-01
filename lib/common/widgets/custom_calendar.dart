@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+import '../../core/extensions.dart';
 
 class CustomCalendar extends StatelessWidget {
   const CustomCalendar({
@@ -27,7 +30,9 @@ class CustomCalendar extends StatelessWidget {
         final task =
             calendarAppointmentDetails.appointments.first as ClickupTask;
         return Container(
-            color: Colors.deepPurpleAccent.shade100.withOpacity(0.5),
+            color: task.status?.color?.isNotEmpty == true
+                ? HexColor.fromHex(task.status?.color ?? "")
+                : Theme.of(context).highlightColor,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,6 +40,22 @@ class CustomCalendar extends StatelessWidget {
                   if (calendarAppointmentDetails.bounds.height > 20)
                     Text("${(task).folder?.name}>${(task).list?.name}"),
                   Text("${(task).name}\n${(task).description}"),
+                  if (calendarAppointmentDetails.bounds.height > 20)
+                    Text(task.tags?.map((e) => "#${e.name}").toString()??""),
+                  if (calendarAppointmentDetails.bounds.height > 20)
+                    Wrap(
+                      children: task.assignees?.map((e) => CircleAvatar(
+                        backgroundImage: e
+                                                .profilePicture?.isNotEmpty ==
+                                            true
+                                        ? NetworkImage(e.profilePicture ?? "")
+                                        : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: AutoSizeText(e.username??""),
+                        ),
+                                  )).toList() ?? [],
+                    )
                 ],
               ),
             ));
