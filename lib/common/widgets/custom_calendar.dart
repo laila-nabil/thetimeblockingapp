@@ -50,7 +50,8 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return clickupTasks[index].startDate!;
+    return clickupTasks[index].startDate ??
+        DateTime.now();
   }
 
   @override
@@ -74,9 +75,9 @@ class ClickupTasksDataSource extends CalendarDataSource {
   }
 
   @override
-  List<Object>? getResourceIds(int index) {
-    // TODO: implement getResourceIds
-    return super.getResourceIds(index);
+  bool isAllDay(int index) {
+    return clickupTasks[index].startDate == null &&
+        clickupTasks[index].dueDate != null;
   }
 
   @override
