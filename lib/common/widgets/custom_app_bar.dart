@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
+///Fix overflow in android
+///
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
   final List<PopupMenuEntry<Object?>>? pageActions;
