@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 class CustomCalendar extends StatelessWidget {
   const CustomCalendar({
     super.key, this.onTap, required this.tasksDataSource,
   });
-  final TasksDataSource tasksDataSource;
+  final ClickupTasksDataSource tasksDataSource;
   final void Function(CalendarTapDetails)? onTap;
   @override
   Widget build(BuildContext context) {
@@ -21,28 +22,63 @@ class CustomCalendar extends StatelessWidget {
       firstDayOfWeek: 6,
       showTodayButton: true,
       dataSource: tasksDataSource,
+      showNavigationArrow: true,
       appointmentBuilder: (context, calendarAppointmentDetails) {
+        final task =
+            calendarAppointmentDetails.appointments.first as ClickupTask;
         return Container(
             color: Colors.deepPurpleAccent.shade100.withOpacity(0.5),
-            child: Text(calendarAppointmentDetails.appointments
-                .map((e) =>
-                    "${(e as Appointment).subject} ${e.notes?.isNotEmpty == true ? (": ${e.notes}") : ""}")
-                .toString()));
-        return Column(
-          children: calendarAppointmentDetails.appointments
-              .map((e) => Container(
-            width: double.infinity,
-              color: (e as Appointment).color,
-              child: Text("${(e).subject}: ${(e).notes}")
-          )).toList(),
-        );
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (calendarAppointmentDetails.bounds.height > 20)
+                    Text("${(task).folder?.name}>${(task).list?.name}"),
+                  Text("${(task).name}\n${(task).description}"),
+                ],
+              ),
+            ));
       },
     );
   }
 }
 
-class TasksDataSource extends CalendarDataSource {
-  TasksDataSource({required List<Appointment> tasks}) {
-    appointments = tasks;
+class ClickupTasksDataSource extends CalendarDataSource {
+  final List<ClickupTask> clickupTasks;
+
+  ClickupTasksDataSource({required this.clickupTasks});
+
+  @override
+  DateTime getStartTime(int index) {
+    return clickupTasks[index].startDate!;
   }
+
+  @override
+  DateTime getEndTime(int index) {
+    return clickupTasks[index].dueDate!;
+  }
+
+  @override
+  String? getNotes(int index) {
+    return clickupTasks[index].description;
+  }
+
+  @override
+  Object? getId(int index) {
+    return clickupTasks[index].id;
+  }
+
+  @override
+  String getSubject(int index) {
+    return clickupTasks[index].name ?? "";
+  }
+
+  @override
+  List<Object>? getResourceIds(int index) {
+    // TODO: implement getResourceIds
+    return super.getResourceIds(index);
+  }
+
+  @override
+  List? get appointments => clickupTasks;
 }
