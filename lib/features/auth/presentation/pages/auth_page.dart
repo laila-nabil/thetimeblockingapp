@@ -25,23 +25,13 @@ class AuthPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
-        printDebug(
-            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
-        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
-
-        if (Globals.clickUpAuthAccessToken.accessToken.isNotEmpty &&
-            Globals.clickUpUser != null &&
-            Globals.clickUpWorkspaces?.isNotEmpty == true) {
+        if (state.isNotAuthed == false) {
           context.go(SchedulePage.routeName);
         }
 
       },
       builder: (context, state) {
         printDebug("AuthBloc state builder $state");
-        printDebug(
-            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
-        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
-
         final authBloc = BlocProvider.of<AuthBloc>(context);
         if (state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)) {
 

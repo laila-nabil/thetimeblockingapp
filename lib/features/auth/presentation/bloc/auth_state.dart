@@ -31,7 +31,16 @@ class AuthState extends Equatable {
     this.getClickupWorkspacesFailure,
   });
 
-  bool get isLoading => authStates.contains(AuthStateEnum.loading);
+  bool get isLoading {
+    printDebug("authStates $authStates");
+    printDebug("authStates.contains(AuthStateEnum.loading) ${authStates.contains(AuthStateEnum.loading)}");
+    return authStates.contains(AuthStateEnum.loading);
+  }
+
+  bool get isNotAuthed =>
+      isLoading == false && clickUpAccessToken?.isEmpty == true ||
+          clickupUser == null ||
+          clickupWorkspaces?.isNotEmpty == false;
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
     Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);
