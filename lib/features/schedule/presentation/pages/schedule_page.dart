@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_calendar.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -98,7 +97,7 @@ class _SchedulePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCalendar(
+    return TasksCalendar(
       tasksDataSource: ClickupTasksDataSource(
           clickupTasks: scheduleBloc.state.clickUpTasks
                   ?.where((element) => element.dueDate != null)

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-import '../../core/extensions.dart';
+import '../../../../core/extensions.dart';
 
-class CustomCalendar extends StatelessWidget {
-  const CustomCalendar({
+class TasksCalendar extends StatelessWidget {
+  const TasksCalendar({
     super.key,
     this.onTap,
     required this.tasksDataSource,
@@ -90,7 +91,36 @@ class CustomCalendar extends StatelessWidget {
               ),
             ));
       },
+      onTap: (calendarTapDetails){
+        printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
+        printDebug("calendarTapDetails ${calendarTapDetails.date}");
+        printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
+        printDebug("calendarTapDetails ${calendarTapDetails.resource}");
+        if(calendarTapDetails.appointments == null){
+          ///TODO try to add a new task
+        }else{
+          ///TODO view/edit the task
+        }
+      },
+      onAppointmentResizeEnd: (appointmentResizeEndDetails){
+        ///TODO onAppointmentResizeEnd
+      },
 
+      timeSlotViewSettings: const TimeSlotViewSettings(
+        ///TODO TimeSlotViewSettings
+      ),
+      onDragEnd: (appointmentDragEndDetails){
+        ///TODO onDragEnd
+      },
+      onDragStart: (appointmentDragEndDetails){
+        ///TODO onDragStart
+      },
+      onDragUpdate: (appointmentDragEndDetails){
+        ///TODO onDragUpdate
+      },
+      onViewChanged: (viewChangedDetails){
+        ///TODO onViewChanged
+      },
     );
   }
 }
