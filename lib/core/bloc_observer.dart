@@ -19,7 +19,7 @@ class MyBlocObserver extends BlocObserver {
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
     printDebug(
-        'MyBlocObserver ${bloc.runtimeType} Change\n currentState: ${change.currentState} \n nextState: ${change.nextState}');
+        'MyBlocObserver ${bloc.runtimeType} Change\n currentState: ${change.currentState} \n nextState:    ${change.nextState}');
   }
 
   @override

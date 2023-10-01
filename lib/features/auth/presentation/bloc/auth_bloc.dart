@@ -27,9 +27,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
       } else if (event is GetClickUpAccessToken) {
-        emit(state.copyWith(
-            authStates:
-            state.updatedAuthStates(AuthStateEnum.loading)));
+        emit(const AuthState(
+            authStates: {AuthStateEnum.loading}));
         final result = await _getClickUpAccessTokenUseCase(
             GetClickUpAccessTokenParams(event.clickUpCode));
         emit(state.copyWith(
