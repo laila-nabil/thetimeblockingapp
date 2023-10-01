@@ -27,7 +27,7 @@ final router = GoRouter(
     debugLogDiagnostics: true,
     observers: [MyNavObserver()],
     errorBuilder: (context, state) {
-      String errorMessage = LocalizationImpl().translate("pageNotFound");
+      String errorMessage = appLocalization.translate("pageNotFound");
       return ResponsiveScaffold(
           responsiveBody: ResponsiveTParams(
               mobile: Text(errorMessage), laptop: Text(errorMessage)),

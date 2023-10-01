@@ -87,8 +87,8 @@ class ExplainClickupAuth extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(LocalizationImpl().translate("whyConnectClickup",
-              arguments: [LocalizationImpl().translate("appName")])),
+          Text(appLocalization.translate("whyConnectClickup",
+              arguments: [appLocalization.translate("appName")])),
           CustomButton(
               child: const Text("Connect with Clickup"),
               onPressed: () {
@@ -100,7 +100,7 @@ class ExplainClickupAuth extends StatelessWidget {
                   authBloc.add(const ShowCodeInputTextField(true));
                 }
               }),
-          Text(LocalizationImpl().translate("agreeTermsConditions")),
+          Text(appLocalization.translate("agreeTermsConditions")),
           if (authBloc.state.authStates
               .contains(AuthStateEnum.showCodeInputTextField))
             Row(

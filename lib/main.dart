@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalizationImpl().ensureInitialized();
+  await appLocalization.ensureInitialized();
   di.initServiceLocator();
   di.reRegisterClickupVariables();
   FlutterError.onError = (errorDetails) {
@@ -24,7 +24,7 @@ Future<void> main() async {
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();
-  runApp(LocalizationImpl().localizationSetup(const MyApp()));
+  runApp(appLocalization.localizationSetup(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

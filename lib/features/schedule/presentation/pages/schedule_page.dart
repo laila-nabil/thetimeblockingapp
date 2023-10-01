@@ -55,21 +55,21 @@ class SchedulePage extends StatelessWidget {
               return ResponsiveScaffold(
                   pageActions: [
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("filterBy") +
-                          LocalizationImpl().translate("Lists").toLowerCase()),
+                      child: Text(appLocalization.translate("filterBy") +
+                          appLocalization.translate("Lists").toLowerCase()),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("filterBy") +
-                          LocalizationImpl().translate("Tags").toLowerCase()),
+                      child: Text(appLocalization.translate("filterBy") +
+                          appLocalization.translate("Tags").toLowerCase()),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("autoSchedule")),
+                      child: Text(appLocalization.translate("autoSchedule")),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("showCompleted")),
+                      child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},
                     ),
                   ],
