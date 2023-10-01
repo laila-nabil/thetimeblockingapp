@@ -27,8 +27,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
       } else if (event is GetClickUpAccessToken) {
+        emit(state.copyWith(
+            authStates:
+            state.updatedAuthStates(AuthStateEnum.loading)));
         final result = await _getClickUpAccessTokenUseCase(
             GetClickUpAccessTokenParams(event.clickUpCode));
+        emit(state.copyWith(
+            authStates:
+                state.updatedAuthStates(AuthStateEnum.loading)));
         result?.fold(
             (l) => emit(AuthState(
                 getClickUpAccessTokenFailure: l,
@@ -41,6 +47,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           add(GetClickUpUserWorkspaces(r));
         });
       } else if (event is GetClickUpUserWorkspaces) {
+        emit(state.copyWith(
+            authStates:
+            state.updatedAuthStates(AuthStateEnum.loading)));
         final getClickUpUser = await _getClickUpUserUseCase(
             GetClickUpUserParams(event.accessToken));
         getClickUpUser?.fold(
@@ -55,6 +64,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
         final getClickUpWorkspaces = await _getClickUpWorkspacesUseCase(
             GetClickUpWorkspacesParams(event.accessToken));
+        emit(state.copyWith(
+            authStates:
+            state.updatedAuthStates(AuthStateEnum.loading)));
         getClickUpWorkspaces?.fold(
             (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,

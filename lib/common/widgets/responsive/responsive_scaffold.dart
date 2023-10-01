@@ -15,7 +15,8 @@ class ResponsiveScaffoldLoading {
   final ResponsiveScaffoldLoadingEnum responsiveScaffoldLoadingEnum;
   final bool isLoading;
 
-  ResponsiveScaffoldLoading(this.responsiveScaffoldLoadingEnum, this.isLoading);
+  ResponsiveScaffoldLoading(
+      {required this.responsiveScaffoldLoadingEnum, required this.isLoading});
 
   bool get isLoadingOverlay =>
       isLoading &&

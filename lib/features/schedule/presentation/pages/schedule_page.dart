@@ -54,8 +54,10 @@ class SchedulePage extends StatelessWidget {
               }
               return ResponsiveScaffold(
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
-                      ResponsiveScaffoldLoadingEnum.overlayLoading,
-                      state.scheduleStates.contains(ScheduleStateEnum.loading)),
+                      responsiveScaffoldLoadingEnum:
+                          ResponsiveScaffoldLoadingEnum.overlayLoading,
+                      isLoading: state.scheduleStates
+                          .contains(ScheduleStateEnum.loading)),
                   pageActions: [
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +

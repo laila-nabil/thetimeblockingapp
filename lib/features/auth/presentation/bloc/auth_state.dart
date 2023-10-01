@@ -2,6 +2,7 @@ part of 'auth_bloc.dart';
 
 enum AuthStateEnum {
   initial,
+  loading,
   showCodeInputTextField,
   getClickUpAccessTokenSuccess,
   getClickUpAccessTokenFailed,
@@ -29,6 +30,8 @@ class AuthState extends Equatable {
     this.clickupWorkspaces,
     this.getClickupWorkspacesFailure,
   });
+
+  bool get isLoading => authStates.contains(AuthStateEnum.loading);
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
     Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);

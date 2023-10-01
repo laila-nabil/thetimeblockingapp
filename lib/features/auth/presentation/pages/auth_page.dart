@@ -49,7 +49,11 @@ class AuthPage extends StatelessWidget {
           authBloc.add(const GetClickUpAccessToken(""));
         }
         return ResponsiveScaffold(
-            responsiveBody: ResponsiveTParams(
+          responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+              responsiveScaffoldLoadingEnum:
+                  ResponsiveScaffoldLoadingEnum.contentLoading,
+              isLoading: state.isLoading),
+          responsiveBody: ResponsiveTParams(
                 mobile: Column(
                   children: [
                     const Expanded(child: Placeholder()),
@@ -118,6 +122,7 @@ class ExplainClickupAuth extends StatelessWidget {
                 )
               ],
             )
+          ///TODO add toggle to chose adding access token or code
         ],
       ),
     );
