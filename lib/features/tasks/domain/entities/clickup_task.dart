@@ -102,6 +102,9 @@ class ClickupTask extends Equatable {
   final ClickupFolder? folder;
   final ClickupSpace? space;
 
+
+  bool get isAllDay => startDate == null &&
+  dueDate != null;
   @override
   List<Object?> get props => [
         id,
