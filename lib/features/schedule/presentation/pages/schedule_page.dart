@@ -53,6 +53,9 @@ class SchedulePage extends StatelessWidget {
                             Globals.clickUpAuthAccessToken))));
               }
               return ResponsiveScaffold(
+                  responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+                      ResponsiveScaffoldLoadingEnum.overlayLoading,
+                      state.scheduleStates.contains(ScheduleStateEnum.loading)),
                   pageActions: [
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
