@@ -23,7 +23,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final CalendarController controller = CalendarController();
   ScheduleBloc(this._getClickUpTasksInAllWorkspacesUseCase,
       this._getClickUpTasksInSingleWorkspaceUseCase)
-      : super(const ScheduleState._(scheduleStates: {})) {
+      : super(ScheduleState._(
+            scheduleStates: const {},
+            tasksEarliestDate: ScheduleState.defaultTasksEarliestDate,
+            tasksLatestDate: ScheduleState.defaultTasksLatestDate)) {
     on<ScheduleEvent>((event, emit) async {
       if (event is GetTasksForSingleWorkspaceScheduleEvent) {
         emit(state.copyWith(

@@ -4,10 +4,8 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_calendar_widget.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../core/extensions.dart';
-import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 
 class TasksCalendar extends StatelessWidget {
@@ -75,52 +73,7 @@ class TasksCalendar extends StatelessWidget {
       },
       onViewChanged: (viewChangedDetails){
         ///TODO onViewChange
-        final tasksDueDates = scheduleBloc.state.clickUpTasks
-                ?.where((element) => element.dueDateUtc != null).toList()
-                .map((e) => e.dueDateUtc)
-                .toList() ??
-            [];
-        final tasksStartsDates = scheduleBloc.state.clickUpTasks
-                ?.where((element) => element.startDateUtc != null)
-                .toList()
-                .map((e) => e.startDateUtc)
-                .toList() ??
-            [];
-        bool tasksDueDatesIncludesVisibleDates = true;
-        bool tasksStartDatesIncludesVisibleDates = true;
-        try {
-          printDebug("ListDateTimeExtensions.datesAIncludesB tasksDueDates");
-          tasksDueDatesIncludesVisibleDates = ListDateTimeExtensions.datesAIncludesB(
-                       tasksDueDates,viewChangedDetails.visibleDates,);
-          printDebug(tasksDueDatesIncludesVisibleDates);
-        } catch (e) {
-          printDebug("ListDateTimeExtensions.datesAIncludesB tasksDueDates $e");
-        }
 
-        try {
-          printDebug("ListDateTimeExtensions.datesAIncludesB tasksStartsDates");
-          tasksStartDatesIncludesVisibleDates = ListDateTimeExtensions.datesAIncludesB(
-               tasksStartsDates,viewChangedDetails.visibleDates);
-          printDebug(tasksStartDatesIncludesVisibleDates);
-        } catch (e) {
-          printDebug("ListDateTimeExtensions.datesAIncludesB tasksStartsDates $e");
-        }
-        if (tasksStartDatesIncludesVisibleDates &&
-            tasksDueDatesIncludesVisibleDates) {
-          printDebug("get tasks");
-          //   scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-        //       GetClickUpTasksInWorkspaceParams(
-        //           workspaceId:
-        //           selectedClickupWorkspaceId ??
-        //               Globals.clickUpWorkspaces?.first.id ??
-        //               "",
-        //           filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-        //             clickUpAccessToken:
-        //             Globals.clickUpAuthAccessToken,
-        //             filterByAssignees: [Globals.clickUpUser?.id.toString()??""],
-        //             // filterByDueDateLessThanUnixTimeMilliseconds:
-        //           ))));
-        }
       },
     );
   }
@@ -135,7 +88,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
   DateTime getStartTime(int index) {
     ///TODO ??
     return clickupTasks[index].startDateUtc ??
-        getEndTime(index).subtract(Duration(minutes: 30));
+        getEndTime(index).subtract(const Duration(minutes: 30));
   }
 
   @override

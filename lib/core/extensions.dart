@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:ui';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';

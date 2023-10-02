@@ -10,27 +10,47 @@ class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> scheduleStates;
   final List<ClickupTask>? clickUpTasks;
   final Failure? getTasksSingleWorkspaceFailure;
+  final DateTime tasksEarliestDate;
+  final DateTime tasksLatestDate;
 
   const ScheduleState._({
     required this.scheduleStates,
     this.clickUpTasks,
     this.getTasksSingleWorkspaceFailure,
+    required this.tasksEarliestDate,
+    required this.tasksLatestDate,
   });
 
-  @override
-  List<Object?> get props =>
-      [scheduleStates, clickUpTasks, getTasksSingleWorkspaceFailure];
+  static DateTime defaultTasksEarliestDate = DateTime.now();
+  static DateTime defaultTasksLatestDate =
+      DateTime.now().add(const Duration(days: 60));
 
-  ScheduleState copyWith(
-      {required Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
-      List<ClickupTask>? clickUpTasks,
-      Failure? getTasksSingleWorkspaceFailure}) {
-    Set<ScheduleStateEnum> updatedStates = updateEnumStates(stateAddRemove);
+  @override
+  List<Object?> get props => [
+        scheduleStates,
+        clickUpTasks,
+        getTasksSingleWorkspaceFailure,
+        tasksEarliestDate,
+        tasksLatestDate,
+      ];
+
+
+  ScheduleState copyWith({
+    required  Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
+    List<ClickupTask>? clickUpTasks,
+    Failure? getTasksSingleWorkspaceFailure,
+    DateTime? tasksEarliestDate,
+    DateTime? tasksLatestDate,
+  }) {
     return ScheduleState._(
-      scheduleStates: updatedStates,
+      scheduleStates: updateEnumStates(stateAddRemove),
       clickUpTasks: clickUpTasks ?? this.clickUpTasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
+      tasksEarliestDate: tasksEarliestDate ??
+          this.tasksEarliestDate,
+      tasksLatestDate:
+          tasksLatestDate ?? this.tasksLatestDate,
     );
   }
 
