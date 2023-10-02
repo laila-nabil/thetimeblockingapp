@@ -99,12 +99,14 @@ class TasksCalendar extends StatelessWidget {
                           Globals.clickUpUser?.id.toString() ?? ""
                         ],
                         filterByDueDateGreaterThanUnixTimeMilliseconds:
-                            viewChangedDetails
-                                .visibleDates.first.millisecondsSinceEpoch,
+                            (viewChangedDetails.visibleDates.first
+                                    .add(const Duration(days: 1)))
+                                .millisecondsSinceEpoch,
                         filterByDueDateLessThanUnixTimeMilliseconds:
-                            viewChangedDetails
-                                .visibleDates.last.millisecondsSinceEpoch))));
-          }else{
+                            viewChangedDetails.visibleDates.last
+                                .add(const Duration(days: 1))
+                                .millisecondsSinceEpoch))));
+          } else {
             printDebug("onViewChange Not");
           }
         }
