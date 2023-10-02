@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -95,6 +96,7 @@ class TasksCalendar extends StatelessWidget {
               ),
             ));
       },
+      timeZone: Globals.clickUpUser?.timezone,
       onTap: (calendarTapDetails){
         printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
         printDebug("calendarTapDetails ${calendarTapDetails.date}");

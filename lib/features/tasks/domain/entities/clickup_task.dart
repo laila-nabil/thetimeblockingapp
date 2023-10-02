@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/extensions.dart';
 
 /// id : "av1"
@@ -105,8 +106,11 @@ class ClickupTask extends Equatable {
   final ClickupSpace? space;
 
 
-  bool get isAllDay => startDate == null &&
+  bool get isAllDay {
+    printDebug("dueDate $dueDate for $name");
+    return startDate == null &&
   dueDate != null;
+  }
   @override
   List<Object?> get props => [
         id,

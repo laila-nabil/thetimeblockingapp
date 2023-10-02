@@ -159,10 +159,12 @@ class ClickupTaskModel extends ClickupTask {
         ? ClickupSpaceModel.fromJson(json['space'])
         : null;
 
-    printDebug("dueDate $dueDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(dueDate ?? "") ?? 0)}");
-    printDebug("startDate $startDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(startDate ?? "") ?? 0)}");
+    printDebug("dueDate $name $dueDate ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(dueDate ?? "") ?? 0,isUtc: true)} ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(dueDate ?? "") ?? 0,isUtc: false)}");
+    printDebug("startDate $name $startDate ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(startDate ?? "") ?? 0,isUtc: true)} ${DateTime.fromMillisecondsSinceEpoch(
+        int.tryParse(startDate ?? "") ?? 0,isUtc: false)}");
     return ClickupTaskModel(
         name: name,
         id: id,
@@ -175,24 +177,24 @@ class ClickupTaskModel extends ClickupTask {
         dateClosed: dateClosed == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(
-                int.tryParse(dateClosed) ?? 0),
+                int.tryParse(dateClosed) ?? 0,isUtc: true),
         dateCreated:  dateCreated == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateCreated) ?? 0),
+            int.tryParse(dateCreated) ?? 0,isUtc: true),
         dateDone:  dateDone == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateDone) ?? 0),
+            int.tryParse(dateDone) ?? 0,isUtc: true),
         dateUpdated:  dateUpdated == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateUpdated) ?? 0),
+            int.tryParse(dateUpdated) ?? 0,isUtc: true),
         dependencies: dependencies,
         dueDate:  dueDate == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dueDate) ?? 0),
+            int.tryParse(dueDate) ?? 0,isUtc: true),
         folder: folder,
         linkedTasks: linkedTasks,
         list: list,
