@@ -3,13 +3,6 @@ import 'dart:ui';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 extension ElementAtNullableOrEmpty<T> on List<T>?{
-  T? get tryFirst{
-    if(this!=null && this?.isNotEmpty == true){
-      return this?.first;
-    }else{
-      return null;
-    }
-  }
 
   T?  tryElementAt(int index){
     if(this!=null && this?.isNotEmpty == true && (index < (this?.length ??0) == true)){
@@ -72,5 +65,35 @@ extension DateTimeExtensions on DateTime {
     return DateTime.fromMillisecondsSinceEpoch(
       dateInt,
     );
+  }
+}
+
+extension ListDateTimeExtensions on List<DateTime> {
+  static bool datesAIncludesB (List<DateTime?>  datesA,List<DateTime?> datesB){
+    datesA.sort();
+    datesB.sort();
+    var firstA = datesA.firstOrNull;
+    var firstB = datesB.firstOrNull;
+    var lastA = datesA.lastOrNull;
+    var lastB = datesB.lastOrNull;
+    return (firstA != null &&
+            (firstB?.isAfter(firstA) == true ||
+                firstB?.isAtSameMomentAs(firstA) ==
+                    true)) &&
+        (lastA != null &&
+            (lastB?.isBefore(lastA) == true ||
+                lastB?.isAtSameMomentAs(lastA) ==
+                    true));
+    var a = firstA != null;
+    var b = firstB?.isAfter(firstA!) == true;
+    var c = firstB?.isAtSameMomentAs(firstA!) == true;
+    var d = lastA != null;
+    var e = lastB?.isBefore(lastA!) == true;
+    var f = lastB?.isAtSameMomentAs(lastA!) == true;
+    return (a && (b || c)) && (d && (e || f));
+    return (datesA.first!=null && (datesB.first?.isAfter(datesA.first!) == true||
+            datesB.first?.isAtSameMomentAs(datesA.first!) == true)) &&
+        (datesA.last!=null && (datesB.last?.isAfter(datesA.last!) == true||
+            datesB.last?.isAtSameMomentAs(datesA.last!) == true));
   }
 }

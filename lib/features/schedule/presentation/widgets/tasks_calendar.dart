@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_calendar_widget.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import '../bloc/schedule_bloc.dart';
 
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
     super.key,
     this.onTap,
+    this.selectedClickupWorkspaceId,
     required this.tasksDataSource,
+    required this.controller,
+    required this.scheduleBloc,
   });
 
   final ClickupTasksDataSource tasksDataSource;
+  final CalendarController controller;
+  final ScheduleBloc scheduleBloc;
   final void Function(CalendarTapDetails)? onTap;
-
+  final String? selectedClickupWorkspaceId;
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
@@ -32,81 +40,10 @@ class TasksCalendar extends StatelessWidget {
       showTodayButton: true,
       dataSource: tasksDataSource,
       showNavigationArrow: true,
+      controller: controller,
       appointmentBuilder: (context, calendarAppointmentDetails) {
-        final task =
-            calendarAppointmentDetails.appointments.first as ClickupTask;
-        final viewExtraDetails =
-            calendarAppointmentDetails.bounds.height > 20 &&
-                task.isAllDay == false;
-        const divider = SizedBox(height: 7,);
-        return Container(
-            color: task.status?.color?.isNotEmpty == true
-                ? HexColor.fromHex(task.status?.color ?? "")
-                : Theme.of(context).highlightColor,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (viewExtraDetails)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text("${(task).folder?.name}>${(task).list?.name}"),
-                        divider,
-                      ],
-                    ),
-                  RichText(
-                      text: TextSpan(children: [
-                    if (task.priority != null)
-                      TextSpan(
-                          text: "${task.priority?.getPriorityExclamation} ",
-                          style: TextStyle(
-                              textBaseline: TextBaseline.alphabetic,
-                              color:
-                                  task.priority?.getPriorityExclamationColor)),
-                    TextSpan(
-                      text: "${(task).name}\n${(task).description}",
-                    )
-                  ])),
-                  if (viewExtraDetails)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        divider,
-                        Text(task.tags?.map((e) => "#${e.name}").toString() ??
-                            ""),
-                      ],
-                    ),
-                  if (viewExtraDetails)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        divider,
-                        Wrap(
-                          children: task.assignees
-                                  ?.map((e) => CircleAvatar(
-                                        backgroundColor:
-                                            HexColor.fromHex(e.color ?? ""),
-                                        backgroundImage:
-                                            e.profilePicture?.isNotEmpty == true
-                                                ? NetworkImage(
-                                                    e.profilePicture ?? "")
-                                                : null,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: AutoSizeText(e.initials ??
-                                              e.getInitialsFromUserName ??
-                                              ""),
-                                        ),
-                                      ))
-                                  .toList() ??
-                              [],
-                        ),
-                      ],
-                    )
-                ],
-              ),
-            ));
+        return TaskCalendarWidget(
+            calendarAppointmentDetails: calendarAppointmentDetails);
       },
       timeZone: Globals.clickUpUser?.timezone,
       onTap: (calendarTapDetails){
@@ -137,7 +74,53 @@ class TasksCalendar extends StatelessWidget {
         ///TODO onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
-        ///TODO onViewChanged
+        ///TODO onViewChange
+        final tasksDueDates = scheduleBloc.state.clickUpTasks
+                ?.where((element) => element.dueDateUtc != null).toList()
+                .map((e) => e.dueDateUtc)
+                .toList() ??
+            [];
+        final tasksStartsDates = scheduleBloc.state.clickUpTasks
+                ?.where((element) => element.startDateUtc != null)
+                .toList()
+                .map((e) => e.startDateUtc)
+                .toList() ??
+            [];
+        bool tasksDueDatesIncludesVisibleDates = true;
+        bool tasksStartDatesIncludesVisibleDates = true;
+        try {
+          printDebug("ListDateTimeExtensions.datesAIncludesB tasksDueDates");
+          tasksDueDatesIncludesVisibleDates = ListDateTimeExtensions.datesAIncludesB(
+                       tasksDueDates,viewChangedDetails.visibleDates,);
+          printDebug(tasksDueDatesIncludesVisibleDates);
+        } catch (e) {
+          printDebug("ListDateTimeExtensions.datesAIncludesB tasksDueDates $e");
+        }
+
+        try {
+          printDebug("ListDateTimeExtensions.datesAIncludesB tasksStartsDates");
+          tasksStartDatesIncludesVisibleDates = ListDateTimeExtensions.datesAIncludesB(
+               tasksStartsDates,viewChangedDetails.visibleDates);
+          printDebug(tasksStartDatesIncludesVisibleDates);
+        } catch (e) {
+          printDebug("ListDateTimeExtensions.datesAIncludesB tasksStartsDates $e");
+        }
+        if (tasksStartDatesIncludesVisibleDates &&
+            tasksDueDatesIncludesVisibleDates) {
+          printDebug("get tasks");
+          //   scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+        //       GetClickUpTasksInWorkspaceParams(
+        //           workspaceId:
+        //           selectedClickupWorkspaceId ??
+        //               Globals.clickUpWorkspaces?.first.id ??
+        //               "",
+        //           filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+        //             clickUpAccessToken:
+        //             Globals.clickUpAuthAccessToken,
+        //             filterByAssignees: [Globals.clickUpUser?.id.toString()??""],
+        //             // filterByDueDateLessThanUnixTimeMilliseconds:
+        //           ))));
+        }
       },
     );
   }

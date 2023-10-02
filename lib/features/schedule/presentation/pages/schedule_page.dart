@@ -49,7 +49,9 @@ class SchedulePage extends StatelessWidget {
                             "",
                         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
                             clickUpAccessToken:
-                            Globals.clickUpAuthAccessToken))));
+                            Globals.clickUpAuthAccessToken,
+                            filterByAssignees: [Globals.clickUpUser?.id.toString()??""],
+                        ))));
               }
               return ResponsiveScaffold(
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
@@ -78,8 +80,12 @@ class SchedulePage extends StatelessWidget {
                     ),
                   ],
                   responsiveBody: ResponsiveTParams(
-                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
-                    laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),
+                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId: startUpCurrentState
+                            .selectedClickupWorkspace?.id),
+                    laptop:_SchedulePageContent(scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId: startUpCurrentState
+                            .selectedClickupWorkspace?.id),
                   ),
                   context: context);
             },
@@ -91,10 +97,11 @@ class SchedulePage extends StatelessWidget {
 }
 
 class _SchedulePageContent extends StatelessWidget {
-  const _SchedulePageContent({Key? key, required this.scheduleBloc})
+  const _SchedulePageContent(
+      {Key? key, required this.scheduleBloc, this.selectedClickupWorkspaceId})
       : super(key: key);
   final ScheduleBloc scheduleBloc;
-
+  final String? selectedClickupWorkspaceId;
   @override
   Widget build(BuildContext context) {
     return TasksCalendar(
@@ -103,6 +110,9 @@ class _SchedulePageContent extends StatelessWidget {
                   ?.where((element) => element.dueDateUtcTimestamp != null)
                   .toList() ??
               []),
+      controller: scheduleBloc.controller,
+      scheduleBloc: scheduleBloc,
+      selectedClickupWorkspaceId: selectedClickupWorkspaceId,
     );
   }
 }

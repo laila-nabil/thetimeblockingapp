@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
@@ -19,6 +20,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final GetClickUpTasksInSingleWorkspaceUseCase
       _getClickUpTasksInSingleWorkspaceUseCase;
 
+  final CalendarController controller = CalendarController();
   ScheduleBloc(this._getClickUpTasksInAllWorkspacesUseCase,
       this._getClickUpTasksInSingleWorkspaceUseCase)
       : super(const ScheduleState._(scheduleStates: {})) {
