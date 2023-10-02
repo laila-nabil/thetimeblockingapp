@@ -72,6 +72,8 @@ class TasksCalendar extends StatelessWidget {
                         Wrap(
                           children: task.assignees
                                   ?.map((e) => CircleAvatar(
+                                        backgroundColor:
+                                            HexColor.fromHex(e.color ?? ""),
                                         backgroundImage:
                                             e.profilePicture?.isNotEmpty == true
                                                 ? NetworkImage(
@@ -79,7 +81,9 @@ class TasksCalendar extends StatelessWidget {
                                                 : null,
                                         child: Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: AutoSizeText(e.username ?? ""),
+                                          child: AutoSizeText(e.initials ??
+                                              e.getInitialsFromUserName ??
+                                              ""),
                                         ),
                                       ))
                                   .toList() ??
@@ -132,12 +136,12 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return clickupTasks[index].startDate ?? DateTime.now();
+    return clickupTasks[index].startDate ?? super.getStartTime(index);
   }
 
   @override
   DateTime getEndTime(int index) {
-    return clickupTasks[index].dueDate!;
+    return clickupTasks[index].dueDate?? super.getEndTime(index);
   }
 
   @override

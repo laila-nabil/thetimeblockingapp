@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import '../../../../core/extensions.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -420,6 +422,7 @@ class ClickupWatchers extends Equatable {
 /// color : "#000000"
 /// email : "johndoe@website.com"
 /// profilePicture : "https://clickup.com/avatar.jpg"
+/// initials : LN
 
 class ClickupAssignees extends Equatable {
   const ClickupAssignees({
@@ -428,6 +431,7 @@ class ClickupAssignees extends Equatable {
     this.color,
     this.email,
     this.profilePicture,
+    this.initials,
   });
 
   final num? id;
@@ -435,6 +439,20 @@ class ClickupAssignees extends Equatable {
   final String? color;
   final String? email;
   final String? profilePicture;
+  final String? initials;
+  String? get getInitialsFromUserName {
+    if (username == null) {
+      return null;
+    }
+    return username?.contains(" ") == true
+        ? username?.splitMapJoin(
+            " ",
+            onNonMatch: (m) => m.characters.toList().tryElementAt(0) ?? "",
+          )
+        : (username!.length > 2)
+            ? username!.substring(0, 1)
+            : username;
+  }
 
   @override
   List<Object?> get props => [
@@ -443,6 +461,7 @@ class ClickupAssignees extends Equatable {
         color,
         email,
         profilePicture,
+        initials,
       ];
 }
 

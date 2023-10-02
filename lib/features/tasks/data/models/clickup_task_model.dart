@@ -633,6 +633,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
     super.color,
     super.email,
     super.profilePicture,
+    super.initials,
   });
 
   factory ClickupAssigneesModel.fromJson(Map<String, dynamic> json) {
@@ -642,6 +643,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
       color: json['color'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      initials: json['initials'],
     );
   }
 
@@ -652,6 +654,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
     map['color'] = color;
     map['email'] = email;
     map['profilePicture'] = profilePicture;
+    map['initials'] = initials;
     return map;
   }
 }
