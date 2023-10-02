@@ -55,7 +55,19 @@ class TasksCalendar extends StatelessWidget {
                         divider,
                       ],
                     ),
-                  Text("${(task).name}\n${(task).description}"),
+                  RichText(
+                      text: TextSpan(children: [
+                    if (task.priority != null)
+                      TextSpan(
+                          text: "${task.priority?.getPriorityExclamation} ",
+                          style: TextStyle(
+                              textBaseline: TextBaseline.alphabetic,
+                              color:
+                                  task.priority?.getPriorityExclamationColor)),
+                    TextSpan(
+                      text: "${(task).name}\n${(task).description}",
+                    )
+                  ])),
                   if (viewExtraDetails)
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -138,6 +150,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
+    ///TODO ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(Duration(minutes: 30));
   }

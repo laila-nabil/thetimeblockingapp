@@ -582,6 +582,23 @@ class ClickupTaskPriority extends Equatable {
       this.orderIndex,
       this.priority});
 
+
+  String get getPriorityExclamation {
+  if(isNum == true && priorityNum!=null){
+    return  "!" * (4 - priorityNum!.toInt());
+  }else if(isNum == false && id !=null && int.tryParse(id??"") !=null){
+    return  "!" * (4 - int.parse(id??""));
+  }
+  return "";
+ }
+
+ Color? get getPriorityExclamationColor {
+    if(color !=null && color?.isNotEmpty == true){
+      return HexColor.fromHex(color??"");
+    }
+    return null;
+ }
+
   @override
   List<Object?> get props =>
       [isNum, priorityNum, color, id, orderIndex, priority];

@@ -1,6 +1,3 @@
-import 'package:thetimeblockingapp/core/globals.dart';
-
-import '../../../../core/extensions.dart';
 import '../../domain/entities/clickup_task.dart';
 
 /// id : "av1"
