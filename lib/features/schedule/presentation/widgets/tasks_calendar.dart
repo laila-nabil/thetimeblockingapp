@@ -85,25 +85,26 @@ class TasksCalendar extends StatelessWidget {
                 .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
 
           ///TODO onViewChange
-          ///TODO flag on then after getting tasks off to avoid adding event multiple times
-          // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-          //     GetClickUpTasksInWorkspaceParams(
-          //         workspaceId:
-          //         selectedClickupWorkspaceId ??
-          //             Globals.clickUpWorkspaces?.first.id ??
-          //             "",
-          //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-          //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
-          //             filterByAssignees: [
-          //               Globals.clickUpUser?.id.toString() ?? ""
-          //             ],
-          //             filterByDueDateGreaterThanUnixTimeMilliseconds:
-          //             viewChangedDetails.visibleDates.first
-          //                 .millisecondsSinceEpoch,
-          //             filterByDueDateLessThanUnixTimeMilliseconds:
-          //             viewChangedDetails.visibleDates.last
-          //                 .millisecondsSinceEpoch
-          //         ))));
+          ///TODO fix adding event multiple times
+          if (scheduleBloc.state.isLoading == false) {
+            printDebug("HEREEEE");
+            // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+            //     GetClickUpTasksInWorkspaceParams(
+            //         workspaceId: selectedClickupWorkspaceId ??
+            //             Globals.clickUpWorkspaces?.first.id ??
+            //             "",
+            //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+            //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
+            //             filterByAssignees: [
+            //               Globals.clickUpUser?.id.toString() ?? ""
+            //             ],
+            //             filterByDueDateGreaterThanUnixTimeMilliseconds:
+            //                 viewChangedDetails
+            //                     .visibleDates.last.millisecondsSinceEpoch,
+            //             filterByDueDateLessThanUnixTimeMilliseconds:
+            //                 viewChangedDetails
+            //                     .visibleDates.first.millisecondsSinceEpoch))));
+          }
         }
       },
     );

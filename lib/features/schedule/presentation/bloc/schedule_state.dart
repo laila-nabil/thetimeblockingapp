@@ -56,6 +56,7 @@ class ScheduleState extends Equatable {
   }
 
   bool get isInitial => scheduleStates.isEmpty;
+  bool get isLoading => scheduleStates.contains(ScheduleStateEnum.loading);
 
   Set<ScheduleStateEnum> updateEnumStates(
       Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
