@@ -54,7 +54,7 @@ extension DateTimeExtensions on DateTime {
     return result;
   }
 
-  static DateTime? getDateTimeFromString({String? date,int? millisecondsTimezoneOffset }){
+  static DateTime? getDateTimeFromStringTimeZone({String? date,int? millisecondsTimezoneOffset }){
     int? dateInt = int.tryParse(date ?? "");
     if(dateInt == null){
       return null;
@@ -62,5 +62,15 @@ extension DateTimeExtensions on DateTime {
     return DateTimeExtensions.fromMillisecondsSinceEpochTimeZone(
         dateInt,
         millisecondsTimezoneOffset: millisecondsTimezoneOffset ?? 0,);
+  }
+
+  static DateTime? getDateTimeFromString({String? date,int? millisecondsTimezoneOffset }){
+    int? dateInt = int.tryParse(date ?? "");
+    if(dateInt == null){
+      return null;
+    }
+    return DateTime.fromMillisecondsSinceEpoch(
+      dateInt,
+    );
   }
 }

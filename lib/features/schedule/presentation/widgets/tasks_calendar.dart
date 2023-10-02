@@ -138,12 +138,13 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return clickupTasks[index].startDate ?? super.getStartTime(index);
+    return clickupTasks[index].startDateUtc ??
+        getEndTime(index).subtract(Duration(minutes: 30));
   }
 
   @override
   DateTime getEndTime(int index) {
-    return clickupTasks[index].dueDate?? super.getEndTime(index);
+    return clickupTasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 
   @override

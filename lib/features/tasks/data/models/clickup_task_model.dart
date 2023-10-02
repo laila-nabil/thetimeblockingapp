@@ -45,10 +45,10 @@ class ClickupTaskModel extends ClickupTask {
     super.description,
     super.status,
     super.orderIndex,
-    super.dateCreated,
-    super.dateUpdated,
-    super.dateClosed,
-    super.dateDone,
+    super.dateCreatedUtcTimestamp,
+    super.dateUpdatedUtcTimestamp,
+    super.dateClosedUtcTimestamp,
+    super.dateDoneUtcTimestamp,
     super.creator,
     super.assignees,
     super.watchers,
@@ -56,8 +56,8 @@ class ClickupTaskModel extends ClickupTask {
     super.tags,
     super.parent,
     super.priority,
-    super.dueDate,
-    super.startDate,
+    super.dueDateUtcTimestamp,
+    super.startDateUtcTimestamp,
     super.points,
     super.timeEstimate,
     super.customFields,
@@ -160,8 +160,7 @@ class ClickupTaskModel extends ClickupTask {
         ? ClickupSpaceModel.fromJson(json['space'])
         : null;
 
-    var millisecondsTimezoneOffset =
-        Globals.clickUpUser?.getTimezone.offset ?? 10800000;
+    
     return ClickupTaskModel(
         name: name,
         id: id,
@@ -171,22 +170,12 @@ class ClickupTaskModel extends ClickupTask {
         creator: creator,
         customFields: customFields,
         customId: customId,
-        dateClosed:  DateTimeExtensions.getDateTimeFromString(
-                date: dateClosed,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
-        dateCreated:  DateTimeExtensions.getDateTimeFromString(
-                date: dateCreated,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
-        dateDone:DateTimeExtensions.getDateTimeFromString(
-                date: dateDone,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
-        dateUpdated: DateTimeExtensions.getDateTimeFromString(
-                date: dateUpdated,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        dateClosedUtcTimestamp: dateClosed,
+        dateCreatedUtcTimestamp: dateCreated,
+        dateDoneUtcTimestamp: dateDone,
+        dateUpdatedUtcTimestamp: dateUpdated,
         dependencies: dependencies,
-        dueDate: DateTimeExtensions.getDateTimeFromString(
-                date: dueDate,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        dueDateUtcTimestamp: dueDate,
         folder: folder,
         linkedTasks: linkedTasks,
         list: list,
@@ -197,9 +186,7 @@ class ClickupTaskModel extends ClickupTask {
         priority: priority,
         project: project,
         space: space,
-        startDate: DateTimeExtensions.getDateTimeFromString(
-                date: startDate,
-                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        startDateUtcTimestamp:startDate,
         status: status,
         tags: tags,
         teamId: teamId,
@@ -220,10 +207,10 @@ class ClickupTaskModel extends ClickupTask {
       map['status'] = (status as ClickupStatusModel).toJson();
     }
     map['orderindex'] = orderIndex;
-    map['date_created'] = dateCreated;
-    map['date_updated'] = dateUpdated;
-    map['date_closed'] = dateClosed;
-    map['date_done'] = dateDone;
+    map['date_created'] = dateCreatedUtcTimestamp;
+    map['date_updated'] = dateUpdatedUtcTimestamp;
+    map['date_closed'] = dateClosedUtcTimestamp;
+    map['date_done'] = dateDoneUtcTimestamp;
     if (creator != null) {
       map['creator'] = (creator as ClickupCreatorModel).toJson();
     }
@@ -245,8 +232,8 @@ class ClickupTaskModel extends ClickupTask {
     }
     map['parent'] = parent;
     map['priority'] = priority;
-    map['due_date'] = dueDate;
-    map['start_date'] = startDate;
+    map['due_date'] = dueDateUtcTimestamp;
+    map['start_date'] = startDateUtcTimestamp;
     map['points'] = points;
     map['time_estimate'] = timeEstimate;
     if (customFields != null) {

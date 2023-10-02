@@ -45,10 +45,10 @@ class ClickupTask extends Equatable {
     this.description,
     this.status,
     this.orderIndex,
-    this.dateCreated,
-    this.dateUpdated,
-    this.dateClosed,
-    this.dateDone,
+    this.dateCreatedUtcTimestamp,
+    this.dateUpdatedUtcTimestamp,
+    this.dateClosedUtcTimestamp,
+    this.dateDoneUtcTimestamp,
     this.creator,
     this.assignees,
     this.watchers,
@@ -56,8 +56,8 @@ class ClickupTask extends Equatable {
     this.tags,
     this.parent,
     this.priority,
-    this.dueDate,
-    this.startDate,
+    this.dueDateUtcTimestamp,
+    this.startDateUtcTimestamp,
     this.points,
     this.timeEstimate,
     this.customFields,
@@ -79,10 +79,10 @@ class ClickupTask extends Equatable {
   final String? description;
   final ClickupStatus? status;
   final String? orderIndex;
-  final DateTime? dateCreated;
-  final DateTime? dateUpdated;
-  final DateTime? dateClosed;
-  final DateTime? dateDone;
+  final String? dateCreatedUtcTimestamp;
+  final String? dateUpdatedUtcTimestamp;
+  final String? dateClosedUtcTimestamp;
+  final String? dateDoneUtcTimestamp;
   final ClickupCreator? creator;
   final List<ClickupAssignees>? assignees;
   final List<ClickupWatchers>? watchers;
@@ -90,8 +90,8 @@ class ClickupTask extends Equatable {
   final List<ClickupTags>? tags;
   final String? parent;
   final ClickupTaskPriority? priority;
-  final DateTime? dueDate;
-  final DateTime? startDate;
+  final String? dueDateUtcTimestamp;
+  final String? startDateUtcTimestamp;
   final num? points;
   final num? timeEstimate;
   final List<ClickupCustomFields>? customFields;
@@ -105,12 +105,41 @@ class ClickupTask extends Equatable {
   final ClickupFolder? folder;
   final ClickupSpace? space;
 
-
+  ///How are dates formatted in ClickUp?
+  /// ClickUp will always display dates in Unix time in milliseconds. You can use a website like Epoch Converter to convert dates between Unix and human readable date formats.
+  /// 
+  /// What timezone does your API use for timestamps?
+  /// Our API always returns timestamps in UTC (Coordinated Universal Time).
+  /// 
+  /// The start date and due date on tasks that don't have a start or due time will default to 4 am in the local time zone of the user who added the start or due date.
+  /// 
+  /// If that user changes their timezone later, task start dates and due dates will not be retroactively updated.
+  /// [https://clickup.com/api/developer-portal/faq/]
   bool get isAllDay {
-    printDebug("dueDate $dueDate for $name");
-    return startDate == null &&
-  dueDate != null;
+    ///TODO if a task due time is 4 am and no start date,it is viewed as all day event
+    printDebug("for $name,dueDate: $dueDateUtc and startDate: $startDateUtc");
+    return (startDateUtc == null || startDateUtc == dueDateUtc) &&
+        dueDateUtc != null && dueDateUtc?.hour == 4 && dueDateUtc?.second == 0 ;
   }
+
+  DateTime? get dateCreatedUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: dateCreatedUtcTimestamp);
+
+  DateTime? get dateClosedUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: dateClosedUtcTimestamp);
+
+  DateTime? get dateDoneUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: dateDoneUtcTimestamp);
+
+  DateTime? get dateUpdatedUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: dateUpdatedUtcTimestamp);
+
+  DateTime? get dueDateUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: dueDateUtcTimestamp);
+
+  DateTime? get startDateUtc =>
+      DateTimeExtensions.getDateTimeFromString(date: startDateUtcTimestamp);
+
   @override
   List<Object?> get props => [
         id,
@@ -120,10 +149,10 @@ class ClickupTask extends Equatable {
         description,
         status,
         orderIndex,
-        dateCreated,
-        dateUpdated,
-        dateClosed,
-        dateDone,
+        dateCreatedUtcTimestamp,
+        dateUpdatedUtcTimestamp,
+        dateClosedUtcTimestamp,
+        dateDoneUtcTimestamp,
         creator,
         assignees,
         watchers,
@@ -131,8 +160,8 @@ class ClickupTask extends Equatable {
         tags,
         parent,
         priority,
-        dueDate,
-        startDate,
+        dueDateUtcTimestamp,
+        startDateUtcTimestamp,
         points,
         timeEstimate,
         customFields,

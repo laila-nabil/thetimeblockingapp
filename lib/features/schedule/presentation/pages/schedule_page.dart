@@ -100,7 +100,7 @@ class _SchedulePageContent extends StatelessWidget {
     return TasksCalendar(
       tasksDataSource: ClickupTasksDataSource(
           clickupTasks: scheduleBloc.state.clickUpTasks
-                  ?.where((element) => element.dueDate != null)
+                  ?.where((element) => element.dueDateUtcTimestamp != null)
                   .toList() ??
               []),
     );
