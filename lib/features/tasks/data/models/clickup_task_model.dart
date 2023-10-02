@@ -1,5 +1,6 @@
-import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 
+import '../../../../core/extensions.dart';
 import '../../domain/entities/clickup_task.dart';
 
 /// id : "av1"
@@ -159,12 +160,8 @@ class ClickupTaskModel extends ClickupTask {
         ? ClickupSpaceModel.fromJson(json['space'])
         : null;
 
-    printDebug("dueDate $name $dueDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(dueDate ?? "") ?? 0,isUtc: true)} ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(dueDate ?? "") ?? 0,isUtc: false)}");
-    printDebug("startDate $name $startDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(startDate ?? "") ?? 0,isUtc: true)} ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(startDate ?? "") ?? 0,isUtc: false)}");
+    var millisecondsTimezoneOffset =
+        Globals.clickUpUser?.getTimezone.offset ?? 10800000;
     return ClickupTaskModel(
         name: name,
         id: id,
@@ -174,27 +171,22 @@ class ClickupTaskModel extends ClickupTask {
         creator: creator,
         customFields: customFields,
         customId: customId,
-        dateClosed: dateClosed == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-                int.tryParse(dateClosed) ?? 0,isUtc: true),
-        dateCreated:  dateCreated == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateCreated) ?? 0,isUtc: true),
-        dateDone:  dateDone == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateDone) ?? 0,isUtc: true),
-        dateUpdated:  dateUpdated == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateUpdated) ?? 0,isUtc: true),
+        dateClosed:  DateTimeExtensions.getDateTimeFromString(
+                date: dateClosed,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        dateCreated:  DateTimeExtensions.getDateTimeFromString(
+                date: dateCreated,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        dateDone:DateTimeExtensions.getDateTimeFromString(
+                date: dateDone,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
+        dateUpdated: DateTimeExtensions.getDateTimeFromString(
+                date: dateUpdated,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
         dependencies: dependencies,
-        dueDate:  dueDate == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dueDate) ?? 0,isUtc: true),
+        dueDate: DateTimeExtensions.getDateTimeFromString(
+                date: dueDate,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
         folder: folder,
         linkedTasks: linkedTasks,
         list: list,
@@ -205,10 +197,9 @@ class ClickupTaskModel extends ClickupTask {
         priority: priority,
         project: project,
         space: space,
-        startDate: startDate == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(startDate) ?? 0),
+        startDate: DateTimeExtensions.getDateTimeFromString(
+                date: startDate,
+                millisecondsTimezoneOffset: millisecondsTimezoneOffset),
         status: status,
         tags: tags,
         teamId: teamId,
@@ -217,7 +208,6 @@ class ClickupTaskModel extends ClickupTask {
         url: url,
         watchers: watchers);
   }
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -752,14 +742,14 @@ class ClickupTaskPriorityModel extends ClickupTaskPriority {
     if (json is num) {
       return ClickupTaskPriorityModel(isNum: true, priorityNum: json);
     }
-    if (json is Map<String,dynamic>) {
+    if (json is Map<String, dynamic>) {
       return ClickupTaskPriorityModel(
-            isNum: false,
-            id: json['id'],
-            priority: json['priority'],
-            orderIndex: json['orderindex'],
-            color: json['color'],
-          );
+        isNum: false,
+        id: json['id'],
+        priority: json['priority'],
+        orderIndex: json['orderindex'],
+        color: json['color'],
+      );
     }
     return null;
   }

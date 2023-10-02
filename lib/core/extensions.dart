@@ -44,3 +44,23 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+
+extension DateTimeExtensions on DateTime {
+  static DateTime fromMillisecondsSinceEpochTimeZone(int millisecondsSinceEpoch,
+      {int millisecondsTimezoneOffset = 0}) {
+    final result = DateTime.fromMillisecondsSinceEpoch(
+        millisecondsSinceEpoch + millisecondsTimezoneOffset,isUtc: true);
+    printDebug("for $millisecondsSinceEpoch and timezoneoffset $millisecondsTimezoneOffset, the date $result");
+    return result;
+  }
+
+  static DateTime? getDateTimeFromString({String? date,int? millisecondsTimezoneOffset }){
+    int? dateInt = int.tryParse(date ?? "");
+    if(dateInt == null){
+      return null;
+    }
+    return DateTimeExtensions.fromMillisecondsSinceEpochTimeZone(
+        dateInt,
+        millisecondsTimezoneOffset: millisecondsTimezoneOffset ?? 0,);
+  }
+}
