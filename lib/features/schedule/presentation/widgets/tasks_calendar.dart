@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_c
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 
 class TasksCalendar extends StatelessWidget {
@@ -72,8 +73,38 @@ class TasksCalendar extends StatelessWidget {
         ///TODO onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
-        ///TODO onViewChange
 
+        printDebug("onViewChange");
+        printDebug("viewChangedDetails.visibleDates.first.isBefore(scheduleBloc.state.tasksDueDateEarliestDate ${viewChangedDetails.visibleDates.first
+            .isBefore(scheduleBloc.state.tasksDueDateEarliestDate)}");
+        printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleBloc.state.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
+            .isAfter(scheduleBloc.state.tasksDueDateLatestDate)}");
+        if (viewChangedDetails.visibleDates.first
+                .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
+            viewChangedDetails.visibleDates.last
+                .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
+
+          ///TODO onViewChange
+          ///TODO flag on then after getting tasks off to avoid adding event multiple times
+          // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+          //     GetClickUpTasksInWorkspaceParams(
+          //         workspaceId:
+          //         selectedClickupWorkspaceId ??
+          //             Globals.clickUpWorkspaces?.first.id ??
+          //             "",
+          //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+          //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
+          //             filterByAssignees: [
+          //               Globals.clickUpUser?.id.toString() ?? ""
+          //             ],
+          //             filterByDueDateGreaterThanUnixTimeMilliseconds:
+          //             viewChangedDetails.visibleDates.first
+          //                 .millisecondsSinceEpoch,
+          //             filterByDueDateLessThanUnixTimeMilliseconds:
+          //             viewChangedDetails.visibleDates.last
+          //                 .millisecondsSinceEpoch
+          //         ))));
+        }
       },
     );
   }

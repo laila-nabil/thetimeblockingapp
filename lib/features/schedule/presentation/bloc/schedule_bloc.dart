@@ -25,8 +25,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       this._getClickUpTasksInSingleWorkspaceUseCase)
       : super(ScheduleState._(
             scheduleStates: const {},
-            tasksEarliestDate: ScheduleState.defaultTasksEarliestDate,
-            tasksLatestDate: ScheduleState.defaultTasksLatestDate)) {
+            tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
+            tasksDueDateLatestDate: ScheduleState.defaultTasksLatestDate)) {
     on<ScheduleEvent>((event, emit) async {
       if (event is GetTasksForSingleWorkspaceScheduleEvent) {
         emit(state.copyWith(

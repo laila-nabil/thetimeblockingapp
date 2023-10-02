@@ -10,28 +10,29 @@ class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> scheduleStates;
   final List<ClickupTask>? clickUpTasks;
   final Failure? getTasksSingleWorkspaceFailure;
-  final DateTime tasksEarliestDate;
-  final DateTime tasksLatestDate;
+  final DateTime tasksDueDateEarliestDate;
+  final DateTime tasksDueDateLatestDate;
 
   const ScheduleState._({
     required this.scheduleStates,
     this.clickUpTasks,
     this.getTasksSingleWorkspaceFailure,
-    required this.tasksEarliestDate,
-    required this.tasksLatestDate,
+    required this.tasksDueDateEarliestDate,
+    required this.tasksDueDateLatestDate,
   });
 
-  static DateTime defaultTasksEarliestDate = DateTime.now();
+  static DateTime defaultTasksEarliestDate =
+      DateTime.now().subtract(const Duration(days: 15));
   static DateTime defaultTasksLatestDate =
-      DateTime.now().add(const Duration(days: 60));
+      DateTime.now().add(const Duration(days: 15));
 
   @override
   List<Object?> get props => [
         scheduleStates,
         clickUpTasks,
         getTasksSingleWorkspaceFailure,
-        tasksEarliestDate,
-        tasksLatestDate,
+        tasksDueDateEarliestDate,
+        tasksDueDateLatestDate,
       ];
 
 
@@ -39,18 +40,18 @@ class ScheduleState extends Equatable {
     required  Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
     List<ClickupTask>? clickUpTasks,
     Failure? getTasksSingleWorkspaceFailure,
-    DateTime? tasksEarliestDate,
-    DateTime? tasksLatestDate,
+    DateTime? tasksDueDateEarliestDate,
+    DateTime? tasksDueDateLatestDate,
   }) {
     return ScheduleState._(
       scheduleStates: updateEnumStates(stateAddRemove),
       clickUpTasks: clickUpTasks ?? this.clickUpTasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
-      tasksEarliestDate: tasksEarliestDate ??
-          this.tasksEarliestDate,
-      tasksLatestDate:
-          tasksLatestDate ?? this.tasksLatestDate,
+      tasksDueDateEarliestDate: tasksDueDateEarliestDate ??
+          this.tasksDueDateEarliestDate,
+      tasksDueDateLatestDate:
+          tasksDueDateLatestDate ?? this.tasksDueDateLatestDate,
     );
   }
 

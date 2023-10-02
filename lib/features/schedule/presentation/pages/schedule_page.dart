@@ -48,9 +48,16 @@ class SchedulePage extends StatelessWidget {
                             Globals.clickUpWorkspaces?.first.id ??
                             "",
                         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                            clickUpAccessToken:
-                            Globals.clickUpAuthAccessToken,
-                            filterByAssignees: [Globals.clickUpUser?.id.toString()??""],
+                            clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                            filterByAssignees: [
+                              Globals.clickUpUser?.id.toString() ?? ""
+                            ],
+                            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                                scheduleBloc.state.tasksDueDateEarliestDate
+                                    .millisecondsSinceEpoch,
+                            filterByDueDateLessThanUnixTimeMilliseconds:
+                                scheduleBloc.state.tasksDueDateLatestDate
+                                    .millisecondsSinceEpoch
                         ))));
               }
               return ResponsiveScaffold(
