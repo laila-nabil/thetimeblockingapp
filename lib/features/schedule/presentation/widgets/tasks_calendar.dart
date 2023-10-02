@@ -87,23 +87,25 @@ class TasksCalendar extends StatelessWidget {
           ///TODO onViewChange
           ///TODO fix adding event multiple times
           if (scheduleBloc.state.isLoading == false) {
-            printDebug("HEREEEE");
-            // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-            //     GetClickUpTasksInWorkspaceParams(
-            //         workspaceId: selectedClickupWorkspaceId ??
-            //             Globals.clickUpWorkspaces?.first.id ??
-            //             "",
-            //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-            //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
-            //             filterByAssignees: [
-            //               Globals.clickUpUser?.id.toString() ?? ""
-            //             ],
-            //             filterByDueDateGreaterThanUnixTimeMilliseconds:
-            //                 viewChangedDetails
-            //                     .visibleDates.last.millisecondsSinceEpoch,
-            //             filterByDueDateLessThanUnixTimeMilliseconds:
-            //                 viewChangedDetails
-            //                     .visibleDates.first.millisecondsSinceEpoch))));
+            printDebug("onViewChange HEREEEE");
+            scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+                GetClickUpTasksInWorkspaceParams(
+                    workspaceId: selectedClickupWorkspaceId ??
+                        Globals.clickUpWorkspaces?.first.id ??
+                        "",
+                    filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                        filterByAssignees: [
+                          Globals.clickUpUser?.id.toString() ?? ""
+                        ],
+                        filterByDueDateGreaterThanUnixTimeMilliseconds:
+                            viewChangedDetails
+                                .visibleDates.first.millisecondsSinceEpoch,
+                        filterByDueDateLessThanUnixTimeMilliseconds:
+                            viewChangedDetails
+                                .visibleDates.last.millisecondsSinceEpoch))));
+          }else{
+            printDebug("onViewChange Not");
           }
         }
       },
