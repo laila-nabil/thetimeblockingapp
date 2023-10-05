@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -12,19 +13,27 @@ import 'core/injection_container.dart' as di;
 import 'core/router.dart';
 import 'features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timezone/browser.dart' as tz_web;
+import 'package:timezone/data/latest_all.dart' as tz_not_web;
+// import 'package:timezone/data/latest_all.dart' if (kIsWeb) 'package:timezone/browser.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalizationImpl().ensureInitialized();
+  await appLocalization.ensureInitialized();
   di.initServiceLocator();
   di.reRegisterClickupVariables();
+  if (kIsWeb) {
+    await tz_web.initializeTimeZone();
+  } else {
+    tz_not_web.initializeTimeZones();
+  }
   FlutterError.onError = (errorDetails) {
     printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
   };
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
   Bloc.observer = MyBlocObserver();
-  runApp(LocalizationImpl().localizationSetup(const MyApp()));
+  runApp(appLocalization.localizationSetup(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

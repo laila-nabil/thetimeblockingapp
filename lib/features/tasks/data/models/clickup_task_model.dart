@@ -1,5 +1,3 @@
-import 'package:thetimeblockingapp/core/print_debug.dart';
-
 import '../../domain/entities/clickup_task.dart';
 
 /// id : "av1"
@@ -44,10 +42,10 @@ class ClickupTaskModel extends ClickupTask {
     super.description,
     super.status,
     super.orderIndex,
-    super.dateCreated,
-    super.dateUpdated,
-    super.dateClosed,
-    super.dateDone,
+    super.dateCreatedUtcTimestamp,
+    super.dateUpdatedUtcTimestamp,
+    super.dateClosedUtcTimestamp,
+    super.dateDoneUtcTimestamp,
     super.creator,
     super.assignees,
     super.watchers,
@@ -55,8 +53,8 @@ class ClickupTaskModel extends ClickupTask {
     super.tags,
     super.parent,
     super.priority,
-    super.dueDate,
-    super.startDate,
+    super.dueDateUtcTimestamp,
+    super.startDateUtcTimestamp,
     super.points,
     super.timeEstimate,
     super.customFields,
@@ -159,10 +157,7 @@ class ClickupTaskModel extends ClickupTask {
         ? ClickupSpaceModel.fromJson(json['space'])
         : null;
 
-    printDebug("dueDate $dueDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(dueDate ?? "") ?? 0)}");
-    printDebug("startDate $startDate ${DateTime.fromMillisecondsSinceEpoch(
-        int.tryParse(startDate ?? "") ?? 0)}");
+    
     return ClickupTaskModel(
         name: name,
         id: id,
@@ -172,27 +167,12 @@ class ClickupTaskModel extends ClickupTask {
         creator: creator,
         customFields: customFields,
         customId: customId,
-        dateClosed: dateClosed == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-                int.tryParse(dateClosed) ?? 0),
-        dateCreated:  dateCreated == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateCreated) ?? 0),
-        dateDone:  dateDone == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateDone) ?? 0),
-        dateUpdated:  dateUpdated == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dateUpdated) ?? 0),
+        dateClosedUtcTimestamp: dateClosed,
+        dateCreatedUtcTimestamp: dateCreated,
+        dateDoneUtcTimestamp: dateDone,
+        dateUpdatedUtcTimestamp: dateUpdated,
         dependencies: dependencies,
-        dueDate:  dueDate == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(dueDate) ?? 0),
+        dueDateUtcTimestamp: dueDate,
         folder: folder,
         linkedTasks: linkedTasks,
         list: list,
@@ -203,10 +183,7 @@ class ClickupTaskModel extends ClickupTask {
         priority: priority,
         project: project,
         space: space,
-        startDate: startDate == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(
-            int.tryParse(startDate) ?? 0),
+        startDateUtcTimestamp:startDate,
         status: status,
         tags: tags,
         teamId: teamId,
@@ -215,7 +192,6 @@ class ClickupTaskModel extends ClickupTask {
         url: url,
         watchers: watchers);
   }
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -228,10 +204,10 @@ class ClickupTaskModel extends ClickupTask {
       map['status'] = (status as ClickupStatusModel).toJson();
     }
     map['orderindex'] = orderIndex;
-    map['date_created'] = dateCreated;
-    map['date_updated'] = dateUpdated;
-    map['date_closed'] = dateClosed;
-    map['date_done'] = dateDone;
+    map['date_created'] = dateCreatedUtcTimestamp;
+    map['date_updated'] = dateUpdatedUtcTimestamp;
+    map['date_closed'] = dateClosedUtcTimestamp;
+    map['date_done'] = dateDoneUtcTimestamp;
     if (creator != null) {
       map['creator'] = (creator as ClickupCreatorModel).toJson();
     }
@@ -253,8 +229,8 @@ class ClickupTaskModel extends ClickupTask {
     }
     map['parent'] = parent;
     map['priority'] = priority;
-    map['due_date'] = dueDate;
-    map['start_date'] = startDate;
+    map['due_date'] = dueDateUtcTimestamp;
+    map['start_date'] = startDateUtcTimestamp;
     map['points'] = points;
     map['time_estimate'] = timeEstimate;
     if (customFields != null) {
@@ -633,6 +609,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
     super.color,
     super.email,
     super.profilePicture,
+    super.initials,
   });
 
   factory ClickupAssigneesModel.fromJson(Map<String, dynamic> json) {
@@ -642,6 +619,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
       color: json['color'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      initials: json['initials'],
     );
   }
 
@@ -652,6 +630,7 @@ class ClickupAssigneesModel extends ClickupAssignees {
     map['color'] = color;
     map['email'] = email;
     map['profilePicture'] = profilePicture;
+    map['initials'] = initials;
     return map;
   }
 }
@@ -747,14 +726,14 @@ class ClickupTaskPriorityModel extends ClickupTaskPriority {
     if (json is num) {
       return ClickupTaskPriorityModel(isNum: true, priorityNum: json);
     }
-    if (json is Map<String,dynamic>) {
+    if (json is Map<String, dynamic>) {
       return ClickupTaskPriorityModel(
-            isNum: false,
-            id: json['id'],
-            priority: json['priority'],
-            orderIndex: json['orderindex'],
-            color: json['color'],
-          );
+        isNum: false,
+        id: json['id'],
+        priority: json['priority'],
+        orderIndex: json['orderindex'],
+        color: json['color'],
+      );
     }
     return null;
   }

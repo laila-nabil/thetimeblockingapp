@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 
 enum LanguagesEnum { ar, en }
 
+final Localization appLocalization = LocalizationImpl();
+
 abstract class Localization {
   Locale languagesEnumToLocale(LanguagesEnum language);
   Locale getCurrentLocale(BuildContext context);
@@ -12,7 +14,8 @@ abstract class Localization {
   String getCurrentLangCode(BuildContext context);
   void setLocale(BuildContext context, Locale selectedLanguage);
   void setLanguage(BuildContext context, LanguagesEnum selectedLanguage);
-  String translate(String key);
+  String translate(String key,
+      {List<String>? arguments, Map<String, String>? namedArguments});
   bool isRTL(BuildContext context);
   dynamic localizationSetup(Widget app);
   Future<void> ensureInitialized();

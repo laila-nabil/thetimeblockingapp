@@ -10,31 +10,53 @@ class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> scheduleStates;
   final List<ClickupTask>? clickUpTasks;
   final Failure? getTasksSingleWorkspaceFailure;
+  final DateTime tasksDueDateEarliestDate;
+  final DateTime tasksDueDateLatestDate;
 
   const ScheduleState._({
     required this.scheduleStates,
     this.clickUpTasks,
     this.getTasksSingleWorkspaceFailure,
+    required this.tasksDueDateEarliestDate,
+    required this.tasksDueDateLatestDate,
   });
 
-  @override
-  List<Object?> get props =>
-      [scheduleStates, clickUpTasks, getTasksSingleWorkspaceFailure];
+  static DateTime defaultTasksEarliestDate =
+      DateTime.now().subtract(const Duration(days: 15));
+  static DateTime defaultTasksLatestDate =
+      DateTime.now().add(const Duration(days: 15));
 
-  ScheduleState copyWith(
-      {required Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
-      List<ClickupTask>? clickUpTasks,
-      Failure? getTasksSingleWorkspaceFailure}) {
-    Set<ScheduleStateEnum> updatedStates = updateEnumStates(stateAddRemove);
+  @override
+  List<Object?> get props => [
+        scheduleStates,
+        clickUpTasks,
+        getTasksSingleWorkspaceFailure,
+        tasksDueDateEarliestDate,
+        tasksDueDateLatestDate,
+      ];
+
+
+  ScheduleState copyWith({
+    required  Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
+    List<ClickupTask>? clickUpTasks,
+    Failure? getTasksSingleWorkspaceFailure,
+    DateTime? tasksDueDateEarliestDate,
+    DateTime? tasksDueDateLatestDate,
+  }) {
     return ScheduleState._(
-      scheduleStates: updatedStates,
+      scheduleStates: updateEnumStates(stateAddRemove),
       clickUpTasks: clickUpTasks ?? this.clickUpTasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
+      tasksDueDateEarliestDate: tasksDueDateEarliestDate ??
+          this.tasksDueDateEarliestDate,
+      tasksDueDateLatestDate:
+          tasksDueDateLatestDate ?? this.tasksDueDateLatestDate,
     );
   }
 
   bool get isInitial => scheduleStates.isEmpty;
+  bool get isLoading => scheduleStates.contains(ScheduleStateEnum.loading);
 
   Set<ScheduleStateEnum> updateEnumStates(
       Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {

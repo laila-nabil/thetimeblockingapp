@@ -19,7 +19,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizationImpl = LocalizationImpl();
+    final localizationImpl = appLocalization;
 
     return Drawer(
       width: 200,
@@ -175,7 +175,7 @@ class _Logo extends StatelessWidget {
             fallbackWidth: 35,
           ),
           const SizedBox(width: 10,),
-          Expanded(child: Text(LocalizationImpl().translate("appName")))
+          Expanded(child: Text(appLocalization.translate("appName")))
         ],
       ),
     );

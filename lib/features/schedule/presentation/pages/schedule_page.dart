@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_calendar.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -49,33 +48,51 @@ class SchedulePage extends StatelessWidget {
                             Globals.clickUpWorkspaces?.first.id ??
                             "",
                         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                            clickUpAccessToken:
-                            Globals.clickUpAuthAccessToken))));
+                            clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                            filterByAssignees: [
+                              Globals.clickUpUser?.id.toString() ?? ""
+                            ],
+                            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                                scheduleBloc.state.tasksDueDateEarliestDate
+                                    .millisecondsSinceEpoch,
+                            filterByDueDateLessThanUnixTimeMilliseconds:
+                                scheduleBloc.state.tasksDueDateLatestDate
+                                    .millisecondsSinceEpoch
+                        ))));
               }
               return ResponsiveScaffold(
+                  responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+                      responsiveScaffoldLoadingEnum:
+                          ResponsiveScaffoldLoadingEnum.overlayLoading,
+                      isLoading: state.scheduleStates
+                          .contains(ScheduleStateEnum.loading)),
                   pageActions: [
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("filterBy") +
-                          LocalizationImpl().translate("Lists").toLowerCase()),
+                      child: Text(appLocalization.translate("filterBy") +
+                          appLocalization.translate("Lists").toLowerCase()),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("filterBy") +
-                          LocalizationImpl().translate("Tags").toLowerCase()),
+                      child: Text(appLocalization.translate("filterBy") +
+                          appLocalization.translate("Tags").toLowerCase()),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("autoSchedule")),
+                      child: Text(appLocalization.translate("autoSchedule")),
                       onTap: () {},
                     ),
                     PopupMenuItem(
-                      child: Text(LocalizationImpl().translate("showCompleted")),
+                      child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},
                     ),
                   ],
                   responsiveBody: ResponsiveTParams(
-                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc),
-                    laptop: _SchedulePageContent(scheduleBloc: scheduleBloc),
+                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId: startUpCurrentState
+                            .selectedClickupWorkspace?.id),
+                    laptop:_SchedulePageContent(scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId: startUpCurrentState
+                            .selectedClickupWorkspace?.id),
                   ),
                   context: context);
             },
@@ -87,22 +104,22 @@ class SchedulePage extends StatelessWidget {
 }
 
 class _SchedulePageContent extends StatelessWidget {
-  const _SchedulePageContent({Key? key, required this.scheduleBloc})
+  const _SchedulePageContent(
+      {Key? key, required this.scheduleBloc, this.selectedClickupWorkspaceId})
       : super(key: key);
   final ScheduleBloc scheduleBloc;
-
+  final String? selectedClickupWorkspaceId;
   @override
   Widget build(BuildContext context) {
-    return CustomCalendar(tasksDataSource: TasksDataSource(tasks: scheduleBloc.state.clickUpTasks
-        ?.where((element) =>
-    element.startDate != null &&
-        element.dueDate != null ).map((e) => Appointment(
-        id: e.id,
-        notes: e.description,
-        subject: e.name??'',
-        startTime: e.startDate !,
-        endTime:e.dueDate!))
-        .toList() ??
-        []),);
+    return TasksCalendar(
+      tasksDataSource: ClickupTasksDataSource(
+          clickupTasks: scheduleBloc.state.clickUpTasks
+                  ?.where((element) => element.dueDateUtcTimestamp != null)
+                  .toList() ??
+              []),
+      controller: scheduleBloc.controller,
+      scheduleBloc: scheduleBloc,
+      selectedClickupWorkspaceId: selectedClickupWorkspaceId,
+    );
   }
 }

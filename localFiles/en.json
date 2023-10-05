@@ -15,5 +15,6 @@
   "Settings": "Settings",
   "filterBy": "Filter by ",
   "autoSchedule": "Auto Schedule",
-  "showCompleted": "Show completed"
+  "showCompleted": "Show completed",
+  "workspaces": "workspaces"
 }
