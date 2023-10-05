@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../task_popup/presentation/views/task_popup.dart';
 
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
@@ -25,8 +26,9 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      allowDragAndDrop: true,
-      allowAppointmentResize: true,
+      ///TODO enable when enabling the feautre
+      allowDragAndDrop: false,
+      allowAppointmentResize: false,
       allowViewNavigation: true,
       firstDayOfWeek: 6,
       showTodayButton: true,
@@ -65,7 +67,7 @@ class TasksCalendar extends StatelessWidget {
                               color:
                                   task.priority?.getPriorityExclamationColor)),
                     TextSpan(
-                      text: "${(task).name}\n${(task).description}",
+                      text: "${task.name}",
                     )
                   ])),
                   if (viewExtraDetails)
@@ -118,6 +120,10 @@ class TasksCalendar extends StatelessWidget {
           ///TODO try to add a new task
         }else{
           ///TODO view/edit the task
+          showTaskPopup(
+              context: context,
+              taskPopupParams: TaskPopupParams(
+                  calendarTapDetails.appointments?.first as ClickupTask));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
