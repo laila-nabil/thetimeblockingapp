@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
+///Fix overflow in android
+///
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
   final List<PopupMenuEntry<Object?>>? pageActions;
@@ -28,20 +31,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (Globals.clickUpWorkspaces?.isNotEmpty == true)
           DropdownMenu(
+              width: 170,
               initialSelection: Globals.clickUpWorkspaces?.first,
               onSelected: (selected) {
                 if (selected is ClickupWorkspace) {
                   startUpBloc.add(SelectClickupWorkspace(selected));
                 }
               },
-              label: const Text("workspaces"),
               dropdownMenuEntries: Globals.clickUpWorkspaces
                       ?.map((e) => DropdownMenuEntry(
                             value: e,
                             label: e.name ?? "",
                           ))
                       .toList() ??
-                  []),
+                  [],
+            hintText: appLocalization.translate("workspaces"),
+          ),
         IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
         if (pageActions?.isNotEmpty == true)
           PopupMenuButton(itemBuilder: (context) {

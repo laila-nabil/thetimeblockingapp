@@ -12,5 +12,9 @@
   "Archive": "أرشيف",
   "Trash": "قمامة",
   "Help": "مساعدة",
-  "Settings": "اعدادات"
+  "Settings": "اعدادات",
+  "filterBy": "تصفية حسب  ",
+  "autoSchedule": "جدول تلقائيا",
+  "showCompleted": "اظهر المهام المكتملة",
+  "workspaces": "مساحات العمل"
 }

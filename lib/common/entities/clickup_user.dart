@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 /// id : 55230798
 /// username : "Laila Nabil"
@@ -32,6 +34,15 @@ class ClickupUser extends Equatable {
   final num? weekStartDay;
   final bool? globalFontSupport;
   final String? timezone;
+
+
+  tz.TimeZone get getTimezone  {
+    final location = tz.getLocation(timezone??"");
+    printDebug("location from time zone $location");
+    final currentTimeZone = location.currentTimeZone;
+    printDebug("currentTimeZone $currentTimeZone");
+    return currentTimeZone;
+  }
 
   @override
   List<Object?> get props => [

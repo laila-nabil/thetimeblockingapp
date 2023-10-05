@@ -12,5 +12,9 @@
   "Archive": "Archive",
   "Trash": "Trash",
   "Help": "Help",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "filterBy": "Filter by ",
+  "autoSchedule": "Auto Schedule",
+  "showCompleted": "Show completed",
+  "workspaces": "workspaces"
 }

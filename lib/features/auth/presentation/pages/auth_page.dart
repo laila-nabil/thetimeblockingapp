@@ -25,23 +25,13 @@ class AuthPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
-        printDebug(
-            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
-        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
-
-        if (Globals.clickUpAuthAccessToken.accessToken.isNotEmpty &&
-            Globals.clickUpUser != null &&
-            Globals.clickUpWorkspaces?.isNotEmpty == true) {
+        if (state.isNotAuthed == false) {
           context.go(SchedulePage.routeName);
         }
 
       },
       builder: (context, state) {
         printDebug("AuthBloc state builder $state");
-        printDebug(
-            "state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial) ${state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)}");
-        printDebug("state.authStates == {AuthStateEnum.initial} ${state.authStates == {AuthStateEnum.initial}}");
-
         final authBloc = BlocProvider.of<AuthBloc>(context);
         if (state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)) {
 
@@ -49,7 +39,11 @@ class AuthPage extends StatelessWidget {
           authBloc.add(const GetClickUpAccessToken(""));
         }
         return ResponsiveScaffold(
-            responsiveBody: ResponsiveTParams(
+          responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+              responsiveScaffoldLoadingEnum:
+                  ResponsiveScaffoldLoadingEnum.contentLoading,
+              isLoading: state.isLoading),
+          responsiveBody: ResponsiveTParams(
                 mobile: Column(
                   children: [
                     const Expanded(child: Placeholder()),
@@ -84,41 +78,44 @@ class ExplainClickupAuth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(LocalizationImpl().translate("whyConnectClickup",
-              arguments: [LocalizationImpl().translate("appName")])),
-          CustomButton(
-              child: const Text("Connect with Clickup"),
-              onPressed: () {
-                launchWithURL(
-                    url:
-                        "https://app.clickup.com/api?client_id=${Globals.clickUpClientId}&redirect_uri=${Globals.clickUpRedirectUrl}");
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(appLocalization.translate("whyConnectClickup",
+                arguments: [appLocalization.translate("appName")])),
+            CustomButton(
+                child: const Text("Connect with Clickup"),
+                onPressed: () {
+                  ///TODO webview in case of android
+                  launchWithURL(
+                      url:
+                          "https://app.clickup.com/api?client_id=${Globals.clickUpClientId}&redirect_uri=${Globals.clickUpRedirectUrl}");
 
-                if (kDebugMode) {
-                  authBloc.add(const ShowCodeInputTextField(true));
-                }
-              }),
-          Text(LocalizationImpl().translate("agreeTermsConditions")),
-          if (authBloc.state.authStates
-              .contains(AuthStateEnum.showCodeInputTextField))
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextInputField(
-                    controller: controller,
+                  if (kDebugMode) {
+                    authBloc.add(const ShowCodeInputTextField(true));
+                  }
+                }),
+            Text(appLocalization.translate("agreeTermsConditions")),
+            if (kDebugMode)
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextInputField(
+                      controller: controller,
+                    ),
                   ),
-                ),
-                CustomButton(
-                  child: const Text("submit"),
-                  onPressed: () {
-                    authBloc.add(GetClickUpAccessToken(controller.text));
-                  },
-                )
-              ],
-            )
-        ],
+                  CustomButton(
+                    child: const Text("submit"),
+                    onPressed: () {
+                      authBloc.add(GetClickUpAccessToken(controller.text));
+                    },
+                  )
+                ],
+              )
+            ///TODO add toggle to chose adding access token or code
+          ],
+        ),
       ),
     );
   }

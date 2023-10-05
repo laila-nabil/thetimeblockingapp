@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
@@ -27,8 +28,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
       } else if (event is GetClickUpAccessToken) {
+        emit(const AuthState(
+            authStates: {AuthStateEnum.loading}));
         final result = await _getClickUpAccessTokenUseCase(
             GetClickUpAccessTokenParams(event.clickUpCode));
+        emit(state.copyWith(
+            authStates:
+                state.updatedAuthStates(AuthStateEnum.loading)));
         result?.fold(
             (l) => emit(AuthState(
                 getClickUpAccessTokenFailure: l,
@@ -41,6 +47,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           add(GetClickUpUserWorkspaces(r));
         });
       } else if (event is GetClickUpUserWorkspaces) {
+        emit(state.copyWith(
+            authStates:
+            state.updatedAuthStates(AuthStateEnum.loading)));
         final getClickUpUser = await _getClickUpUserUseCase(
             GetClickUpUserParams(event.accessToken));
         getClickUpUser?.fold(
@@ -55,6 +64,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
         final getClickUpWorkspaces = await _getClickUpWorkspacesUseCase(
             GetClickUpWorkspacesParams(event.accessToken));
+        emit(state.copyWith(
+            authStates:
+            state.updatedAuthStates(AuthStateEnum.loading)));
         getClickUpWorkspaces?.fold(
             (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,
