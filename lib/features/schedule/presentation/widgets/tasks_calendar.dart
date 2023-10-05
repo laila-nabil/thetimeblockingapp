@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import '../../../../core/extensions.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
+import '../../../task_popup/presentation/views/task_popup.dart';
 
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
@@ -32,8 +33,9 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      allowDragAndDrop: true,
-      allowAppointmentResize: true,
+      ///TODO enable when enabling the feautre
+      allowDragAndDrop: false,
+      allowAppointmentResize: false,
       allowViewNavigation: true,
       firstDayOfWeek: 6,
       showTodayButton: true,
@@ -51,9 +53,13 @@ class TasksCalendar extends StatelessWidget {
         printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
         printDebug("calendarTapDetails ${calendarTapDetails.resource}");
         if(calendarTapDetails.appointments == null){
-          ///TODO try to add a new task
+        ///TODO try to add a new task
         }else{
-          ///TODO view/edit the task
+        ///TODO view/edit the task
+        showTaskPopup(
+        context: context,
+        taskPopupParams: TaskPopupParams(
+        calendarTapDetails.appointments?.first as ClickupTask));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
@@ -80,7 +86,7 @@ class TasksCalendar extends StatelessWidget {
         printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleBloc.state.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
             .isAfter(scheduleBloc.state.tasksDueDateLatestDate)}");
         if (viewChangedDetails.visibleDates.first
-                .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
+            .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
             viewChangedDetails.visibleDates.last
                 .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
 
@@ -101,13 +107,13 @@ class TasksCalendar extends StatelessWidget {
                           Globals.clickUpUser?.id.toString() ?? ""
                         ],
                         filterByDueDateGreaterThanUnixTimeMilliseconds:
-                            (viewChangedDetails.visibleDates.first
-                                    .add(const Duration(days: 1)))
-                                .millisecondsSinceEpoch,
+                        (viewChangedDetails.visibleDates.first
+                            .add(const Duration(days: 1)))
+                            .millisecondsSinceEpoch,
                         filterByDueDateLessThanUnixTimeMilliseconds:
-                            viewChangedDetails.visibleDates.last
-                                .add(const Duration(days: 1))
-                                .millisecondsSinceEpoch))));
+                        viewChangedDetails.visibleDates.last
+                            .add(const Duration(days: 1))
+                            .millisecondsSinceEpoch))));
           } else {
             printDebug("onViewChange Not");
           }
