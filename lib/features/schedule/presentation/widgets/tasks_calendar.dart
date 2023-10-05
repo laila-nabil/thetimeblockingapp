@@ -88,24 +88,24 @@ class TasksCalendar extends StatelessWidget {
           ///TODO fix adding event multiple times
           if (scheduleBloc.state.isLoading == false) {
             printDebug("onViewChange HEREEEE");
-            scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                GetClickUpTasksInWorkspaceParams(
-                    workspaceId: selectedClickupWorkspaceId ??
-                        Globals.clickUpWorkspaces?.first.id ??
-                        "",
-                    filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
-                        filterByAssignees: [
-                          Globals.clickUpUser?.id.toString() ?? ""
-                        ],
-                        filterByDueDateGreaterThanUnixTimeMilliseconds:
-                            (viewChangedDetails.visibleDates.first
-                                    .add(const Duration(days: 1)))
-                                .millisecondsSinceEpoch,
-                        filterByDueDateLessThanUnixTimeMilliseconds:
-                            viewChangedDetails.visibleDates.last
-                                .add(const Duration(days: 1))
-                                .millisecondsSinceEpoch))));
+            // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+            //     GetClickUpTasksInWorkspaceParams(
+            //         workspaceId: selectedClickupWorkspaceId ??
+            //             Globals.clickUpWorkspaces?.first.id ??
+            //             "",
+            //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
+            //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
+            //             filterByAssignees: [
+            //               Globals.clickUpUser?.id.toString() ?? ""
+            //             ],
+            //             filterByDueDateGreaterThanUnixTimeMilliseconds:
+            //                 (viewChangedDetails.visibleDates.first
+            //                         .add(const Duration(days: 1)))
+            //                     .millisecondsSinceEpoch,
+            //             filterByDueDateLessThanUnixTimeMilliseconds:
+            //                 viewChangedDetails.visibleDates.last
+            //                     .add(const Duration(days: 1))
+            //                     .millisecondsSinceEpoch))));
           } else {
             printDebug("onViewChange Not");
           }
