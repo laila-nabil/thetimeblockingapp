@@ -16,10 +16,11 @@ class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
 }
 
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
+  final String? id;
   final GetClickUpTasksInWorkspaceParams params;
 
-  const GetTasksForSingleWorkspaceScheduleEvent(this.params);
+  const GetTasksForSingleWorkspaceScheduleEvent(this.params, {this.id});
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,id];
 }

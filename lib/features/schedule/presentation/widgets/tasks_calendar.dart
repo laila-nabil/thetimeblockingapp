@@ -84,11 +84,13 @@ class TasksCalendar extends StatelessWidget {
             viewChangedDetails.visibleDates.last
                 .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
 
-          ///TODO onViewChange
-          ///TODO fix adding event multiple times
-          if (scheduleBloc.state.isLoading == false) {
+          final id = "${viewChangedDetails.visibleDates.tryElementAt(0)?.millisecondsSinceEpoch}${viewChangedDetails.visibleDates.lastOrNull?.millisecondsSinceEpoch}";
+          if (scheduleBloc.state.isLoading == false &&
+              scheduleBloc.state.getTasksForSingleWorkspaceScheduleEventId !=
+                  id) {
             printDebug("onViewChange HEREEEE");
             scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+                id: id,
                 GetClickUpTasksInWorkspaceParams(
                     workspaceId: selectedClickupWorkspaceId ??
                         Globals.clickUpWorkspaces?.first.id ??

@@ -12,10 +12,11 @@ class ScheduleState extends Equatable {
   final Failure? getTasksSingleWorkspaceFailure;
   final DateTime tasksDueDateEarliestDate;
   final DateTime tasksDueDateLatestDate;
-
+  final String? getTasksForSingleWorkspaceScheduleEventId;
   const ScheduleState._({
     required this.scheduleStates,
     this.clickUpTasks,
+    this.getTasksForSingleWorkspaceScheduleEventId,
     this.getTasksSingleWorkspaceFailure,
     required this.tasksDueDateEarliestDate,
     required this.tasksDueDateLatestDate,
@@ -33,6 +34,7 @@ class ScheduleState extends Equatable {
         getTasksSingleWorkspaceFailure,
         tasksDueDateEarliestDate,
         tasksDueDateLatestDate,
+        getTasksForSingleWorkspaceScheduleEventId,
       ];
 
 
@@ -42,6 +44,7 @@ class ScheduleState extends Equatable {
     Failure? getTasksSingleWorkspaceFailure,
     DateTime? tasksDueDateEarliestDate,
     DateTime? tasksDueDateLatestDate,
+    String? getTasksForSingleWorkspaceScheduleEventId,
   }) {
     return ScheduleState._(
       scheduleStates: updateEnumStates(stateAddRemove),
@@ -52,7 +55,9 @@ class ScheduleState extends Equatable {
           this.tasksDueDateEarliestDate,
       tasksDueDateLatestDate:
           tasksDueDateLatestDate ?? this.tasksDueDateLatestDate,
-    );
+        getTasksForSingleWorkspaceScheduleEventId:
+            getTasksForSingleWorkspaceScheduleEventId ??
+                this.getTasksForSingleWorkspaceScheduleEventId);
   }
 
   bool get isInitial => scheduleStates.isEmpty;

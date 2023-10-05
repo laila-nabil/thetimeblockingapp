@@ -30,7 +30,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     on<ScheduleEvent>((event, emit) async {
       if (event is GetTasksForSingleWorkspaceScheduleEvent) {
         emit(state.copyWith(
-            stateAddRemove: const Right(ScheduleStateEnum.loading)));
+            stateAddRemove: const Right(ScheduleStateEnum.loading),
+            getTasksForSingleWorkspaceScheduleEventId:
+                event.id));
         final result =
             await _getClickUpTasksInSingleWorkspaceUseCase(event.params);
         emit(state.copyWith(
