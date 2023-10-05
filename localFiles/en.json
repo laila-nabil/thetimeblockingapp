@@ -16,5 +16,9 @@
   "filterBy": "Filter by ",
   "autoSchedule": "Auto Schedule",
   "showCompleted": "Show completed",
-  "workspaces": "workspaces"
+  "workspaces": "workspaces",
+  "save": "Save",
+  "cancel": "Cancel",
+  "title": "Title",
+  "description": "Description"
 }

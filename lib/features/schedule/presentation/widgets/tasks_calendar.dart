@@ -54,12 +54,16 @@ class TasksCalendar extends StatelessWidget {
         printDebug("calendarTapDetails ${calendarTapDetails.resource}");
         if(calendarTapDetails.appointments == null){
         ///TODO try to add a new task
-        }else{
-        ///TODO view/edit the task
-        showTaskPopup(
-        context: context,
-        taskPopupParams: TaskPopupParams(
-        calendarTapDetails.appointments?.first as ClickupTask));
+          showTaskPopup(
+              context: context,
+              taskPopupParams: TaskPopupParams());
+        } else {
+          ///TODO view/edit the task
+          showTaskPopup(
+              context: context,
+              taskPopupParams: TaskPopupParams(
+                task: calendarTapDetails.appointments?.first as ClickupTask,
+              ));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){

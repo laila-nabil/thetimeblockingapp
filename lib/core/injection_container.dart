@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
+import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -54,7 +55,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),serviceLocator(),
       ));
-
+  serviceLocator.registerFactory(() => TaskPopUpBloc());
   /// UseCases
 
   serviceLocator.registerLazySingleton(() => GetClickUpAccessTokenUseCase(

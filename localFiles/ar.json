@@ -16,5 +16,9 @@
   "filterBy": "تصفية حسب  ",
   "autoSchedule": "جدول تلقائيا",
   "showCompleted": "اظهر المهام المكتملة",
-  "workspaces": "مساحات العمل"
+  "workspaces": "مساحات العمل",
+  "save": "حفظ",
+  "cancel": "الغاء",
+  "title": "عنوان",
+  "description": "تفاصيل"
 }
