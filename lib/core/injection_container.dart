@@ -55,9 +55,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => StartupBloc());
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
-  serviceLocator.registerFactory(() => ScheduleBloc(
-        serviceLocator(),serviceLocator(),
-      ));
+  serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
+      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => TaskPopUpBloc());
   /// UseCases
 

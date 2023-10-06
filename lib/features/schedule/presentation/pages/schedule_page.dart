@@ -40,7 +40,8 @@ class SchedulePage extends StatelessWidget {
             },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              if (state.isInitial) {
+              if (state.isInitial ||
+                  state.forceGetTasksForSingleWorkspaceScheduleEvent == true) {
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetClickUpTasksInWorkspaceParams(
                         workspaceId:
