@@ -58,6 +58,26 @@ class NetworkHttp implements Network {
               headers: headers,
             ));
   }
+
+  @override
+  Future<NetworkResponse> delete(
+      {required String url, Map<String, String>? headers}) async {
+    Uri uri = Uri.parse(url);
+    printDebug(
+      "[url] start$url",
+    );
+    printDebug(
+      "[url] $url",
+    );
+    printDebug(
+      "[header] " "${headers ?? ""}",
+    );
+    return responseHandler(
+        httpResponse: () async => await http.delete(
+              uri,
+              headers: headers,
+            ));
+  }
 /*@override
   Future<NetworkResponse> post(
       {required String url,

@@ -17,6 +17,9 @@ abstract class Network {
   Future<NetworkResponse> get(
       {required String url, Map<String, String>? headers});
 
+  Future<NetworkResponse> delete(
+      {required String url, Map<String, String>? headers});
+
   Network({required this.httpClient,required this.responseHandler});
 }
 

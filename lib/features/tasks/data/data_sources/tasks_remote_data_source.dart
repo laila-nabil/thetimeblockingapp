@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/network/clickup_header.dart';
@@ -17,6 +19,9 @@ abstract class TasksRemoteDataSource {
 
   Future<ClickupTaskModel> updateTask(
       {required UpdateClickUpTaskParams params});
+
+  Future<Unit> deleteTask(
+      {required DeleteClickUpTaskParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -68,5 +73,14 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<Unit> deleteTask({required DeleteClickUpTaskParams params}) async{
+    String url = "$clickUpUrl/task/${params.taskId}";
+    await network.delete(
+        url: url,
+        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),);
+    return unit;
   }
 }
