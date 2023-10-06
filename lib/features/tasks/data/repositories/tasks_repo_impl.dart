@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/repo_handler.dart';
 
@@ -28,5 +29,13 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.createTaskInList(params: params));
+  }
+
+  @override
+  Future<Either<Failure, ClickupTask>?> updateTask(
+      UpdateClickUpTaskParams params) {
+    return repoHandler(
+        remoteDataSourceRequest: () async =>
+        await remoteDataSource.updateTask(params: params));
   }
 }

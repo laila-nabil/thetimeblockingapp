@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
@@ -13,6 +14,9 @@ abstract class TasksRemoteDataSource {
 
   Future<ClickupTaskModel> createTaskInList(
       {required CreateClickUpTaskParams params});
+
+  Future<ClickupTaskModel> updateTask(
+      {required UpdateClickUpTaskParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -47,13 +51,22 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupTaskModel> createTaskInList(
       {required CreateClickUpTaskParams params}) async {
-   String url = "$clickUpUrl/list/${params.listId}/task";
-   final response = await network.post(
-       url: url,
-       headers: clickUpHeader(
-           clickUpAccessToken: params.clickUpAccessToken),
-      body: params.toJson()
-   );
-   return ClickupTaskModel.fromJson(json.decode(response.body));
+    String url = "$clickUpUrl/list/${params.listId}/task";
+    final response = await network.post(
+        url: url,
+        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
+        body: params.toJson());
+    return ClickupTaskModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupTaskModel> updateTask(
+      {required UpdateClickUpTaskParams params}) async {
+    String url = "$clickUpUrl/task/${params.taskId}";
+    final response = await network.post(
+        url: url,
+        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
+        body: params.toJson());
+    return ClickupTaskModel.fromJson(json.decode(response.body));
   }
 }

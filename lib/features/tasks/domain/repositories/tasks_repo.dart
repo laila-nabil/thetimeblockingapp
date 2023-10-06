@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/error/failures.dart';
 import '../entities/clickup_task.dart';
@@ -11,4 +12,7 @@ abstract class TasksRepo{
 
   Future<Either<Failure, ClickupTask>?> createTaskInList(
       CreateClickUpTaskParams params);
+
+  Future<Either<Failure, ClickupTask>?> updateTask(
+      UpdateClickUpTaskParams params);
 }
