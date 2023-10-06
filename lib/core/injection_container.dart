@@ -16,8 +16,11 @@ import '../features/auth/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
+import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
@@ -74,6 +77,16 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetClickUpTasksInAllWorkspacesUseCase(
     serviceLocator(),
   ));
+
+  serviceLocator.registerLazySingleton(() => CreateClickUpTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => UpdateClickUpTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => DeleteClickUpTaskUseCase(
+        serviceLocator(),
+      ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

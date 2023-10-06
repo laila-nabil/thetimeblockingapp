@@ -583,6 +583,15 @@ class ClickupTaskPriority extends Equatable {
       this.priority});
 
 
+  int? get getPriorityNum {
+    if(isNum == true && priorityNum!=null){
+      return priorityNum!.toInt();
+    }else if(isNum == false && id !=null && int.tryParse(id??"") !=null){
+      return int.parse(id??"");
+    }
+    return null;
+  }
+
   String get getPriorityExclamation {
   if(isNum == true && priorityNum!=null){
     return  "!" * (4 - priorityNum!.toInt());
