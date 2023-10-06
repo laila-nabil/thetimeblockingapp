@@ -56,7 +56,7 @@ class ClickupTaskModel extends ClickupTask {
     super.dueDateUtcTimestamp,
     super.startDateUtcTimestamp,
     super.points,
-    super.timeEstimate,
+    super.timeEstimateMilliseconds,
     super.customFields,
     super.dependencies,
     super.linkedTasks,
@@ -107,11 +107,11 @@ class ClickupTaskModel extends ClickupTask {
         checklists?.add(ClickupChecklistsModel.fromJson(v));
       });
     }
-    List<ClickupTagsModel>? tags;
+    List<ClickupTagModel>? tags;
     if (json['tags'] != null) {
       tags = [];
       json['tags'].forEach((v) {
-        tags?.add(ClickupTagsModel.fromJson(v));
+        tags?.add(ClickupTagModel.fromJson(v));
       });
     }
     String? parent = json['parent'];
@@ -120,7 +120,7 @@ class ClickupTaskModel extends ClickupTask {
     String? dueDate = json['due_date'];
     String? startDate = json['start_date'];
     num? points = json['points'];
-    num? timeEstimate = json['time_estimate'];
+    num? timeEstimateMilliseconds = json['time_estimate'];
     List<ClickupCustomFieldsModel>? customFields;
     if (json['custom_fields'] != null) {
       customFields = [];
@@ -188,7 +188,7 @@ class ClickupTaskModel extends ClickupTask {
         tags: tags,
         teamId: teamId,
         textContent: textContent,
-        timeEstimate: timeEstimate,
+        timeEstimateMilliseconds: timeEstimateMilliseconds,
         url: url,
         watchers: watchers);
   }
@@ -225,14 +225,14 @@ class ClickupTaskModel extends ClickupTask {
           .toList();
     }
     if (tags != null) {
-      map['tags'] = tags?.map((v) => (v as ClickupTagsModel).toJson()).toList();
+      map['tags'] = tags?.map((v) => (v as ClickupTagModel).toJson()).toList();
     }
     map['parent'] = parent;
     map['priority'] = priority;
     map['due_date'] = dueDateUtcTimestamp;
     map['start_date'] = startDateUtcTimestamp;
     map['points'] = points;
-    map['time_estimate'] = timeEstimate;
+    map['time_estimate'] = timeEstimateMilliseconds;
     if (customFields != null) {
       map['custom_fields'] = customFields
           ?.map((v) => (v as ClickupCustomFieldsModel).toJson())
@@ -419,15 +419,15 @@ class ClickupCustomFieldsModel extends ClickupCustomFields {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTagsModel extends ClickupTags {
-  const ClickupTagsModel({
+class ClickupTagModel extends ClickupTag {
+  const ClickupTagModel({
     super.name,
     super.tagFg,
     super.tagBg,
   });
 
-  factory ClickupTagsModel.fromJson(Map<String, dynamic> json) {
-    return ClickupTagsModel(
+  factory ClickupTagModel.fromJson(Map<String, dynamic> json) {
+    return ClickupTagModel(
       name: json['name'],
       tagFg: json['tag_fg'],
       tagBg: json['tag_bg'],

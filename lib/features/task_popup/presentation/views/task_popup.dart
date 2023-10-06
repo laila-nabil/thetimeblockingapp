@@ -1,18 +1,29 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/extensions.dart';
 
 class TaskPopupParams {
   final ClickupTask? task;
-  final void Function()? saveAllChanges;
+  final void Function(
+      Either<UpdateClickUpTaskParams, CreateClickUpTaskParams> params)? onSave;
+  final void Function(DeleteClickUpTaskParams params)? onDelete;
 
   TaskPopupParams({
     this.task,
-    this.saveAllChanges,
+    this.onSave,
+    this.onDelete,
   });
 }
 
@@ -37,69 +48,102 @@ class TaskPopup extends StatelessWidget {
     const radius = 20.0;
     final borderRadius = BorderRadius.circular(radius);
     final task = taskPopupParams.task;
-    return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        contentPadding: const EdgeInsets.all(radius),
-        actions: [
-          ///TODO only show in case of changes
-          CustomButton(
-              onPressed: ()=>Navigator.maybePop(context),
-              child: Text(appLocalization.translate("cancel"))),
-          CustomButton(
-              onPressed:  ///TODO save changes
-                null,
-              child: Text(appLocalization.translate("save")))
-        ],
-        content: Column(
-          children: [
-            ///Priority & Title
-            RichText(
-                text: TextSpan(children: [
-              if (task?.priority != null)
-                TextSpan(
-                    text: "${task?.priority?.getPriorityExclamation} ",
-                    style: TextStyle(
-                        textBaseline: TextBaseline.alphabetic,
-                        color: task?.priority?.getPriorityExclamationColor)),
-              TextSpan(
-                text: task?.name ?? appLocalization.translate("title"),
-              )
-            ])),
+    return BlocProvider(
+      create: (context) => serviceLocator<TaskPopUpBloc>(),
+      child: BlocConsumer<TaskPopUpBloc, TaskPopUpState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: borderRadius),
+              contentPadding: const EdgeInsets.all(radius),
+              actions: [
+                CustomButton(
+                    onPressed: () => Navigator.maybePop(context),
+                    child: Text(appLocalization.translate("cancel"))),
+                CustomButton(
+                    onPressed:
+                        taskPopupParams.onSave == null || state.readyToSubmit == false
+                            ? null
+                            : () {
+                                Either<UpdateClickUpTaskParams,
+                                    CreateClickUpTaskParams> params;
+                                if (task == null) {
+                                  params = Right(CreateClickUpTaskParams(
+                                      clickUpList: state.list!,
+                                      title: "default title",
+                                      clickUpAccessToken:
+                                          Globals.clickUpAuthAccessToken));
+                                } else {
+                                  params = Left(UpdateClickUpTaskParams(
+                                      task: task,
+                                      clickUpAccessToken:
+                                          Globals.clickUpAuthAccessToken));
+                                }
+                                taskPopupParams.onSave!(params);
+                    },
+                    child: Text(appLocalization.translate("save")))
+              ],
+              content: Column(
+                children: [
 
-            ///Description
-            Text(task?.description ?? appLocalization.translate("description")),
+                  ///Priority & Title
+                  RichText(
+                      text: TextSpan(children: [
+                        if (task?.priority != null)
+                          TextSpan(
+                              text: "${task?.priority
+                                  ?.getPriorityExclamation} ",
+                              style: TextStyle(
+                                  textBaseline: TextBaseline.alphabetic,
+                                  color: task?.priority
+                                      ?.getPriorityExclamationColor)),
+                        TextSpan(
+                          text: task?.name ??
+                              appLocalization.translate("title"),
+                        )
+                      ])),
 
-            ///Tags
-            Text(task?.tags?.map((e) => "#${e.name}").toString() ?? ""),
+                  ///Description
+                  Text(task?.description ??
+                      appLocalization.translate("description")),
 
-            ///List
-            Text("list : ${task?.list?.name}"),
+                  ///Tags
+                  Text(task?.tags?.map((e) => "#${e.name}").toString() ?? ""),
 
-            ///Project
-            Text("project : ${task?.project?.name}"),
+                  ///List
+                  Text("list : ${task?.list?.name}"),
 
-            ///Assignees
-            Expanded(
-              child: Wrap(
-                children: task?.assignees
-                        ?.map((e) => CircleAvatar(
-                              backgroundColor: HexColor.fromHex(e.color ?? ""),
-                              backgroundImage:
-                                  e.profilePicture?.isNotEmpty == true
-                                      ? NetworkImage(e.profilePicture ?? "")
-                                      : null,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: AutoSizeText(e.initials ??
-                                    e.getInitialsFromUserName ??
-                                    ""),
-                              ),
-                            ))
-                        .toList() ??
-                    [],
-              ),
-            ),
-          ],
-        ));
+                  ///Project
+                  Text("project : ${task?.project?.name}"),
+
+                  ///Assignees
+                  Expanded(
+                    child: Wrap(
+                      children: task?.assignees
+                          ?.map((e) =>
+                          CircleAvatar(
+                            backgroundColor: HexColor.fromHex(e.color ?? ""),
+                            backgroundImage:
+                            e.profilePicture?.isNotEmpty == true
+                                ? NetworkImage(e.profilePicture ?? "")
+                                : null,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: AutoSizeText(e.initials ??
+                                  e.getInitialsFromUserName ??
+                                  ""),
+                            ),
+                          ))
+                          .toList() ??
+                          [],
+                    ),
+                  ),
+                ],
+              ));
+        },
+      ),
+    );
   }
 }

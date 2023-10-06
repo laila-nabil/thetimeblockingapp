@@ -23,12 +23,12 @@ class CreateClickUpTaskParams {
   final String title;
   final String? description;
   final List<ClickupAssignees>? assignees;
-  final List<ClickupTags>? tags;
+  final List<ClickupTag>? tags;
   final ClickupStatus? taskStatus;
   final ClickupTaskPriority? taskPriority;
   final DateTime? dueDate;
   final bool? dueDateTime;
-  final DateTime? timeEstimate;
+  final Duration? timeEstimate;
   final DateTime? startDate;
   final bool? startDateTime;
   final bool? notifyAll;
@@ -52,8 +52,8 @@ class CreateClickUpTaskParams {
 
   int? get startDateMillisecondsSinceEpoch => startDate?.millisecondsSinceEpoch;
 
-  int? get timeEstimateMillisecondsSinceEpoch =>
-      timeEstimate?.millisecondsSinceEpoch;
+  int? get timeEstimateMilliseconds =>
+      timeEstimate?.inMilliseconds;
 
   String? get parentTaskId => parentTask?.id;
 
@@ -69,7 +69,7 @@ class CreateClickUpTaskParams {
       "priority": priority,
       "due_date": dueDateMillisecondsSinceEpoch,
       "due_date_time": dueDateTime,
-      "time_estimate": timeEstimateMillisecondsSinceEpoch,
+      "time_estimate": timeEstimateMilliseconds,
       "start_date": startDateMillisecondsSinceEpoch,
       "start_date_time": startDateMillisecondsSinceEpoch,
       "notify_all": notifyAll,

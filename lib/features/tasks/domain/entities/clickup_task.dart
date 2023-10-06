@@ -59,7 +59,7 @@ class ClickupTask extends Equatable {
     this.dueDateUtcTimestamp,
     this.startDateUtcTimestamp,
     this.points,
-    this.timeEstimate,
+    this.timeEstimateMilliseconds,
     this.customFields,
     this.dependencies,
     this.linkedTasks,
@@ -87,13 +87,13 @@ class ClickupTask extends Equatable {
   final List<ClickupAssignees>? assignees;
   final List<ClickupWatchers>? watchers;
   final List<ClickupChecklists>? checklists;
-  final List<ClickupTags>? tags;
+  final List<ClickupTag>? tags;
   final String? parent;
   final ClickupTaskPriority? priority;
   final String? dueDateUtcTimestamp;
   final String? startDateUtcTimestamp;
   final num? points;
-  final num? timeEstimate;
+  final num? timeEstimateMilliseconds;
   final List<ClickupCustomFields>? customFields;
   final List<String>? dependencies;
   final List<String>? linkedTasks;
@@ -140,6 +140,10 @@ class ClickupTask extends Equatable {
   DateTime? get startDateUtc =>
       DateTimeExtensions.getDateTimeFromString(date: startDateUtcTimestamp);
 
+  Duration? get timeEstimate => timeEstimateMilliseconds == null
+      ? null
+      : Duration(seconds: timeEstimateMilliseconds!.toInt());
+
   @override
   List<Object?> get props => [
         id,
@@ -163,7 +167,7 @@ class ClickupTask extends Equatable {
         dueDateUtcTimestamp,
         startDateUtcTimestamp,
         points,
-        timeEstimate,
+        timeEstimateMilliseconds,
         customFields,
         dependencies,
         linkedTasks,
@@ -310,8 +314,8 @@ class ClickupCustomFields extends Equatable {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTags extends Equatable {
-  const ClickupTags({
+class ClickupTag extends Equatable {
+  const ClickupTag({
     this.name,
     this.tagFg,
     this.tagBg,

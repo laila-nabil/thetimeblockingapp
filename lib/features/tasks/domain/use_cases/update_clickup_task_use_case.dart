@@ -20,16 +20,16 @@ class UpdateClickUpTaskUseCase
 
 class UpdateClickUpTaskParams {
   final ClickupTask task;
-  final String title;
+  final String? title;
   final String? description;
   final List<ClickupAssignees>? addedAssignees;
   final List<ClickupAssignees>? removedAssignees;
-  final List<ClickupTags>? tags;
+  final List<ClickupTag>? tags;
   final ClickupStatus? taskStatus;
   final ClickupTaskPriority? taskPriority;
   final DateTime? dueDate;
   final bool? dueDateTime;
-  final DateTime? timeEstimate;
+  final Duration? timeEstimate;
   final DateTime? startDate;
   final bool? startDateTime;
   final bool? archived;
@@ -54,8 +54,8 @@ class UpdateClickUpTaskParams {
 
   int? get startDateMillisecondsSinceEpoch => startDate?.millisecondsSinceEpoch;
 
-  int? get timeEstimateMillisecondsSinceEpoch =>
-      timeEstimate?.millisecondsSinceEpoch;
+  int? get timeEstimateMilliseconds =>
+      timeEstimate?.inMilliseconds;
 
   String? get parentTaskId => parentTask?.id;
 
@@ -73,16 +73,14 @@ class UpdateClickUpTaskParams {
   Map<String, dynamic> toJson() {
     return {
       "name": title,
-      "description": description?.isEmpty == true ? " " : description,
-
-      ///To clear the task description, include Description with " "
+      "description": description?.isEmpty == true ? " " : description, //To clear the task description, include Description with " "
       "assignees": assignees,
       "tags": tagsNames,
       "status": status,
       "priority": priority,
       "due_date": dueDateMillisecondsSinceEpoch,
       "due_date_time": dueDateTime,
-      "time_estimate": timeEstimateMillisecondsSinceEpoch,
+      "time_estimate": timeEstimateMilliseconds,
       "start_date": startDateMillisecondsSinceEpoch,
       "start_date_time": startDateMillisecondsSinceEpoch,
       "archived": archived,
@@ -92,7 +90,7 @@ class UpdateClickUpTaskParams {
 
   UpdateClickUpTaskParams({
     required this.task,
-    required this.title,
+    this.title,
     required this.clickUpAccessToken,
     this.description,
     this.addedAssignees,
