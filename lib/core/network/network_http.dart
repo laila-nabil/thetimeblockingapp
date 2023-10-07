@@ -78,6 +78,30 @@ class NetworkHttp implements Network {
               headers: headers,
             ));
   }
+
+  @override
+  Future<NetworkResponse> put(
+      {required String url,
+      Map<String, String>? headers,
+      Object? body,
+      Encoding? encoding})async {
+    Uri uri = Uri.parse(url);
+    printDebug(
+      "[url] start$url",
+    );
+    printDebug(
+      "[url] $url",
+    );
+    printDebug(
+      "[header] " "${headers ?? ""}",
+    );
+    printDebug(
+      "[body] " "${body ?? ""}",
+    );
+    return responseHandler(
+        httpResponse: () async => await httpClient.put(uri,
+            headers: headers, body: body, encoding: encoding));
+  }
 /*@override
   Future<NetworkResponse> post(
       {required String url,

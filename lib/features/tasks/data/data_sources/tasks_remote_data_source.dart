@@ -67,7 +67,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupTaskModel> updateTask(
       {required ClickUpTaskParams params}) async {
     String url = "$clickUpUrl/task/${params.taskId}";
-    final response = await network.post(
+    final response = await network.put(
         url: url,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
         body: params.toJson());

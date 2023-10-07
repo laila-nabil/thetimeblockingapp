@@ -14,6 +14,12 @@ abstract class Network {
       Object? body,
       Encoding? encoding});
 
+  Future<NetworkResponse> put(
+      {required String url,
+        Map<String, String>? headers,
+        Object? body,
+        Encoding? encoding});
+
   Future<NetworkResponse> get(
       {required String url, Map<String, String>? headers});
 
