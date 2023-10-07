@@ -4,6 +4,6 @@ Map<String, String>? clickUpHeader({required ClickUpAccessToken clickUpAccessTok
   return {
     "Authorization":
         clickUpAccessToken.accessToken,
-    "Content-Type" : "application/json"
+    // "Content-Type" : "application/json"
   };
 }

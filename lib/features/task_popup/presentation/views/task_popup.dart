@@ -76,6 +76,7 @@ class TaskPopup extends StatelessWidget {
                                 } else {
                                   params = ClickUpTaskParams.updateTask(
                                       task: task,
+                                      description: "new description ${DateTime.now()}",
                                       clickUpAccessToken:
                                           Globals.clickUpAuthAccessToken);
                                 }
