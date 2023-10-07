@@ -2,23 +2,22 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
 class UpdateClickUpTaskUseCase
-    implements UseCase<ClickupTask, UpdateClickUpTaskParams> {
+    implements UseCase<ClickupTask, ClickUpTaskParams> {
   final TasksRepo repo;
 
   UpdateClickUpTaskUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupTask>?> call(UpdateClickUpTaskParams params) {
+  Future<Either<Failure, ClickupTask>?> call(ClickUpTaskParams params) {
     return repo.updateTask(params);
   }
 }
 
-class UpdateClickUpTaskParams {
+/*class UpdateClickUpTaskParams {
   final ClickupTask task;
   final String? title;
   final String? description;
@@ -106,4 +105,4 @@ class UpdateClickUpTaskParams {
     this.archived,
     this.parentTask,
   });
-}
+}*/

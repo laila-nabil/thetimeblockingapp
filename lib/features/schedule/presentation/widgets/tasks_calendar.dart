@@ -57,21 +57,16 @@ class TasksCalendar extends StatelessWidget {
               context: context,
               taskPopupParams: TaskPopupParams(
                   onSave: (params) {
-                    params.fold(
-                            (l) => null,
-                            (r) => scheduleBloc
-                            .add(CreateClickUpTaskEvent(params: r)));
-                  }));
+                    scheduleBloc.add(CreateClickUpTaskEvent(params: params));
+              }));
         } else {
           showTaskPopup(
               context: context,
               taskPopupParams: TaskPopupParams(
                   task: calendarTapDetails.appointments?.first as ClickupTask,
                   onSave: (params) {
-                    params.fold(
-                            (l) => scheduleBloc
-                            .add(UpdateClickUpTaskEvent(params: l)),
-                            (r) => {});
+                    scheduleBloc
+                        .add(UpdateClickUpTaskEvent(params: params));
                   },
                   onDelete: (params) => scheduleBloc
                       .add(DeleteClickUpTaskEvent(params: params))));

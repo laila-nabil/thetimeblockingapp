@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -8,16 +7,14 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams {
   final ClickupTask? task;
-  final void Function(
-      Either<UpdateClickUpTaskParams, CreateClickUpTaskParams> params)? onSave;
+  final void Function(ClickUpTaskParams params)? onSave;
   final void Function(DeleteClickUpTaskParams params)? onDelete;
 
   TaskPopupParams({
@@ -67,19 +64,20 @@ class TaskPopup extends StatelessWidget {
                         taskPopupParams.onSave == null || state.readyToSubmit == false
                             ? null
                             : () {
-                                Either<UpdateClickUpTaskParams,
-                                    CreateClickUpTaskParams> params;
+                                ClickUpTaskParams params;
                                 if (task == null) {
-                                  params = Right(CreateClickUpTaskParams(
+                                  params = ClickUpTaskParams.createNewTask(
                                       clickUpList: state.list!,
                                       title: "default title",
                                       clickUpAccessToken:
-                                          Globals.clickUpAuthAccessToken));
+                                      Globals.clickUpAuthAccessToken, assignees: [
+                                        ///TODO
+                                  ]);
                                 } else {
-                                  params = Left(UpdateClickUpTaskParams(
+                                  params = ClickUpTaskParams.updateTask(
                                       task: task,
                                       clickUpAccessToken:
-                                          Globals.clickUpAuthAccessToken));
+                                          Globals.clickUpAuthAccessToken);
                                 }
                                 taskPopupParams.onSave!(params);
                     },

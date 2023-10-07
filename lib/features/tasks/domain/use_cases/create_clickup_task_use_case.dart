@@ -3,22 +3,22 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateClickUpTaskUseCase
-    implements UseCase<ClickupTask, CreateClickUpTaskParams> {
+    implements UseCase<ClickupTask, ClickUpTaskParams> {
   final TasksRepo repo;
 
   CreateClickUpTaskUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupTask>?> call(CreateClickUpTaskParams params) {
+  Future<Either<Failure, ClickupTask>?> call(ClickUpTaskParams params) {
     return repo.createTaskInList(params);
   }
 }
 
-class CreateClickUpTaskParams {
+/*class CreateClickUpTaskParams {
   final ClickupList clickUpList;
   final String title;
   final String? description;
@@ -103,4 +103,4 @@ class CreateClickUpTaskParams {
       this.parentTask,
       this.linkedTask,
       this.requiredCustomFields});
-}
+}*/

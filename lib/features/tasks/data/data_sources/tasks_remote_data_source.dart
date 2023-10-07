@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
+import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 abstract class TasksRemoteDataSource {
@@ -15,10 +14,10 @@ abstract class TasksRemoteDataSource {
       {required GetClickUpTasksInWorkspaceParams params});
 
   Future<ClickupTaskModel> createTaskInList(
-      {required CreateClickUpTaskParams params});
+      {required ClickUpTaskParams params});
 
   Future<ClickupTaskModel> updateTask(
-      {required UpdateClickUpTaskParams params});
+      {required ClickUpTaskParams params});
 
   Future<Unit> deleteTask(
       {required DeleteClickUpTaskParams params});
@@ -55,7 +54,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> createTaskInList(
-      {required CreateClickUpTaskParams params}) async {
+      {required ClickUpTaskParams params}) async {
     String url = "$clickUpUrl/list/${params.listId}/task";
     final response = await network.post(
         url: url,
@@ -66,7 +65,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> updateTask(
-      {required UpdateClickUpTaskParams params}) async {
+      {required ClickUpTaskParams params}) async {
     String url = "$clickUpUrl/task/${params.taskId}";
     final response = await network.post(
         url: url,

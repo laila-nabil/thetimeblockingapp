@@ -4,12 +4,11 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/repo_handler.dart';
+import '../../domain/entities/task_parameters.dart';
 
 class TasksRepoImpl implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
@@ -26,7 +25,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, ClickupTaskModel>?> createTaskInList(
-      CreateClickUpTaskParams params) {
+      ClickUpTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.createTaskInList(params: params));
@@ -34,7 +33,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, ClickupTask>?> updateTask(
-      UpdateClickUpTaskParams params) {
+      ClickUpTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
         await remoteDataSource.updateTask(params: params));

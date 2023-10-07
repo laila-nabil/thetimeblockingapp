@@ -26,7 +26,7 @@ class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
 }
 
 class CreateClickUpTaskEvent extends ScheduleEvent {
-  final CreateClickUpTaskParams params;
+  final ClickUpTaskParams params;
 
   const CreateClickUpTaskEvent({required this.params});
 
@@ -35,7 +35,7 @@ class CreateClickUpTaskEvent extends ScheduleEvent {
 }
 
 class UpdateClickUpTaskEvent extends ScheduleEvent {
-  final UpdateClickUpTaskParams params;
+  final ClickUpTaskParams params;
 
   const UpdateClickUpTaskEvent({required this.params});
 
