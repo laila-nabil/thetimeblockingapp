@@ -11,6 +11,7 @@ part 'task_pop_up_state.dart';
 
 class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   final ClickupTask? task;
 
@@ -18,6 +19,7 @@ class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
       : super(const TaskPopUpState()) {
     printDebug("task from bloc $task");
     titleController.text = task?.name ?? "";
+    descriptionController.text = task?.description ?? "";
     on<TaskPopUpEvent>((event, emit) {
       if(event is UpdateClickUpTaskParamsEvent){
         emit(TaskPopUpState(taskParams: event.taskParams));

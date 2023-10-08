@@ -164,9 +164,19 @@ class TaskPopup extends StatelessWidget {
                         ),
 
                         ///Description
-                        Text(task?.description ??
-                            appLocalization.translate("description")),
-
+                        Expanded(
+                            child: CustomTextInputField(
+                              controller: taskPopUpBloc.descriptionController,
+                              decoration: InputDecoration(
+                                  hintText: appLocalization.translate("description"),
+                              ),
+                              maxLines: 3,
+                              onChanged: (change) {
+                                taskPopUpBloc.add(UpdateClickUpTaskParamsEvent(
+                                    taskParams: clickUpTaskParams.copyWith(
+                                        description: change)));
+                              },
+                            )),
                         ///Tags
                         Text(task?.tags?.map((e) => "#${e.name}").toString() ??
                             ""),
