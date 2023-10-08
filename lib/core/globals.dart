@@ -1,3 +1,5 @@
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+
 import '../common/entities/clickup_user.dart';
 import '../common/entities/clickup_workspace.dart';
 import '../features/auth/domain/entities/clickup_access_token.dart';
@@ -12,5 +14,6 @@ class Globals {
       const ClickUpAccessToken(accessToken: "", tokenType: "");
   static ClickupUser? clickUpUser;
   static List<ClickupWorkspace>? clickUpWorkspaces;
+  static List<ClickupFolder>? clickUpFolders;
   static ClickupWorkspace? selectedWorkspace;
 }

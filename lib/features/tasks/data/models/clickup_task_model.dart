@@ -1,3 +1,4 @@
+import 'clickup_folder_model.dart';
 import '../../domain/entities/clickup_task.dart';
 
 /// id : "av1"
@@ -279,37 +280,6 @@ class ClickupSpaceModel extends ClickupSpace {
   }
 }
 
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolderModel extends ClickupFolder {
-  const ClickupFolderModel({
-    super.id,
-    super.name,
-    super.hidden,
-    super.access,
-  });
-
-  factory ClickupFolderModel.fromJson(Map<String, dynamic> json) {
-    return ClickupFolderModel(
-      id: json['id'],
-      name: json['name'],
-      hidden: json['hidden'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
 
 /// id : "1"
 /// name : "Folder"

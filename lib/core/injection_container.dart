@@ -4,6 +4,8 @@ import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
+import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -13,6 +15,7 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/startup/domain/use_cases/get_clickup_folders_use_case.dart';
 import '../features/startup/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
@@ -53,7 +56,7 @@ void _initServiceLocator({required Network network}) {
       Logger(printer:logPrinter ));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc());
+  serviceLocator.registerFactory(() => StartupBloc(serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
@@ -90,9 +93,16 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
+  serviceLocator.registerLazySingleton(() => GetClickUpFoldersUseCase(
+    serviceLocator(),
+  ));
+
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
+  serviceLocator
+      .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
+
   serviceLocator
       .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
 
@@ -112,6 +122,17 @@ void _initServiceLocator({required Network network}) {
           clickUpClientId: Globals.clickUpClientId,
           clickUpClientSecret: Globals.clickUpClientSecret,
           clickUpUrl: Globals.clickUpUrl,));
+
+  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
+      StartUpRemoteDataSourceImpl(
+        network: serviceLocator(),
+        clickUpClientId: Globals.clickUpClientId,
+        clickUpClientSecret: Globals.clickUpClientSecret,
+        clickUpUrl: Globals.clickUpUrl,));
+
+  serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
+          () => StartUpLocalDataSourceImpl(serviceLocator()));
+
 
   /// External
 

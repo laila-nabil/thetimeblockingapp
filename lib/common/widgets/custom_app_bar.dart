@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_folders_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
 ///Fix overflow in android
@@ -35,8 +36,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               initialSelection: Globals.clickUpWorkspaces?.first,
               onSelected: (selected) {
                 if (selected is ClickupWorkspace) {
-                  startUpBloc.add(SelectClickupWorkspace(selected));
-                }
+                startUpBloc.add(SelectClickupWorkspace(
+                    clickupWorkspace: selected,
+                    getClickUpFoldersParams: GetClickUpFoldersParams(
+                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                        clickupWorkspace: selected)));
+              }
               },
               dropdownMenuEntries: Globals.clickUpWorkspaces
                       ?.map((e) => DropdownMenuEntry(

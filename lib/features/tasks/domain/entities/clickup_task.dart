@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/extensions.dart';
+import 'clickup_folder.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -192,33 +193,6 @@ class ClickupSpace extends Equatable {
 
   @override
   List<Object?> get props => [id];
-}
-
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolder extends Equatable {
-  const ClickupFolder({
-    this.id,
-    this.name,
-    this.hidden,
-    this.access,
-  });
-
-  final String? id;
-  final String? name;
-  final bool? hidden;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        hidden,
-        access,
-      ];
 }
 
 /// id : "1"
