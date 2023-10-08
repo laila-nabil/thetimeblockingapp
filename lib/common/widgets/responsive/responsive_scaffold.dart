@@ -7,6 +7,8 @@ import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_loading.dart';
 
+///FIX responsiveScaffoldLoading overlayLoading does not work as intended in case of pop up
+
 enum ResponsiveScaffoldLoadingEnum {
   overlayLoading,
   contentLoading,

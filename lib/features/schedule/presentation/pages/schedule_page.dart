@@ -40,8 +40,17 @@ class SchedulePage extends StatelessWidget {
             },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              if (state.isInitial ||
-                  state.forceGetTasksForSingleWorkspaceScheduleEvent == true) {
+              final changeTaskSuccessfully =
+                  state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.createTaskSuccess ||
+                  state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.updateTaskSuccess ||
+                  state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.deleteTaskSuccess;
+              if (state.isInitial || changeTaskSuccessfully) {
+                if (changeTaskSuccessfully) {
+                  Navigator.maybePop(context);
+                }
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetClickUpTasksInWorkspaceParams(
                         workspaceId:
@@ -65,7 +74,7 @@ class SchedulePage extends StatelessWidget {
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                       responsiveScaffoldLoadingEnum:
                           ResponsiveScaffoldLoadingEnum.overlayLoading,
-                      isLoading: state.scheduleStates
+                      isLoading: state.persistingScheduleStates
                           .contains(ScheduleStateEnum.loading)),
                   pageActions: [
                     PopupMenuItem(
