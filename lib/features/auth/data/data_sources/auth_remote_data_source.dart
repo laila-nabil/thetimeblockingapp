@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../models/clickup_access_token_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -15,8 +13,6 @@ abstract class AuthRemoteDataSource {
 
   Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params});
 
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -49,16 +45,4 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
 
-  @override
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params}) async {
-    List<ClickupWorkspaceModel> result = [];
-    final response = await network.get(
-        url: "$clickUpUrl/team",
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    for (var element in (json.decode(response.body)["teams"] as List)) {
-      result.add(ClickupWorkspaceModel.fromJson(element));
-    }
-    return result;
-  }
 }

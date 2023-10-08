@@ -95,7 +95,7 @@ class TaskPopup extends StatelessWidget {
                                       title: "default title",
                                       clickUpAccessToken:
                                           Globals.clickUpAuthAccessToken,
-                                      assignees: [
+                                      assignees: const [
                                         ///TODO
                                       ]);
                                 } else {
