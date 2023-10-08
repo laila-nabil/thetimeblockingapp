@@ -41,9 +41,8 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickUpTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
     String url = "$clickUpUrl/team/${params.workspaceId}/task";
-    url += params.filtersParams.toUrlString;
     final response = await network.get(
-        uri: url,
+        uri: Uri(path: url,queryParameters: params.filtersParams.query),
         headers: clickUpHeader(
             clickUpAccessToken: params.filtersParams.clickUpAccessToken));
     for (var element in (json.decode(response.body)["tasks"] as List)) {

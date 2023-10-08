@@ -24,16 +24,14 @@ class GetClickUpTasksInSingleWorkspaceUseCase
 class GetClickUpTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
   final GetClickUpTasksInWorkspaceFiltersParams filtersParams;
+
   const GetClickUpTasksInWorkspaceParams({
     required this.workspaceId,
     required this.filtersParams,
   });
 
   @override
-  List<Object?> get props => [
-        workspaceId,
-        filtersParams
-      ];
+  List<Object?> get props => [workspaceId, filtersParams];
 }
 
 class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
@@ -60,6 +58,7 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
   final bool? customTaskIds;
   final bool? includeParentTaskId;
   final ClickUpAccessToken clickUpAccessToken;
+
   const GetClickUpTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
@@ -188,23 +187,23 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
+          "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result +=
-      "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
+          "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
+          "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result +=
-      "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
+          "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
+          "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
       result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
@@ -222,128 +221,74 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }
 
-  Map<String,dynamic> get query {
-    Map<String,dynamic> result = {};
+  Map<String, dynamic> get query {
+    Map<String, dynamic> result = {};
     if (page != null) {
-      result["page"]  = page;
+      result["page"] = page;
     }
     if (tasksOrderBy != null) {
-      result["order_by"]  = tasksOrderBy?.name;
+      result["order_by"] = tasksOrderBy?.name;
     }
     if (reverse != null) {
-      result["reverse"]  = reverse;
+      result["reverse"] = reverse;
     }
     if (includeSubtasks != null) {
-      result["subtasks"]  = includeSubtasks;
+      result["subtasks"] = includeSubtasks;
     }
     if (filterBySpaceIds != null) {
-      result += "?";
-      int index = 0;
-      for (var element in filterBySpaceIds!) {
-        result += "space_ids[]=$element";
-
-        if (index + 1 == filterBySpaceIds?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["space_ids"] = filterBySpaceIds;
     }
     if (filterByProjectIds != null) {
-      result += "?";
-      int index = 0;
-      for (var element in filterByProjectIds!) {
-        result += "project_ids[]=$element";
-
-        if (index + 1 == filterByProjectIds?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["project_ids"] = filterByProjectIds;
     }
     if (filterByListsIds != null) {
-      result += "?";
-      int index = 0;
-      for (var element in filterByListsIds!) {
-        result += "list_ids[]=$element";
-
-        if (index + 1 == filterByListsIds?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["list_ids"] = filterByListsIds;
     }
     if (filterByStatuses != null) {
-      result += "?";
-      int index = 0;
-      for (String element in filterByStatuses!) {
-        result += "statuses[]=${element.replaceAll(" ", "%20")}";
-
-        if (index + 1 == filterByStatuses?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["statuses"] = filterByStatuses;
     }
     if (includeClosed != null) {
-      result["include_closed"]  = includeClosed;
+      result["include_closed"] = includeClosed;
     }
     if (filterByAssignees != null) {
-      result += "?";
-      int index = 0;
-      for (var element in filterByAssignees!) {
-        result += "assignees[]=$element";
-
-        if (index + 1 == filterByAssignees?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["assignees"] = filterByAssignees;
     }
     if (filterByTags != null) {
-      result += "?";
-      int index = 0;
-      for (String element in filterByTags!) {
-        result += "tags[]=${element.replaceAll(" ", "%20")}";
-        if (index + 1 == filterByTags?.length) {
-          result += "&";
-        }
-        index++;
-      }
+      result["tags"] = filterByTags;
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
-      result["due_date_gt"]  = filterByDueDateGreaterThanUnixTimeMilliseconds;
+      result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds;
     }
     if (filterByDueDateLessThanUnixTimeMilliseconds != null) {
-      result["due_date_lt"]  = filterByDueDateLessThanUnixTimeMilliseconds;
+      result["due_date_lt"] = filterByDueDateLessThanUnixTimeMilliseconds;
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
-      result["date_created_gt"]  = filterByCreatedDateGreaterThanUnixTimeMilliseconds;
+      result["date_created_gt"] =
+          filterByCreatedDateGreaterThanUnixTimeMilliseconds;
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
-      result["date_created_lt"]  = filterByCreatedDateLessThanUnixTimeMilliseconds;
+      result["date_created_lt"] =
+          filterByCreatedDateLessThanUnixTimeMilliseconds;
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
-      result["date_updated_gt"]  = filterByDateUpdatedGreaterThanUnixTimeMilliseconds;
+      result["date_updated_gt"] =
+          filterByDateUpdatedGreaterThanUnixTimeMilliseconds;
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
-      result +=
-      "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
+      result["date_updated_lt"] =
+          filterByDateUpdatedLessThanUnixTimeMilliseconds;
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
-      result +=
-      "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
+      result["date_done_gt"] = filterByDateDoneGreaterThanUnixTimeMilliseconds;
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
-      result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
+      result["date_done_lt"] = filterByDateDoneLessThanUnixTimeMilliseconds;
     }
 
     ///TODO custom fields
 
     if (customTaskIds != null) {
-      result += "custom_task_ids=$customTaskIds&";
-    }
-    if (customTaskIds != null) {
-      result += "custom_task_ids=$customTaskIds&";
+      result["custom_task_ids"] = customTaskIds;
     }
 
     return result;
@@ -351,28 +296,28 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
 
   @override
   List<Object?> get props => [
-    page,
-    tasksOrderBy,
-    reverse,
-    includeSubtasks,
-    filterBySpaceIds,
-    filterByListsIds,
-    filterByProjectIds,
-    filterByStatuses,
-    includeClosed,
-    filterByAssignees,
-    filterByTags,
-    filterByDueDateLessThanUnixTimeMilliseconds,
-    filterByDueDateGreaterThanUnixTimeMilliseconds,
-    filterByCreatedDateLessThanUnixTimeMilliseconds,
-    filterByCreatedDateGreaterThanUnixTimeMilliseconds,
-    filterByDateUpdatedLessThanUnixTimeMilliseconds,
-    filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
-    filterByDateDoneLessThanUnixTimeMilliseconds,
-    filterByDateDoneGreaterThanUnixTimeMilliseconds,
-    customFields,
-    customTaskIds,
-    includeParentTaskId,
-    clickUpAccessToken,
-  ];
+        page,
+        tasksOrderBy,
+        reverse,
+        includeSubtasks,
+        filterBySpaceIds,
+        filterByListsIds,
+        filterByProjectIds,
+        filterByStatuses,
+        includeClosed,
+        filterByAssignees,
+        filterByTags,
+        filterByDueDateLessThanUnixTimeMilliseconds,
+        filterByDueDateGreaterThanUnixTimeMilliseconds,
+        filterByCreatedDateLessThanUnixTimeMilliseconds,
+        filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+        filterByDateUpdatedLessThanUnixTimeMilliseconds,
+        filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+        filterByDateDoneLessThanUnixTimeMilliseconds,
+        filterByDateDoneGreaterThanUnixTimeMilliseconds,
+        customFields,
+        customTaskIds,
+        includeParentTaskId,
+        clickUpAccessToken,
+      ];
 }
