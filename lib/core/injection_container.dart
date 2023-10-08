@@ -108,8 +108,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
 
-  serviceLocator
-      .registerLazySingleton<StartUpRepo>(() => StartUpRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<StartUpRepo>(
+      () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() =>
