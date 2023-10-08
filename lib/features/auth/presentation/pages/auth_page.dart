@@ -39,6 +39,7 @@ class AuthPage extends StatelessWidget {
           authBloc.add(const GetClickUpAccessToken(""));
         }
         return ResponsiveScaffold(
+          hideAppBarDrawer: true,
           responsiveScaffoldLoading: ResponsiveScaffoldLoading(
               responsiveScaffoldLoadingEnum:
                   ResponsiveScaffoldLoadingEnum.contentLoading,
