@@ -49,7 +49,7 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
     final response = await network.get(
         url: "$clickUpUrl/space/${params.clickupWorkspace.id}/folder",
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    for (var element in (json.decode(response.body)["teams"] as List)) {
+    for (var element in (json.decode(response.body)["folders"] as List)) {
       result.add(ClickupFolderModel.fromJson(element));
     }
     return result;
