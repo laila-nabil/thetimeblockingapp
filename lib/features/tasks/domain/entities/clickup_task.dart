@@ -605,7 +605,12 @@ class ClickupTaskPriority extends Equatable {
   return "";
  }
 
- Color? get getPriorityExclamationColor {
+ static List<ClickupTaskPriority> get getPriorityExclamationList {
+    return List.generate(
+        4, (index) => ClickupTaskPriority(isNum: true, priorityNum: index));
+  }
+
+  Color? get getPriorityExclamationColor {
     if(color !=null && color?.isNotEmpty == true){
       return HexColor.fromHex(color??"");
     }

@@ -16,6 +16,7 @@ import '../features/auth/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
+import '../features/tasks/domain/entities/clickup_task.dart';
 import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
@@ -57,7 +58,9 @@ void _initServiceLocator({required Network network}) {
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
-  serviceLocator.registerFactory(() => TaskPopUpBloc());
+  serviceLocator.registerFactoryParam<TaskPopUpBloc, ClickupTask?, dynamic>(
+          (ClickupTask? s, dynamic i) =>
+              TaskPopUpBloc(task: s));
   /// UseCases
 
   serviceLocator.registerLazySingleton(() => GetClickUpAccessTokenUseCase(

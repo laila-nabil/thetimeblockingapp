@@ -1,9 +1,11 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import 'clickup_task.dart';
 
 enum ClickUpTaskParamsEnum { create, update }
 
-class ClickUpTaskParams {
+class ClickUpTaskParams extends Equatable{
   final ClickUpTaskParamsEnum clickUpTaskParamsEnum;
   final ClickUpAccessToken clickUpAccessToken;
   final ClickupList? clickUpList;
@@ -50,7 +52,7 @@ class ClickUpTaskParams {
 
   String? get linkedTaskId => linkedTask?.id;
 
-  ClickUpTaskParams._(
+  const ClickUpTaskParams._(
       {this.clickUpList,
       this.title,
       this.description,
@@ -73,6 +75,50 @@ class ClickUpTaskParams {
       required this.clickUpTaskParamsEnum,
       this.task,
       this.archived});
+
+  factory ClickUpTaskParams.unknown({
+    required ClickUpAccessToken clickUpAccessToken,
+    required ClickUpTaskParamsEnum clickUpTaskParamsEnum,
+    ClickupList? clickUpList,
+    String? title,
+    String? description,
+    List<ClickupAssignees>? assignees,
+    List<ClickupTag>? tags,
+    ClickupStatus? taskStatus,
+    ClickupTaskPriority? taskPriority,
+    DateTime? dueDate,
+    bool? dueDateTime,
+    Duration? timeEstimate,
+    DateTime? startDate,
+    bool? startDateTime,
+    bool? notifyAll,
+    ClickupTask? parentTask,
+    ClickupTask? linkedTask,
+    bool? requiredCustomFields,
+  }) =>
+      ClickUpTaskParams._(
+          clickUpTaskParamsEnum: clickUpTaskParamsEnum,
+          clickUpAccessToken: clickUpAccessToken,
+          clickUpList: clickUpList,
+          title: title,
+          description: description,
+          assignees: assignees,
+          addedAssignees: null,
+          removedAssignees: null,
+          tags: tags,
+          taskStatus: taskStatus,
+          task: null,
+          archived: null,
+          dueDate: dueDate,
+          dueDateTime: dueDateTime,
+          linkedTask: linkedTask,
+          parentTask: parentTask,
+          notifyAll: notifyAll,
+          requiredCustomFields: requiredCustomFields,
+          startDate: startDate,
+          startDateTime: startDateTime,
+          taskPriority: taskPriority,
+          timeEstimate: timeEstimate);
 
   factory ClickUpTaskParams.createNewTask({
     required ClickUpAccessToken clickUpAccessToken,
@@ -217,4 +263,81 @@ class ClickUpTaskParams {
       };
     }
   }
+
+  ClickUpTaskParams copyWith({
+    ClickUpTaskParamsEnum? clickUpTaskParamsEnum,
+    ClickUpAccessToken? clickUpAccessToken,
+    ClickupList? clickUpList,
+    String? title,
+    String? description,
+    List<ClickupAssignees>? assignees,
+    List<ClickupAssignees>? addedAssignees,
+    List<ClickupAssignees>? removedAssignees,
+    List<ClickupTag>? tags,
+    ClickupStatus? taskStatus,
+    ClickupTaskPriority? taskPriority,
+    DateTime? dueDate,
+    bool? dueDateTime,
+    Duration? timeEstimate,
+    DateTime? startDate,
+    bool? startDateTime,
+    bool? notifyAll,
+    ClickupTask? parentTask,
+    ClickupTask? linkedTask,
+    bool? requiredCustomFields,
+    ClickupTask? task,
+    bool? archived,
+    List<int>? addedAssigneesId,
+    List<int>? removedAssigneesId,
+  }) {
+    return ClickUpTaskParams._(
+      clickUpTaskParamsEnum:
+          clickUpTaskParamsEnum ?? this.clickUpTaskParamsEnum,
+      clickUpAccessToken: clickUpAccessToken ?? this.clickUpAccessToken,
+      clickUpList: clickUpList ?? this.clickUpList,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      assignees: assignees ?? this.assignees,
+      addedAssignees: addedAssignees ?? this.addedAssignees,
+      removedAssignees: removedAssignees ?? this.removedAssignees,
+      tags: tags ?? this.tags,
+      taskStatus: taskStatus ?? this.taskStatus,
+      taskPriority: taskPriority ?? this.taskPriority,
+      dueDate: dueDate ?? this.dueDate,
+      dueDateTime: dueDateTime ?? this.dueDateTime,
+      timeEstimate: timeEstimate ?? this.timeEstimate,
+      startDate: startDate ?? this.startDate,
+      startDateTime: startDateTime ?? this.startDateTime,
+      notifyAll: notifyAll ?? this.notifyAll,
+      parentTask: parentTask ?? this.parentTask,
+      linkedTask: linkedTask ?? this.linkedTask,
+      requiredCustomFields: requiredCustomFields ?? this.requiredCustomFields,
+      task: task ?? this.task,
+      archived: archived ?? this.archived,
+    );
+  }
+
+  @override
+  List<Object?> get props => [clickUpList,
+    title,
+    description,
+    assignees,
+    addedAssignees,
+    removedAssignees,
+    tags,
+    taskStatus,
+    taskPriority,
+    dueDate,
+    dueDateTime,
+    timeEstimate,
+    startDate,
+    startDateTime,
+    notifyAll,
+    parentTask,
+    linkedTask,
+    requiredCustomFields,
+    clickUpAccessToken,
+    clickUpTaskParamsEnum,
+    task,
+    archived];
 }

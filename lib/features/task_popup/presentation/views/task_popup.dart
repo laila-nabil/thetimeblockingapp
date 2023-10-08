@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -54,7 +55,7 @@ class TaskPopup extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => serviceLocator<TaskPopUpBloc>(),
+          create: (context) => serviceLocator<TaskPopUpBloc>(param1: task),
         ),
         BlocProvider.value(
           value: taskPopupParams.scheduleBloc,
@@ -65,6 +66,13 @@ class TaskPopup extends StatelessWidget {
           final isLoading = scheduleState.isLoading;
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
+              final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
+              final clickUpTaskParams = state.taskParams ??
+                  ClickUpTaskParams.unknown(
+                      clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                      clickUpTaskParamsEnum: task == null
+                          ? ClickUpTaskParamsEnum.create
+                          : ClickUpTaskParamsEnum.update);
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -74,8 +82,7 @@ class TaskPopup extends StatelessWidget {
                         onPressed: () => Navigator.maybePop(context),
                         child: Text(appLocalization.translate("cancel"))),
                     CustomButton(
-                        onPressed: isLoading
-                            ||
+                        onPressed: isLoading ||
                                 taskPopupParams.onSave == null ||
                                 state.readyToSubmit == false
                             ? null
@@ -83,7 +90,8 @@ class TaskPopup extends StatelessWidget {
                                 ClickUpTaskParams params;
                                 if (task == null) {
                                   params = ClickUpTaskParams.createNewTask(
-                                      clickUpList: state.list!,
+                                      clickUpList:
+                                          state.taskParams!.clickUpList!,
                                       title: "default title",
                                       clickUpAccessToken:
                                           Globals.clickUpAuthAccessToken,
@@ -102,63 +110,99 @@ class TaskPopup extends StatelessWidget {
                               },
                         child: Text(appLocalization.translate("save")))
                   ],
-                  content: Column(
-                    children: [
-                      ///Priority & Title
-                      RichText(
-                          text: TextSpan(children: [
-                        if (task?.priority != null)
-                          TextSpan(
-                              text:
-                                  "${task?.priority?.getPriorityExclamation} ",
-                              style: TextStyle(
-                                  textBaseline: TextBaseline.alphabetic,
-                                  color: task
-                                      ?.priority?.getPriorityExclamationColor)),
-                        TextSpan(
-                          text:
-                              task?.name ?? appLocalization.translate("title"),
-                        )
-                      ])),
-
-                      ///Description
-                      Text(task?.description ??
-                          appLocalization.translate("description")),
-
-                      ///Tags
-                      Text(task?.tags?.map((e) => "#${e.name}").toString() ??
-                          ""),
-
-                      ///List
-                      Text("list : ${task?.list?.name}"),
-
-                      ///Project
-                      Text("project : ${task?.project?.name}"),
-
-                      ///Assignees
-                      Expanded(
-                        child: Wrap(
-                          children: task?.assignees
-                                  ?.map((e) => CircleAvatar(
-                                        backgroundColor:
-                                            HexColor.fromHex(e.color ?? ""),
-                                        backgroundImage:
-                                            e.profilePicture?.isNotEmpty == true
-                                                ? NetworkImage(
-                                                    e.profilePicture ?? "")
-                                                : null,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: AutoSizeText(e.initials ??
-                                              e.getInitialsFromUserName ??
-                                              ""),
-                                        ),
-                                      ))
-                                  .toList() ??
-                              [],
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    child: Column(
+                      children: [
+                        ///Priority & Title
+                        Row(
+                          children: [
+                            DropdownMenu<ClickupTaskPriority>(
+                              width: 70,
+                              initialSelection: task?.priority,
+                              hintText: appLocalization.translate("priority"),
+                              onSelected: (priority) => taskPopUpBloc.add(
+                                  UpdateClickUpTaskParamsEvent(
+                                      taskParams: clickUpTaskParams.copyWith(
+                                          taskPriority: priority))),
+                              dropdownMenuEntries: ClickupTaskPriority
+                                  .getPriorityExclamationList
+                                  .map((e) => DropdownMenuEntry(
+                                      value: e,
+                                      style: ButtonStyle(
+                                          textStyle: MaterialStateProperty.all(
+                                              TextStyle(
+                                                  textBaseline:
+                                                      TextBaseline.alphabetic,
+                                                  color: task?.priority
+                                                      ?.getPriorityExclamationColor))),
+                                      label: e.priorityNum.toString()))
+                                  .toList(),
+                            ),
+                            Expanded(
+                                child: CustomTextInputField(
+                              controller: taskPopUpBloc.titleController,
+                              decoration: InputDecoration(
+                                  hintText: appLocalization.translate("title")),
+                              onChanged: (change) {
+                                taskPopUpBloc.add(UpdateClickUpTaskParamsEvent(
+                                    taskParams: clickUpTaskParams.copyWith(
+                                        title: change)));
+                              },
+                            )),
+                            if (taskPopupParams.task != null)
+                              IconButton(
+                                  onPressed: taskPopupParams.onDelete == null
+                                      ? null
+                                      : () => taskPopupParams.onDelete!(
+                                          DeleteClickUpTaskParams(
+                                              task: taskPopupParams.task!,
+                                              clickUpAccessToken: Globals
+                                                  .clickUpAuthAccessToken)),
+                                  icon: const Icon(Icons.delete))
+                          ],
                         ),
-                      ),
-                    ],
+
+                        ///Description
+                        Text(task?.description ??
+                            appLocalization.translate("description")),
+
+                        ///Tags
+                        Text(task?.tags?.map((e) => "#${e.name}").toString() ??
+                            ""),
+
+                        ///List
+                        Text("list : ${task?.list?.name}"),
+
+                        ///Project
+                        Text("project : ${task?.project?.name}"),
+
+                        ///Assignees
+                        Expanded(
+                          child: Wrap(
+                            children: task?.assignees
+                                    ?.map((e) => CircleAvatar(
+                                          backgroundColor:
+                                              HexColor.fromHex(e.color ?? ""),
+                                          backgroundImage:
+                                              e.profilePicture?.isNotEmpty ==
+                                                      true
+                                                  ? NetworkImage(
+                                                      e.profilePicture ?? "")
+                                                  : null,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: AutoSizeText(e.initials ??
+                                                e.getInitialsFromUserName ??
+                                                ""),
+                                          ),
+                                        ))
+                                    .toList() ??
+                                [],
+                          ),
+                        ),
+                      ],
+                    ),
                   ));
             },
           );
