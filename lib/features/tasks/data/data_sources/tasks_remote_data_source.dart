@@ -43,7 +43,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     String url = "$clickUpUrl/team/${params.workspaceId}/task";
     url += params.filtersParams.toUrlString;
     final response = await network.get(
-        url: url,
+        uri: url,
         headers: clickUpHeader(
             clickUpAccessToken: params.filtersParams.clickUpAccessToken));
     for (var element in (json.decode(response.body)["tasks"] as List)) {
@@ -55,9 +55,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupTaskModel> createTaskInList(
       {required ClickUpTaskParams params}) async {
-    String url = "$clickUpUrl/list/${params.listId}/task";
+    Uri uri = Uri.parse("$clickUpUrl/list/${params.listId}/task");
     final response = await network.post(
-        url: url,
+        uri: uri,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
@@ -66,9 +66,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupTaskModel> updateTask(
       {required ClickUpTaskParams params}) async {
-    String url = "$clickUpUrl/task/${params.taskId}";
+    Uri uri = Uri.parse("$clickUpUrl/task/${params.taskId}");
     final response = await network.put(
-        url: url,
+        uri: uri,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
@@ -76,9 +76,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<Unit> deleteTask({required DeleteClickUpTaskParams params}) async{
-    String url = "$clickUpUrl/task/${params.taskId}";
+    Uri uri = Uri.parse("$clickUpUrl/task/${params.taskId}");
     await network.delete(
-        url: url,
+        uri: uri,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),);
     return unit;
   }

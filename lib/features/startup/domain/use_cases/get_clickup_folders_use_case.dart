@@ -23,10 +23,14 @@ class GetClickUpFoldersUseCase
 class GetClickUpFoldersParams extends Equatable {
   final ClickUpAccessToken clickUpAccessToken;
   final ClickupWorkspace clickupWorkspace;
+  final bool? archived;
 
-  const GetClickUpFoldersParams(
-      {required this.clickUpAccessToken, required this.clickupWorkspace});
+  const GetClickUpFoldersParams({
+    required this.clickUpAccessToken,
+    required this.clickupWorkspace,
+    this.archived,
+  });
 
   @override
-  List<Object?> get props => [clickUpAccessToken,clickupWorkspace];
+  List<Object?> get props => [clickUpAccessToken, clickupWorkspace,archived];
 }

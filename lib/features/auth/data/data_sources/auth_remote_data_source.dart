@@ -32,15 +32,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ClickUpAccessTokenModel> getClickUpAccessToken(
       {required GetClickUpAccessTokenParams params}) async {
     final result = await network.post(
-        url:
-            "$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
+        uri:
+        Uri.parse("$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}"));
     return ClickUpAccessTokenModel.fromJson(json.decode(result.body));
   }
 
   @override
   Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params}) async {
     final result = await network.get(
-        url: "$clickUpUrl/user",
+        uri: Uri.parse("$clickUpUrl/user"),
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
     return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
