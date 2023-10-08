@@ -12,4 +12,5 @@ class Globals {
       const ClickUpAccessToken(accessToken: "", tokenType: "");
   static ClickupUser? clickUpUser;
   static List<ClickupWorkspace>? clickUpWorkspaces;
+  static ClickupWorkspace? selectedWorkspace;
 }

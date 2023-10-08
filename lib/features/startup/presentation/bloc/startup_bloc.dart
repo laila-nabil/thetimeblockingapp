@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 
 part 'startup_event.dart';
 
@@ -13,6 +14,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       } else if (event is SelectClickupWorkspace) {
+        Globals.selectedWorkspace = event.clickupWorkspace;
         emit(state.copyWith(selectedClickupWorkspace: event.clickupWorkspace));
       }
     });
