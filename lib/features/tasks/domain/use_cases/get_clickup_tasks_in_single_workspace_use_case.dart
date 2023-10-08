@@ -239,25 +239,25 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
       result["subtasks"] = includeSubtasks.toString();
     }
     if (filterBySpaceIds != null) {
-      result["space_ids"] = json.encode(filterBySpaceIds);
+      result.addAll(queryList(list: filterBySpaceIds!,key: "space_ids"));
     }
     if (filterByProjectIds != null) {
-      result["project_ids"] = json.encode(filterByProjectIds);
+      result["project_ids"] = queryList(filterByProjectIds);
     }
     if (filterByListsIds != null) {
-      result["list_ids"] = json.encode(filterByListsIds);
+      result["list_ids"] = queryList(filterByListsIds);
     }
     if (filterByStatuses != null) {
-      result["statuses"] = json.encode(filterByStatuses);
+      result["statuses"] = queryList(filterByStatuses);
     }
     if (includeClosed != null) {
       result["include_closed"] = includeClosed.toString();
     }
     if (filterByAssignees != null) {
-      result["assignees"] = json.encode(filterByAssignees);
+      result["assignees"] = queryList(filterByAssignees);
     }
     if (filterByTags != null) {
-      result["tags"] = json.encode(filterByTags);
+      result["tags"] = queryList(filterByTags);
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
       result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds.toString();
@@ -295,6 +295,19 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     }
     printDebug("query $result");
     return result;
+  }
+
+  Map<String,String> queryList<T>({required String key,required List<T> list}){
+    String result = "";
+    final last = list.lastOrNull;
+    for (var element in list) { 
+      result += "$key[]=$element";
+      if(element != last){
+        result += "&";
+      }
+    }
+    return result;
+    
   }
 
   @override
