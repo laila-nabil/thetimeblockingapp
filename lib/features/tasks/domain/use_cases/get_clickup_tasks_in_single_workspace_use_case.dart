@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -222,74 +224,74 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }
 
-  Map<String, dynamic> get query {
-    Map<String, dynamic> result = {};
+  Map<String, String> get query {
+    Map<String, String> result = {};
     if (page != null) {
-      result["page"] = page;
+      result["page"] = page.toString();
     }
-    if (tasksOrderBy != null) {
-      result["order_by"] = tasksOrderBy?.name;
+    if (tasksOrderBy?.name != null) {
+      result["order_by"] = tasksOrderBy?.name ?? "";
     }
     if (reverse != null) {
-      result["reverse"] = reverse;
+      result["reverse"] = reverse.toString();
     }
     if (includeSubtasks != null) {
-      result["subtasks"] = includeSubtasks;
+      result["subtasks"] = includeSubtasks.toString();
     }
     if (filterBySpaceIds != null) {
-      result["space_ids"] = filterBySpaceIds;
+      result["space_ids"] = json.encode(filterBySpaceIds);
     }
     if (filterByProjectIds != null) {
-      result["project_ids"] = filterByProjectIds;
+      result["project_ids"] = json.encode(filterByProjectIds);
     }
     if (filterByListsIds != null) {
-      result["list_ids"] = filterByListsIds;
+      result["list_ids"] = json.encode(filterByListsIds);
     }
     if (filterByStatuses != null) {
-      result["statuses"] = filterByStatuses;
+      result["statuses"] = json.encode(filterByStatuses);
     }
     if (includeClosed != null) {
-      result["include_closed"] = includeClosed;
+      result["include_closed"] = includeClosed.toString();
     }
     if (filterByAssignees != null) {
-      result["assignees"] = filterByAssignees;
+      result["assignees"] = json.encode(filterByAssignees);
     }
     if (filterByTags != null) {
-      result["tags"] = filterByTags;
+      result["tags"] = json.encode(filterByTags);
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
-      result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds;
+      result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds.toString();
     }
     if (filterByDueDateLessThanUnixTimeMilliseconds != null) {
-      result["due_date_lt"] = filterByDueDateLessThanUnixTimeMilliseconds;
+      result["due_date_lt"] = filterByDueDateLessThanUnixTimeMilliseconds.toString();
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result["date_created_gt"] =
-          filterByCreatedDateGreaterThanUnixTimeMilliseconds;
+          filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString();
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result["date_created_lt"] =
-          filterByCreatedDateLessThanUnixTimeMilliseconds;
+          filterByCreatedDateLessThanUnixTimeMilliseconds.toString();
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result["date_updated_gt"] =
-          filterByDateUpdatedGreaterThanUnixTimeMilliseconds;
+          filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString();
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result["date_updated_lt"] =
-          filterByDateUpdatedLessThanUnixTimeMilliseconds;
+          filterByDateUpdatedLessThanUnixTimeMilliseconds.toString();
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
-      result["date_done_gt"] = filterByDateDoneGreaterThanUnixTimeMilliseconds;
+      result["date_done_gt"] = filterByDateDoneGreaterThanUnixTimeMilliseconds.toString();
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
-      result["date_done_lt"] = filterByDateDoneLessThanUnixTimeMilliseconds;
+      result["date_done_lt"] = filterByDateDoneLessThanUnixTimeMilliseconds.toString();
     }
 
     ///TODO custom fields
 
     if (customTaskIds != null) {
-      result["custom_task_ids"] = customTaskIds;
+      result["custom_task_ids"] = customTaskIds.toString();
     }
     printDebug("query $result");
     return result;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
@@ -41,8 +42,10 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickUpTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
     String url = "$clickUpUrl/team/${params.workspaceId}/task";
+    final uri = Uri(path: url,queryParameters: params.filtersParams.query);
+    printDebug("uri $uri");
     final response = await network.get(
-        uri: Uri(path:url,queryParameters: params.filtersParams.query),
+        uri: uri,
         headers: clickUpHeader(
             clickUpAccessToken: params.filtersParams.clickUpAccessToken));
     for (var element in (json.decode(response.body)["tasks"] as List)) {
