@@ -20,14 +20,14 @@ class LoadingOverlay extends StatelessWidget {
 
 class CustomLoading extends StatelessWidget {
   const CustomLoading(
-      {super.key, required this.color});
-  final Color color;
+      {super.key, this.color});
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: CircularProgressIndicator(
-          color: color,
+          color: color ?? Theme.of(context).primaryColor,
         ));
   }
 }

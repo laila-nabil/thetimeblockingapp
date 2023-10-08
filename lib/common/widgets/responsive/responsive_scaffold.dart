@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
@@ -7,7 +8,6 @@ import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_loading.dart';
 
-///FIX responsiveScaffoldLoading overlayLoading does not work as intended in case of pop up
 
 enum ResponsiveScaffoldLoadingEnum {
   overlayLoading,
@@ -49,6 +49,27 @@ class ResponsiveScaffold extends Scaffold {
     this.pageActions,
     this.responsiveScaffoldLoading,
     this.hideAppBarDrawer = false,
+    super.floatingActionButton,
+    super.floatingActionButtonLocation,
+    super.floatingActionButtonAnimator,
+    super.persistentFooterButtons,
+    super.persistentFooterAlignment = AlignmentDirectional.centerEnd,
+    super.onDrawerChanged,
+    super.endDrawer,
+    super.onEndDrawerChanged,
+    super.bottomNavigationBar,
+    super.bottomSheet,
+    super.backgroundColor,
+    super.resizeToAvoidBottomInset,
+    super.primary = true,
+    super.drawerDragStartBehavior = DragStartBehavior.start,
+    super.extendBody = false,
+    super.extendBodyBehindAppBar = false,
+    super.drawerScrimColor,
+    super.drawerEdgeDragWidth,
+    super.drawerEnableOpenDragGesture = true,
+    super.endDrawerEnableOpenDragGesture = true,
+    super.restorationId,
   });
 
   @override

@@ -58,7 +58,9 @@ class TasksCalendar extends StatelessWidget {
               taskPopupParams: TaskPopupParams(
                   onSave: (params) {
                     scheduleBloc.add(CreateClickUpTaskEvent(params: params));
-              }));
+              },
+                  scheduleBloc: scheduleBloc),
+          );
         } else {
           showTaskPopup(
               context: context,
@@ -69,7 +71,8 @@ class TasksCalendar extends StatelessWidget {
                         .add(UpdateClickUpTaskEvent(params: params));
                   },
                   onDelete: (params) => scheduleBloc
-                      .add(DeleteClickUpTaskEvent(params: params))));
+                      .add(DeleteClickUpTaskEvent(params: params)),
+                  scheduleBloc: scheduleBloc),);
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
