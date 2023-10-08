@@ -19,9 +19,10 @@ class NetworkHttp implements Network {
   Future<NetworkResponse> post(
       {required String url,
       Map<String, String>? headers,
-      Object? body,
+      Map<String, dynamic>? body,
       Encoding? encoding}) async {
     Uri uri = Uri.parse(url);
+    final bodyAsString = json.encode(body);
     printDebug(
       "[url] start$url",
     );
@@ -32,11 +33,11 @@ class NetworkHttp implements Network {
       "[header] " "${headers ?? ""}",
     );
     printDebug(
-      "[body] " "${body ?? ""}",
+      "[body] " "$bodyAsString",
     );
     return responseHandler(
         httpResponse: () async => await httpClient.post(uri,
-            headers: headers, body: body, encoding: encoding));
+            headers: headers, body: bodyAsString, encoding: encoding));
   }
 
   @override
@@ -83,9 +84,10 @@ class NetworkHttp implements Network {
   Future<NetworkResponse> put(
       {required String url,
       Map<String, String>? headers,
-      Object? body,
+      Map<String, dynamic>? body,
       Encoding? encoding})async {
     Uri uri = Uri.parse(url);
+    final bodyAsString = json.encode(body);
     printDebug(
       "[url] start$url",
     );
@@ -96,11 +98,11 @@ class NetworkHttp implements Network {
       "[header] " "${headers ?? ""}",
     );
     printDebug(
-      "[body] " "${body ?? ""}",
+      "[body] " "$bodyAsString",
     );
     return responseHandler(
         httpResponse: () async => await httpClient.put(uri,
-            headers: headers, body: body, encoding: encoding));
+            headers: headers, body: bodyAsString, encoding: encoding));
   }
 /*@override
   Future<NetworkResponse> post(

@@ -11,13 +11,13 @@ abstract class Network {
   Future<NetworkResponse> post(
       {required String url,
       Map<String, String>? headers,
-      Object? body,
+      Map<String, dynamic>? body,
       Encoding? encoding});
 
   Future<NetworkResponse> put(
       {required String url,
         Map<String, String>? headers,
-        Object? body,
+        Map<String, dynamic>? body,
         Encoding? encoding});
 
   Future<NetworkResponse> get(
