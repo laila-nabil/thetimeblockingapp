@@ -4,8 +4,8 @@ enum StartupStateEnum {
   loading,
   getFoldersSuccess,
   getFoldersFailed,
-  getListsSuccess,
-  getListsFailed,
+  getListsInFoldersSuccess,
+  getListsInFoldersFailed,
 }
 
 class StartupState extends Equatable {
@@ -15,7 +15,8 @@ class StartupState extends Equatable {
   final Failure? getFoldersFailure;
   final Failure? getListsFailure;
   final List<ClickupFolder>? clickupFolders;
-  final List<ClickupList>? clickupList;
+  final List<ClickupList>? clickupListNotInFolders;
+  final Map<ClickupFolder, List<ClickupList>>? clickupListsInFolders;
 
   const StartupState(
       {required this.drawerLargerScreenOpen,
@@ -23,7 +24,8 @@ class StartupState extends Equatable {
       this.getFoldersFailure,
       this.clickupFolders,
       this.getListsFailure,
-      this.clickupList,
+      this.clickupListNotInFolders,
+      this.clickupListsInFolders,
       this.startupStateEnum});
 
   @override
@@ -33,7 +35,8 @@ class StartupState extends Equatable {
         getFoldersFailure,
         clickupFolders,
         getListsFailure,
-        clickupList,
+        clickupListNotInFolders,
+        clickupListsInFolders,
         startupStateEnum
       ];
 
@@ -44,7 +47,8 @@ class StartupState extends Equatable {
     Failure? getFoldersFailure,
     Failure? getListsFailure,
     List<ClickupFolder>? clickupFolders,
-    List<ClickupList>? clickupList,
+    List<ClickupList>? clickupListNotInFolders,
+    Map<ClickupFolder, List<ClickupList>>? clickupListsInFolders,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -55,7 +59,8 @@ class StartupState extends Equatable {
       getFoldersFailure: getFoldersFailure ?? this.getFoldersFailure,
       getListsFailure: getListsFailure ?? this.getListsFailure,
       clickupFolders: clickupFolders ?? this.clickupFolders,
-      clickupList: clickupList ?? this.clickupList,
+      clickupListNotInFolders: clickupListNotInFolders ?? this.clickupListNotInFolders,
+      clickupListsInFolders: clickupListsInFolders ?? this.clickupListsInFolders,
     );
   }
 }

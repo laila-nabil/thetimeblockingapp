@@ -1,5 +1,6 @@
 import 'clickup_folder_model.dart';
 import '../../domain/entities/clickup_task.dart';
+import 'clickup_list_model.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -146,7 +147,7 @@ class ClickupTaskModel extends ClickupTask {
     String? teamId = json['team_id'];
     String? url = json['url'];
     String? permissionLevel = json['permission_level'];
-    ClickupList? list =
+    ClickupListModel? list =
         json['list'] != null ? ClickupListModel.fromJson(json['list']) : null;
     ClickupProjectModel? project = json['project'] != null
         ? ClickupProjectModel.fromJson(json['project'])
@@ -308,34 +309,6 @@ class ClickupProjectModel extends ClickupProject {
     map['id'] = id;
     map['name'] = name;
     map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
-
-/// id : "1"
-/// name : "List"
-/// access : true
-
-class ClickupListModel extends ClickupList {
-  const ClickupListModel({
-    super.id,
-    super.name,
-    super.access,
-  });
-
-  factory ClickupListModel.fromJson(Map<String, dynamic> json) {
-    return ClickupListModel(
-      id: json['id'],
-      name: json['name'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
     map['access'] = access;
     return map;
   }

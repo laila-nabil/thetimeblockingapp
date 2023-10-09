@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
+import 'clickup_list.dart';
 import 'clickup_task.dart';
 
 enum ClickupTaskParamsEnum { create, update }

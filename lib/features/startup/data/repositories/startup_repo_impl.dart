@@ -4,8 +4,10 @@ import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_folder_model.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_folders_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_list_model.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/startup_repo.dart';
@@ -32,8 +34,7 @@ class StartUpRepoImpl implements StartUpRepo {
           Globals.clickupWorkspaces = result;
           printDebug(
               "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
-          await startUpLocalDataSource
-              .saveClickupWorkspaces(result);
+          await startUpLocalDataSource.saveClickupWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>
             await startUpLocalDataSource.getClickupWorkspaces());
@@ -43,14 +44,26 @@ class StartUpRepoImpl implements StartUpRepo {
   Future<Either<Failure, List<ClickupFolderModel>>> getClickupFolders(
       {required GetClickupFoldersParams params}) {
     return repoHandler(
-        remoteDataSourceRequest: () =>
-        startUpRemoteDataSource.getClickupFolders(params: params),
-        trySaveResult: (result) async {
-          Globals.clickupFolders = result;
-          printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
-          await startUpLocalDataSource
-              .saveClickupWorkspaces(result as List<ClickupWorkspaceModel>);
-        },);
+      remoteDataSourceRequest: () =>
+          startUpRemoteDataSource.getClickupFolders(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupListsInFolders = {};
+        result.map((e) => Globals.clickupListsInFolders![e] = []);
+        printDebug("clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupListModel>>> getClickupListsInFolder(
+      {required GetClickupListsInFolderParams params}) {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          startUpRemoteDataSource.getClickupListsInFolder(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupListsInFolders?[params.clickupFolder] = result;
+        printDebug("clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+      },
+    );
   }
 }
