@@ -7,9 +7,9 @@ import '../use_cases/get_clickup_workspaces_use_case.dart';
 
 abstract class StartUpRepo {
 
-  Future<Either<Failure, List<ClickupWorkspace>>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params});
+  Future<Either<Failure, List<ClickupWorkspace>>> getClickupWorkspaces(
+      {required GetClickupWorkspacesParams params});
 
-  Future<Either<Failure, List<ClickupFolder>>> getClickUpFolders(
-      {required GetClickUpFoldersParams params});
+  Future<Either<Failure, List<ClickupFolder>>> getClickupFolders(
+      {required GetClickupFoldersParams params});
 }

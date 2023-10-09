@@ -1,5 +1,5 @@
 enum AuthMode {
-  clickUpOnly,
+  clickupOnly,
   firebaseOnly,
-  firebaseWithClickUp,
+  firebaseWithClickup,
 }

@@ -9,33 +9,33 @@ import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../../../tasks/data/models/clickup_folder_model.dart';
 
 abstract class StartUpRemoteDataSource {
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params});
+  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
+      {required GetClickupWorkspacesParams params});
 
-  Future<List<ClickupFolderModel>> getClickUpFolders(
-      {required GetClickUpFoldersParams params});
+  Future<List<ClickupFolderModel>> getClickupFolders(
+      {required GetClickupFoldersParams params});
 }
 
 class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   final Network network;
-  final String clickUpClientId;
-  final String clickUpClientSecret;
-  final String clickUpUrl;
+  final String clickupClientId;
+  final String clickupClientSecret;
+  final String clickupUrl;
 
   StartUpRemoteDataSourceImpl({
     required this.network,
-    required this.clickUpClientId,
-    required this.clickUpClientSecret,
-    required this.clickUpUrl,
+    required this.clickupClientId,
+    required this.clickupClientSecret,
+    required this.clickupUrl,
   });
 
   @override
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params}) async {
+  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
+      {required GetClickupWorkspacesParams params}) async {
     List<ClickupWorkspaceModel> result = [];
     final response = await network.get(
-        uri: Uri.parse("$clickUpUrl/team"),
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
+        uri: Uri.parse("$clickupUrl/team"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     for (var element in (json.decode(response.body)["teams"] as List)) {
       result.add(ClickupWorkspaceModel.fromJson(element));
     }
@@ -43,10 +43,10 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   }
 
   @override
-  Future<List<ClickupFolderModel>> getClickUpFolders(
-      {required GetClickUpFoldersParams params}) async {
+  Future<List<ClickupFolderModel>> getClickupFolders(
+      {required GetClickupFoldersParams params}) async {
     List<ClickupFolderModel> result = [];
-    final url = "$clickUpUrl/space/${params.clickupWorkspace.id}/folder";
+    final url = "$clickupUrl/space/${params.clickupWorkspace.id}/folder";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
@@ -54,7 +54,7 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
         queryParameters: queryParameters);
     final response = await network.get(
         uri: uri,
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     for (var element in (json.decode(response.body)["folders"] as List)) {
       result.add(ClickupFolderModel.fromJson(element));
     }

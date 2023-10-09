@@ -30,20 +30,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.deepPurpleAccent,
               )),
       actions: [
-        if (Globals.clickUpWorkspaces?.isNotEmpty == true)
+        if (Globals.clickupWorkspaces?.isNotEmpty == true)
           DropdownMenu(
               width: 170,
-              initialSelection: Globals.clickUpWorkspaces?.first,
+              initialSelection: Globals.clickupWorkspaces?.first,
               onSelected: (selected) {
                 if (selected is ClickupWorkspace) {
                 startUpBloc.add(SelectClickupWorkspace(
                     clickupWorkspace: selected,
-                    getClickUpFoldersParams: GetClickUpFoldersParams(
-                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                    getClickupFoldersParams: GetClickupFoldersParams(
+                        clickupAccessToken: Globals.clickupAuthAccessToken,
                         clickupWorkspace: selected)));
               }
               },
-              dropdownMenuEntries: Globals.clickUpWorkspaces
+              dropdownMenuEntries: Globals.clickupWorkspaces
                       ?.map((e) => DropdownMenuEntry(
                             value: e,
                             label: e.name ?? "",

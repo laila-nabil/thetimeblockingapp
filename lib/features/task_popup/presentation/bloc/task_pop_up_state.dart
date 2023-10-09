@@ -1,18 +1,18 @@
 part of 'task_pop_up_bloc.dart';
 
 class TaskPopUpState extends Equatable {
-  final ClickUpTaskParams? taskParams;
+  final ClickupTaskParams? taskParams;
 
   const TaskPopUpState({
     this.taskParams,
   });
 
-  bool get readyToSubmit => taskParams?.clickUpList != null && changesAvailable;
+  bool get readyToSubmit => taskParams?.clickupList != null && changesAvailable;
 
   bool get changesAvailable {
     if (taskParams?.task == null) {
       return taskParams?.title != null &&
-          taskParams?.clickUpList != null &&
+          taskParams?.clickupList != null &&
           (taskParams?.description != null ||
               taskParams?.tags?.isNotEmpty == true ||
               taskParams?.assignees?.isNotEmpty == true ||
@@ -27,7 +27,7 @@ class TaskPopUpState extends Equatable {
     } else {
       return (taskParams?.title != taskParams?.task?.name ||
           taskParams?.description != taskParams?.task?.description ||
-          taskParams?.clickUpList != taskParams?.task?.list ||
+          taskParams?.clickupList != taskParams?.task?.list ||
           taskParams?.tags != taskParams?.task?.tags ||
           taskParams?.assignees != taskParams?.task?.assignees ||
           taskParams?.taskPriority != taskParams?.task?.priority ||

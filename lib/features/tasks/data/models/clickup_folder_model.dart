@@ -35,7 +35,7 @@ class ClickupFolderModel extends ClickupFolder {
       overrideStatuses: json['override_statuses'],
       hidden: json['hidden'],
       space: json['space'] != null
-          ? ClickUpFolderSpaceModel.fromJson(json['space'])
+          ? ClickupFolderSpaceModel.fromJson(json['space'])
           : null,
       taskCount: json['task_count'],
       access: json['access'],
@@ -51,7 +51,7 @@ class ClickupFolderModel extends ClickupFolder {
     map['hidden'] = hidden;
     map['access'] = access;
     if (space != null) {
-      map['space'] = (space as ClickUpFolderSpaceModel).toJson();
+      map['space'] = (space as ClickupFolderSpaceModel).toJson();
     }
     map['task_count'] = taskCount;
     if (lists != null) {
@@ -65,15 +65,15 @@ class ClickupFolderModel extends ClickupFolder {
 /// name : "Space Name"
 /// access : true
 
-class ClickUpFolderSpaceModel extends ClickUpFolderSpace {
-  const ClickUpFolderSpaceModel({
+class ClickupFolderSpaceModel extends ClickupFolderSpace {
+  const ClickupFolderSpaceModel({
     super.id,
     super.name,
     super.access,
   });
 
-  factory ClickUpFolderSpaceModel.fromJson(dynamic json) {
-    return ClickUpFolderSpaceModel(
+  factory ClickupFolderSpaceModel.fromJson(dynamic json) {
+    return ClickupFolderSpaceModel(
       id: json['id'],
       name: json['name'],
       access: json['access'],

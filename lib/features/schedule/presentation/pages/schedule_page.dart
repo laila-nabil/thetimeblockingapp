@@ -25,13 +25,13 @@ class SchedulePage extends StatelessWidget {
         listener: (context, startUpCurrentState) {
           final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
           scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-              GetClickUpTasksInWorkspaceParams(
+              GetClickupTasksInWorkspaceParams(
                   workspaceId:
                       startUpCurrentState.selectedClickupWorkspace?.id ??
-                          Globals.clickUpWorkspaces?.first.id ??
+                          Globals.clickupWorkspaces?.first.id ??
                           "",
-                  filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                      clickUpAccessToken: Globals.clickUpAuthAccessToken))));
+                  filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                      clickupAccessToken: Globals.clickupAuthAccessToken))));
         },
         builder: (context, startUpCurrentState) {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
@@ -49,15 +49,15 @@ class SchedulePage extends StatelessWidget {
                   Navigator.maybePop(context);
                 }
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                    GetClickUpTasksInWorkspaceParams(
+                    GetClickupTasksInWorkspaceParams(
                         workspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id ??
-                                Globals.clickUpWorkspaces?.first.id ??
+                                Globals.clickupWorkspaces?.first.id ??
                                 "",
-                        filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                            clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                        filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                            clickupAccessToken: Globals.clickupAuthAccessToken,
                             filterByAssignees: [
-                              Globals.clickUpUser?.id.toString() ?? ""
+                              Globals.clickupUser?.id.toString() ?? ""
                             ],
                             filterByDueDateGreaterThanUnixTimeMilliseconds:
                                 scheduleBloc.state.tasksDueDateEarliestDate
@@ -72,7 +72,7 @@ class SchedulePage extends StatelessWidget {
                       showTaskPopup(context: context,
                         taskPopupParams: TaskPopupParams(
                             onSave: (params) {
-                              scheduleBloc.add(CreateClickUpTaskEvent(params: params));
+                              scheduleBloc.add(CreateClickupTaskEvent(params: params));
                             },
                             scheduleBloc: scheduleBloc),);
                     },
@@ -132,7 +132,7 @@ class _SchedulePageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TasksCalendar(
       tasksDataSource: ClickupTasksDataSource(
-          clickupTasks: scheduleBloc.state.clickUpTasks
+          clickupTasks: scheduleBloc.state.clickupTasks
                   ?.where((element) => element.dueDateUtcTimestamp != null)
                   .toList() ??
               []),

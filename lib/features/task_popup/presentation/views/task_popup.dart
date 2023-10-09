@@ -17,8 +17,8 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams {
   final ClickupTask? task;
-  final void Function(ClickUpTaskParams params)? onSave;
-  final void Function(DeleteClickUpTaskParams params)? onDelete;
+  final void Function(ClickupTaskParams params)? onSave;
+  final void Function(DeleteClickupTaskParams params)? onDelete;
   final ScheduleBloc scheduleBloc;
 
   TaskPopupParams({
@@ -67,12 +67,12 @@ class TaskPopup extends StatelessWidget {
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
-              final clickUpTaskParams = state.taskParams ??
-                  ClickUpTaskParams.unknown(
-                      clickUpAccessToken: Globals.clickUpAuthAccessToken,
-                      clickUpTaskParamsEnum: task == null
-                          ? ClickUpTaskParamsEnum.create
-                          : ClickUpTaskParamsEnum.update);
+              final clickupTaskParams = state.taskParams ??
+                  ClickupTaskParams.unknown(
+                      clickupAccessToken: Globals.clickupAuthAccessToken,
+                      clickupTaskParamsEnum: task == null
+                          ? ClickupTaskParamsEnum.create
+                          : ClickupTaskParamsEnum.update);
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -87,24 +87,24 @@ class TaskPopup extends StatelessWidget {
                                 state.readyToSubmit == false
                             ? null
                             : () {
-                                ClickUpTaskParams params;
+                                ClickupTaskParams params;
                                 if (task == null) {
-                                  params = ClickUpTaskParams.createNewTask(
-                                      clickUpList:
-                                          state.taskParams!.clickUpList!,
+                                  params = ClickupTaskParams.createNewTask(
+                                      clickupList:
+                                          state.taskParams!.clickupList!,
                                       title: "default title",
-                                      clickUpAccessToken:
-                                          Globals.clickUpAuthAccessToken,
+                                      clickupAccessToken:
+                                          Globals.clickupAuthAccessToken,
                                       assignees: const [
                                         ///TODO
                                       ]);
                                 } else {
-                                  params = ClickUpTaskParams.updateTask(
+                                  params = ClickupTaskParams.updateTask(
                                       task: task,
                                       description:
                                           "new description ${DateTime.now()}",
-                                      clickUpAccessToken:
-                                          Globals.clickUpAuthAccessToken);
+                                      clickupAccessToken:
+                                          Globals.clickupAuthAccessToken);
                                 }
                                 taskPopupParams.onSave!(params);
                               },
@@ -122,8 +122,8 @@ class TaskPopup extends StatelessWidget {
                               initialSelection: task?.priority,
                               hintText: appLocalization.translate("priority"),
                               onSelected: (priority) => taskPopUpBloc.add(
-                                  UpdateClickUpTaskParamsEvent(
-                                      taskParams: clickUpTaskParams.copyWith(
+                                  UpdateClickupTaskParamsEvent(
+                                      taskParams: clickupTaskParams.copyWith(
                                           taskPriority: priority))),
                               dropdownMenuEntries: ClickupTaskPriority
                                   .getPriorityExclamationList
@@ -145,8 +145,8 @@ class TaskPopup extends StatelessWidget {
                               decoration: InputDecoration(
                                   hintText: appLocalization.translate("title")),
                               onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickUpTaskParamsEvent(
-                                    taskParams: clickUpTaskParams.copyWith(
+                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                    taskParams: clickupTaskParams.copyWith(
                                         title: change)));
                               },
                             )),
@@ -155,10 +155,10 @@ class TaskPopup extends StatelessWidget {
                                   onPressed: taskPopupParams.onDelete == null
                                       ? null
                                       : () => taskPopupParams.onDelete!(
-                                          DeleteClickUpTaskParams(
+                                          DeleteClickupTaskParams(
                                               task: taskPopupParams.task!,
-                                              clickUpAccessToken: Globals
-                                                  .clickUpAuthAccessToken)),
+                                              clickupAccessToken: Globals
+                                                  .clickupAuthAccessToken)),
                                   icon: const Icon(Icons.delete))
                           ],
                         ),
@@ -172,8 +172,8 @@ class TaskPopup extends StatelessWidget {
                               ),
                               maxLines: 3,
                               onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickUpTaskParamsEvent(
-                                    taskParams: clickUpTaskParams.copyWith(
+                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                    taskParams: clickupTaskParams.copyWith(
                                         description: change)));
                               },
                             )),

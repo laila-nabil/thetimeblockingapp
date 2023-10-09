@@ -23,34 +23,34 @@ class StartUpRepoImpl implements StartUpRepo {
   );
 
   @override
-  Future<Either<Failure, List<ClickupWorkspaceModel>>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params}) {
+  Future<Either<Failure, List<ClickupWorkspaceModel>>> getClickupWorkspaces(
+      {required GetClickupWorkspacesParams params}) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
-            await startUpRemoteDataSource.getClickUpWorkspaces(params: params),
+            await startUpRemoteDataSource.getClickupWorkspaces(params: params),
         trySaveResult: (result) async {
-          Globals.clickUpWorkspaces = result;
+          Globals.clickupWorkspaces = result;
           printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickUpWorkspaces}");
+              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
           await startUpLocalDataSource
-              .saveClickUpWorkspaces(result);
+              .saveClickupWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>
-            await startUpLocalDataSource.getClickUpWorkspaces());
+            await startUpLocalDataSource.getClickupWorkspaces());
   }
 
   @override
-  Future<Either<Failure, List<ClickupFolderModel>>> getClickUpFolders(
-      {required GetClickUpFoldersParams params}) {
+  Future<Either<Failure, List<ClickupFolderModel>>> getClickupFolders(
+      {required GetClickupFoldersParams params}) {
     return repoHandler(
         remoteDataSourceRequest: () =>
-        startUpRemoteDataSource.getClickUpFolders(params: params),
+        startUpRemoteDataSource.getClickupFolders(params: params),
         trySaveResult: (result) async {
-          Globals.clickUpFolders = result;
+          Globals.clickupFolders = result;
           printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickUpWorkspaces}");
+              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
           await startUpLocalDataSource
-              .saveClickUpWorkspaces(result as List<ClickupWorkspaceModel>);
+              .saveClickupWorkspaces(result as List<ClickupWorkspaceModel>);
         },);
   }
 }

@@ -6,21 +6,21 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../repositories/tasks_repo.dart';
 
-class DeleteClickUpTaskUseCase
-    implements UseCase<Unit, DeleteClickUpTaskParams> {
+class DeleteClickupTaskUseCase
+    implements UseCase<Unit, DeleteClickupTaskParams> {
   final TasksRepo repo;
 
-  DeleteClickUpTaskUseCase(this.repo);
+  DeleteClickupTaskUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(DeleteClickUpTaskParams params) {
+  Future<Either<Failure, Unit>?> call(DeleteClickupTaskParams params) {
     return repo.deleteTask(params);
   }
 }
 
-class DeleteClickUpTaskParams {
+class DeleteClickupTaskParams {
   final ClickupTask task;
-  final ClickUpAccessToken clickUpAccessToken;
-  DeleteClickUpTaskParams({required this.task,required this.clickUpAccessToken, });
+  final ClickupAccessToken clickupAccessToken;
+  DeleteClickupTaskParams({required this.task,required this.clickupAccessToken, });
 
   String get taskId => task.id ?? "";
 }

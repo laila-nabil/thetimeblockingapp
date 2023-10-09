@@ -68,34 +68,34 @@ void _initServiceLocator({required Network network}) {
               TaskPopUpBloc(task: s));
   /// UseCases
 
-  serviceLocator.registerLazySingleton(() => GetClickUpAccessTokenUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupAccessTokenUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickUpUserUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupUserUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickUpWorkspacesUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupWorkspacesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickUpTasksInSingleWorkspaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupTasksInSingleWorkspaceUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickUpTasksInAllWorkspacesUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
     serviceLocator(),
   ));
 
-  serviceLocator.registerLazySingleton(() => CreateClickUpTaskUseCase(
+  serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => UpdateClickUpTaskUseCase(
+  serviceLocator.registerLazySingleton(() => UpdateClickupTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => DeleteClickUpTaskUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteClickupTaskUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickUpFoldersUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupFoldersUseCase(
     serviceLocator(),
   ));
 
@@ -115,25 +115,25 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() =>
       AuthRemoteDataSourceImpl(
           network: serviceLocator(),
-          clickUpClientId: Globals.clickUpClientId,
-          clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,));
+          clickupClientId: Globals.clickupClientId,
+          clickupClientSecret: Globals.clickupClientSecret,
+          clickupUrl: Globals.clickupUrl,));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(() =>
       TasksRemoteDataSourceImpl(
           network: serviceLocator(),
-          clickUpClientId: Globals.clickUpClientId,
-          clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,));
+          clickupClientId: Globals.clickupClientId,
+          clickupClientSecret: Globals.clickupClientSecret,
+          clickupUrl: Globals.clickupUrl,));
 
   serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
       StartUpRemoteDataSourceImpl(
         network: serviceLocator(),
-        clickUpClientId: Globals.clickUpClientId,
-        clickUpClientSecret: Globals.clickUpClientSecret,
-        clickUpUrl: Globals.clickUpUrl,));
+        clickupClientId: Globals.clickupClientId,
+        clickupClientSecret: Globals.clickupClientSecret,
+        clickupUrl: Globals.clickupUrl,));
 
   serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
           () => StartUpLocalDataSourceImpl(serviceLocator()));
@@ -148,18 +148,18 @@ void _initServiceLocator({required Network network}) {
 }
 
 void reRegisterClickupVariables() async {
-  Globals.clickUpClientId =
+  Globals.clickupClientId =
       const String.fromEnvironment("clickUpClientId", defaultValue: "");
-  Globals.clickUpClientSecret =
+  Globals.clickupClientSecret =
       const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
-  Globals.clickUpRedirectUrl =
+  Globals.clickupRedirectUrl =
       const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
 }
 
 void initServiceLocator() {
   _initServiceLocator(
       network: NetworkHttp(
-          httpClient: Client(), responseHandler: clickUpResponseHandler));
+          httpClient: Client(), responseHandler: clickupResponseHandler));
 }
 
 @visibleForTesting

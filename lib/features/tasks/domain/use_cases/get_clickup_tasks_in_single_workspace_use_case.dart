@@ -9,24 +9,24 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 
 import '../entities/tasks_order_by.dart';
 
-class GetClickUpTasksInSingleWorkspaceUseCase
-    implements UseCase<List<ClickupTask>, GetClickUpTasksInWorkspaceParams> {
+class GetClickupTasksInSingleWorkspaceUseCase
+    implements UseCase<List<ClickupTask>, GetClickupTasksInWorkspaceParams> {
   final TasksRepo repo;
 
-  GetClickUpTasksInSingleWorkspaceUseCase(this.repo);
+  GetClickupTasksInSingleWorkspaceUseCase(this.repo);
 
   @override
   Future<Either<Failure, List<ClickupTask>>?> call(
-      GetClickUpTasksInWorkspaceParams params) {
+      GetClickupTasksInWorkspaceParams params) {
     return repo.getTasksInWorkspace(params: params);
   }
 }
 
-class GetClickUpTasksInWorkspaceParams extends Equatable {
+class GetClickupTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
-  final GetClickUpTasksInWorkspaceFiltersParams filtersParams;
+  final GetClickupTasksInWorkspaceFiltersParams filtersParams;
 
-  const GetClickUpTasksInWorkspaceParams({
+  const GetClickupTasksInWorkspaceParams({
     required this.workspaceId,
     required this.filtersParams,
   });
@@ -35,7 +35,7 @@ class GetClickUpTasksInWorkspaceParams extends Equatable {
   List<Object?> get props => [workspaceId, filtersParams];
 }
 
-class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
+class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
   final int? page;
   final TasksOrderBy? tasksOrderBy;
   final bool? reverse;
@@ -58,9 +58,9 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-  final ClickUpAccessToken clickUpAccessToken;
+  final ClickupAccessToken clickupAccessToken;
 
-  const GetClickUpTasksInWorkspaceFiltersParams({
+  const GetClickupTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
     this.reverse,
@@ -83,7 +83,7 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     this.customFields,
     this.customTaskIds,
     this.includeParentTaskId,
-    required this.clickUpAccessToken,
+    required this.clickupAccessToken,
   });
 
   String get toUrlString {
@@ -328,6 +328,6 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
         customFields,
         customTaskIds,
         includeParentTaskId,
-        clickUpAccessToken,
+        clickupAccessToken,
       ];
 }

@@ -8,40 +8,40 @@ import '../../domain/use_cases/get_clickup_user_use_case.dart';
 import '../models/clickup_access_token_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params});
+  Future<ClickupAccessTokenModel> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params});
 
-  Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params});
+  Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params});
 
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Network network;
-  final String clickUpClientId;
-  final String clickUpClientSecret;
-  final String clickUpUrl;
+  final String clickupClientId;
+  final String clickupClientSecret;
+  final String clickupUrl;
 
   AuthRemoteDataSourceImpl({
     required this.network,
-    required this.clickUpClientId,
-    required this.clickUpClientSecret,
-    required this.clickUpUrl,
+    required this.clickupClientId,
+    required this.clickupClientSecret,
+    required this.clickupUrl,
   });
 
   @override
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params}) async {
+  Future<ClickupAccessTokenModel> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params}) async {
     final result = await network.post(
         uri:
-        Uri.parse("$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}"));
-    return ClickUpAccessTokenModel.fromJson(json.decode(result.body));
+        Uri.parse("$clickupUrl/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=${params.code}"));
+    return ClickupAccessTokenModel.fromJson(json.decode(result.body));
   }
 
   @override
-  Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params}) async {
+  Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params}) async {
     final result = await network.get(
-        uri: Uri.parse("$clickUpUrl/user"),
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
+        uri: Uri.parse("$clickupUrl/user"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
 

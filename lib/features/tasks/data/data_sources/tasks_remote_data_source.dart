@@ -13,44 +13,44 @@ import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.da
 
 abstract class TasksRemoteDataSource {
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetClickUpTasksInWorkspaceParams params});
+      {required GetClickupTasksInWorkspaceParams params});
 
   Future<ClickupTaskModel> createTaskInList(
-      {required ClickUpTaskParams params});
+      {required ClickupTaskParams params});
 
   Future<ClickupTaskModel> updateTask(
-      {required ClickUpTaskParams params});
+      {required ClickupTaskParams params});
 
   Future<Unit> deleteTask(
-      {required DeleteClickUpTaskParams params});
+      {required DeleteClickupTaskParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   final Network network;
-  final String clickUpClientId;
-  final String clickUpClientSecret;
-  final String clickUpUrl;
+  final String clickupClientId;
+  final String clickupClientSecret;
+  final String clickupUrl;
 
   TasksRemoteDataSourceImpl({
     required this.network,
-    required this.clickUpClientId,
-    required this.clickUpClientSecret,
-    required this.clickUpUrl,
+    required this.clickupClientId,
+    required this.clickupClientSecret,
+    required this.clickupUrl,
   });
 
   @override
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetClickUpTasksInWorkspaceParams params}) async {
+      {required GetClickupTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
-    String url = "$clickUpUrl/team/${params.workspaceId}/task";
+    String url = "$clickupUrl/team/${params.workspaceId}/task";
     final uri = UriExtension.uriHttpsClickupAPI(
         url: url,
         queryParameters: params.filtersParams.query);
     printDebug("uri $uri");
     final response = await network.get(
         uri: uri,
-        headers: clickUpHeader(
-            clickUpAccessToken: params.filtersParams.clickUpAccessToken));
+        headers: clickupHeader(
+            clickupAccessToken: params.filtersParams.clickupAccessToken));
     for (var element in (json.decode(response.body)["tasks"] as List)) {
       result.add(ClickupTaskModel.fromJson(element));
     }
@@ -59,32 +59,32 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> createTaskInList(
-      {required ClickUpTaskParams params}) async {
-    Uri uri = Uri.parse("$clickUpUrl/list/${params.listId}/task");
+      {required ClickupTaskParams params}) async {
+    Uri uri = Uri.parse("$clickupUrl/list/${params.listId}/task");
     final response = await network.post(
         uri: uri,
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
   }
 
   @override
   Future<ClickupTaskModel> updateTask(
-      {required ClickUpTaskParams params}) async {
-    Uri uri = Uri.parse("$clickUpUrl/task/${params.taskId}");
+      {required ClickupTaskParams params}) async {
+    Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     final response = await network.put(
         uri: uri,
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
   }
 
   @override
-  Future<Unit> deleteTask({required DeleteClickUpTaskParams params}) async{
-    Uri uri = Uri.parse("$clickUpUrl/task/${params.taskId}");
+  Future<Unit> deleteTask({required DeleteClickupTaskParams params}) async{
+    Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     await network.delete(
         uri: uri,
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken),);
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),);
     return unit;
   }
 }

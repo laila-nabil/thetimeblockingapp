@@ -5,19 +5,19 @@ abstract class ScheduleEvent extends Equatable {
 }
 
 class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
-  final GetClickUpTasksInAllWorkspacesParams
-      getClickUpTasksInAllWorkspacesParams;
+  final GetClickupTasksInAllWorkspacesParams
+      getClickupTasksInAllWorkspacesParams;
 
   const GetTasksForAllWorkspacesScheduleEvent(
-      this.getClickUpTasksInAllWorkspacesParams);
+      this.getClickupTasksInAllWorkspacesParams);
 
   @override
-  List<Object?> get props => [getClickUpTasksInAllWorkspacesParams];
+  List<Object?> get props => [getClickupTasksInAllWorkspacesParams];
 }
 
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   final String? id;
-  final GetClickUpTasksInWorkspaceParams params;
+  final GetClickupTasksInWorkspaceParams params;
 
   const GetTasksForSingleWorkspaceScheduleEvent(this.params, {this.id});
 
@@ -25,28 +25,28 @@ class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   List<Object?> get props => [params,id];
 }
 
-class CreateClickUpTaskEvent extends ScheduleEvent {
-  final ClickUpTaskParams params;
+class CreateClickupTaskEvent extends ScheduleEvent {
+  final ClickupTaskParams params;
 
-  const CreateClickUpTaskEvent({required this.params});
-
-  @override
-  List<Object?> get props => [params];
-}
-
-class UpdateClickUpTaskEvent extends ScheduleEvent {
-  final ClickUpTaskParams params;
-
-  const UpdateClickUpTaskEvent({required this.params});
+  const CreateClickupTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
 
-class DeleteClickUpTaskEvent extends ScheduleEvent {
-  final DeleteClickUpTaskParams params;
+class UpdateClickupTaskEvent extends ScheduleEvent {
+  final ClickupTaskParams params;
 
-  const DeleteClickUpTaskEvent({required this.params});
+  const UpdateClickupTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class DeleteClickupTaskEvent extends ScheduleEvent {
+  final DeleteClickupTaskParams params;
+
+  const DeleteClickupTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];

@@ -15,7 +15,7 @@ enum ScheduleStateEnum {
 class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> persistingScheduleStates;
   final ScheduleStateEnum? nonPersistingScheduleState;
-  final List<ClickupTask>? clickUpTasks;
+  final List<ClickupTask>? clickupTasks;
   final Failure? getTasksSingleWorkspaceFailure;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
@@ -26,7 +26,7 @@ class ScheduleState extends Equatable {
   const ScheduleState._({
     required this.persistingScheduleStates,
     this.nonPersistingScheduleState,
-    this.clickUpTasks,
+    this.clickupTasks,
     this.getTasksForSingleWorkspaceScheduleEventId,
     this.getTasksSingleWorkspaceFailure,
     this.createTaskFailure,
@@ -45,7 +45,7 @@ class ScheduleState extends Equatable {
   List<Object?> get props => [
         persistingScheduleStates,
         nonPersistingScheduleState,
-        clickUpTasks,
+        clickupTasks,
         getTasksSingleWorkspaceFailure,
         tasksDueDateEarliestDate,
         tasksDueDateLatestDate,
@@ -61,7 +61,7 @@ class ScheduleState extends Equatable {
   ScheduleState copyWith({
     Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
     ScheduleStateEnum? nonPersistingScheduleState,
-    List<ClickupTask>? clickUpTasks,
+    List<ClickupTask>? clickupTasks,
     Failure? getTasksSingleWorkspaceFailure,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
@@ -75,7 +75,7 @@ class ScheduleState extends Equatable {
           updateEnumStates(persistingScheduleStateAddRemove) :
               persistingScheduleStates,
       nonPersistingScheduleState: nonPersistingScheduleState,
-      clickUpTasks: clickUpTasks ?? this.clickUpTasks,
+      clickupTasks: clickupTasks ?? this.clickupTasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
       tasksDueDateEarliestDate: tasksDueDateEarliestDate ??

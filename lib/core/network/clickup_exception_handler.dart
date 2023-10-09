@@ -8,14 +8,14 @@ import 'package:http/http.dart' as http;
 
 import 'network.dart';
 
-Future<NetworkResponse> clickUpResponseHandler(
+Future<NetworkResponse> clickupResponseHandler(
     {required Future<http.Response> Function() httpResponse}) async {
   http.Response? response;
   try {
     response = await httpResponse();
     if (response.statusCode != 200) {
       throw ServerException(
-          message: ClickUpError.fromJson(json.decode(response.body)).error.toString());
+          message: ClickupError.fromJson(json.decode(response.body)).error.toString());
     }
   } catch (exception) {
     printDebug(
@@ -38,14 +38,14 @@ Future<NetworkResponse> clickUpResponseHandler(
   return NetworkResponse.fromHttpResponse(response);
 }
 
-class ClickUpError extends Equatable{
+class ClickupError extends Equatable{
   final String error;
   final String errorCode;
 
-  const ClickUpError({required this.error, required this.errorCode});
+  const ClickupError({required this.error, required this.errorCode});
 
-  factory ClickUpError.fromJson(Map<String,dynamic> json) {
-    return ClickUpError(error: json["err"].toString(),errorCode: json["ECODE"].toString());
+  factory ClickupError.fromJson(Map<String,dynamic> json) {
+    return ClickupError(error: json["err"].toString(),errorCode: json["ECODE"].toString());
   }
   @override
   List<Object?> get props => [error,errorCode];

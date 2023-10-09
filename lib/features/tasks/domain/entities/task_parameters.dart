@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import 'clickup_task.dart';
 
-enum ClickUpTaskParamsEnum { create, update }
+enum ClickupTaskParamsEnum { create, update }
 
-class ClickUpTaskParams extends Equatable{
-  final ClickUpTaskParamsEnum clickUpTaskParamsEnum;
-  final ClickUpAccessToken clickUpAccessToken;
-  final ClickupList? clickUpList;
+class ClickupTaskParams extends Equatable{
+  final ClickupTaskParamsEnum clickupTaskParamsEnum;
+  final ClickupAccessToken clickupAccessToken;
+  final ClickupList? clickupList;
   final String? title;
   final String? description;
   final List<ClickupAssignees>? assignees;
@@ -29,7 +29,7 @@ class ClickUpTaskParams extends Equatable{
   final ClickupTask? task;
   final bool? archived;
 
-  String get listId => clickUpList?.id ?? "";
+  String get listId => clickupList?.id ?? "";
 
   String get taskId => task?.id ?? "";
 
@@ -52,8 +52,8 @@ class ClickUpTaskParams extends Equatable{
 
   String? get linkedTaskId => linkedTask?.id;
 
-  const ClickUpTaskParams._(
-      {this.clickUpList,
+  const ClickupTaskParams._(
+      {this.clickupList,
       this.title,
       this.description,
       this.assignees,
@@ -71,15 +71,15 @@ class ClickUpTaskParams extends Equatable{
       this.parentTask,
       this.linkedTask,
       this.requiredCustomFields,
-      required this.clickUpAccessToken,
-      required this.clickUpTaskParamsEnum,
+      required this.clickupAccessToken,
+      required this.clickupTaskParamsEnum,
       this.task,
       this.archived});
 
-  factory ClickUpTaskParams.unknown({
-    required ClickUpAccessToken clickUpAccessToken,
-    required ClickUpTaskParamsEnum clickUpTaskParamsEnum,
-    ClickupList? clickUpList,
+  factory ClickupTaskParams.unknown({
+    required ClickupAccessToken clickupAccessToken,
+    required ClickupTaskParamsEnum clickupTaskParamsEnum,
+    ClickupList? clickupList,
     String? title,
     String? description,
     List<ClickupAssignees>? assignees,
@@ -96,10 +96,10 @@ class ClickUpTaskParams extends Equatable{
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
   }) =>
-      ClickUpTaskParams._(
-          clickUpTaskParamsEnum: clickUpTaskParamsEnum,
-          clickUpAccessToken: clickUpAccessToken,
-          clickUpList: clickUpList,
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: clickupTaskParamsEnum,
+          clickupAccessToken: clickupAccessToken,
+          clickupList: clickupList,
           title: title,
           description: description,
           assignees: assignees,
@@ -120,9 +120,9 @@ class ClickUpTaskParams extends Equatable{
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
 
-  factory ClickUpTaskParams.createNewTask({
-    required ClickUpAccessToken clickUpAccessToken,
-    required ClickupList clickUpList,
+  factory ClickupTaskParams.createNewTask({
+    required ClickupAccessToken clickupAccessToken,
+    required ClickupList clickupList,
     required String title,
     String? description,
     required List<ClickupAssignees> assignees,
@@ -139,10 +139,10 @@ class ClickUpTaskParams extends Equatable{
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
   }) =>
-      ClickUpTaskParams._(
-          clickUpTaskParamsEnum: ClickUpTaskParamsEnum.create,
-          clickUpAccessToken: clickUpAccessToken,
-          clickUpList: clickUpList,
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
+          clickupAccessToken: clickupAccessToken,
+          clickupList: clickupList,
           title: title,
           description: description,
           assignees: assignees,
@@ -163,8 +163,8 @@ class ClickUpTaskParams extends Equatable{
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
 
-  factory ClickUpTaskParams.updateTask({
-    required ClickUpAccessToken clickUpAccessToken,
+  factory ClickupTaskParams.updateTask({
+    required ClickupAccessToken clickupAccessToken,
     required ClickupTask task,
     String? title,
     String? description,
@@ -183,10 +183,10 @@ class ClickUpTaskParams extends Equatable{
     ClickupTask? linkedTask,
     bool? archived,
   }) =>
-      ClickUpTaskParams._(
-          clickUpTaskParamsEnum: ClickUpTaskParamsEnum.update,
-          clickUpAccessToken: clickUpAccessToken,
-          clickUpList: null,
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
+          clickupAccessToken: clickupAccessToken,
+          clickupList: null,
           title: title,
           description: description,
           assignees: assignees,
@@ -208,7 +208,7 @@ class ClickUpTaskParams extends Equatable{
           timeEstimate: timeEstimate);
 
   Map<String, dynamic> toJson() {
-    if (clickUpTaskParamsEnum == ClickUpTaskParamsEnum.create) {
+    if (clickupTaskParamsEnum == ClickupTaskParamsEnum.create) {
       return {
         "name": title,
         "description": description,
@@ -264,10 +264,10 @@ class ClickUpTaskParams extends Equatable{
     }
   }
 
-  ClickUpTaskParams copyWith({
-    ClickUpTaskParamsEnum? clickUpTaskParamsEnum,
-    ClickUpAccessToken? clickUpAccessToken,
-    ClickupList? clickUpList,
+  ClickupTaskParams copyWith({
+    ClickupTaskParamsEnum? clickupTaskParamsEnum,
+    ClickupAccessToken? clickupAccessToken,
+    ClickupList? clickupList,
     String? title,
     String? description,
     List<ClickupAssignees>? assignees,
@@ -290,11 +290,11 @@ class ClickUpTaskParams extends Equatable{
     List<int>? addedAssigneesId,
     List<int>? removedAssigneesId,
   }) {
-    return ClickUpTaskParams._(
-      clickUpTaskParamsEnum:
-          clickUpTaskParamsEnum ?? this.clickUpTaskParamsEnum,
-      clickUpAccessToken: clickUpAccessToken ?? this.clickUpAccessToken,
-      clickUpList: clickUpList ?? this.clickUpList,
+    return ClickupTaskParams._(
+      clickupTaskParamsEnum:
+          clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
+      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+      clickupList: clickupList ?? this.clickupList,
       title: title ?? this.title,
       description: description ?? this.description,
       assignees: assignees ?? this.assignees,
@@ -318,7 +318,7 @@ class ClickUpTaskParams extends Equatable{
   }
 
   @override
-  List<Object?> get props => [clickUpList,
+  List<Object?> get props => [clickupList,
     title,
     description,
     assignees,
@@ -336,8 +336,8 @@ class ClickUpTaskParams extends Equatable{
     parentTask,
     linkedTask,
     requiredCustomFields,
-    clickUpAccessToken,
-    clickUpTaskParamsEnum,
+    clickupAccessToken,
+    clickupTaskParamsEnum,
     task,
     archived];
 }

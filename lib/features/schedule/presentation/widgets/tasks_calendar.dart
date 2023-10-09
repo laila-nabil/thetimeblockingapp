@@ -46,7 +46,7 @@ class TasksCalendar extends StatelessWidget {
         return TaskCalendarWidget(
             calendarAppointmentDetails: calendarAppointmentDetails);
       },
-      timeZone: Globals.clickUpUser?.timezone,
+      timeZone: Globals.clickupUser?.timezone,
       onTap: (calendarTapDetails){
         printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
         printDebug("calendarTapDetails ${calendarTapDetails.date}");
@@ -57,7 +57,7 @@ class TasksCalendar extends StatelessWidget {
               context: context,
               taskPopupParams: TaskPopupParams(
                   onSave: (params) {
-                    scheduleBloc.add(CreateClickUpTaskEvent(params: params));
+                    scheduleBloc.add(CreateClickupTaskEvent(params: params));
               },
                   scheduleBloc: scheduleBloc),
           );
@@ -68,10 +68,10 @@ class TasksCalendar extends StatelessWidget {
                   task: calendarTapDetails.appointments?.first as ClickupTask,
                   onSave: (params) {
                     scheduleBloc
-                        .add(UpdateClickUpTaskEvent(params: params));
+                        .add(UpdateClickupTaskEvent(params: params));
                   },
                   onDelete: (params) => scheduleBloc
-                      .add(DeleteClickUpTaskEvent(params: params)),
+                      .add(DeleteClickupTaskEvent(params: params)),
                   scheduleBloc: scheduleBloc),);
         }
       },
@@ -110,14 +110,14 @@ class TasksCalendar extends StatelessWidget {
             printDebug("onViewChange HEREEEE");
             scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                 id: id,
-                GetClickUpTasksInWorkspaceParams(
+                GetClickupTasksInWorkspaceParams(
                     workspaceId: selectedClickupWorkspaceId ??
-                        Globals.clickUpWorkspaces?.first.id ??
+                        Globals.clickupWorkspaces?.first.id ??
                         "",
-                    filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                    filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                        clickupAccessToken: Globals.clickupAuthAccessToken,
                         filterByAssignees: [
-                          Globals.clickUpUser?.id.toString() ?? ""
+                          Globals.clickupUser?.id.toString() ?? ""
                         ],
                         filterByDueDateGreaterThanUnixTimeMilliseconds:
                         (viewChangedDetails.visibleDates.first

@@ -13,9 +13,9 @@ part 'startup_event.dart';
 part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState> {
-  final GetClickUpFoldersUseCase _getClickUpFoldersUseCase;
+  final GetClickupFoldersUseCase _getClickupFoldersUseCase;
 
-  StartupBloc(this._getClickUpFoldersUseCase)
+  StartupBloc(this._getClickupFoldersUseCase)
       : super(const StartupState(drawerLargerScreenOpen: false)) {
     on<StartupEvent>((event, emit) async {
       if (event is ControlDrawerLargerScreen) {
@@ -25,15 +25,15 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
         Globals.selectedWorkspace = event.clickupWorkspace;
         emit(state.copyWith(selectedClickupWorkspace: event.clickupWorkspace));
         emit(state.copyWith(startupStateEnum: StartupStateEnum.loading));
-        final getClickUpFolders =
-            await _getClickUpFoldersUseCase(event.getClickUpFoldersParams);
-        getClickUpFolders?.fold(
+        final getClickupFolders =
+            await _getClickupFoldersUseCase(event.getClickupFoldersParams);
+        getClickupFolders?.fold(
             (l) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getFoldersFailed,
                 getFoldersFailure: l)),
             (r) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getFoldersSuccess,
-                clickUpFolders: r)));
+                clickupFolders: r)));
       }
     });
   }

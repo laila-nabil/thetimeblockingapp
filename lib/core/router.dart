@@ -37,9 +37,9 @@ final router = GoRouter(
       if (state?.queryParameters != null &&
           state?.queryParameters["Code"] != null) {
         ///TODO
-      }else if (Globals.clickUpAuthAccessToken.accessToken.isEmpty ||
-          Globals.clickUpUser == null ||
-          Globals.clickUpWorkspaces?.isNotEmpty == false) {
+      }else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
+          Globals.clickupUser == null ||
+          Globals.clickupWorkspaces?.isNotEmpty == false) {
         return AuthPage.routeName;
       }
       return null;
@@ -49,9 +49,9 @@ final router = GoRouter(
         path: AuthPage.routeName,
         builder: (context, state) => const AuthPage(),
           redirect: (context, state) async {
-            if (Globals.clickUpAuthAccessToken.accessToken.isNotEmpty &&
-                Globals.clickUpUser != null &&
-                Globals.clickUpWorkspaces?.isNotEmpty == true) {
+            if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
+                Globals.clickupUser != null &&
+                Globals.clickupWorkspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
             }
             return null;

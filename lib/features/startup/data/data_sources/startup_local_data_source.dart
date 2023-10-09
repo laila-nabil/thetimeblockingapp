@@ -4,9 +4,9 @@ import 'dart:convert';
 
 abstract class StartUpLocalDataSource {
 
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces();
+  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces();
 
-  Future<void> saveClickUpWorkspaces(
+  Future<void> saveClickupWorkspaces(
       List<ClickupWorkspaceModel> clickupWorkspacesModel);
 }
 
@@ -17,10 +17,10 @@ class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
 
 
   @override
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces() async {
+  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces() async {
     List<ClickupWorkspaceModel> result = [];
     final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpWorkspaces.name);
+        key: LocalDataSourceKeys.clickupWorkspaces.name);
     final responseList = json.decode(response ?? "");
     if (responseList is List) {
       for (var element in responseList) {
@@ -32,14 +32,14 @@ class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
 
 
   @override
-  Future<void> saveClickUpWorkspaces(
+  Future<void> saveClickupWorkspaces(
       List<ClickupWorkspaceModel> clickupWorkspacesModel) {
     List<Map<String, dynamic>> result = [];
     for (var element in clickupWorkspacesModel) {
       result.add(element.toJson());
     }
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpWorkspaces.name,
+        key: LocalDataSourceKeys.clickupWorkspaces.name,
         value: result);
   }
 }

@@ -8,14 +8,14 @@ import '../use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 abstract class TasksRepo{
   Future<Either<Failure,List<ClickupTask>>> getTasksInWorkspace(
-      {required GetClickUpTasksInWorkspaceParams params});
+      {required GetClickupTasksInWorkspaceParams params});
 
   Future<Either<Failure, ClickupTask>?> createTaskInList(
-      ClickUpTaskParams params);
+      ClickupTaskParams params);
 
   Future<Either<Failure, ClickupTask>?> updateTask(
-      ClickUpTaskParams params);
+      ClickupTaskParams params);
 
   Future<Either<Failure, Unit>?> deleteTask(
-      DeleteClickUpTaskParams params);
+      DeleteClickupTaskParams params);
 }

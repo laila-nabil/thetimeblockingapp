@@ -14,16 +14,16 @@ class StartupState extends Equatable {
   final ClickupWorkspace? selectedClickupWorkspace;
   final Failure? getFoldersFailure;
   final Failure? getListsFailure;
-  final List<ClickupFolder>? clickUpFolders;
-  final List<ClickupList>? clickUpList;
+  final List<ClickupFolder>? clickupFolders;
+  final List<ClickupList>? clickupList;
 
   const StartupState(
       {required this.drawerLargerScreenOpen,
       this.selectedClickupWorkspace,
       this.getFoldersFailure,
-      this.clickUpFolders,
+      this.clickupFolders,
       this.getListsFailure,
-      this.clickUpList,
+      this.clickupList,
       this.startupStateEnum});
 
   @override
@@ -31,9 +31,9 @@ class StartupState extends Equatable {
         drawerLargerScreenOpen,
         selectedClickupWorkspace,
         getFoldersFailure,
-        clickUpFolders,
+        clickupFolders,
         getListsFailure,
-        clickUpList,
+        clickupList,
         startupStateEnum
       ];
 
@@ -43,8 +43,8 @@ class StartupState extends Equatable {
     ClickupWorkspace? selectedClickupWorkspace,
     Failure? getFoldersFailure,
     Failure? getListsFailure,
-    List<ClickupFolder>? clickUpFolders,
-    List<ClickupList>? clickUpList,
+    List<ClickupFolder>? clickupFolders,
+    List<ClickupList>? clickupList,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -54,8 +54,8 @@ class StartupState extends Equatable {
           selectedClickupWorkspace ?? this.selectedClickupWorkspace,
       getFoldersFailure: getFoldersFailure ?? this.getFoldersFailure,
       getListsFailure: getListsFailure ?? this.getListsFailure,
-      clickUpFolders: clickUpFolders ?? this.clickUpFolders,
-      clickUpList: clickUpList ?? this.clickUpList,
+      clickupFolders: clickupFolders ?? this.clickupFolders,
+      clickupList: clickupList ?? this.clickupList,
     );
   }
 }

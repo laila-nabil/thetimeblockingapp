@@ -17,25 +17,25 @@ part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  final GetClickUpTasksInAllWorkspacesUseCase
+  final GetClickupTasksInAllWorkspacesUseCase
       // ignore: unused_field
-      _getClickUpTasksInAllWorkspacesUseCase;
+      _getClickupTasksInAllWorkspacesUseCase;
 
-  final GetClickUpTasksInSingleWorkspaceUseCase
-      _getClickUpTasksInSingleWorkspaceUseCase;
+  final GetClickupTasksInSingleWorkspaceUseCase
+      _getClickupTasksInSingleWorkspaceUseCase;
 
-  final CreateClickUpTaskUseCase _createClickUpTaskUseCase;
-  final UpdateClickUpTaskUseCase _updateClickUpTaskUseCase;
-  final DeleteClickUpTaskUseCase _deleteClickUpTaskUseCase;
+  final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
+  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
 
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(
-      this._getClickUpTasksInAllWorkspacesUseCase,
-      this._getClickUpTasksInSingleWorkspaceUseCase,
-      this._createClickUpTaskUseCase,
-      this._updateClickUpTaskUseCase,
-      this._deleteClickUpTaskUseCase)
+      this._getClickupTasksInAllWorkspacesUseCase,
+      this._getClickupTasksInSingleWorkspaceUseCase,
+      this._createClickupTaskUseCase,
+      this._updateClickupTaskUseCase,
+      this._deleteClickupTaskUseCase)
       : super(ScheduleState._(
             persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
@@ -47,7 +47,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
                 const Right(ScheduleStateEnum.loading),
             getTasksForSingleWorkspaceScheduleEventId: event.id));
         final result =
-            await _getClickUpTasksInSingleWorkspaceUseCase(event.params);
+            await _getClickupTasksInSingleWorkspaceUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));
@@ -60,14 +60,14 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
               persistingScheduleStateAddRemove:
                   const Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
-              clickUpTasks: r));
+              clickupTasks: r));
         });
-      } else if (event is CreateClickUpTaskEvent) {
+      } else if (event is CreateClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
         ));
-        final result = await _createClickUpTaskUseCase(event.params);
+        final result = await _createClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));
@@ -80,12 +80,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
         });
-      } else if (event is UpdateClickUpTaskEvent) {
+      } else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
         ));
-        final result = await _updateClickUpTaskUseCase(event.params);
+        final result = await _updateClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));
@@ -98,12 +98,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             nonPersistingScheduleState: ScheduleStateEnum.updateTaskSuccess,
           ));
         });
-      } else if (event is DeleteClickUpTaskEvent) {
+      } else if (event is DeleteClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
         ));
-        final result = await _deleteClickUpTaskUseCase(event.params);
+        final result = await _deleteClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));

@@ -25,38 +25,38 @@ class AuthRepoImpl implements AuthRepo {
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<Either<Failure, ClickUpAccessToken>> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params}) async {
-    final result = await repoHandler<ClickUpAccessToken>(
+  Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params}) async {
+    final result = await repoHandler<ClickupAccessToken>(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickUpAccessToken(params: params),
+            await authRemoteDataSource.getClickupAccessToken(params: params),
       trySaveResult: (result)async{
-        Globals.clickUpAuthAccessToken =  result;
+        Globals.clickupAuthAccessToken =  result;
           await authLocalDataSource
-              .saveClickUpAccessToken(result as ClickUpAccessTokenModel);
+              .saveClickupAccessToken(result as ClickupAccessTokenModel);
         printDebug(
-            "getClickUpAccessToken $result ${Globals.clickUpAuthAccessToken}");
+            "getClickUpAccessToken $result ${Globals.clickupAuthAccessToken}");
       },
         tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickUpAccessToken());
+            await authLocalDataSource.getClickupAccessToken());
     return result;
   }
 
   @override
-  Future<Either<Failure, ClickupUser>> getClickUpUser(
-      {required GetClickUpUserParams params}) {
+  Future<Either<Failure, ClickupUser>> getClickupUser(
+      {required GetClickupUserParams params}) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickUpUser(params: params),
+            await authRemoteDataSource.getClickupUser(params: params),
         trySaveResult: (result)async{
-          Globals.clickUpUser =  result;
+          Globals.clickupUser =  result;
           printDebug(
-              "getClickUpUser $result ${Globals.clickUpUser}");
+              "getClickUpUser $result ${Globals.clickupUser}");
           await authLocalDataSource
-              .saveClickUpUser(result as ClickupUserModel);
+              .saveClickupUser(result as ClickupUserModel);
         },
         tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickUpUser());
+            await authLocalDataSource.getClickupUser());
   }
 
 }

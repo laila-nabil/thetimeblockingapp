@@ -7,30 +7,30 @@ import '../../../../common/entities/clickup_workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../tasks/domain/entities/clickup_folder.dart';
 
-class GetClickUpFoldersUseCase
-    implements UseCase<List<ClickupFolder>, GetClickUpFoldersParams> {
+class GetClickupFoldersUseCase
+    implements UseCase<List<ClickupFolder>, GetClickupFoldersParams> {
   final StartUpRepo repo;
 
-  GetClickUpFoldersUseCase(this.repo);
+  GetClickupFoldersUseCase(this.repo);
 
   @override
   Future<Either<Failure, List<ClickupFolder>>?> call(
-      GetClickUpFoldersParams params) {
-    return repo.getClickUpFolders(params: params);
+      GetClickupFoldersParams params) {
+    return repo.getClickupFolders(params: params);
   }
 }
 
-class GetClickUpFoldersParams extends Equatable {
-  final ClickUpAccessToken clickUpAccessToken;
+class GetClickupFoldersParams extends Equatable {
+  final ClickupAccessToken clickupAccessToken;
   final ClickupWorkspace clickupWorkspace;
   final bool? archived;
 
-  const GetClickUpFoldersParams({
-    required this.clickUpAccessToken,
+  const GetClickupFoldersParams({
+    required this.clickupAccessToken,
     required this.clickupWorkspace,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickUpAccessToken, clickupWorkspace,archived];
+  List<Object?> get props => [clickupAccessToken, clickupWorkspace,archived];
 }

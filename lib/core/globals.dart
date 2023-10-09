@@ -6,14 +6,14 @@ import '../features/auth/domain/entities/clickup_access_token.dart';
 
 class Globals {
   static String appName = "Time blocking app";
-  static String clickUpUrl = 'https://api.clickup.com/api/v2';
-  static String clickUpClientId = "";
-  static String clickUpClientSecret = "";
-  static String clickUpRedirectUrl = "";
-  static ClickUpAccessToken clickUpAuthAccessToken =
-      const ClickUpAccessToken(accessToken: "", tokenType: "");
-  static ClickupUser? clickUpUser;
-  static List<ClickupWorkspace>? clickUpWorkspaces;
-  static List<ClickupFolder>? clickUpFolders;
+  static String clickupUrl = 'https://api.clickup.com/api/v2';
+  static String clickupClientId = "";
+  static String clickupClientSecret = "";
+  static String clickupRedirectUrl = "";
+  static ClickupAccessToken clickupAuthAccessToken =
+      const ClickupAccessToken(accessToken: "", tokenType: "");
+  static ClickupUser? clickupUser;
+  static List<ClickupWorkspace>? clickupWorkspaces;
+  static List<ClickupFolder>? clickupFolders;
   static ClickupWorkspace? selectedWorkspace;
 }

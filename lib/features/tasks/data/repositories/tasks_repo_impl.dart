@@ -17,7 +17,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, List<ClickupTaskModel>>> getTasksInWorkspace(
-      {required GetClickUpTasksInWorkspaceParams params}) {
+      {required GetClickupTasksInWorkspaceParams params}) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getTasksInWorkspace(params: params));
@@ -25,7 +25,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, ClickupTaskModel>?> createTaskInList(
-      ClickUpTaskParams params) {
+      ClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.createTaskInList(params: params));
@@ -33,14 +33,14 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, ClickupTask>?> updateTask(
-      ClickUpTaskParams params) {
+      ClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
         await remoteDataSource.updateTask(params: params));
   }
 
   @override
-  Future<Either<Failure, Unit>?> deleteTask(DeleteClickUpTaskParams params) {
+  Future<Either<Failure, Unit>?> deleteTask(DeleteClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
         await remoteDataSource.deleteTask(params: params));

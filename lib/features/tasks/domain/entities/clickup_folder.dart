@@ -30,7 +30,7 @@ class ClickupFolder extends Equatable{
   final bool? overrideStatuses;
   final bool? hidden;
   final bool? access;
-  final ClickUpFolderSpace? space;
+  final ClickupFolderSpace? space;
   final String? taskCount;
   final List<String>? lists;
 
@@ -51,8 +51,8 @@ class ClickupFolder extends Equatable{
 /// name : "Space Name"
 /// access : true
 
-class ClickUpFolderSpace  extends Equatable {
-  const ClickUpFolderSpace({
+class ClickupFolderSpace  extends Equatable {
+  const ClickupFolderSpace({
       this.id, 
       this.name, 
       this.access,});

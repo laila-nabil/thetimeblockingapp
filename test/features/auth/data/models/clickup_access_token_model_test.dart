@@ -8,8 +8,8 @@ void main() {
 
   test("ClickUpAccessTokenModel from json", () {
     expect(
-      ClickUpAccessTokenModel.fromJson(json.decode(jsonString)),
-      const ClickUpAccessTokenModel(
+      ClickupAccessTokenModel.fromJson(json.decode(jsonString)),
+      const ClickupAccessTokenModel(
           accessToken:
               "55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152",
           tokenType: "Bearer"),

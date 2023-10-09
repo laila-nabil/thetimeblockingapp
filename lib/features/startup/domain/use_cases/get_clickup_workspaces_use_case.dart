@@ -6,24 +6,24 @@ import 'package:thetimeblockingapp/features/startup/domain/repositories/startup_
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
-class GetClickUpWorkspacesUseCase
-    implements UseCase<List<ClickupWorkspace>, GetClickUpWorkspacesParams> {
+class GetClickupWorkspacesUseCase
+    implements UseCase<List<ClickupWorkspace>, GetClickupWorkspacesParams> {
   final StartUpRepo repo;
 
-  GetClickUpWorkspacesUseCase(this.repo);
+  GetClickupWorkspacesUseCase(this.repo);
 
   @override
   Future<Either<Failure, List<ClickupWorkspace>>?> call(
-      GetClickUpWorkspacesParams params) {
-    return repo.getClickUpWorkspaces(params: params);
+      GetClickupWorkspacesParams params) {
+    return repo.getClickupWorkspaces(params: params);
   }
 }
 
-class GetClickUpWorkspacesParams extends Equatable {
-  final ClickUpAccessToken clickUpAccessToken;
+class GetClickupWorkspacesParams extends Equatable {
+  final ClickupAccessToken clickupAccessToken;
 
-  const GetClickUpWorkspacesParams(this.clickUpAccessToken);
+  const GetClickupWorkspacesParams(this.clickupAccessToken);
 
   @override
-  List<Object?> get props => [clickUpAccessToken];
+  List<Object?> get props => [clickupAccessToken];
 }

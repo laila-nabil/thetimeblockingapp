@@ -4,15 +4,15 @@ import '../models/clickup_access_token_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken();
+  Future<ClickupAccessTokenModel> getClickupAccessToken();
 
-  Future<ClickupUserModel> getClickUpUser();
+  Future<ClickupUserModel> getClickupUser();
 
 
-  Future<void> saveClickUpAccessToken(
-      ClickUpAccessTokenModel clickUpAccessTokenModel);
+  Future<void> saveClickupAccessToken(
+      ClickupAccessTokenModel clickupAccessTokenModel);
 
-  Future<void> saveClickUpUser(ClickupUserModel clickupUserModel);
+  Future<void> saveClickupUser(ClickupUserModel clickupUserModel);
 
 }
 
@@ -22,32 +22,32 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl(this.localDataSource);
 
   @override
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken() async {
+  Future<ClickupAccessTokenModel> getClickupAccessToken() async {
     var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name);
-    return ClickUpAccessTokenModel.fromJson(json.decode(data ?? ""));
+        key: LocalDataSourceKeys.clickupAccessToken.name);
+    return ClickupAccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
   @override
-  Future<ClickupUserModel> getClickUpUser() async {
+  Future<ClickupUserModel> getClickupUser() async {
     var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpUser.name);
+        key: LocalDataSourceKeys.clickupUser.name);
     return ClickupUserModel.fromJson(json.decode(data.toString()));
   }
 
 
   @override
-  Future<void> saveClickUpAccessToken(
-      ClickUpAccessTokenModel clickUpAccessTokenModel) {
+  Future<void> saveClickupAccessToken(
+      ClickupAccessTokenModel clickupAccessTokenModel) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name,
-        value: clickUpAccessTokenModel.toJson());
+        key: LocalDataSourceKeys.clickupAccessToken.name,
+        value: clickupAccessTokenModel.toJson());
   }
 
   @override
-  Future<void> saveClickUpUser(ClickupUserModel clickupUserModel) {
+  Future<void> saveClickupUser(ClickupUserModel clickupUserModel) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpUser.name,
+        key: LocalDataSourceKeys.clickupUser.name,
         value: clickupUserModel.toJson());
   }
 
