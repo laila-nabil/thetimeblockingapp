@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -242,22 +240,23 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
       result.addAll(queryList(list: filterBySpaceIds!,key: "space_ids"));
     }
     if (filterByProjectIds != null) {
-      result["project_ids"] = queryList(filterByProjectIds);
+      result.addAll(queryList(list: filterByProjectIds!,key: "project_ids"));
     }
     if (filterByListsIds != null) {
-      result["list_ids"] = queryList(filterByListsIds);
+      result.addAll(queryList(list: filterByListsIds!,key: "list_ids"));
     }
     if (filterByStatuses != null) {
-      result["statuses"] = queryList(filterByStatuses);
+      result.addAll(queryList(list: filterByStatuses!,key: "statuses"));
     }
     if (includeClosed != null) {
+      result.addAll(queryList(list: filterByProjectIds!,key: "project_ids"));
       result["include_closed"] = includeClosed.toString();
     }
     if (filterByAssignees != null) {
-      result["assignees"] = queryList(filterByAssignees);
+      result.addAll(queryList(list: filterByAssignees!,key: "assignees"));
     }
     if (filterByTags != null) {
-      result["tags"] = queryList(filterByTags);
+      result.addAll(queryList(list: filterByTags!,key: "tags"));
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
       result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds.toString();
@@ -298,13 +297,9 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
   }
 
   Map<String,String> queryList<T>({required String key,required List<T> list}){
-    String result = "";
-    final last = list.lastOrNull;
-    for (var element in list) { 
-      result += "$key[]=$element";
-      if(element != last){
-        result += "&";
-      }
+    Map<String,String> result = {};
+    for (var element in list) {
+      result["$key[]"] = "$element";
     }
     return result;
     
