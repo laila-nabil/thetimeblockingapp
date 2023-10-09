@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -24,6 +26,7 @@ import '../models/clickup_list_model.dart';
 class TasksRepoImpl implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
   final TasksLocalDataSource localDataSource;
+
   TasksRepoImpl(this.remoteDataSource, this.localDataSource);
 
   @override
@@ -43,18 +46,17 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, ClickupTask>?> updateTask(
-      ClickupTaskParams params) {
+  Future<Either<Failure, ClickupTask>?> updateTask(ClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
-        await remoteDataSource.updateTask(params: params));
+            await remoteDataSource.updateTask(params: params));
   }
 
   @override
   Future<Either<Failure, Unit>?> deleteTask(DeleteClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
-        await remoteDataSource.deleteTask(params: params));
+            await remoteDataSource.deleteTask(params: params));
   }
 
   @override
@@ -62,7 +64,7 @@ class TasksRepoImpl implements TasksRepo {
       {required GetClickupWorkspacesParams params}) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
-        await remoteDataSource.getClickupWorkspaces(params: params),
+            await remoteDataSource.getClickupWorkspaces(params: params),
         trySaveResult: (result) async {
           Globals.clickupWorkspaces = result;
           printDebug(
@@ -70,7 +72,7 @@ class TasksRepoImpl implements TasksRepo {
           await localDataSource.saveClickupWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>
-        await localDataSource.getClickupWorkspaces());
+            await localDataSource.getClickupWorkspaces());
   }
 
   @override
@@ -104,7 +106,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, List<ClickupList>>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params})  {
+      {required GetClickupFolderlessListsInSpaceParams params}) {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolderlessLists(params: params),
@@ -112,6 +114,20 @@ class TasksRepoImpl implements TasksRepo {
         Globals.clickupFolderLessLists = result;
         printDebug(
             "clickupFolderLessLists $result ${Globals.clickupFolderLessLists}");
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupSpace>>> getClickupSpacesInWorkspaces(
+      {required GetClickupSpacesInWorkspacesParams params})  {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getClickupSpacesInWorkspaces(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupSpaces = result;
+        printDebug(
+            "clickupSpaces $result ${Globals.clickupSpaces}");
       },
     );
   }

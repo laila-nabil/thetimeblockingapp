@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 /// id : "457"
 /// name : "Updated Folder Name"
 /// orderindex : 0
@@ -30,7 +31,7 @@ class ClickupFolder extends Equatable{
   final bool? overrideStatuses;
   final bool? hidden;
   final bool? access;
-  final ClickupFolderSpace? space;
+  final ClickupSpace? space;
   final String? taskCount;
   final List<String>? lists;
 
@@ -44,28 +45,5 @@ class ClickupFolder extends Equatable{
     space,
     taskCount,
     lists,];
-
-}
-
-/// id : "789"
-/// name : "Space Name"
-/// access : true
-
-class ClickupFolderSpace  extends Equatable {
-  const ClickupFolderSpace({
-      this.id, 
-      this.name, 
-      this.access,});
-
-
-  final String? id;
-  final String? name;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [id,
-    name,
-    access,];
-
 
 }

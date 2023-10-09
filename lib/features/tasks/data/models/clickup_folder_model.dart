@@ -1,3 +1,4 @@
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 
 /// id : "457"
@@ -35,7 +36,7 @@ class ClickupFolderModel extends ClickupFolder {
       overrideStatuses: json['override_statuses'],
       hidden: json['hidden'],
       space: json['space'] != null
-          ? ClickupFolderSpaceModel.fromJson(json['space'])
+          ? ClickupSpaceModel.fromJson(json['space'])
           : null,
       taskCount: json['task_count'],
       access: json['access'],
@@ -51,40 +52,12 @@ class ClickupFolderModel extends ClickupFolder {
     map['hidden'] = hidden;
     map['access'] = access;
     if (space != null) {
-      map['space'] = (space as ClickupFolderSpaceModel).toJson();
+      map['space'] = (space as ClickupSpaceModel).toJson();
     }
     map['task_count'] = taskCount;
     if (lists != null) {
       map['lists'] = lists;
     }
-    return map;
-  }
-}
-
-/// id : "789"
-/// name : "Space Name"
-/// access : true
-
-class ClickupFolderSpaceModel extends ClickupFolderSpace {
-  const ClickupFolderSpaceModel({
-    super.id,
-    super.name,
-    super.access,
-  });
-
-  factory ClickupFolderSpaceModel.fromJson(dynamic json) {
-    return ClickupFolderSpaceModel(
-      id: json['id'],
-      name: json['name'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['access'] = access;
     return map;
   }
 }

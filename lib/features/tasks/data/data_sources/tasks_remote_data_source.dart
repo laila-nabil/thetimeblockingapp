@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
@@ -13,6 +14,7 @@ import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../models/clickup_folder_model.dart';
@@ -25,11 +27,9 @@ abstract class TasksRemoteDataSource {
   Future<ClickupTaskModel> createTaskInList(
       {required ClickupTaskParams params});
 
-  Future<ClickupTaskModel> updateTask(
-      {required ClickupTaskParams params});
+  Future<ClickupTaskModel> updateTask({required ClickupTaskParams params});
 
-  Future<Unit> deleteTask(
-      {required DeleteClickupTaskParams params});
+  Future<Unit> deleteTask({required DeleteClickupTaskParams params});
 
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
@@ -42,6 +42,9 @@ abstract class TasksRemoteDataSource {
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
+
+  Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
+      {required GetClickupSpacesInWorkspacesParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -63,8 +66,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     List<ClickupTaskModel> result = [];
     String url = "$clickupUrl/team/${params.workspaceId}/task";
     final uri = UriExtension.uriHttpsClickupAPI(
-        url: url,
-        queryParameters: params.filtersParams.query);
+        url: url, queryParameters: params.filtersParams.query);
     printDebug("uri $uri");
     final response = await network.get(
         uri: uri,
@@ -99,14 +101,14 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteTask({required DeleteClickupTaskParams params}) async{
+  Future<Unit> deleteTask({required DeleteClickupTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     await network.delete(
-        uri: uri,
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),);
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
     return unit;
   }
-
 
   @override
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
@@ -161,7 +163,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params})  async {
+      {required GetClickupFolderlessListsInSpaceParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/list";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
@@ -174,6 +176,25 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     for (var element in (json.decode(response.body)["folders"] as List)) {
       result.add(ClickupListModel.fromJson(element));
+    }
+    return result;
+  }
+
+  @override
+  Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
+      {required GetClickupSpacesInWorkspacesParams params}) async {
+    List<ClickupSpaceModel> result = [];
+    final url = "$clickupUrl/team/${params.clickupWorkspace.id}/space";
+    Map<String, Either<List, String>>? queryParameters = params.archived == null
+        ? null
+        : {"archived": Right("${params.archived}")};
+    final Uri uri = UriExtension.uriHttpsClickupAPI(
+        url: url, queryParameters: queryParameters);
+    final response = await network.get(
+        uri: uri,
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+    for (var element in (json.decode(response.body)["spaces"] as List)) {
+      result.add(ClickupSpaceModel.fromJson(element));
     }
     return result;
   }

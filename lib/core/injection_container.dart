@@ -22,6 +22,7 @@ import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
@@ -41,7 +42,6 @@ import 'package:http/http.dart';
 
 final serviceLocator = GetIt.instance;
 
-
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
@@ -49,8 +49,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton(Logger(printer: logPrinter));
 
   /// Bloc
-  serviceLocator.registerFactory(
-      () => StartupBloc(serviceLocator(), serviceLocator(), serviceLocator()));
+  serviceLocator.registerFactory(() => StartupBloc(
+      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
@@ -78,6 +78,10 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
             serviceLocator(),
           ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
+            serviceLocator(),
+          ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),
@@ -101,9 +105,10 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
-        serviceLocator(),
-      ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
+            serviceLocator(),
+          ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
