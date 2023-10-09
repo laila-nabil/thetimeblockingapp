@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
@@ -37,6 +38,49 @@ void main(){
             DateTime(2023,11,6),
           ];
           expect(ListDateTimeExtensions.datesAIncludesB(datesA, datesB), false);
+        });
+      });
+    });
+    group("UriExtension tests", () {
+      group("uriHttps tests", () {
+        test("uriHttps test 1", () {
+          const url = "www.website.com";
+          Map<String, String> queryParameters = {
+            "keyHere1": "valueHere1",
+            "keyHere2": "valueHere2"
+          };
+          expect(
+            UriExtension.uriHttps(url: url, queryParameters: queryParameters),
+            Uri(
+                scheme: "https",
+                host: "",
+                path: url,
+                queryParameters: queryParameters),
+          );
+        });
+      });
+      group("uriHttpsClickupAPI tests", () {
+        test("uriHttpsClickupAPI test 1", () {
+          const url = "www.website.com";
+          Map<String, Either<List<dynamic>, String>> queryParametersClickupAPI =
+              {
+            // "keyHere1": Right("valueHere1"),
+            "keyHere2List": Left(["valueHereA1", "valueHereA2", "valueHereA3"]),
+            // "keyHere3List": Left(["valueHereB1",]),
+          };
+          expect(
+            UriExtension.uriHttpsClickupAPI(
+                url: url, queryParameters: queryParametersClickupAPI),
+            Uri(
+                scheme: "https",
+                host: "",
+                path: url,
+                queryParameters: {
+                  // "keyHere1": "valueHere1",
+                  "keyHere2List[]": "valueHereA1&keyHere2List[]=valueHereA2&keyHere2List[]=valueHereA3",
+                  // "keyHere3List[]": "valueHereB1",
+                }),
+          );
         });
       });
     });

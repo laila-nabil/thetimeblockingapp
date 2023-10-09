@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../domain/use_cases/get_clickup_folders_use_case.dart';
@@ -45,11 +47,8 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
       {required GetClickUpFoldersParams params}) async {
     List<ClickupFolderModel> result = [];
     final url = "$clickUpUrl/space/${params.clickupWorkspace.id}/folder";
-    final Uri uri= Uri(
-        scheme: "https",
-        host: "",
-        path: url,
-        queryParameters: {"archived": "${params.archived}"});
+    final Uri uri = UriExtension.uriHttpsClickupAPI(url: url,
+        queryParameters: {"archived": Right("${params.archived}")});
     final response = await network.get(
         uri: uri,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));

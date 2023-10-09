@@ -222,75 +222,74 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }
 
-  Map<String, String> get query {
-    Map<String, String> result = {};
+  Map<String, Either<List<dynamic>, String>> get query {
+    Map<String, Either<List<dynamic>, String>> result = {};
     if (page != null) {
-      result["page"] = page.toString();
+      result["page"] = Right(page.toString());
     }
     if (tasksOrderBy?.name != null) {
-      result["order_by"] = tasksOrderBy?.name ?? "";
+      result["order_by"] = Right(tasksOrderBy?.name ?? "");
     }
     if (reverse != null) {
-      result["reverse"] = reverse.toString();
+      result["reverse"] = Right(reverse.toString());
     }
     if (includeSubtasks != null) {
-      result["subtasks"] = includeSubtasks.toString();
+      result["subtasks"] = Right(includeSubtasks.toString());
     }
     if (filterBySpaceIds != null) {
-      result.addAll(queryList(list: filterBySpaceIds!,key: "space_ids"));
+      result["space_ids"] = Left(filterBySpaceIds ?? []);
     }
     if (filterByProjectIds != null) {
-      result.addAll(queryList(list: filterByProjectIds!,key: "project_ids"));
+      result["project_ids"] = Left(filterByProjectIds ?? []);
     }
     if (filterByListsIds != null) {
-      result.addAll(queryList(list: filterByListsIds!,key: "list_ids"));
+      result["list_ids"] = Left(filterByListsIds ?? []);
     }
     if (filterByStatuses != null) {
-      result.addAll(queryList(list: filterByStatuses!,key: "statuses"));
+      result["statuses"] = Left(filterByStatuses ?? []);
     }
     if (includeClosed != null) {
-      result.addAll(queryList(list: filterByProjectIds!,key: "project_ids"));
-      result["include_closed"] = includeClosed.toString();
+      result["project_ids"] = Left(filterByProjectIds ?? []);
     }
     if (filterByAssignees != null) {
-      result.addAll(queryList(list: filterByAssignees!,key: "assignees"));
+      result["assignees"] = Left(filterByAssignees ?? []);
     }
     if (filterByTags != null) {
-      result.addAll(queryList(list: filterByTags!,key: "tags"));
+      result["tags"] = Left(filterByTags ?? []);
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
-      result["due_date_gt"] = filterByDueDateGreaterThanUnixTimeMilliseconds.toString();
+      result["due_date_gt"] = Right(filterByDueDateGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDueDateLessThanUnixTimeMilliseconds != null) {
-      result["due_date_lt"] = filterByDueDateLessThanUnixTimeMilliseconds.toString();
+      result["due_date_lt"] = Right(filterByDueDateLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result["date_created_gt"] =
-          filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString();
+          Right(filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result["date_created_lt"] =
-          filterByCreatedDateLessThanUnixTimeMilliseconds.toString();
+          Right(filterByCreatedDateLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result["date_updated_gt"] =
-          filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString();
+          Right(filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result["date_updated_lt"] =
-          filterByDateUpdatedLessThanUnixTimeMilliseconds.toString();
+          Right(filterByDateUpdatedLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
-      result["date_done_gt"] = filterByDateDoneGreaterThanUnixTimeMilliseconds.toString();
+      result["date_done_gt"] =Right( filterByDateDoneGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
-      result["date_done_lt"] = filterByDateDoneLessThanUnixTimeMilliseconds.toString();
+      result["date_done_lt"] = Right(filterByDateDoneLessThanUnixTimeMilliseconds.toString());
     }
 
     ///TODO custom fields
 
     if (customTaskIds != null) {
-      result["custom_task_ids"] = customTaskIds.toString();
+      result["custom_task_ids"] = Right(customTaskIds.toString());
     }
     printDebug("query $result");
     return result;

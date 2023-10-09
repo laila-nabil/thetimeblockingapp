@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
+import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
@@ -42,10 +43,8 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickUpTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
     String url = "${clickUpUrl.replaceAll("https://", "")}/team/${params.workspaceId}/task";
-    final uri = Uri(
-        scheme: "https",
-        host: "",
-        path: url,
+    final uri = UriExtension.uriHttpsClickupAPI(
+        url: url,
         queryParameters: params.filtersParams.query);
     printDebug("uri $uri");
     final response = await network.get(
