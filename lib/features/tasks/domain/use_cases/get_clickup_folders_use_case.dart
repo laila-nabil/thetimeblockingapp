@@ -2,14 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/startup/domain/repositories/startup_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_folder.dart';
 
 class GetClickupFoldersUseCase
     implements UseCase<List<ClickupFolder>, GetClickupFoldersParams> {
-  final StartUpRepo repo;
+  final TasksRepo repo;
 
   GetClickupFoldersUseCase(this.repo);
 

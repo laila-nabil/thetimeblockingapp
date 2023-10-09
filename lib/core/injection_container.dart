@@ -17,6 +17,7 @@ import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
+import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folders_use_case.dart';
@@ -52,13 +53,11 @@ final serviceLocator = GetIt.instance;
 // serviceLocator.registerSingleton(updateInstance);
 // }
 
-
 void _initServiceLocator({required Network network}) {
-  serviceLocator.allowReassignment=true;
+  serviceLocator.allowReassignment = true;
 
   /// Globals
-  serviceLocator.registerSingleton(
-      Logger(printer:logPrinter ));
+  serviceLocator.registerSingleton(Logger(printer: logPrinter));
 
   /// Bloc
   serviceLocator.registerFactory(
@@ -68,8 +67,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, ClickupTask?, dynamic>(
-          (ClickupTask? s, dynamic i) =>
-              TaskPopUpBloc(task: s));
+      (ClickupTask? s, dynamic i) => TaskPopUpBloc(task: s));
+
   /// UseCases
 
   serviceLocator.registerLazySingleton(() => GetClickupAccessTokenUseCase(
@@ -82,12 +81,14 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupTasksInSingleWorkspaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupTasksInSingleWorkspaceUseCase(
+            serviceLocator(),
+          ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
+            serviceLocator(),
+          ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),
@@ -100,60 +101,62 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerLazySingleton(() => GetClickupFoldersUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => GetClickupAllListsInFoldersUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => GetClickupFolderlessListsUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
-  serviceLocator
-      .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
-
-  serviceLocator
-      .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<TasksRepo>(
+      () => TasksRepoImpl(serviceLocator(), serviceLocator()));
 
   serviceLocator.registerLazySingleton<StartUpRepo>(
       () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
 
   /// DataSources
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() =>
-      AuthRemoteDataSourceImpl(
-          network: serviceLocator(),
-          clickupClientId: Globals.clickupClientId,
-          clickupClientSecret: Globals.clickupClientSecret,
-          clickupUrl: Globals.clickupUrl,));
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
-  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(() =>
-      TasksRemoteDataSourceImpl(
-          network: serviceLocator(),
-          clickupClientId: Globals.clickupClientId,
-          clickupClientSecret: Globals.clickupClientSecret,
-          clickupUrl: Globals.clickupUrl,));
+  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
+      () => TasksRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
 
-  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
-      StartUpRemoteDataSourceImpl(
-        network: serviceLocator(),
-        clickupClientId: Globals.clickupClientId,
-        clickupClientSecret: Globals.clickupClientSecret,
-        clickupUrl: Globals.clickupUrl,));
+  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
+      () => StartUpRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
 
   serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
-          () => StartUpLocalDataSourceImpl(serviceLocator()));
+      () => StartUpLocalDataSourceImpl(serviceLocator()));
 
+  serviceLocator.registerLazySingleton<TasksLocalDataSource>(
+      () => TasksLocalDataSourceImpl(serviceLocator()));
 
   /// External
 

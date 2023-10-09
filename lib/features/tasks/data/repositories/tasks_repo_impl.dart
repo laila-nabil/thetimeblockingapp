@@ -7,13 +7,24 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
+import '../../../../common/models/clickup_workspace_model.dart';
+import '../../../../core/globals.dart';
+import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
+import '../../domain/entities/clickup_list.dart';
 import '../../domain/entities/task_parameters.dart';
+import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
+import '../../domain/use_cases/get_clickup_folders_use_case.dart';
+import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../data_sources/tasks_local_data_source.dart';
+import '../models/clickup_folder_model.dart';
+import '../models/clickup_list_model.dart';
 
 class TasksRepoImpl implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
-
-  TasksRepoImpl(this.remoteDataSource);
+  final TasksLocalDataSource localDataSource;
+  TasksRepoImpl(this.remoteDataSource, this.localDataSource);
 
   @override
   Future<Either<Failure, List<ClickupTaskModel>>> getTasksInWorkspace(
@@ -44,5 +55,64 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
         remoteDataSourceRequest: () async =>
         await remoteDataSource.deleteTask(params: params));
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupWorkspaceModel>>> getClickupWorkspaces(
+      {required GetClickupWorkspacesParams params}) {
+    return repoHandler(
+        remoteDataSourceRequest: () async =>
+        await remoteDataSource.getClickupWorkspaces(params: params),
+        trySaveResult: (result) async {
+          Globals.clickupWorkspaces = result;
+          printDebug(
+              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
+          await localDataSource.saveClickupWorkspaces(result);
+        },
+        tryGetFromLocalStorage: () async =>
+        await localDataSource.getClickupWorkspaces());
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupFolderModel>>> getClickupFolders(
+      {required GetClickupFoldersParams params}) {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getClickupFolders(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupListsInFolders = {};
+        result.map((e) => Globals.clickupListsInFolders![e] = []);
+        printDebug(
+            "clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupListModel>>> getClickupListsInFolder(
+      {required GetClickupListsInFolderParams params}) {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getClickupListsInFolder(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupListsInFolders?[params.clickupFolder] = result;
+        printDebug(
+            "clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupList>>> getClickupFolderlessLists(
+      {required GetClickupFolderlessListsParams params})  {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getClickupFolderlessLists(params: params),
+      trySaveResult: (result) async {
+        Globals.clickupFolderLessLists = result;
+        printDebug(
+            "clickupFolderLessLists $result ${Globals.clickupFolderLessLists}");
+      },
+    );
   }
 }
