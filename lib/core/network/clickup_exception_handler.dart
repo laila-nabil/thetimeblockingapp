@@ -18,7 +18,6 @@ Future<NetworkResponse> clickUpResponseHandler(
           message: ClickUpError.fromJson(json.decode(response.body)).error.toString());
     }
   } catch (exception) {
-    printDebug("[Exception] ${exception.toString()}", printLevel: PrintLevel.error);
     printDebug(
       "[response body] ${response?.body}",
     );
@@ -26,8 +25,12 @@ Future<NetworkResponse> clickUpResponseHandler(
       "[statusCode] " "${response?.statusCode}",
     );
     if (exception is ServerException) {
+      printDebug("[Exception] ${exception.message.toString()}",
+          printLevel: PrintLevel.error);
       rethrow;
     } else {
+      printDebug("[Exception] ${exception.toString()}",
+          printLevel: PrintLevel.error);
       throw ServerException(message: exception.toString());
     }
   }
