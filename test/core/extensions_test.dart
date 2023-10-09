@@ -58,15 +58,27 @@ void main(){
                 queryParameters: queryParameters),
           );
         });
+        test("uriHttps test 2", () {
+          const url = "www.website.com";
+          expect(
+            UriExtension.uriHttps(
+                url: url),
+            Uri(
+              scheme: "https",
+              host: "",
+              path: url,),
+          );
+        });
       });
+
       group("uriHttpsClickupAPI tests", () {
         test("uriHttpsClickupAPI test 1", () {
           const url = "www.website.com";
           Map<String, Either<List<dynamic>, String>> queryParametersClickupAPI =
               {
-            // "keyHere1": Right("valueHere1"),
-            "keyHere2List": Left(["valueHereA1", "valueHereA2", "valueHereA3"]),
-            // "keyHere3List": Left(["valueHereB1",]),
+            "keyHere1": const Right("valueHere1"),
+            "keyHere2List": const Left(["valueHereA1", "valueHereA2", "valueHereA3"]),
+            "keyHere3List": const Left(["valueHereB1",]),
           };
           expect(
             UriExtension.uriHttpsClickupAPI(
@@ -76,10 +88,21 @@ void main(){
                 host: "",
                 path: url,
                 queryParameters: {
-                  // "keyHere1": "valueHere1",
+                  "keyHere1": "valueHere1",
                   "keyHere2List[]": "valueHereA1&keyHere2List[]=valueHereA2&keyHere2List[]=valueHereA3",
-                  // "keyHere3List[]": "valueHereB1",
+                  "keyHere3List[]": "valueHereB1",
                 }),
+          );
+        });
+        test("uriHttpsClickupAPI test 2", () {
+          const url = "www.website.com";
+          expect(
+            UriExtension.uriHttpsClickupAPI(
+                url: url),
+            Uri(
+                scheme: "https",
+                host: "",
+                path: url,),
           );
         });
       });

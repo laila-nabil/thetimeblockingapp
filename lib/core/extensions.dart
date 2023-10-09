@@ -116,16 +116,19 @@ extension UriExtension on Uri {
   static uriHttpsClickupAPI(
       {required String url,
       Map<String, Either<List, String>>? queryParameters}) {
-    Map<String, String>? query = {};
-    queryParameters?.forEach((key, value) {
-      value.fold((l) {
-        String v = "";
-        String separator = "&$key[]=";
-        for (var element in l) { v = "$v$element$separator";}
-        v = v.substring(0,v.length-separator.length);
-        query.addAll({"$key[]": v});
-      }, (r) => query.addAll({key: r}));
-    });
+    Map<String, String>? query;
+    if(queryParameters?.isNotEmpty == true){
+      query = {};
+      queryParameters?.forEach((key, value) {
+        value.fold((l) {
+          String v = "";
+          String separator = "&$key[]=";
+          for (var element in l) { v = "$v$element$separator";}
+          v = v.substring(0,v.length-separator.length);
+          query?.addAll({"$key[]": v});
+        }, (r) => query?.addAll({key: r}));
+      });
+    }
 
     return Uri(scheme: "https", host: "", path: url, queryParameters: query);
   }
