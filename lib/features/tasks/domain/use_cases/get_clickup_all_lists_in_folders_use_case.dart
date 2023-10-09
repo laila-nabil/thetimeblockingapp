@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../../../tasks/domain/entities/clickup_folder.dart';
-import '../../../tasks/domain/entities/clickup_list.dart';
+import '../entities/clickup_folder.dart';
+import '../entities/clickup_list.dart';
 import 'get_clickup_lists_in_folder_use_case.dart';
 
 class GetClickupAllListsInFoldersUseCase

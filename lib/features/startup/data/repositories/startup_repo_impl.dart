@@ -4,16 +4,16 @@ import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_folder_model.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup_folders_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_folders_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_list_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/startup_repo.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../data_sources/startup_local_data_source.dart';
 import '../data_sources/startup_remote_data_source.dart';
 

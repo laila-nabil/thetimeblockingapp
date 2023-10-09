@@ -5,10 +5,10 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../tasks/data/models/clickup_list_model.dart';
-import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import '../../domain/use_cases/get_clickup_folders_use_case.dart';
-import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_folders_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../../../tasks/data/models/clickup_folder_model.dart';
 
 abstract class StartUpRemoteDataSource {

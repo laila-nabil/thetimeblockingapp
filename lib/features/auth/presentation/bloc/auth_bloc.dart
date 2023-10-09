@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
-import '../../../startup/domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../../domain/entities/clickup_access_token.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
