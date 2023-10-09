@@ -44,12 +44,14 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   Future<List<ClickupFolderModel>> getClickUpFolders(
       {required GetClickUpFoldersParams params}) async {
     List<ClickupFolderModel> result = [];
+    final url = "$clickUpUrl/space/${params.clickupWorkspace.id}/folder";
+    final Uri uri= Uri(
+        scheme: "https",
+        host: "",
+        path: url,
+        queryParameters: {"archived": "${params.archived}"});
     final response = await network.get(
-        uri: Uri(
-            path: "$clickUpUrl/space/${params.clickupWorkspace.id}/folder",
-            queryParameters: params.archived == null
-                ? null
-                : {"archived": "${params.archived}"}),
+        uri: uri,
         headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
     for (var element in (json.decode(response.body)["folders"] as List)) {
       result.add(ClickupFolderModel.fromJson(element));
