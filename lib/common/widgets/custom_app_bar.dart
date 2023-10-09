@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_folders_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
-///Fix overflow in android
+///FIXME B overflow in android
 ///
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
@@ -33,6 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (Globals.clickupWorkspaces?.isNotEmpty == true)
           DropdownMenu(
               width: 170,
+              ///TODO A should startUpBloc.add(SelectClickupWorkspace for initialSelection
               initialSelection: Globals.clickupWorkspaces?.first,
               onSelected: (selected) {
                 if (selected is ClickupWorkspace) {

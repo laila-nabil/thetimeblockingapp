@@ -36,7 +36,7 @@ final router = GoRouter(
     redirect: (context, GoRouterState? state) {
       if (state?.queryParameters != null &&
           state?.queryParameters["Code"] != null) {
-        ///TODO
+        ///TODO B when deploying
       }else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {

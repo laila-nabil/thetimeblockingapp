@@ -118,7 +118,7 @@ class ClickupTask extends Equatable {
   /// If that user changes their timezone later, task start dates and due dates will not be retroactively updated.
   /// [https://clickup.com/api/developer-portal/faq/]
   bool get isAllDay {
-    ///TODO if a task due time is 4 am and no start date,it is viewed as all day event
+    ///FIXME A if a task due time is 4 am and no start date,it is viewed as all day event
     printDebug("for $name,dueDate: $dueDateUtc and startDate: $startDateUtc");
     return (startDateUtc == null || startDateUtc == dueDateUtc) &&
         dueDateUtc != null && dueDateUtc?.hour == 4 && dueDateUtc?.second == 0 ;

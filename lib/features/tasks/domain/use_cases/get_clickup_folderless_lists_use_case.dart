@@ -7,6 +7,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_list.dart';
 
+///FIXME A {"err":"Team not authorized","ECODE":"OAUTH_027"}
+
 class GetClickupFolderlessListsUseCase
     implements UseCase<List<ClickupList>, GetClickupFolderlessListsParams> {
   final TasksRepo repo;

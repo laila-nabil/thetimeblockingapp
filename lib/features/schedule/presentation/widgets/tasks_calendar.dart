@@ -33,7 +33,7 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      ///TODO enable when enabling the feautre
+      ///TODO C enable when enabling the feature
       allowDragAndDrop: false,
       allowAppointmentResize: false,
       allowViewNavigation: true,
@@ -62,6 +62,7 @@ class TasksCalendar extends StatelessWidget {
                   scheduleBloc: scheduleBloc),
           );
         } else {
+          ///TODO A should handle in case of multiple appointments
           showTaskPopup(
               context: context,
               taskPopupParams: TaskPopupParams(
@@ -76,20 +77,20 @@ class TasksCalendar extends StatelessWidget {
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO onAppointmentResizeEnd
+        ///TODO C onAppointmentResizeEnd
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO TimeSlotViewSettings
+        ///TODO AB TimeSlotViewSettings
       ),
       onDragEnd: (appointmentDragEndDetails){
-        ///TODO onDragEnd
+        ///TODO C onDragEnd
       },
       onDragStart: (appointmentDragEndDetails){
-        ///TODO onDragStart
+        ///TODO C onDragStart
       },
       onDragUpdate: (appointmentDragEndDetails){
-        ///TODO onDragUpdate
+        ///TODO C onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
 
@@ -143,7 +144,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    ///TODO ??
+    ///TODO A ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(const Duration(minutes: 30));
   }

@@ -88,7 +88,7 @@ class ExplainClickupAuth extends StatelessWidget {
             CustomButton(
                 child: const Text("Connect with Clickup"),
                 onPressed: () {
-                  ///TODO webview in case of android
+                  ///TODO B webview in case of android
                   launchWithURL(
                       url:
                           "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}");
@@ -114,7 +114,6 @@ class ExplainClickupAuth extends StatelessWidget {
                   )
                 ],
               )
-            ///TODO add toggle to chose adding access token or code
           ],
         ),
       ),

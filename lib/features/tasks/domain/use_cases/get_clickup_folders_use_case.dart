@@ -7,6 +7,8 @@ import '../../../../common/entities/clickup_workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_folder.dart';
 
+///FIXME A {"err":"Team not authorized","ECODE":"OAUTH_027"}
+
 class GetClickupFoldersUseCase
     implements UseCase<List<ClickupFolder>, GetClickupFoldersParams> {
   final TasksRepo repo;
