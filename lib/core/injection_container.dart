@@ -19,8 +19,8 @@ import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_folders_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
@@ -89,7 +89,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupFoldersUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
         serviceLocator(),
       ));
 
@@ -101,7 +101,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupFolderlessListsUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
         serviceLocator(),
       ));
 

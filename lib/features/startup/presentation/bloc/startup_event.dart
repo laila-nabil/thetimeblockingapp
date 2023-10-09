@@ -15,7 +15,7 @@ class ControlDrawerLargerScreen extends StartupEvent {
 
 class SelectClickupWorkspace extends StartupEvent {
   final ClickupWorkspace clickupWorkspace;
-  final GetClickupFoldersParams getClickupFoldersParams;
+  final GetClickupFoldersInSpaceParams getClickupFoldersParams;
   const SelectClickupWorkspace(
       {required this.clickupWorkspace, required this.getClickupFoldersParams});
 

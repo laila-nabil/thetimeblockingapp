@@ -10,8 +10,8 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import '../../domain/use_cases/get_clickup_folders_use_case.dart';
+import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
+import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
@@ -35,13 +35,13 @@ abstract class TasksRemoteDataSource {
       {required GetClickupWorkspacesParams params});
 
   Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetClickupFoldersParams params});
+      {required GetClickupFoldersInSpaceParams params});
 
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsParams params});
+      {required GetClickupFolderlessListsInSpaceParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -123,9 +123,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetClickupFoldersParams params}) async {
+      {required GetClickupFoldersInSpaceParams params}) async {
     List<ClickupFolderModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupWorkspace.id}/folder";
+    final url = "$clickupUrl/space/${params.clickupSpace.id}/folder";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
@@ -161,9 +161,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsParams params})  async {
+      {required GetClickupFolderlessListsInSpaceParams params})  async {
     List<ClickupListModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupWorkspace.id}/list";
+    final url = "$clickupUrl/space/${params.clickupSpace.id}/list";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};

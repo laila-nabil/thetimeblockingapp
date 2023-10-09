@@ -7,17 +7,17 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_a
 
 import '../../../tasks/domain/entities/clickup_folder.dart';
 import '../../../tasks/domain/entities/clickup_list.dart';
-import '../../../tasks/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_folders_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 
 part 'startup_event.dart';
 
 part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState> {
-  final GetClickupFoldersUseCase _getClickupFoldersUseCase;
+  final GetClickupFoldersInSpaceUseCase _getClickupFoldersUseCase;
   final GetClickupAllListsInFoldersUseCase _getClickupAllListsUseCase;
-  final GetClickupFolderlessListsUseCase _getClickupFolderlessListsUseCase;
+  final GetClickupFolderlessListsInSpaceUseCase _getClickupFolderlessListsUseCase;
 
   StartupBloc(this._getClickupFoldersUseCase, this._getClickupAllListsUseCase,
       this._getClickupFolderlessListsUseCase)
@@ -58,11 +58,11 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
         }
         emit(state.copyWith(startupStateEnum: StartupStateEnum.loading));
         final folderlessLists = await _getClickupFolderlessListsUseCase(
-            GetClickupFolderlessListsParams(
+            GetClickupFolderlessListsInSpaceParams(
                 clickupAccessToken:
                     event.getClickupFoldersParams.clickupAccessToken,
-                clickupWorkspace:
-                    event.getClickupFoldersParams.clickupWorkspace));
+                clickupSpace:
+                    event.getClickupFoldersParams.clickupSpace));
         folderlessLists?.fold(
             (l) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getFolderlessListsFailed,

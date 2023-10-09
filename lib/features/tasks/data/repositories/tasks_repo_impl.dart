@@ -13,8 +13,8 @@ import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/entities/clickup_list.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
-import '../../domain/use_cases/get_clickup_folders_use_case.dart';
+import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
+import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
@@ -75,7 +75,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, List<ClickupFolderModel>>> getClickupFolders(
-      {required GetClickupFoldersParams params}) {
+      {required GetClickupFoldersInSpaceParams params}) {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolders(params: params),
@@ -104,7 +104,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<Either<Failure, List<ClickupList>>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsParams params})  {
+      {required GetClickupFolderlessListsInSpaceParams params})  {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolderlessLists(params: params),
