@@ -82,10 +82,13 @@ class TasksRepoImpl implements TasksRepo {
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolders(params: params),
       trySaveResult: (result) async {
-        Globals.clickupListsInFolders = {};
-        result.map((e) => Globals.clickupListsInFolders![e] = []);
-        printDebug(
-            "clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+        final index = Globals.clickupSpaces
+            ?.indexWhere((element) => element == params.clickupSpace);
+        if (index != null) {
+          Globals.clickupSpaces?[index] =
+              Globals.clickupSpaces![index].copyWith(folders: result);
+          printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
+        }
       },
     );
   }
@@ -97,9 +100,18 @@ class TasksRepoImpl implements TasksRepo {
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupListsInFolder(params: params),
       trySaveResult: (result) async {
-        Globals.clickupListsInFolders?[params.clickupFolder] = result;
-        printDebug(
-            "clickupListsInFolders $result ${Globals.clickupListsInFolders}");
+        final indexSpace = Globals.clickupSpaces
+            ?.indexWhere((element) => element == params.clickupSpace);
+        if (indexSpace != null) {
+          final indexFolder = Globals.clickupSpaces?[indexSpace].folders
+              ?.indexWhere((element) => element == params.clickupFolder);
+          if (indexFolder != null) {
+            Globals.clickupSpaces?[indexSpace].folders?[indexFolder] = Globals
+                .clickupSpaces![indexSpace].folders![indexFolder]
+                .copyWith(lists: result);
+            printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
+          }
+        }
       },
     );
   }
@@ -111,23 +123,27 @@ class TasksRepoImpl implements TasksRepo {
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolderlessLists(params: params),
       trySaveResult: (result) async {
-        Globals.clickupFolderLessLists = result;
-        printDebug(
-            "clickupFolderLessLists $result ${Globals.clickupFolderLessLists}");
+        final indexSpace = Globals.clickupSpaces
+            ?.indexWhere((element) => element == params.clickupSpace);
+        if (indexSpace != null) {
+          Globals.clickupSpaces?[indexSpace] = Globals
+              .clickupSpaces![indexSpace]
+              .copyWith(folderlessLists: result);
+          printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
+        }
       },
     );
   }
 
   @override
   Future<Either<Failure, List<ClickupSpace>>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params})  {
+      {required GetClickupSpacesInWorkspacesParams params}) {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupSpacesInWorkspaces(params: params),
       trySaveResult: (result) async {
         Globals.clickupSpaces = result;
-        printDebug(
-            "clickupSpaces $result ${Globals.clickupSpaces}");
+        printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_list_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 
@@ -23,7 +24,7 @@ class ClickupFolderModel extends ClickupFolder {
   });
 
   factory ClickupFolderModel.fromJson(dynamic json) {
-    List<String>? lists;
+    List<ClickupListModel>? lists;
     if (json['lists'] != null) {
       lists = [];
       json['lists'].forEach((v) {
