@@ -42,7 +42,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
       {required GetClickUpTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
-    String url = "${clickUpUrl.replaceAll("https://", "")}/team/${params.workspaceId}/task";
+    String url = "$clickUpUrl/team/${params.workspaceId}/task";
     final uri = UriExtension.uriHttpsClickupAPI(
         url: url,
         queryParameters: params.filtersParams.query);

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 void main(){
   group("extensions tests", () {
@@ -103,6 +104,16 @@ void main(){
                 scheme: "https",
                 host: "",
                 path: url,),
+          );
+        });
+        test("uriHttpsClickupAPI test 2b", () {
+          const url = "https://www.anotherwebsite.com";
+          printDebug("UriExtension.uriHttpsClickupAPI ${UriExtension.uriHttpsClickupAPI(
+              url: url).toString()}");
+          expect(
+            UriExtension.uriHttpsClickupAPI(
+                url: url).toString(),
+            "https://www.anotherwebsite.com",
           );
         });
       });

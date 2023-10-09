@@ -108,12 +108,16 @@ extension ListDateTimeExtensions on List<DateTime> {
 }
 
 extension UriExtension on Uri {
-  static uriHttps({required String url, Map<String, String>? queryParameters}) {
+  static Uri uriHttps(
+      {required String url, Map<String, String>? queryParameters}) {
     return Uri(
-        scheme: "https", host: "", path: url, queryParameters: queryParameters);
+        scheme: "https",
+        host: "",
+        path: url.replaceAll("https://", ""),
+        queryParameters: queryParameters);
   }
 
-  static uriHttpsClickupAPI(
+  static Uri uriHttpsClickupAPI(
       {required String url,
       Map<String, Either<List, String>>? queryParameters}) {
     Map<String, String>? query;
@@ -130,6 +134,10 @@ extension UriExtension on Uri {
       });
     }
 
-    return Uri(scheme: "https", host: "", path: url, queryParameters: query);
+    return Uri(
+        scheme: "https",
+        host: "",
+        path: url.replaceAll("https://", ""),
+        queryParameters: query);
   }
 }
