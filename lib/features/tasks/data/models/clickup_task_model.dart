@@ -1,6 +1,7 @@
 import 'clickup_folder_model.dart';
 import '../../domain/entities/clickup_task.dart';
 import 'clickup_list_model.dart';
+import 'clickup_space_model.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -263,23 +264,6 @@ class ClickupTaskModel extends ClickupTask {
   }
 }
 
-/// id : "1"
-
-class ClickupSpaceModel extends ClickupSpace {
-  const ClickupSpaceModel({
-    super.id,
-  });
-
-  factory ClickupSpaceModel.fromJson(Map<String, dynamic> json) {
-    return ClickupSpaceModel(id: json['id']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    return map;
-  }
-}
 
 
 /// id : "1"

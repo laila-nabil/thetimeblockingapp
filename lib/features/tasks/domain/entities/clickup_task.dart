@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/extensions.dart';
 import 'clickup_folder.dart';
 import 'clickup_list.dart';
+import 'clickup_space.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -183,18 +184,6 @@ class ClickupTask extends Equatable {
       ];
 }
 
-/// id : "1"
-
-class ClickupSpace extends Equatable {
-  const ClickupSpace({
-    this.id,
-  });
-
-  final String? id;
-
-  @override
-  List<Object?> get props => [id];
-}
 
 /// id : "1"
 /// name : "Folder"
