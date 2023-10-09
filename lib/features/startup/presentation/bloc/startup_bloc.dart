@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_clickup
 
 import '../../../tasks/domain/entities/clickup_folder.dart';
 import '../../../tasks/domain/entities/clickup_list.dart';
+import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_use_case.dart';
 
 part 'startup_event.dart';
@@ -16,9 +17,10 @@ part 'startup_state.dart';
 class StartupBloc extends Bloc<StartupEvent, StartupState> {
   final GetClickupFoldersUseCase _getClickupFoldersUseCase;
   final GetClickupAllListsInFoldersUseCase _getClickupAllListsUseCase;
+  final GetClickupFolderlessListsUseCase _getClickupFolderlessListsUseCase;
 
-  StartupBloc(
-      this._getClickupFoldersUseCase, this._getClickupAllListsUseCase)
+  StartupBloc(this._getClickupFoldersUseCase, this._getClickupAllListsUseCase,
+      this._getClickupFolderlessListsUseCase)
       : super(const StartupState(drawerLargerScreenOpen: false)) {
     on<StartupEvent>((event, emit) async {
       if (event is ControlDrawerLargerScreen) {
@@ -33,28 +35,42 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
         getClickupFolders?.fold(
             (l) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getFoldersFailed,
-                getFoldersFailure: l)),
-            (r) {
-              emit(state.copyWith(
-                startupStateEnum: StartupStateEnum.getFoldersSuccess,
-                clickupFolders: r));
-            });
-        if(getClickupFolders?.isRight() == true){
+                getFoldersFailure: l)), (r) {
+          emit(state.copyWith(
+              startupStateEnum: StartupStateEnum.getFoldersSuccess,
+              clickupFolders: r));
+        });
+        if (getClickupFolders?.isRight() == true) {
           emit(state.copyWith(startupStateEnum: StartupStateEnum.loading));
           final listsInFoldersResult = await _getClickupAllListsUseCase(
               GetClickupAllListsInFoldersParams(
-                  clickupAccessToken: event.getClickupFoldersParams.clickupAccessToken,
-                  clickupFolders: state.clickupFolders??[]));
+                  clickupAccessToken:
+                      event.getClickupFoldersParams.clickupAccessToken,
+                  clickupFolders: state.clickupFolders ?? []));
           listsInFoldersResult?.fold(
-                  (l) => emit(state.copyWith(
+              (l) => emit(state.copyWith(
                   startupStateEnum: StartupStateEnum.getListsInFoldersFailed,
-                  getFoldersFailure: l)),
-                  (r) {
-                emit(state.copyWith(
-                    startupStateEnum: StartupStateEnum.getListsInFoldersSuccess,
-                    clickupListsInFolders: r));
-              });
+                  getFoldersFailure: l)), (r) {
+            emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getListsInFoldersSuccess,
+                clickupListsInFolders: r));
+          });
         }
+        emit(state.copyWith(startupStateEnum: StartupStateEnum.loading));
+        final folderlessLists = await _getClickupFolderlessListsUseCase(
+            GetClickupFolderlessListsParams(
+                clickupAccessToken:
+                    event.getClickupFoldersParams.clickupAccessToken,
+                clickupWorkspace:
+                    event.getClickupFoldersParams.clickupWorkspace));
+        folderlessLists?.fold(
+            (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getFolderlessListsFailed,
+                getFolderlessListsFailure: l)), (r) {
+          emit(state.copyWith(
+              startupStateEnum: StartupStateEnum.getFolderlessListsSuccess,
+              clickupFolderlessListsFolders: r));
+        });
       }
     });
   }

@@ -18,6 +18,7 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
+import '../features/startup/domain/use_cases/get_clickup_folderless_lists_use_case.dart';
 import '../features/startup/domain/use_cases/get_clickup_folders_use_case.dart';
 import '../features/startup/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../features/startup/domain/use_cases/get_clickup_workspaces_use_case.dart';
@@ -60,7 +61,8 @@ void _initServiceLocator({required Network network}) {
       Logger(printer:logPrinter ));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc(serviceLocator(),serviceLocator()));
+  serviceLocator.registerFactory(
+      () => StartupBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
@@ -106,6 +108,10 @@ void _initServiceLocator({required Network network}) {
   ));
 
   serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => GetClickupFolderlessListsUseCase(
     serviceLocator(),
   ));
 

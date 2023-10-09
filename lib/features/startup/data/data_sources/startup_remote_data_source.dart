@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../tasks/data/models/clickup_list_model.dart';
+import '../../domain/use_cases/get_clickup_folderless_lists_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
@@ -19,6 +20,9 @@ abstract class StartUpRemoteDataSource {
 
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
+
+  Future<List<ClickupListModel>> getClickupFolderlessLists(
+      {required GetClickupFolderlessListsParams params});
 }
 
 class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
@@ -71,6 +75,25 @@ class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
       {required GetClickupListsInFolderParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/folder/${params.clickupFolder.id}/list";
+    Map<String, Either<List, String>>? queryParameters = params.archived == null
+        ? null
+        : {"archived": Right("${params.archived}")};
+    final Uri uri = UriExtension.uriHttpsClickupAPI(
+        url: url, queryParameters: queryParameters);
+    final response = await network.get(
+        uri: uri,
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+    for (var element in (json.decode(response.body)["folders"] as List)) {
+      result.add(ClickupListModel.fromJson(element));
+    }
+    return result;
+  }
+
+  @override
+  Future<List<ClickupListModel>> getClickupFolderlessLists(
+      {required GetClickupFolderlessListsParams params})  async {
+    List<ClickupListModel> result = [];
+    final url = "$clickupUrl/space/${params.clickupWorkspace.id}/list";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
