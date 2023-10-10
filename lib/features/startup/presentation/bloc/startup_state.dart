@@ -39,8 +39,11 @@ class StartupState extends Equatable {
     this.clickupSpaces,
   });
 
+  bool get isLoading => startupStateEnum == StartupStateEnum.loading;
+
   @override
   List<Object?> get props => [
+        startupStateEnum,
         drawerLargerScreenOpen,
         selectedClickupWorkspace,
         getFoldersFailure,
@@ -49,7 +52,6 @@ class StartupState extends Equatable {
         getFolderlessListsFailure,
         clickupFolderlessListsFolders,
         clickupListsInFolders,
-        startupStateEnum,
         getSpacesFailure,
         clickupSpaces,
       ];
