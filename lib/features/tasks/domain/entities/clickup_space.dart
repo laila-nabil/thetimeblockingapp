@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
-import 'clickup_folder.dart';
 /*
  id : "90150126979"
  name : "Space b"
@@ -19,7 +19,7 @@ import 'clickup_folder.dart';
 */
 
 class ClickupSpace extends Equatable {
-  const ClickupSpace({
+  ClickupSpace({
     this.id,
     this.name,
     this.color,
@@ -31,8 +31,8 @@ class ClickupSpace extends Equatable {
     this.features,
     this.archived,
     this.members,
-    this.folderlessLists,
-    this.folders
+    this.folders = const[],
+    this.lists = const[],
   });
 
   final String? id;
@@ -46,8 +46,8 @@ class ClickupSpace extends Equatable {
   final ClickupSpaceFeatures? features;
   final bool? archived;
   final List<ClickupWorkspaceMembers>? members;
-  final List<ClickupFolder>? folders;
-  final List<ClickupList>? folderlessLists;
+  List<ClickupFolder> folders;
+  List<ClickupList> lists;
 
   @override
   List<Object?> get props => [id,
@@ -60,39 +60,12 @@ class ClickupSpace extends Equatable {
     multipleAssignees,
     features,
     archived,
-    members,folders,folderlessLists];
+    members,
+    folders,
+    lists
+  ];
 
-  ClickupSpace copyWith({
-    String? id,
-    String? name,
-    dynamic color,
-    bool? private,
-    dynamic avatar,
-    bool? adminCanManage,
-    List<ClickupSpaceStatuses>? statuses,
-    bool? multipleAssignees,
-    ClickupSpaceFeatures? features,
-    bool? archived,
-    List<ClickupWorkspaceMembers>? members,
-    List<ClickupFolder>? folders,
-    List<ClickupList>? folderlessLists,
-  }) {
-    return ClickupSpace(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      color: color ?? this.color,
-      private: private ?? this.private,
-      avatar: avatar ?? this.avatar,
-      adminCanManage: adminCanManage ?? this.adminCanManage,
-      statuses: statuses ?? this.statuses,
-      multipleAssignees: multipleAssignees ?? this.multipleAssignees,
-      features: features ?? this.features,
-      archived: archived ?? this.archived,
-      members: members ?? this.members,
-      folders: folders ?? this.folders,
-      folderlessLists: folderlessLists ?? this.folderlessLists,
-    );
-  }
+
 }
 
 /* due_dates : {"enabled":true,"start_date":true,"remap_due_dates":false,"remap_closed_due_date":false}

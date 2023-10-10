@@ -16,7 +16,7 @@ import '../../domain/entities/clickup_space.dart';
 */
 
 class ClickupSpaceModel extends ClickupSpace {
-  const ClickupSpaceModel({
+  ClickupSpaceModel({
     super.id,
     super.name,
     super.color,

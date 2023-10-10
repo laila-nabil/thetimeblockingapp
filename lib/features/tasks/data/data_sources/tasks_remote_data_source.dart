@@ -174,7 +174,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final response = await network.get(
         uri: uri,
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
-    for (var element in (json.decode(response.body)["folders"] as List)) {
+    for (var element in (json.decode(response.body)["lists"] as List)) {
       result.add(ClickupListModel.fromJson(element));
     }
     return result;

@@ -81,15 +81,6 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolders(params: params),
-      trySaveResult: (result) async {
-        final index = Globals.clickupSpaces
-            ?.indexWhere((element) => element == params.clickupSpace);
-        if (index != null) {
-          Globals.clickupSpaces?[index] =
-              Globals.clickupSpaces![index].copyWith(folders: result);
-          printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
-        }
-      },
     );
   }
 
@@ -99,20 +90,6 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupListsInFolder(params: params),
-      trySaveResult: (result) async {
-        final indexSpace = Globals.clickupSpaces
-            ?.indexWhere((element) => element == params.clickupSpace);
-        if (indexSpace != null) {
-          final indexFolder = Globals.clickupSpaces?[indexSpace].folders
-              ?.indexWhere((element) => element == params.clickupFolder);
-          if (indexFolder != null) {
-            Globals.clickupSpaces?[indexSpace].folders?[indexFolder] = Globals
-                .clickupSpaces![indexSpace].folders![indexFolder]
-                .copyWith(lists: result);
-            printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
-          }
-        }
-      },
     );
   }
 
@@ -122,16 +99,6 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupFolderlessLists(params: params),
-      trySaveResult: (result) async {
-        final indexSpace = Globals.clickupSpaces
-            ?.indexWhere((element) => element == params.clickupSpace);
-        if (indexSpace != null) {
-          Globals.clickupSpaces?[indexSpace] = Globals
-              .clickupSpaces![indexSpace]
-              .copyWith(folderlessLists: result);
-          printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
-        }
-      },
     );
   }
 
@@ -141,10 +108,6 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupSpacesInWorkspaces(params: params),
-      trySaveResult: (result) async {
-        Globals.clickupSpaces = result;
-        printDebug("clickupSpaces $result ${Globals.clickupSpaces}");
-      },
     );
   }
 }

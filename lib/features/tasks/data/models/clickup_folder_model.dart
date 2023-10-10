@@ -28,7 +28,7 @@ class ClickupFolderModel extends ClickupFolder {
     if (json['lists'] != null) {
       lists = [];
       json['lists'].forEach((v) {
-        lists?.add(v);
+        lists?.add(ClickupListModel.fromJson(v));
       });
     }
     return ClickupFolderModel(

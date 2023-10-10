@@ -16,7 +16,7 @@ class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
   final ClickupWorkspace? selectedClickupWorkspace;
-  final Failure? getSpacesFailure;
+  final List<Map<String, Failure>>? getSpacesFailure;
   final Failure? getFoldersFailure;
   final Failure? getListsInFoldersFailure;
   final Failure? getFolderlessListsFailure;
@@ -58,7 +58,7 @@ class StartupState extends Equatable {
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
     ClickupWorkspace? selectedClickupWorkspace,
-    Failure? getSpacesFailure,
+    List<Map<String, Failure>>? getSpacesFailure,
     Failure? getFoldersFailure,
     Failure? getListsInFoldersFailure,
     Failure? getFolderlessListsFailure,

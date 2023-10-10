@@ -18,6 +18,7 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
+import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
@@ -49,7 +50,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton(Logger(printer: logPrinter));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc(
+  serviceLocator.registerFactory(() => StartupBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
@@ -82,6 +83,11 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
+
+  serviceLocator
+      .registerLazySingleton(() => GetAllInClickupWorkspaceUseCase(
+    serviceLocator(),
+  ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),

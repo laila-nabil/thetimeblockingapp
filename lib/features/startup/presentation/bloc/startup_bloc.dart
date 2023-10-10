@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_a
 
 import '../../../tasks/domain/entities/clickup_folder.dart';
 import '../../../tasks/domain/entities/clickup_list.dart';
+import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -24,11 +25,13 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
       _getClickupFolderlessListsUseCase;
   final GetClickupSpacesInWorkspacesUseCase
       _getClickupSpacesInWorkspacesUseCase;
+  final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
 
   StartupBloc(
       this._getClickupFoldersUseCase,
       this._getClickupAllListsUseCase,
       this._getClickupFolderlessListsUseCase,
+      this._getAllInClickupWorkspaceUseCase,
       this._getClickupSpacesInWorkspacesUseCase)
       : super(const StartupState(drawerLargerScreenOpen: false)) {
     on<StartupEvent>((event, emit) async {
@@ -38,6 +41,17 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
       } else if (event is SelectClickupWorkspace) {
         Globals.selectedWorkspace = event.clickupWorkspace;
         emit(state.copyWith(selectedClickupWorkspace: event.clickupWorkspace));
+        final result = await _getAllInClickupWorkspaceUseCase(
+            GetAllInClickupWorkspaceParams(
+                clickupAccessToken: event.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace));
+        result?.fold(
+            (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getSpacesFailed,
+                getSpacesFailure: l)),
+            (r) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getSpacesSuccess,
+                clickupSpaces: r)));
         /*emit(state.copyWith(startupStateEnum: StartupStateEnum.loading));
         final getSpaces = await _getClickupSpacesInWorkspacesUseCase(
             GetClickupSpacesInWorkspacesParams(
