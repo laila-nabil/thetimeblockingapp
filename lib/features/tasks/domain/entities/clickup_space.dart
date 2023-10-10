@@ -49,10 +49,10 @@ class ClickupSpace extends Equatable {
   List<ClickupFolder> folders;
   List<ClickupList> lists;
 
-  static List<ClickupList> getAllLists(
-      {required ClickupSpace? space, required ClickupFolder? folder}) {
+  List<ClickupList> getAllLists(
+      {required ClickupFolder? folder}) {
     List<ClickupList> result = [];
-    result = result + (space?.lists ?? []);
+    result = result + (lists ?? []);
     result = result +( folder?.lists ?? []);
     return result;
   }

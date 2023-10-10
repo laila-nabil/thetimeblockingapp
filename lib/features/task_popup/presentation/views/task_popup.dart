@@ -202,19 +202,22 @@ class TaskPopup extends StatelessWidget {
                             ),
 
                             ///Folder
-                            DropdownMenu<ClickupFolder>(
-                              hintText: appLocalization.translate("folder"),
-                              onSelected: (folder) => taskPopUpBloc.add(
-                                  UpdateClickupTaskParamsEvent(
-                                      taskParams: clickupTaskParams.copyWith(
-                                          folder: folder))),
-                              dropdownMenuEntries: state
-                                      .taskParams?.clickupSpace?.folders
-                                      .map((e) => DropdownMenuEntry(
-                                          value: e, label: e.name ?? ""))
-                                      .toList() ??
-                                  [],
-                            ),
+                            if (state.taskParams?.clickupSpace?.folders
+                                    .isNotEmpty ==
+                                true)
+                              DropdownMenu<ClickupFolder>(
+                                hintText: appLocalization.translate("folder"),
+                                onSelected: (folder) => taskPopUpBloc.add(
+                                    UpdateClickupTaskParamsEvent(
+                                        taskParams: clickupTaskParams.copyWith(
+                                            folder: folder))),
+                                dropdownMenuEntries: state
+                                        .taskParams?.clickupSpace?.folders
+                                        .map((e) => DropdownMenuEntry(
+                                            value: e, label: e.name ?? ""))
+                                        .toList() ??
+                                    [],
+                              ),
 
                             ///List
                             DropdownMenu<ClickupList>(
@@ -223,17 +226,30 @@ class TaskPopup extends StatelessWidget {
                                   UpdateClickupTaskParamsEvent(
                                       taskParams: clickupTaskParams.copyWith(
                                           clickupList: list))),
-                              dropdownMenuEntries: (ClickupSpace.getAllLists(
-                                          folder: state.taskParams?.folder,
-                                          space:
-                                              state.taskParams?.clickupSpace))
-                                      .map((e) => DropdownMenuEntry(
+                              dropdownMenuEntries:
+                                  (state.taskParams?.clickupSpace?.getAllLists(
+                                        folder: state.taskParams?.folder,
+                                      ))
+                                          ?.map((e) => DropdownMenuEntry(
                                               value: e, label: e.name ?? ""))
                                           .toList() ??
                                       [],
                             ),
                           ],
                         ),
+
+                        Text(
+                            "selectedWorkspace: ${Globals.selectedWorkspace?.name.toString()}"),
+                        Text(
+                            "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
+                        Text(
+                            "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders}"),
+                        Text("folder: ${state.taskParams?.folder?.name}"),
+                        Text(
+                            "clickupSpace.getAllLists: ${state.taskParams?.clickupSpace?.getAllLists(
+                          folder: state.taskParams?.folder,
+                        )}"),
+                        Text("list: ${state.taskParams?.clickupList?.name}"),
                       ],
                     ),
                   ));
