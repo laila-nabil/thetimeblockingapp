@@ -95,20 +95,23 @@ class TaskPopup extends StatelessWidget {
                                   params = ClickupTaskParams.createNewTask(
                                       clickupList:
                                           state.taskParams!.clickupList!,
-                                      title: "default title",
                                       clickupAccessToken:
                                           Globals.clickupAuthAccessToken,
                                       assignees: [
                                         ClickupAssignees(
                                             id: Globals.clickupUser?.id)
-                                      ]);
+                                      ],
+                                      title: state.taskParams?.title ?? "",
+                                      description: state.taskParams?.description,
+                                  );
                                 } else {
                                   params = ClickupTaskParams.updateTask(
                                       task: task,
-                                      description:
-                                          "new description ${DateTime.now()}",
                                       clickupAccessToken:
-                                          Globals.clickupAuthAccessToken);
+                                          Globals.clickupAuthAccessToken,
+                                      title: state.taskParams?.title,
+                                      description: state.taskParams?.description,
+                                  );
                                 }
                                 taskPopupParams.onSave!(params);
                               },
@@ -220,6 +223,7 @@ class TaskPopup extends StatelessWidget {
                                     [],
                               ),
 
+                            ///FIXME lists not viewed
                             ///List
                             DropdownMenu<ClickupList>(
                               hintText: appLocalization.translate("list"),
