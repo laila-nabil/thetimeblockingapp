@@ -15,6 +15,7 @@ import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.da
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
+import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../models/clickup_folder_model.dart';
@@ -45,6 +46,9 @@ abstract class TasksRemoteDataSource {
 
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params});
+
+  Future<List<ClickupTagModel>> getClickupTags(
+      {required GetClickupTagsInSpaceParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -195,6 +199,25 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     for (var element in (json.decode(response.body)["spaces"] as List)) {
       result.add(ClickupSpaceModel.fromJson(element));
+    }
+    return result;
+  }
+
+  @override
+  Future<List<ClickupTagModel>> getClickupTags(
+      {required GetClickupTagsInSpaceParams params}) async {
+    List<ClickupTagModel> result = [];
+    final url = "$clickupUrl/space/${params.clickupSpace.id}/tag";
+    Map<String, Either<List, String>>? queryParameters = params.archived == null
+        ? null
+        : {"archived": Right("${params.archived}")};
+    final Uri uri = UriExtension.uriHttpsClickupAPI(
+        url: url, queryParameters: queryParameters);
+    final response = await network.get(
+        uri: uri,
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+    for (var element in (json.decode(response.body)["tags"] as List)) {
+      result.add(ClickupTagModel.fromJson(element));
     }
     return result;
   }

@@ -33,6 +33,7 @@ class ClickupSpace extends Equatable {
     this.members,
     this.folders = const[],
     this.lists = const[],
+    this.tags = const[],
   });
 
   final String? id;
@@ -48,6 +49,7 @@ class ClickupSpace extends Equatable {
   final List<ClickupWorkspaceMembers>? members;
   List<ClickupFolder> folders;
   List<ClickupList> lists;
+  List<ClickupTag> tags;
 
   List<ClickupList> getAllLists(
       {required ClickupFolder? folder}) {
@@ -70,7 +72,8 @@ class ClickupSpace extends Equatable {
     archived,
     members,
     folders,
-    lists
+    lists,
+    tags,
   ];
 
 

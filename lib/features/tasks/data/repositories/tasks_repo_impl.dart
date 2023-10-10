@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -108,6 +109,15 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandler(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupSpacesInWorkspaces(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<ClickupTagModel>>> getClickupTags(
+      {required GetClickupTagsInSpaceParams params}) {
+    return repoHandler(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getClickupTags(params: params),
     );
   }
 }

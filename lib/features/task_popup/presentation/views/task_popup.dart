@@ -186,8 +186,29 @@ class TaskPopup extends StatelessWidget {
                         )),
 
                         ///Tags
-                        Text(task?.tags?.map((e) => "#${e.name}").toString() ??
-                            ""),
+                        DropdownMenu<ClickupTag>(
+                          width: 70,
+                          hintText: appLocalization.translate("tags"),
+                          onSelected: (tag) {
+                            if (tag != null) {
+                              taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                  taskParams:
+                                      clickupTaskParams.copyWith(tags: [tag])));
+                            }
+                          },
+                          dropdownMenuEntries: state.taskParams?.clickupSpace?.tags
+                              .map((e) => DropdownMenuEntry(
+                              value: e,
+                              style: ButtonStyle(
+                                  textStyle: MaterialStateProperty.all(
+                                      TextStyle(
+                                          textBaseline:
+                                          TextBaseline.alphabetic,
+                                          color: task?.priority
+                                              ?.getPriorityExclamationColor))),
+                              label: e.name.toString()))
+                              .toList() ?? [],
+                        ),
 
                         Row(
                           children: [

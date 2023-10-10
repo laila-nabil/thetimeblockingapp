@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_space.dart';
 import 'get_clickup_folderless_lists_in_space_use_case.dart';
@@ -27,37 +28,49 @@ class GetAllInClickupWorkspaceUseCase {
             archived: params.archived));
     printDebug("GetAllInClickupWorkspaceUseCase spacesResult $spacesResult");
     await spacesResult.fold((l) async => failures.add({"spaces": l}),
-        (rSpace) async {
-      spaces = rSpace;
-      int indexSpace = 0;
-      for (var eSpace in rSpace) {
-        final folderlessLists = await repo.getClickupFolderlessLists(
-            params: GetClickupFolderlessListsInSpaceParams(
-                clickupAccessToken: params.clickupAccessToken,
-                clickupSpace: eSpace,
-                archived: params.archived));
-        printDebug("GetAllInClickupWorkspaceUseCase folderlessLists $folderlessLists");
-        folderlessLists.fold(
-                (l) => failures.add({"folderlessLists$indexSpace": l}),
-                (rFolderlessLists) {
+            (rSpace) async {
+          spaces = rSpace;
+          int indexSpace = 0;
+          for (var eSpace in rSpace){
+            final tagsResult = await repo.getClickupTags(
+                params: GetClickupTagsInSpaceParams(
+                    clickupAccessToken: params.clickupAccessToken,
+                    clickupSpace: eSpace));
+            tagsResult.fold(
+                    (l) => failures.add({"tagS$indexSpace": l}),
+                    (rTags) {
+                  spaces[indexSpace].tags = rTags;
+                });
+            final folderlessLists = await repo.getClickupFolderlessLists(
+                params: GetClickupFolderlessListsInSpaceParams(
+                    clickupAccessToken: params.clickupAccessToken,
+                    clickupSpace: eSpace,
+                    archived: params.archived));
+            printDebug(
+                "GetAllInClickupWorkspaceUseCase folderlessLists $folderlessLists");
+            folderlessLists.fold(
+                    (l) => failures.add({"folderlessLists$indexSpace": l}),
+                    (rFolderlessLists) {
                   spaces[indexSpace].lists = rFolderlessLists;
                 });
-        final folders = await repo.getClickupFolders(
-            params: GetClickupFoldersInSpaceParams(
-                clickupAccessToken: params.clickupAccessToken,
-                clickupSpace: eSpace,
-                archived: params.archived));
-        printDebug("GetAllInClickupWorkspaceUseCase folders $folders");
-        folders.fold(
-            (lFolder) => failures.add({"folders$indexSpace": lFolder}),
-            (rFolders) =>  spaces[indexSpace].folders = rFolders);
-        indexSpace++;
-      }
-    });
+            final folders = await repo.getClickupFolders(
+                params: GetClickupFoldersInSpaceParams(
+                    clickupAccessToken: params.clickupAccessToken,
+                    clickupSpace: eSpace,
+                    archived: params.archived));
+            printDebug("GetAllInClickupWorkspaceUseCase folders $folders");
+            folders.fold(
+                    (lFolder) => failures.add({"folders$indexSpace": lFolder}),
+                    (rFolders) => spaces[indexSpace].folders = rFolders);
+            indexSpace++;
+          }
+        });
 
     if (spaces.isNotEmpty) {
       Globals.clickupSpaces = spaces;
-      printDebug("GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals.clickupSpaces}");
+      printDebug(
+          "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
+              .clickupSpaces}");
       return Right(spaces);
     }
     return Left(failures);
