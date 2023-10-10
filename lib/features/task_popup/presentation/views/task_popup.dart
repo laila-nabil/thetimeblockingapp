@@ -8,6 +8,9 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
@@ -166,50 +169,70 @@ class TaskPopup extends StatelessWidget {
                         ///Description
                         Expanded(
                             child: CustomTextInputField(
-                              controller: taskPopUpBloc.descriptionController,
-                              decoration: InputDecoration(
-                                  hintText: appLocalization.translate("description"),
-                              ),
-                              maxLines: 3,
-                              onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                    taskParams: clickupTaskParams.copyWith(
-                                        description: change)));
-                              },
-                            )),
+                          controller: taskPopUpBloc.descriptionController,
+                          decoration: InputDecoration(
+                            hintText: appLocalization.translate("description"),
+                          ),
+                          maxLines: 3,
+                          onChanged: (change) {
+                            taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                taskParams: clickupTaskParams.copyWith(
+                                    description: change)));
+                          },
+                        )),
+
                         ///Tags
                         Text(task?.tags?.map((e) => "#${e.name}").toString() ??
                             ""),
 
-                        ///List
-                        Text("list : ${task?.list?.name}"),
+                        Row(
+                          children: [
+                            ///Space
+                            DropdownMenu<ClickupSpace>(
+                              hintText: appLocalization.translate("space"),
+                              onSelected: (space) => taskPopUpBloc.add(
+                                  UpdateClickupTaskParamsEvent(
+                                      taskParams: clickupTaskParams.copyWith(
+                                          clickupSpace: space))),
+                              dropdownMenuEntries: (Globals.clickupSpaces)
+                                      ?.map((e) => DropdownMenuEntry(
+                                          value: e, label: e.name ?? ""))
+                                      .toList() ??
+                                  [],
+                            ),
 
-                        ///Project
-                        Text("project : ${task?.project?.name}"),
+                            ///Folder
+                            DropdownMenu<ClickupFolder>(
+                              hintText: appLocalization.translate("folder"),
+                              onSelected: (folder) => taskPopUpBloc.add(
+                                  UpdateClickupTaskParamsEvent(
+                                      taskParams: clickupTaskParams.copyWith(
+                                          folder: folder))),
+                              dropdownMenuEntries: state
+                                      .taskParams?.clickupSpace?.folders
+                                      .map((e) => DropdownMenuEntry(
+                                          value: e, label: e.name ?? ""))
+                                      .toList() ??
+                                  [],
+                            ),
 
-                        ///Assignees
-                        Expanded(
-                          child: Wrap(
-                            children: task?.assignees
-                                    ?.map((e) => CircleAvatar(
-                                          backgroundColor:
-                                              HexColor.fromHex(e.color ?? ""),
-                                          backgroundImage:
-                                              e.profilePicture?.isNotEmpty ==
-                                                      true
-                                                  ? NetworkImage(
-                                                      e.profilePicture ?? "")
-                                                  : null,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: AutoSizeText(e.initials ??
-                                                e.getInitialsFromUserName ??
-                                                ""),
-                                          ),
-                                        ))
-                                    .toList() ??
-                                [],
-                          ),
+                            ///List
+                            DropdownMenu<ClickupList>(
+                              hintText: appLocalization.translate("list"),
+                              onSelected: (list) => taskPopUpBloc.add(
+                                  UpdateClickupTaskParamsEvent(
+                                      taskParams: clickupTaskParams.copyWith(
+                                          clickupList: list))),
+                              dropdownMenuEntries: (ClickupSpace.getAllLists(
+                                          folder: state.taskParams?.folder,
+                                          space:
+                                              state.taskParams?.clickupSpace))
+                                      .map((e) => DropdownMenuEntry(
+                                              value: e, label: e.name ?? ""))
+                                          .toList() ??
+                                      [],
+                            ),
+                          ],
                         ),
                       ],
                     ),

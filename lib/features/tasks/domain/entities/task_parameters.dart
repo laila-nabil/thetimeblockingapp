@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import 'clickup_list.dart';
@@ -30,6 +32,8 @@ class ClickupTaskParams extends Equatable{
   final ClickupTask? task;
   final bool? archived;
 
+  final ClickupSpace? clickupSpace;
+  final ClickupFolder? folder;
   String get listId => clickupList?.id ?? "";
 
   String get taskId => task?.id ?? "";
@@ -75,6 +79,8 @@ class ClickupTaskParams extends Equatable{
       required this.clickupAccessToken,
       required this.clickupTaskParamsEnum,
       this.task,
+      this.clickupSpace,
+      this.folder,
       this.archived});
 
   factory ClickupTaskParams.unknown({
@@ -290,6 +296,8 @@ class ClickupTaskParams extends Equatable{
     bool? archived,
     List<int>? addedAssigneesId,
     List<int>? removedAssigneesId,
+    ClickupSpace? clickupSpace,
+    ClickupFolder? folder,
   }) {
     return ClickupTaskParams._(
       clickupTaskParamsEnum:
@@ -315,6 +323,8 @@ class ClickupTaskParams extends Equatable{
       requiredCustomFields: requiredCustomFields ?? this.requiredCustomFields,
       task: task ?? this.task,
       archived: archived ?? this.archived,
+      folder: folder ?? this.folder,
+      clickupSpace: clickupSpace??this.clickupSpace
     );
   }
 
@@ -340,5 +350,7 @@ class ClickupTaskParams extends Equatable{
     clickupAccessToken,
     clickupTaskParamsEnum,
     task,
+    folder,
+    clickupSpace,
     archived];
 }
