@@ -98,8 +98,9 @@ class TaskPopup extends StatelessWidget {
                                       title: "default title",
                                       clickupAccessToken:
                                           Globals.clickupAuthAccessToken,
-                                      assignees: const [
-                                        ///TODO A
+                                      assignees: [
+                                        ClickupAssignees(
+                                            id: Globals.clickupUser?.id)
                                       ]);
                                 } else {
                                   params = ClickupTaskParams.updateTask(
