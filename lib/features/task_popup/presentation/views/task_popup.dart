@@ -273,6 +273,23 @@ class TaskPopup extends StatelessWidget {
                                           .toList() ??
                                       [],
                                 ),
+                              if (state.taskParams?.getAvailableLists.isNotEmpty ==
+                                  true)
+                                DropdownButton<ClickupList>(
+                                  elevation: 0,
+                                  hint: Text(appLocalization.translate("list")),
+                                  value: state.taskParams?.clickupList,
+                                  onChanged: (list) => taskPopUpBloc.add(
+                                      UpdateClickupTaskParamsEvent(
+                                          taskParams: clickupTaskParams
+                                              .copyWith(clickupList: list))),
+                                  items: state
+                                      .taskParams?.getAvailableLists
+                                      .map((e) => DropdownMenuItem(
+                                      value: e, child: Text(e.name ?? "")))
+                                      .toList() ??
+                                      [],
+                                ),
                             ],
                           ),
 
