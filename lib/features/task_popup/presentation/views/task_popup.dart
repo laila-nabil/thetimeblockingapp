@@ -229,30 +229,38 @@ class TaskPopup extends StatelessWidget {
                               ),
 
                               ///TODO create a new Folder
-                              ///FIXME in case a folderless List selected,it must not selected
-                              ///FIXME in case space changed,it must not selected
                               ///Folder
                               if (state.taskParams?.clickupSpace?.folders
                                   .isNotEmpty ==
                                   true)
-                                DropdownButton<ClickupFolder>(
+                                DropdownButton<ClickupFolder?>(
                                   hint: Text(appLocalization.translate("folder")),
                                   value: state.taskParams?.folder,
-                                  onChanged: (folder) => taskPopUpBloc.add(
-                                      UpdateClickupTaskParamsEvent(
-                                          taskParams: clickupTaskParams.copyWith(
-                                              folder: folder))),
-                                  items: state
-                                      .taskParams?.clickupSpace?.folders
-                                      .map((e) => DropdownMenuItem(
-                                      value: e, child: Text(e.name ?? "")))
-                                      .toList() ??
-                                      [],
+                                  onChanged: (folder) => folder == null
+                                      ? taskPopUpBloc.add(
+                                          UpdateClickupTaskParamsEvent(
+                                              taskParams: clickupTaskParams
+                                                  .copyWith(clearFolder: true)))
+                                      : taskPopUpBloc.add(
+                                          UpdateClickupTaskParamsEvent(
+                                              taskParams: clickupTaskParams
+                                                  .copyWith(folder: folder))),
+                                  items: (state
+                                              .taskParams?.clickupSpace?.folders
+                                              .map((e) => DropdownMenuItem(
+                                                  value: e,
+                                                  child: Text(e.name ?? "")))
+                                              .toList() ??
+                                          []) +
+                                      [
+                                        DropdownMenuItem(
+                                            value: null,
+                                            child: Text(appLocalization
+                                                .translate("clear")))
+                                      ],
                                 ),
 
                               ///TODO create a new list
-                              ///FIXME in case folder changed,it must not selected
-                              ///FIXME in case space changed,it must not selected
                               ///List
                               if (state.taskParams?.getAvailableLists.isNotEmpty ==
                                   true)

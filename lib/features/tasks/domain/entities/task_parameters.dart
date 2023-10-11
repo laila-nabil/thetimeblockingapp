@@ -307,12 +307,29 @@ class ClickupTaskParams extends Equatable{
     List<int>? removedAssigneesId,
     ClickupSpace? clickupSpace,
     ClickupFolder? folder,
+    bool? clearFolder,
   }) {
+    ClickupSpace? selectedSpace = clickupSpace ?? this.clickupSpace;
+    ClickupFolder? selectedFolder =
+        clearFolder == true ? null : (folder ?? this.folder);
+    if (selectedSpace?.folders.contains(selectedFolder) == false) {
+      selectedFolder = null;
+    }
+
+    ClickupList? selectedList = clickupList ?? this.clickupList;
+    if ((selectedFolder != null &&
+            selectedFolder.lists?.contains(selectedList) == false) ||
+        (selectedSpace != null &&
+            selectedFolder == null &&
+            selectedSpace.lists.contains(selectedList) == false)) {
+      selectedList = null;
+    }
+
     return ClickupTaskParams._(
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
       clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
-      clickupList: clickupList ?? this.clickupList,
+      clickupList: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,
       assignees: assignees ?? this.assignees,
@@ -332,8 +349,8 @@ class ClickupTaskParams extends Equatable{
       requiredCustomFields: requiredCustomFields ?? this.requiredCustomFields,
       task: task ?? this.task,
       archived: archived ?? this.archived,
-      folder: folder ?? this.folder,
-      clickupSpace: clickupSpace??this.clickupSpace
+      folder: selectedFolder,
+      clickupSpace: selectedSpace
     );
   }
 
