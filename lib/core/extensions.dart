@@ -110,14 +110,18 @@ extension ListDateTimeExtensions on List<DateTime> {
 extension UriExtension on Uri {
   static Uri uriHttps(
       {required String url, Map<String, String>? queryParameters}) {
+    final urlWithoutScheme = url.replaceAll("https://", "");
+    final host = urlWithoutScheme.split("/").first;
+    final path =
+        urlWithoutScheme.substring(host.length, urlWithoutScheme.length);
+
     return Uri(
         scheme: "https",
-        host: "",
-        path: url.replaceAll("https://", ""),
+        host: host,
+        path: path,
         queryParameters: queryParameters);
   }
 
-  ///FIXME not working on android : Invalid argument(s): No host specified in URI
   static Uri uriHttpsClickupAPI(
       {required String url,
       Map<String, Either<List, String>>? queryParameters}) {
@@ -134,11 +138,10 @@ extension UriExtension on Uri {
         }, (r) => query?.addAll({key: r}));
       });
     }
-
-    return Uri(
-        scheme: "https",
-        host: "",
-        path: url.replaceAll("https://", ""),
-        queryParameters: query);
+    final urlWithoutScheme = url.replaceAll("https://", "");
+    final host = urlWithoutScheme.split("/").first;
+    final path =
+        urlWithoutScheme.substring(host.length, urlWithoutScheme.length);
+    return Uri(scheme: "https", host: host, path: path, queryParameters: query);
   }
 }
