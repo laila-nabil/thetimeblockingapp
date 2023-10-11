@@ -215,6 +215,7 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
+                              ///TODO create a new Space
                               ///Space
                               DropdownMenu<ClickupSpace>(
                                 hintText: appLocalization.translate("space"),
@@ -233,6 +234,7 @@ class TaskPopup extends StatelessWidget {
                                     [],
                               ),
 
+                              ///TODO create a new Folder
                               ///Folder
                               if (state.taskParams?.clickupSpace?.folders
                                   .isNotEmpty ==
@@ -251,24 +253,24 @@ class TaskPopup extends StatelessWidget {
                                       [],
                                 ),
 
+                              ///TODO create a new list
                               ///FIXME lists not viewed
                               ///List
-                              DropdownMenu<ClickupList>(
-                                hintText: appLocalization.translate("list"),
-                                onSelected: (list) => taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
-                                        taskParams: clickupTaskParams.copyWith(
-                                            clickupList: list))),
-                                dropdownMenuEntries:
-                                ((state.taskParams?.clickupSpace?.lists ??
-                                    []) +
-                                    (state.taskParams?.clickupSpace
-                                        ?.lists ??
-                                        []))
-                                    .map((e) => DropdownMenuEntry(
-                                    value: e, label: e.name ?? ""))
-                                    .toList(),
-                              ),
+                              if (state.taskParams?.getAllLists.isNotEmpty ==
+                                  true)
+                                DropdownMenu<ClickupList>(
+                                  hintText: appLocalization.translate("list"),
+                                  onSelected: (list) => taskPopUpBloc.add(
+                                      UpdateClickupTaskParamsEvent(
+                                          taskParams: clickupTaskParams
+                                              .copyWith(clickupList: list))),
+                                  dropdownMenuEntries: state
+                                          .taskParams?.getAllLists
+                                          .map((e) => DropdownMenuEntry(
+                                              value: e, label: e.name ?? ""))
+                                          .toList() ??
+                                      [],
+                                ),
                             ],
                           ),
 

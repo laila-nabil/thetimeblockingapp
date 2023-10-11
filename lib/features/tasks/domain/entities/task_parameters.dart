@@ -57,6 +57,9 @@ class ClickupTaskParams extends Equatable{
 
   String? get linkedTaskId => linkedTask?.id;
 
+  List<ClickupList> get getAllLists =>
+      (clickupSpace?.lists ?? []) + (folder?.lists ?? []);
+
   const ClickupTaskParams._(
       {this.clickupList,
       this.title,
