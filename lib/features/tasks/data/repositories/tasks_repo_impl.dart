@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
@@ -47,7 +48,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, ClickupTask>?> updateTask(ClickupTaskParams params) {
+  Future<Either<Failure, ClickupTaskModel>?> updateTask(ClickupTaskParams params) {
     return repoHandler(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.updateTask(params: params));
@@ -95,7 +96,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, List<ClickupList>>> getClickupFolderlessLists(
+  Future<Either<Failure, List<ClickupListModel>>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params}) {
     return repoHandler(
       remoteDataSourceRequest: () =>
@@ -104,7 +105,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, List<ClickupSpace>>> getClickupSpacesInWorkspaces(
+  Future<Either<Failure, List<ClickupSpaceModel>>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params}) {
     return repoHandler(
       remoteDataSourceRequest: () =>
