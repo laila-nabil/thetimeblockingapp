@@ -37,6 +37,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       } else if (event is SelectClickupWorkspace) {
+        ///TODO locally store selected workspace
         Globals.selectedWorkspace = event.clickupWorkspace;
         emit(state.copyWith(selectedClickupWorkspace: event.clickupWorkspace));
         final result = await _getAllInClickupWorkspaceUseCase(

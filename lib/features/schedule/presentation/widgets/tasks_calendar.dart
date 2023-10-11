@@ -48,32 +48,34 @@ class TasksCalendar extends StatelessWidget {
       },
       timeZone: Globals.clickupUser?.timezone,
       onTap: (calendarTapDetails){
-        printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
-        printDebug("calendarTapDetails ${calendarTapDetails.date}");
-        printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
-        printDebug("calendarTapDetails ${calendarTapDetails.resource}");
-        if (calendarTapDetails.appointments == null) {
-          scheduleBloc.add(
-              ShowTaskPopupEvent(
-                  showTaskPopup: true, taskPopupParams: TaskPopupParams(
-                  onSave: (params) {
-                    scheduleBloc.add(CreateClickupTaskEvent(params: params));
-                  },
-                  scheduleBloc: scheduleBloc))
-          );
-        } else {
-          ///TODO A should handle in case of multiple appointments
-          scheduleBloc.add(ShowTaskPopupEvent(
-              showTaskPopup: true, taskPopupParams: TaskPopupParams(
-              task: calendarTapDetails.appointments?.first as ClickupTask,
-              onSave: (params) {
-                scheduleBloc
-                    .add(UpdateClickupTaskEvent(params: params));
-              },
-              onDelete: (params) =>
-                  scheduleBloc
-                      .add(DeleteClickupTaskEvent(params: params)),
-              scheduleBloc: scheduleBloc)));
+        printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
+        printDebug("calendarTapDetails date ${calendarTapDetails.date}");
+        printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
+        printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
+        if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+          if (calendarTapDetails.appointments == null) {
+                    scheduleBloc.add(
+                        ShowTaskPopupEvent(
+                            showTaskPopup: true, taskPopupParams: TaskPopupParams(
+                            onSave: (params) {
+                              scheduleBloc.add(CreateClickupTaskEvent(params: params));
+                            },
+                            scheduleBloc: scheduleBloc))
+                    );
+                  } else {
+                    ///TODO A should handle in case of multiple appointments
+                    scheduleBloc.add(ShowTaskPopupEvent(
+                        showTaskPopup: true, taskPopupParams: TaskPopupParams(
+                        task: calendarTapDetails.appointments?.first as ClickupTask,
+                        onSave: (params) {
+                          scheduleBloc
+                              .add(UpdateClickupTaskEvent(params: params));
+                        },
+                        onDelete: (params) =>
+                            scheduleBloc
+                                .add(DeleteClickupTaskEvent(params: params)),
+                        scheduleBloc: scheduleBloc)));
+                  }
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){

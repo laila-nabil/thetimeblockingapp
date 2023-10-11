@@ -127,7 +127,8 @@ class TaskPopup extends StatelessWidget {
                           ///Priority & Title
                           Row(
                             children: [
-                              DropdownButton<ClickupTaskPriority>(
+                              ///FIXME priorities list
+                              if(false)DropdownButton<ClickupTaskPriority>(
                                 value: task?.priority,
                                 hint: Text(appLocalization.translate("priority")),
                                 onChanged: (priority) => taskPopUpBloc.add(

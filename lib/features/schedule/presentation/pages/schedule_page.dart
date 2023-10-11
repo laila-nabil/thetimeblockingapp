@@ -13,6 +13,8 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
+///FIXME not loading in case of selecting workspace
+
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key}) : super(key: key);
   static const routeName = "/Schedule";
