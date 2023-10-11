@@ -190,7 +190,6 @@ class TaskPopup extends StatelessWidget {
                           ///FIXME tags not viewed
                           ///Tags
                           DropdownMenu<ClickupTag>(
-                            width: 70,
                             hintText: appLocalization.translate("tags"),
                             onSelected: (tag) {
                               if (tag != null) {
