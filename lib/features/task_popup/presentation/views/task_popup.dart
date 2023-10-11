@@ -209,7 +209,7 @@ class TaskPopup extends StatelessWidget {
                                             color: task?.priority
                                                 ?.getPriorityExclamationColor))),
                                 label: e.name.toString()))
-                                .toList() ?? [],
+                                .toList() ?? <DropdownMenuEntry<ClickupTag>>[],
                           ),
 
                           Wrap(
@@ -255,7 +255,7 @@ class TaskPopup extends StatelessWidget {
                               ///TODO create a new list
                               ///FIXME lists not viewed
                               ///List
-                              if (state.taskParams?.getAllLists.isNotEmpty ==
+                              if (state.taskParams?.getAvailableLists.isNotEmpty ==
                                   true)
                                 DropdownMenu<ClickupList>(
                                   hintText: appLocalization.translate("list"),
@@ -264,7 +264,7 @@ class TaskPopup extends StatelessWidget {
                                           taskParams: clickupTaskParams
                                               .copyWith(clickupList: list))),
                                   dropdownMenuEntries: state
-                                          .taskParams?.getAllLists
+                                          .taskParams?.getAvailableLists
                                           .map((e) => DropdownMenuEntry(
                                               value: e, label: e.name ?? ""))
                                           .toList() ??

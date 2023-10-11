@@ -33,7 +33,7 @@ class ClickupSpace extends Equatable {
     this.members,
     this.folders = const[],
     this.lists = const[],
-    this.tags = const[],
+    this.tags = const<ClickupTag>[],
   });
 
   final String? id;
