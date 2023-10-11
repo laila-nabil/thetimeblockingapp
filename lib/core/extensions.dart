@@ -117,6 +117,7 @@ extension UriExtension on Uri {
         queryParameters: queryParameters);
   }
 
+  ///FIXME not working on android : Invalid argument(s): No host specified in URI
   static Uri uriHttpsClickupAPI(
       {required String url,
       Map<String, Either<List, String>>? queryParameters}) {

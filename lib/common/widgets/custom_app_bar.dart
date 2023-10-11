@@ -6,8 +6,6 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
-///FIXME B overflow in android
-///
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
   final List<PopupMenuEntry<Object?>>? pageActions;
@@ -31,9 +29,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (Globals.clickupWorkspaces?.isNotEmpty == true)
           DropdownMenu(
-              width: 170,
-              ///TODO A should startUpBloc.add(SelectClickupWorkspace for initialSelection
-              initialSelection: Globals.clickupWorkspaces?.first,
+            width: Responsive.responsiveT(
+                params: ResponsiveTParams(laptop: 170.0, mobile: 120.0),
+                context: context),
+
+            ///TODO A should startUpBloc.add(SelectClickupWorkspace for initialSelection
+            initialSelection: Globals.clickupWorkspaces?.first,
               onSelected: (selected) {
                 if (selected is ClickupWorkspace) {
                 startUpBloc.add(SelectClickupWorkspace(
