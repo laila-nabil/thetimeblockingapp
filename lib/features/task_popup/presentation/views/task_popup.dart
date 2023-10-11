@@ -218,10 +218,7 @@ class TaskPopup extends StatelessWidget {
                               ///Space
                               DropdownMenu<ClickupSpace>(
                                 hintText: appLocalization.translate("space"),
-                                // initialSelection:
-                                //     Globals.clickupSpaces?.length == 1
-                                //         ? Globals.clickupSpaces?.first
-                                //         : null,
+                                initialSelection: state.taskParams?.clickupSpace,
                                 onSelected: (space) => taskPopUpBloc.add(
                                     UpdateClickupTaskParamsEvent(
                                         taskParams: clickupTaskParams.copyWith(
@@ -242,6 +239,7 @@ class TaskPopup extends StatelessWidget {
                                   true)
                                 DropdownMenu<ClickupFolder>(
                                   hintText: appLocalization.translate("folder"),
+                                  initialSelection: state.taskParams?.folder,
                                   onSelected: (folder) => taskPopUpBloc.add(
                                       UpdateClickupTaskParamsEvent(
                                           taskParams: clickupTaskParams.copyWith(
@@ -263,6 +261,7 @@ class TaskPopup extends StatelessWidget {
                                   true)
                                 DropdownMenu<ClickupList>(
                                   hintText: appLocalization.translate("list"),
+                                  initialSelection: state.taskParams?.clickupList,
                                   onSelected: (list) => taskPopUpBloc.add(
                                       UpdateClickupTaskParamsEvent(
                                           taskParams: clickupTaskParams
@@ -288,6 +287,7 @@ class TaskPopup extends StatelessWidget {
                           Text("folder: ${state.taskParams?.folder?.name}"),
                           Text("list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
                           Text("list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
+                          Text("getAvailableLists: ${state.taskParams?.getAvailableLists?.map((e) => e.name)}"),
                         ],
                       ),
                     ),
