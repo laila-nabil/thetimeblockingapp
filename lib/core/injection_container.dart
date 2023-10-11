@@ -17,6 +17,8 @@ import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
+import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
+import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
@@ -51,8 +53,14 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton(Logger(printer: logPrinter));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc(serviceLocator(),
-      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
+  serviceLocator.registerFactory(() => StartupBloc(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
@@ -120,6 +128,16 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
             serviceLocator(),
           ));
+
+  serviceLocator
+      .registerLazySingleton(() => SelectWorkspaceUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator
+      .registerLazySingleton(() => GetSelectedWorkspaceUseCase(
+    serviceLocator(),
+  ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

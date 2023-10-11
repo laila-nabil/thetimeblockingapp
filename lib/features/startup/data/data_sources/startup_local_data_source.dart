@@ -8,6 +8,11 @@ abstract class StartUpLocalDataSource {
 
   Future<void> saveClickupWorkspaces(
       List<ClickupWorkspaceModel> clickupWorkspacesModel);
+
+  Future<void> saveSelectedWorkspace(
+      ClickupWorkspaceModel clickupWorkspacesModel);
+
+  Future<ClickupWorkspaceModel> getSelectedWorkspace();
 }
 
 class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
@@ -41,5 +46,20 @@ class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
     return localDataSource.setData(
         key: LocalDataSourceKeys.clickupWorkspaces.name,
         value: result);
+  }
+
+  @override
+  Future<void> saveSelectedWorkspace(
+      ClickupWorkspaceModel clickupWorkspacesModel) {
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.selectedWorkspace.name,
+        value: clickupWorkspacesModel.toJson());
+  }
+
+  @override
+  Future<ClickupWorkspaceModel> getSelectedWorkspace() async {
+    final response = await localDataSource.getData(
+        key: LocalDataSourceKeys.selectedWorkspace.name);
+    return ClickupWorkspaceModel.fromJson(json.decode(response ?? ""));
   }
 }
