@@ -51,14 +51,6 @@ class ClickupSpace extends Equatable {
   List<ClickupList> lists;
   List<ClickupTag> tags;
 
-  List<ClickupList> getAllLists(
-      {required ClickupFolder? folder}) {
-    List<ClickupList> result = [];
-    result = result + (lists ?? []);
-    result = result +( folder?.lists ?? []);
-    return result;
-  }
-
   @override
   List<Object?> get props => [id,
     name,
