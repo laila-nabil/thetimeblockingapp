@@ -234,6 +234,8 @@ class TaskPopup extends StatelessWidget {
                               ),
 
                               ///TODO create a new Folder
+                              ///FIXME in case a folderless List selected,it must not selected
+                              ///FIXME in case space changed,it must not selected
                               ///Folder
                               if (state.taskParams?.clickupSpace?.folders
                                   .isNotEmpty ==
@@ -254,6 +256,8 @@ class TaskPopup extends StatelessWidget {
 
                               ///TODO create a new list
                               ///FIXME lists not viewed
+                              ///FIXME in case folder changed,it must not selected
+                              ///FIXME in case space changed,it must not selected
                               ///List
                               if (state.taskParams?.getAvailableLists.isNotEmpty ==
                                   true)
