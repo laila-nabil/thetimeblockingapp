@@ -58,12 +58,12 @@ class ClickupTaskParams extends Equatable{
   String? get linkedTaskId => linkedTask?.id;
 
   List<ClickupList> get getAvailableLists {
-    if ((clickupSpace != null && folder != null)) {
-      return List.of(folder?.lists ?? <ClickupList>[]) +
-          List.of(clickupSpace?.lists ?? <ClickupList>[]);
-    } else {
-      return (clickupSpace != null) ? List.of(clickupSpace?.lists ?? []) : [];
+    if (clickupSpace != null && folder != null) {
+      return List.of(folder?.lists ?? <ClickupList>[]);
+    } else if (clickupSpace != null && folder == null) {
+      return List.of(clickupSpace?.lists ?? []);
     }
+    return <ClickupList>[];
   }
 
   const ClickupTaskParams._(
