@@ -23,6 +23,8 @@ class ScheduleState extends Equatable {
   final DateTime tasksDueDateEarliestDate;
   final DateTime tasksDueDateLatestDate;
   final String? getTasksForSingleWorkspaceScheduleEventId;
+  final bool? showTaskPopup;
+  final TaskPopupParams? taskPopupParams;
   const ScheduleState._({
     required this.persistingScheduleStates,
     this.nonPersistingScheduleState,
@@ -32,6 +34,8 @@ class ScheduleState extends Equatable {
     this.createTaskFailure,
     this.updateTaskFailure,
     this.deleteTaskFailure,
+    this.showTaskPopup,
+    this.taskPopupParams,
     required this.tasksDueDateEarliestDate,
     required this.tasksDueDateLatestDate,
   });
@@ -53,6 +57,8 @@ class ScheduleState extends Equatable {
         createTaskFailure,
         updateTaskFailure,
         deleteTaskFailure,
+        showTaskPopup,
+        taskPopupParams,
       ];
 
   ///setting [persistingScheduleStateAddRemove] to right in stateAddRemove adds a state
@@ -69,6 +75,8 @@ class ScheduleState extends Equatable {
     DateTime? tasksDueDateEarliestDate,
     DateTime? tasksDueDateLatestDate,
     String? getTasksForSingleWorkspaceScheduleEventId,
+    bool? showTaskPopup,
+    TaskPopupParams? taskPopupParams,
   }) {
     return ScheduleState._(
       persistingScheduleStates: persistingScheduleStateAddRemove != null?
@@ -87,7 +95,10 @@ class ScheduleState extends Equatable {
                 this.getTasksForSingleWorkspaceScheduleEventId,
         createTaskFailure: createTaskFailure??this.createTaskFailure,
       updateTaskFailure:updateTaskFailure??this.updateTaskFailure,
-      deleteTaskFailure: deleteTaskFailure??this.deleteTaskFailure,);
+      deleteTaskFailure: deleteTaskFailure??this.deleteTaskFailure,
+      showTaskPopup: showTaskPopup??this.showTaskPopup,
+      taskPopupParams: taskPopupParams
+    );
   }
 
   bool get isInitial => persistingScheduleStates.isEmpty;

@@ -7,8 +7,6 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 
-import '../../../tasks/domain/entities/clickup_folder.dart';
-import '../../../tasks/domain/entities/clickup_list.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';

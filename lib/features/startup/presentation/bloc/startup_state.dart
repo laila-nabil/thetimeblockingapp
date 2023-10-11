@@ -4,12 +4,6 @@ enum StartupStateEnum {
   loading,
   getSpacesSuccess,
   getSpacesFailed,
-  getFoldersSuccess,
-  getFoldersFailed,
-  getListsInFoldersSuccess,
-  getListsInFoldersFailed,
-  getFolderlessListsSuccess,
-  getFolderlessListsFailed,
 }
 
 class StartupState extends Equatable {
@@ -17,23 +11,11 @@ class StartupState extends Equatable {
   final bool drawerLargerScreenOpen;
   final ClickupWorkspace? selectedClickupWorkspace;
   final List<Map<String, Failure>>? getSpacesFailure;
-  final Failure? getFoldersFailure;
-  final Failure? getListsInFoldersFailure;
-  final Failure? getFolderlessListsFailure;
   final List<ClickupSpace>? clickupSpaces;
-  final List<ClickupFolder>? clickupFolders;
-  final List<ClickupList>? clickupFolderlessListsFolders;
-  final Map<ClickupFolder, List<ClickupList>>? clickupListsInFolders;
 
   const StartupState({
     required this.drawerLargerScreenOpen,
     this.selectedClickupWorkspace,
-    this.getFoldersFailure,
-    this.clickupFolders,
-    this.getListsInFoldersFailure,
-    this.getFolderlessListsFailure,
-    this.clickupFolderlessListsFolders,
-    this.clickupListsInFolders,
     this.startupStateEnum,
     this.getSpacesFailure,
     this.clickupSpaces,
@@ -46,12 +28,6 @@ class StartupState extends Equatable {
         startupStateEnum,
         drawerLargerScreenOpen,
         selectedClickupWorkspace,
-        getFoldersFailure,
-        clickupFolders,
-        getListsInFoldersFailure,
-        getFolderlessListsFailure,
-        clickupFolderlessListsFolders,
-        clickupListsInFolders,
         getSpacesFailure,
         clickupSpaces,
       ];
@@ -61,13 +37,7 @@ class StartupState extends Equatable {
     bool? drawerLargerScreenOpen,
     ClickupWorkspace? selectedClickupWorkspace,
     List<Map<String, Failure>>? getSpacesFailure,
-    Failure? getFoldersFailure,
-    Failure? getListsInFoldersFailure,
-    Failure? getFolderlessListsFailure,
     List<ClickupSpace>? clickupSpaces,
-    List<ClickupFolder>? clickupFolders,
-    List<ClickupList>? clickupFolderlessListsFolders,
-    Map<ClickupFolder, List<ClickupList>>? clickupListsInFolders,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -76,17 +46,7 @@ class StartupState extends Equatable {
       selectedClickupWorkspace:
           selectedClickupWorkspace ?? this.selectedClickupWorkspace,
       getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
-      getFoldersFailure: getFoldersFailure ?? this.getFoldersFailure,
-      getListsInFoldersFailure:
-          getListsInFoldersFailure ?? this.getListsInFoldersFailure,
-      getFolderlessListsFailure:
-          getFolderlessListsFailure ?? this.getFolderlessListsFailure,
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
-      clickupFolders: clickupFolders ?? this.clickupFolders,
-      clickupFolderlessListsFolders:
-          clickupFolderlessListsFolders ?? this.clickupFolderlessListsFolders,
-      clickupListsInFolders:
-          clickupListsInFolders ?? this.clickupListsInFolders,
     );
   }
 }

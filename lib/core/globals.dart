@@ -1,5 +1,3 @@
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
 import '../common/entities/clickup_user.dart';

@@ -52,3 +52,14 @@ class DeleteClickupTaskEvent extends ScheduleEvent {
   @override
   List<Object?> get props => [params];
 }
+
+class ShowTaskPopupEvent extends ScheduleEvent {
+  final bool showTaskPopup;
+  final TaskPopupParams? taskPopupParams;
+
+  const ShowTaskPopupEvent(
+      {required this.showTaskPopup, this.taskPopupParams});
+
+  @override
+  List<Object?> get props => [showTaskPopup, taskPopupParams];
+}

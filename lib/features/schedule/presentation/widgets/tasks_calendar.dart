@@ -53,27 +53,27 @@ class TasksCalendar extends StatelessWidget {
         printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
         printDebug("calendarTapDetails ${calendarTapDetails.resource}");
         if (calendarTapDetails.appointments == null) {
-          showTaskPopup(
-              context: context,
-              taskPopupParams: TaskPopupParams(
+          scheduleBloc.add(
+              ShowTaskPopupEvent(
+                  showTaskPopup: true, taskPopupParams: TaskPopupParams(
                   onSave: (params) {
                     scheduleBloc.add(CreateClickupTaskEvent(params: params));
-              },
-                  scheduleBloc: scheduleBloc),
+                  },
+                  scheduleBloc: scheduleBloc))
           );
         } else {
           ///TODO A should handle in case of multiple appointments
-          showTaskPopup(
-              context: context,
-              taskPopupParams: TaskPopupParams(
-                  task: calendarTapDetails.appointments?.first as ClickupTask,
-                  onSave: (params) {
-                    scheduleBloc
-                        .add(UpdateClickupTaskEvent(params: params));
-                  },
-                  onDelete: (params) => scheduleBloc
+          scheduleBloc.add(ShowTaskPopupEvent(
+              showTaskPopup: true, taskPopupParams: TaskPopupParams(
+              task: calendarTapDetails.appointments?.first as ClickupTask,
+              onSave: (params) {
+                scheduleBloc
+                    .add(UpdateClickupTaskEvent(params: params));
+              },
+              onDelete: (params) =>
+                  scheduleBloc
                       .add(DeleteClickupTaskEvent(params: params)),
-                  scheduleBloc: scheduleBloc),);
+              scheduleBloc: scheduleBloc)));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){

@@ -35,7 +35,16 @@ class SchedulePage extends StatelessWidget {
         },
         builder: (context, startUpCurrentState) {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              if (state.showTaskPopup == true &&
+                  startUpCurrentState.startupStateEnum ==
+                      StartupStateEnum.getSpacesSuccess) {
+                scheduleBloc.add(const ShowTaskPopupEvent(showTaskPopup: false));
+                showTaskPopup(context: context,
+                  taskPopupParams: state.taskPopupParams!,);
+              }
+            },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.nonPersistingScheduleState ==
@@ -69,12 +78,14 @@ class SchedulePage extends StatelessWidget {
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
                     onPressed: () {
-                      showTaskPopup(context: context,
-                        taskPopupParams: TaskPopupParams(
-                            onSave: (params) {
-                              scheduleBloc.add(CreateClickupTaskEvent(params: params));
-                            },
-                            scheduleBloc: scheduleBloc),);
+                      scheduleBloc.add(ShowTaskPopupEvent(
+                          showTaskPopup: true,
+                          taskPopupParams: TaskPopupParams(
+                              onSave: (params) {
+                                scheduleBloc.add(
+                                    CreateClickupTaskEvent(params: params));
+                              },
+                              scheduleBloc: scheduleBloc)));
                     },
                   ),
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
