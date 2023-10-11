@@ -257,13 +257,14 @@ class TaskPopup extends StatelessWidget {
                                         taskParams: clickupTaskParams.copyWith(
                                             clickupList: list))),
                                 dropdownMenuEntries:
-                                    (state.taskParams?.clickupSpace?.getAllLists(
-                                          folder: state.taskParams?.folder,
-                                        ))
-                                            ?.map((e) => DropdownMenuEntry(
+                                    ((state.taskParams?.clickupSpace?.lists ??
+                                                    []) +
+                                                (state.taskParams?.clickupSpace
+                                                        ?.lists ??
+                                                    []))
+                                            .map((e) => DropdownMenuEntry(
                                                 value: e, label: e.name ?? ""))
-                                            .toList() ??
-                                        [],
+                                            .toList(),
                               ),
                             ],
                           ),
@@ -273,11 +274,12 @@ class TaskPopup extends StatelessWidget {
                           Text(
                               "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
                           Text(
-                              "tags: ${state.taskParams?.clickupSpace?.tags}"),
+                              "tags: ${state.taskParams?.clickupSpace?.tags.map((e) => e.name)}"),
                           Text(
-                              "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders}"),
+                              "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders.map((e) => e.name)}"),
                           Text("folder: ${state.taskParams?.folder?.name}"),
-                          Text("list: ${state.taskParams?.clickupList?.name}"),
+                          Text("list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
+                          Text("list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
                         ],
                       ),
                     ),
