@@ -117,166 +117,169 @@ class TaskPopup extends StatelessWidget {
                               },
                         child: Text(appLocalization.translate("save")))
                   ],
-                  content: SizedBox(
-                    width: double.maxFinite,
-                    child: Column(
-                      children: [
-                        ///Priority & Title
-                        Row(
-                          children: [
-                            DropdownMenu<ClickupTaskPriority>(
-                              width: 70,
-                              initialSelection: task?.priority,
-                              hintText: appLocalization.translate("priority"),
-                              onSelected: (priority) => taskPopUpBloc.add(
-                                  UpdateClickupTaskParamsEvent(
-                                      taskParams: clickupTaskParams.copyWith(
-                                          taskPriority: priority))),
-                              dropdownMenuEntries: ClickupTaskPriority
-                                  .getPriorityExclamationList
-                                  .map((e) => DropdownMenuEntry(
-                                      value: e,
-                                      style: ButtonStyle(
-                                          textStyle: MaterialStateProperty.all(
-                                              TextStyle(
-                                                  textBaseline:
-                                                      TextBaseline.alphabetic,
-                                                  color: task?.priority
-                                                      ?.getPriorityExclamationColor))),
-                                      label: e.priorityNum.toString()))
-                                  .toList(),
-                            ),
-                            Expanded(
-                                child: CustomTextInputField(
-                              controller: taskPopUpBloc.titleController,
-                              decoration: InputDecoration(
-                                  hintText: appLocalization.translate("title")),
-                              onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                    taskParams: clickupTaskParams.copyWith(
-                                        title: change)));
-                              },
-                            )),
-                            if (taskPopupParams.task != null)
-                              IconButton(
-                                  onPressed: taskPopupParams.onDelete == null
-                                      ? null
-                                      : () => taskPopupParams.onDelete!(
-                                          DeleteClickupTaskParams(
-                                              task: taskPopupParams.task!,
-                                              clickupAccessToken: Globals
-                                                  .clickupAuthAccessToken)),
-                                  icon: const Icon(Icons.delete))
-                          ],
-                        ),
-
-                        ///Description
-                        Expanded(
-                            child: CustomTextInputField(
-                          controller: taskPopUpBloc.descriptionController,
-                          decoration: InputDecoration(
-                            hintText: appLocalization.translate("description"),
-                          ),
-                          maxLines: 3,
-                          onChanged: (change) {
-                            taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                taskParams: clickupTaskParams.copyWith(
-                                    description: change)));
-                          },
-                        )),
-
-                        ///Tags
-                        DropdownMenu<ClickupTag>(
-                          width: 70,
-                          hintText: appLocalization.translate("tags"),
-                          onSelected: (tag) {
-                            if (tag != null) {
-                              taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                  taskParams:
-                                      clickupTaskParams.copyWith(tags: [tag])));
-                            }
-                          },
-                          dropdownMenuEntries: state.taskParams?.clickupSpace?.tags
-                              .map((e) => DropdownMenuEntry(
-                              value: e,
-                              style: ButtonStyle(
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(
-                                          textBaseline:
-                                          TextBaseline.alphabetic,
-                                          color: task?.priority
-                                              ?.getPriorityExclamationColor))),
-                              label: e.name.toString()))
-                              .toList() ?? [],
-                        ),
-
-                        Row(
-                          children: [
-                            ///Space
-                            DropdownMenu<ClickupSpace>(
-                              hintText: appLocalization.translate("space"),
-                              onSelected: (space) => taskPopUpBloc.add(
-                                  UpdateClickupTaskParamsEvent(
-                                      taskParams: clickupTaskParams.copyWith(
-                                          clickupSpace: space))),
-                              dropdownMenuEntries: (Globals.clickupSpaces)
-                                      ?.map((e) => DropdownMenuEntry(
-                                          value: e, label: e.name ?? ""))
-                                      .toList() ??
-                                  [],
-                            ),
-
-                            ///Folder
-                            if (state.taskParams?.clickupSpace?.folders
-                                    .isNotEmpty ==
-                                true)
-                              DropdownMenu<ClickupFolder>(
-                                hintText: appLocalization.translate("folder"),
-                                onSelected: (folder) => taskPopUpBloc.add(
+                  content: SingleChildScrollView(
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          ///Priority & Title
+                          Row(
+                            children: [
+                              DropdownMenu<ClickupTaskPriority>(
+                                width: 70,
+                                initialSelection: task?.priority,
+                                hintText: appLocalization.translate("priority"),
+                                onSelected: (priority) => taskPopUpBloc.add(
                                     UpdateClickupTaskParamsEvent(
                                         taskParams: clickupTaskParams.copyWith(
-                                            folder: folder))),
-                                dropdownMenuEntries: state
-                                        .taskParams?.clickupSpace?.folders
-                                        .map((e) => DropdownMenuEntry(
+                                            taskPriority: priority))),
+                                dropdownMenuEntries: ClickupTaskPriority
+                                    .getPriorityExclamationList
+                                    .map((e) => DropdownMenuEntry(
+                                        value: e,
+                                        style: ButtonStyle(
+                                            textStyle: MaterialStateProperty.all(
+                                                TextStyle(
+                                                    textBaseline:
+                                                        TextBaseline.alphabetic,
+                                                    color: task?.priority
+                                                        ?.getPriorityExclamationColor))),
+                                        label: e.priorityNum.toString()))
+                                    .toList(),
+                              ),
+                              Expanded(
+                                  child: CustomTextInputField(
+                                controller: taskPopUpBloc.titleController,
+                                decoration: InputDecoration(
+                                    hintText: appLocalization.translate("title")),
+                                onChanged: (change) {
+                                  taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                      taskParams: clickupTaskParams.copyWith(
+                                          title: change)));
+                                },
+                              )),
+                              if (taskPopupParams.task != null)
+                                IconButton(
+                                    onPressed: taskPopupParams.onDelete == null
+                                        ? null
+                                        : () => taskPopupParams.onDelete!(
+                                            DeleteClickupTaskParams(
+                                                task: taskPopupParams.task!,
+                                                clickupAccessToken: Globals
+                                                    .clickupAuthAccessToken)),
+                                    icon: const Icon(Icons.delete))
+                            ],
+                          ),
+
+                          ///Description
+                          CustomTextInputField(
+                            controller: taskPopUpBloc.descriptionController,
+                            decoration: InputDecoration(
+                          hintText: appLocalization.translate("description"),
+                            ),
+                            maxLines: 3,
+                            onChanged: (change) {
+                          taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                              taskParams: clickupTaskParams.copyWith(
+                                  description: change)));
+                            },
+                          ),
+
+                          ///Tags
+                          DropdownMenu<ClickupTag>(
+                            width: 70,
+                            hintText: appLocalization.translate("tags"),
+                            onSelected: (tag) {
+                              if (tag != null) {
+                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                    taskParams:
+                                        clickupTaskParams.copyWith(tags: [tag])));
+                              }
+                            },
+                            dropdownMenuEntries: state.taskParams?.clickupSpace?.tags
+                                .map((e) => DropdownMenuEntry(
+                                value: e,
+                                style: ButtonStyle(
+                                    textStyle: MaterialStateProperty.all(
+                                        TextStyle(
+                                            textBaseline:
+                                            TextBaseline.alphabetic,
+                                            color: task?.priority
+                                                ?.getPriorityExclamationColor))),
+                                label: e.name.toString()))
+                                .toList() ?? [],
+                          ),
+
+                          Wrap(
+                            children: [
+                              ///Space
+                              DropdownMenu<ClickupSpace>(
+                                hintText: appLocalization.translate("space"),
+                                // initialSelection:
+                                //     Globals.clickupSpaces?.length == 1
+                                //         ? Globals.clickupSpaces?.first
+                                //         : null,
+                                onSelected: (space) => taskPopUpBloc.add(
+                                    UpdateClickupTaskParamsEvent(
+                                        taskParams: clickupTaskParams.copyWith(
+                                            clickupSpace: space))),
+                                dropdownMenuEntries: (Globals.clickupSpaces)
+                                        ?.map((e) => DropdownMenuEntry(
                                             value: e, label: e.name ?? ""))
                                         .toList() ??
                                     [],
                               ),
 
-                            ///FIXME lists not viewed
-                            ///List
-                            DropdownMenu<ClickupList>(
-                              hintText: appLocalization.translate("list"),
-                              onSelected: (list) => taskPopUpBloc.add(
-                                  UpdateClickupTaskParamsEvent(
-                                      taskParams: clickupTaskParams.copyWith(
-                                          clickupList: list))),
-                              dropdownMenuEntries:
-                                  (state.taskParams?.clickupSpace?.getAllLists(
-                                        folder: state.taskParams?.folder,
-                                      ))
-                                          ?.map((e) => DropdownMenuEntry(
+                              ///Folder
+                              if (state.taskParams?.clickupSpace?.folders
+                                      .isNotEmpty ==
+                                  true)
+                                DropdownMenu<ClickupFolder>(
+                                  hintText: appLocalization.translate("folder"),
+                                  onSelected: (folder) => taskPopUpBloc.add(
+                                      UpdateClickupTaskParamsEvent(
+                                          taskParams: clickupTaskParams.copyWith(
+                                              folder: folder))),
+                                  dropdownMenuEntries: state
+                                          .taskParams?.clickupSpace?.folders
+                                          .map((e) => DropdownMenuEntry(
                                               value: e, label: e.name ?? ""))
                                           .toList() ??
                                       [],
-                            ),
-                          ],
-                        ),
+                                ),
 
-                        Text(
-                            "selectedWorkspace: ${Globals.selectedWorkspace?.name.toString()}"),
-                        Text(
-                            "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
-                        Text(
-                            "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders}"),
-                        Text("folder: ${state.taskParams?.folder?.name}"),
-                        Text(
-                            "clickupSpace.getAllLists: ${state.taskParams?.clickupSpace?.getAllLists(
-                          folder: state.taskParams?.folder,
-                        )}"),
-                        Text("list: ${state.taskParams?.clickupList?.name}"),
-                      ],
+                              ///FIXME lists not viewed
+                              ///List
+                              DropdownMenu<ClickupList>(
+                                hintText: appLocalization.translate("list"),
+                                onSelected: (list) => taskPopUpBloc.add(
+                                    UpdateClickupTaskParamsEvent(
+                                        taskParams: clickupTaskParams.copyWith(
+                                            clickupList: list))),
+                                dropdownMenuEntries:
+                                    (state.taskParams?.clickupSpace?.getAllLists(
+                                          folder: state.taskParams?.folder,
+                                        ))
+                                            ?.map((e) => DropdownMenuEntry(
+                                                value: e, label: e.name ?? ""))
+                                            .toList() ??
+                                        [],
+                              ),
+                            ],
+                          ),
+
+                          Text(
+                              "selectedWorkspace: ${Globals.selectedWorkspace?.name.toString()}"),
+                          Text(
+                              "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
+                          Text(
+                              "tags: ${state.taskParams?.clickupSpace?.tags}"),
+                          Text(
+                              "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders}"),
+                          Text("folder: ${state.taskParams?.folder?.name}"),
+                          Text("list: ${state.taskParams?.clickupList?.name}"),
+                        ],
+                      ),
                     ),
                   ));
             },
