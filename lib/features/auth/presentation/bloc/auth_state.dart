@@ -38,12 +38,12 @@ class AuthState extends Equatable {
     return authStates.contains(AuthStateEnum.loading);
   }
 
-  bool get canGoSchedulePage =>
-      isLoading != false &&
-          clickupAccessToken?.accessToken.isNotEmpty == true &&
-          clickupUser != null &&
-      clickupWorkspaces?.isNotEmpty == true &&
-      authStates.contains(AuthStateEnum.triedGetSelectedWorkspace) == true;
+  bool get canGoSchedulePage {
+    return !(isLoading == false && clickupAccessToken?.isEmpty == true ||
+        clickupUser == null ||
+        clickupWorkspaces?.isNotEmpty == false ||
+        authStates.contains(AuthStateEnum.triedGetSelectedWorkspace) == false);
+  }
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
     Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);
