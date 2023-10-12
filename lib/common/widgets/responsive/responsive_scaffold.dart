@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_loading.dart';
-
 
 enum ResponsiveScaffoldLoadingEnum {
   overlayLoading,
@@ -41,6 +41,7 @@ class ResponsiveScaffold extends Scaffold {
 
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final bool hideAppBarDrawer;
+
   // ignore: prefer_const_constructors_in_immutables
   ResponsiveScaffold({
     super.key,
@@ -71,6 +72,12 @@ class ResponsiveScaffold extends Scaffold {
     super.endDrawerEnableOpenDragGesture = true,
     super.restorationId,
   });
+
+  @override
+  Widget? get floatingActionButton =>
+      responsiveScaffoldLoading?.isLoading == true
+          ? null
+          : super.floatingActionButton;
 
   @override
   Widget? get body {
@@ -136,7 +143,11 @@ class _ResponsiveBody extends StatelessWidget {
         context: context);
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
-            children: [const LoadingOverlay(), actualResponsiveBody],
+            alignment: Alignment.center,
+            children: [
+              actualResponsiveBody,
+              const LoadingOverlay(),
+            ],
           )
         : actualResponsiveBody;
   }
