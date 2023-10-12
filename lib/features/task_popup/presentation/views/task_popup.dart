@@ -21,13 +21,30 @@ class TaskPopupParams {
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
   final ScheduleBloc scheduleBloc;
-
+  final DateTime? cellDate;
   TaskPopupParams({
     this.task,
     this.onSave,
     this.onDelete,
+    this.cellDate,
     required this.scheduleBloc,
   });
+
+  TaskPopupParams copyWith({
+    ClickupTask? task,
+    void Function(ClickupTaskParams params)? onSave,
+    void Function(DeleteClickupTaskParams params)? onDelete,
+    ScheduleBloc? scheduleBloc,
+    DateTime? cellDate,
+  }) {
+    return TaskPopupParams(
+      task: task ?? this.task,
+      onSave: onSave ?? this.onSave,
+      onDelete: onDelete ?? this.onDelete,
+      scheduleBloc: scheduleBloc ?? this.scheduleBloc,
+      cellDate: cellDate ?? this.cellDate
+    );
+  }
 }
 
 Future showTaskPopup({
@@ -56,7 +73,7 @@ class TaskPopup extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => serviceLocator<TaskPopUpBloc>(param1: task),
+          create: (context) => serviceLocator<TaskPopUpBloc>(param1: taskPopupParams),
         ),
         BlocProvider.value(
           value: taskPopupParams.scheduleBloc,
@@ -92,6 +109,7 @@ class TaskPopup extends StatelessWidget {
                           ClickupTaskParams params;
                           if (task == null) {
                             params = ClickupTaskParams.createNewTask(
+                              dueDate: taskPopupParams.cellDate,
                               clickupList:
                               state.taskParams!.clickupList!,
                               clickupAccessToken:
@@ -292,6 +310,8 @@ class TaskPopup extends StatelessWidget {
                           Text("list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
                           Text("list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
                           Text("getAvailableLists: ${state.taskParams?.getAvailableLists.map((e) => e.name)}"),
+                          Text("dueDate: ${state.taskParams?.dueDate}"),
+                          Text("startDate: ${state.taskParams?.startDate}"),
                         ],
                       ),
                     ),

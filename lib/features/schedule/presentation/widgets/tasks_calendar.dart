@@ -53,29 +53,30 @@ class TasksCalendar extends StatelessWidget {
         printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
         printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
         if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-          if (calendarTapDetails.appointments == null) {
-                    scheduleBloc.add(
-                        ShowTaskPopupEvent(
-                            showTaskPopup: true, taskPopupParams: TaskPopupParams(
-                            onSave: (params) {
-                              scheduleBloc.add(CreateClickupTaskEvent(params: params));
-                            },
-                            scheduleBloc: scheduleBloc))
-                    );
-                  } else {
-                    ///TODO A should handle in case of multiple appointments
-                    scheduleBloc.add(ShowTaskPopupEvent(
-                        showTaskPopup: true, taskPopupParams: TaskPopupParams(
-                        task: calendarTapDetails.appointments?.first as ClickupTask,
-                        onSave: (params) {
-                          scheduleBloc
-                              .add(UpdateClickupTaskEvent(params: params));
-                        },
-                        onDelete: (params) =>
-                            scheduleBloc
-                                .add(DeleteClickupTaskEvent(params: params)),
-                        scheduleBloc: scheduleBloc)));
-                  }
+          ///TODO A should handle in case of multiple appointments
+          scheduleBloc.add(ShowTaskPopupEvent(
+              showTaskPopup: true,
+              taskPopupParams: TaskPopupParams(
+                  task: calendarTapDetails.appointments?.first as ClickupTask,
+                  onSave: (params) {
+                    scheduleBloc.add(UpdateClickupTaskEvent(params: params));
+                  },
+                  onDelete: (params) =>
+                      scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
+                  scheduleBloc: scheduleBloc)));
+        } else if (calendarTapDetails.targetElement ==
+                CalendarElement.calendarCell &&
+            calendarTapDetails.appointments == null) {
+          scheduleBloc.add(ShowTaskPopupEvent(
+              showTaskPopup: true,
+              taskPopupParams: TaskPopupParams(
+                  cellDate: calendarTapDetails.date,
+                  onSave: (params) {
+                    scheduleBloc.add(CreateClickupTaskEvent(
+                        params:
+                            params));
+                  },
+                  scheduleBloc: scheduleBloc)));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){

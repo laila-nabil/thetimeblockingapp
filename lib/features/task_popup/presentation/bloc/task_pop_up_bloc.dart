@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
+
+import '../views/task_popup.dart';
 
 part 'task_pop_up_event.dart';
 
@@ -13,10 +14,11 @@ class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  final ClickupTask? task;
+  final TaskPopupParams taskPopupParams;
 
-  TaskPopUpBloc({required this.task})
+  TaskPopUpBloc({required this.taskPopupParams})
       : super(const TaskPopUpState()) {
+    final task = taskPopupParams.task;
     printDebug("task from bloc $task");
     titleController.text = task?.name ?? "";
     descriptionController.text = task?.description ?? "";

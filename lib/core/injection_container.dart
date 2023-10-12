@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_lo
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
+import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -30,7 +31,6 @@ import '../features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.da
 import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
-import '../features/tasks/domain/entities/clickup_task.dart';
 import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
@@ -60,8 +60,8 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
-  serviceLocator.registerFactoryParam<TaskPopUpBloc, ClickupTask?, dynamic>(
-      (ClickupTask? s, dynamic i) => TaskPopUpBloc(task: s));
+  serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
+      (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
   /// UseCases
 
