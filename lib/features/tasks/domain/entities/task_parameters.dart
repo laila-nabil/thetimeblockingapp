@@ -92,6 +92,8 @@ class ClickupTaskParams extends Equatable{
       this.folder,
       this.archived});
 
+  static isNewTask (ClickupTask? task) =>task?.id?.isNotEmpty == false;
+
   factory ClickupTaskParams.unknown({
     required ClickupAccessToken clickupAccessToken,
     required ClickupTaskParamsEnum clickupTaskParamsEnum,
