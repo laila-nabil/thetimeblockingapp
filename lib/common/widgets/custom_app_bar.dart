@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -12,51 +13,59 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startUpBloc = BlocProvider.of<StartupBloc>(context);
-    return AppBar(
-      elevation: 0,
-      leading: Responsive.showSmallDesign(context)
-          ? null
-          : IconButton(
+    final startupBloc = BlocProvider.of<StartupBloc>(context);
+    return BlocBuilder<StartupBloc, StartupState>(
+      builder: (context, state) {
+        if (Globals.selectedWorkspace != null &&
+            Globals.clickupAuthAccessToken.accessToken.isNotEmpty ==
+                true &&
+            Globals.clickupSpaces == null) {
+          startupBloc.add(SelectClickupWorkspace(
+              clickupWorkspace: Globals.selectedWorkspace!,
+              clickupAccessToken: Globals.clickupAuthAccessToken));
+        }
+        return AppBar(
+          elevation: 0,
+          leading: Responsive.showSmallDesign(context)
+              ? null
+              : IconButton(
               onPressed: () {
-                startUpBloc.add(ControlDrawerLargerScreen(
-                    !startUpBloc.state.drawerLargerScreenOpen));
+                startupBloc.add(ControlDrawerLargerScreen(
+                    !startupBloc.state.drawerLargerScreenOpen));
               },
               icon: const Icon(
                 Icons.menu,
                 color: Colors.deepPurpleAccent,
               )),
-      actions: [
-        if (Globals.clickupWorkspaces?.isNotEmpty == true)
-          DropdownMenu(
-            width: Responsive.responsiveT(
-                params: ResponsiveTParams(laptop: 170.0, mobile: 120.0),
-                context: context),
-
-            ///TODO A should startUpBloc.add(SelectClickupWorkspace for initialSelection
-            initialSelection: Globals.clickupWorkspaces?.first,
-              onSelected: (selected) {
-                if (selected is ClickupWorkspace) {
-                startUpBloc.add(SelectClickupWorkspace(
-                    clickupWorkspace: selected,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
-              }
-            },
-            dropdownMenuEntries: Globals.clickupWorkspaces
-                      ?.map((e) => DropdownMenuEntry(
-                            value: e,
-                            label: e.name ?? "",
-                          ))
-                      .toList() ??
-                  [],
-            hintText: appLocalization.translate("workspaces"),
-          ),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-        if (pageActions?.isNotEmpty == true)
-          PopupMenuButton(itemBuilder: (context) {
-            return pageActions ?? [];
-          })
-      ],
+          actions: [
+            if (Globals.clickupWorkspaces?.isNotEmpty == true)
+              DropdownButton(
+                value: Globals.selectedWorkspace,
+                onChanged: (selected) {
+                  if (selected is ClickupWorkspace) {
+                    startupBloc.add(SelectClickupWorkspace(
+                        clickupWorkspace: selected,
+                        clickupAccessToken: Globals.clickupAuthAccessToken));
+                  }
+                },
+                items: Globals.clickupWorkspaces
+                    ?.map((e) =>
+                    DropdownMenuItem(
+                      value: e,
+                      child: Text(e.name ?? ""),
+                    ))
+                    .toList() ??
+                    [],
+                hint: Text(appLocalization.translate("workspaces")),
+              ),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+            if (pageActions?.isNotEmpty == true)
+              PopupMenuButton(itemBuilder: (context) {
+                return pageActions ?? [];
+              })
+          ],
+        );
+      },
     );
   }
 
