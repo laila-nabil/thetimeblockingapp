@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+///FIXME not actual overlay
 class LoadingOverlay extends StatelessWidget {
   const LoadingOverlay(
       {super.key, this.width = double.infinity, this.height = double.infinity});

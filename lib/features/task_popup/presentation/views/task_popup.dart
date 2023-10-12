@@ -82,8 +82,21 @@ class TaskPopup extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
+          create: (context) {
+            ClickupSpace? space = task == null
+                      ? null
+                      : Globals.clickupSpaces?.firstWhere(
+                          (element) => element.id == task.space?.id);
+            ClickupFolder? folder = space?.folders
+                      .firstWhere((element) => task?.folder?.id == element.id);
+            ClickupList? list = (space == null && folder == null)
+                ? (task?.list)
+                : (folder == null)
+                    ? space?.lists
+                        .firstWhere((element) => element.id == task?.list?.id)
+                    : folder.lists
+                        ?.firstWhere((element) => element.id == task?.list?.id);
+            return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
                 ..add(UpdateClickupTaskParamsEvent(
                     taskParams: ClickupTaskParams.unknown(
                   clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -92,15 +105,16 @@ class TaskPopup extends StatelessWidget {
                       : ClickupTaskParamsEnum.update,
                   title: task?.name,
                   description: task?.description,
-                  clickupList: task?.list,
+                  clickupList: list,
                   taskPriority: task?.priority,
                   tags: task?.tags,
                   dueDate: task?.dueDateUtc ?? taskPopupParams.cellDate,
                   startDate: task?.startDateUtc,
                   assignees: task?.assignees,
-                  space: task?.space,
-                  folder: task?.folder,
-                ))),
+                  space: space,
+                  folder: folder,
+                )));
+          },
         ),
         BlocProvider.value(
           value: taskPopupParams.scheduleBloc,
@@ -265,7 +279,6 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
                               ///TODO create a new Space
-                              ///FIXME opening an existing task
                               ///Space
                               DropdownButton<ClickupSpace>(
                                 hint: Text(appLocalization.translate("space")),
