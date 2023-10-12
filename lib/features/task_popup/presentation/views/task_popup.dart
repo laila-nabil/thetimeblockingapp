@@ -1,4 +1,5 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -16,13 +17,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
-class TaskPopupParams {
+class TaskPopupParams extends Equatable{
   final ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
   final ScheduleBloc scheduleBloc;
   final DateTime? cellDate;
-  TaskPopupParams({
+  const TaskPopupParams({
     this.task,
     this.onSave,
     this.onDelete,
@@ -45,6 +46,13 @@ class TaskPopupParams {
       cellDate: cellDate ?? this.cellDate
     );
   }
+
+  @override
+  List<Object?> get props => [ task,
+    onSave,
+    onDelete,
+    cellDate,
+    scheduleBloc,];
 }
 
 Future showTaskPopup({
