@@ -265,6 +265,7 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
                               ///TODO create a new Space
+                              ///FIXME opening an existing task
                               ///Space
                               DropdownButton<ClickupSpace>(
                                 hint: Text(appLocalization.translate("space")),
