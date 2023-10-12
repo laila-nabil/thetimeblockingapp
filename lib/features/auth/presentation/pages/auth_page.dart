@@ -25,7 +25,7 @@ class AuthPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
-        if (state.isNotAuthed == false) {
+        if (state.canGoSchedulePage == true) {
           context.go(SchedulePage.routeName);
         }
 
