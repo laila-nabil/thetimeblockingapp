@@ -49,7 +49,7 @@ Future<Either<Failure, T>> repoHandleLocalGetRequest<T>({
   try {
     result = await tryGetFromLocalStorage();
   } catch (error) {
-    printDebug(error, printLevel: PrintLevel.error);
+    printDebug("repo $error", printLevel: PrintLevel.error);
     if (error is Exception) {
       return Left(exceptionToFailure(error));
     }
@@ -68,7 +68,7 @@ Future<Either<Failure, Unit>> repoHandleLocalSaveRequest<T>({
       printDebug("repo ServerException", printLevel: PrintLevel.error);
       return const Left(ServerFailure(message: ''));
     } catch (error) {
-      printDebug(error, printLevel: PrintLevel.error);
+      printDebug("repo $error", printLevel: PrintLevel.error);
       if (error is Exception) {
         return Left(exceptionToFailure(error));
       }
