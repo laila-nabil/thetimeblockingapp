@@ -27,7 +27,7 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
       {required GetClickupAccessTokenParams params}) async {
-    final result = await repoHandler<ClickupAccessToken>(
+    final result = await repoHandleRemoteRequest<ClickupAccessToken>(
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupAccessToken(params: params),
       trySaveResult: (result)async{
@@ -45,7 +45,7 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, ClickupUser>> getClickupUser(
       {required GetClickupUserParams params}) {
-    return repoHandler(
+    return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupUser(params: params),
         trySaveResult: (result)async{

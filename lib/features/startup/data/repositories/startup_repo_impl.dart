@@ -1,14 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
-
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
-
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_workspace_use_case.dart';
-
-import '../../../../core/globals.dart';
-import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
 import '../../../../core/usecase.dart';
 import '../../domain/repositories/startup_repo.dart';
@@ -26,24 +19,17 @@ class StartUpRepoImpl implements StartUpRepo {
 
   @override
   Future<Either<Failure, Unit>?> selectWorkspace(
-      ClickupWorkspaceModel params) async {
-    try {
-      await startUpLocalDataSource.saveSelectedWorkspace(params);
-      return Right(Unit);
-    } catch (e) {
-      printDebug(e,printLevel:PrintLevel.error );
-      return Left(e);
-    }
-
+      SelectWorkspaceParams params) async {
+    return repoHandleLocalSaveRequest(
+        trySaveResult: () => startUpLocalDataSource.saveSelectedWorkspace(
+            params.clickupWorkspace as ClickupWorkspaceModel));
   }
 
   @override
   Future<Either<Failure, ClickupWorkspaceModel>?> getSelectedWorkspace(
       NoParams params) async {
-    try {
-      final result = await startUpLocalDataSource.getSelectedWorkspace();
-    } catch (e) {
-      printDebug(e);
-    }
+    return repoHandleLocalGetRequest(
+        tryGetFromLocalStorage: () =>
+            startUpLocalDataSource.getSelectedWorkspace());
   }
 }

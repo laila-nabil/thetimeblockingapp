@@ -1,4 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -13,10 +13,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.d
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-
 import '../../../../common/widgets/custom_alert_dialog.dart';
-import '../../../../core/extensions.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams {
@@ -294,7 +291,7 @@ class TaskPopup extends StatelessWidget {
                           Text("folder: ${state.taskParams?.folder?.name}"),
                           Text("list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
                           Text("list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
-                          Text("getAvailableLists: ${state.taskParams?.getAvailableLists?.map((e) => e.name)}"),
+                          Text("getAvailableLists: ${state.taskParams?.getAvailableLists.map((e) => e.name)}"),
                         ],
                       ),
                     ),

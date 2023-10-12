@@ -5,7 +5,7 @@ import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
 
-Future<Either<Failure, T>> repoHandler<T>({
+Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
@@ -40,4 +40,39 @@ Future<Either<Failure, T>> repoHandler<T>({
     }
   }
   return Right(result);
+}
+
+Future<Either<Failure, T>> repoHandleLocalGetRequest<T>({
+  required Future<T> Function() tryGetFromLocalStorage,
+}) async {
+  late T result;
+  try {
+    result = await tryGetFromLocalStorage();
+  } catch (error) {
+    printDebug(error, printLevel: PrintLevel.error);
+    if (error is Exception) {
+      return Left(exceptionToFailure(error));
+    }
+    return Left(UnknownFailure(message: error.toString()));
+  }
+  return Right(result);
+
+}
+
+Future<Either<Failure, Unit>> repoHandleLocalSaveRequest<T>({
+  required Future<void> Function() trySaveResult,
+}) async {
+    try {
+      await trySaveResult();
+    }  on ServerException {
+      printDebug("repo ServerException", printLevel: PrintLevel.error);
+      return const Left(ServerFailure(message: ''));
+    } catch (error) {
+      printDebug(error, printLevel: PrintLevel.error);
+      if (error is Exception) {
+        return Left(exceptionToFailure(error));
+      }
+      return Left(UnknownFailure(message: error.toString()));
+    }
+    return const Right(unit);
 }
