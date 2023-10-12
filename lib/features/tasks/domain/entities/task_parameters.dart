@@ -113,10 +113,14 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
+    ClickupFolder? folder,
+    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: clickupTaskParamsEnum,
           clickupAccessToken: clickupAccessToken,
+          clickupSpace: space,
+          folder: folder,
           clickupList: clickupList,
           title: title,
           description: description,
@@ -156,11 +160,15 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
+    ClickupFolder? folder,
+    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
+          clickupSpace: space,
           clickupList: clickupList,
+          folder: folder,
           title: title,
           description: description,
           assignees: assignees,
@@ -200,11 +208,16 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? archived,
+    ClickupFolder? folder,
+    ClickupList? list,
+    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
-          clickupList: null,
+          clickupSpace: space,
+          clickupList: list,
+          folder: folder,
           title: title,
           description: description,
           assignees: assignees,

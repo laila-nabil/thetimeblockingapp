@@ -98,6 +98,8 @@ class TaskPopup extends StatelessWidget {
                   dueDate: task?.dueDateUtc ?? taskPopupParams.cellDate,
                   startDate: task?.startDateUtc,
                   assignees: task?.assignees,
+                  space: task?.space,
+                  folder: task?.folder,
                 ))),
         ),
         BlocProvider.value(
