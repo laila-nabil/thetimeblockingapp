@@ -13,8 +13,9 @@ enum ScheduleStateEnum {
 }
 
 class ScheduleState extends Equatable {
-  final Set<ScheduleStateEnum> scheduleStates;
-  final List<ClickupTask>? clickUpTasks;
+  final Set<ScheduleStateEnum> persistingScheduleStates;
+  final ScheduleStateEnum? nonPersistingScheduleState;
+  final List<ClickupTask>? clickupTasks;
   final Failure? getTasksSingleWorkspaceFailure;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
@@ -22,16 +23,19 @@ class ScheduleState extends Equatable {
   final DateTime tasksDueDateEarliestDate;
   final DateTime tasksDueDateLatestDate;
   final String? getTasksForSingleWorkspaceScheduleEventId;
-  final bool? forceGetTasksForSingleWorkspaceScheduleEvent;
+  final bool? showTaskPopup;
+  final TaskPopupParams? taskPopupParams;
   const ScheduleState._({
-    required this.scheduleStates,
-    this.clickUpTasks,
+    required this.persistingScheduleStates,
+    this.nonPersistingScheduleState,
+    this.clickupTasks,
     this.getTasksForSingleWorkspaceScheduleEventId,
     this.getTasksSingleWorkspaceFailure,
     this.createTaskFailure,
     this.updateTaskFailure,
     this.deleteTaskFailure,
-    this.forceGetTasksForSingleWorkspaceScheduleEvent,
+    this.showTaskPopup,
+    this.taskPopupParams,
     required this.tasksDueDateEarliestDate,
     required this.tasksDueDateLatestDate,
   });
@@ -43,8 +47,9 @@ class ScheduleState extends Equatable {
 
   @override
   List<Object?> get props => [
-        scheduleStates,
-        clickUpTasks,
+        persistingScheduleStates,
+        nonPersistingScheduleState,
+        clickupTasks,
         getTasksSingleWorkspaceFailure,
         tasksDueDateEarliestDate,
         tasksDueDateLatestDate,
@@ -52,15 +57,17 @@ class ScheduleState extends Equatable {
         createTaskFailure,
         updateTaskFailure,
         deleteTaskFailure,
-        forceGetTasksForSingleWorkspaceScheduleEvent
+        showTaskPopup,
+        taskPopupParams,
       ];
 
-  ///setting [stateAddRemove] to right in stateAddRemove adds a state
-  ///setting [stateAddRemove] to left in stateAddRemove removes a state
+  ///setting [persistingScheduleStateAddRemove] to right in stateAddRemove adds a state
+  ///setting [persistingScheduleStateAddRemove] to left in stateAddRemove removes a state
   ///[forceGetTasksForSingleWorkspaceScheduleEvent] does not persist
   ScheduleState copyWith({
-    required  Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove,
-    List<ClickupTask>? clickUpTasks,
+    Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
+    ScheduleStateEnum? nonPersistingScheduleState,
+    List<ClickupTask>? clickupTasks,
     Failure? getTasksSingleWorkspaceFailure,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
@@ -68,11 +75,15 @@ class ScheduleState extends Equatable {
     DateTime? tasksDueDateEarliestDate,
     DateTime? tasksDueDateLatestDate,
     String? getTasksForSingleWorkspaceScheduleEventId,
-    bool? forceGetTasksForSingleWorkspaceScheduleEvent,
+    bool? showTaskPopup,
+    TaskPopupParams? taskPopupParams,
   }) {
     return ScheduleState._(
-      scheduleStates: updateEnumStates(stateAddRemove),
-      clickUpTasks: clickUpTasks ?? this.clickUpTasks,
+      persistingScheduleStates: persistingScheduleStateAddRemove != null?
+          updateEnumStates(persistingScheduleStateAddRemove) :
+              persistingScheduleStates,
+      nonPersistingScheduleState: nonPersistingScheduleState,
+      clickupTasks: clickupTasks ?? this.clickupTasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
       tasksDueDateEarliestDate: tasksDueDateEarliestDate ??
@@ -85,20 +96,21 @@ class ScheduleState extends Equatable {
         createTaskFailure: createTaskFailure??this.createTaskFailure,
       updateTaskFailure:updateTaskFailure??this.updateTaskFailure,
       deleteTaskFailure: deleteTaskFailure??this.deleteTaskFailure,
-        forceGetTasksForSingleWorkspaceScheduleEvent:
-            forceGetTasksForSingleWorkspaceScheduleEvent);
+      showTaskPopup: showTaskPopup??this.showTaskPopup,
+      taskPopupParams: taskPopupParams
+    );
   }
 
-  bool get isInitial => scheduleStates.isEmpty;
-  bool get isLoading => scheduleStates.contains(ScheduleStateEnum.loading);
+  bool get isInitial => persistingScheduleStates.isEmpty;
+  bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
   Set<ScheduleStateEnum> updateEnumStates(
       Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
-    Set<ScheduleStateEnum> updatedStates = Set.from(scheduleStates);
+    Set<ScheduleStateEnum> updatedStates = Set.from(persistingScheduleStates);
     ScheduleStateEnum? toRemoveState;
     ScheduleStateEnum? toAddState;
     stateAddRemove.fold((l) => toRemoveState = l, (r) => toAddState = r);
-    if (stateAddRemove.isLeft() && scheduleStates.contains(toRemoveState)) {
+    if (stateAddRemove.isLeft() && persistingScheduleStates.contains(toRemoveState)) {
       updatedStates.remove(toRemoveState);
     } else if (stateAddRemove.isRight() && toAddState != null) {
       updatedStates.add(toAddState!);

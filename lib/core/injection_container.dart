@@ -4,16 +4,31 @@ import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
+import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
+import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
-import '../features/auth/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/startup/data/repositories/startup_repo_impl.dart';
+import '../features/startup/domain/repositories/startup_repo.dart';
+import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
+import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
+import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
+import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
@@ -31,84 +46,135 @@ import 'package:http/http.dart';
 
 final serviceLocator = GetIt.instance;
 
-///TODO
-// Future<void> updateInstance<T>({
-//   required Object? instance,
-//   required Object? updateInstance,
-//   String? instanceName,
-// }) async {
-//   if(serviceLocator.isRegistered(instance: instance,instanceName: instanceName)){
-//     await serviceLocator.unregister(instance: instance,instanceName: instanceName);
-//   }
-// serviceLocator.registerSingleton(updateInstance);
-// }
-
-
 void _initServiceLocator({required Network network}) {
-  serviceLocator.allowReassignment=true;
+  serviceLocator.allowReassignment = true;
 
   /// Globals
-  serviceLocator.registerSingleton(
-      Logger(printer:logPrinter ));
+  serviceLocator.registerSingleton(Logger(printer: logPrinter));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc());
-  serviceLocator.registerFactory(
-      () => AuthBloc(serviceLocator(), serviceLocator(), serviceLocator()));
+  serviceLocator.registerFactory(() => StartupBloc(
+      serviceLocator(),
+      serviceLocator(),));
+  serviceLocator.registerFactory(() => AuthBloc(
+      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
-  serviceLocator.registerFactory(() => TaskPopUpBloc());
+  serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
+      (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
+
   /// UseCases
 
-  serviceLocator.registerLazySingleton(() => GetClickUpAccessTokenUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupAccessTokenUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickUpUserUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupUserUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickUpWorkspacesUseCase(
+  serviceLocator.registerLazySingleton(() => GetClickupWorkspacesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickUpTasksInSingleWorkspaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetClickUpTasksInAllWorkspacesUseCase(
+  serviceLocator
+      .registerLazySingleton(() => GetClickupTasksInSingleWorkspaceUseCase(
+            serviceLocator(),
+          ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
+            serviceLocator(),
+          ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
+            serviceLocator(),
+          ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupTagsInSpaceUseCase(
     serviceLocator(),
   ));
 
-  serviceLocator.registerLazySingleton(() => CreateClickUpTaskUseCase(
+  serviceLocator
+      .registerLazySingleton(() => GetAllInClickupWorkspaceUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => UpdateClickUpTaskUseCase(
+  serviceLocator.registerLazySingleton(() => UpdateClickupTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => DeleteClickUpTaskUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteClickupTaskUseCase(
         serviceLocator(),
       ));
+
+  serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
+        serviceLocator(),
+      ));
+
+  serviceLocator.registerLazySingleton(() => GetClickupAllListsInFoldersUseCase(
+        serviceLocator(),
+      ));
+
+  serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
+        serviceLocator(),
+      ));
+
+  serviceLocator
+      .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
+            serviceLocator(),
+          ));
+
+  serviceLocator
+      .registerLazySingleton(() => SelectWorkspaceUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator
+      .registerLazySingleton(() => GetSelectedWorkspaceUseCase(
+    serviceLocator(),
+  ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
-  serviceLocator
-      .registerLazySingleton<TasksRepo>(() => TasksRepoImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<TasksRepo>(
+      () => TasksRepoImpl(serviceLocator(), serviceLocator()));
+
+  serviceLocator.registerLazySingleton<StartUpRepo>(
+      () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
 
   /// DataSources
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() =>
-      AuthRemoteDataSourceImpl(
-          network: serviceLocator(),
-          clickUpClientId: Globals.clickUpClientId,
-          clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,));
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
-  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(() =>
-      TasksRemoteDataSourceImpl(
-          network: serviceLocator(),
-          clickUpClientId: Globals.clickUpClientId,
-          clickUpClientSecret: Globals.clickUpClientSecret,
-          clickUpUrl: Globals.clickUpUrl,));
+  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
+      () => TasksRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
+
+  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
+      () => StartUpRemoteDataSourceImpl(
+            network: serviceLocator(),
+            clickupClientId: Globals.clickupClientId,
+            clickupClientSecret: Globals.clickupClientSecret,
+            clickupUrl: Globals.clickupUrl,
+          ));
+
+  serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
+      () => StartUpLocalDataSourceImpl(serviceLocator()));
+
+  serviceLocator.registerLazySingleton<TasksLocalDataSource>(
+      () => TasksLocalDataSourceImpl(serviceLocator()));
 
   /// External
 
@@ -119,18 +185,18 @@ void _initServiceLocator({required Network network}) {
 }
 
 void reRegisterClickupVariables() async {
-  Globals.clickUpClientId =
+  Globals.clickupClientId =
       const String.fromEnvironment("clickUpClientId", defaultValue: "");
-  Globals.clickUpClientSecret =
+  Globals.clickupClientSecret =
       const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
-  Globals.clickUpRedirectUrl =
+  Globals.clickupRedirectUrl =
       const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
 }
 
 void initServiceLocator() {
   _initServiceLocator(
       network: NetworkHttp(
-          httpClient: Client(), responseHandler: clickUpResponseHandler));
+          httpClient: Client(), responseHandler: clickupResponseHandler));
 }
 
 @visibleForTesting

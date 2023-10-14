@@ -25,7 +25,7 @@ class AuthPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
-        if (state.isNotAuthed == false) {
+        if (state.canGoSchedulePage == true) {
           context.go(SchedulePage.routeName);
         }
 
@@ -36,9 +36,10 @@ class AuthPage extends StatelessWidget {
         if (state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)) {
 
           ///in case saved locally
-          authBloc.add(const GetClickUpAccessToken(""));
+          authBloc.add(const GetClickupAccessToken(""));
         }
         return ResponsiveScaffold(
+          hideAppBarDrawer: true,
           responsiveScaffoldLoading: ResponsiveScaffoldLoading(
               responsiveScaffoldLoadingEnum:
                   ResponsiveScaffoldLoadingEnum.contentLoading,
@@ -87,10 +88,10 @@ class ExplainClickupAuth extends StatelessWidget {
             CustomButton(
                 child: const Text("Connect with Clickup"),
                 onPressed: () {
-                  ///TODO webview in case of android
+                  ///TODO B webview in case of android
                   launchWithURL(
                       url:
-                          "https://app.clickup.com/api?client_id=${Globals.clickUpClientId}&redirect_uri=${Globals.clickUpRedirectUrl}");
+                          "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}");
 
                   if (kDebugMode) {
                     authBloc.add(const ShowCodeInputTextField(true));
@@ -108,12 +109,11 @@ class ExplainClickupAuth extends StatelessWidget {
                   CustomButton(
                     child: const Text("submit"),
                     onPressed: () {
-                      authBloc.add(GetClickUpAccessToken(controller.text));
+                      authBloc.add(GetClickupAccessToken(controller.text));
                     },
                   )
                 ],
               )
-            ///TODO add toggle to chose adding access token or code
           ],
         ),
       ),

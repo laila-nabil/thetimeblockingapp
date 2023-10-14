@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/extensions.dart';
+import 'clickup_folder.dart';
+import 'clickup_list.dart';
+import 'clickup_space.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -116,7 +119,7 @@ class ClickupTask extends Equatable {
   /// If that user changes their timezone later, task start dates and due dates will not be retroactively updated.
   /// [https://clickup.com/api/developer-portal/faq/]
   bool get isAllDay {
-    ///TODO if a task due time is 4 am and no start date,it is viewed as all day event
+    ///FIXME A if a task due time is 4 am and no start date,it is viewed as all day event
     printDebug("for $name,dueDate: $dueDateUtc and startDate: $startDateUtc");
     return (startDateUtc == null || startDateUtc == dueDateUtc) &&
         dueDateUtc != null && dueDateUtc?.hour == 4 && dueDateUtc?.second == 0 ;
@@ -181,45 +184,6 @@ class ClickupTask extends Equatable {
       ];
 }
 
-/// id : "1"
-
-class ClickupSpace extends Equatable {
-  const ClickupSpace({
-    this.id,
-  });
-
-  final String? id;
-
-  @override
-  List<Object?> get props => [id];
-}
-
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolder extends Equatable {
-  const ClickupFolder({
-    this.id,
-    this.name,
-    this.hidden,
-    this.access,
-  });
-
-  final String? id;
-  final String? name;
-  final bool? hidden;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        hidden,
-        access,
-      ];
-}
 
 /// id : "1"
 /// name : "Folder"
@@ -244,29 +208,6 @@ class ClickupProject extends Equatable {
         id,
         name,
         hidden,
-        access,
-      ];
-}
-
-/// id : "1"
-/// name : "List"
-/// access : true
-
-class ClickupList extends Equatable {
-  const ClickupList({
-    this.id,
-    this.name,
-    this.access,
-  });
-
-  final String? id;
-  final String? name;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
         access,
       ];
 }
@@ -605,7 +546,12 @@ class ClickupTaskPriority extends Equatable {
   return "";
  }
 
- Color? get getPriorityExclamationColor {
+ static List<ClickupTaskPriority> get getPriorityExclamationList {
+    return List.generate(
+        4, (index) => ClickupTaskPriority(isNum: true, priorityNum: index));
+  }
+
+  Color? get getPriorityExclamationColor {
     if(color !=null && color?.isNotEmpty == true){
       return HexColor.fromHex(color??"");
     }

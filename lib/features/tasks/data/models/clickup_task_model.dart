@@ -1,4 +1,7 @@
+import 'clickup_folder_model.dart';
 import '../../domain/entities/clickup_task.dart';
+import 'clickup_list_model.dart';
+import 'clickup_space_model.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -145,7 +148,7 @@ class ClickupTaskModel extends ClickupTask {
     String? teamId = json['team_id'];
     String? url = json['url'];
     String? permissionLevel = json['permission_level'];
-    ClickupList? list =
+    ClickupListModel? list =
         json['list'] != null ? ClickupListModel.fromJson(json['list']) : null;
     ClickupProjectModel? project = json['project'] != null
         ? ClickupProjectModel.fromJson(json['project'])
@@ -261,55 +264,7 @@ class ClickupTaskModel extends ClickupTask {
   }
 }
 
-/// id : "1"
 
-class ClickupSpaceModel extends ClickupSpace {
-  const ClickupSpaceModel({
-    super.id,
-  });
-
-  factory ClickupSpaceModel.fromJson(Map<String, dynamic> json) {
-    return ClickupSpaceModel(id: json['id']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    return map;
-  }
-}
-
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolderModel extends ClickupFolder {
-  const ClickupFolderModel({
-    super.id,
-    super.name,
-    super.hidden,
-    super.access,
-  });
-
-  factory ClickupFolderModel.fromJson(Map<String, dynamic> json) {
-    return ClickupFolderModel(
-      id: json['id'],
-      name: json['name'],
-      hidden: json['hidden'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
 
 /// id : "1"
 /// name : "Folder"
@@ -338,34 +293,6 @@ class ClickupProjectModel extends ClickupProject {
     map['id'] = id;
     map['name'] = name;
     map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
-
-/// id : "1"
-/// name : "List"
-/// access : true
-
-class ClickupListModel extends ClickupList {
-  const ClickupListModel({
-    super.id,
-    super.name,
-    super.access,
-  });
-
-  factory ClickupListModel.fromJson(Map<String, dynamic> json) {
-    return ClickupListModel(
-      id: json['id'],
-      name: json['name'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
     map['access'] = access;
     return map;
   }

@@ -13,9 +13,10 @@ import 'core/injection_container.dart' as di;
 import 'core/router.dart';
 import 'features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timezone/browser.dart' as tz_web;
-import 'package:timezone/data/latest_all.dart' as tz_not_web;
-// import 'package:timezone/data/latest_all.dart' if (kIsWeb) 'package:timezone/browser.dart' as tz;
+import 'core/mock_web_packages/mock_timezone.dart'
+    if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
+import 'package:timezone/data/latest_all.dart'
+    if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

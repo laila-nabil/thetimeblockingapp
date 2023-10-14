@@ -33,7 +33,7 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      ///TODO enable when enabling the feautre
+      ///TODO C enable when enabling the feature
       allowDragAndDrop: false,
       allowAppointmentResize: false,
       allowViewNavigation: true,
@@ -46,47 +46,54 @@ class TasksCalendar extends StatelessWidget {
         return TaskCalendarWidget(
             calendarAppointmentDetails: calendarAppointmentDetails);
       },
-      timeZone: Globals.clickUpUser?.timezone,
+      timeZone: Globals.clickupUser?.timezone,
       onTap: (calendarTapDetails){
-        printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
-        printDebug("calendarTapDetails ${calendarTapDetails.date}");
-        printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
-        printDebug("calendarTapDetails ${calendarTapDetails.resource}");
-        if (calendarTapDetails.appointments == null) {
-          showTaskPopup(
-              context: context,
-              taskPopupParams: TaskPopupParams(
-                  onSave: (params) {
-                    scheduleBloc.add(CreateClickUpTaskEvent(params: params));
-              }));
-        } else {
-          showTaskPopup(
-              context: context,
+        printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
+        printDebug("calendarTapDetails date ${calendarTapDetails.date}");
+        printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
+        printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
+        if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+          ///TODO A should handle in case of multiple appointments
+          scheduleBloc.add(ShowTaskPopupEvent(
+              showTaskPopup: true,
               taskPopupParams: TaskPopupParams(
                   task: calendarTapDetails.appointments?.first as ClickupTask,
                   onSave: (params) {
-                    scheduleBloc
-                        .add(UpdateClickUpTaskEvent(params: params));
+                    scheduleBloc.add(UpdateClickupTaskEvent(params: params));
                   },
-                  onDelete: (params) => scheduleBloc
-                      .add(DeleteClickUpTaskEvent(params: params))));
+                  onDelete: (params) =>
+                      scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
+                  scheduleBloc: scheduleBloc)));
+        } else if (calendarTapDetails.targetElement ==
+                CalendarElement.calendarCell &&
+            calendarTapDetails.appointments == null) {
+          scheduleBloc.add(ShowTaskPopupEvent(
+              showTaskPopup: true,
+              taskPopupParams: TaskPopupParams(
+                  cellDate: calendarTapDetails.date,
+                  onSave: (params) {
+                    scheduleBloc.add(CreateClickupTaskEvent(
+                        params:
+                            params));
+                  },
+                  scheduleBloc: scheduleBloc)));
         }
       },
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO onAppointmentResizeEnd
+        ///TODO C onAppointmentResizeEnd
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO TimeSlotViewSettings
+        ///TODO AB TimeSlotViewSettings
       ),
       onDragEnd: (appointmentDragEndDetails){
-        ///TODO onDragEnd
+        ///TODO C onDragEnd
       },
       onDragStart: (appointmentDragEndDetails){
-        ///TODO onDragStart
+        ///TODO C onDragStart
       },
       onDragUpdate: (appointmentDragEndDetails){
-        ///TODO onDragUpdate
+        ///TODO C onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
 
@@ -107,14 +114,14 @@ class TasksCalendar extends StatelessWidget {
             printDebug("onViewChange HEREEEE");
             scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                 id: id,
-                GetClickUpTasksInWorkspaceParams(
+                GetClickupTasksInWorkspaceParams(
                     workspaceId: selectedClickupWorkspaceId ??
-                        Globals.clickUpWorkspaces?.first.id ??
+                        Globals.clickupWorkspaces?.first.id ??
                         "",
-                    filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                        clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                    filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                        clickupAccessToken: Globals.clickupAuthAccessToken,
                         filterByAssignees: [
-                          Globals.clickUpUser?.id.toString() ?? ""
+                          Globals.clickupUser?.id.toString() ?? ""
                         ],
                         filterByDueDateGreaterThanUnixTimeMilliseconds:
                         (viewChangedDetails.visibleDates.first
@@ -140,7 +147,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    ///TODO ??
+    ///TODO A ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(const Duration(minutes: 30));
   }

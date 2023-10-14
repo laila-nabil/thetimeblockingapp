@@ -5,16 +5,18 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
+import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
+
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key}) : super(key: key);
   static const routeName = "/Schedule";
-
 
   @override
   Widget build(BuildContext context) {
@@ -24,49 +26,75 @@ class SchedulePage extends StatelessWidget {
         listener: (context, startUpCurrentState) {
           final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
           scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-              GetClickUpTasksInWorkspaceParams(
+              GetClickupTasksInWorkspaceParams(
                   workspaceId:
-                  startUpCurrentState.selectedClickupWorkspace?.id ??
-                      Globals.clickUpWorkspaces?.first.id ??
-                      "",
-                  filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                      clickUpAccessToken:
-                      Globals.clickUpAuthAccessToken))));
+                      startUpCurrentState.selectedClickupWorkspace?.id ??
+                          Globals.clickupWorkspaces?.first.id ??
+                          "",
+                  filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                      clickupAccessToken: Globals.clickupAuthAccessToken))));
         },
         builder: (context, startUpCurrentState) {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
-
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              if (state.showTaskPopup == true &&
+                  startUpCurrentState.startupStateEnum ==
+                      StartupStateEnum.getSpacesSuccess) {
+                scheduleBloc.add(const ShowTaskPopupEvent(showTaskPopup: false));
+                showTaskPopup(context: context,
+                  taskPopupParams: state.taskPopupParams!,);
+              }
             },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              if (state.isInitial ||
-                  state.forceGetTasksForSingleWorkspaceScheduleEvent == true) {
+              final changeTaskSuccessfully = state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.createTaskSuccess ||
+                  state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.updateTaskSuccess ||
+                  state.nonPersistingScheduleState ==
+                      ScheduleStateEnum.deleteTaskSuccess;
+              if (state.isInitial || changeTaskSuccessfully) {
+                if (changeTaskSuccessfully) {
+                  Navigator.maybePop(context);
+                }
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                    GetClickUpTasksInWorkspaceParams(
+                    GetClickupTasksInWorkspaceParams(
                         workspaceId:
-                        startUpCurrentState.selectedClickupWorkspace?.id ??
-                            Globals.clickUpWorkspaces?.first.id ??
-                            "",
-                        filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-                            clickUpAccessToken: Globals.clickUpAuthAccessToken,
+                            startUpCurrentState.selectedClickupWorkspace?.id ??
+                                Globals.clickupWorkspaces?.first.id ??
+                                "",
+                        filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                            clickupAccessToken: Globals.clickupAuthAccessToken,
                             filterByAssignees: [
-                              Globals.clickUpUser?.id.toString() ?? ""
+                              Globals.clickupUser?.id.toString() ?? ""
                             ],
                             filterByDueDateGreaterThanUnixTimeMilliseconds:
                                 scheduleBloc.state.tasksDueDateEarliestDate
                                     .millisecondsSinceEpoch,
                             filterByDueDateLessThanUnixTimeMilliseconds:
                                 scheduleBloc.state.tasksDueDateLatestDate
-                                    .millisecondsSinceEpoch
-                        ))));
+                                    .millisecondsSinceEpoch))));
               }
               return ResponsiveScaffold(
+                  floatingActionButton: AddItemFloatingActionButton(
+                    onPressed: () {
+                      scheduleBloc.add(ShowTaskPopupEvent(
+                          showTaskPopup: true,
+                          taskPopupParams: TaskPopupParams(
+                              onSave: (params) {
+                                scheduleBloc.add(
+                                    CreateClickupTaskEvent(params: params));
+                              },
+                              scheduleBloc: scheduleBloc)));
+                    },
+                  ),
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                       responsiveScaffoldLoadingEnum:
                           ResponsiveScaffoldLoadingEnum.overlayLoading,
-                      isLoading: state.scheduleStates
-                          .contains(ScheduleStateEnum.loading)),
+                      isLoading: state.persistingScheduleStates
+                              .contains(ScheduleStateEnum.loading) ||
+                          startUpCurrentState.isLoading),
                   pageActions: [
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
@@ -88,12 +116,14 @@ class SchedulePage extends StatelessWidget {
                     ),
                   ],
                   responsiveBody: ResponsiveTParams(
-                    mobile: _SchedulePageContent(scheduleBloc: scheduleBloc,
-                        selectedClickupWorkspaceId: startUpCurrentState
-                            .selectedClickupWorkspace?.id),
-                    laptop:_SchedulePageContent(scheduleBloc: scheduleBloc,
-                        selectedClickupWorkspaceId: startUpCurrentState
-                            .selectedClickupWorkspace?.id),
+                    mobile: _SchedulePageContent(
+                        scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId:
+                            startUpCurrentState.selectedClickupWorkspace?.id),
+                    laptop: _SchedulePageContent(
+                        scheduleBloc: scheduleBloc,
+                        selectedClickupWorkspaceId:
+                            startUpCurrentState.selectedClickupWorkspace?.id),
                   ),
                   context: context);
             },
@@ -110,11 +140,12 @@ class _SchedulePageContent extends StatelessWidget {
       : super(key: key);
   final ScheduleBloc scheduleBloc;
   final String? selectedClickupWorkspaceId;
+
   @override
   Widget build(BuildContext context) {
     return TasksCalendar(
       tasksDataSource: ClickupTasksDataSource(
-          clickupTasks: scheduleBloc.state.clickUpTasks
+          clickupTasks: scheduleBloc.state.clickupTasks
                   ?.where((element) => element.dueDateUtcTimestamp != null)
                   .toList() ??
               []),

@@ -1,23 +1,19 @@
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import '../models/clickup_access_token_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken();
+  Future<ClickupAccessTokenModel> getClickupAccessToken();
 
-  Future<ClickupUserModel> getClickUpUser();
+  Future<ClickupUserModel> getClickupUser();
 
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces();
 
-  Future<void> saveClickUpAccessToken(
-      ClickUpAccessTokenModel clickUpAccessTokenModel);
+  Future<void> saveClickupAccessToken(
+      ClickupAccessTokenModel clickupAccessTokenModel);
 
-  Future<void> saveClickUpUser(ClickupUserModel clickupUserModel);
+  Future<void> saveClickupUser(ClickupUserModel clickupUserModel);
 
-  Future<void> saveClickUpWorkspaces(
-      List<ClickupWorkspaceModel> clickupWorkspacesModel);
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -26,57 +22,33 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl(this.localDataSource);
 
   @override
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken() async {
+  Future<ClickupAccessTokenModel> getClickupAccessToken() async {
     var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name);
-    return ClickUpAccessTokenModel.fromJson(json.decode(data ?? ""));
+        key: LocalDataSourceKeys.clickupAccessToken.name);
+    return ClickupAccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
   @override
-  Future<ClickupUserModel> getClickUpUser() async {
+  Future<ClickupUserModel> getClickupUser() async {
     var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpUser.name);
+        key: LocalDataSourceKeys.clickupUser.name);
     return ClickupUserModel.fromJson(json.decode(data.toString()));
   }
 
+
   @override
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces() async {
-    List<ClickupWorkspaceModel> result = [];
-    final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickUpWorkspaces.name);
-    final responseList = json.decode(response ?? "");
-    if (responseList is List) {
-      for (var element in responseList) {
-        result.add(ClickupWorkspaceModel.fromJson(element));
-      }
-    }
-    return result;
+  Future<void> saveClickupAccessToken(
+      ClickupAccessTokenModel clickupAccessTokenModel) {
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.clickupAccessToken.name,
+        value: clickupAccessTokenModel.toJson());
   }
 
   @override
-  Future<void> saveClickUpAccessToken(
-      ClickUpAccessTokenModel clickUpAccessTokenModel) {
+  Future<void> saveClickupUser(ClickupUserModel clickupUserModel) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpAccessToken.name,
-        value: clickUpAccessTokenModel.toJson());
-  }
-
-  @override
-  Future<void> saveClickUpUser(ClickupUserModel clickupUserModel) {
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpUser.name,
+        key: LocalDataSourceKeys.clickupUser.name,
         value: clickupUserModel.toJson());
   }
 
-  @override
-  Future<void> saveClickUpWorkspaces(
-      List<ClickupWorkspaceModel> clickupWorkspacesModel) {
-    List<Map<String, dynamic>> result = [];
-    for (var element in clickupWorkspacesModel) {
-      result.add(element.toJson());
-    }
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.clickUpWorkspaces.name,
-        value: result);
-  }
 }

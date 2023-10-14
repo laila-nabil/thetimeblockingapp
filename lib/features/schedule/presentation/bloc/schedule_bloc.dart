@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
+import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
@@ -17,106 +18,109 @@ part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  final GetClickUpTasksInAllWorkspacesUseCase
+  final GetClickupTasksInAllWorkspacesUseCase
       // ignore: unused_field
-      _getClickUpTasksInAllWorkspacesUseCase;
+      _getClickupTasksInAllWorkspacesUseCase;
 
-  final GetClickUpTasksInSingleWorkspaceUseCase
-      _getClickUpTasksInSingleWorkspaceUseCase;
+  final GetClickupTasksInSingleWorkspaceUseCase
+      _getClickupTasksInSingleWorkspaceUseCase;
 
-  final CreateClickUpTaskUseCase _createClickUpTaskUseCase;
-  final UpdateClickUpTaskUseCase _updateClickUpTaskUseCase;
-  final DeleteClickUpTaskUseCase _deleteClickUpTaskUseCase;
-
+  final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
+  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
 
   final CalendarController controller = CalendarController();
-  ScheduleBloc(this._getClickUpTasksInAllWorkspacesUseCase,
-      this._getClickUpTasksInSingleWorkspaceUseCase,
-      this._createClickUpTaskUseCase,
-      this._updateClickUpTaskUseCase,
-      this._deleteClickUpTaskUseCase)
+
+  ScheduleBloc(
+      this._getClickupTasksInAllWorkspacesUseCase,
+      this._getClickupTasksInSingleWorkspaceUseCase,
+      this._createClickupTaskUseCase,
+      this._updateClickupTaskUseCase,
+      this._deleteClickupTaskUseCase)
       : super(ScheduleState._(
-            scheduleStates: const {},
+            persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
             tasksDueDateLatestDate: ScheduleState.defaultTasksLatestDate)) {
     on<ScheduleEvent>((event, emit) async {
       if (event is GetTasksForSingleWorkspaceScheduleEvent) {
         emit(state.copyWith(
-            stateAddRemove: const Right(ScheduleStateEnum.loading),
-            getTasksForSingleWorkspaceScheduleEventId:
-                event.id));
+            persistingScheduleStateAddRemove:
+                const Right(ScheduleStateEnum.loading),
+            getTasksForSingleWorkspaceScheduleEventId: event.id));
         final result =
-            await _getClickUpTasksInSingleWorkspaceUseCase(event.params);
+            await _getClickupTasksInSingleWorkspaceUseCase(event.params);
         emit(state.copyWith(
-            stateAddRemove: const Left(ScheduleStateEnum.loading)));
+            persistingScheduleStateAddRemove:
+                const Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
-              stateAddRemove:
+              persistingScheduleStateAddRemove:
                   const Right(ScheduleStateEnum.getTasksSingleWorkspaceFailed),
               getTasksSingleWorkspaceFailure: l));
         }, (r) {
           emit(state.copyWith(
-              stateAddRemove:
+              persistingScheduleStateAddRemove:
                   const Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
-              clickUpTasks: r));
+              clickupTasks: r));
         });
-      }else if (event is CreateClickUpTaskEvent) {
+      } else if (event is CreateClickupTaskEvent) {
         emit(state.copyWith(
-            stateAddRemove: const Right(ScheduleStateEnum.loading),));
-        final result =
-        await _createClickUpTaskUseCase(event.params);
+          persistingScheduleStateAddRemove:
+              const Right(ScheduleStateEnum.loading),
+        ));
+        final result = await _createClickupTaskUseCase(event.params);
         emit(state.copyWith(
-            stateAddRemove: const Left(ScheduleStateEnum.loading)));
+            persistingScheduleStateAddRemove:
+                const Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.createTaskFailed),
+              nonPersistingScheduleState: ScheduleStateEnum.createTaskFailed,
               createTaskFailure: l));
         }, (r) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.createTaskSuccess),
-            forceGetTasksForSingleWorkspaceScheduleEvent: true
+            nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
         });
-      }else if (event is UpdateClickUpTaskEvent) {
+      } else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(
-          stateAddRemove: const Right(ScheduleStateEnum.loading),));
-        final result =
-        await _updateClickUpTaskUseCase(event.params);
+          persistingScheduleStateAddRemove:
+              const Right(ScheduleStateEnum.loading),
+        ));
+        final result = await _updateClickupTaskUseCase(event.params);
         emit(state.copyWith(
-            stateAddRemove: const Left(ScheduleStateEnum.loading)));
+            persistingScheduleStateAddRemove:
+                const Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.updateTaskFailed),
+              nonPersistingScheduleState: ScheduleStateEnum.updateTaskFailed,
               updateTaskFailure: l));
         }, (r) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.updateTaskSuccess),
-              forceGetTasksForSingleWorkspaceScheduleEvent: true
+            nonPersistingScheduleState: ScheduleStateEnum.updateTaskSuccess,
           ));
         });
-      }else if (event is DeleteClickUpTaskEvent) {
+      } else if (event is DeleteClickupTaskEvent) {
         emit(state.copyWith(
-          stateAddRemove: const Right(ScheduleStateEnum.loading),));
-        final result =
-        await _deleteClickUpTaskUseCase(event.params);
+          persistingScheduleStateAddRemove:
+              const Right(ScheduleStateEnum.loading),
+        ));
+        final result = await _deleteClickupTaskUseCase(event.params);
         emit(state.copyWith(
-            stateAddRemove: const Left(ScheduleStateEnum.loading)));
+            persistingScheduleStateAddRemove:
+                const Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.deleteTaskFailed),
+              nonPersistingScheduleState: ScheduleStateEnum.deleteTaskFailed,
               deleteTaskFailure: l));
         }, (r) {
           emit(state.copyWith(
-              stateAddRemove:
-              const Right(ScheduleStateEnum.deleteTaskSuccess),
-              forceGetTasksForSingleWorkspaceScheduleEvent: true
+            nonPersistingScheduleState: ScheduleStateEnum.deleteTaskSuccess,
           ));
         });
+      }else if(event is ShowTaskPopupEvent){
+        emit(state.copyWith(
+            showTaskPopup: event.showTaskPopup,
+            taskPopupParams: event.taskPopupParams));
       }
     });
   }

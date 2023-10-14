@@ -2,9 +2,6 @@ import 'package:dartz/dartz.dart';
 
 import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
 
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
-
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
@@ -20,7 +17,6 @@ import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
 
 class AuthRepoImpl implements AuthRepo {
@@ -29,54 +25,38 @@ class AuthRepoImpl implements AuthRepo {
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<Either<Failure, ClickUpAccessToken>> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params}) async {
-    final result = await repoHandler<ClickUpAccessToken>(
+  Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params}) async {
+    final result = await repoHandleRemoteRequest<ClickupAccessToken>(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickUpAccessToken(params: params),
+            await authRemoteDataSource.getClickupAccessToken(params: params),
       trySaveResult: (result)async{
-        Globals.clickUpAuthAccessToken =  result;
+        Globals.clickupAuthAccessToken =  result;
           await authLocalDataSource
-              .saveClickUpAccessToken(result as ClickUpAccessTokenModel);
+              .saveClickupAccessToken(result as ClickupAccessTokenModel);
         printDebug(
-            "getClickUpAccessToken $result ${Globals.clickUpAuthAccessToken}");
+            "getClickUpAccessToken $result ${Globals.clickupAuthAccessToken}");
       },
         tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickUpAccessToken());
+            await authLocalDataSource.getClickupAccessToken());
     return result;
   }
 
   @override
-  Future<Either<Failure, ClickupUser>> getClickUpUser(
-      {required GetClickUpUserParams params}) {
-    return repoHandler(
+  Future<Either<Failure, ClickupUser>> getClickupUser(
+      {required GetClickupUserParams params}) {
+    return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickUpUser(params: params),
+            await authRemoteDataSource.getClickupUser(params: params),
         trySaveResult: (result)async{
-          Globals.clickUpUser =  result;
+          Globals.clickupUser =  result;
           printDebug(
-              "getClickUpUser $result ${Globals.clickUpUser}");
+              "getClickUpUser $result ${Globals.clickupUser}");
           await authLocalDataSource
-              .saveClickUpUser(result as ClickupUserModel);
+              .saveClickupUser(result as ClickupUserModel);
         },
         tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickUpUser());
+            await authLocalDataSource.getClickupUser());
   }
 
-  @override
-  Future<Either<Failure, List<ClickupWorkspace>>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params}) {
-    return repoHandler(
-        remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickUpWorkspaces(params: params),
-        trySaveResult: (result)async{
-          Globals.clickUpWorkspaces =  result;
-          printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickUpWorkspaces}");
-          await authLocalDataSource
-              .saveClickUpWorkspaces(result as List<ClickupWorkspaceModel>);
-        },
-        tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickUpWorkspaces());
-  }
 }

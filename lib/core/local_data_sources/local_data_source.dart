@@ -1,4 +1,9 @@
-enum LocalDataSourceKeys { clickUpAccessToken, clickUpUser, clickUpWorkspaces }
+enum LocalDataSourceKeys {
+  clickupAccessToken,
+  clickupUser,
+  clickupWorkspaces,
+  selectedWorkspace
+}
 
 abstract class LocalDataSource {
   Future<void> init();

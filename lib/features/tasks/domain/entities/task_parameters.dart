@@ -1,12 +1,17 @@
+import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+
 import '../../../auth/domain/entities/clickup_access_token.dart';
+import 'clickup_list.dart';
 import 'clickup_task.dart';
 
-enum ClickUpTaskParamsEnum { create, update }
+enum ClickupTaskParamsEnum { create, update }
 
-class ClickUpTaskParams {
-  final ClickUpTaskParamsEnum clickUpTaskParamsEnum;
-  final ClickUpAccessToken clickUpAccessToken;
-  final ClickupList? clickUpList;
+class ClickupTaskParams extends Equatable{
+  final ClickupTaskParamsEnum clickupTaskParamsEnum;
+  final ClickupAccessToken clickupAccessToken;
+  final ClickupList? clickupList;
   final String? title;
   final String? description;
   final List<ClickupAssignees>? assignees;
@@ -27,7 +32,9 @@ class ClickUpTaskParams {
   final ClickupTask? task;
   final bool? archived;
 
-  String get listId => clickUpList?.id ?? "";
+  final ClickupSpace? clickupSpace;
+  final ClickupFolder? folder;
+  String get listId => clickupList?.id ?? "";
 
   String get taskId => task?.id ?? "";
 
@@ -50,8 +57,17 @@ class ClickUpTaskParams {
 
   String? get linkedTaskId => linkedTask?.id;
 
-  ClickUpTaskParams._(
-      {this.clickUpList,
+  List<ClickupList> get getAvailableLists {
+    if (clickupSpace != null && folder != null) {
+      return List.of(folder?.lists ?? <ClickupList>[]);
+    } else if (clickupSpace != null && folder == null) {
+      return List.of(clickupSpace?.lists ?? []);
+    }
+    return <ClickupList>[];
+  }
+
+  const ClickupTaskParams._(
+      {this.clickupList,
       this.title,
       this.description,
       this.assignees,
@@ -69,17 +85,22 @@ class ClickUpTaskParams {
       this.parentTask,
       this.linkedTask,
       this.requiredCustomFields,
-      required this.clickUpAccessToken,
-      required this.clickUpTaskParamsEnum,
+      required this.clickupAccessToken,
+      required this.clickupTaskParamsEnum,
       this.task,
+      this.clickupSpace,
+      this.folder,
       this.archived});
 
-  factory ClickUpTaskParams.createNewTask({
-    required ClickUpAccessToken clickUpAccessToken,
-    required ClickupList clickUpList,
-    required String title,
+  static isNewTask (ClickupTask? task) =>task?.id?.isNotEmpty == false;
+
+  factory ClickupTaskParams.unknown({
+    required ClickupAccessToken clickupAccessToken,
+    required ClickupTaskParamsEnum clickupTaskParamsEnum,
+    ClickupList? clickupList,
+    String? title,
     String? description,
-    required List<ClickupAssignees> assignees,
+    List<ClickupAssignees>? assignees,
     List<ClickupTag>? tags,
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
@@ -92,11 +113,15 @@ class ClickUpTaskParams {
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
+    ClickupFolder? folder,
+    ClickupSpace? space,
   }) =>
-      ClickUpTaskParams._(
-          clickUpTaskParamsEnum: ClickUpTaskParamsEnum.create,
-          clickUpAccessToken: clickUpAccessToken,
-          clickUpList: clickUpList,
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: clickupTaskParamsEnum,
+          clickupAccessToken: clickupAccessToken,
+          clickupSpace: space,
+          folder: folder,
+          clickupList: clickupList,
           title: title,
           description: description,
           assignees: assignees,
@@ -117,8 +142,55 @@ class ClickUpTaskParams {
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
 
-  factory ClickUpTaskParams.updateTask({
-    required ClickUpAccessToken clickUpAccessToken,
+  factory ClickupTaskParams.createNewTask({
+    required ClickupAccessToken clickupAccessToken,
+    required ClickupList clickupList,
+    required String title,
+    String? description,
+    required List<ClickupAssignees> assignees,
+    List<ClickupTag>? tags,
+    ClickupStatus? taskStatus,
+    ClickupTaskPriority? taskPriority,
+    DateTime? dueDate,
+    bool? dueDateTime,
+    Duration? timeEstimate,
+    DateTime? startDate,
+    bool? startDateTime,
+    bool? notifyAll,
+    ClickupTask? parentTask,
+    ClickupTask? linkedTask,
+    bool? requiredCustomFields,
+    ClickupFolder? folder,
+    ClickupSpace? space,
+  }) =>
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
+          clickupAccessToken: clickupAccessToken,
+          clickupSpace: space,
+          clickupList: clickupList,
+          folder: folder,
+          title: title,
+          description: description,
+          assignees: assignees,
+          addedAssignees: null,
+          removedAssignees: null,
+          tags: tags,
+          taskStatus: taskStatus,
+          task: null,
+          archived: null,
+          dueDate: dueDate,
+          dueDateTime: dueDateTime,
+          linkedTask: linkedTask,
+          parentTask: parentTask,
+          notifyAll: notifyAll,
+          requiredCustomFields: requiredCustomFields,
+          startDate: startDate,
+          startDateTime: startDateTime,
+          taskPriority: taskPriority,
+          timeEstimate: timeEstimate);
+
+  factory ClickupTaskParams.updateTask({
+    required ClickupAccessToken clickupAccessToken,
     required ClickupTask task,
     String? title,
     String? description,
@@ -136,11 +208,16 @@ class ClickUpTaskParams {
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? archived,
+    ClickupFolder? folder,
+    ClickupList? list,
+    ClickupSpace? space,
   }) =>
-      ClickUpTaskParams._(
-          clickUpTaskParamsEnum: ClickUpTaskParamsEnum.update,
-          clickUpAccessToken: clickUpAccessToken,
-          clickUpList: null,
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
+          clickupAccessToken: clickupAccessToken,
+          clickupSpace: space,
+          clickupList: list,
+          folder: folder,
           title: title,
           description: description,
           assignees: assignees,
@@ -162,7 +239,7 @@ class ClickUpTaskParams {
           timeEstimate: timeEstimate);
 
   Map<String, dynamic> toJson() {
-    if (clickUpTaskParamsEnum == ClickUpTaskParamsEnum.create) {
+    if (clickupTaskParamsEnum == ClickupTaskParamsEnum.create) {
       return {
         "name": title,
         "description": description,
@@ -199,7 +276,6 @@ class ClickUpTaskParams {
       if (removedAssigneesId?.isNotEmpty == true) {
         assignees["rem"] = removedAssigneesId;
       }
-      ///FIX
       return {
         "name": title,
         "description": description?.isEmpty == true ? " " : description,
@@ -218,4 +294,105 @@ class ClickUpTaskParams {
       };
     }
   }
+
+  ClickupTaskParams copyWith({
+    ClickupTaskParamsEnum? clickupTaskParamsEnum,
+    ClickupAccessToken? clickupAccessToken,
+    ClickupList? clickupList,
+    String? title,
+    String? description,
+    List<ClickupAssignees>? assignees,
+    List<ClickupAssignees>? addedAssignees,
+    List<ClickupAssignees>? removedAssignees,
+    List<ClickupTag>? tags,
+    ClickupStatus? taskStatus,
+    ClickupTaskPriority? taskPriority,
+    DateTime? dueDate,
+    bool? dueDateTime,
+    Duration? timeEstimate,
+    DateTime? startDate,
+    bool? startDateTime,
+    bool? notifyAll,
+    ClickupTask? parentTask,
+    ClickupTask? linkedTask,
+    bool? requiredCustomFields,
+    ClickupTask? task,
+    bool? archived,
+    List<int>? addedAssigneesId,
+    List<int>? removedAssigneesId,
+    ClickupSpace? clickupSpace,
+    ClickupFolder? folder,
+    bool? clearFolder,
+  }) {
+    ClickupSpace? selectedSpace = clickupSpace ?? this.clickupSpace;
+    ClickupFolder? selectedFolder =
+        clearFolder == true ? null : (folder ?? this.folder);
+    if (selectedSpace?.folders.contains(selectedFolder) == false) {
+      selectedFolder = null;
+    }
+
+    ClickupList? selectedList = clickupList ?? this.clickupList;
+    if ((selectedFolder != null &&
+            selectedFolder.lists?.contains(selectedList) == false) ||
+        (selectedSpace != null &&
+            selectedFolder == null &&
+            selectedSpace.lists.contains(selectedList) == false)) {
+      selectedList = null;
+    }
+
+    return ClickupTaskParams._(
+      clickupTaskParamsEnum:
+          clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
+      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+      clickupList: selectedList,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      assignees: assignees ?? this.assignees,
+      addedAssignees: addedAssignees ?? this.addedAssignees,
+      removedAssignees: removedAssignees ?? this.removedAssignees,
+      tags: tags ?? this.tags,
+      taskStatus: taskStatus ?? this.taskStatus,
+      taskPriority: taskPriority ?? this.taskPriority,
+      dueDate: dueDate ?? this.dueDate,
+      dueDateTime: dueDateTime ?? this.dueDateTime,
+      timeEstimate: timeEstimate ?? this.timeEstimate,
+      startDate: startDate ?? this.startDate,
+      startDateTime: startDateTime ?? this.startDateTime,
+      notifyAll: notifyAll ?? this.notifyAll,
+      parentTask: parentTask ?? this.parentTask,
+      linkedTask: linkedTask ?? this.linkedTask,
+      requiredCustomFields: requiredCustomFields ?? this.requiredCustomFields,
+      task: task ?? this.task,
+      archived: archived ?? this.archived,
+      folder: selectedFolder,
+      clickupSpace: selectedSpace
+    );
+  }
+
+  @override
+  List<Object?> get props => [clickupList,
+    title,
+    description,
+    assignees,
+    addedAssignees,
+    removedAssignees,
+    tags,
+    taskStatus,
+    taskPriority,
+    dueDate,
+    dueDateTime,
+    timeEstimate,
+    startDate,
+    startDateTime,
+    notifyAll,
+    parentTask,
+    linkedTask,
+    requiredCustomFields,
+    clickupAccessToken,
+    clickupTaskParamsEnum,
+    task,
+    folder,
+    clickupSpace,
+    getAvailableLists,
+    archived];
 }

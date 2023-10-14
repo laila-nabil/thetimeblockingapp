@@ -9,22 +9,22 @@ abstract class Network {
       responseHandler;
 
   Future<NetworkResponse> post(
-      {required String url,
+      {required Uri uri,
       Map<String, String>? headers,
-      Object? body,
+      Map<String, dynamic>? body,
       Encoding? encoding});
 
   Future<NetworkResponse> put(
-      {required String url,
+      {required Uri uri,
         Map<String, String>? headers,
-        Object? body,
+        Map<String, dynamic>? body,
         Encoding? encoding});
 
   Future<NetworkResponse> get(
-      {required String url, Map<String, String>? headers});
+      {required Uri uri, Map<String, String>? headers});
 
   Future<NetworkResponse> delete(
-      {required String url, Map<String, String>? headers});
+      {required Uri uri, Map<String, String>? headers});
 
   Network({required this.httpClient,required this.responseHandler});
 }

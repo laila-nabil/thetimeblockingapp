@@ -6,22 +6,22 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 
 import '../repositories/auth_repo.dart';
 
-class GetClickUpAccessTokenUseCase
-    implements UseCase<ClickUpAccessToken, GetClickUpAccessTokenParams> {
+class GetClickupAccessTokenUseCase
+    implements UseCase<ClickupAccessToken, GetClickupAccessTokenParams> {
   final AuthRepo repo;
 
-  GetClickUpAccessTokenUseCase(this.repo);
+  GetClickupAccessTokenUseCase(this.repo);
   @override
-  Future<Either<Failure, ClickUpAccessToken>?> call(
-      GetClickUpAccessTokenParams params) {
-    return repo.getClickUpAccessToken(params: params);
+  Future<Either<Failure, ClickupAccessToken>?> call(
+      GetClickupAccessTokenParams params) {
+    return repo.getClickupAccessToken(params: params);
   }
 }
 
-class GetClickUpAccessTokenParams extends Equatable {
+class GetClickupAccessTokenParams extends Equatable {
   final String code;
 
-  const GetClickUpAccessTokenParams(this.code);
+  const GetClickupAccessTokenParams(this.code);
 
   @override
   List<Object?> get props => [code];

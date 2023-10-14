@@ -2,14 +2,16 @@
 
 import 'dart:ui';
 
+import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
-extension ElementAtNullableOrEmpty<T> on List<T>?{
-
-  T?  tryElementAt(int index){
-    if(this!=null && this?.isNotEmpty == true && (index < (this?.length ??0) == true)){
+extension ElementAtNullableOrEmpty<T> on List<T>? {
+  T? tryElementAt(int index) {
+    if (this != null &&
+        this?.isNotEmpty == true &&
+        (index < (this?.length ?? 0) == true)) {
       return this?.elementAt(index);
-    }else{
+    } else {
       return null;
     }
   }
@@ -22,7 +24,7 @@ extension HexColor on Color {
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
     buffer.write(hexString.replaceFirst('#', ''));
     final colorInt = int.tryParse(buffer.toString(), radix: 16);
-    if(colorInt != null){
+    if (colorInt != null) {
       try {
         return Color(colorInt);
       } catch (e) {
@@ -44,24 +46,29 @@ extension DateTimeExtensions on DateTime {
   static DateTime fromMillisecondsSinceEpochTimeZone(int millisecondsSinceEpoch,
       {int millisecondsTimezoneOffset = 0}) {
     final result = DateTime.fromMillisecondsSinceEpoch(
-        millisecondsSinceEpoch + millisecondsTimezoneOffset,isUtc: true);
-    printDebug("for $millisecondsSinceEpoch and timezoneoffset $millisecondsTimezoneOffset, the date $result");
+        millisecondsSinceEpoch + millisecondsTimezoneOffset,
+        isUtc: true);
+    printDebug(
+        "for $millisecondsSinceEpoch and timezoneoffset $millisecondsTimezoneOffset, the date $result");
     return result;
   }
 
-  static DateTime? getDateTimeFromStringTimeZone({String? date,int? millisecondsTimezoneOffset }){
+  static DateTime? getDateTimeFromStringTimeZone(
+      {String? date, int? millisecondsTimezoneOffset}) {
     int? dateInt = int.tryParse(date ?? "");
-    if(dateInt == null){
+    if (dateInt == null) {
       return null;
     }
     return DateTimeExtensions.fromMillisecondsSinceEpochTimeZone(
-        dateInt,
-        millisecondsTimezoneOffset: millisecondsTimezoneOffset ?? 0,);
+      dateInt,
+      millisecondsTimezoneOffset: millisecondsTimezoneOffset ?? 0,
+    );
   }
 
-  static DateTime? getDateTimeFromString({String? date,int? millisecondsTimezoneOffset }){
+  static DateTime? getDateTimeFromString(
+      {String? date, int? millisecondsTimezoneOffset}) {
     int? dateInt = int.tryParse(date ?? "");
-    if(dateInt == null){
+    if (dateInt == null) {
       return null;
     }
     return DateTime.fromMillisecondsSinceEpoch(
@@ -71,7 +78,7 @@ extension DateTimeExtensions on DateTime {
 }
 
 extension ListDateTimeExtensions on List<DateTime> {
-  static bool datesAIncludesB (List<DateTime?>  datesA,List<DateTime?> datesB){
+  static bool datesAIncludesB(List<DateTime?> datesA, List<DateTime?> datesB) {
     datesA.sort();
     datesB.sort();
     var firstA = datesA.firstOrNull;
@@ -80,12 +87,10 @@ extension ListDateTimeExtensions on List<DateTime> {
     var lastB = datesB.lastOrNull;
     return (firstA != null &&
             (firstB?.isAfter(firstA) == true ||
-                firstB?.isAtSameMomentAs(firstA) ==
-                    true)) &&
+                firstB?.isAtSameMomentAs(firstA) == true)) &&
         (lastA != null &&
             (lastB?.isBefore(lastA) == true ||
-                lastB?.isAtSameMomentAs(lastA) ==
-                    true));
+                lastB?.isAtSameMomentAs(lastA) == true));
     var a = firstA != null;
     var b = firstB?.isAfter(firstA!) == true;
     var c = firstB?.isAtSameMomentAs(firstA!) == true;
@@ -93,9 +98,50 @@ extension ListDateTimeExtensions on List<DateTime> {
     var e = lastB?.isBefore(lastA!) == true;
     var f = lastB?.isAtSameMomentAs(lastA!) == true;
     return (a && (b || c)) && (d && (e || f));
-    return (datesA.first!=null && (datesB.first?.isAfter(datesA.first!) == true||
-            datesB.first?.isAtSameMomentAs(datesA.first!) == true)) &&
-        (datesA.last!=null && (datesB.last?.isAfter(datesA.last!) == true||
-            datesB.last?.isAtSameMomentAs(datesA.last!) == true));
+    return (datesA.first != null &&
+            (datesB.first?.isAfter(datesA.first!) == true ||
+                datesB.first?.isAtSameMomentAs(datesA.first!) == true)) &&
+        (datesA.last != null &&
+            (datesB.last?.isAfter(datesA.last!) == true ||
+                datesB.last?.isAtSameMomentAs(datesA.last!) == true));
+  }
+}
+
+extension UriExtension on Uri {
+  static Uri uriHttps(
+      {required String url, Map<String, String>? queryParameters}) {
+    final urlWithoutScheme = url.replaceAll("https://", "");
+    final host = urlWithoutScheme.split("/").first;
+    final path =
+        urlWithoutScheme.substring(host.length, urlWithoutScheme.length);
+
+    return Uri(
+        scheme: "https",
+        host: host,
+        path: path,
+        queryParameters: queryParameters);
+  }
+
+  static Uri uriHttpsClickupAPI(
+      {required String url,
+      Map<String, Either<List, String>>? queryParameters}) {
+    Map<String, String>? query;
+    if(queryParameters?.isNotEmpty == true){
+      query = {};
+      queryParameters?.forEach((key, value) {
+        value.fold((l) {
+          String v = "";
+          String separator = "&$key[]=";
+          for (var element in l) { v = "$v$element$separator";}
+          v = v.substring(0,v.length-separator.length);
+          query?.addAll({"$key[]": v});
+        }, (r) => query?.addAll({key: r}));
+      });
+    }
+    final urlWithoutScheme = url.replaceAll("https://", "");
+    final host = urlWithoutScheme.split("/").first;
+    final path =
+        urlWithoutScheme.substring(host.length, urlWithoutScheme.length);
+    return Uri(scheme: "https", host: host, path: path, queryParameters: query);
   }
 }
