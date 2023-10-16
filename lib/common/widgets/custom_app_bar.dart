@@ -15,9 +15,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final startupBloc = BlocProvider.of<StartupBloc>(context);
     return BlocBuilder<StartupBloc, StartupState>(
       builder: (context, state) {
-        if (state.selectInitialWorkspace) {
+        if (state.reSelectWorkspace) {
           startupBloc.add(SelectClickupWorkspace(
-              clickupWorkspace: Globals.selectedWorkspace!,
+              clickupWorkspace:
+              Globals.selectedWorkspace ?? state.defaultWorkspace!,
               clickupAccessToken: Globals.clickupAuthAccessToken));
         }
         return AppBar(
@@ -38,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               DropdownButton(
                 value: Globals.selectedWorkspace,
                 onChanged: (selected) {
-                  if (selected is ClickupWorkspace) {
+                  if (selected is ClickupWorkspace && state.isLoading == false) {
                     startupBloc.add(SelectClickupWorkspace(
                         clickupWorkspace: selected,
                         clickupAccessToken: Globals.clickupAuthAccessToken));

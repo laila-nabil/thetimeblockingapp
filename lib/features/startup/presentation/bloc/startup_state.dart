@@ -23,23 +23,25 @@ class StartupState extends Equatable {
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
 
-  bool get selectInitialWorkspace =>
+  bool get reSelectWorkspace =>
       isLoading == false &&
-      Globals.selectedWorkspace != null &&
-      Globals.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
-      Globals.clickupSpaces == null &&
-      getSpacesFailure == null &&
-      clickupSpaces == null;
+          Globals.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
+          Globals.clickupSpaces == null &&
+          getSpacesFailure == null &&
+          clickupSpaces == null;
+
+  ClickupWorkspace? get defaultWorkspace =>
+      Globals.clickupWorkspaces?.firstOrNull;
 
   @override
   List<Object?> get props => [
-        startupStateEnum,
-        drawerLargerScreenOpen,
-        selectedClickupWorkspace,
-        getSpacesFailure,
-        clickupSpaces,
-        selectInitialWorkspace,
-      ];
+    startupStateEnum,
+    drawerLargerScreenOpen,
+    selectedClickupWorkspace,
+    getSpacesFailure,
+    clickupSpaces,
+    reSelectWorkspace,
+  ];
 
   StartupState copyWith({
     StartupStateEnum? startupStateEnum,
@@ -51,9 +53,9 @@ class StartupState extends Equatable {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
       drawerLargerScreenOpen:
-          drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
+      drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
       selectedClickupWorkspace:
-          selectedClickupWorkspace ?? this.selectedClickupWorkspace,
+      selectedClickupWorkspace ?? this.selectedClickupWorkspace,
       getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
     );
