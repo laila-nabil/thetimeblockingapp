@@ -163,13 +163,27 @@ class ClickupTaskParams extends Equatable{
   factory ClickupTaskParams.startUpdateTask({
     required ClickupAccessToken clickupAccessToken,
     required ClickupTask task,
-  }) =>
-      ClickupTaskParams._(
+  }) {
+    printDebug("startUpdateTask task $task");
+    printDebug("startUpdateTask task ${task.space}");
+    final space = Globals.clickupSpaces
+        ?.firstWhere((element) => element.id == task.space?.id);
+    final folder =  space?.folders
+        .where((element) => element.id == task.folder?.id).firstOrNull;
+    final list = space?.lists
+        .where((element) => element.id == task.list?.id)
+        .firstOrNull ??  folder?.lists
+        ?.where((element) => element.id == task.list?.id)
+        .firstOrNull;
+    return ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
           task: task,
-          clickupSpace: task.space
+          clickupSpace: space,
+          folder: folder,
+          clickupList: list
       );
+  }
 
   factory ClickupTaskParams.updateTask({
     required ClickupAccessToken clickupAccessToken,
