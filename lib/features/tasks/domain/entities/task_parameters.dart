@@ -234,7 +234,7 @@ class ClickupTaskParams extends Equatable{
         "due_date_time": dueDateTime,
         "time_estimate": timeEstimateMilliseconds,
         "start_date": startDateMillisecondsSinceEpoch,
-        "start_date_time": startDateMillisecondsSinceEpoch,
+        "start_date_time": startDateTime,
         "notify_all": notifyAll,
         "parent": parentTaskId,
         "links_to": linkedTaskId,
