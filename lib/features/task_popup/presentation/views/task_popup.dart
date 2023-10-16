@@ -267,6 +267,7 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
                               ///TODO create a new Space
+                              ///FIXME get space of task
                               ///Space
                               DropdownButton<ClickupSpace>(
                                 hint: Text(appLocalization.translate("space")),
@@ -284,10 +285,11 @@ class TaskPopup extends StatelessWidget {
                               ),
 
                               ///TODO create a new Folder
+                              ///FIXME get folder of task
                               ///Folder
                               if (state.taskParams?.clickupSpace?.folders
                                       .isNotEmpty ==
-                                  true)
+                                  true || state.taskParams?.folder !=null )
                                 DropdownButton<ClickupFolder?>(
                                   hint:
                                       Text(appLocalization.translate("folder")),
@@ -317,10 +319,11 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                               ///TODO create a new list
+                              ///FIXME get list of task
                               ///List
                               if (state.taskParams?.getAvailableLists
                                       .isNotEmpty ==
-                                  true)
+                                  true || state.taskParams?.clickupList !=null )
                                 DropdownButton<ClickupList>(
                                   elevation: 0,
                                   hint: Text(appLocalization.translate("list")),
