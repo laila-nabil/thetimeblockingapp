@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 /// A [TextFormField] configured to accept and validate a date entered by a user.
 ///
@@ -16,8 +17,6 @@ import 'package:flutter/material.dart';
 ///
 ///  * [showDatePicker], which shows a dialog that contains a Material Design
 ///    date picker which includes support for text entry of dates.
-///  * [MaterialLocalizations.parseCompactDate], which is used to parse the text
-///    input into a [DateTime].
 ///
 class CustomInputDatePickerFormField extends StatefulWidget {
   /// Creates a [TextFormField] configured to accept and validate a date.
@@ -46,8 +45,8 @@ class CustomInputDatePickerFormField extends StatefulWidget {
     this.fieldHintText,
     this.fieldLabelText,
     this.keyboardType,
-    this.onEdit,
-    this.onDelete,
+    this.onTapEdit,
+    this.onTapClear,
     this.autofocus = false,
   }) {
     assert(
@@ -101,8 +100,8 @@ class CustomInputDatePickerFormField extends StatefulWidget {
 
   /// The hint text displayed in the [TextField].
   ///
-  /// If this is null, it will default to the date format string. For example,
-  /// 'mm/dd/yyyy' for en_US.
+  /// If this is null, it will default to the date format
+  /// string from DateTimeExtensions.
   final String? fieldHintText;
 
   /// The label text displayed in the [TextField].
@@ -119,9 +118,9 @@ class CustomInputDatePickerFormField extends StatefulWidget {
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
 
-  final void Function()? onEdit;
+  final void Function()? onTapEdit;
 
-  final void Function()? onDelete;
+  final void Function()? onTapClear;
 
   @override
   State<CustomInputDatePickerFormField> createState() => _CustomInputDatePickerFormFieldState();
@@ -167,8 +166,7 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
 
   void _updateValueForSelectedDate() {
     if (_selectedDate != null) {
-      final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-      _inputText = localizations.formatCompactDate(_selectedDate!);
+      _inputText = DateTimeExtensions.customToString(_selectedDate);
       TextEditingValue textEditingValue = TextEditingValue(text: _inputText!);
       // Select the new text if we are auto focused and haven't selected the text before.
       if (widget.autofocus && !_autoSelected) {
@@ -186,8 +184,7 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
   }
 
   DateTime? _parseDate(String? text) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-    return localizations.parseCompactDate(text);
+    return DateTime.tryParse(text??"");
   }
 
   bool _isValidAcceptableDate(DateTime? date) {
@@ -242,13 +239,13 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.onEdit != null)
+            if (widget.onTapEdit != null)
               IconButton(
-                  onPressed: () => widget.onEdit!(),
+                  onPressed: () => widget.onTapEdit!(),
                   icon: const Icon(Icons.edit)),
-            if (widget.onDelete != null)
+            if (widget.onTapClear != null)
               IconButton(
-                  onPressed: () => widget.onDelete!(),
+                  onPressed: () => widget.onTapClear!(),
                   icon: const Icon(Icons.delete))
           ],
         ),

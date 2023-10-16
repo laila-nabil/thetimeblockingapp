@@ -343,11 +343,12 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              Text(task?.startDateUtc?.formatDateTime ??
-                                  taskPopupParams.cellDate?.formatDateTime ??
+                              Text(DateTimeExtensions.customToString(task?.startDateUtc) ??
+                                   DateTimeExtensions.customToString(taskPopupParams.cellDate) ??
                                   appLocalization.translate("startDate")),
                               ///Start DATE
                               CustomInputDatePickerFormField(
+                                  onDateSaved: ,
                                   fieldLabelText:
                                       appLocalization.translate("startDate"),
                                   firstDate: DateTime.now()
