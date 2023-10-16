@@ -13,7 +13,6 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
-
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key}) : super(key: key);
   static const routeName = "/Schedule";
@@ -41,9 +40,12 @@ class SchedulePage extends StatelessWidget {
               if (state.showTaskPopup == true &&
                   startUpCurrentState.startupStateEnum ==
                       StartupStateEnum.getSpacesSuccess) {
-                scheduleBloc.add(const ShowTaskPopupEvent(showTaskPopup: false));
-                showTaskPopup(context: context,
-                  taskPopupParams: state.taskPopupParams!,);
+                scheduleBloc
+                    .add(const ShowTaskPopupEvent(showTaskPopup: false));
+                showTaskPopup(
+                  context: context,
+                  taskPopupParams: state.taskPopupParams!,
+                );
               }
             },
             builder: (context, state) {
@@ -143,15 +145,30 @@ class _SchedulePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TasksCalendar(
-      tasksDataSource: ClickupTasksDataSource(
-          clickupTasks: scheduleBloc.state.clickupTasks
-                  ?.where((element) => element.dueDateUtcTimestamp != null)
-                  .toList() ??
-              []),
-      controller: scheduleBloc.controller,
-      scheduleBloc: scheduleBloc,
-      selectedClickupWorkspaceId: selectedClickupWorkspaceId,
+    final startupBloc = BlocProvider.of<StartupBloc>(context);
+    return RefreshIndicator.adaptive(
+      onRefresh: () async {
+        var selectedWorkspace =
+            Globals.selectedWorkspace ?? startupBloc.state.defaultWorkspace;
+        scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+            GetClickupTasksInWorkspaceParams(
+                workspaceId: selectedWorkspace?.id ?? "",
+                filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                    clickupAccessToken: Globals.clickupAuthAccessToken))));
+        startupBloc.add(SelectClickupWorkspace(
+            clickupWorkspace: selectedWorkspace!,
+            clickupAccessToken: Globals.clickupAuthAccessToken));
+      },
+      child: TasksCalendar(
+        tasksDataSource: ClickupTasksDataSource(
+            clickupTasks: scheduleBloc.state.clickupTasks
+                    ?.where((element) => element.dueDateUtcTimestamp != null)
+                    .toList() ??
+                []),
+        controller: scheduleBloc.controller,
+        scheduleBloc: scheduleBloc,
+        selectedClickupWorkspaceId: selectedClickupWorkspaceId,
+      ),
     );
   }
 }
