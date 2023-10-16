@@ -303,7 +303,6 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     return result;
     
   }
-
   @override
   List<Object?> get props => [
         page,
@@ -330,4 +329,72 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
         includeParentTaskId,
         clickupAccessToken,
       ];
+
+  GetClickupTasksInWorkspaceFiltersParams copyWith({
+    int? page,
+    TasksOrderBy? tasksOrderBy,
+    bool? reverse,
+    bool? includeSubtasks,
+    List<String>? filterBySpaceIds,
+    List<String>? filterByProjectIds,
+    List<String>? filterByListsIds,
+    List<String>? filterByStatuses,
+    bool? includeClosed,
+    List<String>? filterByAssignees,
+    List<String>? filterByTags,
+    int? filterByDueDateLessThanUnixTimeMilliseconds,
+    int? filterByDueDateGreaterThanUnixTimeMilliseconds,
+    int? filterByCreatedDateLessThanUnixTimeMilliseconds,
+    int? filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+    int? filterByDateUpdatedLessThanUnixTimeMilliseconds,
+    int? filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+    int? filterByDateDoneLessThanUnixTimeMilliseconds,
+    int? filterByDateDoneGreaterThanUnixTimeMilliseconds,
+    List<String>? customFields,
+    bool? customTaskIds,
+    bool? includeParentTaskId,
+    ClickupAccessToken? clickupAccessToken,
+  }) {
+    return GetClickupTasksInWorkspaceFiltersParams(
+      page: page ?? this.page,
+      tasksOrderBy: tasksOrderBy ?? this.tasksOrderBy,
+      reverse: reverse ?? this.reverse,
+      includeSubtasks: includeSubtasks ?? this.includeSubtasks,
+      filterBySpaceIds: filterBySpaceIds ?? this.filterBySpaceIds,
+      filterByProjectIds: filterByProjectIds ?? this.filterByProjectIds,
+      filterByListsIds: filterByListsIds ?? this.filterByListsIds,
+      filterByStatuses: filterByStatuses ?? this.filterByStatuses,
+      includeClosed: includeClosed ?? this.includeClosed,
+      filterByAssignees: filterByAssignees ?? this.filterByAssignees,
+      filterByTags: filterByTags ?? this.filterByTags,
+      filterByDueDateLessThanUnixTimeMilliseconds:
+          filterByDueDateLessThanUnixTimeMilliseconds ??
+              this.filterByDueDateLessThanUnixTimeMilliseconds,
+      filterByDueDateGreaterThanUnixTimeMilliseconds:
+          filterByDueDateGreaterThanUnixTimeMilliseconds ??
+              this.filterByDueDateGreaterThanUnixTimeMilliseconds,
+      filterByCreatedDateLessThanUnixTimeMilliseconds:
+          filterByCreatedDateLessThanUnixTimeMilliseconds ??
+              this.filterByCreatedDateLessThanUnixTimeMilliseconds,
+      filterByCreatedDateGreaterThanUnixTimeMilliseconds:
+          filterByCreatedDateGreaterThanUnixTimeMilliseconds ??
+              this.filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+      filterByDateUpdatedLessThanUnixTimeMilliseconds:
+          filterByDateUpdatedLessThanUnixTimeMilliseconds ??
+              this.filterByDateUpdatedLessThanUnixTimeMilliseconds,
+      filterByDateUpdatedGreaterThanUnixTimeMilliseconds:
+          filterByDateUpdatedGreaterThanUnixTimeMilliseconds ??
+              this.filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+      filterByDateDoneLessThanUnixTimeMilliseconds:
+          filterByDateDoneLessThanUnixTimeMilliseconds ??
+              this.filterByDateDoneLessThanUnixTimeMilliseconds,
+      filterByDateDoneGreaterThanUnixTimeMilliseconds:
+          filterByDateDoneGreaterThanUnixTimeMilliseconds ??
+              this.filterByDateDoneGreaterThanUnixTimeMilliseconds,
+      customFields: customFields ?? this.customFields,
+      customTaskIds: customTaskIds ?? this.customTaskIds,
+      includeParentTaskId: includeParentTaskId ?? this.includeParentTaskId,
+      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+    );
+  }
 }

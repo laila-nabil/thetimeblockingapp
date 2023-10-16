@@ -24,5 +24,7 @@
   "save": "حفظ",
   "cancel": "الغاء",
   "title": "عنوان",
-  "description": "تفاصيل"
+  "description": "تفاصيل",
+  "startDate": "تاريخ البدأ",
+  "dueDate": "تاريخ الانتهاء"
 }

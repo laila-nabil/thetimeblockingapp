@@ -30,6 +30,7 @@ class TasksCalendar extends StatelessWidget {
     return SfCalendar(
       allowedViews: const [
         CalendarView.day,
+        CalendarView.schedule,
         CalendarView.week,
         CalendarView.month,
       ],
@@ -118,19 +119,17 @@ class TasksCalendar extends StatelessWidget {
                     workspaceId: selectedClickupWorkspaceId ??
                         Globals.clickupWorkspaces?.first.id ??
                         "",
-                    filtersParams: GetClickupTasksInWorkspaceFiltersParams(
-                        clickupAccessToken: Globals.clickupAuthAccessToken,
-                        filterByAssignees: [
-                          Globals.clickupUser?.id.toString() ?? ""
-                        ],
-                        filterByDueDateGreaterThanUnixTimeMilliseconds:
-                        (viewChangedDetails.visibleDates.first
-                            .add(const Duration(days: 1)))
-                            .millisecondsSinceEpoch,
-                        filterByDueDateLessThanUnixTimeMilliseconds:
-                        viewChangedDetails.visibleDates.last
-                            .add(const Duration(days: 1))
-                            .millisecondsSinceEpoch))));
+                    filtersParams: scheduleBloc
+                        .state.defaultTasksInWorkspaceFiltersParams
+                        .copyWith(
+                            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                                (viewChangedDetails.visibleDates.first
+                                        .add(const Duration(days: 1)))
+                                    .millisecondsSinceEpoch,
+                            filterByDueDateLessThanUnixTimeMilliseconds:
+                                viewChangedDetails.visibleDates.last
+                                    .add(const Duration(days: 1))
+                                    .millisecondsSinceEpoch))));
           } else {
             printDebug("onViewChange Not");
           }
@@ -147,6 +146,8 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
     ///TODO A ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(const Duration(minutes: 30));
@@ -154,6 +155,8 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getEndTime(int index) {
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].dueDateUtc ${clickupTasks[index].dueDateUtc}");
     return clickupTasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 

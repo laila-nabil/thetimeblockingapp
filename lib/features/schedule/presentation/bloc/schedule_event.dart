@@ -15,7 +15,6 @@ class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
   List<Object?> get props => [getClickupTasksInAllWorkspacesParams];
 }
 
-///FIXME A gets called a lot
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   final String? id;
   final GetClickupTasksInWorkspaceParams params;

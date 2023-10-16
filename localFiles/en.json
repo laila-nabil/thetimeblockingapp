@@ -24,5 +24,7 @@
   "save": "Save",
   "cancel": "Cancel",
   "title": "Title",
-  "description": "Description"
+  "description": "Description",
+  "startDate": "Start date",
+  "dueDate": "Due date"
 }

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
@@ -13,7 +15,9 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.d
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../common/widgets/custom_input_date_picker_form_field.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams extends Equatable {
@@ -30,6 +34,10 @@ class TaskPopupParams extends Equatable {
     this.cellDate,
     required this.scheduleBloc,
   });
+
+  DateTime? get startDate => cellDate;
+
+  DateTime? get dueDate => cellDate?.add(const Duration(hours: 1));
 
   TaskPopupParams copyWith({
     ClickupTask? task,
@@ -83,37 +91,18 @@ class TaskPopup extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) {
-            ClickupSpace? space = task == null
-                      ? null
-                      : Globals.clickupSpaces?.firstWhere(
-                          (element) => element.id == task.space?.id);
-            ClickupFolder? folder = space?.folders
-                      .firstWhere((element) => task?.folder?.id == element.id);
-            ClickupList? list = (space == null && folder == null)
-                ? (task?.list)
-                : (folder == null)
-                    ? space?.lists
-                        .firstWhere((element) => element.id == task?.list?.id)
-                    : folder.lists
-                        ?.firstWhere((element) => element.id == task?.list?.id);
             return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
                 ..add(UpdateClickupTaskParamsEvent(
-                    taskParams: ClickupTaskParams.unknown(
-                  clickupAccessToken: Globals.clickupAuthAccessToken,
-                  clickupTaskParamsEnum: ClickupTaskParams.isNewTask(task)
-                      ? ClickupTaskParamsEnum.create
-                      : ClickupTaskParamsEnum.update,
-                  title: task?.name,
-                  description: task?.description,
-                  clickupList: list,
-                  taskPriority: task?.priority,
-                  tags: task?.tags,
-                  dueDate: task?.dueDateUtc ?? taskPopupParams.cellDate,
-                  startDate: task?.startDateUtc,
-                  assignees: task?.assignees,
-                  space: space,
-                  folder: folder,
-                )));
+                  taskParams: task == null
+                      ? ClickupTaskParams.startCreateNewTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate
+                        )
+                      : ClickupTaskParams.startUpdateTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          task: task,
+                        )));
           },
         ),
         BlocProvider.value(
@@ -126,13 +115,26 @@ class TaskPopup extends StatelessWidget {
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
+              printDebug("state.taskParams ${state.taskParams}");
               final clickupTaskParams = state.taskParams ??
-                  ClickupTaskParams.unknown(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
-                      clickupTaskParamsEnum: ClickupTaskParams.isNewTask(task)
-                          ? ClickupTaskParamsEnum.create
-                          : ClickupTaskParamsEnum.update);
+                  (task == null
+                      ? ClickupTaskParams.startCreateNewTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate)
+                      : ClickupTaskParams.startUpdateTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                task: task,
+              ));
+              printDebug("clickupTaskParams $clickupTaskParams");
               final isLoading = isLoadingScheduleState;
+              final firstDate =
+                  DateTime.now().subtract(const Duration(days: 1000));
+              final lastDate = DateTime.now().add(const Duration(days: 1000));
+              final initialDueDate =
+                  task?.dueDateUtc ?? taskPopupParams.dueDate;
+              final initialStartDate =
+                  task?.startDateUtc ?? taskPopupParams.startDate;
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -154,10 +156,6 @@ class TaskPopup extends StatelessWidget {
                                     clickupList: state.taskParams!.clickupList!,
                                     clickupAccessToken:
                                         Globals.clickupAuthAccessToken,
-                                    assignees: [
-                                      ClickupAssignees(
-                                          id: Globals.clickupUser?.id)
-                                    ],
                                     title: state.taskParams?.title ?? "",
                                     description: state.taskParams?.description,
                                   );
@@ -166,8 +164,8 @@ class TaskPopup extends StatelessWidget {
                                     task: task,
                                     clickupAccessToken:
                                         Globals.clickupAuthAccessToken,
-                                    title: state.taskParams?.title,
-                                    description: state.taskParams?.description,
+                                    updatedTitle: state.taskParams?.title,
+                                    updatedDescription: state.taskParams?.description,
                                   );
                                 }
                                 taskPopupParams
@@ -185,6 +183,7 @@ class TaskPopup extends StatelessWidget {
                             children: [
                               ///FIXME priorities list
                               if (false)
+                                // ignore: dead_code
                                 DropdownButton<ClickupTaskPriority>(
                                   value: task?.priority,
                                   hint: Text(
@@ -299,7 +298,7 @@ class TaskPopup extends StatelessWidget {
                               ///Folder
                               if (state.taskParams?.clickupSpace?.folders
                                       .isNotEmpty ==
-                                  true)
+                                  true || state.taskParams?.folder !=null )
                                 DropdownButton<ClickupFolder?>(
                                   hint:
                                       Text(appLocalization.translate("folder")),
@@ -332,7 +331,7 @@ class TaskPopup extends StatelessWidget {
                               ///List
                               if (state.taskParams?.getAvailableLists
                                       .isNotEmpty ==
-                                  true)
+                                  true || state.taskParams?.clickupList !=null )
                                 DropdownButton<ClickupList>(
                                   elevation: 0,
                                   hint: Text(appLocalization.translate("list")),
@@ -351,23 +350,51 @@ class TaskPopup extends StatelessWidget {
                             ],
                           ),
 
-                          Text(
-                              "selectedWorkspace: ${Globals.selectedWorkspace?.name.toString()}"),
-                          Text(
-                              "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
-                          Text(
-                              "tags: ${state.taskParams?.clickupSpace?.tags.map((e) => e.name)}"),
-                          Text(
-                              "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders.map((e) => e.name)}"),
-                          Text("folder: ${state.taskParams?.folder?.name}"),
-                          Text(
-                              "list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
-                          Text(
-                              "list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
-                          Text(
-                              "getAvailableLists: ${state.taskParams?.getAvailableLists.map((e) => e.name)}"),
-                          Text("dueDate: ${state.taskParams?.dueDate}"),
-                          Text("startDate: ${state.taskParams?.startDate}"),
+                          Wrap(
+                            children: [
+                              ///Start DATE
+                              CustomButton(
+                                onPressed: () {
+                                  showDateTimePicker(
+                                      context: context,
+                                      initialDate:
+                                          initialStartDate ?? DateTime.now(),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) =>
+                                        taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams: clickupTaskParams
+                                                .copyWith(startDate: value))));
+                                  },
+                                customButtonEnum: CustomButtonEnum.secondary,
+                                child: Text(
+                                    " ${appLocalization.translate("startDate")}"
+                                    " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} "),
+                              ),
+
+                              ///DUE DATE
+                              CustomButton(
+                                  onPressed: () {
+                                  showDateTimePicker(
+                                      context: context,
+                                      initialDate:
+                                      initialDueDate ?? DateTime.now(),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) =>
+                                        taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams: clickupTaskParams
+                                                    .copyWith(dueDate: value))));
+                                  },
+                                  customButtonEnum: CustomButtonEnum.secondary,
+                                  child: Text(
+                                    " ${appLocalization.translate("dueDate")}"
+                                    " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} "),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

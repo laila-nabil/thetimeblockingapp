@@ -87,7 +87,7 @@ class ClickupTask extends Equatable {
   final String? dateClosedUtcTimestamp;
   final String? dateDoneUtcTimestamp;
   final ClickupCreator? creator;
-  final List<ClickupAssignees>? assignees;
+  final List<ClickupAssignee>? assignees;
   final List<ClickupWatchers>? watchers;
   final List<ClickupChecklists>? checklists;
   final List<ClickupTag>? tags;
@@ -402,8 +402,8 @@ class ClickupWatchers extends Equatable {
 /// profilePicture : "https://clickup.com/avatar.jpg"
 /// initials : LN
 
-class ClickupAssignees extends Equatable {
-  const ClickupAssignees({
+class ClickupAssignee extends Equatable {
+  const ClickupAssignee({
     this.id,
     this.username,
     this.color,

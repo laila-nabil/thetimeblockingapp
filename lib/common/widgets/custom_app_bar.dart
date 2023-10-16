@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (state.reSelectWorkspace) {
           startupBloc.add(SelectClickupWorkspace(
               clickupWorkspace:
-                  Globals.selectedWorkspace ?? state.defaultWorkspace!,
+              Globals.selectedWorkspace ?? state.defaultWorkspace!,
               clickupAccessToken: Globals.clickupAuthAccessToken));
         }
         return AppBar(

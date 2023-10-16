@@ -75,6 +75,44 @@ extension DateTimeExtensions on DateTime {
       dateInt,
     );
   }
+
+  static String _fourDigits(int? n) {
+    if (n == null) return "";
+    int absN = n.abs();
+    String sign = n < 0 ? "-" : "";
+    if (absN >= 1000) return "$n";
+    if (absN >= 100) return "${sign}0$absN";
+    if (absN >= 10) return "${sign}00$absN";
+    return "${sign}000$absN";
+  }
+
+  static String _twoDigits(int? n) {
+    if (n == null) return "";
+    if (n >= 10) return "$n";
+    return "0$n";
+  }
+
+  static String? customToString(DateTime? dateTime){
+    if(dateTime == null){
+      return null;
+    }
+    String y = _fourDigits(dateTime.year);
+    String m = _twoDigits(dateTime.month);
+    String d = _twoDigits(dateTime.day);
+    String amPm = "am";
+    var hour = dateTime.hour;
+    if( hour > 12){
+      hour -= 12;
+      amPm = "pm";
+    }
+    String h = _twoDigits(hour);
+    String min = _twoDigits(dateTime.minute);
+    if (dateTime.isUtc == true) {
+      return "$y-$m-$d $h:$min $amPm.Z";
+    } else {
+      return "$y-$m-$d $h:$min $amPm";
+    }
+  }
 }
 
 extension ListDateTimeExtensions on List<DateTime> {
