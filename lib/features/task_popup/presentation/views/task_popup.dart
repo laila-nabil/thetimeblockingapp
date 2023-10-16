@@ -343,6 +343,16 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
+                              Text((task?.startDateUtc?.toUtc() ??
+                                  taskPopupParams.cellDate?.toUtc()).toString()),
+                              Text((task?.startDateUtc?.toLocal() ??
+                                  taskPopupParams.cellDate?.toLocal()).toString()),
+                              Text(task?.startDateUtc?.toIso8601String() ??
+                                  taskPopupParams.cellDate?.toIso8601String() ??
+                                  ""),
+                              Text(task?.startDateUtc?.toString() ??
+                                  taskPopupParams.cellDate?.toString() ??
+                                  ""),
                               Text(DateTimeExtensions.customToString(task?.startDateUtc) ??
                                    DateTimeExtensions.customToString(taskPopupParams.cellDate) ??
                                   appLocalization.translate("startDate")),
