@@ -22,19 +22,7 @@ class SchedulePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => serviceLocator<ScheduleBloc>(),
       child: BlocConsumer<StartupBloc, StartupState>(
-        listener: (context, startUpCurrentState) {
-          final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-          scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-              GetClickupTasksInWorkspaceParams(
-                  workspaceId:
-                      startUpCurrentState.selectedClickupWorkspace?.id ??
-                          Globals.clickupWorkspaces?.first.id ??
-                          "",
-                  filtersParams: scheduleBloc
-                      .state.defaultTasksInWorkspaceFiltersParams
-                      .copyWith(
-                      clickupAccessToken: Globals.clickupAuthAccessToken))));
-        },
+        listener: (context, startUpCurrentState) {},
         builder: (context, startUpCurrentState) {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
@@ -52,12 +40,7 @@ class SchedulePage extends StatelessWidget {
             },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              final changeTaskSuccessfully = state.nonPersistingScheduleState ==
-                      ScheduleStateEnum.createTaskSuccess ||
-                  state.nonPersistingScheduleState ==
-                      ScheduleStateEnum.updateTaskSuccess ||
-                  state.nonPersistingScheduleState ==
-                      ScheduleStateEnum.deleteTaskSuccess;
+              final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if (state.isInitial || changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);

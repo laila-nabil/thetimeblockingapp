@@ -115,6 +115,13 @@ class ScheduleState extends Equatable {
                 tasksDueDateLatestDate.millisecondsSinceEpoch,
           );
 
+  bool get changedTaskSuccessfully => nonPersistingScheduleState ==
+      ScheduleStateEnum.createTaskSuccess ||
+      nonPersistingScheduleState ==
+          ScheduleStateEnum.updateTaskSuccess ||
+      nonPersistingScheduleState ==
+          ScheduleStateEnum.deleteTaskSuccess;
+
   Set<ScheduleStateEnum> updateEnumStates(
       Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
     Set<ScheduleStateEnum> updatedStates = Set.from(persistingScheduleStates);
