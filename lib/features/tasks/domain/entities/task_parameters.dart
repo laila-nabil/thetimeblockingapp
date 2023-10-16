@@ -94,65 +94,24 @@ class ClickupTaskParams extends Equatable{
       this.folder,
       this.archived});
 
-  static isNewTask(ClickupTask? task) =>
+  static _isNewTask(ClickupTask? task) =>
       task?.id == null || task?.id?.isEmpty == true;
 
   static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
-    printDebug("getClickupTaskParamsEnum $task ${isNewTask(task)
+    printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
         ? ClickupTaskParamsEnum.create
         : ClickupTaskParamsEnum.update}");
-    return isNewTask(task)
+    return _isNewTask(task)
       ? ClickupTaskParamsEnum.create
       : ClickupTaskParamsEnum.update;
   }
-
-  factory ClickupTaskParams.unknown({
+  factory ClickupTaskParams.startCreateNewTask({
     required ClickupAccessToken clickupAccessToken,
-    required ClickupTaskParamsEnum clickupTaskParamsEnum,
-    ClickupList? clickupList,
-    String? title,
-    String? description,
-    List<ClickupAssignee>? assignees,
-    List<ClickupTag>? tags,
-    ClickupStatus? taskStatus,
-    ClickupTaskPriority? taskPriority,
-    DateTime? dueDate,
-    bool? dueDateTime,
-    Duration? timeEstimate,
-    DateTime? startDate,
-    bool? startDateTime,
-    bool? notifyAll,
-    ClickupTask? parentTask,
-    ClickupTask? linkedTask,
-    bool? requiredCustomFields,
-    ClickupFolder? folder,
-    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
-          clickupTaskParamsEnum: clickupTaskParamsEnum,
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
-          clickupSpace: space,
-          folder: folder,
-          clickupList: clickupList,
-          title: title,
-          description: description,
-          assignees: assignees,
-          addedAssignees: null,
-          removedAssignees: null,
-          tags: tags,
-          taskStatus: taskStatus,
-          task: null,
-          archived: null,
-          dueDate: dueDate,
-          dueDateTime: dueDateTime,
-          linkedTask: linkedTask,
-          parentTask: parentTask,
-          notifyAll: notifyAll,
-          requiredCustomFields: requiredCustomFields,
-          startDate: startDate,
-          startDateTime: startDateTime,
-          taskPriority: taskPriority,
-          timeEstimate: timeEstimate);
+          assignees: [Globals.clickupUser!.asAssignee],);
 
   factory ClickupTaskParams.createNewTask({
     required ClickupAccessToken clickupAccessToken,
@@ -200,54 +159,63 @@ class ClickupTaskParams extends Equatable{
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
 
-  factory ClickupTaskParams.updateTask({
+  factory ClickupTaskParams.startUpdateTask({
     required ClickupAccessToken clickupAccessToken,
     required ClickupTask task,
-    String? title,
-    String? description,
-    List<ClickupAssignee>? assignees,
-    List<ClickupAssignee>? addedAssignees,
-    List<ClickupAssignee>? removedAssignees,
-    List<ClickupTag>? tags,
-    ClickupStatus? taskStatus,
-    ClickupTaskPriority? taskPriority,
-    DateTime? dueDate,
-    bool? dueDateTime,
-    Duration? timeEstimate,
-    DateTime? startDate,
-    bool? startDateTime,
-    ClickupTask? parentTask,
-    ClickupTask? linkedTask,
-    bool? archived,
-    ClickupFolder? folder,
-    ClickupList? list,
-    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
-          clickupSpace: space,
-          clickupList: list,
-          folder: folder,
-          title: title,
-          description: description,
-          assignees: assignees,
+          task: task,);
+
+  factory ClickupTaskParams.updateTask({
+    required ClickupAccessToken clickupAccessToken,
+    required ClickupTask task,
+    String? updatedTitle,
+    String? updatedDescription,
+    List<ClickupAssignee>? updatedAssignees,
+    List<ClickupAssignee>? addedAssignees,
+    List<ClickupAssignee>? removedAssignees,
+    List<ClickupTag>? updatedTags,
+    ClickupStatus? updatedTaskStatus,
+    ClickupTaskPriority? updatedTaskPriority,
+    DateTime? updatedDueDate,
+    bool? updatedDueDateTime,
+    Duration? updatedTimeEstimate,
+    DateTime? updatedStartDate,
+    bool? updatedStartDateTime,
+    ClickupTask? updatedParentTask,
+    ClickupTask? updatedLinkedTask,
+    bool? updatedArchived,
+    ClickupFolder? updatedFolder,
+    ClickupList? updatedList,
+    ClickupSpace? updatedSpace,
+  }) =>
+      ClickupTaskParams._(
+          clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
+          clickupAccessToken: clickupAccessToken,
+          clickupSpace: updatedSpace,
+          clickupList: updatedList,
+          folder: updatedFolder,
+          title: updatedTitle,
+          description: updatedDescription,
+          assignees: updatedAssignees,
           addedAssignees: addedAssignees,
           removedAssignees: removedAssignees,
-          tags: tags,
-          taskStatus: taskStatus,
+          tags: updatedTags,
+          taskStatus: updatedTaskStatus,
           task: task,
-          archived: archived,
-          dueDate: dueDate,
-          dueDateTime: dueDateTime,
-          linkedTask: linkedTask,
-          parentTask: parentTask,
+          archived: updatedArchived,
+          dueDate: updatedDueDate,
+          dueDateTime: updatedDueDateTime,
+          linkedTask: updatedLinkedTask,
+          parentTask: updatedParentTask,
           notifyAll: null,
           requiredCustomFields: null,
-          startDate: startDate,
-          startDateTime: startDateTime,
-          taskPriority: taskPriority,
-          timeEstimate: timeEstimate);
+          startDate: updatedStartDate,
+          startDateTime: updatedStartDateTime,
+          taskPriority: updatedTaskPriority,
+          timeEstimate: updatedTimeEstimate);
 
   Map<String, dynamic> toJson() {
     if (clickupTaskParamsEnum == ClickupTaskParamsEnum.create) {

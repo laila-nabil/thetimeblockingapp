@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
@@ -83,36 +84,16 @@ class TaskPopup extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) {
-            ClickupSpace? space = task == null
-                      ? null
-                      : Globals.clickupSpaces?.firstWhere(
-                          (element) => element.id == task.space?.id);
-            ClickupFolder? folder = space?.folders
-                      .firstWhere((element) => task?.folder?.id == element.id);
-            ClickupList? list = (space == null && folder == null)
-                ? (task?.list)
-                : (folder == null)
-                    ? space?.lists
-                        .firstWhere((element) => element.id == task?.list?.id)
-                    : folder.lists
-                        ?.firstWhere((element) => element.id == task?.list?.id);
             return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
                 ..add(UpdateClickupTaskParamsEvent(
-                    taskParams: ClickupTaskParams.unknown(
-                  clickupAccessToken: Globals.clickupAuthAccessToken,
-                clickupTaskParamsEnum:
-                    ClickupTaskParams.getClickupTaskParamsEnum(task),
-                title: task?.name,
-                  description: task?.description,
-                  clickupList: list,
-                  taskPriority: task?.priority,
-                  tags: task?.tags,
-                  dueDate: task?.dueDateUtc ?? taskPopupParams.cellDate,
-                  startDate: task?.startDateUtc,
-                  assignees: task?.assignees,
-                  space: space,
-                  folder: folder,
-                )));
+                  taskParams: task == null
+                      ? ClickupTaskParams.startCreateNewTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                        )
+                      : ClickupTaskParams.startUpdateTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          task: task,
+                        )));
           },
         ),
         BlocProvider.value(
@@ -125,12 +106,16 @@ class TaskPopup extends StatelessWidget {
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
-              final clickupTaskParams = state.taskParams ??
-                  ClickupTaskParams.unknown(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
-                      clickupTaskParamsEnum: ClickupTaskParams.isNewTask(task)
-                          ? ClickupTaskParamsEnum.create
-                          : ClickupTaskParamsEnum.update);
+              printDebug("state.taskParams ${state.taskParams}");
+              final clickupTaskParams = state.taskParams ?? (task == null
+                  ? ClickupTaskParams.startCreateNewTask(
+                clickupAccessToken: Globals.clickupAuthAccessToken,
+              )
+                  : ClickupTaskParams.startUpdateTask(
+                clickupAccessToken: Globals.clickupAuthAccessToken,
+                task: task,
+              ));
+              printDebug("clickupTaskParams $clickupTaskParams");
               final isLoading = isLoadingScheduleState;
               return CustomAlertDialog(
                   loading: isLoading,
@@ -161,8 +146,8 @@ class TaskPopup extends StatelessWidget {
                                     task: task,
                                     clickupAccessToken:
                                         Globals.clickupAuthAccessToken,
-                                    title: state.taskParams?.title,
-                                    description: state.taskParams?.description,
+                                    updatedTitle: state.taskParams?.title,
+                                    updatedDescription: state.taskParams?.description,
                                   );
                                 }
                                 taskPopupParams
