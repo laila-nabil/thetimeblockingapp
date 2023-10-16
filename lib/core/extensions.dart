@@ -75,6 +75,10 @@ extension DateTimeExtensions on DateTime {
       dateInt,
     );
   }
+
+  String get formatDateTime{
+   return "$day/$month/$year - $hour:$minute";
+  }
 }
 
 extension ListDateTimeExtensions on List<DateTime> {

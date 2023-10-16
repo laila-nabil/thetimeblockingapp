@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -15,6 +16,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../common/widgets/custom_input_date_picker_form_field.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams extends Equatable {
@@ -339,23 +341,37 @@ class TaskPopup extends StatelessWidget {
                             ],
                           ),
 
-                          Text(
-                              "selectedWorkspace: ${Globals.selectedWorkspace?.name.toString()}"),
-                          Text(
-                              "clickupSpace: ${state.taskParams?.clickupSpace?.name}"),
-                          Text(
-                              "tags: ${state.taskParams?.clickupSpace?.tags.map((e) => e.name)}"),
-                          Text(
-                              "clickupSpace.folders: ${state.taskParams?.clickupSpace?.folders.map((e) => e.name)}"),
-                          Text("folder: ${state.taskParams?.folder?.name}"),
-                          Text(
-                              "list in space: ${state.taskParams?.clickupSpace?.lists.map((e) => e.name)}"),
-                          Text(
-                              "list in folder: ${state.taskParams?.folder?.lists?.map((e) => e.name)}"),
-                          Text(
-                              "getAvailableLists: ${state.taskParams?.getAvailableLists.map((e) => e.name)}"),
-                          Text("dueDate: ${state.taskParams?.dueDate}"),
-                          Text("startDate: ${state.taskParams?.startDate}"),
+                          Wrap(
+                            children: [
+                              Text(task?.startDateUtc?.formatDateTime ??
+                                  taskPopupParams.cellDate?.formatDateTime ??
+                                  appLocalization.translate("startDate")),
+                              ///Start DATE
+                              CustomInputDatePickerFormField(
+                                  fieldLabelText:
+                                      appLocalization.translate("startDate"),
+                                  firstDate: DateTime.now()
+                                      .subtract(const Duration(days: 1000)),
+                                  initialDate: task?.startDateUtc ??
+                                      taskPopupParams.cellDate,
+                                  lastDate: DateTime.now()
+                                      .add(const Duration(days: 1000))),
+
+                              ///DUE DATE
+                              InputDatePickerFormField(
+                                  fieldLabelText:
+                                      appLocalization.translate("dueDate"),
+                                  fieldHintText:
+                                      appLocalization.translate("dueDate"),
+                                  firstDate: DateTime.now()
+                                      .subtract(const Duration(days: 1000)),
+                                  initialDate: task?.dueDateUtc ??
+                                      taskPopupParams.cellDate ??
+                                      DateTime.now(),
+                                  lastDate: DateTime.now()
+                                      .add(const Duration(days: 1000))),
+                            ],
+                          )
                         ],
                       ),
                     ),
