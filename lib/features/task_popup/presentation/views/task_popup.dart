@@ -100,10 +100,9 @@ class TaskPopup extends StatelessWidget {
                 ..add(UpdateClickupTaskParamsEvent(
                     taskParams: ClickupTaskParams.unknown(
                   clickupAccessToken: Globals.clickupAuthAccessToken,
-                  clickupTaskParamsEnum: ClickupTaskParams.isNewTask(task)
-                      ? ClickupTaskParamsEnum.create
-                      : ClickupTaskParamsEnum.update,
-                  title: task?.name,
+                clickupTaskParamsEnum:
+                    ClickupTaskParams.getClickupTaskParamsEnum(task),
+                title: task?.name,
                   description: task?.description,
                   clickupList: list,
                   taskPriority: task?.priority,

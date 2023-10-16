@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
@@ -93,7 +94,17 @@ class ClickupTaskParams extends Equatable{
       this.folder,
       this.archived});
 
-  static isNewTask (ClickupTask? task) =>task?.id?.isNotEmpty == false;
+  static isNewTask(ClickupTask? task) =>
+      task?.id == null || task?.id?.isEmpty == true;
+
+  static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
+    printDebug("getClickupTaskParamsEnum $task ${isNewTask(task)
+        ? ClickupTaskParamsEnum.create
+        : ClickupTaskParamsEnum.update}");
+    return isNewTask(task)
+      ? ClickupTaskParamsEnum.create
+      : ClickupTaskParamsEnum.update;
+  }
 
   factory ClickupTaskParams.unknown({
     required ClickupAccessToken clickupAccessToken,
