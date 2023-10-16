@@ -30,7 +30,9 @@ class SchedulePage extends StatelessWidget {
                       startUpCurrentState.selectedClickupWorkspace?.id ??
                           Globals.clickupWorkspaces?.first.id ??
                           "",
-                  filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                  filtersParams: scheduleBloc
+                      .state.defaultTasksInWorkspaceFiltersParams
+                      .copyWith(
                       clickupAccessToken: Globals.clickupAuthAccessToken))));
         },
         builder: (context, startUpCurrentState) {
@@ -66,17 +68,8 @@ class SchedulePage extends StatelessWidget {
                             startUpCurrentState.selectedClickupWorkspace?.id ??
                                 Globals.clickupWorkspaces?.first.id ??
                                 "",
-                        filtersParams: GetClickupTasksInWorkspaceFiltersParams(
-                            clickupAccessToken: Globals.clickupAuthAccessToken,
-                            filterByAssignees: [
-                              Globals.clickupUser?.id.toString() ?? ""
-                            ],
-                            filterByDueDateGreaterThanUnixTimeMilliseconds:
-                                scheduleBloc.state.tasksDueDateEarliestDate
-                                    .millisecondsSinceEpoch,
-                            filterByDueDateLessThanUnixTimeMilliseconds:
-                                scheduleBloc.state.tasksDueDateLatestDate
-                                    .millisecondsSinceEpoch))));
+                        filtersParams: scheduleBloc
+                            .state.defaultTasksInWorkspaceFiltersParams)));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -153,8 +146,8 @@ class _SchedulePageContent extends StatelessWidget {
         scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: selectedWorkspace?.id ?? "",
-                filtersParams: GetClickupTasksInWorkspaceFiltersParams(
-                    clickupAccessToken: Globals.clickupAuthAccessToken))));
+                filtersParams: scheduleBloc
+                    .state.defaultTasksInWorkspaceFiltersParams)));
         startupBloc.add(SelectClickupWorkspace(
             clickupWorkspace: selectedWorkspace!,
             clickupAccessToken: Globals.clickupAuthAccessToken));

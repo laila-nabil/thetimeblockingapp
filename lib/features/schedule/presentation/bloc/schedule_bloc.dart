@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
+import '../../../../core/globals.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
@@ -42,7 +43,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
             tasksDueDateLatestDate: ScheduleState.defaultTasksLatestDate)) {
     on<ScheduleEvent>((event, emit) async {
-      if (event is GetTasksForSingleWorkspaceScheduleEvent) {
+      if (event is GetTasksForSingleWorkspaceScheduleEvent &&
+          state.persistingScheduleStates.contains(ScheduleStateEnum.loading) ==
+              false) {
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Right(ScheduleStateEnum.loading),

@@ -104,6 +104,17 @@ class ScheduleState extends Equatable {
   bool get isInitial => persistingScheduleStates.isEmpty;
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
+  GetClickupTasksInWorkspaceFiltersParams
+      get defaultTasksInWorkspaceFiltersParams =>
+          GetClickupTasksInWorkspaceFiltersParams(
+            clickupAccessToken: Globals.clickupAuthAccessToken,
+            filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                tasksDueDateEarliestDate.millisecondsSinceEpoch,
+            filterByDueDateLessThanUnixTimeMilliseconds:
+                tasksDueDateLatestDate.millisecondsSinceEpoch,
+          );
+
   Set<ScheduleStateEnum> updateEnumStates(
       Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
     Set<ScheduleStateEnum> updatedStates = Set.from(persistingScheduleStates);

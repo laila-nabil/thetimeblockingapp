@@ -118,19 +118,17 @@ class TasksCalendar extends StatelessWidget {
                     workspaceId: selectedClickupWorkspaceId ??
                         Globals.clickupWorkspaces?.first.id ??
                         "",
-                    filtersParams: GetClickupTasksInWorkspaceFiltersParams(
-                        clickupAccessToken: Globals.clickupAuthAccessToken,
-                        filterByAssignees: [
-                          Globals.clickupUser?.id.toString() ?? ""
-                        ],
-                        filterByDueDateGreaterThanUnixTimeMilliseconds:
-                        (viewChangedDetails.visibleDates.first
-                            .add(const Duration(days: 1)))
-                            .millisecondsSinceEpoch,
-                        filterByDueDateLessThanUnixTimeMilliseconds:
-                        viewChangedDetails.visibleDates.last
-                            .add(const Duration(days: 1))
-                            .millisecondsSinceEpoch))));
+                    filtersParams: scheduleBloc
+                        .state.defaultTasksInWorkspaceFiltersParams
+                        .copyWith(
+                            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                                (viewChangedDetails.visibleDates.first
+                                        .add(const Duration(days: 1)))
+                                    .millisecondsSinceEpoch,
+                            filterByDueDateLessThanUnixTimeMilliseconds:
+                                viewChangedDetails.visibleDates.last
+                                    .add(const Duration(days: 1))
+                                    .millisecondsSinceEpoch))));
           } else {
             printDebug("onViewChange Not");
           }
