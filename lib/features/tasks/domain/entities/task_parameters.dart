@@ -23,10 +23,8 @@ class ClickupTaskParams extends Equatable{
   final ClickupStatus? taskStatus;
   final ClickupTaskPriority? taskPriority;
   final DateTime? dueDate;
-  final bool? dueDateTime;
   final Duration? timeEstimate;
   final DateTime? startDate;
-  final bool? startDateTime;
   final bool? notifyAll;
   final ClickupTask? parentTask;
   final ClickupTask? linkedTask;
@@ -79,10 +77,8 @@ class ClickupTaskParams extends Equatable{
       this.taskStatus,
       this.taskPriority,
       this.dueDate,
-      this.dueDateTime,
       this.timeEstimate,
       this.startDate,
-      this.startDateTime,
       this.notifyAll,
       this.parentTask,
       this.linkedTask,
@@ -96,6 +92,11 @@ class ClickupTaskParams extends Equatable{
 
   static _isNewTask(ClickupTask? task) =>
       task?.id == null || task?.id?.isEmpty == true;
+
+  bool? get dueDateTime => dueDate!=null;
+
+
+  bool? get startDateTime => startDate!=null;
 
   static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
     printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
@@ -126,10 +127,8 @@ class ClickupTaskParams extends Equatable{
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
     DateTime? dueDate,
-    bool? dueDateTime,
     Duration? timeEstimate,
     DateTime? startDate,
-    bool? startDateTime,
     bool? notifyAll,
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
@@ -153,13 +152,11 @@ class ClickupTaskParams extends Equatable{
           task: null,
           archived: null,
           dueDate: dueDate,
-          dueDateTime: dueDateTime,
           linkedTask: linkedTask,
           parentTask: parentTask,
           notifyAll: notifyAll,
           requiredCustomFields: requiredCustomFields,
           startDate: startDate,
-          startDateTime: startDateTime,
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
 
@@ -187,7 +184,6 @@ class ClickupTaskParams extends Equatable{
     bool? updatedDueDateTime,
     Duration? updatedTimeEstimate,
     DateTime? updatedStartDate,
-    bool? updatedStartDateTime,
     ClickupTask? updatedParentTask,
     ClickupTask? updatedLinkedTask,
     bool? updatedArchived,
@@ -211,13 +207,11 @@ class ClickupTaskParams extends Equatable{
           task: task,
           archived: updatedArchived,
           dueDate: updatedDueDate,
-          dueDateTime: updatedDueDateTime,
           linkedTask: updatedLinkedTask,
           parentTask: updatedParentTask,
           notifyAll: null,
           requiredCustomFields: null,
           startDate: updatedStartDate,
-          startDateTime: updatedStartDateTime,
           taskPriority: updatedTaskPriority,
           timeEstimate: updatedTimeEstimate);
 
@@ -291,10 +285,8 @@ class ClickupTaskParams extends Equatable{
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
     DateTime? dueDate,
-    bool? dueDateTime,
     Duration? timeEstimate,
     DateTime? startDate,
-    bool? startDateTime,
     bool? notifyAll,
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
@@ -337,10 +329,8 @@ class ClickupTaskParams extends Equatable{
       taskStatus: taskStatus ?? this.taskStatus,
       taskPriority: taskPriority ?? this.taskPriority,
       dueDate: dueDate ?? this.dueDate,
-      dueDateTime: dueDateTime ?? this.dueDateTime,
       timeEstimate: timeEstimate ?? this.timeEstimate,
       startDate: startDate ?? this.startDate,
-      startDateTime: startDateTime ?? this.startDateTime,
       notifyAll: notifyAll ?? this.notifyAll,
       parentTask: parentTask ?? this.parentTask,
       linkedTask: linkedTask ?? this.linkedTask,
