@@ -32,6 +32,8 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   });
 
+  DateTime? get dueDate =>cellDate;
+
   TaskPopupParams copyWith({
     ClickupTask? task,
     void Function(ClickupTaskParams params)? onSave,
@@ -89,6 +91,7 @@ class TaskPopup extends StatelessWidget {
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
+                          dueDate: taskPopupParams.dueDate
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -108,10 +111,10 @@ class TaskPopup extends StatelessWidget {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
               printDebug("state.taskParams ${state.taskParams}");
               final clickupTaskParams = state.taskParams ?? (task == null
-                  ? ClickupTaskParams.startCreateNewTask(
-                clickupAccessToken: Globals.clickupAuthAccessToken,
-              )
-                  : ClickupTaskParams.startUpdateTask(
+                    ? ClickupTaskParams.startCreateNewTask(
+                            clickupAccessToken: Globals.clickupAuthAccessToken,
+                          dueDate: taskPopupParams.dueDate)
+                      : ClickupTaskParams.startUpdateTask(
                 clickupAccessToken: Globals.clickupAuthAccessToken,
                 task: task,
               ));
