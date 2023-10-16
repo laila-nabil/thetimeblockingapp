@@ -32,7 +32,7 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   });
 
-  DateTime? get startDate => dueDate?.subtract(const Duration(days: 1));
+  DateTime? get startDate => dueDate?.subtract(const Duration(hours: 1));
 
   DateTime? get dueDate => cellDate;
 
