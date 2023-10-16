@@ -32,7 +32,9 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   });
 
-  DateTime? get dueDate =>cellDate;
+  DateTime? get startDate => dueDate?.subtract(const Duration(days: 1));
+
+  DateTime? get dueDate => cellDate;
 
   TaskPopupParams copyWith({
     ClickupTask? task,
@@ -91,7 +93,8 @@ class TaskPopup extends StatelessWidget {
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.dueDate
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -110,12 +113,14 @@ class TaskPopup extends StatelessWidget {
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
               printDebug("state.taskParams ${state.taskParams}");
-              final clickupTaskParams = state.taskParams ?? (task == null
-                    ? ClickupTaskParams.startCreateNewTask(
-                            clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.dueDate)
+              final clickupTaskParams = state.taskParams ??
+                  (task == null
+                      ? ClickupTaskParams.startCreateNewTask(
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate)
                       : ClickupTaskParams.startUpdateTask(
-                clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.clickupAuthAccessToken,
                 task: task,
               ));
               printDebug("clickupTaskParams $clickupTaskParams");

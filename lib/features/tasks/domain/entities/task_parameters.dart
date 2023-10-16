@@ -107,11 +107,13 @@ class ClickupTaskParams extends Equatable{
   }
   factory ClickupTaskParams.startCreateNewTask({
     required ClickupAccessToken clickupAccessToken,
+    DateTime? startDate,
     DateTime? dueDate,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
+          startDate: startDate,
           dueDate: dueDate,
           assignees: [Globals.clickupUser!.asAssignee],);
 
