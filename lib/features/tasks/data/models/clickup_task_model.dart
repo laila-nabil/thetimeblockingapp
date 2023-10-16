@@ -89,11 +89,11 @@ class ClickupTaskModel extends ClickupTask {
     ClickupCreatorModel? creator = json['creator'] != null
         ? ClickupCreatorModel.fromJson(json['creator'])
         : null;
-    List<ClickupAssigneesModel>? assignees;
+    List<ClickupAssigneeModel>? assignees;
     if (json['assignees'] != null) {
       assignees = [];
       json['assignees'].forEach((v) {
-        assignees?.add(ClickupAssigneesModel.fromJson(v));
+        assignees?.add(ClickupAssigneeModel.fromJson(v));
       });
     }
     List<ClickupWatchersModel>? watchers;
@@ -216,7 +216,7 @@ class ClickupTaskModel extends ClickupTask {
     }
     if (assignees != null) {
       map['assignees'] =
-          assignees?.map((v) => (v as ClickupAssigneesModel).toJson()).toList();
+          assignees?.map((v) => (v as ClickupAssigneeModel).toJson()).toList();
     }
     if (watchers != null) {
       map['watchers'] =
@@ -529,8 +529,8 @@ class ClickupWatchersModel extends ClickupWatchers {
 /// email : "johndoe@website.com"
 /// profilePicture : "https://clickup.com/avatar.jpg"
 
-class ClickupAssigneesModel extends ClickupAssignees {
-  const ClickupAssigneesModel({
+class ClickupAssigneeModel extends ClickupAssignee {
+  const ClickupAssigneeModel({
     super.id,
     super.username,
     super.color,
@@ -539,8 +539,8 @@ class ClickupAssigneesModel extends ClickupAssignees {
     super.initials,
   });
 
-  factory ClickupAssigneesModel.fromJson(Map<String, dynamic> json) {
-    return ClickupAssigneesModel(
+  factory ClickupAssigneeModel.fromJson(Map<String, dynamic> json) {
+    return ClickupAssigneeModel(
       id: json['id'],
       username: json['username'],
       color: json['color'],

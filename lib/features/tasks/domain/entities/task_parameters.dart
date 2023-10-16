@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
@@ -14,9 +15,9 @@ class ClickupTaskParams extends Equatable{
   final ClickupList? clickupList;
   final String? title;
   final String? description;
-  final List<ClickupAssignees>? assignees;
-  final List<ClickupAssignees>? addedAssignees;
-  final List<ClickupAssignees>? removedAssignees;
+  final List<ClickupAssignee>? assignees;
+  final List<ClickupAssignee>? addedAssignees;
+  final List<ClickupAssignee>? removedAssignees;
   final List<ClickupTag>? tags;
   final ClickupStatus? taskStatus;
   final ClickupTaskPriority? taskPriority;
@@ -100,7 +101,7 @@ class ClickupTaskParams extends Equatable{
     ClickupList? clickupList,
     String? title,
     String? description,
-    List<ClickupAssignees>? assignees,
+    List<ClickupAssignee>? assignees,
     List<ClickupTag>? tags,
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
@@ -147,7 +148,6 @@ class ClickupTaskParams extends Equatable{
     required ClickupList clickupList,
     required String title,
     String? description,
-    required List<ClickupAssignees> assignees,
     List<ClickupTag>? tags,
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
@@ -171,7 +171,7 @@ class ClickupTaskParams extends Equatable{
           folder: folder,
           title: title,
           description: description,
-          assignees: assignees,
+          assignees: [Globals.clickupUser!.asAssignee],
           addedAssignees: null,
           removedAssignees: null,
           tags: tags,
@@ -194,9 +194,9 @@ class ClickupTaskParams extends Equatable{
     required ClickupTask task,
     String? title,
     String? description,
-    List<ClickupAssignees>? assignees,
-    List<ClickupAssignees>? addedAssignees,
-    List<ClickupAssignees>? removedAssignees,
+    List<ClickupAssignee>? assignees,
+    List<ClickupAssignee>? addedAssignees,
+    List<ClickupAssignee>? removedAssignees,
     List<ClickupTag>? tags,
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,
@@ -301,9 +301,9 @@ class ClickupTaskParams extends Equatable{
     ClickupList? clickupList,
     String? title,
     String? description,
-    List<ClickupAssignees>? assignees,
-    List<ClickupAssignees>? addedAssignees,
-    List<ClickupAssignees>? removedAssignees,
+    List<ClickupAssignee>? assignees,
+    List<ClickupAssignee>? addedAssignees,
+    List<ClickupAssignee>? removedAssignees,
     List<ClickupTag>? tags,
     ClickupStatus? taskStatus,
     ClickupTaskPriority? taskPriority,

@@ -154,10 +154,6 @@ class TaskPopup extends StatelessWidget {
                                     clickupList: state.taskParams!.clickupList!,
                                     clickupAccessToken:
                                         Globals.clickupAuthAccessToken,
-                                    assignees: [
-                                      ClickupAssignees(
-                                          id: Globals.clickupUser?.id)
-                                    ],
                                     title: state.taskParams?.title ?? "",
                                     description: state.taskParams?.description,
                                   );
