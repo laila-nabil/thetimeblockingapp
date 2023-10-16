@@ -96,12 +96,18 @@ extension DateTimeExtensions on DateTime {
     String y = _fourDigits(dateTime?.year);
     String m = _twoDigits(dateTime?.month);
     String d = _twoDigits(dateTime?.day);
-    String h = _twoDigits(dateTime?.hour);
+    String amPm = "am";
+    var _hour = dateTime?.hour;
+    if(_hour!=null && _hour > 12){
+      _hour -= 12;
+      amPm = "pm";
+    }
+    String h = _twoDigits(_hour);
     String min = _twoDigits(dateTime?.minute);
     if (dateTime?.isUtc == true) {
-      return "$y-$m-$d $h:$min.Z";
+      return "$y-$m-$d $h:$min $amPm.Z";
     } else {
-      return "$y-$m-$d $h:$min";
+      return "$y-$m-$d $h:$min $amPm";
     }
   }
 }

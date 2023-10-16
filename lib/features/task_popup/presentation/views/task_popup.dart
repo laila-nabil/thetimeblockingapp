@@ -348,7 +348,6 @@ class TaskPopup extends StatelessWidget {
                                   appLocalization.translate("startDate")),
                               ///Start DATE
                               CustomInputDatePickerFormField(
-                                  onDateSaved: ,
                                   fieldLabelText:
                                       appLocalization.translate("startDate"),
                                   firstDate: DateTime.now()
