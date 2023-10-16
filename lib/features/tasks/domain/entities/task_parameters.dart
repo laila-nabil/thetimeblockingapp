@@ -167,7 +167,9 @@ class ClickupTaskParams extends Equatable{
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
-          task: task,);
+          task: task,
+          clickupSpace: task.space
+      );
 
   factory ClickupTaskParams.updateTask({
     required ClickupAccessToken clickupAccessToken,
