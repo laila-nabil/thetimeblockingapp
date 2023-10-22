@@ -175,6 +175,7 @@ class TaskPopup extends StatelessWidget {
                             children: [
                               ///FIXME priorities list
                               if (false)
+                                // ignore: dead_code
                                 DropdownButton<ClickupTaskPriority>(
                                   value: task?.priority,
                                   hint: Text(
