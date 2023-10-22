@@ -181,7 +181,9 @@ class ClickupTaskParams extends Equatable{
           task: task,
           clickupSpace: space,
           folder: folder,
-          clickupList: list
+          clickupList: list,
+          dueDate: task.dueDateUtc,///FIXME -1 hour
+          startDate: task.startDateUtc///FIXME -1 hour
       );
   }
 

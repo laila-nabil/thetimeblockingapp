@@ -30,6 +30,7 @@ class TasksCalendar extends StatelessWidget {
     return SfCalendar(
       allowedViews: const [
         CalendarView.day,
+        CalendarView.schedule,
         CalendarView.week,
         CalendarView.month,
       ],
@@ -145,6 +146,8 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
     ///TODO A ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(const Duration(minutes: 30));
@@ -152,6 +155,8 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getEndTime(int index) {
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].dueDateUtc ${clickupTasks[index].dueDateUtc}");
     return clickupTasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 
