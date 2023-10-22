@@ -15,6 +15,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.d
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_input_date_picker_form_field.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
@@ -353,12 +354,8 @@ class TaskPopup extends StatelessWidget {
                             children: [
                               ///Start DATE
                               CustomButton(
-                                  child: Text((DateTimeExtensions
-                                          .customToString(initialStartDate) ??
-                                      appLocalization.translate("startDate"))),
-                                  onPressed: () {
-                                    ///FIXME need date time picker
-                                    showDatePicker(
+                                onPressed: () {
+                                  showDateTimePicker(
                                       context: context,
                                       initialDate:
                                           initialStartDate ?? DateTime.now(),
@@ -370,17 +367,16 @@ class TaskPopup extends StatelessWidget {
                                                 taskParams: clickupTaskParams
                                                 .copyWith(startDate: value))));
                                   },
-                                customButtonEnum: CustomButtonEnum.secondary,),
+                                customButtonEnum: CustomButtonEnum.secondary,
+                                child: Text(
+                                    " ${appLocalization.translate("startDate")}"
+                                    " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} "),
+                              ),
 
                               ///DUE DATE
                               CustomButton(
-                                  child: Text((DateTimeExtensions
-                                      .customToString(initialDueDate) ??
-                                      appLocalization
-                                          .translate("dueDate"))),
                                   onPressed: () {
-                                    ///FIXME need date time picker
-                                    showDatePicker(
+                                  showDateTimePicker(
                                       context: context,
                                       initialDate:
                                       initialDueDate ?? DateTime.now(),
@@ -392,7 +388,10 @@ class TaskPopup extends StatelessWidget {
                                                 taskParams: clickupTaskParams
                                                     .copyWith(dueDate: value))));
                                   },
-                              customButtonEnum: CustomButtonEnum.secondary,
+                                  customButtonEnum: CustomButtonEnum.secondary,
+                                  child: Text(
+                                    " ${appLocalization.translate("dueDate")}"
+                                    " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} "),
                               ),
                             ],
                           )
