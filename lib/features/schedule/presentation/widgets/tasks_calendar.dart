@@ -43,43 +43,13 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      appointmentBuilder: (context, calendarAppointmentDetails) {
-        return TaskCalendarWidget(
-            calendarAppointmentDetails: calendarAppointmentDetails);
-      },
+      // appointmentBuilder: (context, calendarAppointmentDetails) {
+      //   return TaskCalendarWidget(
+      //       calendarAppointmentDetails: calendarAppointmentDetails);
+      // },
       timeZone: Globals.clickupUser?.timezone,
-      onTap: (calendarTapDetails){
-        printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
-        printDebug("calendarTapDetails date ${calendarTapDetails.date}");
-        printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
-        printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
-        if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-          ///TODO A should handle in case of multiple appointments
-          scheduleBloc.add(ShowTaskPopupEvent(
-              showTaskPopup: true,
-              taskPopupParams: TaskPopupParams(
-                  task: calendarTapDetails.appointments?.first as ClickupTask,
-                  onSave: (params) {
-                    scheduleBloc.add(UpdateClickupTaskEvent(params: params));
-                  },
-                  onDelete: (params) =>
-                      scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
-                  scheduleBloc: scheduleBloc)));
-        } else if (calendarTapDetails.targetElement ==
-                CalendarElement.calendarCell &&
-            calendarTapDetails.appointments == null) {
-          scheduleBloc.add(ShowTaskPopupEvent(
-              showTaskPopup: true,
-              taskPopupParams: TaskPopupParams(
-                  cellDate: calendarTapDetails.date,
-                  onSave: (params) {
-                    scheduleBloc.add(CreateClickupTaskEvent(
-                        params:
-                            params));
-                  },
-                  scheduleBloc: scheduleBloc)));
-        }
-      },
+      onTap: onTapCalendarElement,
+      onLongPress: onTapCalendarElement,///TODO C
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
         ///TODO C onAppointmentResizeEnd
       },
@@ -137,6 +107,39 @@ class TasksCalendar extends StatelessWidget {
       },
     );
   }
+
+  void onTapCalendarElement(calendarTapDetails){
+      printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
+      printDebug("calendarTapDetails date ${calendarTapDetails.date}");
+      printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
+      printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
+      if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+        ///TODO A should handle in case of multiple appointments
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams(
+                task: calendarTapDetails.appointments?.first as ClickupTask,
+                onSave: (params) {
+                  scheduleBloc.add(UpdateClickupTaskEvent(params: params));
+                },
+                onDelete: (params) =>
+                    scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
+                scheduleBloc: scheduleBloc)));
+      } else if (calendarTapDetails.targetElement ==
+              CalendarElement.calendarCell &&
+          calendarTapDetails.appointments == null) {
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams(
+                cellDate: calendarTapDetails.date,
+                onSave: (params) {
+                  scheduleBloc.add(CreateClickupTaskEvent(
+                      params:
+                          params));
+                },
+                scheduleBloc: scheduleBloc)));
+      }
+    }
 }
 
 class ClickupTasksDataSource extends CalendarDataSource {
