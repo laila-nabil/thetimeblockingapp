@@ -34,9 +34,9 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   });
 
-  DateTime? get startDate => dueDate?.subtract(const Duration(hours: 1));
+  DateTime? get startDate => cellDate;
 
-  DateTime? get dueDate => cellDate;
+  DateTime? get dueDate => cellDate?.add(const Duration(hours: 1));
 
   TaskPopupParams copyWith({
     ClickupTask? task,
@@ -127,6 +127,9 @@ class TaskPopup extends StatelessWidget {
               ));
               printDebug("clickupTaskParams $clickupTaskParams");
               final isLoading = isLoadingScheduleState;
+              final firstDate =
+                  DateTime.now().subtract(const Duration(days: 1000));
+              final lastDate = DateTime.now().add(const Duration(days: 1000));
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -361,26 +364,23 @@ class TaskPopup extends StatelessWidget {
                               CustomInputDatePickerFormField(
                                   fieldLabelText:
                                       appLocalization.translate("startDate"),
-                                  firstDate: DateTime.now()
-                                      .subtract(const Duration(days: 1000)),
+                                  firstDate: firstDate,
                                   initialDate: task?.startDateUtc ??
-                                      taskPopupParams.cellDate,
-                                  lastDate: DateTime.now()
-                                      .add(const Duration(days: 1000))),
+                                      taskPopupParams.startDate,
+                                  lastDate: lastDate,
+                              ),
 
                               ///DUE DATE
-                              InputDatePickerFormField(
+                              CustomInputDatePickerFormField(
                                   fieldLabelText:
                                       appLocalization.translate("dueDate"),
                                   fieldHintText:
                                       appLocalization.translate("dueDate"),
-                                  firstDate: DateTime.now()
-                                      .subtract(const Duration(days: 1000)),
+                                  firstDate: firstDate,
                                   initialDate: task?.dueDateUtc ??
-                                      taskPopupParams.cellDate ??
+                                      taskPopupParams.dueDate ??
                                       DateTime.now(),
-                                  lastDate: DateTime.now()
-                                      .add(const Duration(days: 1000))),
+                                  lastDate: lastDate),
                             ],
                           )
                         ],
