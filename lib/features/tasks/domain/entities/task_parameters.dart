@@ -330,7 +330,12 @@ class ClickupTaskParams extends Equatable{
             selectedSpace.lists.contains(selectedList) == false)) {
       selectedList = null;
     }
-
+    final selectedStartDate = startDate ?? this.startDate;
+    DateTime? selectedDueDate = dueDate ?? this.dueDate;
+    if (selectedStartDate != null &&
+        selectedDueDate?.isBefore(selectedStartDate) == true) {
+      selectedDueDate = null;
+    }
     return ClickupTaskParams._(
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
@@ -344,9 +349,9 @@ class ClickupTaskParams extends Equatable{
       tags: tags ?? this.tags,
       taskStatus: taskStatus ?? this.taskStatus,
       taskPriority: taskPriority ?? this.taskPriority,
-      dueDate: dueDate ?? this.dueDate,
+      dueDate: selectedDueDate,
       timeEstimate: timeEstimate ?? this.timeEstimate,
-      startDate: startDate ?? this.startDate,
+      startDate: selectedStartDate,
       notifyAll: notifyAll ?? this.notifyAll,
       parentTask: parentTask ?? this.parentTask,
       linkedTask: linkedTask ?? this.linkedTask,

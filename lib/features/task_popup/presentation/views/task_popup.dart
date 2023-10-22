@@ -352,23 +352,48 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
                               ///Start DATE
-                              CustomInputDatePickerFormField(
-                                  fieldLabelText:
-                                      appLocalization.translate("startDate"),
-                                  firstDate: firstDate,
-                                  initialDate: initialStartDate,
-                                  lastDate: lastDate,
-                              ),
+                              CustomButton(
+                                  child: Text((DateTimeExtensions
+                                          .customToString(initialStartDate) ??
+                                      appLocalization.translate("startDate"))),
+                                  onPressed: () {
+                                    ///FIXME need date time picker
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                          initialStartDate ?? DateTime.now(),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) =>
+                                        taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams: clickupTaskParams
+                                                .copyWith(startDate: value))));
+                                  },
+                                customButtonEnum: CustomButtonEnum.secondary,),
 
                               ///DUE DATE
-                              CustomInputDatePickerFormField(
-                                  fieldLabelText:
-                                      appLocalization.translate("dueDate"),
-                                  fieldHintText:
-                                      appLocalization.translate("dueDate"),
-                                  firstDate: firstDate,
-                                  initialDate: initialDueDate,
-                                  lastDate: lastDate),
+                              CustomButton(
+                                  child: Text((DateTimeExtensions
+                                      .customToString(initialDueDate) ??
+                                      appLocalization
+                                          .translate("dueDate"))),
+                                  onPressed: () {
+                                    ///FIXME need date time picker
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                      initialDueDate ?? DateTime.now(),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) =>
+                                        taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams: clickupTaskParams
+                                                    .copyWith(dueDate: value))));
+                                  },
+                              customButtonEnum: CustomButtonEnum.secondary,
+                              ),
                             ],
                           )
                         ],

@@ -93,18 +93,21 @@ extension DateTimeExtensions on DateTime {
   }
 
   static String? customToString(DateTime? dateTime){
-    String y = _fourDigits(dateTime?.year);
-    String m = _twoDigits(dateTime?.month);
-    String d = _twoDigits(dateTime?.day);
+    if(dateTime == null){
+      return null;
+    }
+    String y = _fourDigits(dateTime.year);
+    String m = _twoDigits(dateTime.month);
+    String d = _twoDigits(dateTime.day);
     String amPm = "am";
-    var _hour = dateTime?.hour;
-    if(_hour!=null && _hour > 12){
-      _hour -= 12;
+    var hour = dateTime.hour;
+    if( hour > 12){
+      hour -= 12;
       amPm = "pm";
     }
-    String h = _twoDigits(_hour);
-    String min = _twoDigits(dateTime?.minute);
-    if (dateTime?.isUtc == true) {
+    String h = _twoDigits(hour);
+    String min = _twoDigits(dateTime.minute);
+    if (dateTime.isUtc == true) {
       return "$y-$m-$d $h:$min $amPm.Z";
     } else {
       return "$y-$m-$d $h:$min $amPm";
