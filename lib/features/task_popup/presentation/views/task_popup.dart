@@ -130,6 +130,10 @@ class TaskPopup extends StatelessWidget {
               final firstDate =
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
+              final initialDueDate =
+                  task?.dueDateUtc ?? taskPopupParams.dueDate;
+              final initialStartDate =
+                  task?.startDateUtc ?? taskPopupParams.startDate;
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -347,26 +351,12 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              Text((task?.startDateUtc?.toUtc() ??
-                                  taskPopupParams.cellDate?.toUtc()).toString()),
-                              Text((task?.startDateUtc?.toLocal() ??
-                                  taskPopupParams.cellDate?.toLocal()).toString()),
-                              Text(task?.startDateUtc?.toIso8601String() ??
-                                  taskPopupParams.cellDate?.toIso8601String() ??
-                                  ""),
-                              Text(task?.startDateUtc?.toString() ??
-                                  taskPopupParams.cellDate?.toString() ??
-                                  ""),
-                              Text(DateTimeExtensions.customToString(task?.startDateUtc) ??
-                                   DateTimeExtensions.customToString(taskPopupParams.cellDate) ??
-                                  appLocalization.translate("startDate")),
                               ///Start DATE
                               CustomInputDatePickerFormField(
                                   fieldLabelText:
                                       appLocalization.translate("startDate"),
                                   firstDate: firstDate,
-                                  initialDate: task?.startDateUtc ??
-                                      taskPopupParams.startDate,
+                                  initialDate: initialStartDate,
                                   lastDate: lastDate,
                               ),
 
@@ -377,9 +367,7 @@ class TaskPopup extends StatelessWidget {
                                   fieldHintText:
                                       appLocalization.translate("dueDate"),
                                   firstDate: firstDate,
-                                  initialDate: task?.dueDateUtc ??
-                                      taskPopupParams.dueDate ??
-                                      DateTime.now(),
+                                  initialDate: initialDueDate,
                                   lastDate: lastDate),
                             ],
                           )
