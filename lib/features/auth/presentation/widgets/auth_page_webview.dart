@@ -69,8 +69,8 @@ class _AuthPageWebViewState extends State<AuthPageWebView> {
     return Scaffold(
       body: Column(
         children: [
-          ///TODO C loading bar
-          Text("progress $currentProgress"),
+          if (currentProgress != 100)
+            LinearProgressIndicator(value: currentProgress.toDouble()),
           Expanded(child: WebViewWidget(controller: controller)),
         ],
       ),
