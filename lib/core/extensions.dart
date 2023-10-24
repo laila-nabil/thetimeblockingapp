@@ -183,3 +183,12 @@ extension UriExtension on Uri {
     return Uri(scheme: "https", host: host, path: path, queryParameters: query);
   }
 }
+
+extension StringExtensions on Object? {
+    String? toStringOrNull(){
+      if(this == null){
+        return null;
+      }
+      return toString();
+    }
+}

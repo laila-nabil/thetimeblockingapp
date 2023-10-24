@@ -17,7 +17,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
-import '../../../../common/widgets/custom_input_date_picker_form_field.dart';
+import '../../../../core/extensions.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams extends Equatable {
@@ -160,6 +160,7 @@ class TaskPopup extends StatelessWidget {
                                     description: state.taskParams?.description,
                                   );
                                 } else {
+                                  ///FIXME updating task not working perfectly
                                   params = ClickupTaskParams.updateTask(
                                     task: task,
                                     clickupAccessToken:
@@ -178,35 +179,76 @@ class TaskPopup extends StatelessWidget {
                       width: double.maxFinite,
                       child: Column(
                         children: [
-                          ///Priority & Title
+                          ///Space
+                          ///TODO create a new Space
+                          ///TODO first space is set by default
+                          ///TODO C default space is set in settings
+                          DropdownButton<ClickupSpace>(
+                            hint: Text(appLocalization.translate("space")),
+                            value: state.taskParams?.clickupSpace,
+                            onChanged: (space) => taskPopUpBloc.add(
+                                UpdateClickupTaskParamsEvent(
+                                    taskParams: clickupTaskParams.copyWith(
+                                        clickupSpace: space))),
+                            items: (Globals.clickupSpaces)
+                                ?.map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name ?? "")))
+                                .toList() ??
+                                [],
+                          ),
+
+                          ///Status && Priority & Title
                           Row(
                             children: [
-                              ///FIXME priorities list
-                              if (false)
-                                // ignore: dead_code
+                              ///Status
+                              ///TODO task status
+
+                              ///Priority
+                              ///TODO add priorities in case of disabled
+                              if (state.isPrioritiesEnabled)
                                 DropdownButton<ClickupTaskPriority>(
-                                  value: task?.priority,
+                                  value: state.taskParams?.taskPriority,
                                   hint: Text(
                                       appLocalization.translate("priority")),
-                                  onChanged: (priority) => taskPopUpBloc.add(
-                                      UpdateClickupTaskParamsEvent(
-                                          taskParams:
-                                              clickupTaskParams.copyWith(
-                                                  taskPriority: priority))),
-                                  items: ClickupTaskPriority
-                                      .getPriorityExclamationList
-                                      .map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(
-                                              e.priorityNum.toString(),
-                                              style: TextStyle(
-                                                  textBaseline:
-                                                      TextBaseline.alphabetic,
-                                                  color: task?.priority
-                                                      ?.getPriorityExclamationColor),
-                                            ),
-                                          ))
-                                      .toList(),
+                                  onChanged: (priority) => priority == null
+                                      ? taskPopUpBloc.add(
+                                          UpdateClickupTaskParamsEvent(
+                                              taskParams:
+                                                  clickupTaskParams.copyWith(
+                                                      clearPriority: true)))
+                                      : taskPopUpBloc.add(
+                                          UpdateClickupTaskParamsEvent(
+                                              taskParams:
+                                                  clickupTaskParams.copyWith(
+                                                      taskPriority: priority))),
+                                  items: (state.taskParams?.clickupSpace
+                                      ?.features?.priorities?.priorities
+                                      ?.map((e) => e.isNum
+                                          ? DropdownMenuItem(
+                                              value: e,
+                                              child: Text(
+                                                e.priorityNum.toString(),
+                                              ),
+                                            )
+                                          : DropdownMenuItem(
+                                              value: e,
+                                              child: Text(
+                                                e.priority??e.id?.toStringOrNull()??"",
+                                                style: TextStyle(
+                                                    textBaseline:
+                                                        TextBaseline.alphabetic,
+                                                    color: task?.priority
+                                                        ?.getPriorityExclamationColor),
+                                              ),
+                                            ))
+                                      .toList() ?? [])+
+                                      [
+                                        DropdownMenuItem(
+                                            value: null,
+                                            child: Text(appLocalization
+                                                .translate("clear")))
+                                      ],
                                 ),
                               Expanded(
                                   child: CustomTextInputField(
@@ -250,6 +292,9 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Tags
+                          ///TODO values in case tags already selected
+                          ///TODO select multiple tags
+                          ///TODO TODO create new tags
                           DropdownButton<ClickupTag>(
                             hint: Text(appLocalization.translate("tags")),
                             onChanged: (tag) {
@@ -277,28 +322,10 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              ///TODO create a new Space
-                              ///Space
-                              DropdownButton<ClickupSpace>(
-                                hint: Text(appLocalization.translate("space")),
-                                value: state.taskParams?.clickupSpace,
-                                onChanged: (space) => taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
-                                        taskParams: clickupTaskParams.copyWith(
-                                            clickupSpace: space))),
-                                items: (Globals.clickupSpaces)
-                                        ?.map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e.name ?? "")))
-                                        .toList() ??
-                                    [],
-                              ),
 
                               ///TODO create a new Folder
                               ///Folder
-                              if (state.taskParams?.clickupSpace?.folders
-                                      .isNotEmpty ==
-                                  true || state.taskParams?.folder !=null )
+                              if (state.isFoldersListAvailable)
                                 DropdownButton<ClickupFolder?>(
                                   hint:
                                       Text(appLocalization.translate("folder")),

@@ -502,15 +502,16 @@ class ClickupStatus extends Equatable {
 }
 
 ///ex 1 :
-///priority : 1
-///ex 1 :
-///priority : 1
-///{
-///                 "color": "#ffcc00",
-///                 "id": "2",
-///                 "orderindex": "2",
-///                 "priority": "high"
-///             },
+///priorityNum : 1
+///isNum: true
+///
+///ex 2 :
+///isNum: false
+///"color": "#ffcc00",
+///"id": "2",
+///"orderindex": "2",
+///"priority": "high"
+///
 class ClickupTaskPriority extends Equatable {
   final bool isNum;
   final num? priorityNum;
@@ -546,13 +547,16 @@ class ClickupTaskPriority extends Equatable {
   return "";
  }
 
- static List<ClickupTaskPriority> get getPriorityExclamationList {
+ List<ClickupTaskPriority>? get getPriorityExclamationListOrNull {
+    if(isNum == false){
+      return null;
+    }
     return List.generate(
         4, (index) => ClickupTaskPriority(isNum: true, priorityNum: index));
   }
 
   Color? get getPriorityExclamationColor {
-    if(color !=null && color?.isNotEmpty == true){
+    if(isNum == false && color !=null && color?.isNotEmpty == true){
       return HexColor.fromHex(color??"");
     }
     return null;

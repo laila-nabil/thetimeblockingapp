@@ -316,8 +316,11 @@ class ClickupTaskParams extends Equatable{
     ClickupSpace? clickupSpace,
     ClickupFolder? folder,
     bool? clearFolder,
+    bool? clearPriority,
   }) {
     ClickupSpace? selectedSpace = clickupSpace ?? this.clickupSpace;
+    ClickupTaskPriority? selectedPriority =
+        clearFolder == true ? null : (taskPriority ?? this.taskPriority);
     ClickupFolder? selectedFolder =
         clearFolder == true ? null : (folder ?? this.folder);
     if (selectedSpace?.folders.contains(selectedFolder) == false) {
@@ -366,7 +369,7 @@ class ClickupTaskParams extends Equatable{
       removedAssignees: removedAssignees ?? this.removedAssignees,
       tags: tags ?? this.tags,
       taskStatus: taskStatus ?? this.taskStatus,
-      taskPriority: taskPriority ?? this.taskPriority,
+      taskPriority: selectedPriority,
       dueDate: selectedDueDate,
       timeEstimate: timeEstimate ?? this.timeEstimate,
       startDate: selectedStartDate,
