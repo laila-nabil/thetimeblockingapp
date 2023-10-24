@@ -11,6 +11,7 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
+import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
@@ -19,6 +20,7 @@ import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../domain/use_cases/remove_task_from_list_task_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
@@ -53,7 +55,12 @@ abstract class TasksRemoteDataSource {
       {required GetClickupTagsInSpaceParams params});
 
   Future<void> removeTagFromTask({required RemoveTagFromTaskParams params});
+
   Future<void> addTagToTask({required AddTagToTaskParams params});
+
+  Future<void> removeTaskFromList({required RemoveTaskFromListParams params});
+
+  Future<void> addTaskToList({required AddTaskToListParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -240,6 +247,23 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<void> addTagToTask({required AddTagToTaskParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.post(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+  }
+
+  @override
+  Future<void> addTaskToList({required AddTaskToListParams params})async {
+    Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
+    await network.post(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+  }
+  @override
+  Future<void> removeTaskFromList({required RemoveTaskFromListParams params})  async {
+    Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
+    await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
