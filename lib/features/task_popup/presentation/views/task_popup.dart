@@ -300,19 +300,25 @@ class TaskPopup extends StatelessWidget {
                                                 width: 400,
                                                 child: Column(
                                                   children: state.taskParams
-                                                          ?.clickupSpace?.tags
-                                                          .map((e) =>
-                                                              CheckboxListTile(
-                                                                  title: Text(
+                                                            ?.clickupSpace?.tags
+                                                            .map((e) =>
+                                                                CheckboxListTile(
+                                                                    title: Text(
                                                                       e.name ??
-                                                                          ""),
-                                                                  value: state
-                                                                          .taskParams
-                                                                          ?.tags
-                                                                          ?.contains(
-                                                                              e) ==
-                                                                      true,
-                                                                  onChanged:
+                                                                          "",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              e.getTagFgColor),
+                                                                    ),
+                                                                    tileColor: e
+                                                                        .getTagBgColor,
+                                                                    value: state
+                                                                            .taskParams
+                                                                            ?.tags
+                                                                            ?.contains(
+                                                                                e) ==
+                                                                        true,
+                                                                    onChanged:
                                                                       (value) {
                                                                     List<ClickupTag>?
                                                                         tags =

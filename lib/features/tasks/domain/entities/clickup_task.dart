@@ -266,6 +266,10 @@ class ClickupTag extends Equatable {
   final String? tagFg;
   final String? tagBg;
 
+  Color? get  getTagFgColor => HexColor.fromHex(tagFg??"");
+
+  Color? get  getTagBgColor => HexColor.fromHex(tagBg??"");
+
   @override
   List<Object?> get props => [
         name,
