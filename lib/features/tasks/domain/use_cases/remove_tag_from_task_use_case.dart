@@ -2,15 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
 class RemoveTagFromTaskUseCase
-    implements UseCase<void, RemoveTagFromTaskParams> {
+    implements UseCase<Unit, RemoveTagFromTaskParams> {
+  
+  final TasksRepo repo;
+
+  RemoveTagFromTaskUseCase(this.repo);
   @override
-  Future<Either<Failure, void>?> call(RemoveTagFromTaskParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>?> call(RemoveTagFromTaskParams params) {
+    return repo.removeTagFromTask(params: params);
   }
 }
 

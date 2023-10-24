@@ -6,16 +6,26 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_ta
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
-class AddTagsFromTaskUseCase
-    implements UseCase<void, AddTagsFromTaskParams> {
-
+class AddTagsFromTaskUseCase implements UseCase<Unit, AddTagsFromTaskParams> {
   final AddTagToTaskUseCase addTagFromTaskUseCase;
 
   AddTagsFromTaskUseCase(this.addTagFromTaskUseCase);
+
   @override
-  Future<Either<Failure, void>?> call(AddTagsFromTaskParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>?> call(AddTagsFromTaskParams params) async {
+    List<Either<Failure, Unit>?> result = [];
+    for (var element in params.tags) {
+      final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
+          task: params.task,
+          clickupAccessToken: params.clickupAccessToken,
+          tag: element));
+      result.add(elementResult);
+    }
+    if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
+        false) {
+      return const Right(unit);
+    }
+    return result.firstOrNull;
   }
 }
 
@@ -26,7 +36,7 @@ class AddTagsFromTaskParams {
 
   String get taskId => task.id ?? "";
 
-  List<String> get tagsNames => tags.map((e) => e.name??"").toList();
+  List<String> get tagsNames => tags.map((e) => e.name ?? "").toList();
 
   AddTagsFromTaskParams(
       {required this.task,

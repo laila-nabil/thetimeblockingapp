@@ -54,13 +54,13 @@ abstract class TasksRemoteDataSource {
   Future<List<ClickupTagModel>> getClickupTags(
       {required GetClickupTagsInSpaceParams params});
 
-  Future<void> removeTagFromTask({required RemoveTagFromTaskParams params});
+  Future<Unit> removeTagFromTask({required RemoveTagFromTaskParams params});
 
-  Future<void> addTagToTask({required AddTagToTaskParams params});
+  Future<Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<void> removeTaskFromList({required RemoveTaskFromListParams params});
+  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params});
 
-  Future<void> addTaskToList({required AddTaskToListParams params});
+  Future<Unit> addTaskToList({required AddTaskToListParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -235,37 +235,41 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<void> removeTagFromTask({required RemoveTagFromTaskParams params}) async {
+  Future<Unit> removeTagFromTask({required RemoveTagFromTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
+    return unit;
   }
 
   @override
-  Future<void> addTagToTask({required AddTagToTaskParams params})  async {
+  Future<Unit> addTagToTask({required AddTagToTaskParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.post(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
+    return unit;
   }
 
   @override
-  Future<void> addTaskToList({required AddTaskToListParams params})async {
+  Future<Unit> addTaskToList({required AddTaskToListParams params})async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.post(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
+    return unit;
   }
   @override
-  Future<void> removeTaskFromList({required RemoveTaskFromListParams params})  async {
+  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
+    return unit;
   }
 }

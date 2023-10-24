@@ -5,13 +5,16 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_list.dart';
+import '../repositories/tasks_repo.dart';
 
 class AddTaskToListUseCase
-    implements UseCase<void, AddTaskToListParams> {
+    implements UseCase<Unit, AddTaskToListParams> {
+  final TasksRepo repo;
+
+  AddTaskToListUseCase(this.repo);
   @override
-  Future<Either<Failure, void>?> call(AddTaskToListParams params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>?> call(AddTaskToListParams params) {
+    return repo.addTaskToList(params: params);
   }
 }
 

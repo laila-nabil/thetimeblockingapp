@@ -4,10 +4,14 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/globals.dart';
@@ -116,6 +120,38 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupTags(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> addTagToTask({required AddTagToTaskParams params}) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.addTagToTask(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> addTaskToList({required AddTaskToListParams params}) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.addTaskToList(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> removeTagFromTask({required RemoveTagFromTaskParams params}) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.removeTagFromTask(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> removeTaskFromList({required RemoveTaskFromListParams params}) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () =>
+          remoteDataSource.removeTaskFromList(params: params),
     );
   }
 }
