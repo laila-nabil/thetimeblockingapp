@@ -3,9 +3,12 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/globals.dart';
@@ -29,7 +32,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
-
+  final AddTagsToTaskUseCase _addTagsToTaskUseCase;
+  final RemoveTagsFromTaskUseCase _removeTagsFromTaskUseCase;
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(
@@ -37,7 +41,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTaskUseCase,
       this._updateClickupTaskUseCase,
-      this._deleteClickupTaskUseCase)
+      this._deleteClickupTaskUseCase,
+      this._addTagsToTaskUseCase,
+      this._removeTagsFromTaskUseCase)
       : super(ScheduleState._(
             persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
@@ -66,7 +72,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
                   const Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
               clickupTasks: r));
         });
-      } else if (event is CreateClickupTaskEvent) {
+      }
+      else if (event is CreateClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
@@ -84,15 +91,39 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
         });
-      } else if (event is UpdateClickupTaskEvent) {
+      }
+      else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
         ));
         final result = await _updateClickupTaskUseCase(event.params);
+        final taskTags= event.params.task?.tags;
+        final newTags= event.params.tags;
+        if (newTags != taskTags) {
+          List<ClickupTag> addTags = newTags
+                  ?.where((element) => taskTags?.contains(element) == false)
+                  .toList() ??
+              [];
+          List<ClickupTag> removeTags = taskTags
+                  ?.where((element) => newTags?.contains(element) == false)
+                  .toList() ??
+              [];
+          final addTagsResult = await _addTagsToTaskUseCase(AddTagsToTaskParams(
+              task: event.params.task!,
+              tags: addTags,
+              clickupAccessToken: event.params.clickupAccessToken));
+          printDebug("addTagsResult $addTagsResult");
+          final removeTagsResult = await _removeTagsFromTaskUseCase(
+              RemoveTagsFromTaskParams(
+                  task: event.params.task!,
+                  tags: addTags,
+                  clickupAccessToken: event.params.clickupAccessToken));
+          printDebug("removeTagsResult $removeTagsResult");
+        }
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Left(ScheduleStateEnum.loading)));
+            const Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
               nonPersistingScheduleState: ScheduleStateEnum.updateTaskFailed,
@@ -102,7 +133,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             nonPersistingScheduleState: ScheduleStateEnum.updateTaskSuccess,
           ));
         });
-      } else if (event is DeleteClickupTaskEvent) {
+      }
+      else if (event is DeleteClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
@@ -120,7 +152,8 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             nonPersistingScheduleState: ScheduleStateEnum.deleteTaskSuccess,
           ));
         });
-      }else if(event is ShowTaskPopupEvent){
+      }
+      else if(event is ShowTaskPopupEvent){
         emit(state.copyWith(
             showTaskPopup: event.showTaskPopup,
             taskPopupParams: event.taskPopupParams));

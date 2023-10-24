@@ -10,6 +10,11 @@ import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bl
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
@@ -21,6 +26,7 @@ import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
+import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -59,7 +65,12 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
-      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator()));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
@@ -133,6 +144,31 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetSelectedWorkspaceUseCase(
     serviceLocator(),
   ));
+  serviceLocator
+      .registerLazySingleton(() => AddTagToTaskUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => AddTagsToTaskUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => RemoveTagFromTaskUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => RemoveTagsFromTaskUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => AddTaskToListUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => RemoveTaskFromListUseCase(
+    serviceLocator(),
+  ));
+
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
