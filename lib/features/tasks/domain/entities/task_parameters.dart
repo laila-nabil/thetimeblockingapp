@@ -219,16 +219,13 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? updatedParentTask,
     ClickupTask? updatedLinkedTask,
     bool? updatedArchived,
-    ClickupFolder? updatedFolder,
-    ClickupList? updatedList,
-    ClickupSpace? updatedSpace,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
-          clickupSpace: updatedSpace,
-          clickupList: updatedList,
-          folder: updatedFolder,
+          clickupSpace: null,//not updatable
+          clickupList: null,//not updatable
+          folder: null,//not updatable
           title: updatedTitle,
           description: updatedDescription,
           assignees: updatedAssignees,

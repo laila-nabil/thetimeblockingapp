@@ -62,20 +62,12 @@ class TaskPopUpState extends Equatable {
         clickupAccessToken: Globals.clickupAuthAccessToken,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
-        updatedList: taskParams?.clickupList == task.list
-            ? null
-            : taskParams?.clickupList,
-        updatedFolder:
-            taskParams?.folder == task.folder ? null : taskParams?.folder,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
         updatedDueDate:
             taskParams?.dueDate == task.dueDateUtc ? null : taskParams?.dueDate,
         updatedStartDate: taskParams?.startDate == task.startDateUtc
             ? null
             : taskParams?.startDate,
-        updatedSpace: taskParams?.clickupSpace == task.space
-            ? null
-            : taskParams?.clickupSpace,
         updatedTaskPriority: taskParams?.taskPriority == task.priority
             ? null
             : taskParams?.taskPriority,

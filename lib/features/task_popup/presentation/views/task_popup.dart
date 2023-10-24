@@ -163,20 +163,23 @@ class TaskPopup extends StatelessWidget {
                           ///TODO create a new Space
                           ///TODO first space is set by default
                           ///TODO C default space is set in settings
-                          DropdownButton<ClickupSpace>(
-                            hint: Text(appLocalization.translate("space")),
-                            value: state.taskParams?.clickupSpace,
-                            onChanged: (space) => taskPopUpBloc.add(
-                                UpdateClickupTaskParamsEvent(
-                                    taskParams: clickupTaskParams.copyWith(
-                                        clickupSpace: space))),
-                            items: (Globals.clickupSpaces)
-                                ?.map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.name ?? "")))
-                                .toList() ??
-                                [],
-                          ),
+                          task == null
+                              ? DropdownButton<ClickupSpace>(
+                                  hint:
+                                      Text(appLocalization.translate("space")),
+                                  value: state.taskParams?.clickupSpace,
+                                  onChanged: (space) => taskPopUpBloc.add(
+                                      UpdateClickupTaskParamsEvent(
+                                          taskParams: clickupTaskParams
+                                              .copyWith(clickupSpace: space))),
+                                  items: (Globals.clickupSpaces)
+                                          ?.map((e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e.name ?? "")))
+                                          .toList() ??
+                                      [],
+                                )
+                              : Text(" ${task.space?.name ?? ""} "),
 
                           ///Status && Priority & Title
                           Row(
@@ -305,7 +308,7 @@ class TaskPopup extends StatelessWidget {
 
                               ///TODO create a new Folder
                               ///Folder
-                              if (state.isFoldersListAvailable)
+                              if (state.isFoldersListAvailable && task == null)
                                 DropdownButton<ClickupFolder?>(
                                   hint:
                                       Text(appLocalization.translate("folder")),
@@ -332,13 +335,17 @@ class TaskPopup extends StatelessWidget {
                                             child: Text(appLocalization
                                                 .translate("clear")))
                                       ],
-                                ),
+                                )
+                              else if (task?.folder != null)
+                                Text(" ${task?.folder?.name ?? ""} "),
 
                               ///TODO create a new list
                               ///List
-                              if (state.taskParams?.getAvailableLists
-                                      .isNotEmpty ==
-                                  true || state.taskParams?.clickupList !=null )
+                              if (task == null &&
+                                  (state.taskParams?.getAvailableLists
+                                              .isNotEmpty ==
+                                          true ||
+                                      state.taskParams?.clickupList != null))
                                 DropdownButton<ClickupList>(
                                   elevation: 0,
                                   hint: Text(appLocalization.translate("list")),
@@ -353,7 +360,9 @@ class TaskPopup extends StatelessWidget {
                                               child: Text(e.name ?? "")))
                                           .toList() ??
                                       [],
-                                ),
+                                )
+                              else
+                                Text(" ${task?.list?.name ?? ""} "),
                             ],
                           ),
 
