@@ -140,6 +140,15 @@ class TaskPopup extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
+                    if(task!=null)IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        onPressed: () {
+                          ///TODO delete task
+                          },
+                    ),
                     CustomButton(
                         onPressed: () => Navigator.maybePop(context),
                         child: Text(appLocalization.translate("cancel"))),
@@ -152,7 +161,7 @@ class TaskPopup extends StatelessWidget {
                                 taskPopupParams.onSave!(state.onSaveTaskParams(
                                     taskPopupParams.getDueDate));
                               },
-                        child: Text(appLocalization.translate("save")))
+                        child: Text(appLocalization.translate("save"))),
                   ],
                   content: SingleChildScrollView(
                     child: SizedBox(
