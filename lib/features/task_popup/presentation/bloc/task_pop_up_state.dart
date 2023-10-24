@@ -52,6 +52,9 @@ class TaskPopUpState extends Equatable {
       .isNotEmpty ==
       true || taskParams?.folder !=null;
 
+  bool get viewTagsButton =>
+      taskParams?.task != null || taskParams?.clickupSpace != null;
+
   ClickupTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
     ClickupTaskParams params;
     final task = taskParams?.task;
