@@ -288,7 +288,6 @@ class ClickupTaskParams extends Equatable{
       if(description?.isNotEmpty == true) updateMap["description"] = description?.isEmpty == true ? " " : description;
     //To clear the task description, include Description with " "
       if(assignees.isNotEmpty == true) updateMap["assignees"] = assignees;
-      if(tagsNames?.isNotEmpty == true) updateMap["tags"] = tagsNames;
       if(getPriority != null) updateMap["priority"] = getPriority;
       if(getDueDateMillisecondsSinceEpoch != null) updateMap["due_date"] = getDueDateMillisecondsSinceEpoch;
       if(dueDateTime != null) updateMap["due_date_time"] = dueDateTime;
