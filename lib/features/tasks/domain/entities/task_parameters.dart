@@ -93,10 +93,14 @@ class ClickupTaskParams extends Equatable{
   static _isNewTask(ClickupTask? task) =>
       task?.id == null || task?.id?.isEmpty == true;
 
-  bool? get dueDateTime => dueDate==null;
+  bool? get dueDateTime =>
+      (clickupTaskParamsEnum == ClickupTaskParamsEnum.update)
+          ? dueDate == null
+          : dueDate != null;
 
-
-  bool? get startDateTime => startDate==null;
+  bool? get startDateTime => (clickupTaskParamsEnum == ClickupTaskParamsEnum.update)
+      ? startDate == null
+      : startDate != null;
 
   static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
     printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
@@ -245,7 +249,7 @@ class ClickupTaskParams extends Equatable{
 
   Map<String, dynamic> toJson() {
     if (clickupTaskParamsEnum == ClickupTaskParamsEnum.create) {
-      return {
+      Map<String, Object?>  createMap = {
         "name": title,
         "description": description,
         "assignees": assigneesId,
@@ -268,6 +272,7 @@ class ClickupTaskParams extends Equatable{
         //   }
         // ]
       };
+      return createMap;
     } else {
       List<int>? addedAssigneesId =
           addedAssignees?.map((e) => e.id?.toInt() ?? 0).toList();
@@ -281,22 +286,21 @@ class ClickupTaskParams extends Equatable{
       if (removedAssigneesId?.isNotEmpty == true) {
         assignees["rem"] = removedAssigneesId;
       }
-      return {
-        "name": title,
-        "description": description?.isEmpty == true ? " " : description,
-        //To clear the task description, include Description with " "
-        "assignees": assignees,
-        "tags": tagsNames,
-        "status": getStatus,
-        "priority": getPriority,
-        "due_date": getDueDateMillisecondsSinceEpoch,
-        "due_date_time": dueDateTime,
-        "time_estimate": getTimeEstimateMilliseconds,
-        "start_date": getStartDateMillisecondsSinceEpoch,
-        "start_date_time": getStartDateMillisecondsSinceEpoch,
-        "archived": archived,
-        "parent": getParentTaskId,
-      };
+      Map<String, Object?>  updateMap = {};
+      if(title?.isNotEmpty == true) updateMap["name"] = title;
+      if(description?.isNotEmpty == true) updateMap["description"] = description?.isEmpty == true ? " " : description;
+    //To clear the task description, include Description with " "
+      if(assignees.isNotEmpty == true) updateMap["assignees"] = assignees;
+      if(tagsNames?.isNotEmpty == true) updateMap["tags"] = tagsNames;
+      if(getPriority != null) updateMap["priority"] = getPriority;
+      if(getDueDateMillisecondsSinceEpoch != null) updateMap["due_date"] = getDueDateMillisecondsSinceEpoch;
+      if(dueDateTime != null) updateMap["due_date_time"] = dueDateTime;
+      if(getTimeEstimateMilliseconds != null) updateMap["time_estimate"] = getTimeEstimateMilliseconds;
+      if(getStartDateMillisecondsSinceEpoch != null) updateMap["start_date"] = getStartDateMillisecondsSinceEpoch;
+      if(startDateTime != null) updateMap["start_date_time"] = startDateTime;
+      if(archived != null) updateMap["archived"] = archived;
+      if(getParentTaskId != null) updateMap["getParentTaskId"] = getParentTaskId;
+      return updateMap;
     }
   }
 
