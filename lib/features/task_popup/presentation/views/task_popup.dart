@@ -285,6 +285,7 @@ class TaskPopup extends StatelessWidget {
                           ///Tags
                           ///TODO TODO create new tags
                           CustomButton(
+                            customButtonEnum: CustomButtonEnum.secondary,
                               child: Text(
                                   "${state.taskParams?.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}"),
                               onPressed: () {
