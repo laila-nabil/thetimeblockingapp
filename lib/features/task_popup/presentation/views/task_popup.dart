@@ -35,9 +35,9 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   });
 
-  DateTime? get startDate => cellDate;
+  DateTime? get getStartDate => cellDate;
 
-  DateTime? get dueDate => cellDate?.add(const Duration(hours: 1));
+  DateTime? get getDueDate => cellDate?.add(const Duration(hours: 1));
 
   TaskPopupParams copyWith({
     ClickupTask? task,
@@ -96,8 +96,8 @@ class TaskPopup extends StatelessWidget {
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.dueDate,
-                          startDate: taskPopupParams.startDate
+                          dueDate: taskPopupParams.getDueDate,
+                          startDate: taskPopupParams.getStartDate
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -120,8 +120,8 @@ class TaskPopup extends StatelessWidget {
                   (task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.dueDate,
-                          startDate: taskPopupParams.startDate)
+                          dueDate: taskPopupParams.getDueDate,
+                          startDate: taskPopupParams.getStartDate)
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                 task: task,
@@ -132,9 +132,9 @@ class TaskPopup extends StatelessWidget {
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
               final initialDueDate =
-                  task?.dueDateUtc ?? taskPopupParams.dueDate;
+                  task?.dueDateUtc ?? taskPopupParams.getDueDate;
               final initialStartDate =
-                  task?.startDateUtc ?? taskPopupParams.startDate;
+                  task?.startDateUtc ?? taskPopupParams.getStartDate;
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -149,28 +149,8 @@ class TaskPopup extends StatelessWidget {
                                 state.readyToSubmit == false
                             ? null
                             : () {
-                                ClickupTaskParams params;
-                                if (task == null) {
-                                  params = ClickupTaskParams.createNewTask(
-                                    dueDate: taskPopupParams.cellDate,
-                                    clickupList: state.taskParams!.clickupList!,
-                                    clickupAccessToken:
-                                        Globals.clickupAuthAccessToken,
-                                    title: state.taskParams?.title ?? "",
-                                    description: state.taskParams?.description,
-                                  );
-                                } else {
-                                  ///FIXME updating task not working perfectly
-                                  params = ClickupTaskParams.updateTask(
-                                    task: task,
-                                    clickupAccessToken:
-                                        Globals.clickupAuthAccessToken,
-                                    updatedTitle: state.taskParams?.title,
-                                    updatedDescription: state.taskParams?.description,
-                                  );
-                                }
-                                taskPopupParams
-                                    .onSave!(state.taskParams ?? params);
+                                taskPopupParams.onSave!(state.onSaveTaskParams(
+                                    taskPopupParams.getDueDate));
                               },
                         child: Text(appLocalization.translate("save")))
                   ],

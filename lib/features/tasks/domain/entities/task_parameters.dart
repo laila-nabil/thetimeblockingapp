@@ -43,19 +43,19 @@ class ClickupTaskParams extends Equatable{
 
   List<String>? get tagsNames => tags?.map((e) => e.name ?? "").toList();
 
-  int? get priority => taskPriority?.getPriorityNum;
+  int? get getPriority => taskPriority?.getPriorityNum;
 
-  String? get status => taskStatus?.status;
+  String? get getStatus => taskStatus?.status;
 
-  int? get dueDateMillisecondsSinceEpoch => dueDate?.millisecondsSinceEpoch;
+  int? get getDueDateMillisecondsSinceEpoch => dueDate?.millisecondsSinceEpoch;
 
-  int? get startDateMillisecondsSinceEpoch => startDate?.millisecondsSinceEpoch;
+  int? get getStartDateMillisecondsSinceEpoch => startDate?.millisecondsSinceEpoch;
 
-  int? get timeEstimateMilliseconds => timeEstimate?.inMilliseconds;
+  int? get getTimeEstimateMilliseconds => timeEstimate?.inMilliseconds;
 
-  String? get parentTaskId => parentTask?.id;
+  String? get getParentTaskId => parentTask?.id;
 
-  String? get linkedTaskId => linkedTask?.id;
+  String? get getLinkedTaskId => linkedTask?.id;
 
   List<ClickupList> get getAvailableLists {
     if (clickupSpace != null && folder != null) {
@@ -250,16 +250,16 @@ class ClickupTaskParams extends Equatable{
         "description": description,
         "assignees": assigneesId,
         "tags": tagsNames,
-        "status": status,
-        "priority": priority,
-        "due_date": dueDateMillisecondsSinceEpoch,
+        "status": getStatus,
+        "priority": getPriority,
+        "due_date": getDueDateMillisecondsSinceEpoch,
         "due_date_time": dueDateTime,
-        "time_estimate": timeEstimateMilliseconds,
-        "start_date": startDateMillisecondsSinceEpoch,
+        "time_estimate": getTimeEstimateMilliseconds,
+        "start_date": getStartDateMillisecondsSinceEpoch,
         "start_date_time": startDateTime,
         "notify_all": notifyAll,
-        "parent": parentTaskId,
-        "links_to": linkedTaskId,
+        "parent": getParentTaskId,
+        "links_to": getLinkedTaskId,
         // "custom_fields": [
         //   {"id": "0a52c486-5f05-403b-b4fd-c512ff05131c", "value": 23},
         //   {
@@ -287,15 +287,15 @@ class ClickupTaskParams extends Equatable{
         //To clear the task description, include Description with " "
         "assignees": assignees,
         "tags": tagsNames,
-        "status": status,
-        "priority": priority,
-        "due_date": dueDateMillisecondsSinceEpoch,
+        "status": getStatus,
+        "priority": getPriority,
+        "due_date": getDueDateMillisecondsSinceEpoch,
         "due_date_time": dueDateTime,
-        "time_estimate": timeEstimateMilliseconds,
-        "start_date": startDateMillisecondsSinceEpoch,
-        "start_date_time": startDateMillisecondsSinceEpoch,
+        "time_estimate": getTimeEstimateMilliseconds,
+        "start_date": getStartDateMillisecondsSinceEpoch,
+        "start_date_time": getStartDateMillisecondsSinceEpoch,
         "archived": archived,
-        "parent": parentTaskId,
+        "parent": getParentTaskId,
       };
     }
   }

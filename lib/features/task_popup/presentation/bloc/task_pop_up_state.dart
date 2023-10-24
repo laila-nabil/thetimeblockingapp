@@ -51,6 +51,57 @@ class TaskPopUpState extends Equatable {
   bool get isFoldersListAvailable => taskParams?.clickupSpace?.folders
       .isNotEmpty ==
       true || taskParams?.folder !=null;
+
+  ClickupTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
+    ClickupTaskParams params;
+    final task = taskParams?.task;
+    if (task != null) {
+      ///FIXME updating task not working perfectly
+      params = ClickupTaskParams.updateTask(
+        task: taskParams!.task!,
+        clickupAccessToken: Globals.clickupAuthAccessToken,
+        updatedTitle: taskParams?.title,
+        updatedDescription: taskParams?.description,
+        updatedList: taskParams?.clickupList == task.list
+            ? null
+            : taskParams?.clickupList,
+        updatedFolder:
+            taskParams?.folder == task.folder ? null : taskParams?.folder,
+        updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
+        updatedDueDate:
+            taskParams?.dueDate == task.dueDateUtc ? null : taskParams?.dueDate,
+        updatedStartDate: taskParams?.startDate == task.startDateUtc
+            ? null
+            : taskParams?.startDate,
+        updatedSpace: taskParams?.clickupSpace == task.space
+            ? null
+            : taskParams?.clickupSpace,
+        updatedTaskPriority: taskParams?.taskPriority == task.priority
+            ? null
+            : taskParams?.taskPriority,
+        updatedTaskStatus: taskParams?.taskStatus == task.status
+            ? null
+            : taskParams?.taskStatus,
+        updatedTimeEstimate: taskParams?.timeEstimate == task.timeEstimate
+            ? null
+            : taskParams?.timeEstimate,
+        updatedParentTask: taskParams?.parentTask == task.list
+            ? null
+            : taskParams?.parentTask,
+      );
+    } else {
+      params = taskParams ?? ClickupTaskParams.createNewTask(
+        dueDate: newTaskDueDate,
+        clickupList: taskParams!.clickupList!,
+        clickupAccessToken:
+        Globals.clickupAuthAccessToken,
+        title: taskParams?.title ?? "",
+        description: taskParams?.description,
+      );
+    }
+    return params;
+  }
+
   @override
   List<Object?> get props => [
         taskParams,
