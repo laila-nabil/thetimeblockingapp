@@ -98,29 +98,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
               const Right(ScheduleStateEnum.loading),
         ));
         final result = await _updateClickupTaskUseCase(event.params);
-        final taskTags= event.params.task?.tags;
-        final newTags= event.params.tags;
-        if (newTags != taskTags) {
-          List<ClickupTag> addTags = newTags
-                  ?.where((element) => taskTags?.contains(element) == false)
-                  .toList() ??
-              [];
-          List<ClickupTag> removeTags = taskTags
-                  ?.where((element) => newTags?.contains(element) == false)
-                  .toList() ??
-              [];
-          final addTagsResult = await _addTagsToTaskUseCase(AddTagsToTaskParams(
-              task: event.params.task!,
-              tags: addTags,
-              clickupAccessToken: event.params.clickupAccessToken));
-          printDebug("addTagsResult $addTagsResult");
-          final removeTagsResult = await _removeTagsFromTaskUseCase(
-              RemoveTagsFromTaskParams(
-                  task: event.params.task!,
-                  tags: addTags,
-                  clickupAccessToken: event.params.clickupAccessToken));
-          printDebug("removeTagsResult $removeTagsResult");
-        }
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
             const Left(ScheduleStateEnum.loading)));

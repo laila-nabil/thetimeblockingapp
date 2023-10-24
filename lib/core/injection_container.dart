@@ -112,7 +112,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => UpdateClickupTaskUseCase(
-        serviceLocator(),
+        serviceLocator(),serviceLocator(),serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => DeleteClickupTaskUseCase(
         serviceLocator(),
