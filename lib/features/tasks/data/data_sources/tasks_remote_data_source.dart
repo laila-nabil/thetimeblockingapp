@@ -248,6 +248,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<Unit> addTagToTask({required AddTagToTaskParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.post(
+      body: {},//fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
@@ -258,6 +259,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<Unit> addTaskToList({required AddTaskToListParams params})async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.post(
+      body: {},//fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
