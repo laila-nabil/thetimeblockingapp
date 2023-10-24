@@ -283,28 +283,71 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Tags
-                          ///TODO values in case tags already selected
-                          ///TODO select multiple tags
                           ///TODO TODO create new tags
-                          DropdownButton<ClickupTag>(
-                            hint: Text(appLocalization.translate("tags")),
-                            onChanged: (tag) {
-                              if (tag != null) {
-                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                    taskParams: clickupTaskParams
-                                        .copyWith(tags: [tag])));
-                              }
-                            },
-                            items: state.taskParams?.clickupSpace?.tags
-                                    .map((e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(
-                                            e.name.toString(),
+                          CustomButton(
+                              child: Text(
+                                  "${state.taskParams?.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}"),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            appLocalization.translate("tags")),
+                                        scrollable: true,
+                                        content: BlocProvider.value(
+                                          value: taskPopUpBloc,
+                                          child: BlocBuilder<TaskPopUpBloc,
+                                              TaskPopUpState>(
+                                            builder: (context, state) {
+                                              return SizedBox(
+                                                height: 400,
+                                                width: 400,
+                                                child: Column(
+                                                  children: state.taskParams
+                                                          ?.clickupSpace?.tags
+                                                          .map((e) =>
+                                                              CheckboxListTile(
+                                                                  title: Text(
+                                                                      e.name ??
+                                                                          ""),
+                                                                  value: state
+                                                                          .taskParams
+                                                                          ?.tags
+                                                                          ?.contains(
+                                                                              e) ==
+                                                                      true,
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    List<ClickupTag>?
+                                                                        tags =
+                                                                        List.from(
+                                                                            state.taskParams?.tags ??
+                                                                                [],
+                                                                            growable:
+                                                                                true);
+                                                                    if (value ==
+                                                                        true) {
+                                                                      tags.add(
+                                                                          e);
+                                                                    } else {
+                                                                      tags.remove(
+                                                                          e);
+                                                                    }
+                                                                    taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                                                        taskParams:
+                                                                            clickupTaskParams.copyWith(tags: tags)));
+                                                                  }))
+                                                          .toList() ??
+                                                      [],
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        ))
-                                    .toList() ??
-                                [],
-                          ),
+                                        ),
+                                      );
+                                    });
+                              }),
 
                           Wrap(
                             children: [
