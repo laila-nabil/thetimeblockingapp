@@ -26,5 +26,7 @@
   "title": "Title",
   "description": "Description",
   "startDate": "Start date",
-  "dueDate": "Due date"
+  "dueDate": "Due date",
+  "priority": "priority",
+  "clear": "clear"
 }

@@ -308,10 +308,8 @@ class TaskPopup extends StatelessWidget {
                                                                           "",
                                                                       style: TextStyle(
                                                                           color:
-                                                                              e.getTagFgColor),
+                                                                              e.getTagBgColor),
                                                                     ),
-                                                                    tileColor: e
-                                                                        .getTagBgColor,
                                                                     value: state
                                                                             .taskParams
                                                                             ?.tags

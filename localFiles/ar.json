@@ -26,5 +26,7 @@
   "title": "عنوان",
   "description": "تفاصيل",
   "startDate": "تاريخ البدأ",
-  "dueDate": "تاريخ الانتهاء"
+  "dueDate": "تاريخ الانتهاء",
+  "priority": "أولوية",
+  "clear": "الغاء"
 }
