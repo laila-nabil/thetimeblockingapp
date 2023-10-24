@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_calendar_widget.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../core/extensions.dart';

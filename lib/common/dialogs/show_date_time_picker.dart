@@ -12,7 +12,7 @@ Future<DateTime?> showDateTimePicker({
 
   final DateTime? selectedDate = await showDatePicker(
     context: context,
-    initialDate: initialDate ?? DateTime.now(),
+    initialDate: initialDate,
     firstDate: firstDate,
     lastDate: lastDate,
   );

@@ -17,7 +17,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
-import '../../../../core/extensions.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 class TaskPopupParams extends Equatable {
