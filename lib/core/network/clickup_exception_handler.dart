@@ -13,27 +13,39 @@ Future<NetworkResponse> clickupResponseHandler(
   http.Response? response;
   try {
     response = await httpResponse();
-    if (response.statusCode != 200 || response.statusCode != 204) {
+    if (response.statusCode != 200 && response.statusCode != 204) {
       throw ServerException(
-          message: ClickupError.fromJson(json.decode(response.body)).error.toString());
+          message: ClickupError.fromJson(json.decode(response.body))
+              .error
+              .toString());
     }
+    printDebug(
+      "[response body] ${response.body}",
+    );
+    printDebug(
+      "[statusCode] " "${response.statusCode}",
+    );
   } catch (exception) {
     printDebug(
       "[response body] ${response?.body}",
+        printLevel: PrintLevel.error
     );
     printDebug(
       "[statusCode] " "${response?.statusCode}",
+      printLevel: PrintLevel.error,
     );
-    if (exception is ServerException) {
-      printDebug("[Exception] ${exception.message.toString()}",
-          printLevel: PrintLevel.error);
-      rethrow;
-    } else {
-      printDebug("[Exception] ${exception.toString()}",
-          printLevel: PrintLevel.error);
-      if(response?.statusCode != 204){
-        throw ServerException(message: exception.toString());
-      }
+    printDebug("[Exception] 0 ${exception.toString()}",
+        printLevel: PrintLevel.error);
+    if (response?.statusCode!=204) {
+      if (exception is ServerException) {
+            printDebug("[Exception] 1 ${exception.message.toString()}",
+                printLevel: PrintLevel.error);
+            rethrow;
+          } else {
+            printDebug("[Exception] 2 ${exception.toString()}",
+                printLevel: PrintLevel.error);
+            throw ServerException(message: exception.toString());
+          }
     }
   }
 
