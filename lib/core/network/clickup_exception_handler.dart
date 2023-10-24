@@ -13,7 +13,7 @@ Future<NetworkResponse> clickupResponseHandler(
   http.Response? response;
   try {
     response = await httpResponse();
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 || response.statusCode != 204) {
       throw ServerException(
           message: ClickupError.fromJson(json.decode(response.body)).error.toString());
     }
@@ -31,11 +31,13 @@ Future<NetworkResponse> clickupResponseHandler(
     } else {
       printDebug("[Exception] ${exception.toString()}",
           printLevel: PrintLevel.error);
-      throw ServerException(message: exception.toString());
+      if(response?.statusCode != 204){
+        throw ServerException(message: exception.toString());
+      }
     }
   }
 
-  return NetworkResponse.fromHttpResponse(response);
+  return NetworkResponse.fromHttpResponse(response!);
 }
 
 class ClickupError extends Equatable{

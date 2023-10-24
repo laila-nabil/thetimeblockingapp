@@ -23,7 +23,7 @@ class NetworkHttp implements Network {
       Encoding? encoding}) async {
     final bodyAsString = json.encode(body);
     printDebug(
-      "[url] start$uri",
+      "[url] start $uri",
     );
     printDebug(
       "[url] $uri",
