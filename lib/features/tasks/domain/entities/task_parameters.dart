@@ -93,10 +93,10 @@ class ClickupTaskParams extends Equatable{
   static _isNewTask(ClickupTask? task) =>
       task?.id == null || task?.id?.isEmpty == true;
 
-  bool? get dueDateTime => dueDate!=null;
+  bool? get dueDateTime => dueDate==null;
 
 
-  bool? get startDateTime => startDate!=null;
+  bool? get startDateTime => startDate==null;
 
   static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
     printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
