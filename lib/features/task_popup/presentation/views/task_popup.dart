@@ -221,8 +221,7 @@ class TaskPopup extends StatelessWidget {
                                                 style: TextStyle(
                                                     textBaseline:
                                                         TextBaseline.alphabetic,
-                                                    color: task?.priority
-                                                        ?.getPriorityExclamationColor),
+                                                    color: e.getPriorityColor),
                                               ),
                                             ))
                                       .toList() ?? [])+

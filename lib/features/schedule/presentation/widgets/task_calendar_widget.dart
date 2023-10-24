@@ -30,7 +30,7 @@ class TaskCalendarWidget extends StatelessWidget {
                       text: "${task.priority?.getPriorityExclamation} ",
                       style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
-                          color: task.priority?.getPriorityExclamationColor)),
+                          color: task.priority?.getPriorityColor)),
                 TextSpan(
                   text: "${(task).name}\n${(task).description}",
                 )
@@ -55,7 +55,7 @@ class TaskCalendarWidget extends StatelessWidget {
                             style: TextStyle(
                                 textBaseline: TextBaseline.alphabetic,
                                 color: task
-                                    .priority?.getPriorityExclamationColor)),
+                                    .priority?.getPriorityColor)),
                       TextSpan(
                         text: "${(task).name}\n${(task).description}",
                       )
