@@ -174,17 +174,27 @@ class ClickupTaskParams extends Equatable{
         .where((element) => element.id == task.list?.id)
         .firstOrNull ??  folder?.lists
         ?.where((element) => element.id == task.list?.id)
-        .firstOrNull;
+            .firstOrNull;
     return ClickupTaskParams._(
-          clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
-          clickupAccessToken: clickupAccessToken,
-          task: task,
-          clickupSpace: space,
-          folder: folder,
-          clickupList: list,
-          dueDate: task.dueDateUtc,///FIXME -1 hour
-          startDate: task.startDateUtc///FIXME -1 hour
-      );
+        clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
+        clickupAccessToken: clickupAccessToken,
+        task: task,
+        description: null,//description controlled by text controller
+        title: null,//title controlled by text controller
+        clickupSpace: space,
+        folder: folder,
+        clickupList: list,
+        taskPriority: task.priority,
+        tags: task.tags,
+        taskStatus: task.status,
+        timeEstimate: task.timeEstimate,
+        ///TODO D get parentTask
+        parentTask: null,
+        ///FIXME dueDate -1 hour
+        dueDate: task.dueDateUtc,
+        ///FIXME startDate -1 hour
+        startDate: task.startDateUtc
+        );
   }
 
   factory ClickupTaskParams.updateTask({
