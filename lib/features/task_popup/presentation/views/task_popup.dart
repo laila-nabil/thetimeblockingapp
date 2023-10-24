@@ -144,9 +144,13 @@ class TaskPopup extends StatelessWidget {
                           Icons.delete,
                           color: Theme.of(context).colorScheme.error,
                         ),
-                        onPressed: () {
-                          ///TODO delete task
-                          },
+                        onPressed: taskPopupParams.onDelete == null
+                            ? null
+                            : () => taskPopupParams.onDelete!(
+                          DeleteClickupTaskParams(
+                              task: taskPopupParams.task!,
+                              clickupAccessToken: Globals
+                                  .clickupAuthAccessToken)),
                     ),
                     CustomButton(
                         onPressed: () => Navigator.maybePop(context),
@@ -252,17 +256,7 @@ class TaskPopup extends StatelessWidget {
                                           taskParams: clickupTaskParams
                                               .copyWith(title: change)));
                                 },
-                              )),
-                              if (taskPopupParams.task != null)
-                                IconButton(
-                                    onPressed: taskPopupParams.onDelete == null
-                                        ? null
-                                        : () => taskPopupParams.onDelete!(
-                                            DeleteClickupTaskParams(
-                                                task: taskPopupParams.task!,
-                                                clickupAccessToken: Globals
-                                                    .clickupAuthAccessToken)),
-                                    icon: const Icon(Icons.delete))
+                              ))
                             ],
                           ),
 
