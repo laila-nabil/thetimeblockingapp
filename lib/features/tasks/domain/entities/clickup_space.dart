@@ -19,6 +19,7 @@ import '../../../../common/entities/clickup_workspace.dart';
  members : [{"user":{"id":61769378,"username":"laila nabil","color":"","profilePicture":null,"initials":"LN"}}]
 */
 
+// ignore: must_be_immutable
 class ClickupSpace extends Equatable {
   ClickupSpace({
     this.id,

@@ -15,6 +15,7 @@ import '../../domain/entities/clickup_space.dart';
  members : [{"user":{"id":61769378,"username":"laila nabil","color":"","profilePicture":null,"initials":"LN"}}]
 */
 
+// ignore: must_be_immutable
 class ClickupSpaceModel extends ClickupSpace {
   ClickupSpaceModel({
     super.id,
