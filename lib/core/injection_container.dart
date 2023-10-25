@@ -25,6 +25,7 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
@@ -86,6 +87,8 @@ void _initServiceLocator({required Network network}) {
       serviceLocator()));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
+
+  serviceLocator.registerFactory(() => ListsPageBloc());
 
   /// UseCases
 
