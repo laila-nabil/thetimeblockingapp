@@ -19,7 +19,8 @@ import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
-///TODO B Add is all day checkbox
+///TODO A Add is all day checkbox
+
 class TaskPopupParams extends Equatable {
   final ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;

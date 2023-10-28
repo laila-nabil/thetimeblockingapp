@@ -112,6 +112,7 @@ class TasksCalendar extends StatelessWidget {
       printDebug("calendarTapDetails date ${calendarTapDetails.date}");
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
       printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
+      ///TODO ontap on allDayPanel
       if (calendarTapDetails.targetElement == CalendarElement.appointment) {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
