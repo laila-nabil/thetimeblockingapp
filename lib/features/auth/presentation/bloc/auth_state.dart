@@ -10,7 +10,7 @@ enum AuthStateEnum {
   getClickupAUserFailed,
   getClickupWorkspacesSuccess,
   getClickupWorkspacesFailed,
-  triedGetSelectedWorkspace,
+  triedGetSelectedWorkspacesSpace,
 }
 
 class AuthState extends Equatable {
@@ -42,7 +42,7 @@ class AuthState extends Equatable {
     return !(isLoading == false && clickupAccessToken?.isEmpty == true ||
         clickupUser == null ||
         clickupWorkspaces?.isNotEmpty == false ||
-        authStates.contains(AuthStateEnum.triedGetSelectedWorkspace) == false);
+        authStates.contains(AuthStateEnum.triedGetSelectedWorkspacesSpace) == false);
   }
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {

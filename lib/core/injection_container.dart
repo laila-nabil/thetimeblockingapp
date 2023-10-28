@@ -69,7 +69,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
       ));
-  serviceLocator.registerFactory(() => AuthBloc(
+  serviceLocator.registerFactory(() => AuthBloc(serviceLocator(),
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(),

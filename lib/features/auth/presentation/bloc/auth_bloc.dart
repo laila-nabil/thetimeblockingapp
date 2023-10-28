@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
@@ -21,8 +23,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetClickupUserUseCase _getClickupUserUseCase;
   final GetClickupWorkspacesUseCase _getClickupWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
+  final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
   AuthBloc(this._getClickupAccessTokenUseCase, this._getClickupUserUseCase,
-      this._getClickupWorkspacesUseCase, this._getSelectedWorkspaceUseCase)
+      this._getClickupWorkspacesUseCase,
+      this._getSelectedWorkspaceUseCase,
+      this._getSelectedSpaceUseCase)
       : super(const AuthState(authStates: {AuthStateEnum.initial})) {
     on<AuthEvent>((event, emit) async {
       if (event is ShowCodeInputTextField) {
@@ -78,13 +83,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               clickupWorkspaces: r,
               authStates: state.updatedAuthStates(
                   AuthStateEnum.getClickupWorkspacesSuccess)));
-          add(TryGetSelectedWorkspaceEvent());
+          add(TryGetSelectedWorkspaceSpaceEvent());
         });
-      }else if(event is TryGetSelectedWorkspaceEvent){
+      }else if(event is TryGetSelectedWorkspaceSpaceEvent){
         await _getSelectedWorkspaceUseCase(NoParams());
+        if (Globals.isSpaceAppWide) {
+          await _getSelectedSpaceUseCase(NoParams());
+        }
         emit(state.copyWith(
             authStates: state
-                .updatedAuthStates(AuthStateEnum.triedGetSelectedWorkspace)));
+                .updatedAuthStates(AuthStateEnum.triedGetSelectedWorkspacesSpace)));
       }
     });
   }

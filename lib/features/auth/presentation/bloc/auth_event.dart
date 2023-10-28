@@ -28,7 +28,7 @@ class GetClickupUserWorkspaces extends AuthEvent{
   @override
   List<Object?> get props => [accessToken];
 }
-class TryGetSelectedWorkspaceEvent extends AuthEvent{
+class TryGetSelectedWorkspaceSpaceEvent extends AuthEvent{
   @override
   List<Object?> get props => [];
 }

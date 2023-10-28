@@ -6,7 +6,6 @@ import 'package:thetimeblockingapp/features/startup/domain/repositories/startup_
 
 import '../../../tasks/domain/entities/clickup_space.dart';
 
-///TODO use the use case
 class GetSelectedSpaceUseCase
     implements UseCase<ClickupSpace, NoParams> {
   final StartUpRepo repo;
