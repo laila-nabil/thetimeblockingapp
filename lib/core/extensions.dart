@@ -92,7 +92,7 @@ extension DateTimeExtensions on DateTime {
     return "0$n";
   }
 
-  static String? customToString(DateTime? dateTime){
+  static String? customToString(DateTime? dateTime,{bool includeTime = true}){
     if(dateTime == null){
       return null;
     }
@@ -108,9 +108,9 @@ extension DateTimeExtensions on DateTime {
     String h = _twoDigits(hour);
     String min = _twoDigits(dateTime.minute);
     if (dateTime.isUtc == true) {
-      return "$y-$m-$d $h:$min $amPm.Z";
+      return "$y-$m-$d ${includeTime ? "$h:$min $amPm.Z":""}";
     } else {
-      return "$y-$m-$d $h:$min $amPm";
+      return "$y-$m-$d ${includeTime ? "$h:$min $amPm" : ""}";
     }
   }
 }

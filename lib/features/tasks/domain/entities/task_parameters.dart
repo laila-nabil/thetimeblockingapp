@@ -213,7 +213,7 @@ class ClickupTaskParams extends Equatable{
         ///TODO D get parentTask
         parentTask: null,
         dueDate: task.dueDateUtc,
-        startDate: task.startDateUtc
+        startDate: task.startDateUtc,
         );
   }
 

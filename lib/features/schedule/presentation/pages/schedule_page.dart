@@ -69,7 +69,7 @@ class SchedulePage extends StatelessWidget {
                     onPressed: () {
                       scheduleBloc.add(ShowTaskPopupEvent(
                           showTaskPopup: true,
-                          taskPopupParams: TaskPopupParams(
+                          taskPopupParams: TaskPopupParams.notAllDayTask(
                               onSave: (params) {
                                 scheduleBloc.add(
                                     CreateClickupTaskEvent(params: params));

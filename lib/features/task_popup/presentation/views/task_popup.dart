@@ -19,26 +19,51 @@ import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
-///TODO A Add is all day checkbox
+///TODO create all day task from floating action button && control if task is all day or not
 
+// ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   final ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
   final ScheduleBloc scheduleBloc;
   final DateTime? cellDate;
-
-  const TaskPopupParams({
+  DateTime? startDate;
+  DateTime? dueDate;
+  late bool isAllDay;
+  TaskPopupParams.notAllDayTask({
     this.task,
     this.onSave,
     this.onDelete,
     this.cellDate,
     required this.scheduleBloc,
-  });
+  }){
+    startDate =cellDate;
+    dueDate = cellDate?.add(const Duration(hours: 1));
+    isAllDay = false;
+}
+  TaskPopupParams.allDayTask({
+    this.task,
+    this.onSave,
+    this.onDelete,
+    this.cellDate,
+    required this.scheduleBloc,
+  }){
+    if (cellDate != null) {
+      startDate = DateTime(cellDate!.year, cellDate!.month, cellDate!.day, 4);
+      dueDate = startDate;
+    }
+    isAllDay = true;
+  }
 
-  DateTime? get getStartDate => cellDate;
-
-  DateTime? get getDueDate => cellDate?.add(const Duration(hours: 1));
+  TaskPopupParams._(
+      {this.task,
+      this.onSave,
+      this.onDelete,
+      required this.scheduleBloc,
+      this.cellDate,
+      this.startDate,
+      this.dueDate});
 
   TaskPopupParams copyWith({
     ClickupTask? task,
@@ -46,13 +71,18 @@ class TaskPopupParams extends Equatable {
     void Function(DeleteClickupTaskParams params)? onDelete,
     ScheduleBloc? scheduleBloc,
     DateTime? cellDate,
+    DateTime? startDate,
+    DateTime? dueDate,
   }) {
-    return TaskPopupParams(
+    return TaskPopupParams._(
         task: task ?? this.task,
         onSave: onSave ?? this.onSave,
         onDelete: onDelete ?? this.onDelete,
         scheduleBloc: scheduleBloc ?? this.scheduleBloc,
-        cellDate: cellDate ?? this.cellDate);
+        cellDate: cellDate ?? this.cellDate,
+        startDate: startDate ?? this.startDate,
+        dueDate: dueDate ?? this.dueDate,
+    );
   }
 
   @override
@@ -97,8 +127,8 @@ class TaskPopup extends StatelessWidget {
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.getDueDate,
-                          startDate: taskPopupParams.getStartDate,
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide ? Globals.selectedSpace : null
                         )
                       : ClickupTaskParams.startUpdateTask(
@@ -122,8 +152,8 @@ class TaskPopup extends StatelessWidget {
                   (task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
-                          dueDate: taskPopupParams.getDueDate,
-                          startDate: taskPopupParams.getStartDate)
+                          dueDate: taskPopupParams.dueDate,
+                          startDate: taskPopupParams.startDate)
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                 task: task,
@@ -134,9 +164,9 @@ class TaskPopup extends StatelessWidget {
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
               final initialDueDate =
-                  task?.dueDateUtc ?? taskPopupParams.getDueDate;
+                  task?.dueDateUtc ?? taskPopupParams.dueDate;
               final initialStartDate =
-                  task?.startDateUtc ?? taskPopupParams.getStartDate;
+                  task?.startDateUtc ?? taskPopupParams.startDate;
               return CustomAlertDialog(
                   loading: isLoading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -165,7 +195,7 @@ class TaskPopup extends StatelessWidget {
                             ? null
                             : () {
                                 taskPopupParams.onSave!(state.onSaveTaskParams(
-                                    taskPopupParams.getDueDate));
+                                    taskPopupParams.dueDate));
                               },
                         child: Text(appLocalization.translate("save"))),
                   ],
@@ -433,47 +463,79 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              ///Start DATE
-                              CustomButton(
+                              ///isAllDay
+                              Checkbox(
+                                  value: taskPopupParams.isAllDay,
+                                  onChanged: null),
+                              ///All day Date
+                              if(taskPopupParams.isAllDay)CustomButton(
                                 onPressed: () {
-                                  showDateTimePicker(
+                                  showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime(
+                                          initialStartDate?.year ??
+                                              DateTime.now().year,
+                                          initialStartDate?.month ??
+                                              DateTime.now().month,
+                                          initialStartDate?.day ??
+                                              DateTime.now().day),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) =>
+                                      taskPopUpBloc.add(
+                                          UpdateClickupTaskParamsEvent(
+                                              taskParams: clickupTaskParams
+                                                  .copyWith(startDate: value))));
+                                },
+                                customButtonEnum: CustomButtonEnum.secondary,
+                                child: Text(
+                                    " ${appLocalization.translate("date")}"
+                                      " ${DateTimeExtensions.customToString
+                                      (state.taskParams?.startDate,
+                                        includeTime: false) ?? ""} "),
+                                ),
+
+                              ///Start DATE
+                              if (taskPopupParams.isAllDay == false)
+                                CustomButton(
+                                  onPressed: () {
+                                    showDateTimePicker(
                                       context: context,
                                       initialDate:
                                           initialStartDate ?? DateTime.now(),
                                       firstDate: firstDate,
                                       lastDate: lastDate,
-                                    ).then((value) =>
-                                        taskPopUpBloc.add(
-                                            UpdateClickupTaskParamsEvent(
-                                                taskParams: clickupTaskParams
+                                    ).then((value) => taskPopUpBloc.add(
+                                        UpdateClickupTaskParamsEvent(
+                                            taskParams: clickupTaskParams
                                                 .copyWith(startDate: value))));
-                                  },
-                                customButtonEnum: CustomButtonEnum.secondary,
-                                child: Text(
-                                    " ${appLocalization.translate("startDate")}"
-                                    " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} "),
-                              ),
-
-                              ///DUE DATE
-                              CustomButton(
-                                  onPressed: () {
-                                  showDateTimePicker(
-                                      context: context,
-                                      initialDate:
-                                      initialDueDate ?? DateTime.now(),
-                                      firstDate: firstDate,
-                                      lastDate: lastDate,
-                                    ).then((value) =>
-                                        taskPopUpBloc.add(
-                                            UpdateClickupTaskParamsEvent(
-                                                taskParams: clickupTaskParams
-                                                    .copyWith(dueDate: value))));
                                   },
                                   customButtonEnum: CustomButtonEnum.secondary,
                                   child: Text(
-                                    " ${appLocalization.translate("dueDate")}"
-                                    " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} "),
-                              ),
+                                      " ${appLocalization.translate("startDate")}"
+                                      " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} "),
+                                ),
+
+                              ///DUE DATE
+                              if (taskPopupParams.isAllDay == false)
+                                CustomButton(
+                                  onPressed: () {
+                                    showDateTimePicker(
+                                      context: context,
+                                      initialDate:
+                                          initialDueDate ?? DateTime.now(),
+                                      firstDate: firstDate,
+                                      lastDate: lastDate,
+                                    ).then((value) => taskPopUpBloc.add(
+                                        UpdateClickupTaskParamsEvent(
+                                            taskParams: clickupTaskParams
+                                                .copyWith(dueDate: value))));
+                                  },
+                                  customButtonEnum: CustomButtonEnum.secondary,
+                                  child: Text(
+                                      " ${appLocalization.translate("dueDate")}"
+                                      " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} "),
+                                ),
                             ],
                           )
                         ],

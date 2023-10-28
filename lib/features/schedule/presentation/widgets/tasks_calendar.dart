@@ -112,11 +112,10 @@ class TasksCalendar extends StatelessWidget {
       printDebug("calendarTapDetails date ${calendarTapDetails.date}");
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
       printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
-      ///TODO ontap on allDayPanel
       if (calendarTapDetails.targetElement == CalendarElement.appointment) {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams(
+            taskPopupParams: TaskPopupParams.notAllDayTask(
                 task: calendarTapDetails.appointments?.first as ClickupTask,
                 onSave: (params) {
                   scheduleBloc.add(UpdateClickupTaskEvent(params: params));
@@ -129,12 +128,25 @@ class TasksCalendar extends StatelessWidget {
           calendarTapDetails.appointments == null) {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams(
+            taskPopupParams: TaskPopupParams.notAllDayTask(
                 cellDate: calendarTapDetails.date,
                 onSave: (params) {
                   scheduleBloc.add(CreateClickupTaskEvent(
                       params:
                           params));
+                },
+                scheduleBloc: scheduleBloc)));
+      } else if (calendarTapDetails.targetElement ==
+          CalendarElement.allDayPanel &&
+          calendarTapDetails.appointments == null) {
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams.allDayTask(
+                cellDate: calendarTapDetails.date,
+                onSave: (params) {
+                  scheduleBloc.add(CreateClickupTaskEvent(
+                      params:
+                      params));
                 },
                 scheduleBloc: scheduleBloc)));
       }

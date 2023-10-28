@@ -24,4 +24,6 @@ class Globals {
 
   static ClickupSpace? get defaultSpace =>
       Globals.clickupSpaces?.firstOrNull;
+
+  static const Duration defaultTaskDuration = Duration(hours: 1);
 }
