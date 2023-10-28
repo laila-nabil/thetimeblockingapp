@@ -210,7 +210,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
       result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
     }
 
-    ///TODO C custom fields
+    ///TODO D custom fields
 
     if (customTaskIds != null) {
       result += "custom_task_ids=$customTaskIds&";
@@ -286,7 +286,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
       result["date_done_lt"] = Right(filterByDateDoneLessThanUnixTimeMilliseconds.toString());
     }
 
-    ///TODO custom fields
+    ///TODO D custom fields
 
     if (customTaskIds != null) {
       result["custom_task_ids"] = Right(customTaskIds.toString());

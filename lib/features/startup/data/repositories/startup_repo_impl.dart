@@ -1,7 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import '../../../../core/repo_handler.dart';
 import '../../../../core/usecase.dart';
 import '../../domain/repositories/startup_repo.dart';
@@ -31,5 +34,19 @@ class StartUpRepoImpl implements StartUpRepo {
     return repoHandleLocalGetRequest(
         tryGetFromLocalStorage: () =>
             startUpLocalDataSource.getSelectedWorkspace());
+  }
+
+  @override
+  Future<Either<Failure, ClickupSpace>?> getSelectedSpace(NoParams params) async {
+    return repoHandleLocalGetRequest(
+        tryGetFromLocalStorage: () =>
+            startUpLocalDataSource.getSelectedSpace());
+  }
+
+  @override
+  Future<Either<Failure, Unit>?> selectSpace(SelectSpaceParams params) async {
+    return repoHandleLocalSaveRequest(
+        trySaveResult: () => startUpLocalDataSource.saveSelectedSpace(
+            params.clickupSpace as ClickupSpaceModel));
   }
 }

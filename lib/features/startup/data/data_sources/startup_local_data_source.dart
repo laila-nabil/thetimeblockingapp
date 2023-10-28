@@ -1,6 +1,8 @@
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'dart:convert';
+
 
 abstract class StartUpLocalDataSource {
 
@@ -13,6 +15,11 @@ abstract class StartUpLocalDataSource {
       ClickupWorkspaceModel clickupWorkspacesModel);
 
   Future<ClickupWorkspaceModel> getSelectedWorkspace();
+
+  Future<void> saveSelectedSpace(
+      ClickupSpaceModel clickupSpaceModel);
+
+  Future<ClickupSpaceModel> getSelectedSpace();
 }
 
 class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
@@ -61,5 +68,20 @@ class StartUpLocalDataSourceImpl implements StartUpLocalDataSource {
     final response = await localDataSource.getData(
         key: LocalDataSourceKeys.selectedWorkspace.name);
     return ClickupWorkspaceModel.fromJson(json.decode(response ?? ""));
+  }
+
+  @override
+  Future<ClickupSpaceModel> getSelectedSpace() async {
+    final response = await localDataSource.getData(
+        key: LocalDataSourceKeys.selectedSpace.name);
+    return ClickupSpaceModel.fromJson(json.decode(response ?? ""));
+  }
+
+
+  @override
+  Future<void> saveSelectedSpace(ClickupSpaceModel clickupSpaceModel)  {
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.selectedSpace.name,
+        value: clickupSpaceModel.toJson());
   }
 }

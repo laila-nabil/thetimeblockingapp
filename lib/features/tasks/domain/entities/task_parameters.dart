@@ -93,14 +93,30 @@ class ClickupTaskParams extends Equatable{
   static _isNewTask(ClickupTask? task) =>
       task?.id == null || task?.id?.isEmpty == true;
 
+  ///[dueDateTime] is a true/false value that determines whether you
+  /// want to include the time of the due date when creating the task.
+  /// For example, do you want the task due on the 10th of October 2023
+  /// or the 10th of October 2023 at 6:30 pm? We’ll leave this as false for now.
   bool? get dueDateTime =>
       (clickupTaskParamsEnum == ClickupTaskParamsEnum.update)
-          ? dueDate == null
+          ? didDueDateChange
           : dueDate != null;
 
+  ///[startDateTime] is a true/false value that determines whether you
+  /// want to include the time of the start date when creating the task.
+  /// For example, do you want the task due on the 10th of October 2023
+  /// or the 10th of October 2023 at 6:30 pm? We’ll leave this as false for now.
   bool? get startDateTime => (clickupTaskParamsEnum == ClickupTaskParamsEnum.update)
-      ? startDate == null
+      ? didStartDateChange
       : startDate != null;
+
+  bool get didDueDateChange =>
+      task?.dueDateUtc != null &&
+      dueDate?.isAtSameMomentAs(task!.dueDateUtc!) == false;
+
+  bool get didStartDateChange =>
+      task?.startDateUtc != null &&
+      startDate?.isAtSameMomentAs(task!.startDateUtc!) == false;
 
   static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
     printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
@@ -114,12 +130,14 @@ class ClickupTaskParams extends Equatable{
     required ClickupAccessToken clickupAccessToken,
     DateTime? startDate,
     DateTime? dueDate,
+    ClickupSpace? space,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
           startDate: startDate,
           dueDate: dueDate,
+          clickupSpace: space,
           assignees: [Globals.clickupUser!.asAssignee],);
 
   factory ClickupTaskParams.createNewTask({
@@ -194,9 +212,7 @@ class ClickupTaskParams extends Equatable{
         timeEstimate: task.timeEstimate,
         ///TODO D get parentTask
         parentTask: null,
-        ///FIXME dueDate -1 hour
         dueDate: task.dueDateUtc,
-        ///FIXME startDate -1 hour
         startDate: task.startDateUtc
         );
   }
@@ -296,6 +312,7 @@ class ClickupTaskParams extends Equatable{
       if(startDateTime != null) updateMap["start_date_time"] = startDateTime;
       if(archived != null) updateMap["archived"] = archived;
       if(getParentTaskId != null) updateMap["getParentTaskId"] = getParentTaskId;
+      if(getStatus != null) updateMap["status"] = getStatus;
       return updateMap;
     }
   }

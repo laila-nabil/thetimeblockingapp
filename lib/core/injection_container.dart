@@ -6,12 +6,15 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
@@ -60,13 +63,15 @@ void _initServiceLocator({required Network network}) {
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc(
-      serviceLocator(),
-      serviceLocator(),));
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
       serviceLocator(),
       serviceLocator(),
       serviceLocator(),
@@ -166,6 +171,22 @@ void _initServiceLocator({required Network network}) {
   ));
   serviceLocator
       .registerLazySingleton(() => RemoveTaskFromListUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => GetSelectedSpaceUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => SelectSpaceUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => GetAllInClickupSpaceUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
     serviceLocator(),
   ));
 

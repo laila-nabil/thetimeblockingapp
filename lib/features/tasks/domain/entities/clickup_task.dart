@@ -478,26 +478,43 @@ class ClickupCreator extends Equatable {
       ];
 }
 
+//from task
 /// status : "Open"
 /// type : "open"
 /// orderindex : 1
 /// color : "#000000"
 
+//from space
+/* id : "p90150126979_lIWCjnSr"
+ status : "Open"
+ type : "open"
+ orderindex : 0
+ color : "#d3d3d3"*/
 class ClickupStatus extends Equatable {
   const ClickupStatus({
+    this.id,
     this.status,
     this.type,
     this.orderIndex,
     this.color,
   });
 
+  final String? id;
   final String? status;
   final String? type;
   final num? orderIndex;
   final String? color;
 
+  Color? get getColor {
+    if(color !=null && color?.isNotEmpty == true){
+      return HexColor.fromHex(color??"");
+    }
+    return null;
+  }
+
   @override
   List<Object?> get props => [
+        id,
         status,
         type,
         orderIndex,

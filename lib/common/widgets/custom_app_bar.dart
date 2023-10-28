@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
@@ -18,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (state.reSelectWorkspace) {
           startupBloc.add(SelectClickupWorkspace(
               clickupWorkspace:
-              Globals.selectedWorkspace ?? state.defaultWorkspace!,
+                  Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
               clickupAccessToken: Globals.clickupAuthAccessToken));
         }
         return AppBar(
@@ -26,34 +27,56 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           leading: Responsive.showSmallDesign(context)
               ? null
               : IconButton(
-              onPressed: () {
-                startupBloc.add(ControlDrawerLargerScreen(
-                    !startupBloc.state.drawerLargerScreenOpen));
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.deepPurpleAccent,
-              )),
+                  onPressed: () {
+                    startupBloc.add(ControlDrawerLargerScreen(
+                        !startupBloc.state.drawerLargerScreenOpen));
+                  },
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.deepPurpleAccent,
+                  )),
           actions: [
-            if (Globals.clickupWorkspaces?.isNotEmpty == true)
+            if (Responsive.showSmallDesign(context) == false &&
+                Globals.clickupWorkspaces?.isNotEmpty == true)
               DropdownButton(
                 value: Globals.selectedWorkspace,
                 onChanged: (selected) {
-                  if (selected is ClickupWorkspace && state.isLoading == false) {
+                  if (selected is ClickupWorkspace &&
+                      state.isLoading == false) {
                     startupBloc.add(SelectClickupWorkspace(
                         clickupWorkspace: selected,
                         clickupAccessToken: Globals.clickupAuthAccessToken));
                   }
                 },
                 items: Globals.clickupWorkspaces
-                    ?.map((e) =>
-                    DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name ?? ""),
-                    ))
-                    .toList() ??
+                        ?.map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e.name ?? ""),
+                            ))
+                        .toList() ??
                     [],
                 hint: Text(appLocalization.translate("workspaces")),
+              ),
+            if (Responsive.showSmallDesign(context) == false &&
+                Globals.isSpaceAppWide &&
+                Globals.clickupSpaces?.isNotEmpty == true)
+              DropdownButton<ClickupSpace?>(
+                value: Globals.selectedSpace,
+                onChanged: (selected) {
+                  if (selected != null && state.isLoading == false) {
+                    startupBloc.add(SelectClickupSpace(
+                        clickupSpace: selected,
+                        clickupAccessToken: Globals.clickupAuthAccessToken));
+                  }
+                },
+                items: Globals.clickupSpaces
+                        ?.map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e.name ?? ""),
+                            ))
+                        .toList() ??
+                    [],
+                hint: Text(appLocalization.translate("spaces")),
               ),
             IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
             if (pageActions?.isNotEmpty == true)

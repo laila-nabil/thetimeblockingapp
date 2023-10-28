@@ -3,15 +3,13 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/globals.dart';
+import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
@@ -32,8 +30,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
-  final AddTagsToTaskUseCase _addTagsToTaskUseCase;
-  final RemoveTagsFromTaskUseCase _removeTagsFromTaskUseCase;
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(
@@ -41,9 +37,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTaskUseCase,
       this._updateClickupTaskUseCase,
-      this._deleteClickupTaskUseCase,
-      this._addTagsToTaskUseCase,
-      this._removeTagsFromTaskUseCase)
+      this._deleteClickupTaskUseCase,)
       : super(ScheduleState._(
             persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
@@ -61,6 +55,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));
+        emit(state.copyWith(
+            persistingScheduleStateAddRemove:
+            const Left(ScheduleStateEnum.getTasksSingleWorkspaceFailed),));
+        emit(state.copyWith(
+          persistingScheduleStateAddRemove:
+          const Left(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),));
         result?.fold((l) {
           emit(state.copyWith(
               persistingScheduleStateAddRemove:

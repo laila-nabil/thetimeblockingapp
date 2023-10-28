@@ -37,11 +37,11 @@ class ClickupSpaceModel extends ClickupSpace {
     bool? private = json['private'];
     dynamic avatar = json['avatar'];
     bool? adminCanManage = json['admin_can_manage'];
-    List<ClickupSpaceStatusesModel>? statuses;
+    List<ClickupStatusModel>? statuses;
     if (json['statuses'] != null) {
       statuses = [];
       json['statuses'].forEach((v) {
-        statuses?.add(ClickupSpaceStatusesModel.fromJson(v));
+        statuses?.add(ClickupStatusModel.fromJson(v));
       });
     }
     bool? multipleAssignees = json['multiple_assignees'];
@@ -80,7 +80,7 @@ class ClickupSpaceModel extends ClickupSpace {
     map['admin_can_manage'] = adminCanManage;
     if (statuses != null) {
       map['statuses'] = statuses
-          ?.map((v) => (v as ClickupSpaceStatusesModel).toJson())
+          ?.map((v) => (v as ClickupStatusModel).toJson())
           .toList();
     }
     map['multiple_assignees'] = multipleAssignees;
@@ -560,35 +560,3 @@ class ClickupSpaceDueDatesModel extends ClickupSpaceDueDates {
   }
 }
 
-/* id : "p90150126979_lIWCjnSr"
- status : "Open"
- type : "open"
- orderindex : 0
- color : "#d3d3d3"*/
-
-class ClickupSpaceStatusesModel extends ClickupSpaceStatuses {
-  const ClickupSpaceStatusesModel({
-    super.id,
-    super.status,
-    super.type,
-    super.color,
-  });
-
-  factory ClickupSpaceStatusesModel.fromJson(dynamic json) {
-    return ClickupSpaceStatusesModel(
-      id: json['id'],
-      status: json['status'],
-      type: json['type'],
-      color: json['color'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['status'] = status;
-    map['type'] = type;
-    map['color'] = color;
-    return map;
-  }
-}

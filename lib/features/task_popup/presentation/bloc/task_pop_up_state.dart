@@ -59,7 +59,6 @@ class TaskPopUpState extends Equatable {
     ClickupTaskParams params;
     final task = taskParams?.task;
     if (task != null) {
-      ///FIXME updating task not working perfectly
       params = ClickupTaskParams.updateTask(
         task: taskParams!.task!,
         clickupAccessToken: Globals.clickupAuthAccessToken,

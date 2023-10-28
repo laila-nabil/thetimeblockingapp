@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 
 Future<DateTime?> showDateTimePicker({
   required BuildContext context,
@@ -15,6 +16,7 @@ Future<DateTime?> showDateTimePicker({
     initialDate: initialDate,
     firstDate: firstDate,
     lastDate: lastDate,
+    confirmText: appLocalization.translate("selectTime")///TODO B better confirm text
   );
 
   if (selectedDate == null) return null;

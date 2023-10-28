@@ -27,9 +27,9 @@ class SchedulePage extends StatelessWidget {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              if (state.showTaskPopup == true &&
-                  startUpCurrentState.startupStateEnum ==
-                      StartupStateEnum.getSpacesSuccess) {
+              final startupBloc = BlocProvider.of<StartupBloc>(context);
+              if (state.canShowTaskPopup(
+                  startupStateEnum: startUpCurrentState.startupStateEnum)) {
                 scheduleBloc
                     .add(const ShowTaskPopupEvent(showTaskPopup: false));
                 showTaskPopup(
@@ -37,11 +37,21 @@ class SchedulePage extends StatelessWidget {
                   taskPopupParams: state.taskPopupParams!,
                 );
               }
+              if ((startUpCurrentState.startupStateEnum ==
+                          StartupStateEnum.getAllInSpaceFailed ||
+                      startUpCurrentState.startupStateEnum ==
+                          StartupStateEnum.getAllInSpaceSuccess) &&
+                  startUpCurrentState.getTasks != false) {
+                startupBloc.add(const GetTasksEvent(getTasks: false));
+              }
             },
             builder: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if (state.isInitial || changeTaskSuccessfully) {
+              if ((Globals.isSpaceAppWide == false && state.isInitial) ||
+                  (Globals.isSpaceAppWide == true &&
+                      startUpCurrentState.getTasks == true) ||
+                  changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
@@ -125,7 +135,7 @@ class _SchedulePageContent extends StatelessWidget {
     return RefreshIndicator.adaptive(
       onRefresh: () async {
         var selectedWorkspace =
-            Globals.selectedWorkspace ?? startupBloc.state.defaultWorkspace;
+            Globals.selectedWorkspace ?? Globals.defaultWorkspace;
         scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: selectedWorkspace?.id ?? "",

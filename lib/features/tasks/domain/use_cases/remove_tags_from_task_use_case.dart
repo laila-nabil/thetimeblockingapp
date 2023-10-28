@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';

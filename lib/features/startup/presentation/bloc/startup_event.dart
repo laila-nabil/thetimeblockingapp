@@ -22,3 +22,22 @@ class SelectClickupWorkspace extends StartupEvent {
   @override
   List<Object?> get props => [clickupWorkspace,clickupAccessToken];
 }
+
+class SelectClickupSpace extends StartupEvent {
+  final ClickupSpace clickupSpace;
+  final ClickupAccessToken clickupAccessToken;
+  const SelectClickupSpace(
+      {required this.clickupSpace, required this.clickupAccessToken});
+
+  @override
+  List<Object?> get props => [clickupSpace,clickupAccessToken];
+}
+
+class GetTasksEvent extends StartupEvent {
+  final bool getTasks;
+  const GetTasksEvent(
+      {required this.getTasks,});
+
+  @override
+  List<Object?> get props => [getTasks];
+}

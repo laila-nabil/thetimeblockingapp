@@ -113,7 +113,6 @@ class TasksCalendar extends StatelessWidget {
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
       printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
       if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-        ///TODO A should handle in case of multiple appointments
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
             taskPopupParams: TaskPopupParams(

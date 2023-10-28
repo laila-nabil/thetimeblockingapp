@@ -16,4 +16,12 @@ class Globals {
   static List<ClickupWorkspace>? clickupWorkspaces;
   static List<ClickupSpace>? clickupSpaces;
   static ClickupWorkspace? selectedWorkspace;
+  static ClickupSpace? selectedSpace;
+  ///[isSpaceAppWide] space is selected from appbar/drawer only and is global to app or not
+  static const bool isSpaceAppWide = true;
+  static ClickupWorkspace? get defaultWorkspace =>
+      Globals.clickupWorkspaces?.firstOrNull;
+
+  static ClickupSpace? get defaultSpace =>
+      Globals.clickupSpaces?.firstOrNull;
 }

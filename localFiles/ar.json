@@ -21,6 +21,7 @@
   "showCompleted": "اظهر المهام المكتملة",
   "workspaces": "مساحات العمل",
   "space": "مساحة",
+  "spaces": "مساحات",
   "save": "حفظ",
   "cancel": "الغاء",
   "title": "عنوان",
@@ -28,5 +29,7 @@
   "startDate": "تاريخ البدأ",
   "dueDate": "تاريخ الانتهاء",
   "priority": "أولوية",
-  "clear": "الغاء"
+  "clear": "الغاء",
+  "selectTime": "اختر الوقت",
+  "status": "الحالة"
 }

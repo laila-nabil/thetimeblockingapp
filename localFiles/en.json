@@ -21,6 +21,7 @@
   "showCompleted": "Show completed",
   "workspaces": "workspaces",
   "space": "space",
+  "spaces": "spaces",
   "save": "Save",
   "cancel": "Cancel",
   "title": "Title",
@@ -28,5 +29,7 @@
   "startDate": "Start date",
   "dueDate": "Due date",
   "priority": "priority",
-  "clear": "clear"
+  "clear": "clear",
+  "selectTime": "Select time",
+  "status": "Status"
 }

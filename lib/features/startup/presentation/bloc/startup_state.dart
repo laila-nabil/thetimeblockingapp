@@ -4,21 +4,29 @@ enum StartupStateEnum {
   loading,
   getSpacesSuccess,
   getSpacesFailed,
+  getAllInSpaceSuccess,
+  getAllInSpaceFailed,
 }
 
 class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
   final ClickupWorkspace? selectedClickupWorkspace;
+  final ClickupSpace? selectedClickupSpace;
   final List<Map<String, Failure>>? getSpacesFailure;
+  final List<Map<String, Failure>>? getAllInSpaceFailure;
   final List<ClickupSpace>? clickupSpaces;
+  final bool? getTasks;
 
   const StartupState({
     required this.drawerLargerScreenOpen,
     this.selectedClickupWorkspace,
+    this.selectedClickupSpace,
     this.startupStateEnum,
     this.getSpacesFailure,
+    this.getAllInSpaceFailure,
     this.clickupSpaces,
+    this.getTasks,
   });
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
@@ -30,25 +38,27 @@ class StartupState extends Equatable {
           getSpacesFailure == null &&
           clickupSpaces == null;
 
-  ClickupWorkspace? get defaultWorkspace =>
-      Globals.clickupWorkspaces?.firstOrNull;
-
   @override
   List<Object?> get props => [
     startupStateEnum,
     drawerLargerScreenOpen,
     selectedClickupWorkspace,
+    selectedClickupSpace,
     getSpacesFailure,
     clickupSpaces,
     reSelectWorkspace,
+    getTasks,
   ];
 
   StartupState copyWith({
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
     ClickupWorkspace? selectedClickupWorkspace,
+    ClickupSpace? selectedClickupSpace,
     List<Map<String, Failure>>? getSpacesFailure,
+    List<Map<String, Failure>>? getAllInSpaceFailure,
     List<ClickupSpace>? clickupSpaces,
+    bool? getTasks,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -58,6 +68,9 @@ class StartupState extends Equatable {
       selectedClickupWorkspace ?? this.selectedClickupWorkspace,
       getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
+      selectedClickupSpace: selectedClickupSpace ?? this.selectedClickupSpace,
+      getAllInSpaceFailure: getAllInSpaceFailure ?? this.getAllInSpaceFailure,
+      getTasks: getTasks,
     );
   }
 }

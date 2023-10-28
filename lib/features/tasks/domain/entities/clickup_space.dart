@@ -42,7 +42,7 @@ class ClickupSpace extends Equatable {
   final bool? private;
   final dynamic avatar;
   final bool? adminCanManage;
-  final List<ClickupSpaceStatuses>? statuses;
+  final List<ClickupStatus>? statuses;
   final bool? multipleAssignees;
   final ClickupSpaceFeatures? features;
   final bool? archived;
@@ -358,33 +358,5 @@ class ClickupSpaceDueDates extends Equatable {
         startDate,
         remapDueDates,
         remapClosedDueDate,
-      ];
-}
-
-/* id : "p90150126979_lIWCjnSr"
- status : "Open"
- type : "open"
- orderindex : 0
- color : "#d3d3d3"*/
-
-class ClickupSpaceStatuses extends Equatable {
-  const ClickupSpaceStatuses({
-    this.id,
-    this.status,
-    this.type,
-    this.color,
-  });
-
-  final String? id;
-  final String? status;
-  final String? type;
-  final String? color;
-
-  @override
-  List<Object?> get props => [
-        id,
-        status,
-        type,
-        color,
       ];
 }

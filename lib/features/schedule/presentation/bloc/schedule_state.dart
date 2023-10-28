@@ -105,8 +105,13 @@ class ScheduleState extends Equatable {
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
   GetClickupTasksInWorkspaceFiltersParams
-      get defaultTasksInWorkspaceFiltersParams =>
-          GetClickupTasksInWorkspaceFiltersParams(
+      get defaultTasksInWorkspaceFiltersParams {
+    List<String>? filterBySpaceIds;
+    if(Globals.isSpaceAppWide && Globals.selectedSpace!=null){
+      filterBySpaceIds = [Globals.selectedSpace?.id??""];
+    }
+    return GetClickupTasksInWorkspaceFiltersParams(
+            filterBySpaceIds: filterBySpaceIds,
             clickupAccessToken: Globals.clickupAuthAccessToken,
             filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
             filterByDueDateGreaterThanUnixTimeMilliseconds:
@@ -114,6 +119,7 @@ class ScheduleState extends Equatable {
             filterByDueDateLessThanUnixTimeMilliseconds:
                 tasksDueDateLatestDate.millisecondsSinceEpoch,
           );
+  }
 
   bool get changedTaskSuccessfully => nonPersistingScheduleState ==
       ScheduleStateEnum.createTaskSuccess ||
@@ -135,4 +141,11 @@ class ScheduleState extends Equatable {
     }
     return updatedStates;
   }
+
+  bool canShowTaskPopup({required StartupStateEnum? startupStateEnum}) =>
+      showTaskPopup == true &&
+      ((startupStateEnum == StartupStateEnum.getSpacesSuccess &&
+              Globals.isSpaceAppWide == false) ||
+          (startupStateEnum == StartupStateEnum.getAllInSpaceSuccess &&
+              Globals.isSpaceAppWide == true));
 }

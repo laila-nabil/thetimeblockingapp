@@ -2,7 +2,8 @@ enum LocalDataSourceKeys {
   clickupAccessToken,
   clickupUser,
   clickupWorkspaces,
-  selectedWorkspace
+  selectedWorkspace,
+  selectedSpace
 }
 
 abstract class LocalDataSource {

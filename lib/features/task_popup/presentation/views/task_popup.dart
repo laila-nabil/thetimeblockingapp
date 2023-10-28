@@ -19,6 +19,7 @@ import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
+///TODO B Add is all day checkbox
 class TaskPopupParams extends Equatable {
   final ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
@@ -96,7 +97,8 @@ class TaskPopup extends StatelessWidget {
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.getDueDate,
-                          startDate: taskPopupParams.getStartDate
+                          startDate: taskPopupParams.getStartDate,
+                          space: Globals.isSpaceAppWide ? Globals.selectedSpace : null
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -172,10 +174,9 @@ class TaskPopup extends StatelessWidget {
                       child: Column(
                         children: [
                           ///Space
-                          ///TODO create a new Space
-                          ///TODO first space is set by default
+                          ///TODO B create a new Space
                           ///TODO C default space is set in settings
-                          task == null
+                          if(Globals.isSpaceAppWide == false)(task == null
                               ? DropdownButton<ClickupSpace>(
                                   hint:
                                       Text(appLocalization.translate("space")),
@@ -191,14 +192,33 @@ class TaskPopup extends StatelessWidget {
                                           .toList() ??
                                       [],
                                 )
-                              : Text(" ${task.space?.name ?? ""} "),
+                              : Text(" ${task.space?.name ?? ""} ")),
 
                           ///Status && Priority & Title
                           Row(
                             children: [
                               ///Status
-                              ///TODO task status
-
+                              DropdownButton<ClickupStatus>(
+                                value: state.taskParams?.taskStatus,
+                                hint: Text(
+                                    appLocalization.translate("status")),
+                                onChanged: (status) => taskPopUpBloc.add(
+                                    UpdateClickupTaskParamsEvent(
+                                        taskParams:
+                                        clickupTaskParams.copyWith(
+                                            taskStatus: status))),
+                                items: state.taskParams?.clickupSpace?.statuses
+                                        ?.map<DropdownMenuItem<ClickupStatus>>(
+                                            (e) => DropdownMenuItem(
+                                                value: e,
+                                                child: Text(e.status ?? "",
+                                                    style: TextStyle(
+                                                        textBaseline:
+                                                        TextBaseline.alphabetic,
+                                                        color: e.getColor))))
+                                        .toList() ??
+                                    [],
+                              ),
                               ///Priority
                               ///TODO add priorities in case of disabled
                               if (state.isPrioritiesEnabled)
@@ -276,8 +296,7 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Tags
-                          ///TODO TODO create new tags
-                          ///TODO updating tags for task created
+                          ///TODO B TODO create new tags
                           if(state.viewTagsButton)CustomButton(
                             customButtonEnum: CustomButtonEnum.secondary,
                               child: Text(
@@ -351,7 +370,7 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
 
-                              ///TODO create a new Folder
+                              ///TODO B create a new Folder
                               ///Folder
                               if (state.isFoldersListAvailable && task == null)
                                 DropdownButton<ClickupFolder?>(
@@ -384,7 +403,7 @@ class TaskPopup extends StatelessWidget {
                               else if (task?.folder != null)
                                 Text(" ${task?.folder?.name ?? ""} "),
 
-                              ///TODO create a new list
+                              ///TODO B create a new list
                               ///List
                               if (task == null &&
                                   (state.taskParams?.getAvailableLists
