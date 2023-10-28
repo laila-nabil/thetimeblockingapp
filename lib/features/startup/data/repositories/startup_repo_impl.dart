@@ -24,7 +24,7 @@ class StartUpRepoImpl implements StartUpRepo {
   Future<Either<Failure, Unit>?> selectWorkspace(
       SelectWorkspaceParams params) async {
     return repoHandleLocalSaveRequest(
-        trySaveResult: () => startUpLocalDataSource.saveSelectedWorkspace(
+        trySaveResult: () => startUpLocalDataSource. saveSelectedWorkspace(
             params.clickupWorkspace as ClickupWorkspaceModel));
   }
 

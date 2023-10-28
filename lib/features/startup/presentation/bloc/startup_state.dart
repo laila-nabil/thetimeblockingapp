@@ -31,12 +31,12 @@ class StartupState extends Equatable {
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
 
-  bool get reSelectWorkspace =>
+  bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
           Globals.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
           Globals.clickupSpaces == null &&
           getSpacesFailure == null &&
-          clickupSpaces == null;
+          clickupSpaces == null && triedGetSelectedWorkspacesSpace;
 
   @override
   List<Object?> get props => [
