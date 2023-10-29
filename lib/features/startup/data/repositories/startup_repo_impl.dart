@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_local_data_source.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import '../../../../core/repo_handler.dart';
@@ -13,18 +14,18 @@ import '../data_sources/startup_remote_data_source.dart';
 
 class StartUpRepoImpl implements StartUpRepo {
   final StartUpRemoteDataSource startUpRemoteDataSource;
-  final StartUpLocalDataSource startUpLocalDataSource;
+  final TasksLocalDataSource tasksLocalDataSource;
 
   StartUpRepoImpl(
     this.startUpRemoteDataSource,
-    this.startUpLocalDataSource,
+    this.tasksLocalDataSource,
   );
 
   @override
   Future<Either<Failure, Unit>?> selectWorkspace(
       SelectWorkspaceParams params) async {
     return repoHandleLocalSaveRequest(
-        trySaveResult: () => startUpLocalDataSource. saveSelectedWorkspace(
+        trySaveResult: () => tasksLocalDataSource. saveSelectedWorkspace(
             params.clickupWorkspace as ClickupWorkspaceModel));
   }
 
@@ -33,20 +34,20 @@ class StartUpRepoImpl implements StartUpRepo {
       NoParams params) async {
     return repoHandleLocalGetRequest(
         tryGetFromLocalStorage: () =>
-            startUpLocalDataSource.getSelectedWorkspace());
+            tasksLocalDataSource.getSelectedWorkspace());
   }
 
   @override
   Future<Either<Failure, ClickupSpace>?> getSelectedSpace(NoParams params) async {
     return repoHandleLocalGetRequest(
         tryGetFromLocalStorage: () =>
-            startUpLocalDataSource.getSelectedSpace());
+            tasksLocalDataSource.getSelectedSpace());
   }
 
   @override
   Future<Either<Failure, Unit>?> selectSpace(SelectSpaceParams params) async {
     return repoHandleLocalSaveRequest(
-        trySaveResult: () => startUpLocalDataSource.saveSelectedSpace(
+        trySaveResult: () => tasksLocalDataSource.saveSelectedSpace(
             params.clickupSpace as ClickupSpaceModel));
   }
 }

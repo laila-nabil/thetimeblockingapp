@@ -2,6 +2,7 @@ enum LocalDataSourceKeys {
   clickupAccessToken,
   clickupUser,
   clickupWorkspaces,
+  clickupSpaces,
   selectedWorkspace,
   selectedSpace
 }
