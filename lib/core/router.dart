@@ -37,7 +37,7 @@ final router = GoRouter(
       if (state?.queryParameters != null &&
           state?.queryParameters["Code"] != null) {
         ///TODO B when deploying
-      }else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
+      } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
         return AuthPage.routeName;
@@ -46,8 +46,8 @@ final router = GoRouter(
     },
     routes: [
       GoRoute(
-        path: AuthPage.routeName,
-        builder: (context, state) => const AuthPage(),
+          path: AuthPage.routeName,
+          builder: (context, state) => const AuthPage(),
           redirect: (context, state) async {
             if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
                 Globals.clickupUser != null &&
@@ -55,8 +55,7 @@ final router = GoRouter(
               return SchedulePage.routeName;
             }
             return null;
-          }
-      ),
+          }),
       GoRoute(
         path: SchedulePage.routeName,
         builder: (context, state) => const SchedulePage(),
@@ -79,7 +78,9 @@ final router = GoRouter(
       ),
       GoRoute(
         path: ListPage.routeName,
-        builder: (context, state) => const ListPage(),
+        builder: (context, state) => ListPage(
+            listId: state.queryParameters[ListPage.queryParametersList.first]
+                as String),
       ),
       GoRoute(
         path: MapsPage.routeName,
