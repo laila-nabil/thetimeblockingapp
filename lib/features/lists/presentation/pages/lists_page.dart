@@ -106,10 +106,7 @@ class ListsPageContent extends StatelessWidget {
                             .map((e) => ExpansionTile(
                                   title: Text(e.name ?? ""),
                                   children: e.lists
-                                          ?.map((e) => ListTile(
-                                              onTap: () {
-                                                listsPageBloc.add(NavigateToListPageEvent(e));
-                                              },
+                                          ?.map((e) => ExpansionTile(
                                               title: Text(e.name ?? "")))
                                           .toList() ??
                                       [],
@@ -121,8 +118,8 @@ class ListsPageContent extends StatelessWidget {
                             .toList() ??
                         []) +
                     (Globals.selectedSpace?.lists
-                            .map((e) => ListTile(
-                                onTap: () {
+                            .map((e) => ExpansionTile(
+                                onExpansionChanged: (value) {
                                   listsPageBloc.add(NavigateToListPageEvent(e));
                                 },
                                 title: Text(e.name ?? "")))
