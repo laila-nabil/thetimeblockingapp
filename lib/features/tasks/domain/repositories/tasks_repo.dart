@@ -3,6 +3,10 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/usecase.dart';
+import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
+import '../../../startup/domain/use_cases/select_space_use_case.dart';
+import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
 import '../entities/clickup_folder.dart';
 import '../entities/clickup_list.dart';
 import '../entities/clickup_space.dart';
@@ -62,4 +66,22 @@ abstract class TasksRepo{
 
   Future<Either<Failure, Unit>> addTaskToList(
       {required AddTaskToListParams params});
+
+  Future<Either<Failure, Unit>?> selectWorkspace(
+      SelectWorkspaceParams params);
+
+  Future<Either<Failure, ClickupWorkspace>?> getSelectedWorkspace(
+      NoParams params);
+
+  Future<Either<Failure, Unit>?> selectSpace(
+      SelectSpaceParams params);
+
+  Future<Either<Failure, ClickupSpace>?> getSelectedSpace(
+      NoParams params);
+
+  Future<Either<Failure, Unit>?> saveSpacesOfSelectedWorkspace(
+      SaveSpacesParams params);
+
+  Future<Either<Failure, List<ClickupSpace>>?> getSpacesOfSelectedWorkspace(
+      NoParams params);
 }

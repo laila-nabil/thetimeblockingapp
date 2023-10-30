@@ -6,20 +6,20 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../tasks/domain/entities/clickup_space.dart';
 
 
-class SelectSpaceUseCase implements UseCase<Unit,SelectSpaceParams>{
+class SaveSpacesUseCase implements UseCase<Unit,SaveSpacesParams>{
 
   final TasksRepo repo;
 
-  SelectSpaceUseCase(this.repo);
+  SaveSpacesUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(SelectSpaceParams params) {
-    return repo.selectSpace(params);
+  Future<Either<Failure, Unit>?> call(SaveSpacesParams params) {
+    return repo.saveSpacesOfSelectedWorkspace(params);
   }
 
 }
 
-class SelectSpaceParams{
-  final ClickupSpace clickupSpace;
+class SaveSpacesParams{
+  final List<ClickupSpace> clickupSpaces;
 
-  SelectSpaceParams(this.clickupSpace);
+  SaveSpacesParams(this.clickupSpaces);
 }

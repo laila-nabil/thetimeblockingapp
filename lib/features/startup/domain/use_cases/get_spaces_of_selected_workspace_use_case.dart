@@ -4,21 +4,15 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-
-class SelectWorkspaceUseCase implements UseCase<Unit,SelectWorkspaceParams>{
-
+class GetSpacesOfSelectedWorkspaceUseCase
+    implements UseCase<ClickupWorkspace, NoParams> {
   final TasksRepo repo;
 
-  SelectWorkspaceUseCase(this.repo);
+  GetSpacesOfSelectedWorkspaceUseCase(this.repo);
+
   @override
-  Future<Either<Failure, Unit>?> call(SelectWorkspaceParams params) {
-    return repo.selectWorkspace(params);
+  Future<Either<Failure, ClickupWorkspace>?> call(
+      NoParams params) {
+    return repo.getSelectedWorkspace(params);
   }
-
-}
-
-class SelectWorkspaceParams{
-  final ClickupWorkspace clickupWorkspace;
-
-  SelectWorkspaceParams(this.clickupWorkspace);
 }

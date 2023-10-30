@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
@@ -359,4 +360,30 @@ class ClickupSpaceDueDates extends Equatable {
         remapDueDates,
         remapClosedDueDate,
       ];
+}
+
+extension ClickupSpaceListExtensions on List<ClickupSpace>{
+
+  static List<ClickupSpace>? updateItemInList(
+      {required List<ClickupSpace>? list,
+      required ClickupSpace ? updatedSpace}) {
+    printDebug("updateItemInList $list");
+    List<ClickupSpace>? result;
+    if (list!=null && updatedSpace!=null) {
+      result = List.from(list,growable: true);
+      final index = list.indexWhere((element) => element.id == updatedSpace.id);
+      if(index != -1){
+        result.setRange(
+            index,
+            index,
+            Iterable.generate(
+              1,
+              (index) => updatedSpace,
+            ));
+      }
+    }
+    printDebug("updateItemInList $result");
+    return result;
+  }
+
 }

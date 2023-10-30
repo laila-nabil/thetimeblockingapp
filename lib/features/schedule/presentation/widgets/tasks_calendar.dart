@@ -27,12 +27,17 @@ class TasksCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
+      ///TODO keep view in schedule to keep selected view
+      // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
         CalendarView.schedule,
         CalendarView.week,
         CalendarView.month,
       ],
+      monthViewSettings: const MonthViewSettings(
+        showAgenda: true
+      ),
       ///TODO C enable when enabling the feature
       allowDragAndDrop: false,
       allowAppointmentResize: false,
@@ -164,7 +169,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
         " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
     ///TODO A ??
     return clickupTasks[index].startDateUtc ??
-        getEndTime(index).subtract(const Duration(minutes: 30));
+        getEndTime(index).subtract(Globals.defaultTaskDuration);
   }
 
   @override

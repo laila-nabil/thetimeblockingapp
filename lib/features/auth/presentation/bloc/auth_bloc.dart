@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
@@ -24,17 +25,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetClickupWorkspacesUseCase _getClickupWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
   final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
-  AuthBloc(this._getClickupAccessTokenUseCase, this._getClickupUserUseCase,
+
+  final GetSpacesOfSelectedWorkspaceUseCase _getSpacesOfSelectedWorkspaceUseCase;
+
+  AuthBloc(
+      this._getClickupAccessTokenUseCase,
+      this._getClickupUserUseCase,
       this._getClickupWorkspacesUseCase,
       this._getSelectedWorkspaceUseCase,
-      this._getSelectedSpaceUseCase)
+      this._getSelectedSpaceUseCase,
+      this._getSpacesOfSelectedWorkspaceUseCase)
       : super(const AuthState(authStates: {AuthStateEnum.initial})) {
     on<AuthEvent>((event, emit) async {
       if (event is ShowCodeInputTextField) {
         emit(AuthState(
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
-      } else if (event is GetClickupAccessToken) {
+      }
+      else if (event is GetClickupAccessToken) {
         emit(const AuthState(
             authStates: {AuthStateEnum.loading}));
         final result = await _getClickupAccessTokenUseCase(
@@ -53,7 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   AuthStateEnum.getClickupAccessTokenSuccess)));
           add(GetClickupUserWorkspaces(r));
         });
-      } else if (event is GetClickupUserWorkspaces) {
+      }
+      else if (event is GetClickupUserWorkspaces) {
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));
@@ -85,8 +94,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   AuthStateEnum.getClickupWorkspacesSuccess)));
           add(TryGetSelectedWorkspaceSpaceEvent());
         });
-      }else if(event is TryGetSelectedWorkspaceSpaceEvent){
+      }
+      else if(event is TryGetSelectedWorkspaceSpaceEvent){
         await _getSelectedWorkspaceUseCase(NoParams());
+        await _getSpacesOfSelectedWorkspaceUseCase(NoParams());
         if (Globals.isSpaceAppWide) {
           await _getSelectedSpaceUseCase(NoParams());
         }

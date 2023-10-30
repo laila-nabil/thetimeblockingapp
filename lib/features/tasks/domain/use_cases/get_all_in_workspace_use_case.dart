@@ -12,7 +12,7 @@ import 'get_clickup_folderless_lists_in_space_use_case.dart';
 import 'get_clickup_folders_in_space_use_case.dart';
 import 'get_clickup_spaces_in_workspace_use_case.dart';
 
-class GetAllInClickupWorkspaceUseCase {
+class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
   final TasksRepo repo;
 
   GetAllInClickupWorkspaceUseCase(this.repo);
@@ -67,7 +67,7 @@ class GetAllInClickupWorkspaceUseCase {
         });
 
     if (spaces.isNotEmpty) {
-      Globals.clickupSpaces = spaces;
+      clickupSpaces = spaces;
       printDebug(
           "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
               .clickupSpaces}");

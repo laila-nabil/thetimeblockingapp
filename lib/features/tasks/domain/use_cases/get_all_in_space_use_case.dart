@@ -10,7 +10,7 @@ import '../entities/clickup_space.dart';
 import 'get_clickup_folderless_lists_in_space_use_case.dart';
 import 'get_clickup_folders_in_space_use_case.dart';
 
-class GetAllInClickupSpaceUseCase {
+class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
   final TasksRepo repo;
 
   GetAllInClickupSpaceUseCase(this.repo);
@@ -49,10 +49,10 @@ class GetAllInClickupSpaceUseCase {
     folders.fold(
             (lFolder) => failures.add({"folders": lFolder}),
             (rFolders) => space.folders = rFolders);
-    Globals.selectedSpace = space;
+    setSelectedSpace(space);
     if (failures.isEmpty) {
       printDebug(
-          "GetAllInSpaceUseCase Globals.selectedSpace ${Globals.selectedSpace}");
+          "GetAllInSpaceUseCase Globals.selectedSpace ${Globals.selectedSpaceId}");
       return Right(space);
     }
     return Left(failures);

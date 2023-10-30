@@ -10,6 +10,7 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_space.dart';
 
 class GetClickupSpacesInWorkspacesUseCase
+    with GlobalsWriteAccess
     implements UseCase<List<ClickupSpace>, GetClickupSpacesInWorkspacesParams> {
   final TasksRepo repo;
 
@@ -17,13 +18,12 @@ class GetClickupSpacesInWorkspacesUseCase
 
   @override
   Future<Either<Failure, List<ClickupSpace>>?> call(
-      GetClickupSpacesInWorkspacesParams params)async {
+      GetClickupSpacesInWorkspacesParams params) async {
     final result = await repo.getClickupSpacesInWorkspaces(params: params);
     result.fold((l) => null, (r) {
-      Globals.clickupSpaces = r;
+      clickupSpaces = r;
       printDebug(
-          "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals
-              .clickupSpaces}");
+          "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.clickupSpaces}");
     });
     return result;
   }
@@ -41,5 +41,5 @@ class GetClickupSpacesInWorkspacesParams extends Equatable {
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupWorkspace,archived];
+  List<Object?> get props => [clickupAccessToken, clickupWorkspace, archived];
 }

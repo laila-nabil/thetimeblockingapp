@@ -39,7 +39,7 @@ class TaskPopupParams extends Equatable {
     required this.scheduleBloc,
   }){
     startDate =cellDate;
-    dueDate = cellDate?.add(const Duration(hours: 1));
+    dueDate = cellDate?.add(Globals.defaultTaskDuration);
     isAllDay = false;
 }
   TaskPopupParams.allDayTask({

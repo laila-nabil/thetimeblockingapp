@@ -19,7 +19,7 @@ import '../../domain/repositories/auth_repo.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
 
-class AuthRepoImpl implements AuthRepo {
+class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
@@ -31,7 +31,7 @@ class AuthRepoImpl implements AuthRepo {
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupAccessToken(params: params),
       trySaveResult: (result)async{
-        Globals.clickupAuthAccessToken =  result;
+        clickupAuthAccessToken =  result;
           await authLocalDataSource
               .saveClickupAccessToken(result as ClickupAccessTokenModel);
         printDebug(
@@ -49,7 +49,7 @@ class AuthRepoImpl implements AuthRepo {
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupUser(params: params),
         trySaveResult: (result)async{
-          Globals.clickupUser =  result;
+          clickupUser =  result;
           printDebug(
               "getClickUpUser $result ${Globals.clickupUser}");
           await authLocalDataSource

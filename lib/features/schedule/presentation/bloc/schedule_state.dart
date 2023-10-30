@@ -107,7 +107,7 @@ class ScheduleState extends Equatable {
   GetClickupTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if(Globals.isSpaceAppWide && Globals.selectedSpace!=null){
+    if(Globals.isSpaceAppWide && Globals.selectedSpaceId!=null){
       filterBySpaceIds = [Globals.selectedSpace?.id??""];
     }
     return GetClickupTasksInWorkspaceFiltersParams(
