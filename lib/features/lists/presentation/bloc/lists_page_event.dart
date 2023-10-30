@@ -45,24 +45,14 @@ class NavigateToFolderPageEvent extends ListsPageEvent {
   List<Object?> get props => [folder];
 }
 
-class GetTasksInListEvent extends ListsPageEvent {
+class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
   final ClickupList list;
   final ClickupAccessToken clickupAccessToken;
 
-  const GetTasksInListEvent(
+  const GetListDetailsAndTasksInListEvent(
       {required this.list, required this.clickupAccessToken});
 
   @override
   List<Object?> get props => [list, clickupAccessToken];
 }
 
-class GetTasksInFolderEvent extends ListsPageEvent {
-  final ClickupFolder folder;
-  final ClickupAccessToken clickupAccessToken;
-
-  const GetTasksInFolderEvent(
-      {required this.folder, required this.clickupAccessToken});
-
-  @override
-  List<Object?> get props => [folder, clickupAccessToken];
-}

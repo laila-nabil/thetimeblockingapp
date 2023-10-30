@@ -3,8 +3,8 @@ part of 'lists_page_bloc.dart';
 enum ListsPageStatus {
   initial,
   isLoading,
-  getListsAndFoldersSuccess,
-  getListsAndFoldersFailed,
+  getListDetailsSuccess,
+  getListDetailsFailed,
   getSpacesAndListsAndFoldersSuccess,
   getSpacesAndListsAndFoldersFailed,
   getTasksSuccess,
