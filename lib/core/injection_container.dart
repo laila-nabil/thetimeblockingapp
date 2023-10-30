@@ -88,7 +88,12 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
-  serviceLocator.registerFactory(() => ListsPageBloc());
+  serviceLocator.registerFactory(() => ListsPageBloc(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ));
 
   /// UseCases
 
