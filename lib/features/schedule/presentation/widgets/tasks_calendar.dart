@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_calendar_widget.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
+import '../../../task_popup/presentation/views/task_popup.dart';
 
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
@@ -27,50 +27,48 @@ class TasksCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
+      ///TODO keep view in schedule to keep selected view
+      // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
+        CalendarView.schedule,
         CalendarView.week,
         CalendarView.month,
       ],
-      allowDragAndDrop: true,
-      allowAppointmentResize: true,
+      monthViewSettings: const MonthViewSettings(
+        showAgenda: true
+      ),
+      ///TODO C enable when enabling the feature
+      allowDragAndDrop: false,
+      allowAppointmentResize: false,
       allowViewNavigation: true,
       firstDayOfWeek: 6,
       showTodayButton: true,
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      appointmentBuilder: (context, calendarAppointmentDetails) {
-        return TaskCalendarWidget(
-            calendarAppointmentDetails: calendarAppointmentDetails);
-      },
-      timeZone: Globals.clickUpUser?.timezone,
-      onTap: (calendarTapDetails){
-        printDebug("calendarTapDetails ${calendarTapDetails.targetElement}");
-        printDebug("calendarTapDetails ${calendarTapDetails.date}");
-        printDebug("calendarTapDetails ${calendarTapDetails.appointments}");
-        printDebug("calendarTapDetails ${calendarTapDetails.resource}");
-        if(calendarTapDetails.appointments == null){
-          ///TODO try to add a new task
-        }else{
-          ///TODO view/edit the task
-        }
-      },
+      // appointmentBuilder: (context, calendarAppointmentDetails) {
+      //   return TaskCalendarWidget(
+      //       calendarAppointmentDetails: calendarAppointmentDetails);
+      // },
+      timeZone: Globals.clickupUser?.timezone,
+      onTap: onTapCalendarElement,
+      onLongPress: onTapCalendarElement,///TODO C
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO onAppointmentResizeEnd
+        ///TODO C onAppointmentResizeEnd
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO TimeSlotViewSettings
+        ///TODO AB TimeSlotViewSettings
       ),
       onDragEnd: (appointmentDragEndDetails){
-        ///TODO onDragEnd
+        ///TODO C onDragEnd
       },
       onDragStart: (appointmentDragEndDetails){
-        ///TODO onDragStart
+        ///TODO C onDragStart
       },
       onDragUpdate: (appointmentDragEndDetails){
-        ///TODO onDragUpdate
+        ///TODO C onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
 
@@ -80,32 +78,32 @@ class TasksCalendar extends StatelessWidget {
         printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleBloc.state.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
             .isAfter(scheduleBloc.state.tasksDueDateLatestDate)}");
         if (viewChangedDetails.visibleDates.first
-                .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
+            .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
             viewChangedDetails.visibleDates.last
                 .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
 
-          ///TODO onViewChange
-          ///TODO fix adding event multiple times
-          if (scheduleBloc.state.isLoading == false) {
+          final id = "${viewChangedDetails.visibleDates.tryElementAt(0)?.millisecondsSinceEpoch}${viewChangedDetails.visibleDates.lastOrNull?.millisecondsSinceEpoch}";
+          if (scheduleBloc.state.isLoading == false &&
+              scheduleBloc.state.getTasksForSingleWorkspaceScheduleEventId !=
+                  id) {
             printDebug("onViewChange HEREEEE");
-            // scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-            //     GetClickUpTasksInWorkspaceParams(
-            //         workspaceId: selectedClickupWorkspaceId ??
-            //             Globals.clickUpWorkspaces?.first.id ??
-            //             "",
-            //         filtersParams: GetClickUpTasksInWorkspaceFiltersParams(
-            //             clickUpAccessToken: Globals.clickUpAuthAccessToken,
-            //             filterByAssignees: [
-            //               Globals.clickUpUser?.id.toString() ?? ""
-            //             ],
-            //             filterByDueDateGreaterThanUnixTimeMilliseconds:
-            //                 (viewChangedDetails.visibleDates.first
-            //                         .add(const Duration(days: 1)))
-            //                     .millisecondsSinceEpoch,
-            //             filterByDueDateLessThanUnixTimeMilliseconds:
-            //                 viewChangedDetails.visibleDates.last
-            //                     .add(const Duration(days: 1))
-            //                     .millisecondsSinceEpoch))));
+            scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+                id: id,
+                GetClickupTasksInWorkspaceParams(
+                    workspaceId: selectedClickupWorkspaceId ??
+                        Globals.clickupWorkspaces?.first.id ??
+                        "",
+                    filtersParams: scheduleBloc
+                        .state.defaultTasksInWorkspaceFiltersParams
+                        .copyWith(
+                            filterByDueDateGreaterThanUnixTimeMilliseconds:
+                                (viewChangedDetails.visibleDates.first
+                                        .add(const Duration(days: 1)))
+                                    .millisecondsSinceEpoch,
+                            filterByDueDateLessThanUnixTimeMilliseconds:
+                                viewChangedDetails.visibleDates.last
+                                    .add(const Duration(days: 1))
+                                    .millisecondsSinceEpoch))));
           } else {
             printDebug("onViewChange Not");
           }
@@ -113,6 +111,51 @@ class TasksCalendar extends StatelessWidget {
       },
     );
   }
+
+  void onTapCalendarElement(calendarTapDetails){
+      printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
+      printDebug("calendarTapDetails date ${calendarTapDetails.date}");
+      printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
+      printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
+      if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams.notAllDayTask(
+                task: calendarTapDetails.appointments?.first as ClickupTask,
+                onSave: (params) {
+                  scheduleBloc.add(UpdateClickupTaskEvent(params: params));
+                },
+                onDelete: (params) =>
+                    scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
+                scheduleBloc: scheduleBloc)));
+      } else if (calendarTapDetails.targetElement ==
+              CalendarElement.calendarCell &&
+          calendarTapDetails.appointments == null) {
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams.notAllDayTask(
+                cellDate: calendarTapDetails.date,
+                onSave: (params) {
+                  scheduleBloc.add(CreateClickupTaskEvent(
+                      params:
+                          params));
+                },
+                scheduleBloc: scheduleBloc)));
+      } else if (calendarTapDetails.targetElement ==
+          CalendarElement.allDayPanel &&
+          calendarTapDetails.appointments == null) {
+        scheduleBloc.add(ShowTaskPopupEvent(
+            showTaskPopup: true,
+            taskPopupParams: TaskPopupParams.allDayTask(
+                cellDate: calendarTapDetails.date,
+                onSave: (params) {
+                  scheduleBloc.add(CreateClickupTaskEvent(
+                      params:
+                      params));
+                },
+                scheduleBloc: scheduleBloc)));
+      }
+    }
 }
 
 class ClickupTasksDataSource extends CalendarDataSource {
@@ -122,13 +165,17 @@ class ClickupTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    ///TODO ??
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
+    ///TODO A ??
     return clickupTasks[index].startDateUtc ??
-        getEndTime(index).subtract(const Duration(minutes: 30));
+        getEndTime(index).subtract(Globals.defaultTaskDuration);
   }
 
   @override
   DateTime getEndTime(int index) {
+    printDebug("${clickupTasks[index].name}=>"
+        " clickupTasks[index].dueDateUtc ${clickupTasks[index].dueDateUtc}");
     return clickupTasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 

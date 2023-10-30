@@ -1,64 +1,48 @@
 import 'dart:convert';
 
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../models/clickup_access_token_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params});
+  Future<ClickupAccessTokenModel> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params});
 
-  Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params});
+  Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params});
 
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Network network;
-  final String clickUpClientId;
-  final String clickUpClientSecret;
-  final String clickUpUrl;
+  final String clickupClientId;
+  final String clickupClientSecret;
+  final String clickupUrl;
 
   AuthRemoteDataSourceImpl({
     required this.network,
-    required this.clickUpClientId,
-    required this.clickUpClientSecret,
-    required this.clickUpUrl,
+    required this.clickupClientId,
+    required this.clickupClientSecret,
+    required this.clickupUrl,
   });
 
   @override
-  Future<ClickUpAccessTokenModel> getClickUpAccessToken(
-      {required GetClickUpAccessTokenParams params}) async {
+  Future<ClickupAccessTokenModel> getClickupAccessToken(
+      {required GetClickupAccessTokenParams params}) async {
     final result = await network.post(
-        url:
-            "$clickUpUrl/oauth/token?client_id=$clickUpClientId&client_secret=$clickUpClientSecret&code=${params.code}");
-    return ClickUpAccessTokenModel.fromJson(json.decode(result.body));
+        uri:
+        Uri.parse("$clickupUrl/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=${params.code}"));
+    return ClickupAccessTokenModel.fromJson(json.decode(result.body));
   }
 
   @override
-  Future<ClickupUserModel> getClickUpUser({required GetClickUpUserParams params}) async {
+  Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params}) async {
     final result = await network.get(
-        url: "$clickUpUrl/user",
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
+        uri: Uri.parse("$clickupUrl/user"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     return ClickupUserModel.fromJson(json.decode(result.body)["user"]);
   }
 
-  @override
-  Future<List<ClickupWorkspaceModel>> getClickUpWorkspaces(
-      {required GetClickUpWorkspacesParams params}) async {
-    List<ClickupWorkspaceModel> result = [];
-    final response = await network.get(
-        url: "$clickUpUrl/team",
-        headers: clickUpHeader(clickUpAccessToken: params.clickUpAccessToken));
-    for (var element in (json.decode(response.body)["teams"] as List)) {
-      result.add(ClickupWorkspaceModel.fromJson(element));
-    }
-    return result;
-  }
 }

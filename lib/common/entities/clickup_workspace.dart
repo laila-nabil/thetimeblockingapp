@@ -41,7 +41,6 @@ class ClickupWorkspaceMembers extends Equatable {
   final ClickupWorkspaceUser? user;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [user];
 }
 

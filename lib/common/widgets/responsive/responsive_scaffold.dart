@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
@@ -8,7 +9,8 @@ import '../custom_app_bar.dart';
 import '../custom_loading.dart';
 
 enum ResponsiveScaffoldLoadingEnum {
-  overlayLoading,contentLoading,
+  overlayLoading,
+  contentLoading,
 }
 
 class ResponsiveScaffoldLoading {
@@ -25,16 +27,20 @@ class ResponsiveScaffoldLoading {
 
   bool get isLoadingContent =>
       isLoading &&
-          responsiveScaffoldLoadingEnum ==
-              ResponsiveScaffoldLoadingEnum.contentLoading;
+      responsiveScaffoldLoadingEnum ==
+          ResponsiveScaffoldLoadingEnum.contentLoading;
 }
+
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
   final List<PopupMenuEntry<Object?>>? pageActions;
+
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
+  final bool hideAppBarDrawer;
+
   // ignore: prefer_const_constructors_in_immutables
   ResponsiveScaffold({
     super.key,
@@ -42,48 +48,106 @@ class ResponsiveScaffold extends Scaffold {
     required this.context,
     this.pageActions,
     this.responsiveScaffoldLoading,
+    this.hideAppBarDrawer = false,
+    super.floatingActionButton,
+    super.floatingActionButtonLocation,
+    super.floatingActionButtonAnimator,
+    super.persistentFooterButtons,
+    super.persistentFooterAlignment = AlignmentDirectional.centerEnd,
+    super.onDrawerChanged,
+    super.endDrawer,
+    super.onEndDrawerChanged,
+    super.bottomNavigationBar,
+    super.bottomSheet,
+    super.backgroundColor,
+    super.resizeToAvoidBottomInset,
+    super.primary = true,
+    super.drawerDragStartBehavior = DragStartBehavior.start,
+    super.extendBody = false,
+    super.extendBodyBehindAppBar = false,
+    super.drawerScrimColor,
+    super.drawerEdgeDragWidth,
+    super.drawerEnableOpenDragGesture = true,
+    super.endDrawerEnableOpenDragGesture = true,
+    super.restorationId,
   });
 
-  Widget _responsiveT() {
+  @override
+  Widget? get floatingActionButton =>
+      responsiveScaffoldLoading?.isLoading == true
+          ? null
+          : super.floatingActionButton;
+
+  @override
+  Widget? get body {
+    if (Responsive.showSmallDesign(context) == false) {
+      return BlocBuilder<StartupBloc, StartupState>(
+        builder: (context, state) {
+          if (state.drawerLargerScreenOpen) {
+            return Row(
+              children: [
+                const CustomDrawer(),
+                Expanded(
+                  child: _ResponsiveBody(
+                    responsiveTParams: responsiveBody,
+                    responsiveScaffoldLoading: responsiveScaffoldLoading,
+                  ),
+                ),
+              ],
+            );
+          }
+          return _ResponsiveBody(
+            responsiveTParams: responsiveBody,
+            responsiveScaffoldLoading: responsiveScaffoldLoading,
+          );
+        },
+      );
+    }
+    return _ResponsiveBody(
+      responsiveTParams: responsiveBody,
+      responsiveScaffoldLoading: responsiveScaffoldLoading,
+    );
+  }
+
+  @override
+  Widget? get drawer => hideAppBarDrawer
+      ? null
+      : (Responsive.showSmallDesign(context) ? const CustomDrawer() : null);
+
+  @override
+  PreferredSizeWidget? get appBar => hideAppBarDrawer
+      ? null
+      : CustomAppBar(
+          pageActions: pageActions,
+        );
+}
+
+class _ResponsiveBody extends StatelessWidget {
+  const _ResponsiveBody(
+      {Key? key,
+      this.responsiveScaffoldLoading,
+      required this.responsiveTParams})
+      : super(key: key);
+  final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
+  final ResponsiveTParams responsiveTParams;
+
+  @override
+  Widget build(BuildContext context) {
     final actualResponsiveBody = Responsive.responsiveT(
         params: responsiveScaffoldLoading?.isLoadingContent == true
             ? ResponsiveTParams(
                 mobile: CustomLoading(color: Theme.of(context).primaryColor),
                 laptop: CustomLoading(color: Theme.of(context).primaryColor))
-            : responsiveBody,
+            : responsiveTParams,
         context: context);
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
-            children: [const LoadingOverlay() , actualResponsiveBody],
+            alignment: Alignment.center,
+            children: [
+              actualResponsiveBody,
+              const LoadingOverlay(),
+            ],
           )
         : actualResponsiveBody;
   }
-
-  @override
-  Widget? get body {
-    if (Responsive.showSmallDesign(context)) {
-      return _responsiveT();
-    } else {
-      return BlocBuilder<StartupBloc, StartupState>(
-        builder: (context, state) {
-          if(state.drawerLargerScreenOpen){
-            return Row(
-              children: [
-                const CustomDrawer(),
-                Expanded(child: _responsiveT(),),
-              ],
-            );
-          }
-          return _responsiveT();
-        },
-      );
-    }
-  }
-
-  @override
-  Widget? get drawer =>
-      Responsive.showSmallDesign(context) ? const CustomDrawer() : null;
-
-  @override
-  PreferredSizeWidget? get appBar => CustomAppBar(pageActions: pageActions,);
 }

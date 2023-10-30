@@ -1,4 +1,7 @@
+import 'clickup_folder_model.dart';
 import '../../domain/entities/clickup_task.dart';
+import 'clickup_list_model.dart';
+import 'clickup_space_model.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -56,7 +59,7 @@ class ClickupTaskModel extends ClickupTask {
     super.dueDateUtcTimestamp,
     super.startDateUtcTimestamp,
     super.points,
-    super.timeEstimate,
+    super.timeEstimateMilliseconds,
     super.customFields,
     super.dependencies,
     super.linkedTasks,
@@ -86,11 +89,11 @@ class ClickupTaskModel extends ClickupTask {
     ClickupCreatorModel? creator = json['creator'] != null
         ? ClickupCreatorModel.fromJson(json['creator'])
         : null;
-    List<ClickupAssigneesModel>? assignees;
+    List<ClickupAssigneeModel>? assignees;
     if (json['assignees'] != null) {
       assignees = [];
       json['assignees'].forEach((v) {
-        assignees?.add(ClickupAssigneesModel.fromJson(v));
+        assignees?.add(ClickupAssigneeModel.fromJson(v));
       });
     }
     List<ClickupWatchersModel>? watchers;
@@ -107,11 +110,11 @@ class ClickupTaskModel extends ClickupTask {
         checklists?.add(ClickupChecklistsModel.fromJson(v));
       });
     }
-    List<ClickupTagsModel>? tags;
+    List<ClickupTagModel>? tags;
     if (json['tags'] != null) {
       tags = [];
       json['tags'].forEach((v) {
-        tags?.add(ClickupTagsModel.fromJson(v));
+        tags?.add(ClickupTagModel.fromJson(v));
       });
     }
     String? parent = json['parent'];
@@ -120,7 +123,7 @@ class ClickupTaskModel extends ClickupTask {
     String? dueDate = json['due_date'];
     String? startDate = json['start_date'];
     num? points = json['points'];
-    num? timeEstimate = json['time_estimate'];
+    num? timeEstimateMilliseconds = json['time_estimate'];
     List<ClickupCustomFieldsModel>? customFields;
     if (json['custom_fields'] != null) {
       customFields = [];
@@ -145,7 +148,7 @@ class ClickupTaskModel extends ClickupTask {
     String? teamId = json['team_id'];
     String? url = json['url'];
     String? permissionLevel = json['permission_level'];
-    ClickupList? list =
+    ClickupListModel? list =
         json['list'] != null ? ClickupListModel.fromJson(json['list']) : null;
     ClickupProjectModel? project = json['project'] != null
         ? ClickupProjectModel.fromJson(json['project'])
@@ -188,7 +191,7 @@ class ClickupTaskModel extends ClickupTask {
         tags: tags,
         teamId: teamId,
         textContent: textContent,
-        timeEstimate: timeEstimate,
+        timeEstimateMilliseconds: timeEstimateMilliseconds,
         url: url,
         watchers: watchers);
   }
@@ -213,7 +216,7 @@ class ClickupTaskModel extends ClickupTask {
     }
     if (assignees != null) {
       map['assignees'] =
-          assignees?.map((v) => (v as ClickupAssigneesModel).toJson()).toList();
+          assignees?.map((v) => (v as ClickupAssigneeModel).toJson()).toList();
     }
     if (watchers != null) {
       map['watchers'] =
@@ -225,14 +228,14 @@ class ClickupTaskModel extends ClickupTask {
           .toList();
     }
     if (tags != null) {
-      map['tags'] = tags?.map((v) => (v as ClickupTagsModel).toJson()).toList();
+      map['tags'] = tags?.map((v) => (v as ClickupTagModel).toJson()).toList();
     }
     map['parent'] = parent;
     map['priority'] = priority;
     map['due_date'] = dueDateUtcTimestamp;
     map['start_date'] = startDateUtcTimestamp;
     map['points'] = points;
-    map['time_estimate'] = timeEstimate;
+    map['time_estimate'] = timeEstimateMilliseconds;
     if (customFields != null) {
       map['custom_fields'] = customFields
           ?.map((v) => (v as ClickupCustomFieldsModel).toJson())
@@ -261,55 +264,7 @@ class ClickupTaskModel extends ClickupTask {
   }
 }
 
-/// id : "1"
 
-class ClickupSpaceModel extends ClickupSpace {
-  const ClickupSpaceModel({
-    super.id,
-  });
-
-  factory ClickupSpaceModel.fromJson(Map<String, dynamic> json) {
-    return ClickupSpaceModel(id: json['id']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    return map;
-  }
-}
-
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolderModel extends ClickupFolder {
-  const ClickupFolderModel({
-    super.id,
-    super.name,
-    super.hidden,
-    super.access,
-  });
-
-  factory ClickupFolderModel.fromJson(Map<String, dynamic> json) {
-    return ClickupFolderModel(
-      id: json['id'],
-      name: json['name'],
-      hidden: json['hidden'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
 
 /// id : "1"
 /// name : "Folder"
@@ -338,34 +293,6 @@ class ClickupProjectModel extends ClickupProject {
     map['id'] = id;
     map['name'] = name;
     map['hidden'] = hidden;
-    map['access'] = access;
-    return map;
-  }
-}
-
-/// id : "1"
-/// name : "List"
-/// access : true
-
-class ClickupListModel extends ClickupList {
-  const ClickupListModel({
-    super.id,
-    super.name,
-    super.access,
-  });
-
-  factory ClickupListModel.fromJson(Map<String, dynamic> json) {
-    return ClickupListModel(
-      id: json['id'],
-      name: json['name'],
-      access: json['access'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
     map['access'] = access;
     return map;
   }
@@ -419,15 +346,15 @@ class ClickupCustomFieldsModel extends ClickupCustomFields {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTagsModel extends ClickupTags {
-  const ClickupTagsModel({
+class ClickupTagModel extends ClickupTag {
+  const ClickupTagModel({
     super.name,
     super.tagFg,
     super.tagBg,
   });
 
-  factory ClickupTagsModel.fromJson(Map<String, dynamic> json) {
-    return ClickupTagsModel(
+  factory ClickupTagModel.fromJson(Map<String, dynamic> json) {
+    return ClickupTagModel(
       name: json['name'],
       tagFg: json['tag_fg'],
       tagBg: json['tag_bg'],
@@ -602,8 +529,8 @@ class ClickupWatchersModel extends ClickupWatchers {
 /// email : "johndoe@website.com"
 /// profilePicture : "https://clickup.com/avatar.jpg"
 
-class ClickupAssigneesModel extends ClickupAssignees {
-  const ClickupAssigneesModel({
+class ClickupAssigneeModel extends ClickupAssignee {
+  const ClickupAssigneeModel({
     super.id,
     super.username,
     super.color,
@@ -612,8 +539,8 @@ class ClickupAssigneesModel extends ClickupAssignees {
     super.initials,
   });
 
-  factory ClickupAssigneesModel.fromJson(Map<String, dynamic> json) {
-    return ClickupAssigneesModel(
+  factory ClickupAssigneeModel.fromJson(Map<String, dynamic> json) {
+    return ClickupAssigneeModel(
       id: json['id'],
       username: json['username'],
       color: json['color'],

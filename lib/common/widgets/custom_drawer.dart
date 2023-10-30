@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/all/presentation/pages/all_page.dart';
 import 'package:thetimeblockingapp/features/archive/presentation/pages/archive_page.dart';
@@ -14,111 +16,168 @@ import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dar
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
+import '../../core/globals.dart';
+import '../../features/startup/presentation/bloc/startup_bloc.dart';
+import '../../features/tasks/domain/entities/clickup_space.dart';
+import '../entities/clickup_workspace.dart';
+
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final localizationImpl = appLocalization;
-
-    return Drawer(
-      width: 200,
-      child: ListView(
-        children: [
-          const _Logo(),
-          _DrawerItem(
-              title: localizationImpl.translate("All"),
-              iconPath: Icons.all_inbox,
-              onPressed: () {
-                context.go(AllPage.routeName);
-              },
-              isSelected:
-                  GoRouter.of(context).location.contains(AllPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Schedule"),
-              iconPath: Icons.calendar_month,
-              onPressed: () {
-                context.go(SchedulePage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(SchedulePage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Someday"),
-              iconPath: Icons.calendar_today,
-              onPressed: () {
-                context.go(SomedayPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(SomedayPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Lists"),
-              iconPath: Icons.list_sharp,
-              onPressed: () {
-                context.go(ListsPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
+    final startupBloc = BlocProvider.of<StartupBloc>(context);
+    return BlocBuilder<StartupBloc, StartupState>(
+      builder: (context, state) {
+        return Drawer(
+          width: 200,
+          child: ListView(
+            children: [
+              const _Logo(),
+              if (Responsive.showSmallDesign(context) &&
+                  Globals.clickupWorkspaces?.isNotEmpty == true)
+                DropdownButton(
+                  value: Globals.selectedWorkspace,
+                  onChanged: (selected) {
+                    if (selected is ClickupWorkspace &&
+                        state.isLoading == false) {
+                      startupBloc.add(SelectClickupWorkspace(
+                          clickupWorkspace: selected,
+                          clickupAccessToken: Globals.clickupAuthAccessToken));
+                    }
+                  },
+                  items: Globals.clickupWorkspaces
+                          ?.map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name ?? ""),
+                              ))
+                          .toList() ??
+                      [],
+                  hint: Text(appLocalization.translate("workspaces")),
+                ),
+              if (Responsive.showSmallDesign(context) &&
+                  Globals.isSpaceAppWide &&
+                  Globals.clickupSpaces?.isNotEmpty == true)
+                DropdownButton<ClickupSpace?>(
+                  value: Globals.selectedSpace,
+                  onChanged: (selected) {
+                    if (selected != null && state.isLoading == false) {
+                      startupBloc.add(SelectClickupSpace(
+                          clickupSpace: selected,
+                          clickupAccessToken: Globals.clickupAuthAccessToken));
+                    }
+                  },
+                  items: Globals.clickupSpaces
+                          ?.map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name ?? ""),
+                              ))
+                          .toList() ??
+                      [],
+                  hint: Text(appLocalization.translate("spaces")),
+                ),
+              _DrawerItem(
+                  title: localizationImpl.translate("All"),
+                  iconPath: Icons.all_inbox,
+                  onPressed: () {
+                    context.go(AllPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
                       .location
-                      .contains(ListsPage.routeName) ||
-                  GoRouter.of(context).location.contains(ListPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Tags"),
-              iconPath: Icons.tag_sharp,
-              onPressed: () {
-                context.go(TagsPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
+                      .contains(AllPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Schedule"),
+                  iconPath: Icons.calendar_month,
+                  onPressed: () {
+                    context.go(SchedulePage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
                       .location
-                      .contains(TagsPage.routeName) ||
-                  GoRouter.of(context).location.contains(TagPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Maps"),
-              iconPath: Icons.map_outlined,
-              onPressed: () {
-                context.go(MapsPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(MapsPage.routeName)),
-          const Divider(),
-          _DrawerItem(
-              title: localizationImpl.translate("Archive"),
-              iconPath: Icons.archive_outlined,
-              onPressed: () {
-                context.go(ArchivePage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(ArchivePage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Trash"),
-              iconPath: Icons.delete,
-              onPressed: () {
-                context.go(TrashPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(TrashPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Help"),
-              iconPath: Icons.help,
-              onPressed: () {
-                context.go(HelpPage.routeName);
-              },
-              isSelected:
-                  GoRouter.of(context).location.contains(HelpPage.routeName)),
-          _DrawerItem(
-              title: localizationImpl.translate("Settings"),
-              iconPath: Icons.settings,
-              onPressed: () {
-                context.go(SettingsPage.routeName);
-              },
-              isSelected: GoRouter.of(context)
-                  .location
-                  .contains(SettingsPage.routeName)),
-        ],
-      ),
+                      .contains(SchedulePage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Someday"),
+                  iconPath: Icons.calendar_today,
+                  onPressed: () {
+                    context.go(SomedayPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(SomedayPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Lists"),
+                  iconPath: Icons.list_sharp,
+                  onPressed: () {
+                    context.go(ListsPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                          .location
+                          .contains(ListsPage.routeName) ||
+                      GoRouter.of(context)
+                          .location
+                          .contains(ListPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Tags"),
+                  iconPath: Icons.tag_sharp,
+                  onPressed: () {
+                    context.go(TagsPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                          .location
+                          .contains(TagsPage.routeName) ||
+                      GoRouter.of(context)
+                          .location
+                          .contains(TagPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Maps"),
+                  iconPath: Icons.map_outlined,
+                  onPressed: () {
+                    context.go(MapsPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(MapsPage.routeName)),
+              const Divider(),
+              _DrawerItem(
+                  title: localizationImpl.translate("Archive"),
+                  iconPath: Icons.archive_outlined,
+                  onPressed: () {
+                    context.go(ArchivePage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(ArchivePage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Trash"),
+                  iconPath: Icons.delete,
+                  onPressed: () {
+                    context.go(TrashPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(TrashPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Help"),
+                  iconPath: Icons.help,
+                  onPressed: () {
+                    context.go(HelpPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(HelpPage.routeName)),
+              _DrawerItem(
+                  title: localizationImpl.translate("Settings"),
+                  iconPath: Icons.settings,
+                  onPressed: () {
+                    context.go(SettingsPage.routeName);
+                  },
+                  isSelected: GoRouter.of(context)
+                      .location
+                      .contains(SettingsPage.routeName)),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -174,7 +233,9 @@ class _Logo extends StatelessWidget {
             fallbackHeight: 35,
             fallbackWidth: 35,
           ),
-          const SizedBox(width: 10,),
+          const SizedBox(
+            width: 10,
+          ),
           Expanded(child: Text(appLocalization.translate("appName")))
         ],
       ),

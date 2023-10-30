@@ -34,3 +34,8 @@ class CacheFailure extends Failure {
 class LocationFailure extends Failure {
   const LocationFailure({required String message}) : super(message: message);
 }
+
+class FailuresList extends Failure {
+  FailuresList({required List<Failure> failures})
+      : super(message: failures.map((e) => "${e.message}\n").toString());
+}

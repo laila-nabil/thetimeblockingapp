@@ -1,82 +1,109 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
 import '../../../../common/entities/clickup_user.dart';
 import '../../../../core/error/failures.dart';
+import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
+import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../../domain/entities/clickup_access_token.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 
 part 'auth_event.dart';
 
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final GetClickUpAccessTokenUseCase _getClickUpAccessTokenUseCase;
-  final GetClickUpUserUseCase _getClickUpUserUseCase;
-  final GetClickUpWorkspacesUseCase _getClickUpWorkspacesUseCase;
+  final GetClickupAccessTokenUseCase _getClickupAccessTokenUseCase;
+  final GetClickupUserUseCase _getClickupUserUseCase;
+  final GetClickupWorkspacesUseCase _getClickupWorkspacesUseCase;
+  final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
+  final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
 
-  AuthBloc(this._getClickUpAccessTokenUseCase, this._getClickUpUserUseCase,
-      this._getClickUpWorkspacesUseCase)
+  final GetSpacesOfSelectedWorkspaceUseCase _getSpacesOfSelectedWorkspaceUseCase;
+
+  AuthBloc(
+      this._getClickupAccessTokenUseCase,
+      this._getClickupUserUseCase,
+      this._getClickupWorkspacesUseCase,
+      this._getSelectedWorkspaceUseCase,
+      this._getSelectedSpaceUseCase,
+      this._getSpacesOfSelectedWorkspaceUseCase)
       : super(const AuthState(authStates: {AuthStateEnum.initial})) {
     on<AuthEvent>((event, emit) async {
       if (event is ShowCodeInputTextField) {
         emit(AuthState(
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
-      } else if (event is GetClickUpAccessToken) {
+      }
+      else if (event is GetClickupAccessToken) {
         emit(const AuthState(
             authStates: {AuthStateEnum.loading}));
-        final result = await _getClickUpAccessTokenUseCase(
-            GetClickUpAccessTokenParams(event.clickUpCode));
+        final result = await _getClickupAccessTokenUseCase(
+            GetClickupAccessTokenParams(event.clickupCode));
         emit(state.copyWith(
             authStates:
                 state.updatedAuthStates(AuthStateEnum.loading)));
         result?.fold(
             (l) => emit(AuthState(
-                getClickUpAccessTokenFailure: l,
+                getClickupAccessTokenFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickUpAccessTokenFailed))), (r) {
+                    AuthStateEnum.getClickupAccessTokenFailed))), (r) {
           emit(AuthState(
-              clickUpAccessToken: r,
+              clickupAccessToken: r,
               authStates: state.updatedAuthStates(
-                  AuthStateEnum.getClickUpAccessTokenSuccess)));
-          add(GetClickUpUserWorkspaces(r));
+                  AuthStateEnum.getClickupAccessTokenSuccess)));
+          add(GetClickupUserWorkspaces(r));
         });
-      } else if (event is GetClickUpUserWorkspaces) {
+      }
+      else if (event is GetClickupUserWorkspaces) {
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));
-        final getClickUpUser = await _getClickUpUserUseCase(
-            GetClickUpUserParams(event.accessToken));
-        getClickUpUser?.fold(
+        final getClickupUser = await _getClickupUserUseCase(
+            GetClickupUserParams(event.accessToken));
+        getClickupUser?.fold(
             (l) => emit(state.copyWith(
-                getClickUpUserFailure: l,
+                getClickupUserFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickUpAUserFailed))), (r) {
+                    AuthStateEnum.getClickupAUserFailed))), (r) {
           emit(state.copyWith(
               clickupUser: r,
               authStates: state
-                  .updatedAuthStates(AuthStateEnum.getClickUpUserSuccess)));
+                  .updatedAuthStates(AuthStateEnum.getClickupUserSuccess)));
         });
-        final getClickUpWorkspaces = await _getClickUpWorkspacesUseCase(
-            GetClickUpWorkspacesParams(event.accessToken));
+        final getClickupWorkspaces = await _getClickupWorkspacesUseCase(
+            GetClickupWorkspacesParams(event.accessToken));
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));
-        getClickUpWorkspaces?.fold(
+        getClickupWorkspaces?.fold(
             (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickUpWorkspacesFailed))), (r) {
+                    AuthStateEnum.getClickupWorkspacesFailed))), (r) {
           emit(state.copyWith(
               clickupWorkspaces: r,
               authStates: state.updatedAuthStates(
-                  AuthStateEnum.getClickUpWorkspacesSuccess)));
+                  AuthStateEnum.getClickupWorkspacesSuccess)));
+          add(TryGetSelectedWorkspaceSpaceEvent());
         });
+      }
+      else if(event is TryGetSelectedWorkspaceSpaceEvent){
+        await _getSelectedWorkspaceUseCase(NoParams());
+        await _getSpacesOfSelectedWorkspaceUseCase(NoParams());
+        if (Globals.isSpaceAppWide) {
+          await _getSelectedSpaceUseCase(NoParams());
+        }
+        emit(state.copyWith(
+            authStates: state
+                .updatedAuthStates(AuthStateEnum.triedGetSelectedWorkspacesSpace)));
       }
     });
   }

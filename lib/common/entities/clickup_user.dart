@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 /// id : 55230798
@@ -35,6 +36,13 @@ class ClickupUser extends Equatable {
   final bool? globalFontSupport;
   final String? timezone;
 
+  ClickupAssignee get asAssignee => ClickupAssignee(
+      id: id,
+      email: email,
+      color: color,
+      initials: initials,
+      username: username,
+      profilePicture: profilePicture);
 
   tz.TimeZone get getTimezone  {
     final location = tz.getLocation(timezone??"");

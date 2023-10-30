@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/extensions.dart';
+import 'clickup_folder.dart';
+import 'clickup_list.dart';
+import 'clickup_space.dart';
 
 /// id : "av1"
 /// custom_id : null
@@ -59,7 +62,7 @@ class ClickupTask extends Equatable {
     this.dueDateUtcTimestamp,
     this.startDateUtcTimestamp,
     this.points,
-    this.timeEstimate,
+    this.timeEstimateMilliseconds,
     this.customFields,
     this.dependencies,
     this.linkedTasks,
@@ -84,16 +87,16 @@ class ClickupTask extends Equatable {
   final String? dateClosedUtcTimestamp;
   final String? dateDoneUtcTimestamp;
   final ClickupCreator? creator;
-  final List<ClickupAssignees>? assignees;
+  final List<ClickupAssignee>? assignees;
   final List<ClickupWatchers>? watchers;
   final List<ClickupChecklists>? checklists;
-  final List<ClickupTags>? tags;
+  final List<ClickupTag>? tags;
   final String? parent;
   final ClickupTaskPriority? priority;
   final String? dueDateUtcTimestamp;
   final String? startDateUtcTimestamp;
   final num? points;
-  final num? timeEstimate;
+  final num? timeEstimateMilliseconds;
   final List<ClickupCustomFields>? customFields;
   final List<String>? dependencies;
   final List<String>? linkedTasks;
@@ -116,9 +119,8 @@ class ClickupTask extends Equatable {
   /// If that user changes their timezone later, task start dates and due dates will not be retroactively updated.
   /// [https://clickup.com/api/developer-portal/faq/]
   bool get isAllDay {
-    ///TODO if a task due time is 4 am and no start date,it is viewed as all day event
     printDebug("for $name,dueDate: $dueDateUtc and startDate: $startDateUtc");
-    return (startDateUtc == null || startDateUtc == dueDateUtc) &&
+    return (startDateUtc == dueDateUtc) &&
         dueDateUtc != null && dueDateUtc?.hour == 4 && dueDateUtc?.second == 0 ;
   }
 
@@ -139,6 +141,10 @@ class ClickupTask extends Equatable {
 
   DateTime? get startDateUtc =>
       DateTimeExtensions.getDateTimeFromString(date: startDateUtcTimestamp);
+
+  Duration? get timeEstimate => timeEstimateMilliseconds == null
+      ? null
+      : Duration(seconds: timeEstimateMilliseconds!.toInt());
 
   @override
   List<Object?> get props => [
@@ -163,7 +169,7 @@ class ClickupTask extends Equatable {
         dueDateUtcTimestamp,
         startDateUtcTimestamp,
         points,
-        timeEstimate,
+        timeEstimateMilliseconds,
         customFields,
         dependencies,
         linkedTasks,
@@ -177,45 +183,6 @@ class ClickupTask extends Equatable {
       ];
 }
 
-/// id : "1"
-
-class ClickupSpace extends Equatable {
-  const ClickupSpace({
-    this.id,
-  });
-
-  final String? id;
-
-  @override
-  List<Object?> get props => [id];
-}
-
-/// id : "1"
-/// name : "Folder"
-/// hidden : false
-/// access : true
-
-class ClickupFolder extends Equatable {
-  const ClickupFolder({
-    this.id,
-    this.name,
-    this.hidden,
-    this.access,
-  });
-
-  final String? id;
-  final String? name;
-  final bool? hidden;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        hidden,
-        access,
-      ];
-}
 
 /// id : "1"
 /// name : "Folder"
@@ -240,29 +207,6 @@ class ClickupProject extends Equatable {
         id,
         name,
         hidden,
-        access,
-      ];
-}
-
-/// id : "1"
-/// name : "List"
-/// access : true
-
-class ClickupList extends Equatable {
-  const ClickupList({
-    this.id,
-    this.name,
-    this.access,
-  });
-
-  final String? id;
-  final String? name;
-  final bool? access;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
         access,
       ];
 }
@@ -310,8 +254,8 @@ class ClickupCustomFields extends Equatable {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTags extends Equatable {
-  const ClickupTags({
+class ClickupTag extends Equatable {
+  const ClickupTag({
     this.name,
     this.tagFg,
     this.tagBg,
@@ -320,6 +264,10 @@ class ClickupTags extends Equatable {
   final String? name;
   final String? tagFg;
   final String? tagBg;
+
+  Color? get  getTagFgColor => HexColor.fromHex(tagFg??"");
+
+  Color? get  getTagBgColor => HexColor.fromHex(tagBg??"");
 
   @override
   List<Object?> get props => [
@@ -457,8 +405,8 @@ class ClickupWatchers extends Equatable {
 /// profilePicture : "https://clickup.com/avatar.jpg"
 /// initials : LN
 
-class ClickupAssignees extends Equatable {
-  const ClickupAssignees({
+class ClickupAssignee extends Equatable {
+  const ClickupAssignee({
     this.id,
     this.username,
     this.color,
@@ -529,26 +477,43 @@ class ClickupCreator extends Equatable {
       ];
 }
 
+//from task
 /// status : "Open"
 /// type : "open"
 /// orderindex : 1
 /// color : "#000000"
 
+//from space
+/* id : "p90150126979_lIWCjnSr"
+ status : "Open"
+ type : "open"
+ orderindex : 0
+ color : "#d3d3d3"*/
 class ClickupStatus extends Equatable {
   const ClickupStatus({
+    this.id,
     this.status,
     this.type,
     this.orderIndex,
     this.color,
   });
 
+  final String? id;
   final String? status;
   final String? type;
   final num? orderIndex;
   final String? color;
 
+  Color? get getColor {
+    if(color !=null && color?.isNotEmpty == true){
+      return HexColor.fromHex(color??"");
+    }
+    return null;
+  }
+
   @override
   List<Object?> get props => [
+        id,
         status,
         type,
         orderIndex,
@@ -557,15 +522,16 @@ class ClickupStatus extends Equatable {
 }
 
 ///ex 1 :
-///priority : 1
-///ex 1 :
-///priority : 1
-///{
-///                 "color": "#ffcc00",
-///                 "id": "2",
-///                 "orderindex": "2",
-///                 "priority": "high"
-///             },
+///priorityNum : 1
+///isNum: true
+///
+///ex 2 :
+///isNum: false
+///"color": "#ffcc00",
+///"id": "2",
+///"orderindex": "2",
+///"priority": "high"
+///
 class ClickupTaskPriority extends Equatable {
   final bool isNum;
   final num? priorityNum;
@@ -583,6 +549,15 @@ class ClickupTaskPriority extends Equatable {
       this.priority});
 
 
+  int? get getPriorityNum {
+    if(isNum == true && priorityNum!=null){
+      return priorityNum!.toInt();
+    }else if(isNum == false && id !=null && int.tryParse(id??"") !=null){
+      return int.parse(id??"");
+    }
+    return null;
+  }
+
   String get getPriorityExclamation {
   if(isNum == true && priorityNum!=null){
     return  "!" * (4 - priorityNum!.toInt());
@@ -592,8 +567,16 @@ class ClickupTaskPriority extends Equatable {
   return "";
  }
 
- Color? get getPriorityExclamationColor {
-    if(color !=null && color?.isNotEmpty == true){
+ List<ClickupTaskPriority>? get getPriorityExclamationListOrNull {
+    if(isNum == false){
+      return null;
+    }
+    return List.generate(
+        4, (index) => ClickupTaskPriority(isNum: true, priorityNum: index));
+  }
+
+  Color? get getPriorityColor {
+    if(isNum == false && color !=null && color?.isNotEmpty == true){
       return HexColor.fromHex(color??"");
     }
     return null;

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +15,7 @@ import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/launch_url.dart';
 import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
+import '../widgets/auth_page_webview.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class AuthPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
-        if (state.isNotAuthed == false) {
+        if (state.canGoSchedulePage == true) {
           context.go(SchedulePage.routeName);
         }
 
@@ -36,9 +39,10 @@ class AuthPage extends StatelessWidget {
         if (state.authStates.length == 1 && state.authStates.contains(AuthStateEnum.initial)) {
 
           ///in case saved locally
-          authBloc.add(const GetClickUpAccessToken(""));
+          authBloc.add(const GetClickupAccessToken(""));
         }
         return ResponsiveScaffold(
+          hideAppBarDrawer: true,
           responsiveScaffoldLoading: ResponsiveScaffoldLoading(
               responsiveScaffoldLoadingEnum:
                   ResponsiveScaffoldLoadingEnum.contentLoading,
@@ -87,13 +91,24 @@ class ExplainClickupAuth extends StatelessWidget {
             CustomButton(
                 child: const Text("Connect with Clickup"),
                 onPressed: () {
-                  ///TODO webview in case of android
-                  launchWithURL(
-                      url:
-                          "https://app.clickup.com/api?client_id=${Globals.clickUpClientId}&redirect_uri=${Globals.clickUpRedirectUrl}");
-
-                  if (kDebugMode) {
-                    authBloc.add(const ShowCodeInputTextField(true));
+                  final url = "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
+                  if (kIsWeb) {
+                    launchWithURL(
+                        url:
+                            url);
+                    if (kDebugMode) {
+                      authBloc.add(const ShowCodeInputTextField(true));
+                    }
+                  } else if (Platform.isAndroid || Platform.isIOS) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return AuthPageWebView(
+                        url: url,
+                        getAccessToken: (String code) {
+                          authBloc.add(GetClickupAccessToken(code));
+                        },
+                      );
+                    }));
                   }
                 }),
             Text(appLocalization.translate("agreeTermsConditions")),
@@ -108,12 +123,11 @@ class ExplainClickupAuth extends StatelessWidget {
                   CustomButton(
                     child: const Text("submit"),
                     onPressed: () {
-                      authBloc.add(GetClickUpAccessToken(controller.text));
+                      authBloc.add(GetClickupAccessToken(controller.text));
                     },
                   )
                 ],
               )
-            ///TODO add toggle to chose adding access token or code
           ],
         ),
       ),

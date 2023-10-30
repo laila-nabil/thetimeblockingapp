@@ -12,19 +12,24 @@ class ShowCodeInputTextField extends AuthEvent{
   @override
   List<Object?> get props => [showCodeInputTextField];
 }
-class GetClickUpAccessToken extends AuthEvent{
-  final String clickUpCode;
+class GetClickupAccessToken extends AuthEvent{
+  final String clickupCode;
 
-  const GetClickUpAccessToken(this.clickUpCode);
+  const GetClickupAccessToken(this.clickupCode);
 
   @override
-  List<Object?> get props => [clickUpCode];
+  List<Object?> get props => [clickupCode];
 }
-class GetClickUpUserWorkspaces extends AuthEvent{
-  final ClickUpAccessToken accessToken;
+class GetClickupUserWorkspaces extends AuthEvent{
+  final ClickupAccessToken accessToken;
 
-  const GetClickUpUserWorkspaces(this.accessToken);
+  const GetClickupUserWorkspaces(this.accessToken);
 
   @override
   List<Object?> get props => [accessToken];
 }
+class TryGetSelectedWorkspaceSpaceEvent extends AuthEvent{
+  @override
+  List<Object?> get props => [];
+}
+

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
@@ -8,35 +9,33 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 
 import '../entities/tasks_order_by.dart';
 
-class GetClickUpTasksInSingleWorkspaceUseCase
-    implements UseCase<List<ClickupTask>, GetClickUpTasksInWorkspaceParams> {
+class GetClickupTasksInSingleWorkspaceUseCase
+    implements UseCase<List<ClickupTask>, GetClickupTasksInWorkspaceParams> {
   final TasksRepo repo;
 
-  GetClickUpTasksInSingleWorkspaceUseCase(this.repo);
+  GetClickupTasksInSingleWorkspaceUseCase(this.repo);
 
   @override
   Future<Either<Failure, List<ClickupTask>>?> call(
-      GetClickUpTasksInWorkspaceParams params) {
+      GetClickupTasksInWorkspaceParams params) {
     return repo.getTasksInWorkspace(params: params);
   }
 }
 
-class GetClickUpTasksInWorkspaceParams extends Equatable {
+class GetClickupTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
-  final GetClickUpTasksInWorkspaceFiltersParams filtersParams;
-  const GetClickUpTasksInWorkspaceParams({
+  final GetClickupTasksInWorkspaceFiltersParams filtersParams;
+
+  const GetClickupTasksInWorkspaceParams({
     required this.workspaceId,
     required this.filtersParams,
   });
 
   @override
-  List<Object?> get props => [
-        workspaceId,
-        filtersParams
-      ];
+  List<Object?> get props => [workspaceId, filtersParams];
 }
 
-class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
+class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
   final int? page;
   final TasksOrderBy? tasksOrderBy;
   final bool? reverse;
@@ -59,8 +58,9 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-  final ClickUpAccessToken clickUpAccessToken;
-  const GetClickUpTasksInWorkspaceFiltersParams({
+  final ClickupAccessToken clickupAccessToken;
+
+  const GetClickupTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
     this.reverse,
@@ -83,7 +83,7 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     this.customFields,
     this.customTaskIds,
     this.includeParentTaskId,
-    required this.clickUpAccessToken,
+    required this.clickupAccessToken,
   });
 
   String get toUrlString {
@@ -188,29 +188,29 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
+          "date_created_gt=$filterByCreatedDateGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result +=
-      "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
+          "date_created_lt=$filterByCreatedDateLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
+          "date_updated_gt=$filterByDateUpdatedGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result +=
-      "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
+          "date_updated_lt=$filterByDateUpdatedLessThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
       result +=
-      "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
+          "date_done_gt=$filterByDateDoneGreaterThanUnixTimeMilliseconds&";
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
       result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
     }
 
-    ///TODO custom fields
+    ///TODO D custom fields
 
     if (customTaskIds != null) {
       result += "custom_task_ids=$customTaskIds&";
@@ -222,30 +222,179 @@ class GetClickUpTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }
 
+  Map<String, Either<List<dynamic>, String>> get query {
+    Map<String, Either<List<dynamic>, String>> result = {};
+    if (page != null) {
+      result["page"] = Right(page.toString());
+    }
+    if (tasksOrderBy?.name != null) {
+      result["order_by"] = Right(tasksOrderBy?.name ?? "");
+    }
+    if (reverse != null) {
+      result["reverse"] = Right(reverse.toString());
+    }
+    if (includeSubtasks != null) {
+      result["subtasks"] = Right(includeSubtasks.toString());
+    }
+    if (filterBySpaceIds != null) {
+      result["space_ids"] = Left(filterBySpaceIds ?? []);
+    }
+    if (filterByProjectIds != null) {
+      result["project_ids"] = Left(filterByProjectIds ?? []);
+    }
+    if (filterByListsIds != null) {
+      result["list_ids"] = Left(filterByListsIds ?? []);
+    }
+    if (filterByStatuses != null) {
+      result["statuses"] = Left(filterByStatuses ?? []);
+    }
+    if (includeClosed != null) {
+      result["project_ids"] = Left(filterByProjectIds ?? []);
+    }
+    if (filterByAssignees != null) {
+      result["assignees"] = Left(filterByAssignees ?? []);
+    }
+    if (filterByTags != null) {
+      result["tags"] = Left(filterByTags ?? []);
+    }
+    if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
+      result["due_date_gt"] = Right(filterByDueDateGreaterThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByDueDateLessThanUnixTimeMilliseconds != null) {
+      result["due_date_lt"] = Right(filterByDueDateLessThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
+      result["date_created_gt"] =
+          Right(filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
+      result["date_created_lt"] =
+          Right(filterByCreatedDateLessThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
+      result["date_updated_gt"] =
+          Right(filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
+      result["date_updated_lt"] =
+          Right(filterByDateUpdatedLessThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
+      result["date_done_gt"] =Right( filterByDateDoneGreaterThanUnixTimeMilliseconds.toString());
+    }
+    if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
+      result["date_done_lt"] = Right(filterByDateDoneLessThanUnixTimeMilliseconds.toString());
+    }
+
+    ///TODO D custom fields
+
+    if (customTaskIds != null) {
+      result["custom_task_ids"] = Right(customTaskIds.toString());
+    }
+    printDebug("query $result");
+    return result;
+  }
+
+  Map<String,String> queryList<T>({required String key,required List<T> list}){
+    Map<String,String> result = {};
+    for (var element in list) {
+      result["$key[]"] = "$element";
+    }
+    return result;
+    
+  }
   @override
   List<Object?> get props => [
-    page,
-    tasksOrderBy,
-    reverse,
-    includeSubtasks,
-    filterBySpaceIds,
-    filterByListsIds,
-    filterByProjectIds,
-    filterByStatuses,
-    includeClosed,
-    filterByAssignees,
-    filterByTags,
-    filterByDueDateLessThanUnixTimeMilliseconds,
-    filterByDueDateGreaterThanUnixTimeMilliseconds,
-    filterByCreatedDateLessThanUnixTimeMilliseconds,
-    filterByCreatedDateGreaterThanUnixTimeMilliseconds,
-    filterByDateUpdatedLessThanUnixTimeMilliseconds,
-    filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
-    filterByDateDoneLessThanUnixTimeMilliseconds,
-    filterByDateDoneGreaterThanUnixTimeMilliseconds,
-    customFields,
-    customTaskIds,
-    includeParentTaskId,
-    clickUpAccessToken,
-  ];
+        page,
+        tasksOrderBy,
+        reverse,
+        includeSubtasks,
+        filterBySpaceIds,
+        filterByListsIds,
+        filterByProjectIds,
+        filterByStatuses,
+        includeClosed,
+        filterByAssignees,
+        filterByTags,
+        filterByDueDateLessThanUnixTimeMilliseconds,
+        filterByDueDateGreaterThanUnixTimeMilliseconds,
+        filterByCreatedDateLessThanUnixTimeMilliseconds,
+        filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+        filterByDateUpdatedLessThanUnixTimeMilliseconds,
+        filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+        filterByDateDoneLessThanUnixTimeMilliseconds,
+        filterByDateDoneGreaterThanUnixTimeMilliseconds,
+        customFields,
+        customTaskIds,
+        includeParentTaskId,
+        clickupAccessToken,
+      ];
+
+  GetClickupTasksInWorkspaceFiltersParams copyWith({
+    int? page,
+    TasksOrderBy? tasksOrderBy,
+    bool? reverse,
+    bool? includeSubtasks,
+    List<String>? filterBySpaceIds,
+    List<String>? filterByProjectIds,
+    List<String>? filterByListsIds,
+    List<String>? filterByStatuses,
+    bool? includeClosed,
+    List<String>? filterByAssignees,
+    List<String>? filterByTags,
+    int? filterByDueDateLessThanUnixTimeMilliseconds,
+    int? filterByDueDateGreaterThanUnixTimeMilliseconds,
+    int? filterByCreatedDateLessThanUnixTimeMilliseconds,
+    int? filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+    int? filterByDateUpdatedLessThanUnixTimeMilliseconds,
+    int? filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+    int? filterByDateDoneLessThanUnixTimeMilliseconds,
+    int? filterByDateDoneGreaterThanUnixTimeMilliseconds,
+    List<String>? customFields,
+    bool? customTaskIds,
+    bool? includeParentTaskId,
+    ClickupAccessToken? clickupAccessToken,
+  }) {
+    return GetClickupTasksInWorkspaceFiltersParams(
+      page: page ?? this.page,
+      tasksOrderBy: tasksOrderBy ?? this.tasksOrderBy,
+      reverse: reverse ?? this.reverse,
+      includeSubtasks: includeSubtasks ?? this.includeSubtasks,
+      filterBySpaceIds: filterBySpaceIds ?? this.filterBySpaceIds,
+      filterByProjectIds: filterByProjectIds ?? this.filterByProjectIds,
+      filterByListsIds: filterByListsIds ?? this.filterByListsIds,
+      filterByStatuses: filterByStatuses ?? this.filterByStatuses,
+      includeClosed: includeClosed ?? this.includeClosed,
+      filterByAssignees: filterByAssignees ?? this.filterByAssignees,
+      filterByTags: filterByTags ?? this.filterByTags,
+      filterByDueDateLessThanUnixTimeMilliseconds:
+          filterByDueDateLessThanUnixTimeMilliseconds ??
+              this.filterByDueDateLessThanUnixTimeMilliseconds,
+      filterByDueDateGreaterThanUnixTimeMilliseconds:
+          filterByDueDateGreaterThanUnixTimeMilliseconds ??
+              this.filterByDueDateGreaterThanUnixTimeMilliseconds,
+      filterByCreatedDateLessThanUnixTimeMilliseconds:
+          filterByCreatedDateLessThanUnixTimeMilliseconds ??
+              this.filterByCreatedDateLessThanUnixTimeMilliseconds,
+      filterByCreatedDateGreaterThanUnixTimeMilliseconds:
+          filterByCreatedDateGreaterThanUnixTimeMilliseconds ??
+              this.filterByCreatedDateGreaterThanUnixTimeMilliseconds,
+      filterByDateUpdatedLessThanUnixTimeMilliseconds:
+          filterByDateUpdatedLessThanUnixTimeMilliseconds ??
+              this.filterByDateUpdatedLessThanUnixTimeMilliseconds,
+      filterByDateUpdatedGreaterThanUnixTimeMilliseconds:
+          filterByDateUpdatedGreaterThanUnixTimeMilliseconds ??
+              this.filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
+      filterByDateDoneLessThanUnixTimeMilliseconds:
+          filterByDateDoneLessThanUnixTimeMilliseconds ??
+              this.filterByDateDoneLessThanUnixTimeMilliseconds,
+      filterByDateDoneGreaterThanUnixTimeMilliseconds:
+          filterByDateDoneGreaterThanUnixTimeMilliseconds ??
+              this.filterByDateDoneGreaterThanUnixTimeMilliseconds,
+      customFields: customFields ?? this.customFields,
+      customTaskIds: customTaskIds ?? this.customTaskIds,
+      includeParentTaskId: includeParentTaskId ?? this.includeParentTaskId,
+      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+    );
+  }
 }

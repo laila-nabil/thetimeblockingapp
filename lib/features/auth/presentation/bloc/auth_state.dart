@@ -4,29 +4,30 @@ enum AuthStateEnum {
   initial,
   loading,
   showCodeInputTextField,
-  getClickUpAccessTokenSuccess,
-  getClickUpAccessTokenFailed,
-  getClickUpUserSuccess,
-  getClickUpAUserFailed,
-  getClickUpWorkspacesSuccess,
-  getClickUpWorkspacesFailed,
+  getClickupAccessTokenSuccess,
+  getClickupAccessTokenFailed,
+  getClickupUserSuccess,
+  getClickupAUserFailed,
+  getClickupWorkspacesSuccess,
+  getClickupWorkspacesFailed,
+  triedGetSelectedWorkspacesSpace,
 }
 
 class AuthState extends Equatable {
   final Set<AuthStateEnum> authStates;
-  final Failure? getClickUpAccessTokenFailure;
-  final ClickUpAccessToken? clickUpAccessToken;
+  final Failure? getClickupAccessTokenFailure;
+  final ClickupAccessToken? clickupAccessToken;
   final ClickupUser? clickupUser;
-  final Failure? getClickUpUserFailure;
+  final Failure? getClickupUserFailure;
   final List<ClickupWorkspace>? clickupWorkspaces;
   final Failure? getClickupWorkspacesFailure;
 
   const AuthState({
     required this.authStates,
-    this.getClickUpAccessTokenFailure,
-    this.clickUpAccessToken,
+    this.getClickupAccessTokenFailure,
+    this.clickupAccessToken,
     this.clickupUser,
-    this.getClickUpUserFailure,
+    this.getClickupUserFailure,
     this.clickupWorkspaces,
     this.getClickupWorkspacesFailure,
   });
@@ -37,10 +38,12 @@ class AuthState extends Equatable {
     return authStates.contains(AuthStateEnum.loading);
   }
 
-  bool get isNotAuthed =>
-      isLoading == false && clickUpAccessToken?.isEmpty == true ||
-          clickupUser == null ||
-          clickupWorkspaces?.isNotEmpty == false;
+  bool get canGoSchedulePage {
+    return !(isLoading == false && clickupAccessToken?.isEmpty == true ||
+        clickupUser == null ||
+        clickupWorkspaces?.isNotEmpty == false ||
+        authStates.contains(AuthStateEnum.triedGetSelectedWorkspacesSpace) == false);
+  }
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
     Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);
@@ -56,31 +59,31 @@ class AuthState extends Equatable {
   @override
   List<Object?> get props => [
         authStates,
-        getClickUpAccessTokenFailure,
-        clickUpAccessToken,
+        getClickupAccessTokenFailure,
+        clickupAccessToken,
         clickupUser,
-        getClickUpUserFailure,
+        getClickupUserFailure,
         clickupWorkspaces,
         getClickupWorkspacesFailure,
       ];
 
   AuthState copyWith({
     Set<AuthStateEnum>? authStates,
-    Failure? getClickUpAccessTokenFailure,
-    ClickUpAccessToken? clickUpAccessToken,
+    Failure? getClickupAccessTokenFailure,
+    ClickupAccessToken? clickupAccessToken,
     ClickupUser? clickupUser,
-    Failure? getClickUpUserFailure,
+    Failure? getClickupUserFailure,
     List<ClickupWorkspace>? clickupWorkspaces,
     Failure? getClickupWorkspacesFailure,
   }) {
     return AuthState(
       authStates: authStates ?? this.authStates,
-      getClickUpAccessTokenFailure:
-          getClickUpAccessTokenFailure ?? this.getClickUpAccessTokenFailure,
-      clickUpAccessToken: clickUpAccessToken ?? this.clickUpAccessToken,
+      getClickupAccessTokenFailure:
+          getClickupAccessTokenFailure ?? this.getClickupAccessTokenFailure,
+      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
       clickupUser: clickupUser ?? this.clickupUser,
-      getClickUpUserFailure:
-          getClickUpUserFailure ?? this.getClickUpUserFailure,
+      getClickupUserFailure:
+          getClickupUserFailure ?? this.getClickupUserFailure,
       clickupWorkspaces: clickupWorkspaces ?? this.clickupWorkspaces,
       getClickupWorkspacesFailure:
           getClickupWorkspacesFailure ?? this.getClickupWorkspacesFailure,

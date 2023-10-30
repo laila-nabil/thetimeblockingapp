@@ -15,9 +15,29 @@ class ControlDrawerLargerScreen extends StartupEvent {
 
 class SelectClickupWorkspace extends StartupEvent {
   final ClickupWorkspace clickupWorkspace;
-
-  const SelectClickupWorkspace(this.clickupWorkspace);
+  final ClickupAccessToken clickupAccessToken;
+  const SelectClickupWorkspace(
+      {required this.clickupWorkspace, required this.clickupAccessToken});
 
   @override
-  List<Object?> get props => [clickupWorkspace];
+  List<Object?> get props => [clickupWorkspace,clickupAccessToken];
+}
+
+class SelectClickupSpace extends StartupEvent {
+  final ClickupSpace clickupSpace;
+  final ClickupAccessToken clickupAccessToken;
+  const SelectClickupSpace(
+      {required this.clickupSpace, required this.clickupAccessToken});
+
+  @override
+  List<Object?> get props => [clickupSpace,clickupAccessToken];
+}
+
+class GetTasksEvent extends StartupEvent {
+  final bool getTasks;
+  const GetTasksEvent(
+      {required this.getTasks,});
+
+  @override
+  List<Object?> get props => [getTasks];
 }
