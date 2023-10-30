@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
+import '../../../../core/injection_container.dart';
 import '../../../tasks/domain/entities/clickup_list.dart';
 import '../bloc/lists_page_bloc.dart';
 
@@ -21,19 +22,23 @@ class ListPage extends StatelessWidget {
         .where((element) => element.id == listId)
         .firstOrNull;
     List<ClickupTask> tasks = [];
-    return BlocConsumer<ListsPageBloc, ListsPageState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return ResponsiveScaffold(
-            responsiveScaffoldLoading: ResponsiveScaffoldLoading(
-                responsiveScaffoldLoadingEnum:
-                    ResponsiveScaffoldLoadingEnum.contentLoading,
-                isLoading: state.isLoading),
-            responsiveBody: ResponsiveTParams(
-                laptop: ListPageContent(list: list, tasks: tasks),
-                mobile: ListPageContent(list: list, tasks: tasks)),
-            context: context);
-      },
+    //use bloc across pages without passing it
+    return BlocProvider.value(
+      value: serviceLocator<ListsPageBloc>(),
+      child: BlocConsumer<ListsPageBloc, ListsPageState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return ResponsiveScaffold(
+              responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+                  responsiveScaffoldLoadingEnum:
+                  ResponsiveScaffoldLoadingEnum.contentLoading,
+                  isLoading: state.isLoading),
+              responsiveBody: ResponsiveTParams(
+                  laptop: ListPageContent(list: list, tasks: tasks),
+                  mobile: ListPageContent(list: list, tasks: tasks)),
+              context: context);
+        },
+      ),
     );
   }
 }
@@ -52,9 +57,10 @@ class ListPageContent extends StatelessWidget {
         Expanded(
           child: ListView(
             children: tasks
-                .map((e) => ListTile(
-                      title: Text(e.name ?? ""),
-                    ))
+                .map((e) =>
+                ListTile(
+                  title: Text(e.name ?? ""),
+                ))
                 .toList(),
           ),
         ),
