@@ -15,6 +15,7 @@ import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../../domain/use_cases/get_clickup_list_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -61,6 +62,9 @@ abstract class TasksRemoteDataSource {
   Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params});
 
   Future<Unit> addTaskToList({required AddTaskToListParams params});
+
+  Future<ClickupListModel> getClickupList(
+      {required GetClickupListParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -273,5 +277,13 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
     return unit;
+  }
+
+  @override
+  Future<ClickupListModel> getClickupList({required GetClickupListParams params}) async {
+    final response = await network.get(
+        uri: Uri.parse("$clickupUrl/list/${params.clickupList.id}"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+    return ClickupListModel.fromJson(json.decode(response.body));
   }
 }

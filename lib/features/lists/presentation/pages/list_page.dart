@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -18,9 +19,6 @@ class ListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = Globals.selectedSpace?.lists
-        .where((element) => element.id == listId)
-        .firstOrNull;
     List<ClickupTask> tasks = [];
     //use bloc across pages without passing it
     return BlocProvider.value(
@@ -28,6 +26,10 @@ class ListPage extends StatelessWidget {
       child: BlocConsumer<ListsPageBloc, ListsPageState>(
         listener: (context, state) {},
         builder: (context, state) {
+          final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+          if(state.listsPageStatus == ListsPageStatus.navigateList){
+            listsPageBloc.add(event);
+          }
           return ResponsiveScaffold(
               responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                   responsiveScaffoldLoadingEnum:

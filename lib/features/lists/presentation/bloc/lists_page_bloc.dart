@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.d
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../core/error/failures.dart';
@@ -25,12 +26,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
-
+  final GetClickupListUseCase _getClickupListUseCase;
   ListsPageBloc(
       this._getAllInClickupSpaceUseCase,
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._getAllInClickupWorkspaceUseCase,
-      this._saveSpacesUseCase)
+      this._saveSpacesUseCase, this._getClickupListUseCase)
       : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
     on<ListsPageEvent>((event, emit) async {
       if (event is NavigateToListPageEvent) {
@@ -77,8 +78,22 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                 getSpacesListsFoldersResult: Globals.clickupSpaces));
           });
         }
-      } else if (event is GetTasksInListEvent) {
+      } else if (event is GetListDetailsAndTasksInListEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+        final getClickupList = await _getClickupListUseCase(
+            GetClickupListParams(
+              clickupAccessToken: event.clickupAccessToken,
+              clickupList: event.list,
+            ));
+        getClickupList?.fold(
+                (l) => emit(state.copyWith(
+                listsPageStatus:
+                ListsPageStatus.getListDetailsSuccess,
+                getSpacesListsFoldersFailure: l)),
+                (r) => emit(state.copyWith(
+                listsPageStatus:
+                ListsPageStatus.getListDetailsFailed,
+                getTasksResult: r)));
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: Globals.selectedWorkspace?.id??"",

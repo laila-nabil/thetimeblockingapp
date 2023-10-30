@@ -16,6 +16,7 @@ import '../use_cases/add_tag_to_task_use_case.dart';
 import '../use_cases/add_task_to_list_use_case.dart';
 import '../use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../use_cases/get_clickup_list_use_case.dart';
 import '../use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -84,4 +85,7 @@ abstract class TasksRepo{
 
   Future<Either<Failure, List<ClickupSpace>>?> getSpacesOfSelectedWorkspace(
       NoParams params);
+
+  Future<Either<Failure, ClickupList>?> getClickupList(
+      GetClickupListParams params);
 }
