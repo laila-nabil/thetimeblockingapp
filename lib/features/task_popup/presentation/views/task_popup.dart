@@ -21,6 +21,8 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 ///TODO create all day task from floating action button && control if task is all day or not
 
+///TODO general one without ScheduleBloc
+
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   final ClickupTask? task;

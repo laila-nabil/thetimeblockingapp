@@ -33,6 +33,7 @@ class SelectClickupSpace extends StartupEvent {
   List<Object?> get props => [clickupSpace,clickupAccessToken];
 }
 
+///TODO move to schedule
 class GetTasksEvent extends StartupEvent {
   final bool getTasks;
   const GetTasksEvent(
