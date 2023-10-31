@@ -21,7 +21,6 @@ class ListsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ListsPageBloc>(),
-      lazy: false,
       child: BlocBuilder<StartupBloc, StartupState>(
           builder: (context, startupState) {
         return BlocConsumer<ListsPageBloc, ListsPageState>(

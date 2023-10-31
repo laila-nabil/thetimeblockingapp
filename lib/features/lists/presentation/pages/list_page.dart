@@ -43,9 +43,11 @@ class ListPage extends StatelessWidget {
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
                   laptop: ListPageContent(
+                      state: state,
                       list: state.currentList,
                       tasks: state.currentListTasks ?? []),
                   mobile: ListPageContent(
+                      state: state,
                       list: state.currentList,
                       tasks: state.currentListTasks ?? [])),
               context: context);
@@ -56,15 +58,16 @@ class ListPage extends StatelessWidget {
 }
 
 class ListPageContent extends StatelessWidget {
-  const ListPageContent({Key? key, required this.list, required this.tasks})
+  const ListPageContent({Key? key, required this.list, required this.tasks, required this.state})
       : super(key: key);
   final ClickupList? list;
   final List<ClickupTask> tasks;
-
+  final ListsPageState state;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Text(state.toString()),
         Text(list?.name ?? ""),
         Expanded(
           child: ListView(
