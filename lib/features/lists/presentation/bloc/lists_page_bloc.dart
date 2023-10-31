@@ -1,12 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../core/error/failures.dart';
@@ -23,16 +24,15 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
   final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
-  final GetClickupTasksInSingleWorkspaceUseCase
-      _getClickupTasksInSingleWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
-  final GetClickupListUseCase _getClickupListUseCase;
+  final GetClickupListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
+
   ListsPageBloc(
-      this._getAllInClickupSpaceUseCase,
-      this._getClickupTasksInSingleWorkspaceUseCase,
-      this._getAllInClickupWorkspaceUseCase,
-      this._saveSpacesUseCase, this._getClickupListUseCase)
-      : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
+    this._getAllInClickupSpaceUseCase,
+    this._getClickupListAndItsTasksUseCase,
+    this._getAllInClickupWorkspaceUseCase,
+    this._saveSpacesUseCase,
+  ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
     on<ListsPageEvent>((event, emit) async {
       if (event is NavigateToListPageEvent) {
         emit(state.copyWith(
@@ -80,34 +80,35 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
         }
       } else if (event is GetListDetailsAndTasksInListEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final getClickupList = await _getClickupListUseCase(
-            GetClickupListParams(
-              clickupAccessToken: event.clickupAccessToken,
-              clickupList: event.list,
-            ));
-        getClickupList?.fold(
-                (l) => emit(state.copyWith(
-                listsPageStatus:
-                ListsPageStatus.getListDetailsSuccess,
-                getSpacesListsFoldersFailure: l)),
-                (r) => emit(state.copyWith(
-                listsPageStatus:
-                ListsPageStatus.getListDetailsFailed,
-                getTasksResult: r)));
-        final result = await _getClickupTasksInSingleWorkspaceUseCase(
-            GetClickupTasksInWorkspaceParams(
-                workspaceId: Globals.selectedWorkspace?.id??"",
-                filtersParams: state.defaultTasksInWorkspaceFiltersParams
-                    .copyWith(filterByListsIds: [event.list.id??""])));
-        result?.fold(
-            (l) => emit(state.copyWith(
-                listsPageStatus:
-                    ListsPageStatus.getTasksFailed,
-                getTasksFailure: l)),
-            (r) => emit(state.copyWith(
-                listsPageStatus:
-                    ListsPageStatus.getTasksSuccess,
-                getTasksResult: r)));
+        final getClickupListAndItsTasks =
+            await _getClickupListAndItsTasksUseCase(
+                event.getClickupListAndItsTasksParams);
+        ClickupList? list;
+        List<ClickupTask>? tasks;
+        List<Failure>? failures = [];
+        getClickupListAndItsTasks?.listResult
+            ?.fold((l) => failures.add(l), (r) => list = r);
+        getClickupListAndItsTasks?.tasksResult
+            .fold((l) => failures.add(l), (r) => tasks = r);
+        FailuresList? failuresList = FailuresList(failures: failures);
+        printDebug("**** list $list");
+        printDebug("**** tasks $tasks");
+        printDebug("**** failuresList $failuresList");
+        if (getClickupListAndItsTasks?.tasksResult.isRight() == true &&
+            getClickupListAndItsTasks?.listResult?.isRight() == true) {
+          printDebug("**** both right");
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.getListDetailsAndTasksSuccess,
+              currentList: list,
+              currentListTasks: tasks));
+        } else {
+          printDebug("**** something went wrong");
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.getListDetailsAndTasksWentWrong,
+              currentList: list,
+              currentListTasks: tasks,
+              getListDetailsAndTasksFailure: failuresList));
+        }
       }
     });
   }

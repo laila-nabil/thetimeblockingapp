@@ -282,7 +282,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupListModel> getClickupList({required GetClickupListParams params}) async {
     final response = await network.get(
-        uri: Uri.parse("$clickupUrl/list/${params.clickupList.id}"),
+        uri: Uri.parse("$clickupUrl/list/${params.listId}"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     return ClickupListModel.fromJson(json.decode(response.body));
   }

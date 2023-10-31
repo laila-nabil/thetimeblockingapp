@@ -7,8 +7,8 @@ enum ListsPageStatus {
   getListDetailsFailed,
   getSpacesAndListsAndFoldersSuccess,
   getSpacesAndListsAndFoldersFailed,
-  getTasksSuccess,
-  getTasksFailed,
+  getListDetailsAndTasksSuccess,
+  getListDetailsAndTasksWentWrong,
   addListSuccess,
   addListFailed,
   addFolderSuccess,
@@ -28,11 +28,12 @@ enum ListsPageStatus {
 class ListsPageState extends Equatable {
   final ListsPageStatus listsPageStatus;
   final ClickupList? navigateList;
+  final ClickupList? currentList;
   final ClickupFolder? navigateFolder;
   final List<ClickupSpace>? getSpacesListsFoldersResult;
   final List<Map<String, Failure>>? getSpacesListsFoldersFailure;
-  final List<ClickupTask>? getTasksResult;
-  final Failure? getTasksFailure;
+  final List<ClickupTask>? currentListTasks;
+  final FailuresList? getListDetailsAndTasksFailure;
   final List<ClickupList>? addListResult;
   final Failure? addListFailure;
   final List<ClickupFolder>? addFolderResult;
@@ -49,11 +50,12 @@ class ListsPageState extends Equatable {
   const ListsPageState({
     required this.listsPageStatus,
     this.navigateList,
+    this.currentList,
     this.navigateFolder,
     this.getSpacesListsFoldersResult,
     this.getSpacesListsFoldersFailure,
-    this.getTasksResult,
-    this.getTasksFailure,
+    this.currentListTasks,
+    this.getListDetailsAndTasksFailure,
     this.addListResult,
     this.addListFailure,
     this.addFolderResult,
@@ -87,11 +89,12 @@ class ListsPageState extends Equatable {
   @override
   List<Object?> get props => [ listsPageStatus,
     navigateList,
+    currentList,
     navigateFolder,
     getSpacesListsFoldersResult,
     getSpacesListsFoldersFailure,
-    getTasksResult,
-    getTasksFailure,
+    currentListTasks,
+    getListDetailsAndTasksFailure,
     addListResult,
     addListFailure,
     addFolderResult,
@@ -108,11 +111,12 @@ class ListsPageState extends Equatable {
   ListsPageState copyWith({
     required ListsPageStatus listsPageStatus,
     ClickupList? navigateList,
+    ClickupList? currentList,
     ClickupFolder? navigateFolder,
     List<ClickupSpace>? getSpacesListsFoldersResult,
     List<Map<String, Failure>>? getSpacesListsFoldersFailure,
-    List<ClickupTask>? getTasksResult,
-    Failure? getTasksFailure,
+    List<ClickupTask>? currentListTasks,
+    FailuresList? getListDetailsAndTasksFailure,
     List<ClickupList>? addListResult,
     Failure? addListFailure,
     List<ClickupFolder>? addFolderResult,
@@ -129,13 +133,15 @@ class ListsPageState extends Equatable {
     return ListsPageState(
       listsPageStatus: listsPageStatus,
       navigateList: navigateList,
+      currentList: currentList,
       navigateFolder: navigateFolder,
       getSpacesListsFoldersResult:
           getSpacesListsFoldersResult ?? this.getSpacesListsFoldersResult,
       getSpacesListsFoldersFailure:
           getSpacesListsFoldersFailure ?? this.getSpacesListsFoldersFailure,
-      getTasksResult: getTasksResult ?? this.getTasksResult,
-      getTasksFailure: getTasksFailure ?? this.getTasksFailure,
+      currentListTasks: currentListTasks ?? this.currentListTasks,
+      getListDetailsAndTasksFailure:
+          getListDetailsAndTasksFailure ?? this.getListDetailsAndTasksFailure,
       addListResult: addListResult ?? this.addListResult,
       addListFailure: addListFailure ?? this.addListFailure,
       addFolderResult: addFolderResult ?? this.addFolderResult,

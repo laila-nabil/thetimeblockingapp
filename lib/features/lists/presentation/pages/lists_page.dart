@@ -26,11 +26,12 @@ class ListsPage extends StatelessWidget {
           builder: (context, startupState) {
         return BlocConsumer<ListsPageBloc, ListsPageState>(
           listener: (context, state) {
+            final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
               context.go(Uri(path: ListPage.routeName, queryParameters: {
                 ListPage.queryParametersList.first: state.navigateList?.id ?? ""
-              }).toString());
+              }).toString(),extra: listsPageBloc);
             }
           },
           builder: (context, state) {

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
@@ -80,7 +81,7 @@ final router = GoRouter(
         path: ListPage.routeName,
         builder: (context, state) => ListPage(
             listId: state.queryParameters[ListPage.queryParametersList.first]
-                as String),
+                as String,listsPageBloc: state.extra as ListsPageBloc),
       ),
       GoRoute(
         path: MapsPage.routeName,

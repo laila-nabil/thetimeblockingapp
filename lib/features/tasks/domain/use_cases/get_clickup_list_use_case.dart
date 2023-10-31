@@ -18,9 +18,9 @@ class GetClickupListUseCase
 }
 
 class GetClickupListParams {
-  final ClickupList clickupList;
+  final String listId;
   final ClickupAccessToken clickupAccessToken;
 
   GetClickupListParams(
-      {required this.clickupList, required this.clickupAccessToken});
+      {required this.listId, required this.clickupAccessToken});
 }
