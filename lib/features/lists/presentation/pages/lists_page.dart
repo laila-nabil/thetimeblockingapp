@@ -94,10 +94,6 @@ class ListsPage extends StatelessWidget {
                                         title: Text(e.name ?? "")))
                                         .toList() ??
                                         [],
-                                    onExpansionChanged: (value) {
-                                      listsPageBloc
-                                          .add(NavigateToFolderPageEvent(e));
-                                    },
                                   ))
                                       .toList() ??
                                       []) +

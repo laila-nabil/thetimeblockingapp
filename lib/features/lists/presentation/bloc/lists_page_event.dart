@@ -36,14 +36,6 @@ class NavigateToListPageEvent extends ListsPageEvent {
   List<Object?> get props => [list];
 }
 
-class NavigateToFolderPageEvent extends ListsPageEvent {
-  final ClickupFolder folder;
-
-  const NavigateToFolderPageEvent(this.folder);
-
-  @override
-  List<Object?> get props => [folder];
-}
 
 class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
   final GetClickupListAndItsTasksParams getClickupListAndItsTasksParams;
