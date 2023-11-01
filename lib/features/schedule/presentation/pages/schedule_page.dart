@@ -74,7 +74,11 @@ class SchedulePage extends StatelessWidget {
                                 scheduleBloc.add(
                                     CreateClickupTaskEvent(params: params));
                               },
-                              scheduleBloc: scheduleBloc)));
+                              bloc: scheduleBloc,
+                            isLoading: (state) => state is! ScheduleState
+                                ? false
+                                : state.isLoading,
+                          )));
                     },
                   ),
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(

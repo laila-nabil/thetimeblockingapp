@@ -8,7 +8,6 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
@@ -21,14 +20,13 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 ///TODO create all day task from floating action button && control if task is all day or not
 
-///TODO general one without ScheduleBloc
-
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   final ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
-  final ScheduleBloc scheduleBloc;
+  final Bloc bloc;
+  final bool Function(Object? state) isLoading;
   final DateTime? cellDate;
   DateTime? startDate;
   DateTime? dueDate;
@@ -38,7 +36,8 @@ class TaskPopupParams extends Equatable {
     this.onSave,
     this.onDelete,
     this.cellDate,
-    required this.scheduleBloc,
+    required this.bloc,
+    required this.isLoading,
   }){
     startDate =cellDate;
     dueDate = cellDate?.add(Globals.defaultTaskDuration);
@@ -49,7 +48,8 @@ class TaskPopupParams extends Equatable {
     this.onSave,
     this.onDelete,
     this.cellDate,
-    required this.scheduleBloc,
+    required this.bloc,
+    required this.isLoading,
   }){
     if (cellDate != null) {
       startDate = DateTime(cellDate!.year, cellDate!.month, cellDate!.day, 4);
@@ -62,7 +62,8 @@ class TaskPopupParams extends Equatable {
       {this.task,
       this.onSave,
       this.onDelete,
-      required this.scheduleBloc,
+      required this.bloc,
+      required this.isLoading,
       this.cellDate,
       this.startDate,
       this.dueDate});
@@ -71,7 +72,7 @@ class TaskPopupParams extends Equatable {
     ClickupTask? task,
     void Function(ClickupTaskParams params)? onSave,
     void Function(DeleteClickupTaskParams params)? onDelete,
-    ScheduleBloc? scheduleBloc,
+    Bloc? bloc,
     DateTime? cellDate,
     DateTime? startDate,
     DateTime? dueDate,
@@ -80,7 +81,8 @@ class TaskPopupParams extends Equatable {
         task: task ?? this.task,
         onSave: onSave ?? this.onSave,
         onDelete: onDelete ?? this.onDelete,
-        scheduleBloc: scheduleBloc ?? this.scheduleBloc,
+        bloc: bloc ?? this.bloc,
+        isLoading: isLoading,
         cellDate: cellDate ?? this.cellDate,
         startDate: startDate ?? this.startDate,
         dueDate: dueDate ?? this.dueDate,
@@ -93,7 +95,7 @@ class TaskPopupParams extends Equatable {
         onSave,
         onDelete,
         cellDate,
-        scheduleBloc,
+        bloc,
       ];
 }
 
@@ -140,12 +142,12 @@ class TaskPopup extends StatelessWidget {
           },
         ),
         BlocProvider.value(
-          value: taskPopupParams.scheduleBloc,
+          value: taskPopupParams.bloc,
         ),
       ],
-      child: BlocBuilder<ScheduleBloc, ScheduleState>(
-        builder: (context, scheduleState) {
-          final isLoadingScheduleState = scheduleState.isLoading;
+      child: BlocBuilder(
+        bloc: taskPopupParams.bloc,
+        builder: (context, blocState) {
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
@@ -161,7 +163,6 @@ class TaskPopup extends StatelessWidget {
                 task: task,
               ));
               printDebug("clickupTaskParams $clickupTaskParams");
-              final isLoading = isLoadingScheduleState;
               final firstDate =
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
@@ -169,8 +170,9 @@ class TaskPopup extends StatelessWidget {
                   task?.dueDateUtc ?? taskPopupParams.dueDate;
               final initialStartDate =
                   task?.startDateUtc ?? taskPopupParams.startDate;
+              final loading = taskPopupParams.isLoading(blocState);
               return CustomAlertDialog(
-                  loading: isLoading,
+                  loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
@@ -191,7 +193,7 @@ class TaskPopup extends StatelessWidget {
                         onPressed: () => Navigator.maybePop(context),
                         child: Text(appLocalization.translate("cancel"))),
                     CustomButton(
-                        onPressed: isLoading ||
+                        onPressed: loading ||
                                 taskPopupParams.onSave == null ||
                                 state.readyToSubmit == false
                             ? null

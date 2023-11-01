@@ -127,7 +127,10 @@ class TasksCalendar extends StatelessWidget {
                 },
                 onDelete: (params) =>
                     scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
-                scheduleBloc: scheduleBloc)));
+                bloc: scheduleBloc,
+                isLoading: (state)=> state is! ScheduleState
+                    ? false
+                    : state.isLoading,)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&
           calendarTapDetails.appointments == null) {
@@ -140,7 +143,9 @@ class TasksCalendar extends StatelessWidget {
                       params:
                           params));
                 },
-                scheduleBloc: scheduleBloc)));
+                bloc: scheduleBloc,
+                isLoading:(state)=>scheduleBloc.state.isLoading
+            )));
       } else if (calendarTapDetails.targetElement ==
           CalendarElement.allDayPanel &&
           calendarTapDetails.appointments == null) {
@@ -153,7 +158,10 @@ class TasksCalendar extends StatelessWidget {
                       params:
                       params));
                 },
-                scheduleBloc: scheduleBloc)));
+                bloc: scheduleBloc,
+                isLoading: (state)=>state is! ScheduleState
+                    ? false
+                    : state.isLoading)));
       }
     }
 }
