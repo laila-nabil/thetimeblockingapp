@@ -42,10 +42,6 @@ class ListPage extends StatelessWidget {
                       ResponsiveScaffoldLoadingEnum.contentLoading,
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
-                  laptop: ListPageContent(
-                      state: state,
-                      list: state.currentList,
-                      tasks: state.currentListTasks ?? []),
                   mobile: ListPageContent(
                       state: state,
                       list: state.currentList,
@@ -67,7 +63,6 @@ class ListPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(state.toString()),
         Text(list?.name ?? ""),
         Expanded(
           child: ListView(

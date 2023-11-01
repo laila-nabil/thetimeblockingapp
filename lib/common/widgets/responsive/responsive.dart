@@ -15,13 +15,13 @@ class ResponsiveTParams<T> {
   final T mobile;
   final T? tablet;
   final T? startShowingSmallDesign;
-  final T laptop;
+  final T? laptop;
 
   ResponsiveTParams(
       {required this.mobile,
       this.tablet,
       this.startShowingSmallDesign,
-      required this.laptop});
+      this.laptop});
 }
 
 class Responsive {

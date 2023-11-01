@@ -94,7 +94,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
         printDebug("**** list $list");
         printDebug("**** tasks $tasks");
         printDebug("**** failuresList $failuresList");
-        ///FIXME not updating state though breakpoints go to emit
         if (getClickupListAndItsTasks?.tasksResult.isRight() == true &&
             getClickupListAndItsTasks?.listResult?.isRight() == true) {
           printDebug("**** both right");

@@ -28,109 +28,94 @@ class ListsPage extends StatelessWidget {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
-              context.go(Uri(path: ListPage.routeName, queryParameters: {
+              context.push(Uri(path: ListPage.routeName, queryParameters: {
                 ListPage.queryParametersList.first: state.navigateList?.id ?? ""
               }).toString(),extra: listsPageBloc);
             }
           },
           builder: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+            final startupBloc = BlocProvider.of<StartupBloc>(context);
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.contentLoading,
                     isLoading: state.isLoading || startupState.isLoading),
                 responsiveBody: ResponsiveTParams(
-                    laptop: ListsPageContent(listsPageBloc: listsPageBloc),
-                    mobile: ListsPageContent(listsPageBloc: listsPageBloc)),
+                    mobile: BlocConsumer<ListsPageBloc, ListsPageState>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        if (state.isInit && Globals.isSpaceAppWide) {
+                          listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+                            clickupAccessToken: Globals.clickupAuthAccessToken,
+                            clickupWorkspace: Globals.selectedWorkspace!,
+                          ));
+                        }
+                        return SingleChildScrollView(
+                          child: Column(
+                              children: <Widget>[
+                                if (Globals.isSpaceAppWide == false &&
+                                    Globals.clickupSpaces?.isNotEmpty == true)
+                                  DropdownButton<ClickupSpace?>(
+                                    value: Globals.selectedSpace,
+                                    onChanged: (selected) {
+                                      if (selected != null && state.isLoading == false) {
+                                        startupBloc.add(SelectClickupSpace(
+                                            clickupSpace: selected,
+                                            clickupAccessToken:
+                                            Globals.clickupAuthAccessToken));
+                                        listsPageBloc.add(
+                                            GetListAndFoldersInListsPageEvent.inSpace(
+                                                clickupAccessToken:
+                                                Globals.clickupAuthAccessToken,
+                                                clickupWorkspace:
+                                                Globals.selectedWorkspace!,
+                                                clickupSpace: selected));
+                                      }
+                                    },
+                                    items: Globals.clickupSpaces
+                                        ?.map((e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(e.name ?? ""),
+                                    ))
+                                        .toList() ??
+                                        [],
+                                    hint: Text(appLocalization.translate("spaces")),
+                                  ),
+                              ] +
+                                  (Globals.selectedSpace?.folders
+                                      .map((e) => ExpansionTile(
+                                    title: Text(e.name ?? ""),
+                                    children: e.lists
+                                        ?.map((e) => ListTile(
+                                        onTap: () {
+                                          listsPageBloc.add(NavigateToListPageEvent(e));
+                                        },
+                                        title: Text(e.name ?? "")))
+                                        .toList() ??
+                                        [],
+                                    onExpansionChanged: (value) {
+                                      listsPageBloc
+                                          .add(NavigateToFolderPageEvent(e));
+                                    },
+                                  ))
+                                      .toList() ??
+                                      []) +
+                                  (Globals.selectedSpace?.lists
+                                      .map((e) => ListTile(
+                                      onTap: () {
+                                        listsPageBloc.add(NavigateToListPageEvent(e));
+                                      },
+                                      title: Text(e.name ?? "")))
+                                      .toList() ??
+                                      [])),
+                        );
+                      },
+                    )),
                 context: context);
           },
         );
       }),
-    );
-  }
-}
-
-class ListsPageContent extends StatelessWidget {
-  const ListsPageContent({Key? key, required this.listsPageBloc})
-      : super(key: key);
-  final ListsPageBloc listsPageBloc;
-
-  @override
-  Widget build(BuildContext context) {
-    final startupBloc = BlocProvider.of<StartupBloc>(context);
-    return BlocProvider.value(
-      value: listsPageBloc,
-      child: BlocConsumer<ListsPageBloc, ListsPageState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state.isInit && Globals.isSpaceAppWide) {
-            listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-              clickupAccessToken: Globals.clickupAuthAccessToken,
-              clickupWorkspace: Globals.selectedWorkspace!,
-            ));
-          }
-          return SingleChildScrollView(
-            child: Column(
-                children: <Widget>[
-                      if (Globals.isSpaceAppWide == false &&
-                          Globals.clickupSpaces?.isNotEmpty == true)
-                        DropdownButton<ClickupSpace?>(
-                          value: Globals.selectedSpace,
-                          onChanged: (selected) {
-                            if (selected != null && state.isLoading == false) {
-                              startupBloc.add(SelectClickupSpace(
-                                  clickupSpace: selected,
-                                  clickupAccessToken:
-                                      Globals.clickupAuthAccessToken));
-                              listsPageBloc.add(
-                                  GetListAndFoldersInListsPageEvent.inSpace(
-                                      clickupAccessToken:
-                                          Globals.clickupAuthAccessToken,
-                                      clickupWorkspace:
-                                          Globals.selectedWorkspace!,
-                                      clickupSpace: selected));
-                            }
-                          },
-                          items: Globals.clickupSpaces
-                                  ?.map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e.name ?? ""),
-                                      ))
-                                  .toList() ??
-                              [],
-                          hint: Text(appLocalization.translate("spaces")),
-                        ),
-                    ] +
-                    (Globals.selectedSpace?.folders
-                            .map((e) => ExpansionTile(
-                                  title: Text(e.name ?? ""),
-                                  children: e.lists
-                                          ?.map((e) => ListTile(
-                                              onTap: () {
-                                                listsPageBloc.add(NavigateToListPageEvent(e));
-                                              },
-                                              title: Text(e.name ?? "")))
-                                          .toList() ??
-                                      [],
-                                  onExpansionChanged: (value) {
-                                    listsPageBloc
-                                        .add(NavigateToFolderPageEvent(e));
-                                  },
-                                ))
-                            .toList() ??
-                        []) +
-                    (Globals.selectedSpace?.lists
-                            .map((e) => ListTile(
-                                onTap: () {
-                                  listsPageBloc.add(NavigateToListPageEvent(e));
-                                },
-                                title: Text(e.name ?? "")))
-                            .toList() ??
-                        [])),
-          );
-        },
-      ),
     );
   }
 }
