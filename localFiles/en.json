@@ -31,5 +31,6 @@
   "priority": "priority",
   "clear": "clear",
   "selectTime": "Select time",
-  "status": "Status"
+  "status": "Status",
+  "date": "Date"
 }

@@ -22,15 +22,16 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
-  final ClickupTask? task;
+  ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
   final Bloc bloc;
   final bool Function(Object? state) isLoading;
-  final DateTime? cellDate;
+  DateTime? cellDate;
   DateTime? startDate;
   DateTime? dueDate;
   late bool isAllDay;
+  ClickupList? list;
   TaskPopupParams.notAllDayTask({
     this.task,
     this.onSave,
@@ -39,9 +40,10 @@ class TaskPopupParams extends Equatable {
     required this.bloc,
     required this.isLoading,
   }){
-    startDate =cellDate;
-    dueDate = cellDate?.add(Globals.defaultTaskDuration);
+    startDate =task?.startDateUtc ?? cellDate;
+    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
     isAllDay = false;
+    list = null;
 }
   TaskPopupParams.allDayTask({
     this.task,
@@ -56,6 +58,33 @@ class TaskPopupParams extends Equatable {
       dueDate = startDate;
     }
     isAllDay = true;
+    list = null;
+  }
+
+  TaskPopupParams.addToList({
+    this.onSave,
+    this.onDelete,
+    required this.list,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    task = null;
+    isAllDay = false;
+    cellDate = null;
+  }
+
+  TaskPopupParams.openFromList({
+    this.task,
+    this.onSave,
+    this.onDelete,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    startDate =task?.startDateUtc ;
+    dueDate = task?.dueDateUtc;
+    isAllDay = task?.isAllDay ?? false;
+    cellDate = null;
+    list = task?.list;
   }
 
   TaskPopupParams._(
@@ -65,6 +94,7 @@ class TaskPopupParams extends Equatable {
       required this.bloc,
       required this.isLoading,
       this.cellDate,
+      this.list,
       this.startDate,
       this.dueDate});
 
@@ -76,12 +106,14 @@ class TaskPopupParams extends Equatable {
     DateTime? cellDate,
     DateTime? startDate,
     DateTime? dueDate,
+    ClickupList? list,
   }) {
     return TaskPopupParams._(
         task: task ?? this.task,
         onSave: onSave ?? this.onSave,
         onDelete: onDelete ?? this.onDelete,
         bloc: bloc ?? this.bloc,
+        list: list ?? this.list,
         isLoading: isLoading,
         cellDate: cellDate ?? this.cellDate,
         startDate: startDate ?? this.startDate,
@@ -96,6 +128,8 @@ class TaskPopupParams extends Equatable {
         onDelete,
         cellDate,
         bloc,
+        list,
+        isLoading,
       ];
 }
 
@@ -133,7 +167,8 @@ class TaskPopup extends StatelessWidget {
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isSpaceAppWide ? Globals.selectedSpace : null
+                          space: Globals.isSpaceAppWide ? Globals.selectedSpace : null,
+                          list: taskPopupParams.list
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -157,6 +192,7 @@ class TaskPopup extends StatelessWidget {
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
+                          list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
