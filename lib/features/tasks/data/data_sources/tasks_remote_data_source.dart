@@ -11,6 +11,7 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
+import '../../domain/use_cases/add_clickup_list_to_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -45,6 +46,9 @@ abstract class TasksRemoteDataSource {
 
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
+
+  Future<List<ClickupListModel>> addClickupListsInFolder(
+      {required AddClickupListToFolderParams params});
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});

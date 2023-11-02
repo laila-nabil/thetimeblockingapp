@@ -33,6 +33,7 @@ import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dar
 import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
+import '../features/tasks/domain/use_cases/add_clickup_list_to_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
@@ -152,6 +153,10 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
         serviceLocator(),
       ));
+
+  serviceLocator.registerLazySingleton(() => AddClickupListToFolderUseCase(
+    serviceLocator(),
+  ));
 
   serviceLocator
       .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
