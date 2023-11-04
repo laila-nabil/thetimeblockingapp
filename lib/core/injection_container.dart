@@ -15,6 +15,8 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
@@ -33,7 +35,7 @@ import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dar
 import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
-import '../features/tasks/domain/use_cases/add_clickup_list_to_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
@@ -154,7 +156,15 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => AddClickupListToFolderUseCase(
+  serviceLocator.registerLazySingleton(() => CreateClickupListInFolderUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => CreateFolderlessClickupListUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => CreateClickupFolderInSpaceUseCase(
     serviceLocator(),
   ));
 

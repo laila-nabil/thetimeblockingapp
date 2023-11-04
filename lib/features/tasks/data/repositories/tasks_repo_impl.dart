@@ -4,8 +4,11 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -213,15 +216,40 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<Either<Failure, Unit>?> saveSpacesOfSelectedWorkspace(
       SaveSpacesParams params) {
-  return repoHandleLocalSaveRequest(
+    return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource
             .saveSpaces(params.clickupSpaces as List<ClickupSpaceModel>));
   }
 
   @override
-  Future<Either<Failure, ClickupListModel>?> getClickupList(GetClickupListParams params) {
+  Future<Either<Failure, ClickupListModel>?> getClickupList(
+      GetClickupListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-        remoteDataSource.getClickupList(params: params));
+            remoteDataSource.getClickupList(params: params));
+  }
+
+  @override
+  Future<Either<Failure, ClickupListModel>?> createClickupListInFolder(
+      CreateClickupListInFolderParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.createClickupListInFolder(params: params));
+  }
+
+  @override
+  Future<Either<Failure, ClickupListModel>?> createFolderlessClickupList(
+      CreateFolderlessClickupParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.createFolderlessClickupList(params: params));
+  }
+
+  @override
+  Future<Either<Failure, ClickupFolderModel>?> createClickupFolderInSpace(
+      CreateClickupFolderInSpaceParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.createClickupFolderInSpace(params: params));
   }
 }

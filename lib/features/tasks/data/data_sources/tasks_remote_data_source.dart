@@ -4,6 +4,8 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -11,7 +13,7 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/add_clickup_list_to_folder_use_case.dart';
+import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -47,8 +49,8 @@ abstract class TasksRemoteDataSource {
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
-  Future<List<ClickupListModel>> addClickupListsInFolder(
-      {required AddClickupListToFolderParams params});
+  Future<ClickupListModel> createClickupListInFolder(
+      {required CreateClickupListInFolderParams params});
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
@@ -69,6 +71,12 @@ abstract class TasksRemoteDataSource {
 
   Future<ClickupListModel> getClickupList(
       {required GetClickupListParams params});
+
+  Future<ClickupListModel> createFolderlessClickupList(
+      {required CreateFolderlessClickupParams params});
+
+  Future<ClickupFolderModel> createClickupFolderInSpace(
+      {required CreateClickupFolderInSpaceParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -289,5 +297,35 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse("$clickupUrl/list/${params.listId}"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
     return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupListModel> createClickupListInFolder(
+      {required CreateClickupListInFolderParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/folder/${params.clickupFolder.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.listName, "assignee": params.assignee?.id});
+    return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupListModel> createFolderlessClickupList(
+      {required CreateFolderlessClickupParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.listName, "assignee": params.assignee?.id});
+    return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupFolderModel> createClickupFolderInSpace(
+      {required CreateClickupFolderInSpaceParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.folderName});
+    return ClickupFolderModel.fromJson(json.decode(response.body));
   }
 }
