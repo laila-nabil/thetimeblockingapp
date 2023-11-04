@@ -9,20 +9,26 @@ enum ListsPageStatus {
   getSpacesAndListsAndFoldersFailed,
   getListDetailsAndTasksSuccess,
   getListDetailsAndTasksWentWrong,
-  addListSuccess,
-  addListFailed,
-  addFolderSuccess,
-  addFolderFailed,
-  addTaskSuccess,
-  addTaskFailed,
-  removeListSuccess,
-  removeListFailed,
-  removeFolderSuccess,
-  removeFolderFailed,
-  removeTaskSuccess,
-  removeTaskFailed,
+  createListTry,
+  createListSuccess,
+  createListFailed,
+  createFolderSuccess,
+  createFolderTry,
+  createFolderFailed,
+  createTaskSuccess,
+  createTaskFailed,
+  deleteListSuccess,
+  deleteListFailed,
+  deleteFolderSuccess,
+  deleteFolderFailed,
+  deleteTaskTry,
+  deleteTaskSuccess,
+  deleteTaskFailed,
   navigateList,
   navigateFolder,
+  moveTaskBetweenListsTry,
+  moveTaskBetweenListsSuccess,
+  moveTaskBetweenListsFailed,
 }
 
 class ListsPageState extends Equatable {
@@ -35,17 +41,27 @@ class ListsPageState extends Equatable {
   final List<ClickupTask>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
   final List<ClickupList>? addListResult;
-  final Failure? addListFailure;
-  final List<ClickupFolder>? addFolderResult;
-  final Failure? addFolderFailure;
-  final List<ClickupTask>? addTaskResult;
-  final Failure? addTaskFailure;
-  final List<ClickupTask>? removeListResult;
-  final Failure? removeListFailure;
-  final List<ClickupFolder>? removeFolderResult;
-  final Failure? removeFolderFailure;
-  final List<ClickupTask>? removeTaskResult;
-  final Failure? removeTaskFailure;
+  final Failure? createListFailure;
+  final List<ClickupFolder>? createFolderResult;
+  final Failure? createFolderFailure;
+  final List<ClickupTask>? createTaskResult;
+  final Failure? createTaskFailure;
+  final List<ClickupTask>? deleteListResult;
+  final Failure? deleteListFailure;
+  final List<ClickupFolder>? deleteFolderResult;
+  final Failure? deleteFolderFailure;
+  final List<ClickupTask>? deleteTaskResult;
+  final Failure? deleteTaskFailure;
+  final ClickupWorkspace? clickupWorkspace;
+  final ClickupSpace? clickupSpace;
+  final CreateClickupListInFolderParams? createClickupListInFolderParams;
+  final CreateFolderlessListClickupParams? createFolderlessListClickupParams;
+  final MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
+  final CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
+  final DeleteClickupFolderParams? deleteClickupFolderParams;
+  final DeleteClickupListParams? deleteClickupListParams;
+  final Unit? moveTaskBetweenListsResult;
+  final Failure? moveTaskBetweenListsFailure;
 
   const ListsPageState({
     required this.listsPageStatus,
@@ -57,27 +73,38 @@ class ListsPageState extends Equatable {
     this.currentListTasks,
     this.getListDetailsAndTasksFailure,
     this.addListResult,
-    this.addListFailure,
-    this.addFolderResult,
-    this.addFolderFailure,
-    this.addTaskResult,
-    this.addTaskFailure,
-    this.removeListResult,
-    this.removeListFailure,
-    this.removeFolderResult,
-    this.removeFolderFailure,
-    this.removeTaskResult,
-    this.removeTaskFailure,
+    this.createListFailure,
+    this.createFolderResult,
+    this.createFolderFailure,
+    this.createTaskResult,
+    this.createTaskFailure,
+    this.deleteListResult,
+    this.deleteListFailure,
+    this.deleteFolderResult,
+    this.deleteFolderFailure,
+    this.deleteTaskResult,
+    this.deleteTaskFailure,
+    this.clickupWorkspace,
+    this.clickupSpace,
+    this.createClickupListInFolderParams,
+    this.createFolderlessListClickupParams,
+    this.moveClickupTaskBetweenListsParams,
+    this.createClickupFolderInSpaceParams,
+    this.deleteClickupFolderParams,
+    this.deleteClickupListParams,
+    this.moveTaskBetweenListsResult,
+    this.moveTaskBetweenListsFailure,
   });
 
   bool get isInit => listsPageStatus == ListsPageStatus.initial;
+
   bool get isLoading => listsPageStatus == ListsPageStatus.isLoading;
 
   GetClickupTasksInWorkspaceFiltersParams
-  get defaultTasksInWorkspaceFiltersParams {
+      get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if(Globals.isSpaceAppWide && Globals.selectedSpaceId!=null){
-      filterBySpaceIds = [Globals.selectedSpace?.id??""];
+    if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
+      filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
     }
     return GetClickupTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
@@ -87,26 +114,38 @@ class ListsPageState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [ listsPageStatus,
-    navigateList,
-    currentList,
-    navigateFolder,
-    getSpacesListsFoldersResult,
-    getSpacesListsFoldersFailure,
-    currentListTasks,
-    getListDetailsAndTasksFailure,
-    addListResult,
-    addListFailure,
-    addFolderResult,
-    addFolderFailure,
-    addTaskResult,
-    addTaskFailure,
-    removeListResult,
-    removeListFailure,
-    removeFolderResult,
-    removeFolderFailure,
-    removeTaskResult,
-    removeTaskFailure,];
+  List<Object?> get props => [
+        listsPageStatus,
+        navigateList,
+        currentList,
+        navigateFolder,
+        getSpacesListsFoldersResult,
+        getSpacesListsFoldersFailure,
+        currentListTasks,
+        getListDetailsAndTasksFailure,
+        addListResult,
+        createListFailure,
+        createFolderResult,
+        createFolderFailure,
+        createTaskResult,
+        createTaskFailure,
+        deleteListResult,
+        deleteListFailure,
+        deleteFolderResult,
+        deleteFolderFailure,
+        deleteTaskResult,
+        deleteTaskFailure,
+        clickupWorkspace,
+        clickupSpace,
+        createClickupListInFolderParams,
+        createFolderlessListClickupParams,
+        moveClickupTaskBetweenListsParams,
+        createClickupFolderInSpaceParams,
+        deleteClickupFolderParams,
+        deleteClickupListParams,
+        moveTaskBetweenListsResult,
+        moveTaskBetweenListsFailure,
+      ];
 
   ListsPageState copyWith({
     required ListsPageStatus listsPageStatus,
@@ -118,17 +157,27 @@ class ListsPageState extends Equatable {
     List<ClickupTask>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
     List<ClickupList>? addListResult,
-    Failure? addListFailure,
-    List<ClickupFolder>? addFolderResult,
-    Failure? addFolderFailure,
-    List<ClickupTask>? addTaskResult,
-    Failure? addTaskFailure,
-    List<ClickupTask>? removeListResult,
-    Failure? removeListFailure,
-    List<ClickupFolder>? removeFolderResult,
-    Failure? removeFolderFailure,
-    List<ClickupTask>? removeTaskResult,
-    Failure? removeTaskFailure,
+    Failure? createListFailure,
+    List<ClickupFolder>? createFolderResult,
+    Failure? createFolderFailure,
+    List<ClickupTask>? createTaskResult,
+    Failure? createTaskFailure,
+    List<ClickupTask>? deleteListResult,
+    Failure? deleteListFailure,
+    List<ClickupFolder>? deleteFolderResult,
+    Failure? deleteFolderFailure,
+    List<ClickupTask>? deleteTaskResult,
+    Failure? deleteTaskFailure,
+    ClickupWorkspace? clickupWorkspace,
+    ClickupSpace? clickupSpace,
+    CreateClickupListInFolderParams? createClickupListInFolderParams,
+    CreateFolderlessListClickupParams? createFolderlessListClickupParams,
+    MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
+    CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams,
+    DeleteClickupFolderParams? deleteClickupFolderParams,
+    DeleteClickupListParams? deleteClickupListParams,
+    Unit? moveTaskBetweenListsResult,
+    Failure? moveTaskBetweenListsFailure
   }) {
     return ListsPageState(
       listsPageStatus: listsPageStatus,
@@ -143,17 +192,29 @@ class ListsPageState extends Equatable {
       getListDetailsAndTasksFailure:
           getListDetailsAndTasksFailure ?? this.getListDetailsAndTasksFailure,
       addListResult: addListResult ?? this.addListResult,
-      addListFailure: addListFailure ?? this.addListFailure,
-      addFolderResult: addFolderResult ?? this.addFolderResult,
-      addFolderFailure: addFolderFailure ?? this.addFolderFailure,
-      addTaskResult: addTaskResult ?? this.addTaskResult,
-      addTaskFailure: addTaskFailure ?? this.addTaskFailure,
-      removeListResult: removeListResult ?? this.removeListResult,
-      removeListFailure: removeListFailure ?? this.removeListFailure,
-      removeFolderResult: removeFolderResult ?? this.removeFolderResult,
-      removeFolderFailure: removeFolderFailure ?? this.removeFolderFailure,
-      removeTaskResult: removeTaskResult ?? this.removeTaskResult,
-      removeTaskFailure: removeTaskFailure ?? this.removeTaskFailure,
+      createListFailure: createListFailure ?? this.createListFailure,
+      createFolderResult: createFolderResult ?? this.createFolderResult,
+      createFolderFailure: createFolderFailure ?? this.createFolderFailure,
+      createTaskResult: createTaskResult ?? this.createTaskResult,
+      createTaskFailure: createTaskFailure ?? this.createTaskFailure,
+      deleteListResult: deleteListResult ?? this.deleteListResult,
+      deleteListFailure: deleteListFailure ?? this.deleteListFailure,
+      deleteFolderResult: deleteFolderResult ?? this.deleteFolderResult,
+      deleteFolderFailure: deleteFolderFailure ?? this.deleteFolderFailure,
+      deleteTaskResult: deleteTaskResult ?? this.deleteTaskResult,
+      deleteTaskFailure: deleteTaskFailure ?? this.deleteTaskFailure,
+      clickupWorkspace: clickupWorkspace ?? this.clickupWorkspace,
+      clickupSpace: clickupSpace ?? this.clickupSpace,
+      moveTaskBetweenListsResult:
+          moveTaskBetweenListsResult ?? this.moveTaskBetweenListsResult,
+      moveTaskBetweenListsFailure:
+          moveTaskBetweenListsFailure ?? this.moveTaskBetweenListsFailure,
+      createClickupListInFolderParams: createClickupListInFolderParams,
+      createFolderlessListClickupParams: createFolderlessListClickupParams,
+      moveClickupTaskBetweenListsParams: moveClickupTaskBetweenListsParams,
+      createClickupFolderInSpaceParams: createClickupFolderInSpaceParams,
+      deleteClickupFolderParams: deleteClickupFolderParams,
+      deleteClickupListParams: deleteClickupListParams,
     );
   }
 }

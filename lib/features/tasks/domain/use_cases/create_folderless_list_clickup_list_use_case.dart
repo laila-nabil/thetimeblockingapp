@@ -11,26 +11,26 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_list.dart';
 import '../repositories/tasks_repo.dart';
 
-class CreateFolderlessClickupListUseCase
-    implements UseCase<ClickupList, CreateFolderlessClickupParams> {
+class CreateFolderlessListClickupListUseCase
+    implements UseCase<ClickupList, CreateFolderlessListClickupParams> {
   final TasksRepo repo;
 
-  CreateFolderlessClickupListUseCase(this.repo);
+  CreateFolderlessListClickupListUseCase(this.repo);
 
   @override
   Future<Either<Failure, ClickupList>?> call(
-      CreateFolderlessClickupParams params) {
+      CreateFolderlessListClickupParams params) {
     return repo.createFolderlessClickupList(params);
   }
 }
 
-class CreateFolderlessClickupParams extends Equatable {
+class CreateFolderlessListClickupParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final ClickupSpace clickupSpace;
   final String listName;
   final Color? statusColor;
   final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee ;
-  CreateFolderlessClickupParams({
+  CreateFolderlessListClickupParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     required this.listName,

@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
@@ -241,7 +241,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<Either<Failure, ClickupListModel>?> createFolderlessClickupList(
-      CreateFolderlessClickupParams params) {
+      CreateFolderlessListClickupParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.createFolderlessClickupList(params: params));

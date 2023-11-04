@@ -38,6 +38,10 @@ class CreateClickupListInFolderParams extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [clickupAccessToken, clickupFolder,listName,statusColor];
+  List<Object?> get props => [
+        clickupAccessToken,
+        clickupFolder,
+        listName,
+        statusColor,
+      ];
 }

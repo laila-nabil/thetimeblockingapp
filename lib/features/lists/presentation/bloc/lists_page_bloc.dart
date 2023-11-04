@@ -1,20 +1,27 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/globals.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 
 part 'lists_page_event.dart';
 
@@ -26,12 +33,25 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
   final GetClickupListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
+  final CreateClickupListInFolderUseCase _createClickupListInFolderUseCase;
+  final CreateClickupFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
+  final CreateFolderlessListClickupListUseCase
+      _createFolderlessClickupListUseCase;
+  final MoveClickupTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
+  final DeleteClickupFolderUseCase _deleteClickupFolderUseCase;
+  final DeleteClickupListUseCase _deleteClickupListUseCase;
 
   ListsPageBloc(
     this._getAllInClickupSpaceUseCase,
     this._getClickupListAndItsTasksUseCase,
     this._getAllInClickupWorkspaceUseCase,
     this._saveSpacesUseCase,
+    this._createClickupListInFolderUseCase,
+    this._createClickupFolderInSpaceUseCase,
+    this._createFolderlessClickupListUseCase,
+    this._moveClickupTaskBetweenListsUseCase,
+    this._deleteClickupFolderUseCase,
+    this._deleteClickupListUseCase,
   ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
     on<ListsPageEvent>((event, emit) async {
       if (event is NavigateToListPageEvent) {
@@ -108,6 +128,162 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
               currentList: list,
               currentListTasks: tasks,
               getListDetailsAndTasksFailure: failuresList));
+        }
+      } else if (event is CreateListInFolderEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createListTry,
+              createClickupListInFolderParams:
+                  event.createClickupListInFolderParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _createClickupListInFolderUseCase(
+              event.createClickupListInFolderParams);
+          result?.fold(
+              (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.createListFailed,
+                  createListFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createListSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                    event.createClickupListInFolderParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
+        }
+      } else if (event is CreateFolderlessListEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createListTry,
+              createFolderlessListClickupParams:
+                  event.createFolderlessListClickupParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _createFolderlessClickupListUseCase(
+              event.createFolderlessListClickupParams);
+          result?.fold(
+              (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.createListFailed,
+                  createListFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createListSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                    event.createFolderlessListClickupParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
+        }
+      } else if (event is MoveClickupTaskBetweenListsEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createListTry,
+              moveClickupTaskBetweenListsParams:
+              event.moveClickupTaskBetweenListsParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _moveClickupTaskBetweenListsUseCase(
+              event.moveClickupTaskBetweenListsParams);
+          result?.fold(
+                  (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.moveTaskBetweenListsFailed,
+                  moveTaskBetweenListsFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.moveTaskBetweenListsSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                event.moveClickupTaskBetweenListsParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
+        }
+      } else if (event is CreateClickupFolderInSpaceEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createFolderTry,
+              createClickupFolderInSpaceParams:
+              event.createClickupFolderInSpaceParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _createClickupFolderInSpaceUseCase(
+              event.createClickupFolderInSpaceParams);
+          result?.fold(
+                  (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.createFolderFailed,
+                  createFolderFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createFolderSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                event.createClickupFolderInSpaceParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
+        }
+      } else if (event is DeleteClickupFolderEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.createFolderTry,
+              deleteClickupFolderParams:
+              event.deleteClickupFolderParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _deleteClickupFolderUseCase(
+              event.deleteClickupFolderParams);
+          result?.fold(
+                  (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.deleteFolderFailed,
+                  deleteFolderFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.deleteFolderSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                event.deleteClickupFolderParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
+        }
+      } else if (event is DeleteClickupListEvent) {
+        if (event.tryEvent) {
+          emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.deleteTaskTry,
+              deleteClickupListParams:
+              event.deleteClickupListParams,
+              clickupWorkspace: event.clickupWorkspace,
+              clickupSpace: event.clickupSpace));
+        } else {
+          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+          final result = await _deleteClickupListUseCase(
+              event.deleteClickupListParams);
+          result?.fold(
+                  (l) => emit(state.copyWith(
+                  listsPageStatus: ListsPageStatus.deleteListFailed,
+                  deleteListFailure: l)), (r) {
+            emit(state.copyWith(
+              listsPageStatus: ListsPageStatus.deleteListSuccess,
+            ));
+            add(GetListAndFoldersInListsPageEvent.inSpace(
+                clickupAccessToken:
+                event.deleteClickupListParams.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace,
+                clickupSpace: event.clickupSpace));
+          });
         }
       }
     });
