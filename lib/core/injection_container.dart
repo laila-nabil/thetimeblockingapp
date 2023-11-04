@@ -52,6 +52,7 @@ import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
@@ -161,6 +162,10 @@ void _initServiceLocator({required Network network}) {
   ));
 
   serviceLocator.registerLazySingleton(() => CreateFolderlessClickupListUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => MoveClickupTaskBetweenListsUseCase(
     serviceLocator(),
   ));
 
