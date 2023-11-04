@@ -7,15 +7,15 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_list.dart';
 
-class RemoveTaskFromListUseCase
+class RemoveTaskFromAdditionalListUseCase
     implements UseCase<Unit, RemoveTaskFromListParams> {
   
   final TasksRepo repo;
 
-  RemoveTaskFromListUseCase(this.repo);
+  RemoveTaskFromAdditionalListUseCase(this.repo);
   @override
   Future<Either<Failure, Unit>?> call(RemoveTaskFromListParams params) {
-    return repo.removeTaskFromList(params: params);
+    return repo.removeTaskFromAdditionalList(params: params);
   }
 }
 

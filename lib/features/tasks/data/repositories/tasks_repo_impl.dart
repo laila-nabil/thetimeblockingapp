@@ -9,6 +9,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -161,11 +163,11 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> removeTaskFromList(
+  Future<Either<Failure, Unit>> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.removeTaskFromList(params: params),
+          remoteDataSource.removeTaskFromAdditionalList(params: params),
     );
   }
 
@@ -251,5 +253,19 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupFolderInSpace(params: params));
+  }
+
+  @override
+  Future<Either<Failure, Unit>?> deleteList(DeleteClickupListParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.deleteList(params: params));
+  }
+
+  @override
+  Future<Either<Failure, Unit>?> deleteFolder(DeleteClickupFolderParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.deleteFolder(params: params));
   }
 }

@@ -6,6 +6,8 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_mode
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -65,7 +67,7 @@ abstract class TasksRemoteDataSource {
 
   Future<Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params});
+  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params});
 
   Future<Unit> addTaskToList({required AddTaskToListParams params});
 
@@ -77,6 +79,10 @@ abstract class TasksRemoteDataSource {
 
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateClickupFolderInSpaceParams params});
+
+  Future<Unit> deleteList({required DeleteClickupListParams params});
+
+  Future<Unit> deleteFolder({required DeleteClickupFolderParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -282,7 +288,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     return unit;
   }
   @override
-  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params})  async {
+  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.delete(
       uri: uri,
@@ -327,5 +333,25 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
         body: {"name": params.folderName});
     return ClickupFolderModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<Unit> deleteList({required DeleteClickupListParams params}) async{
+    Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
+    await network.delete(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+    return unit;
+  }
+
+  @override
+  Future<Unit> deleteFolder({required DeleteClickupFolderParams params})  async{
+    Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
+    await network.delete(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+    return unit;
   }
 }

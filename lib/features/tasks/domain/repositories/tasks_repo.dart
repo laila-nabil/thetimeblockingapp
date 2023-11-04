@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
@@ -65,7 +67,7 @@ abstract class TasksRepo{
   Future<Either<Failure, Unit>> addTagToTask(
       {required AddTagToTaskParams params});
 
-  Future<Either<Failure, Unit>> removeTaskFromList(
+  Future<Either<Failure, Unit>> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params});
 
   Future<Either<Failure, Unit>> addTaskToList(
@@ -100,4 +102,9 @@ abstract class TasksRepo{
 
   Future<Either<Failure, ClickupFolder>?> createClickupFolderInSpace(
       CreateClickupFolderInSpaceParams params);
+
+  Future<Either<Failure, Unit>?> deleteList(DeleteClickupListParams params);
+
+  Future<Either<Failure, Unit>?> deleteFolder(
+      DeleteClickupFolderParams params);
 }

@@ -37,6 +37,8 @@ import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -145,6 +147,14 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
+  serviceLocator.registerLazySingleton(() => DeleteClickupListUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => DeleteClickupFolderUseCase(
+    serviceLocator(),
+  ));
+
   serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
         serviceLocator(),
       ));
@@ -216,7 +226,7 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
   serviceLocator
-      .registerLazySingleton(() => RemoveTaskFromListUseCase(
+      .registerLazySingleton(() => RemoveTaskFromAdditionalListUseCase(
     serviceLocator(),
   ));
   serviceLocator
