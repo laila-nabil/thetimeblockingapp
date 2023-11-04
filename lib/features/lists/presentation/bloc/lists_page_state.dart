@@ -17,6 +17,8 @@ enum ListsPageStatus {
   createFolderFailed,
   createTaskSuccess,
   createTaskFailed,
+  updateTaskSuccess,
+  updateTaskFailed,
   deleteListSuccess,
   deleteListFailed,
   deleteFolderSuccess,
@@ -46,6 +48,7 @@ class ListsPageState extends Equatable {
   final Failure? createFolderFailure;
   final List<ClickupTask>? createTaskResult;
   final Failure? createTaskFailure;
+  final Failure? updateTaskFailure;
   final List<ClickupTask>? deleteListResult;
   final Failure? deleteListFailure;
   final List<ClickupFolder>? deleteFolderResult;
@@ -78,6 +81,7 @@ class ListsPageState extends Equatable {
     this.createFolderFailure,
     this.createTaskResult,
     this.createTaskFailure,
+    this.updateTaskFailure,
     this.deleteListResult,
     this.deleteListFailure,
     this.deleteFolderResult,
@@ -129,6 +133,7 @@ class ListsPageState extends Equatable {
         createFolderFailure,
         createTaskResult,
         createTaskFailure,
+        updateTaskFailure,
         deleteListResult,
         deleteListFailure,
         deleteFolderResult,
@@ -177,7 +182,8 @@ class ListsPageState extends Equatable {
     DeleteClickupFolderParams? deleteClickupFolderParams,
     DeleteClickupListParams? deleteClickupListParams,
     Unit? moveTaskBetweenListsResult,
-    Failure? moveTaskBetweenListsFailure
+    Failure? moveTaskBetweenListsFailure,
+    Failure? updateTaskFailure
   }) {
     return ListsPageState(
       listsPageStatus: listsPageStatus,
@@ -209,6 +215,7 @@ class ListsPageState extends Equatable {
           moveTaskBetweenListsResult ?? this.moveTaskBetweenListsResult,
       moveTaskBetweenListsFailure:
           moveTaskBetweenListsFailure ?? this.moveTaskBetweenListsFailure,
+      updateTaskFailure: updateTaskFailure??this.updateTaskFailure,
       createClickupListInFolderParams: createClickupListInFolderParams,
       createFolderlessListClickupParams: createFolderlessListClickupParams,
       moveClickupTaskBetweenListsParams: moveClickupTaskBetweenListsParams,

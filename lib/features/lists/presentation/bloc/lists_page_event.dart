@@ -165,3 +165,30 @@ class DeleteClickupListEvent extends ListsPageEvent {
   List<Object?> get props =>
       [deleteClickupListParams, clickupWorkspace, clickupSpace, tryEvent];
 }
+
+class CreateClickupTaskEvent extends ListsPageEvent {
+  final ClickupTaskParams params;
+
+  const CreateClickupTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class UpdateClickupTaskEvent extends ListsPageEvent {
+  final ClickupTaskParams params;
+
+  const UpdateClickupTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class DeleteClickupTaskEvent extends ListsPageEvent {
+  final DeleteClickupTaskParams params;
+
+  const DeleteClickupTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}

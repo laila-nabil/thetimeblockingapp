@@ -107,6 +107,9 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
       ));
 
   /// UseCases
