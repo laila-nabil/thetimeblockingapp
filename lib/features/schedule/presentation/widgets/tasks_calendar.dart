@@ -35,9 +35,10 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      monthViewSettings: const MonthViewSettings(
-        showAgenda: true
-      ),
+      ///FIXME enabling agenda disables navigating to day from month view
+      // monthViewSettings: const MonthViewSettings(
+      //   showAgenda: true,
+      // ),
       ///TODO C enable when enabling the feature
       allowDragAndDrop: false,
       allowAppointmentResize: false,
