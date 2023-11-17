@@ -21,6 +21,7 @@ enum ListsPageStatus {
   createFolderSuccess,
   createFolderTry,
   createFolderFailed,
+  createFolderCanceled,
   createTaskSuccess,
   createTaskFailed,
   updateTaskSuccess,
@@ -166,6 +167,9 @@ class ListsPageState extends Equatable {
 
   bool get tryCreateListInSpace =>
       listsPageStatus == ListsPageStatus.createListInSpaceTry ;
+
+  bool get tryCreateFolderInSpace =>
+      listsPageStatus == ListsPageStatus.createFolderTry ;
 
   ListsPageState copyWith({
     required ListsPageStatus listsPageStatus,

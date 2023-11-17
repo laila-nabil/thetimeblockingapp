@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 
@@ -150,6 +151,23 @@ class ListsPage extends StatelessWidget {
                                       )))
                                       .toList() ??
                                       [])+[
+                                    state.tryCreateFolderInSpace
+                                        ? ListTile(
+                                      title: _CreateFolderInSpace(
+                                          listsPageBloc: listsPageBloc),
+                                    )
+                                        : ListTile(
+                                      title: TextButton(
+                                          onPressed: () {
+                                            listsPageBloc.add(CreateClickupFolderInSpaceEvent.tryCreate());
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(appLocalization.translate("createNewFolder")),
+                                            ],
+                                          )),
+                                    )
+                                  ]+[
                                     state.tryCreateListInSpace
                                         ? ListTile(
                                             title: _CreateListInSpace(
@@ -267,6 +285,54 @@ class _CreateListInSpace extends StatelessWidget {
                               .selectedSpace!));
                     }
                   })
+      ],
+    );
+  }
+}
+
+class _CreateFolderInSpace extends StatelessWidget {
+  _CreateFolderInSpace({
+    required this.listsPageBloc,
+  });
+
+  final TextEditingController controller = TextEditingController();
+  final ListsPageBloc listsPageBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: CustomTextInputField(
+          controller: controller,
+        )),
+        IconButton(
+            icon: const Icon(Icons.cancel),
+            onPressed: () {
+              listsPageBloc.add(CreateClickupFolderInSpaceEvent.cancelCreate());
+            }),
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              if (controller
+                  .text.isNotEmpty) {
+                listsPageBloc.add(CreateClickupFolderInSpaceEvent.submit(
+                    createClickupFolderInSpaceParams: CreateClickupFolderInSpaceParams(
+                        clickupAccessToken:
+                        Globals
+                            .clickupAuthAccessToken,
+                        folderName:
+                        controller
+                            .text,
+                        clickupSpace:
+                        Globals
+                            .selectedSpace!),
+                    clickupWorkspace:
+                    Globals
+                        .selectedWorkspace!,
+                    clickupSpace: Globals
+                        .selectedSpace!));
+              }
+            })
       ],
     );
   }

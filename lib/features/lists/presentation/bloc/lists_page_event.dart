@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'lists_page_bloc.dart';
 
 abstract class ListsPageEvent extends Equatable {
@@ -144,17 +146,24 @@ class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
 }
 
 class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
-  final CreateClickupFolderInSpaceParams createClickupFolderInSpaceParams;
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupSpace? clickupSpace;
-  final bool tryEvent;
+  CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
+  ClickupWorkspace? clickupWorkspace;
+  ClickupSpace? clickupSpace;
+  bool? tryEvent;
 
-  const CreateClickupFolderInSpaceEvent({
-    required this.createClickupFolderInSpaceParams,
-    required this.clickupWorkspace,
-    this.clickupSpace,
-    this.tryEvent = false,
-  });
+  CreateClickupFolderInSpaceEvent.tryCreate(){
+    tryEvent = true;
+  }
+  CreateClickupFolderInSpaceEvent.cancelCreate(){
+    tryEvent = false;
+  }
+  CreateClickupFolderInSpaceEvent.submit({
+    required CreateClickupFolderInSpaceParams this.createClickupFolderInSpaceParams,
+    required ClickupWorkspace this.clickupWorkspace,
+    required ClickupSpace this.clickupSpace,
+  }){
+    tryEvent = false;
+  }
 
   @override
   List<Object?> get props => [

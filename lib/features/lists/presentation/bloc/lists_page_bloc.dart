@@ -221,17 +221,20 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           });
         }
       } else if (event is CreateClickupFolderInSpaceEvent) {
-        if (event.tryEvent) {
+        if (event.tryEvent == true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createFolderTry,
               createClickupFolderInSpaceParams:
                   event.createClickupFolderInSpaceParams,
               clickupWorkspace: event.clickupWorkspace,
               clickupSpace: event.clickupSpace));
-        } else {
+        } else if(event.createClickupFolderInSpaceParams == null){
+          emit(state.copyWith(
+            listsPageStatus: ListsPageStatus.createFolderCanceled,));
+        }else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _createClickupFolderInSpaceUseCase(
-              event.createClickupFolderInSpaceParams);
+              event.createClickupFolderInSpaceParams!);
           result?.fold(
               (l) => emit(state.copyWith(
                   listsPageStatus: ListsPageStatus.createFolderFailed,
@@ -241,8 +244,8 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             ));
             add(GetListAndFoldersInListsPageEvent.inSpace(
                 clickupAccessToken:
-                    event.createClickupFolderInSpaceParams.clickupAccessToken,
-                clickupWorkspace: event.clickupWorkspace,
+                    event.createClickupFolderInSpaceParams!.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace!,
                 clickupSpace: event.clickupSpace));
           });
         }
