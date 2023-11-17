@@ -35,5 +35,6 @@
   "date": "التاريخ",
   "createNewList": "اضف قائمة جديدة",
   "createNewFolder": "اضف مجلد جديد",
-  "create": "اضف"
+  "create": "اضف",
+  "areYouSureDelete": "هل انت متأكد انك تريد حذف"
 }

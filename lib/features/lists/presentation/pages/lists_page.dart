@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
@@ -11,6 +12,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
@@ -40,9 +42,40 @@ class ListsPage extends StatelessWidget {
                         state.navigateList?.id ?? ""
                       }).toString(),
                       extra: listsPageBloc);
-                }
-              },
-              builder: (context, state) {
+            } else if (state.listsPageStatus == ListsPageStatus.deleteListTry) {
+              showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return CustomAlertDialog(
+                      loading: false,
+                      actions: [
+                        CustomButton(
+                            child: Text(appLocalization.translate("delete")),
+                            onPressed: () {
+                              listsPageBloc.add(DeleteClickupListEvent.submit(
+                                  deleteClickupListParams:
+                                      DeleteClickupListParams(
+                                          list: state.toDeleteList!,
+                                          clickupAccessToken:
+                                              Globals.clickupAuthAccessToken),
+                                  clickupWorkspace: Globals.selectedWorkspace!,
+                                  clickupSpace: Globals.selectedSpace!));
+                              Navigator.pop(context);
+                            }),
+                        CustomButton(
+                            child: Text(appLocalization.translate("cancel")),
+                            onPressed: () {
+                              listsPageBloc.add(DeleteClickupListEvent.cancelDelete());
+                              Navigator.pop(context);
+                            }),
+                      ],
+                      content: Text(
+                          "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteList?.name}?"),
+                    );
+                  });
+            }
+          },
+          builder: (context, state) {
                 final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
                 final startupBloc = BlocProvider.of<StartupBloc>(context);
                 return ResponsiveScaffold(
@@ -117,6 +150,11 @@ class ListsPage extends StatelessWidget {
                                                     Icons.list),
                                                 Text(e.name ??
                                                     ""),
+                                                const Spacer(),
+                                                IconButton(onPressed: (){
+                                                  listsPageBloc.add(
+                                                      DeleteClickupListEvent.tryDelete(e));
+                                                }, icon: const Icon(Icons.delete))
                                               ],
                                             )))
                                             .toList() ??
@@ -169,6 +207,11 @@ class ListsPage extends StatelessWidget {
                                             children: [
                                               const Icon(Icons.list),
                                               Text(e.name ?? ""),
+                                              const Spacer(),
+                                              IconButton(onPressed: (){
+                                                listsPageBloc.add(
+                                                    DeleteClickupListEvent.tryDelete(e));
+                                              }, icon: const Icon(Icons.delete))
                                             ],
                                           )))
                                           .toList() ??
