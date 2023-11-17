@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -73,7 +74,38 @@ class ListsPage extends StatelessWidget {
                           "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteList?.name}?"),
                     );
                   });
-            }
+            } else if (state.listsPageStatus == ListsPageStatus.deleteFolderTry) {
+                  showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        return CustomAlertDialog(
+                          loading: false,
+                          actions: [
+                            CustomButton(
+                                child: Text(appLocalization.translate("delete")),
+                                onPressed: () {
+                                  listsPageBloc.add(DeleteClickupFolderEvent.submit(
+                                      deleteClickupFolderParams:
+                                      DeleteClickupFolderParams(
+                                          folder: state.toDeleteFolder!,
+                                          clickupAccessToken:
+                                          Globals.clickupAuthAccessToken),
+                                      clickupWorkspace: Globals.selectedWorkspace!,
+                                      clickupSpace: Globals.selectedSpace!));
+                                  Navigator.pop(context);
+                                }),
+                            CustomButton(
+                                child: Text(appLocalization.translate("cancel")),
+                                onPressed: () {
+                                  listsPageBloc.add(DeleteClickupFolderEvent.cancelDelete());
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                          content: Text(
+                              "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteFolder?.name}?"),
+                        );
+                      });
+                }
           },
           builder: (context, state) {
                 final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
@@ -135,6 +167,11 @@ class ListsPage extends StatelessWidget {
                                           children: [
                                             const Icon(Icons.folder),
                                             Text(folder.name ?? ""),
+                                            const Spacer(),
+                                            IconButton(onPressed: (){
+                                              listsPageBloc.add(
+                                                  DeleteClickupFolderEvent.tryDelete(folder));
+                                            }, icon: const Icon(Icons.delete))
                                           ],
                                         ),
                                         children: (folder.lists

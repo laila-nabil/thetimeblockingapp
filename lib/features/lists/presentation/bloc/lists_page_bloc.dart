@@ -250,16 +250,18 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           });
         }
       } else if (event is DeleteClickupFolderEvent) {
-        if (event.tryEvent) {
+        if (event.tryEvent == true) {
           emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.createFolderTry,
-              deleteClickupFolderParams: event.deleteClickupFolderParams,
-              clickupWorkspace: event.clickupWorkspace,
-              clickupSpace: event.clickupSpace));
-        } else {
+              listsPageStatus: ListsPageStatus.deleteFolderTry,
+              toDeleteFolder: event.toDeleteFolder
+          ));
+        } else if(event.deleteClickupFolderParams == null){
+          emit(state.copyWith(
+            listsPageStatus: ListsPageStatus.deleteListCanceled,));
+        }  else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _deleteClickupFolderUseCase(
-              event.deleteClickupFolderParams);
+              event.deleteClickupFolderParams!);
           result?.fold(
               (l) => emit(state.copyWith(
                   listsPageStatus: ListsPageStatus.deleteFolderFailed,
@@ -269,8 +271,8 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             ));
             add(GetListAndFoldersInListsPageEvent.inSpace(
                 clickupAccessToken:
-                    event.deleteClickupFolderParams.clickupAccessToken,
-                clickupWorkspace: event.clickupWorkspace,
+                    event.deleteClickupFolderParams!.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace!,
                 clickupSpace: event.clickupSpace));
           });
         }

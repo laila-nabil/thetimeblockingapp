@@ -175,17 +175,25 @@ class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
 }
 
 class DeleteClickupFolderEvent extends ListsPageEvent {
-  final DeleteClickupFolderParams deleteClickupFolderParams;
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupSpace? clickupSpace;
-  final bool tryEvent;
+  DeleteClickupFolderParams? deleteClickupFolderParams;
+  ClickupWorkspace? clickupWorkspace;
+  ClickupSpace? clickupSpace;
+  ClickupFolder? toDeleteFolder;
+  bool? tryEvent;
 
-  const DeleteClickupFolderEvent({
-    required this.deleteClickupFolderParams,
-    required this.clickupWorkspace,
-    this.clickupSpace,
-    this.tryEvent = false,
-  });
+  DeleteClickupFolderEvent.tryDelete(ClickupFolder this.toDeleteFolder){
+    tryEvent = true;
+  }
+  DeleteClickupFolderEvent.cancelDelete(){
+    tryEvent = false;
+  }
+  DeleteClickupFolderEvent.submit({
+    required DeleteClickupFolderParams this.deleteClickupFolderParams,
+    required ClickupWorkspace this.clickupWorkspace,
+    required ClickupSpace this.clickupSpace,
+  }){
+    tryEvent = false;
+  }
 
   @override
   List<Object?> get props => [

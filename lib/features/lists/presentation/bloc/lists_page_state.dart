@@ -39,7 +39,7 @@ enum ListsPageStatus {
   navigateFolder,
   moveTaskBetweenListsTry,
   moveTaskBetweenListsSuccess,
-  moveTaskBetweenListsFailed,
+  moveTaskBetweenListsFailed, deleteFolderTry,
 }
 
 class ListsPageState extends Equatable {
