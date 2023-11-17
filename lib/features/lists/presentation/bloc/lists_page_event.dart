@@ -71,9 +71,10 @@ class CreateListInFolderEvent extends ListsPageEvent {
   CreateClickupListInFolderParams? createClickupListInFolderParams;
   ClickupWorkspace? clickupWorkspace;
   ClickupSpace? clickupSpace;
+  ClickupFolder? folderToCreateListIn;
   bool? tryEvent;
 
-  CreateListInFolderEvent.tryCreate(){
+  CreateListInFolderEvent.tryCreate({required ClickupFolder this.folderToCreateListIn}){
     tryEvent = true;
   }
   CreateListInFolderEvent.cancelCreate(){

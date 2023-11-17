@@ -71,7 +71,7 @@ class ListsPageState extends Equatable {
   final DeleteClickupListParams? deleteClickupListParams;
   final Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
-
+  final ClickupFolder? folderToCreateListIn;
   const ListsPageState({
     required this.listsPageStatus,
     this.navigateList,
@@ -104,6 +104,7 @@ class ListsPageState extends Equatable {
     this.deleteClickupListParams,
     this.moveTaskBetweenListsResult,
     this.moveTaskBetweenListsFailure,
+    this.folderToCreateListIn,
   });
 
   bool get isInit => listsPageStatus == ListsPageStatus.initial;
@@ -156,8 +157,15 @@ class ListsPageState extends Equatable {
         deleteClickupListParams,
         moveTaskBetweenListsResult,
         moveTaskBetweenListsFailure,
+        folderToCreateListIn,
       ];
-  bool get tryCreateListInFolder => listsPageStatus == ListsPageStatus.createListInFolderTry;
+
+  bool tryCreateListInFolder(ClickupFolder folder) =>
+      listsPageStatus == ListsPageStatus.createListInFolderTry &&
+      folderToCreateListIn == folder;
+
+  bool get tryCreateListInSpace =>
+      listsPageStatus == ListsPageStatus.createListInSpaceTry ;
 
   ListsPageState copyWith({
     required ListsPageStatus listsPageStatus,
@@ -190,7 +198,8 @@ class ListsPageState extends Equatable {
     DeleteClickupListParams? deleteClickupListParams,
     Unit? moveTaskBetweenListsResult,
     Failure? moveTaskBetweenListsFailure,
-    Failure? updateTaskFailure
+    Failure? updateTaskFailure,
+    ClickupFolder? folderToCreateListIn,
   }) {
     return ListsPageState(
       listsPageStatus: listsPageStatus,
@@ -229,6 +238,7 @@ class ListsPageState extends Equatable {
       createClickupFolderInSpaceParams: createClickupFolderInSpaceParams,
       deleteClickupFolderParams: deleteClickupFolderParams,
       deleteClickupListParams: deleteClickupListParams,
+      folderToCreateListIn: folderToCreateListIn
     );
   }
 }

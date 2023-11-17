@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 
@@ -21,8 +22,6 @@ class ListsPage extends StatelessWidget {
 
   static const routeName = "/Lists";
 
-  final TextEditingController createNewList = TextEditingController();
-  final TextEditingController createNewFolder = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -111,46 +110,23 @@ class ListsPage extends StatelessWidget {
                                         .toList() ??
                                         [])+
                                         [
-                                          state.tryCreateListInFolder
+                                          state.tryCreateListInFolder(folder)
                                               ? ListTile(
-                                            title: Row(
-                                              children: [
-                                                Expanded(child: CustomTextInputField(
-                                                  controller: createNewList,
-                                                )),
-                                                IconButton(
-                                                    icon: const Icon(Icons.cancel),
-                                                    onPressed: () {
-                                                      listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
-                                                    }),
-                                                IconButton(
-                                                    icon: const Icon(Icons.add),
-                                                    onPressed: () {
-                                                      if(createNewList.text.isNotEmpty){
-                                                        listsPageBloc.add(
-                                                            CreateListInFolderEvent.submit(
-                                                                createClickupListInFolderParams:
-                                                                CreateClickupListInFolderParams(
-                                                                    clickupAccessToken:
-                                                                    Globals.clickupAuthAccessToken,
-                                                                    clickupFolder:
-                                                                    folder,
-                                                                    listName:
-                                                                    createNewList.text),
-                                                                clickupWorkspace:
-                                                                Globals.selectedWorkspace!,
-                                                                clickupSpace: Globals.selectedSpace!
-                                                            ));
-                                                      }
-                                                    })
-                                              ],
-                                            ),
-                                          )
+                                                          title:
+                                                              _CreateListInFolder(
+                                                            listsPageBloc:
+                                                                listsPageBloc,
+                                                            folder: folder,
+                                                          ),
+                                                        )
                                               : ListTile(
                                             title: TextButton(
                                                 onPressed: () {
-                                                  listsPageBloc.add(CreateListInFolderEvent.tryCreate());
-                                                },
+                                                                listsPageBloc.add(
+                                                                    CreateListInFolderEvent.tryCreate(
+                                                                        folderToCreateListIn:
+                                                                            folder));
+                                                              },
                                                 child: Row(
                                                   children: [
                                                     Text(appLocalization.translate("createNewList")),
@@ -174,48 +150,15 @@ class ListsPage extends StatelessWidget {
                                       )))
                                       .toList() ??
                                       [])+[
-                                    state.tryCreateListInFolder
+                                    state.tryCreateListInSpace
                                         ? ListTile(
-                                      title: Row(
-                                        children: [
-                                          Expanded(child: CustomTextInputField(
-                                            controller: createNewList,
-                                          )),
-                                          IconButton(
-                                              icon: const Icon(Icons.cancel),
-                                              onPressed: () {
-                                                listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
-                                              }),
-                                          IconButton(
-                                              icon: const Icon(Icons.add),
-                                              onPressed: () {
-                                                      if (createNewList
-                                                          .text.isNotEmpty) {
-                                                        listsPageBloc.add(CreateFolderlessListEvent.submit(
-                                                            createFolderlessListClickupParams: CreateFolderlessListClickupParams(
-                                                                clickupAccessToken:
-                                                                    Globals
-                                                                        .clickupAuthAccessToken,
-                                                                listName:
-                                                                    createNewList
-                                                                        .text,
-                                                                clickupSpace:
-                                                                    Globals
-                                                                        .selectedSpace!),
-                                                            clickupWorkspace:
-                                                                Globals
-                                                                    .selectedWorkspace!,
-                                                            clickupSpace: Globals
-                                                                .selectedSpace!));
-                                                      }
-                                                    })
-                                        ],
-                                      ),
-                                    )
+                                            title: _CreateListInSpace(
+                                                listsPageBloc: listsPageBloc),
+                                          )
                                         : ListTile(
                                       title: TextButton(
                                           onPressed: () {
-                                            listsPageBloc.add(CreateListInFolderEvent.tryCreate());
+                                            listsPageBloc.add(CreateFolderlessListEvent.tryCreate());
                                           },
                                           child: Row(
                                             children: [
@@ -231,6 +174,100 @@ class ListsPage extends StatelessWidget {
           },
         );
       }),
+    );
+  }
+}
+
+class _CreateListInFolder extends StatelessWidget {
+  _CreateListInFolder({
+    required this.listsPageBloc,
+    required this.folder,
+
+  });
+  final TextEditingController createNewList = TextEditingController();
+  final ListsPageBloc listsPageBloc;
+  final ClickupFolder folder;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: CustomTextInputField(
+          controller: createNewList,
+        )),
+        IconButton(
+            icon: const Icon(Icons.cancel),
+            onPressed: () {
+              listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
+            }),
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              if(createNewList.text.isNotEmpty){
+                listsPageBloc.add(
+                    CreateListInFolderEvent.submit(
+                        createClickupListInFolderParams:
+                        CreateClickupListInFolderParams(
+                            clickupAccessToken:
+                            Globals.clickupAuthAccessToken,
+                            clickupFolder:
+                            folder,
+                            listName:
+                            createNewList.text),
+                        clickupWorkspace:
+                        Globals.selectedWorkspace!,
+                        clickupSpace: Globals.selectedSpace!
+                    ));
+              }
+            })
+      ],
+    );
+  }
+}
+
+class _CreateListInSpace extends StatelessWidget {
+  _CreateListInSpace({
+    required this.listsPageBloc,
+  });
+
+  final TextEditingController createNewList = TextEditingController();
+  final ListsPageBloc listsPageBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: CustomTextInputField(
+          controller: createNewList,
+        )),
+        IconButton(
+            icon: const Icon(Icons.cancel),
+            onPressed: () {
+              listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
+            }),
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+                    if (createNewList
+                        .text.isNotEmpty) {
+                      listsPageBloc.add(CreateFolderlessListEvent.submit(
+                          createFolderlessListClickupParams: CreateFolderlessListClickupParams(
+                              clickupAccessToken:
+                                  Globals
+                                      .clickupAuthAccessToken,
+                              listName:
+                                  createNewList
+                                      .text,
+                              clickupSpace:
+                                  Globals
+                                      .selectedSpace!),
+                          clickupWorkspace:
+                              Globals
+                                  .selectedWorkspace!,
+                          clickupSpace: Globals
+                              .selectedSpace!));
+                    }
+                  })
+      ],
     );
   }
 }

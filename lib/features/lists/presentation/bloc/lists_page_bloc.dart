@@ -142,7 +142,8 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       } else if (event is CreateListInFolderEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.createListInFolderTry,));
+              listsPageStatus: ListsPageStatus.createListInFolderTry,
+              folderToCreateListIn: event.folderToCreateListIn));
         }else if(event.createClickupListInFolderParams == null){
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createListInFolderCanceled,));
