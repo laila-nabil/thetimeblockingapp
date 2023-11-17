@@ -32,5 +32,8 @@
   "clear": "الغاء",
   "selectTime": "اختر الوقت",
   "status": "الحالة",
-  "date": "التاريخ"
+  "date": "التاريخ",
+  "createNewList": "اضف قائمة جديدة",
+  "createNewFolder": "اضف مجلد جديد",
+  "create": "اضف"
 }

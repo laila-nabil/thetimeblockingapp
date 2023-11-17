@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
@@ -13,10 +16,12 @@ import '../../../tasks/domain/entities/clickup_space.dart';
 import '../bloc/lists_page_bloc.dart';
 
 class ListsPage extends StatelessWidget {
-  const ListsPage({super.key});
+  ListsPage({super.key});
 
   static const routeName = "/Lists";
 
+  final TextEditingController createNewList = TextEditingController();
+  final TextEditingController createNewFolder = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -84,28 +89,91 @@ class ListsPage extends StatelessWidget {
                                   ),
                               ] +
                                   (Globals.selectedSpace?.folders
-                                      .map((e) => ExpansionTile(
-                                    title: Text(e.name ?? ""),
-                                    children: e.lists
+                                      .map((folder) => ExpansionTile(
+                                    title: Row(
+                                      children: [
+                                        const Icon(Icons.folder),
+                                        Text(folder.name ?? ""),
+                                      ],
+                                    ),
+                                    children: (folder.lists
                                         ?.map((e) => ListTile(
                                         onTap: () {
                                           listsPageBloc.add(NavigateToListPageEvent(e));
                                         },
-                                        title: Text(e.name ?? "")))
+                                        title: Row(
+                                          children: [
+                                            const Icon(Icons.list),
+                                            Text(e.name ?? ""),
+                                          ],
+                                        )))
                                         .toList() ??
-                                        [],
+                                        [])+
+                                        [
+                                          state.tryCreateListInFolder
+                                              ? ListTile(
+                                            title: Row(
+                                              children: [
+                                                Expanded(child: CustomTextInputField(
+                                                  controller: createNewList,
+                                                )),
+                                                IconButton(
+                                                    icon: const Icon(Icons.cancel),
+                                                    onPressed: () {
+                                                      listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
+                                                    }),
+                                                IconButton(
+                                                    icon: const Icon(Icons.add),
+                                                    onPressed: () {
+                                                      if(createNewList.text.isNotEmpty){
+                                                        listsPageBloc.add(
+                                                            CreateListInFolderEvent.submit(
+                                                                createClickupListInFolderParams:
+                                                                CreateClickupListInFolderParams(
+                                                                    clickupAccessToken:
+                                                                    Globals.clickupAuthAccessToken,
+                                                                    clickupFolder:
+                                                                    folder,
+                                                                    listName:
+                                                                    createNewList.text),
+                                                                clickupWorkspace:
+                                                                Globals.selectedWorkspace!,
+                                                                clickupSpace: Globals.selectedSpace!
+                                                            ));
+                                                      }
+                                                    })
+                                              ],
+                                            ),
+                                          )
+                                              : ListTile(
+                                            title: TextButton(
+                                                onPressed: () {
+                                                  listsPageBloc.add(CreateListInFolderEvent.tryCreate());
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Text(appLocalization.translate("createNewList")),
+                                                  ],
+                                                )),
+                                          )
+                                        ],
                                   ))
                                       .toList() ??
                                       []) +
-                                  (Globals.selectedSpace?.lists
+                                  ((Globals.selectedSpace?.lists
                                       .map((e) => ListTile(
                                       onTap: () {
                                         listsPageBloc.add(NavigateToListPageEvent(e));
                                       },
-                                      title: Text(e.name ?? "")))
+                                      title: Row(
+                                        children: [
+                                          const Icon(Icons.list),
+                                          Text(e.name ?? ""),
+                                        ],
+                                      )))
                                       .toList() ??
-                                      [])),
-                        );
+                                      []))),
+                    );
                       },
                     )),
                 context: context);

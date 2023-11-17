@@ -48,18 +48,44 @@ class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
       ];
 }
 
-class CreateListInFolderEvent extends ListsPageEvent {
+class StartCreateListInFolderEvent extends ListsPageEvent {
   final CreateClickupListInFolderParams createClickupListInFolderParams;
   final ClickupWorkspace clickupWorkspace;
   final ClickupSpace? clickupSpace;
   final bool tryEvent;
 
-  const CreateListInFolderEvent({
+  const StartCreateListInFolderEvent({
     required this.createClickupListInFolderParams,
     required this.clickupWorkspace,
     this.clickupSpace,
     this.tryEvent = false,
   });
+
+  @override
+  List<Object?> get props => [
+    createClickupListInFolderParams,
+  ];
+}
+
+class CreateListInFolderEvent extends ListsPageEvent {
+  CreateClickupListInFolderParams? createClickupListInFolderParams;
+  ClickupWorkspace? clickupWorkspace;
+  ClickupSpace? clickupSpace;
+  bool? tryEvent;
+
+  CreateListInFolderEvent.tryCreate(){
+    tryEvent = true;
+  }
+  CreateListInFolderEvent.cancelCreate(){
+    tryEvent = false;
+  }
+  CreateListInFolderEvent.submit({
+    required CreateClickupListInFolderParams this.createClickupListInFolderParams,
+    required ClickupWorkspace this.clickupWorkspace,
+    required ClickupSpace this.clickupSpace,
+  }){
+    tryEvent = false;
+  }
 
   @override
   List<Object?> get props => [

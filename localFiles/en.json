@@ -32,5 +32,8 @@
   "clear": "clear",
   "selectTime": "Select time",
   "status": "Status",
-  "date": "Date"
+  "date": "Date",
+  "createNewList": "Create a new list",
+  "createNewFolder": "Create a new folder",
+  "create": "Create"
 }

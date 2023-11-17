@@ -75,7 +75,7 @@ final router = GoRouter(
       ),
       GoRoute(
         path: ListsPage.routeName,
-        builder: (context, state) => const ListsPage(),
+        builder: (context, state) =>  ListsPage(),
       ),
       GoRoute(
         path: ListPage.routeName,
