@@ -165,17 +165,20 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           });
         }
       } else if (event is CreateFolderlessListEvent) {
-        if (event.tryEvent) {
+        if (event.tryEvent == true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInSpaceTry,
               createFolderlessListClickupParams:
                   event.createFolderlessListClickupParams,
               clickupWorkspace: event.clickupWorkspace,
               clickupSpace: event.clickupSpace));
-        } else {
+        } else if(event.createFolderlessListClickupParams == null){
+          emit(state.copyWith(
+            listsPageStatus: ListsPageStatus.createListInSpaceCanceled,));
+        }else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _createFolderlessClickupListUseCase(
-              event.createFolderlessListClickupParams);
+              event.createFolderlessListClickupParams!);
           result?.fold(
               (l) => emit(state.copyWith(
                   listsPageStatus: ListsPageStatus.createListInSpaceFailed,
@@ -185,8 +188,8 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             ));
             add(GetListAndFoldersInListsPageEvent.inSpace(
                 clickupAccessToken:
-                    event.createFolderlessListClickupParams.clickupAccessToken,
-                clickupWorkspace: event.clickupWorkspace,
+                    event.createFolderlessListClickupParams!.clickupAccessToken,
+                clickupWorkspace: event.clickupWorkspace!,
                 clickupSpace: event.clickupSpace));
           });
         }

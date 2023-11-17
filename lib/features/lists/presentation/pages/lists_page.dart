@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
@@ -172,7 +173,57 @@ class ListsPage extends StatelessWidget {
                                         ],
                                       )))
                                       .toList() ??
-                                      []))),
+                                      [])+[
+                                    state.tryCreateListInFolder
+                                        ? ListTile(
+                                      title: Row(
+                                        children: [
+                                          Expanded(child: CustomTextInputField(
+                                            controller: createNewList,
+                                          )),
+                                          IconButton(
+                                              icon: const Icon(Icons.cancel),
+                                              onPressed: () {
+                                                listsPageBloc.add(CreateListInFolderEvent.cancelCreate());
+                                              }),
+                                          IconButton(
+                                              icon: const Icon(Icons.add),
+                                              onPressed: () {
+                                                      if (createNewList
+                                                          .text.isNotEmpty) {
+                                                        listsPageBloc.add(CreateFolderlessListEvent.submit(
+                                                            createFolderlessListClickupParams: CreateFolderlessListClickupParams(
+                                                                clickupAccessToken:
+                                                                    Globals
+                                                                        .clickupAuthAccessToken,
+                                                                listName:
+                                                                    createNewList
+                                                                        .text,
+                                                                clickupSpace:
+                                                                    Globals
+                                                                        .selectedSpace!),
+                                                            clickupWorkspace:
+                                                                Globals
+                                                                    .selectedWorkspace!,
+                                                            clickupSpace: Globals
+                                                                .selectedSpace!));
+                                                      }
+                                                    })
+                                        ],
+                                      ),
+                                    )
+                                        : ListTile(
+                                      title: TextButton(
+                                          onPressed: () {
+                                            listsPageBloc.add(CreateListInFolderEvent.tryCreate());
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(appLocalization.translate("createNewList")),
+                                            ],
+                                          )),
+                                    )
+                                  ])),
                     );
                       },
                     )),

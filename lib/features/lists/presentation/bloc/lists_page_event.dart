@@ -90,22 +90,31 @@ class CreateListInFolderEvent extends ListsPageEvent {
   @override
   List<Object?> get props => [
         createClickupListInFolderParams,
+        clickupWorkspace,
+        clickupSpace,
+        tryEvent,
       ];
 }
 
 class CreateFolderlessListEvent extends ListsPageEvent {
-  final CreateFolderlessListClickupParams createFolderlessListClickupParams;
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupSpace? clickupSpace;
-  final bool tryEvent;
+  CreateFolderlessListClickupParams? createFolderlessListClickupParams;
+  ClickupWorkspace? clickupWorkspace;
+  ClickupSpace? clickupSpace;
+  bool? tryEvent;
 
-  const CreateFolderlessListEvent({
-    required this.createFolderlessListClickupParams,
-    required this.clickupWorkspace,
-    this.clickupSpace,
-    this.tryEvent = false,
-  });
-
+  CreateFolderlessListEvent.tryCreate(){
+    tryEvent = true;
+  }
+  CreateFolderlessListEvent.cancelCreate(){
+    tryEvent = false;
+  }
+  CreateFolderlessListEvent.submit({
+    required CreateFolderlessListClickupParams this.createFolderlessListClickupParams,
+    required ClickupWorkspace this.clickupWorkspace,
+    required ClickupSpace this.clickupSpace,
+  }){
+    tryEvent = false;
+  }
   @override
   List<Object?> get props =>
       [createFolderlessListClickupParams, clickupWorkspace, clickupSpace, tryEvent];
