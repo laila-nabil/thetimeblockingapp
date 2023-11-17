@@ -329,7 +329,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateClickupFolderInSpaceParams params}) async {
     final response = await network.post(
-        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
+        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/folder"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
         body: {"name": params.folderName});
     return ClickupFolderModel.fromJson(json.decode(response.body));
