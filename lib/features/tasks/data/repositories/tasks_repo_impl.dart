@@ -4,13 +4,15 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -18,6 +20,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_t
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/globals.dart';
@@ -267,5 +270,28 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.deleteFolder(params: params));
+  }
+
+  @override
+  Future<Either<Failure, Unit>?> deleteClickupTag(DeleteClickupTagParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.deleteClickupTag(params: params));
+  }
+
+  @override
+  Future<Either<Failure, Unit>?> createClickupTagInSpace(
+      CreateClickupTagInSpaceParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.createClickupTagInSpace(params: params));
+  }
+
+  @override
+  Future<Either<Failure, ClickupTagModel>?> updateClickupTag(
+      UpdateClickupTagParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.updateClickupTag(params: params));
   }
 }

@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
@@ -18,6 +18,8 @@ import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
+import '../../domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import '../../domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_list_use_case.dart';
@@ -28,6 +30,7 @@ import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.da
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_task_from_list_task_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
+import '../../domain/use_cases/update_clickup_tag_use_case.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
 
@@ -67,7 +70,8 @@ abstract class TasksRemoteDataSource {
 
   Future<Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params});
+  Future<Unit> removeTaskFromAdditionalList(
+      {required RemoveTaskFromListParams params});
 
   Future<Unit> addTaskToList({required AddTaskToListParams params});
 
@@ -83,6 +87,14 @@ abstract class TasksRemoteDataSource {
   Future<Unit> deleteList({required DeleteClickupListParams params});
 
   Future<Unit> deleteFolder({required DeleteClickupFolderParams params});
+
+  Future<Unit> createClickupTagInSpace(
+      {required CreateClickupTagInSpaceParams params});
+
+  Future<ClickupTagModel> updateClickupTag(
+      {required UpdateClickupTagParams params});
+
+  Future<Unit> deleteClickupTag({required DeleteClickupTagParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -257,8 +269,10 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> removeTagFromTask({required RemoveTagFromTaskParams params}) async {
-    Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
+  Future<Unit> removeTagFromTask(
+      {required RemoveTagFromTaskParams params}) async {
+    Uri uri =
+        Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
@@ -267,10 +281,12 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> addTagToTask({required AddTagToTaskParams params})  async {
-    Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
+  Future<Unit> addTagToTask({required AddTagToTaskParams params}) async {
+    Uri uri =
+        Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.post(
-      body: {},//fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
+      body: {},
+      //fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
@@ -278,18 +294,23 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> addTaskToList({required AddTaskToListParams params})async {
-    Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
+  Future<Unit> addTaskToList({required AddTaskToListParams params}) async {
+    Uri uri =
+        Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.post(
-      body: {},//fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
+      body: {},
+      //fails without it :{"err":"Unexpected token n in JSON at position 0","ECODE":"JSON_001"}
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
     return unit;
   }
+
   @override
-  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params})  async {
-    Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
+  Future<Unit> removeTaskFromAdditionalList(
+      {required RemoveTaskFromListParams params}) async {
+    Uri uri =
+        Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
@@ -298,7 +319,8 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<ClickupListModel> getClickupList({required GetClickupListParams params}) async {
+  Future<ClickupListModel> getClickupList(
+      {required GetClickupListParams params}) async {
     final response = await network.get(
         uri: Uri.parse("$clickupUrl/list/${params.listId}"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
@@ -336,7 +358,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteList({required DeleteClickupListParams params}) async{
+  Future<Unit> deleteList({required DeleteClickupListParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
     await network.delete(
       uri: uri,
@@ -346,12 +368,49 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteFolder({required DeleteClickupFolderParams params})  async{
+  Future<Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
     return unit;
+  }
+
+  @override
+  Future<Unit> createClickupTagInSpace(
+      {required CreateClickupTagInSpaceParams params}) async {
+    Uri uri = Uri.parse("$clickupUrl/space/${params.space.id}/tag");
+    await network.post(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+      body: (params.newTag as ClickupTagModel).toJson()
+    );
+    return unit;
+  }
+
+  @override
+  Future<Unit> deleteClickupTag({required DeleteClickupTagParams params}) async{
+    Uri uri = Uri.parse(
+        "$clickupUrl/space/${params.space.id}/tag/${params.tag.name}");
+    await network.delete(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
+      body: (params.tag as ClickupTagModel).toJson()
+    );
+    return unit;
+  }
+
+  @override
+  Future<ClickupTagModel> updateClickupTag(
+      {required UpdateClickupTagParams params}) async {
+    Uri uri = Uri.parse(
+        "$clickupUrl/space/${params.space.id}/tag/${params.tag.name}");
+    final response = await network.put(
+        uri: uri,
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
+        body: (params.tag as ClickupTagModel).toJson()
+    );
+    return ClickupTagModel.fromJson(json.decode(response.body));
   }
 }
