@@ -163,17 +163,34 @@ class ListsPage extends StatelessWidget {
                                   ] +
                                       (Globals.selectedSpace?.folders
                                           .map((folder) => ExpansionTile(
+                                        controlAffinity: ListTileControlAffinity.leading,
                                         title: Row(
                                           children: [
                                             const Icon(Icons.folder),
                                             Text(folder.name ?? ""),
                                             const Spacer(),
-                                            IconButton(onPressed: (){
-                                              listsPageBloc.add(
-                                                  DeleteClickupFolderEvent.tryDelete(folder));
-                                            }, icon: const Icon(Icons.delete))
-                                          ],
-                                        ),
+                                            PopupMenuButton(
+                                                icon: const Icon(Icons.more_horiz),
+                                                    itemBuilder: (ctx) => [
+                                                          PopupMenuItem(
+                                                              onTap: () {
+                                                                listsPageBloc.add(
+                                                                    DeleteClickupFolderEvent.tryDelete(
+                                                                        folder));
+                                                              },
+                                                              child:  Row(
+                                                                children: [
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .delete),
+                                                                  Text(appLocalization
+                                                                      .translate(
+                                                                      "delete")),
+                                                                ],
+                                                              ))
+                                                        ])
+                                              ],
+                                            ),
                                         children: (folder.lists
                                             ?.map((e) => ListTile(
                                             onTap: () {
@@ -188,10 +205,25 @@ class ListsPage extends StatelessWidget {
                                                 Text(e.name ??
                                                     ""),
                                                 const Spacer(),
-                                                IconButton(onPressed: (){
-                                                  listsPageBloc.add(
-                                                      DeleteClickupListEvent.tryDelete(e));
-                                                }, icon: const Icon(Icons.delete))
+                                                PopupMenuButton(
+                                                    icon: const Icon(Icons.more_horiz),
+                                                    itemBuilder: (ctx) => [
+                                                      PopupMenuItem(
+                                                          onTap: () {
+                                                            listsPageBloc.add(
+                                                                DeleteClickupListEvent.tryDelete(e));
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              const Icon(
+                                                                  Icons
+                                                                      .delete),
+                                                              Text(appLocalization
+                                                                  .translate(
+                                                                  "delete")),
+                                                            ],
+                                                          ))
+                                                    ])
                                               ],
                                             )))
                                             .toList() ??
@@ -243,12 +275,27 @@ class ListsPage extends StatelessWidget {
                                           title: Row(
                                             children: [
                                               const Icon(Icons.list),
-                                              Text(e.name ?? ""),
-                                              const Spacer(),
-                                              IconButton(onPressed: (){
-                                                listsPageBloc.add(
-                                                    DeleteClickupListEvent.tryDelete(e));
-                                              }, icon: const Icon(Icons.delete))
+                                              Expanded(child: Text(e.name ?? "")),
+                                              PopupMenuButton(
+                                                icon: const Icon(Icons.more_horiz),
+                                                onSelected: (_)=>Navigator.pop(context),
+                                                  itemBuilder: (ctx) => [
+                                                    PopupMenuItem(
+                                                        onTap: () {
+                                                          listsPageBloc.add(
+                                                              DeleteClickupListEvent.tryDelete(e));
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            const Icon(
+                                                                Icons
+                                                                    .delete),
+                                                            Text(appLocalization
+                                                                .translate(
+                                                                "delete")),
+                                                          ],
+                                                        ))
+                                                  ]),
                                             ],
                                           )))
                                           .toList() ??
