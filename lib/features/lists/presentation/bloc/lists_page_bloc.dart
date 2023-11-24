@@ -316,7 +316,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           ));
           add(GetListDetailsAndTasksInListEvent(
               getClickupListAndItsTasksParams: GetClickupListAndItsTasksParams(
-                  listId: event.params.listId,
+                  listId: event.params.getListId,
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }
@@ -332,7 +332,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           ));
           add(GetListDetailsAndTasksInListEvent(
               getClickupListAndItsTasksParams: GetClickupListAndItsTasksParams(
-                  listId: event.params.listId,
+                  listId: event.params.getListId,
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }

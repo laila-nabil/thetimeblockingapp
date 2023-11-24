@@ -44,6 +44,11 @@ class ListPage extends StatelessWidget {
                       taskPopupParams: TaskPopupParams.addToList(
                           list: state.currentList,
                           bloc: listsPageBloc,
+                          onSave: (params){
+                            listsPageBloc.add(
+                                CreateClickupTaskEvent(params: params));
+                            Navigator.maybePop(context);
+                          },
                           isLoading: (state) => state is! ListsPageState
                               ? false
                               : state.isLoading));
@@ -69,6 +74,16 @@ class ListPage extends StatelessWidget {
                                               TaskPopupParams.openFromList(
                                                   task: e,
                                                   bloc: listsPageBloc,
+                                                  onDelete: (params){
+                                                    listsPageBloc.add(
+                                                        DeleteClickupTaskEvent(params: params));
+                                                    Navigator.maybePop(context);
+                                                  },
+                                                  onSave: (params){
+                                                    listsPageBloc.add(
+                                                        UpdateClickupTaskEvent(params: params));
+                                                    Navigator.maybePop(context);
+                                                  },
                                                   isLoading: (state) =>
                                                       state is! ListsPageState
                                                           ? false

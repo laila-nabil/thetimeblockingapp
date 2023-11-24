@@ -119,7 +119,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupTaskModel> createTaskInList(
       {required ClickupTaskParams params}) async {
-    Uri uri = Uri.parse("$clickupUrl/list/${params.listId}/task");
+    Uri uri = Uri.parse("$clickupUrl/list/${params.getListId}/task");
     final response = await network.post(
         uri: uri,
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),

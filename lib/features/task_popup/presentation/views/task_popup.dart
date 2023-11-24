@@ -477,10 +477,10 @@ class TaskPopup extends StatelessWidget {
                               ///TODO B create a new list
                               ///List
                               if (task == null &&
+                                  state.taskParams?.clickupList == null &&
                                   (state.taskParams?.getAvailableLists
-                                              .isNotEmpty ==
-                                          true ||
-                                      state.taskParams?.clickupList != null))
+                                          .isNotEmpty ==
+                                      true))
                                 DropdownButton<ClickupList>(
                                   elevation: 0,
                                   hint: Text(appLocalization.translate("list")),
@@ -496,8 +496,11 @@ class TaskPopup extends StatelessWidget {
                                           .toList() ??
                                       [],
                                 )
-                              else
-                                Text(" ${task?.list?.name ?? ""} "),
+                              else if(task == null &&
+                                  state.taskParams?.clickupList != null)
+                                Text(" ${state.taskParams?.clickupList?.name ?? ""} ")
+                              else if(task!=null)
+                                Text(" ${task.list?.name ?? ""} "),
                             ],
                           ),
 

@@ -34,7 +34,8 @@ class ClickupTaskParams extends Equatable{
 
   final ClickupSpace? clickupSpace;
   final ClickupFolder? folder;
-  String get listId => clickupList?.id ?? "";
+
+  String get getListId => task?.list?.id ?? clickupList?.id ?? "";
 
   String get taskId => task?.id ?? "";
 

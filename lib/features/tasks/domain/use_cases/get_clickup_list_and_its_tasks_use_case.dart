@@ -43,12 +43,16 @@ class GetClickupListAndItsTasksUseCase {
   }
 }
 
-class GetClickupListAndItsTasksParams {
+class GetClickupListAndItsTasksParams extends Equatable{
   final String listId;
   final ClickupAccessToken clickupAccessToken;
 
-  GetClickupListAndItsTasksParams(
+  const GetClickupListAndItsTasksParams(
       {required this.listId, required this.clickupAccessToken});
+
+  @override
+  List<Object?> get props => [listId,clickupAccessToken];
+
 }
 
 class GetClickupListAndItsTasksResult extends Equatable {
