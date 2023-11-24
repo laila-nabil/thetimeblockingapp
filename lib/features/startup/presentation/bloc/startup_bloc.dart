@@ -108,18 +108,18 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
         getAllInClickupSpaceResult?.fold(
             (l) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getAllInSpaceFailed,
-                getTasks:false,
+                startGetTasks:false,
                 getAllInSpaceFailure: l)),
             (r) => emit(state.copyWith(
                 startupStateEnum: StartupStateEnum.getAllInSpaceSuccess,
-                getTasks:true,
+                startGetTasks:true,
                 selectedClickupSpace: r)));
         if(Globals.selectedSpace!=null){
           await _selectSpaceUseCase(SelectSpaceParams(Globals.selectedSpace!));
         }
       }
-      else if(event is GetTasksEvent){
-        emit(state.copyWith(getTasks: event.getTasks));
+      else if(event is StartGetTasksEvent){
+        emit(state.copyWith(startGetTasks: event.startGetTasks));
       }
     });
   }

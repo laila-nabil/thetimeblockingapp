@@ -16,7 +16,7 @@ class StartupState extends Equatable {
   final List<Map<String, Failure>>? getSpacesFailure;
   final List<Map<String, Failure>>? getAllInSpaceFailure;
   final List<ClickupSpace>? clickupSpaces;
-  final bool? getTasks;
+  final bool? startGetTasks;
 
   const StartupState({
     required this.drawerLargerScreenOpen,
@@ -26,7 +26,7 @@ class StartupState extends Equatable {
     this.getSpacesFailure,
     this.getAllInSpaceFailure,
     this.clickupSpaces,
-    this.getTasks,
+    this.startGetTasks,
   });
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
@@ -47,7 +47,7 @@ class StartupState extends Equatable {
     getSpacesFailure,
     clickupSpaces,
     reSelectWorkspace,
-    getTasks,
+    startGetTasks,
   ];
 
   StartupState copyWith({
@@ -58,7 +58,7 @@ class StartupState extends Equatable {
     List<Map<String, Failure>>? getSpacesFailure,
     List<Map<String, Failure>>? getAllInSpaceFailure,
     List<ClickupSpace>? clickupSpaces,
-    bool? getTasks,
+    bool? startGetTasks,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -70,7 +70,7 @@ class StartupState extends Equatable {
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
       selectedClickupSpace: selectedClickupSpace ?? this.selectedClickupSpace,
       getAllInSpaceFailure: getAllInSpaceFailure ?? this.getAllInSpaceFailure,
-      getTasks: getTasks,
+      startGetTasks: startGetTasks,
     );
   }
 }

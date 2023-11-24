@@ -41,8 +41,8 @@ class SchedulePage extends StatelessWidget {
                           StartupStateEnum.getAllInSpaceFailed ||
                       startUpCurrentState.startupStateEnum ==
                           StartupStateEnum.getAllInSpaceSuccess) &&
-                  startUpCurrentState.getTasks != false) {
-                startupBloc.add(const GetTasksEvent(getTasks: false));
+                  startUpCurrentState.startGetTasks != false) {
+                startupBloc.add(const StartGetTasksEvent(startGetTasks: false));
               }
             },
             builder: (context, state) {
@@ -50,7 +50,7 @@ class SchedulePage extends StatelessWidget {
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if ((Globals.isSpaceAppWide == false && state.isInitial) ||
                   (Globals.isSpaceAppWide == true &&
-                      startUpCurrentState.getTasks == true) ||
+                      startUpCurrentState.startGetTasks == true) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
