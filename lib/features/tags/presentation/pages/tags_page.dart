@@ -132,7 +132,7 @@ class TagsPage extends StatelessWidget {
                                             },
                                             title: Row(
                                           children: [
-                                            const Icon(Icons.tag),
+                                            Icon(Icons.tag,color: tag.getTagFgColor,),
                                             Text(tag.name ?? ""),
                                             const Spacer(),
                                             PopupMenuButton(

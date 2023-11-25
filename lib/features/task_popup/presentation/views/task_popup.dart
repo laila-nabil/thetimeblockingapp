@@ -424,12 +424,14 @@ class TaskPopup extends StatelessWidget {
                                                             ?.clickupSpace?.tags
                                                             .map((e) =>
                                                                 CheckboxListTile(
-                                                                    title: Text(
-                                                                      e.name ??
-                                                                          "",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              e.getTagBgColor),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(Icons.tag,color: e.getTagFgColor,),
+                                                                        Text(
+                                                                          e.name ??
+                                                                              "",
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                     value: state
                                                                             .taskParams
