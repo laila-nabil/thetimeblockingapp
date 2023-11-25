@@ -151,13 +151,15 @@ class TaskPopupParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        task,
-        onSave,
-        onDelete,
-        cellDate,
-        bloc,
-        list,
-        isLoading,
+    task,
+    onSave,
+    onDelete,
+    bloc,
+    isLoading,
+    cellDate,
+    list,
+    startDate,
+    dueDate
       ];
 }
 
@@ -197,6 +199,7 @@ class TaskPopup extends StatelessWidget {
                           startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide ? Globals.selectedSpace : null,
                           list: taskPopupParams.list,
+                          tag: taskPopupParams.tag
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
