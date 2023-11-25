@@ -151,7 +151,8 @@ class TagsPage extends StatelessWidget {
                                                               clickupAccessToken:
                                                                   Globals
                                                                       .clickupAuthAccessToken,
-                                                              tag: tag.copyWith(name: text).getModel,
+                                                              newTag: tag.copyWith(name: text).getModel,
+                                                              originalTagName: tag.name??"",
                                                               space: Globals
                                                                   .selectedSpace!),
                                                         ));
@@ -174,7 +175,8 @@ class TagsPage extends StatelessWidget {
                                                             UpdateClickupTagParams(
                                                                 space: Globals
                                                                     .selectedSpace!,
-                                                                tag: tag.getModel,
+                                                                newTag: tag.getModel,
+                                                                originalTagName: tag.name??"",
                                                                 clickupAccessToken:
                                                                 Globals
                                                                     .clickupAuthAccessToken)));

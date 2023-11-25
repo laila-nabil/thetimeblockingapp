@@ -22,11 +22,13 @@ class UpdateClickupTagUseCase
 
 class UpdateClickupTagParams {
   final ClickupSpace space;
-  final ClickupTagModel tag;
+  final String originalTagName;
+  final ClickupTagModel newTag;
   final ClickupAccessToken clickupAccessToken;
 
   UpdateClickupTagParams(
       {required this.space,
-      required this.tag,
+      required this.newTag,
+      required this.originalTagName,
       required this.clickupAccessToken});
 }

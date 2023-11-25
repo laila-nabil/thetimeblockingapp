@@ -368,6 +368,14 @@ class ClickupTagModel extends ClickupTag {
     map['tag_bg'] = tagBg;
     return map;
   }
+
+  Map<String, dynamic> toJsonUpdate() {
+    final map = <String, dynamic>{};
+    map['name'] = name;
+    map['fg_color'] = tagFg;
+    map['bg_color'] = tagBg;
+    return map;
+  }
 }
 
 /// id : "d41340bc-2f17-43cc-ae71-86628f45825f"

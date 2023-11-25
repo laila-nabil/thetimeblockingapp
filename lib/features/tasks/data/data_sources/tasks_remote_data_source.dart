@@ -405,11 +405,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupTagModel> updateClickupTag(
       {required UpdateClickupTagParams params}) async {
     Uri uri = Uri.parse(
-        "$clickupUrl/space/${params.space.id}/tag/${params.tag.name}");
+        "$clickupUrl/space/${params.space.id}/tag/${params.originalTagName}");
     final response = await network.put(
         uri: uri,
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
-        body: (params.tag as ClickupTagModel).toJson()
+        body: {"tag" : (params.newTag).toJsonUpdate()}
     );
     return ClickupTagModel.fromJson(json.decode(response.body));
   }

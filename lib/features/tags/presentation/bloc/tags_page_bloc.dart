@@ -95,7 +95,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         if(event.tryEvent == true){
           emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.updateTagTry,
-              toUpdateTag: event.params?.tag));
+              toUpdateTag: event.params?.newTag));
         } else if (event.params == null) {
           emit(state.copyWith(
             tagsPageStatus: TagsPageStatus.updateTagCanceled,
