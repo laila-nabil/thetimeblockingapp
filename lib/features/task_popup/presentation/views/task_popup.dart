@@ -32,6 +32,7 @@ class TaskPopupParams extends Equatable {
   DateTime? dueDate;
   late bool isAllDay;
   ClickupList? list;
+  ClickupTag? tag;
   TaskPopupParams.notAllDayTask({
     this.task,
     this.onSave,
@@ -74,9 +75,36 @@ class TaskPopupParams extends Equatable {
   }
 
   TaskPopupParams.openFromList({
-    this.task,
-    this.onSave,
+    required this.task,
+    required this.onSave,
+    required this.onDelete,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    startDate =task?.startDateUtc ;
+    dueDate = task?.dueDateUtc;
+    isAllDay = task?.isAllDay ?? false;
+    cellDate = null;
+    list = task?.list;
+  }
+
+  TaskPopupParams.addToTag({
+    required this.onSave,
     this.onDelete,
+    required this.tag,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    task = null;
+    isAllDay = false;
+    cellDate = null;
+    list = null;
+  }
+
+  TaskPopupParams.openFromTag({
+    required this.task,
+    required this.onSave,
+    required this.onDelete,
     required this.bloc,
     required this.isLoading,
   }){
@@ -168,7 +196,7 @@ class TaskPopup extends StatelessWidget {
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide ? Globals.selectedSpace : null,
-                          list: taskPopupParams.list
+                          list: taskPopupParams.list,
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,

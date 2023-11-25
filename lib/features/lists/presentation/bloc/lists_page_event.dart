@@ -6,7 +6,6 @@ abstract class ListsPageEvent extends Equatable {
   const ListsPageEvent();
 }
 
-// ignore: must_be_immutable
 class GetListAndFoldersInListsPageEvent extends ListsPageEvent {
   final ClickupAccessToken clickupAccessToken;
   final ClickupWorkspace clickupWorkspace;

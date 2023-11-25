@@ -38,8 +38,10 @@ import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
+import '../features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -56,6 +58,7 @@ import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
+import '../features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
@@ -114,6 +117,9 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerFactory(() => TagsPageBloc(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
@@ -272,7 +278,20 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
 
+  serviceLocator
+      .registerLazySingleton(() => CreateClickupTagInSpaceUseCase(
+    serviceLocator(),
+  ));
 
+  serviceLocator
+      .registerLazySingleton(() => UpdateClickupTagUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator
+      .registerLazySingleton(() => DeleteClickupTagUseCase(
+    serviceLocator(),
+  ));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

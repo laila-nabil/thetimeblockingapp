@@ -133,6 +133,7 @@ class ClickupTaskParams extends Equatable{
     DateTime? dueDate,
     ClickupSpace? space,
     ClickupList? list,
+    ClickupTag? tag
   }) {
     printDebug("ClickupTaskParams startCreateNewTask task");
     return ClickupTaskParams._(
@@ -142,6 +143,7 @@ class ClickupTaskParams extends Equatable{
           dueDate: dueDate,
           clickupSpace: space,
           clickupList: list,
+          tags: tag == null ? null : [tag],
           assignees: [Globals.clickupUser!.asAssignee],);
   }
 

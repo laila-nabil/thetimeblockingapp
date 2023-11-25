@@ -21,7 +21,7 @@ import '../../../tasks/domain/entities/clickup_space.dart';
 import '../bloc/lists_page_bloc.dart';
 
 class ListsPage extends StatelessWidget {
-  ListsPage({super.key});
+  const ListsPage({super.key});
 
   static const routeName = "/Lists";
 
