@@ -384,7 +384,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.post(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
-      body: (params.newTag as ClickupTagModel).toJson()
+      body: {"tag" : (params.newTag).toJson()}
     );
     return unit;
   }

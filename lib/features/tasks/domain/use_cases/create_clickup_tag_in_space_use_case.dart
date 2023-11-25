@@ -6,6 +6,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
+import '../../data/models/clickup_task_model.dart';
+
 class CreateClickupTagInSpaceUseCase
     implements UseCase<Unit, CreateClickupTagInSpaceParams> {
   final TasksRepo repo;
@@ -21,7 +23,7 @@ class CreateClickupTagInSpaceUseCase
 class CreateClickupTagInSpaceParams {
   final ClickupSpace space;
   final ClickupAccessToken clickupAccessToken;
-  final ClickupTag newTag;
+  final ClickupTagModel newTag;
 
   CreateClickupTagInSpaceParams(
       {required this.space,

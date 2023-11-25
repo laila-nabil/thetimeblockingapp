@@ -14,6 +14,7 @@ import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../tasks/data/models/clickup_task_model.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
 import '../../../tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
@@ -171,7 +172,7 @@ class TagsPage extends StatelessWidget {
                                           clickupAccessToken:
                                           Globals
                                               .clickupAuthAccessToken,
-                                          newTag: ClickupTag(name: text),
+                                          newTag: ClickupTagModel(name: text),
                                           space: Globals
                                               .selectedSpace!),));
                                 }, onCancel: () {
