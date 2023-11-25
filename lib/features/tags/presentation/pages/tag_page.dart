@@ -4,10 +4,14 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
+import '../../../../common/widgets/custom_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
+import '../../../../core/localization/localization.dart';
 import '../../../../core/print_debug.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
+import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
 class TagPage extends StatelessWidget {
   const TagPage({super.key, required this.tagName, required this.tagsPageBloc});
@@ -35,6 +39,49 @@ class TagPage extends StatelessWidget {
                 space: Globals.selectedSpace!));
           }
           return ResponsiveScaffold(
+              pageActions: [
+                PopupMenuItem(
+                    onTap: () {
+                      tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
+                          UpdateClickupTagParams(
+                              space: Globals
+                                  .selectedSpace!,
+                              newTag: state.navigateTag!.getModel,
+                              originalTagName: state.navigateTag!.name??"",
+                              clickupAccessToken:
+                              Globals
+                                  .clickupAuthAccessToken)));
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                            Icons.edit),
+                        Text(appLocalization
+                            .translate(
+                            "edit")),
+                      ],
+                    )),
+                PopupMenuItem(
+                    onTap: () {
+                      tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
+                          DeleteClickupTagParams(
+                              space: Globals
+                                  .selectedSpace!,
+                              tag: state.navigateTag!,
+                              clickupAccessToken:
+                              Globals
+                                  .clickupAuthAccessToken)));
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                            Icons.delete),
+                        Text(appLocalization
+                            .translate(
+                            "delete")),
+                      ],
+                    ))
+              ],
               floatingActionButton: AddItemFloatingActionButton(
                 onPressed: () {
                   showTaskPopup(
@@ -60,7 +107,32 @@ class TagPage extends StatelessWidget {
               responsiveBody: ResponsiveTParams(
                   mobile: Column(
                 children: [
-                  Text(state.navigateTag?.name ?? ""),
+                  state.updateTagTry(state.navigateTag!)
+                      ? Expanded(
+                    child: _CreateEditField(
+                        text: state.navigateTag!.name,
+                        onAdd: (text) {
+                          printDebug("text now $text");
+                          tagsPageBloc.add(
+                              UpdateClickupTagEvent
+                                  .submit(
+                                params: UpdateClickupTagParams(
+                                    clickupAccessToken:
+                                    Globals
+                                        .clickupAuthAccessToken,
+                                    newTag: state.navigateTag!.copyWith(name: text).getModel,
+                                    originalTagName: state.navigateTag!.name??"",
+                                    space: Globals
+                                        .selectedSpace!),
+                              ));
+                        },
+                        onCancel: () {
+                          tagsPageBloc.add(
+                              UpdateClickupTagEvent
+                                  .cancel());
+                        }),
+                  )
+                      : Text(state.navigateTag?.name ?? ""),
                   Expanded(
                     child: ListView(
                       children: state.currentTagTasksResult
@@ -104,6 +176,48 @@ class TagPage extends StatelessWidget {
               context: context);
         },
       ),
+    );
+  }
+}
+
+class _CreateEditField extends StatefulWidget {
+  const _CreateEditField(
+      {required this.onAdd, this.text, required this.onCancel});
+  final String? text;
+  final void Function(String text) onAdd;
+  final void Function() onCancel;
+
+  @override
+  State<_CreateEditField> createState() => _CreateEditFieldState();
+}
+
+class _CreateEditFieldState extends State<_CreateEditField> {
+
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController(text: widget.text);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            child: CustomTextInputField(
+              controller: controller,
+            )),
+        IconButton(icon: const Icon(Icons.cancel), onPressed: widget.onCancel),
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                widget.onAdd(controller.text);
+              }
+            })
+      ],
     );
   }
 }
