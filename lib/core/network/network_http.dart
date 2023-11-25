@@ -62,7 +62,7 @@ class NetworkHttp implements Network {
   Future<NetworkResponse> delete(
       {required Uri uri,
       Map<String, String>? headers,
-      Map<String, dynamic>? body,
+      Object? body,
       Encoding? encoding}) async {
     printDebug(
       "[url] start$uri",

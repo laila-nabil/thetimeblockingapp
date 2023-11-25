@@ -396,7 +396,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
-      body: (params.tag as ClickupTagModel).toJson()
+      body: json.encode((params.tag as ClickupTagModel).toJson())
     );
     return unit;
   }

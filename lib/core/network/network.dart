@@ -26,7 +26,7 @@ abstract class Network {
   Future<NetworkResponse> delete(
       {required Uri uri,
       Map<String, String>? headers,
-      Map<String, dynamic>? body,
+      Object? body,
       Encoding? encoding});
 
   Network({required this.httpClient,required this.responseHandler});
