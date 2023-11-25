@@ -60,9 +60,19 @@ class CreateClickupTagInSpaceEvent extends TagsPageEvent {
 }
 
 class UpdateClickupTagEvent extends TagsPageEvent {
-  final UpdateClickupTagParams params;
+  UpdateClickupTagParams? params;
+  bool? tryEvent;
+  UpdateClickupTagEvent.tryUpdate(this.params) {
+    tryEvent = true;
+  }
 
-  const UpdateClickupTagEvent(this.params);
+  UpdateClickupTagEvent.cancel() {
+    tryEvent = false;
+  }
+
+  UpdateClickupTagEvent.submit({this.params}) {
+    tryEvent = false;
+  }
 
   @override
   List<Object?> get props => [params];

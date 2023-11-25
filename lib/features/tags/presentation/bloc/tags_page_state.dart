@@ -25,7 +25,7 @@ enum TagsPageStatus {
   deleteTaskTry,
   deleteTaskSuccess,
   deleteTaskFailed,
-  navigateTag
+  navigateTag, updateTagCanceled
 }
 
 class TagsPageState extends Equatable {
@@ -42,6 +42,7 @@ class TagsPageState extends Equatable {
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
   final ClickupTag? toDeleteTag;
+  final ClickupTag? toUpdateTag;
 
   const TagsPageState(
       {required this.tagsPageStatus,
@@ -56,7 +57,9 @@ class TagsPageState extends Equatable {
       this.currentTagTasksResult,
       this.createTaskFailure,
       this.updateTaskFailure,
-      this.toDeleteTag});
+      this.toDeleteTag,
+      this.toUpdateTag,
+      });
 
   @override
   List<Object?> get props => [
@@ -72,7 +75,8 @@ class TagsPageState extends Equatable {
         currentTagTasksResult,
         createTaskFailure,
         updateTaskFailure,
-        toDeleteTag
+        toDeleteTag,
+        toUpdateTag,
       ];
 
   bool get isInit => tagsPageStatus == TagsPageStatus.initial;
@@ -80,6 +84,8 @@ class TagsPageState extends Equatable {
   bool get isLoading => tagsPageStatus == TagsPageStatus.loading;
 
   bool get tryCreateTagInSpace => tagsPageStatus == TagsPageStatus.createTagTry;
+
+  bool updateTagTry(ClickupTag tag) => toUpdateTag == tag && tagsPageStatus == TagsPageStatus.updateTagTry;
 
   TagsPageState copyWith({
     required TagsPageStatus tagsPageStatus,
@@ -95,6 +101,7 @@ class TagsPageState extends Equatable {
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
     ClickupTag? toDeleteTag,
+    ClickupTag? toUpdateTag,
   }) {
     return TagsPageState(
       tagsPageStatus: tagsPageStatus,
@@ -111,6 +118,7 @@ class TagsPageState extends Equatable {
       createTaskFailure: createTaskFailure ?? this.createTaskFailure,
       updateTaskFailure: updateTaskFailure ?? this.updateTaskFailure,
       toDeleteTag: toDeleteTag,
+      toUpdateTag: toUpdateTag,
     );
   }
 }

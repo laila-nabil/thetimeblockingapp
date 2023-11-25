@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -17,6 +18,7 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/data/models/clickup_task_model.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
 import '../../../tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
 
@@ -132,13 +134,60 @@ class TagsPage extends StatelessWidget {
                                             },
                                             title: Row(
                                           children: [
-                                            Icon(Icons.tag,color: tag.getTagFgColor,),
-                                            Text(tag.name ?? ""),
+                                            Icon(
+                                              Icons.tag,
+                                              color: tag.getTagFgColor,
+                                            ),
+                                            state.updateTagTry(tag)
+                                                ? Expanded(
+                                                  child: _CreateEditField(
+                                                      text: tag.name,
+                                                      onAdd: (text) {
+                                                        printDebug("text now $text");
+                                                        tagsPageBloc.add(
+                                                            UpdateClickupTagEvent
+                                                                .submit(
+                                                          params: UpdateClickupTagParams(
+                                                              clickupAccessToken:
+                                                                  Globals
+                                                                      .clickupAuthAccessToken,
+                                                              tag: tag.copyWith(name: text).getModel,
+                                                              space: Globals
+                                                                  .selectedSpace!),
+                                                        ));
+                                                      },
+                                                      onCancel: () {
+                                                        tagsPageBloc.add(
+                                                            UpdateClickupTagEvent
+                                                                .cancel());
+                                                      }),
+                                                )
+                                                : Text(tag.name ?? ""),
                                             const Spacer(),
                                             PopupMenuButton(
                                                 icon: const Icon(
                                                     Icons.more_horiz),
                                                 itemBuilder: (ctx) => [
+                                                      PopupMenuItem(
+                                                      onTap: () {
+                                                        tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
+                                                            UpdateClickupTagParams(
+                                                                space: Globals
+                                                                    .selectedSpace!,
+                                                                tag: tag.getModel,
+                                                                clickupAccessToken:
+                                                                Globals
+                                                                    .clickupAuthAccessToken)));
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          const Icon(
+                                                              Icons.edit),
+                                                          Text(appLocalization
+                                                              .translate(
+                                                              "edit")),
+                                                        ],
+                                                      )),
                                                       PopupMenuItem(
                                                           onTap: () {
                                                             tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
@@ -165,7 +214,7 @@ class TagsPage extends StatelessWidget {
                                     .toList()+[
                               state.tryCreateTagInSpace == true
                                   ? ListTile(
-                                title: _CreateField(onAdd: (text) {
+                                title: _CreateEditField(onAdd: (text) {
                                   tagsPageBloc.add(CreateClickupTagInSpaceEvent.submit(
                                       params:
                                       CreateClickupTagInSpaceParams(
@@ -207,12 +256,26 @@ class TagsPage extends StatelessWidget {
   }
 }
 
-class _CreateField extends StatelessWidget {
-  _CreateField({required this.onAdd, required this.onCancel});
-
-  final TextEditingController controller = TextEditingController();
+class _CreateEditField extends StatefulWidget {
+  const _CreateEditField(
+      {required this.onAdd, this.text, required this.onCancel});
+  final String? text;
   final void Function(String text) onAdd;
   final void Function() onCancel;
+
+  @override
+  State<_CreateEditField> createState() => _CreateEditFieldState();
+}
+
+class _CreateEditFieldState extends State<_CreateEditField> {
+
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController(text: widget.text);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,12 +285,12 @@ class _CreateField extends StatelessWidget {
             child: CustomTextInputField(
               controller: controller,
             )),
-        IconButton(icon: const Icon(Icons.cancel), onPressed: onCancel),
+        IconButton(icon: const Icon(Icons.cancel), onPressed: widget.onCancel),
         IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (controller.text.isNotEmpty) {
-                onAdd(controller.text);
+                widget.onAdd(controller.text);
               }
             })
       ],
