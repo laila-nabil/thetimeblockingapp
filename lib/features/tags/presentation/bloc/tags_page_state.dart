@@ -8,6 +8,7 @@ enum TagsPageStatus {
   getTasksForTagSuccess,
   getTasksForTagFailure,
   createTagTry,
+  createTagCancel,
   createTagSuccess,
   createTagFailure,
   updateTagTry,
@@ -77,6 +78,8 @@ class TagsPageState extends Equatable {
   bool get isInit => tagsPageStatus == TagsPageStatus.initial;
 
   bool get isLoading => tagsPageStatus == TagsPageStatus.loading;
+
+  bool get tryCreateTagInSpace => tagsPageStatus == TagsPageStatus.createTagTry;
 
   TagsPageState copyWith({
     required TagsPageStatus tagsPageStatus,

@@ -41,12 +41,22 @@ class GetClickupTasksForTagEvent extends TagsPageEvent {
 }
 
 class CreateClickupTagInSpaceEvent extends TagsPageEvent {
-  final CreateClickupTagInSpaceParams params;
-
-  const CreateClickupTagInSpaceEvent(this.params);
+  CreateClickupTagInSpaceParams? params;
+  bool? tryEvent;
+  CreateClickupTagInSpaceEvent.tryCreate(){
+    tryEvent = true;
+  }
+  CreateClickupTagInSpaceEvent.cancelCreate(){
+    tryEvent = false;
+  }
+  CreateClickupTagInSpaceEvent.submit({
+    required CreateClickupTagInSpaceParams this.params
+  }){
+    tryEvent = false;
+  }
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,tryEvent];
 }
 
 class UpdateClickupTagEvent extends TagsPageEvent {

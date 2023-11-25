@@ -69,19 +69,28 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 tagsPageStatus: TagsPageStatus.getTasksForTagSuccess,
                 currentTagTasksResult: r)));
       } else if (event is CreateClickupTagInSpaceEvent) {
-        emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _createClickupTagInSpaceUseCase(event.params);
-        result?.fold(
-            (l) => emit(state.copyWith(
-                tagsPageStatus: TagsPageStatus.createTagFailure,
-                createTagFailure: l)), (r) {
+        if (event.tryEvent == true) {
           emit(state.copyWith(
-            tagsPageStatus: TagsPageStatus.createTagSuccess,
+              tagsPageStatus: TagsPageStatus.createTagTry,));
+        } else if (event.params == null) {
+          emit(state.copyWith(
+            tagsPageStatus: TagsPageStatus.createTagCancel,
           ));
-          add(GetClickupTagsInSpaceEvent(GetClickupTagsInSpaceParams(
-              clickupAccessToken: event.params.clickupAccessToken,
-              clickupSpace: event.params.space)));
-        });
+        } else {
+          emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
+          final result = await _createClickupTagInSpaceUseCase(event.params!);
+          result?.fold(
+                  (l) => emit(state.copyWith(
+                  tagsPageStatus: TagsPageStatus.createTagFailure,
+                  createTagFailure: l)), (r) {
+            emit(state.copyWith(
+              tagsPageStatus: TagsPageStatus.createTagSuccess,
+            ));
+            add(GetClickupTagsInSpaceEvent(GetClickupTagsInSpaceParams(
+                clickupAccessToken: event.params!.clickupAccessToken,
+                clickupSpace: event.params!.space)));
+          });
+        }
       } else if (event is UpdateClickupTagEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
         final result = await _updateClickupTagUseCase(event.params);

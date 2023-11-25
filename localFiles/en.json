@@ -35,6 +35,8 @@
   "date": "Date",
   "createNewList": "Create a new list",
   "createNewFolder": "Create a new folder",
+  "createNewTag": "Create a new tag",
   "create": "Create",
+  "delete": "Delete",
   "areYouSureDelete": "Are you sure you want to delete"
 }

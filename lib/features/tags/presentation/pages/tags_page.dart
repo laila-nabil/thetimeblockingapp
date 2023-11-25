@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
 
@@ -158,7 +161,41 @@ class TagsPage extends StatelessWidget {
                                                     ])
                                           ],
                                         )))
-                                    .toList()));
+                                    .toList()+[
+                              state.tryCreateTagInSpace == true
+                                  ? ListTile(
+                                title: _CreateField(onAdd: (text) {
+                                  tagsPageBloc.add(CreateClickupTagInSpaceEvent.submit(
+                                      params:
+                                      CreateClickupTagInSpaceParams(
+                                          clickupAccessToken:
+                                          Globals
+                                              .clickupAuthAccessToken,
+                                          newTag: ClickupTag(name: text),
+                                          space: Globals
+                                              .selectedSpace!),));
+                                }, onCancel: () {
+                                  tagsPageBloc.add(
+                                      CreateClickupTagInSpaceEvent
+                                          .cancelCreate());
+                                }),
+                              )
+                                  : ListTile(
+                                title: TextButton(
+                                    onPressed: () {
+                                      tagsPageBloc.add(
+                                          CreateClickupTagInSpaceEvent
+                                              .tryCreate());
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(appLocalization
+                                            .translate(
+                                            "createNewTag")),
+                                      ],
+                                    )),
+                              )
+                            ]));
                   },
                 )),
                 context: context);
@@ -169,3 +206,30 @@ class TagsPage extends StatelessWidget {
   }
 }
 
+class _CreateField extends StatelessWidget {
+  _CreateField({required this.onAdd, required this.onCancel});
+
+  final TextEditingController controller = TextEditingController();
+  final void Function(String text) onAdd;
+  final void Function() onCancel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            child: CustomTextInputField(
+              controller: controller,
+            )),
+        IconButton(icon: const Icon(Icons.cancel), onPressed: onCancel),
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                onAdd(controller.text);
+              }
+            })
+      ],
+    );
+  }
+}
