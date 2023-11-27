@@ -91,7 +91,7 @@ abstract class TasksRemoteDataSource {
   Future<Unit> createClickupTagInSpace(
       {required CreateClickupTagInSpaceParams params});
 
-  Future<ClickupTagModel> updateClickupTag(
+  Future<Unit> updateClickupTag(
       {required UpdateClickupTagParams params});
 
   Future<Unit> deleteClickupTag({required DeleteClickupTagParams params});
@@ -402,15 +402,15 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<ClickupTagModel> updateClickupTag(
+  Future<Unit> updateClickupTag(
       {required UpdateClickupTagParams params}) async {
     Uri uri = Uri.parse(
         "$clickupUrl/space/${params.space.id}/tag/${params.originalTagName}");
-    final response = await network.put(
+    await network.put(
         uri: uri,
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
         body: {"tag" : (params.newTag).toJsonUpdate()}
     );
-    return ClickupTagModel.fromJson(json.decode(response.body));
+    return unit;
   }
 }

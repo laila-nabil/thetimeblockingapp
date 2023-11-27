@@ -109,11 +109,14 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                   tagsPageStatus: TagsPageStatus.updateTagFailure,
                   updateTagFailure: l)), (r) {
             emit(state.copyWith(
-              tagsPageStatus: TagsPageStatus.updateTaskSuccess,
+              tagsPageStatus: TagsPageStatus.updateTagSuccess,
+              updateTagResult: event.params?.newTag
             ));
-            add(GetClickupTagsInSpaceEvent(GetClickupTagsInSpaceParams(
-                clickupAccessToken: event.params!.clickupAccessToken,
-                clickupSpace: event.params!.space)));
+            if(event.insideTagPage==false){
+              add(GetClickupTagsInSpaceEvent(GetClickupTagsInSpaceParams(
+                  clickupAccessToken: event.params!.clickupAccessToken,
+                  clickupSpace: event.params!.space)));
+            }
           });
         }
       } else if (event is DeleteClickupTagEvent) {
@@ -190,7 +193,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         });
       } else if (event is NavigateToTagPageEvent) {
         emit(state.copyWith(
-            tagsPageStatus: TagsPageStatus.navigateTag,
+            tagsPageStatus: event.insideTagPage
+                ? TagsPageStatus.refreshTag
+                : TagsPageStatus.navigateTag,
             navigateTag: event.tag));
       }
     });

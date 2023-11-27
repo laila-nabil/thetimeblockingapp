@@ -25,7 +25,7 @@ enum TagsPageStatus {
   deleteTaskTry,
   deleteTaskSuccess,
   deleteTaskFailed,
-  navigateTag, updateTagCanceled
+  navigateTag,refreshTag, updateTagCanceled
 }
 
 class TagsPageState extends Equatable {

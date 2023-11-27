@@ -8,13 +8,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 class UpdateClickupTagUseCase
-    implements UseCase<ClickupTag, UpdateClickupTagParams> {
+    implements UseCase<Unit, UpdateClickupTagParams> {
 
   final TasksRepo repo;
 
   UpdateClickupTagUseCase(this.repo);
   @override
-  Future<Either<Failure, ClickupTag>?> call(
+  Future<Either<Failure, Unit>?> call(
       UpdateClickupTagParams params) {
     return repo.updateClickupTag(params);
   }

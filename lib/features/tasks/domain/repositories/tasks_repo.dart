@@ -117,6 +117,6 @@ abstract class TasksRepo{
   Future<Either<Failure, Unit>?> createClickupTagInSpace(
       CreateClickupTagInSpaceParams params);
 
-  Future<Either<Failure, ClickupTag>?> updateClickupTag(
+  Future<Either<Failure, Unit>?> updateClickupTag(
       UpdateClickupTagParams params);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 
@@ -26,12 +27,27 @@ class TagPage extends StatelessWidget {
     return BlocProvider.value(
       value: tagsPageBloc,
       child: BlocConsumer<TagsPageBloc, TagsPageState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          printDebug("listener state.updateTagResult ${state.updateTagResult}");
+          if (state.tagsPageStatus == TagsPageStatus.refreshTag) {
+            ///FIXME in case of pressing back goes to old tag's page
+            context.go(Uri(path: TagPage.routeName, queryParameters: {
+              TagPage.queryParametersList.first:
+              state.updateTagResult?.name ?? ""
+            }).toString(),
+                extra: tagsPageBloc);
+          }
+        },
         builder: (context, state) {
           final tagsPageBloc = BlocProvider.of<TagsPageBloc>(context);
           printDebug("state.tagsPageStatus rebuild ${state.tagsPageStatus}");
           printDebug("state rebuild $state");
-          if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
+          if (state.tagsPageStatus == TagsPageStatus.updateTagSuccess &&
+              state.updateTagResult != null) {
+            tagsPageBloc.add(NavigateToTagPageEvent(
+                tag: state.updateTagResult!, insideTagPage: true));
+          }
+          else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
             tagsPageBloc.add(GetClickupTasksForTagEvent(
                 clickupAccessToken: Globals.clickupAuthAccessToken,
                 workspace: Globals.selectedWorkspace!,
@@ -43,7 +59,8 @@ class TagPage extends StatelessWidget {
                 PopupMenuItem(
                     onTap: () {
                       tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
-                          UpdateClickupTagParams(
+                          insideTagPage: true,
+                          params: UpdateClickupTagParams(
                               space: Globals
                                   .selectedSpace!,
                               newTag: state.navigateTag!.getModel,
@@ -116,6 +133,7 @@ class TagPage extends StatelessWidget {
                           tagsPageBloc.add(
                               UpdateClickupTagEvent
                                   .submit(
+                                insideTagPage: true,
                                 params: UpdateClickupTagParams(
                                     clickupAccessToken:
                                     Globals
@@ -129,7 +147,7 @@ class TagPage extends StatelessWidget {
                         onCancel: () {
                           tagsPageBloc.add(
                               UpdateClickupTagEvent
-                                  .cancel());
+                                  .cancel(insideTagPage: true));
                         }),
                   )
                       : Text(state.navigateTag?.name ?? ""),

@@ -130,7 +130,7 @@ class TagsPage extends StatelessWidget {
                                 (state.getTagsInSpaceResult ?? [])
                                     .map<Widget>((tag) => ListTile(
                                             onTap: (){
-                                              tagsPageBloc.add(NavigateToTagPageEvent(tag));
+                                              tagsPageBloc.add(NavigateToTagPageEvent(tag: tag,insideTagPage: false));
                                             },
                                             title: Row(
                                           children: [
@@ -147,6 +147,7 @@ class TagsPage extends StatelessWidget {
                                                         tagsPageBloc.add(
                                                             UpdateClickupTagEvent
                                                                 .submit(
+                                                              insideTagPage: false,
                                                           params: UpdateClickupTagParams(
                                                               clickupAccessToken:
                                                                   Globals
@@ -160,7 +161,7 @@ class TagsPage extends StatelessWidget {
                                                       onCancel: () {
                                                         tagsPageBloc.add(
                                                             UpdateClickupTagEvent
-                                                                .cancel());
+                                                                .cancel(insideTagPage: false));
                                                       }),
                                                 )
                                                 : Text(tag.name ?? ""),
@@ -172,7 +173,8 @@ class TagsPage extends StatelessWidget {
                                                       PopupMenuItem(
                                                       onTap: () {
                                                         tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
-                                                            UpdateClickupTagParams(
+                                                          insideTagPage: false,
+                                                          params:   UpdateClickupTagParams(
                                                                 space: Globals
                                                                     .selectedSpace!,
                                                                 newTag: tag.getModel,

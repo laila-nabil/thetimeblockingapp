@@ -288,7 +288,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, ClickupTagModel>?> updateClickupTag(
+  Future<Either<Failure, Unit>?> updateClickupTag(
       UpdateClickupTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>

@@ -8,11 +8,11 @@ abstract class TagsPageEvent extends Equatable {
 
 class NavigateToTagPageEvent extends TagsPageEvent {
   final ClickupTag tag;
-
-  const NavigateToTagPageEvent(this.tag);
+  final bool insideTagPage;
+  const NavigateToTagPageEvent({required this.tag,required this.insideTagPage});
 
   @override
-  List<Object?> get props => [tag];
+  List<Object?> get props => [tag,insideTagPage];
 }
 
 class GetClickupTagsInSpaceEvent extends TagsPageEvent {
@@ -62,20 +62,21 @@ class CreateClickupTagInSpaceEvent extends TagsPageEvent {
 class UpdateClickupTagEvent extends TagsPageEvent {
   UpdateClickupTagParams? params;
   bool? tryEvent;
-  UpdateClickupTagEvent.tryUpdate(this.params) {
+  final bool insideTagPage;
+  UpdateClickupTagEvent.tryUpdate({this.params,required this.insideTagPage}) {
     tryEvent = true;
   }
 
-  UpdateClickupTagEvent.cancel() {
+  UpdateClickupTagEvent.cancel({required this.insideTagPage}) {
     tryEvent = false;
   }
 
-  UpdateClickupTagEvent.submit({this.params}) {
+  UpdateClickupTagEvent.submit({this.params,required this.insideTagPage}) {
     tryEvent = false;
   }
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,tryEvent,insideTagPage];
 }
 
 class DeleteClickupTagEvent extends TagsPageEvent {
