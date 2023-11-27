@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import '../../../../core/extensions.dart';
 import 'clickup_folder.dart';
 import 'clickup_list.dart';
@@ -275,6 +276,21 @@ class ClickupTag extends Equatable {
         tagFg,
         tagBg,
       ];
+
+  ClickupTagModel get getModel =>
+      ClickupTagModel(name: name, tagBg: tagBg, tagFg: tagFg);
+
+  ClickupTag copyWith({
+    String? name,
+    String? tagFg,
+    String? tagBg,
+  }) {
+    return ClickupTag(
+      name: name ?? this.name,
+      tagFg: tagFg ?? this.tagFg,
+      tagBg: tagBg ?? this.tagBg,
+    );
+  }
 }
 
 /// id : "d41340bc-2f17-43cc-ae71-86628f45825f"

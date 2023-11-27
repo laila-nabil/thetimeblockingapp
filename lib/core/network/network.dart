@@ -24,7 +24,10 @@ abstract class Network {
       {required Uri uri, Map<String, String>? headers});
 
   Future<NetworkResponse> delete(
-      {required Uri uri, Map<String, String>? headers});
+      {required Uri uri,
+      Map<String, String>? headers,
+      Object? body,
+      Encoding? encoding});
 
   Network({required this.httpClient,required this.responseHandler});
 }

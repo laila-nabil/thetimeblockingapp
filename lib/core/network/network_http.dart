@@ -60,7 +60,10 @@ class NetworkHttp implements Network {
 
   @override
   Future<NetworkResponse> delete(
-      {required Uri uri, Map<String, String>? headers}) async {
+      {required Uri uri,
+      Map<String, String>? headers,
+      Object? body,
+      Encoding? encoding}) async {
     printDebug(
       "[url] start$uri",
     );
@@ -71,10 +74,8 @@ class NetworkHttp implements Network {
       "[header] " "${headers ?? ""}",
     );
     return responseHandler(
-        httpResponse: () async => await http.delete(
-              uri,
-              headers: headers,
-            ));
+        httpResponse: () async => await http.delete(uri,
+            headers: headers, body: body, encoding: encoding));
   }
 
   @override

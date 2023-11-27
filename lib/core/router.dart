@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
+import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
@@ -75,7 +76,7 @@ final router = GoRouter(
       ),
       GoRoute(
         path: ListsPage.routeName,
-        builder: (context, state) =>  ListsPage(),
+        builder: (context, state) =>  const ListsPage(),
       ),
       GoRoute(
         path: ListPage.routeName,
@@ -105,7 +106,9 @@ final router = GoRouter(
       ),
       GoRoute(
         path: TagPage.routeName,
-        builder: (context, state) => const TagPage(),
+        builder: (context, state) => TagPage(
+            tagName: state.queryParameters[TagPage.queryParametersList.first]
+            as String,tagsPageBloc: state.extra as TagsPageBloc),
       ),
       GoRoute(
         path: TrashPage.routeName,
