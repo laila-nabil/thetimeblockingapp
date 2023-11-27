@@ -419,7 +419,7 @@ class TaskPopup extends StatelessWidget {
                                               return SizedBox(
                                                 height: 400,
                                                 width: 400,
-                                                child: Column(
+                                                child: ListView(
                                                   children: state.taskParams
                                                             ?.clickupSpace?.tags
                                                             .map((e) =>
