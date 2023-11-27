@@ -15,7 +15,10 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
@@ -25,17 +28,22 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
+import '../features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -46,6 +54,7 @@ import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
@@ -86,6 +95,22 @@ void _initServiceLocator({required Network network}) {
       serviceLocator()));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
+
+  serviceLocator.registerFactory(() => ListsPageBloc(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ));
 
   /// UseCases
 
@@ -131,6 +156,14 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
+  serviceLocator.registerLazySingleton(() => DeleteClickupListUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => DeleteClickupFolderUseCase(
+    serviceLocator(),
+  ));
+
   serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
         serviceLocator(),
       ));
@@ -142,6 +175,22 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
         serviceLocator(),
       ));
+
+  serviceLocator.registerLazySingleton(() => CreateClickupListInFolderUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => CreateFolderlessListClickupListUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => MoveClickupTaskBetweenListsUseCase(
+    serviceLocator(),
+  ));
+
+  serviceLocator.registerLazySingleton(() => CreateClickupFolderInSpaceUseCase(
+    serviceLocator(),
+  ));
 
   serviceLocator
       .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
@@ -166,6 +215,10 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
   serviceLocator
+      .registerLazySingleton(() => GetClickupListUseCase(
+    serviceLocator(),
+  ));
+  serviceLocator
       .registerLazySingleton(() => AddTagsToTaskUseCase(
     serviceLocator(),
   ));
@@ -182,7 +235,7 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
   serviceLocator
-      .registerLazySingleton(() => RemoveTaskFromListUseCase(
+      .registerLazySingleton(() => RemoveTaskFromAdditionalListUseCase(
     serviceLocator(),
   ));
   serviceLocator
@@ -205,6 +258,11 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
     serviceLocator(),
   ));
+  serviceLocator
+      .registerLazySingleton(() => GetClickupListAndItsTasksUseCase(
+    serviceLocator(),
+  ));
+
 
 
   /// Repos

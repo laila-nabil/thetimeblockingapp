@@ -31,5 +31,10 @@
   "priority": "أولوية",
   "clear": "الغاء",
   "selectTime": "اختر الوقت",
-  "status": "الحالة"
+  "status": "الحالة",
+  "date": "التاريخ",
+  "createNewList": "اضف قائمة جديدة",
+  "createNewFolder": "اضف مجلد جديد",
+  "create": "اضف",
+  "areYouSureDelete": "هل انت متأكد انك تريد حذف"
 }

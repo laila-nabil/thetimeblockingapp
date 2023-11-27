@@ -1,4 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
@@ -12,10 +16,12 @@ import '../entities/clickup_list.dart';
 import '../entities/clickup_space.dart';
 import '../entities/clickup_task.dart';
 import '../entities/task_parameters.dart';
+import '../use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../use_cases/add_tag_to_task_use_case.dart';
 import '../use_cases/add_task_to_list_use_case.dart';
 import '../use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../use_cases/get_clickup_list_use_case.dart';
 import '../use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -61,7 +67,7 @@ abstract class TasksRepo{
   Future<Either<Failure, Unit>> addTagToTask(
       {required AddTagToTaskParams params});
 
-  Future<Either<Failure, Unit>> removeTaskFromList(
+  Future<Either<Failure, Unit>> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params});
 
   Future<Either<Failure, Unit>> addTaskToList(
@@ -84,4 +90,21 @@ abstract class TasksRepo{
 
   Future<Either<Failure, List<ClickupSpace>>?> getSpacesOfSelectedWorkspace(
       NoParams params);
+
+  Future<Either<Failure, ClickupList>?> getClickupList(
+      GetClickupListParams params);
+
+  Future<Either<Failure, ClickupList>?> createClickupListInFolder(
+      CreateClickupListInFolderParams params);
+
+  Future<Either<Failure, ClickupList>?> createFolderlessClickupList(
+      CreateFolderlessListClickupParams params);
+
+  Future<Either<Failure, ClickupFolder>?> createClickupFolderInSpace(
+      CreateClickupFolderInSpaceParams params);
+
+  Future<Either<Failure, Unit>?> deleteList(DeleteClickupListParams params);
+
+  Future<Either<Failure, Unit>?> deleteFolder(
+      DeleteClickupFolderParams params);
 }

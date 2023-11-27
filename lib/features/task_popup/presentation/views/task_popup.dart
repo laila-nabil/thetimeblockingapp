@@ -8,7 +8,6 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
@@ -23,45 +22,79 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
-  final ClickupTask? task;
+  ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
   final void Function(DeleteClickupTaskParams params)? onDelete;
-  final ScheduleBloc scheduleBloc;
-  final DateTime? cellDate;
+  final Bloc bloc;
+  final bool Function(Object? state) isLoading;
+  DateTime? cellDate;
   DateTime? startDate;
   DateTime? dueDate;
   late bool isAllDay;
+  ClickupList? list;
   TaskPopupParams.notAllDayTask({
     this.task,
     this.onSave,
     this.onDelete,
     this.cellDate,
-    required this.scheduleBloc,
+    required this.bloc,
+    required this.isLoading,
   }){
-    startDate =cellDate;
-    dueDate = cellDate?.add(Globals.defaultTaskDuration);
+    startDate =task?.startDateUtc ?? cellDate;
+    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
     isAllDay = false;
+    list = null;
 }
   TaskPopupParams.allDayTask({
     this.task,
     this.onSave,
     this.onDelete,
     this.cellDate,
-    required this.scheduleBloc,
+    required this.bloc,
+    required this.isLoading,
   }){
     if (cellDate != null) {
       startDate = DateTime(cellDate!.year, cellDate!.month, cellDate!.day, 4);
       dueDate = startDate;
     }
     isAllDay = true;
+    list = null;
+  }
+
+  TaskPopupParams.addToList({
+    this.onSave,
+    this.onDelete,
+    required this.list,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    task = null;
+    isAllDay = false;
+    cellDate = null;
+  }
+
+  TaskPopupParams.openFromList({
+    this.task,
+    this.onSave,
+    this.onDelete,
+    required this.bloc,
+    required this.isLoading,
+  }){
+    startDate =task?.startDateUtc ;
+    dueDate = task?.dueDateUtc;
+    isAllDay = task?.isAllDay ?? false;
+    cellDate = null;
+    list = task?.list;
   }
 
   TaskPopupParams._(
       {this.task,
       this.onSave,
       this.onDelete,
-      required this.scheduleBloc,
+      required this.bloc,
+      required this.isLoading,
       this.cellDate,
+      this.list,
       this.startDate,
       this.dueDate});
 
@@ -69,16 +102,19 @@ class TaskPopupParams extends Equatable {
     ClickupTask? task,
     void Function(ClickupTaskParams params)? onSave,
     void Function(DeleteClickupTaskParams params)? onDelete,
-    ScheduleBloc? scheduleBloc,
+    Bloc? bloc,
     DateTime? cellDate,
     DateTime? startDate,
     DateTime? dueDate,
+    ClickupList? list,
   }) {
     return TaskPopupParams._(
         task: task ?? this.task,
         onSave: onSave ?? this.onSave,
         onDelete: onDelete ?? this.onDelete,
-        scheduleBloc: scheduleBloc ?? this.scheduleBloc,
+        bloc: bloc ?? this.bloc,
+        list: list ?? this.list,
+        isLoading: isLoading,
         cellDate: cellDate ?? this.cellDate,
         startDate: startDate ?? this.startDate,
         dueDate: dueDate ?? this.dueDate,
@@ -91,7 +127,9 @@ class TaskPopupParams extends Equatable {
         onSave,
         onDelete,
         cellDate,
-        scheduleBloc,
+        bloc,
+        list,
+        isLoading,
       ];
 }
 
@@ -129,7 +167,8 @@ class TaskPopup extends StatelessWidget {
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isSpaceAppWide ? Globals.selectedSpace : null
+                          space: Globals.isSpaceAppWide ? Globals.selectedSpace : null,
+                          list: taskPopupParams.list
                         )
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -138,12 +177,12 @@ class TaskPopup extends StatelessWidget {
           },
         ),
         BlocProvider.value(
-          value: taskPopupParams.scheduleBloc,
+          value: taskPopupParams.bloc,
         ),
       ],
-      child: BlocBuilder<ScheduleBloc, ScheduleState>(
-        builder: (context, scheduleState) {
-          final isLoadingScheduleState = scheduleState.isLoading;
+      child: BlocBuilder(
+        bloc: taskPopupParams.bloc,
+        builder: (context, blocState) {
           return BlocBuilder<TaskPopUpBloc, TaskPopUpState>(
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
@@ -153,13 +192,13 @@ class TaskPopup extends StatelessWidget {
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
+                          list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
                       : ClickupTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                 task: task,
               ));
               printDebug("clickupTaskParams $clickupTaskParams");
-              final isLoading = isLoadingScheduleState;
               final firstDate =
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
@@ -167,8 +206,9 @@ class TaskPopup extends StatelessWidget {
                   task?.dueDateUtc ?? taskPopupParams.dueDate;
               final initialStartDate =
                   task?.startDateUtc ?? taskPopupParams.startDate;
+              final loading = taskPopupParams.isLoading(blocState);
               return CustomAlertDialog(
-                  loading: isLoading,
+                  loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
@@ -189,7 +229,7 @@ class TaskPopup extends StatelessWidget {
                         onPressed: () => Navigator.maybePop(context),
                         child: Text(appLocalization.translate("cancel"))),
                     CustomButton(
-                        onPressed: isLoading ||
+                        onPressed: loading ||
                                 taskPopupParams.onSave == null ||
                                 state.readyToSubmit == false
                             ? null
@@ -437,10 +477,10 @@ class TaskPopup extends StatelessWidget {
                               ///TODO B create a new list
                               ///List
                               if (task == null &&
+                                  state.taskParams?.clickupList == null &&
                                   (state.taskParams?.getAvailableLists
-                                              .isNotEmpty ==
-                                          true ||
-                                      state.taskParams?.clickupList != null))
+                                          .isNotEmpty ==
+                                      true))
                                 DropdownButton<ClickupList>(
                                   elevation: 0,
                                   hint: Text(appLocalization.translate("list")),
@@ -456,8 +496,11 @@ class TaskPopup extends StatelessWidget {
                                           .toList() ??
                                       [],
                                 )
-                              else
-                                Text(" ${task?.list?.name ?? ""} "),
+                              else if(task == null &&
+                                  state.taskParams?.clickupList != null)
+                                Text(" ${state.taskParams?.clickupList?.name ?? ""} ")
+                              else if(task!=null)
+                                Text(" ${task.list?.name ?? ""} "),
                             ],
                           ),
 

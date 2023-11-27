@@ -33,11 +33,11 @@ class SelectClickupSpace extends StartupEvent {
   List<Object?> get props => [clickupSpace,clickupAccessToken];
 }
 
-class GetTasksEvent extends StartupEvent {
-  final bool getTasks;
-  const GetTasksEvent(
-      {required this.getTasks,});
+class StartGetTasksEvent extends StartupEvent {
+  final bool startGetTasks;
+  const StartGetTasksEvent(
+      {required this.startGetTasks,});
 
   @override
-  List<Object?> get props => [getTasks];
+  List<Object?> get props => [startGetTasks];
 }

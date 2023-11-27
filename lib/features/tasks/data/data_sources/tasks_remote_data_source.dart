@@ -4,6 +4,10 @@ import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_spacce_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -11,10 +15,12 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
+import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../../domain/use_cases/get_clickup_list_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -45,6 +51,9 @@ abstract class TasksRemoteDataSource {
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
+  Future<ClickupListModel> createClickupListInFolder(
+      {required CreateClickupListInFolderParams params});
+
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
 
@@ -58,9 +67,22 @@ abstract class TasksRemoteDataSource {
 
   Future<Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params});
+  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params});
 
   Future<Unit> addTaskToList({required AddTaskToListParams params});
+
+  Future<ClickupListModel> getClickupList(
+      {required GetClickupListParams params});
+
+  Future<ClickupListModel> createFolderlessClickupList(
+      {required CreateFolderlessListClickupParams params});
+
+  Future<ClickupFolderModel> createClickupFolderInSpace(
+      {required CreateClickupFolderInSpaceParams params});
+
+  Future<Unit> deleteList({required DeleteClickupListParams params});
+
+  Future<Unit> deleteFolder({required DeleteClickupFolderParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -97,7 +119,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<ClickupTaskModel> createTaskInList(
       {required ClickupTaskParams params}) async {
-    Uri uri = Uri.parse("$clickupUrl/list/${params.listId}/task");
+    Uri uri = Uri.parse("$clickupUrl/list/${params.getListId}/task");
     final response = await network.post(
         uri: uri,
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
@@ -266,8 +288,66 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     return unit;
   }
   @override
-  Future<Unit> removeTaskFromList({required RemoveTaskFromListParams params})  async {
+  Future<Unit> removeTaskFromAdditionalList({required RemoveTaskFromListParams params})  async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
+    await network.delete(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+    return unit;
+  }
+
+  @override
+  Future<ClickupListModel> getClickupList({required GetClickupListParams params}) async {
+    final response = await network.get(
+        uri: Uri.parse("$clickupUrl/list/${params.listId}"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+    return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupListModel> createClickupListInFolder(
+      {required CreateClickupListInFolderParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/folder/${params.clickupFolder.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.listName, "assignee": params.assignee?.id});
+    return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupListModel> createFolderlessClickupList(
+      {required CreateFolderlessListClickupParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.listName, "assignee": params.assignee?.id});
+    return ClickupListModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<ClickupFolderModel> createClickupFolderInSpace(
+      {required CreateClickupFolderInSpaceParams params}) async {
+    final response = await network.post(
+        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/folder"),
+        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        body: {"name": params.folderName});
+    return ClickupFolderModel.fromJson(json.decode(response.body));
+  }
+
+  @override
+  Future<Unit> deleteList({required DeleteClickupListParams params}) async{
+    Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
+    await network.delete(
+      uri: uri,
+      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+    );
+    return unit;
+  }
+
+  @override
+  Future<Unit> deleteFolder({required DeleteClickupFolderParams params})  async{
+    Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),

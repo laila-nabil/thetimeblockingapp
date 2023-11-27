@@ -34,7 +34,8 @@ class ClickupTaskParams extends Equatable{
 
   final ClickupSpace? clickupSpace;
   final ClickupFolder? folder;
-  String get listId => clickupList?.id ?? "";
+
+  String get getListId => task?.list?.id ?? clickupList?.id ?? "";
 
   String get taskId => task?.id ?? "";
 
@@ -131,14 +132,18 @@ class ClickupTaskParams extends Equatable{
     DateTime? startDate,
     DateTime? dueDate,
     ClickupSpace? space,
-  }) =>
-      ClickupTaskParams._(
+    ClickupList? list,
+  }) {
+    printDebug("ClickupTaskParams startCreateNewTask task");
+    return ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
           startDate: startDate,
           dueDate: dueDate,
           clickupSpace: space,
+          clickupList: list,
           assignees: [Globals.clickupUser!.asAssignee],);
+  }
 
   factory ClickupTaskParams.createNewTask({
     required ClickupAccessToken clickupAccessToken,
@@ -157,8 +162,9 @@ class ClickupTaskParams extends Equatable{
     bool? requiredCustomFields,
     ClickupFolder? folder,
     ClickupSpace? space,
-  }) =>
-      ClickupTaskParams._(
+  }) {
+    printDebug("ClickupTaskParams createNewTask task");
+    return ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
           clickupSpace: space,
@@ -181,12 +187,13 @@ class ClickupTaskParams extends Equatable{
           startDate: startDate,
           taskPriority: taskPriority,
           timeEstimate: timeEstimate);
+  }
 
   factory ClickupTaskParams.startUpdateTask({
     required ClickupAccessToken clickupAccessToken,
     required ClickupTask task,
   }) {
-    printDebug("startUpdateTask task $task");
+    printDebug("ClickupTaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
     final space = Globals.clickupSpaces
         ?.firstWhere((element) => element.id == task.space?.id);

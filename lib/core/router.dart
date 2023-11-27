@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
@@ -37,7 +38,7 @@ final router = GoRouter(
       if (state?.queryParameters != null &&
           state?.queryParameters["Code"] != null) {
         ///TODO B when deploying
-      }else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
+      } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
         return AuthPage.routeName;
@@ -46,8 +47,8 @@ final router = GoRouter(
     },
     routes: [
       GoRoute(
-        path: AuthPage.routeName,
-        builder: (context, state) => const AuthPage(),
+          path: AuthPage.routeName,
+          builder: (context, state) => const AuthPage(),
           redirect: (context, state) async {
             if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
                 Globals.clickupUser != null &&
@@ -55,8 +56,7 @@ final router = GoRouter(
               return SchedulePage.routeName;
             }
             return null;
-          }
-      ),
+          }),
       GoRoute(
         path: SchedulePage.routeName,
         builder: (context, state) => const SchedulePage(),
@@ -75,11 +75,13 @@ final router = GoRouter(
       ),
       GoRoute(
         path: ListsPage.routeName,
-        builder: (context, state) => const ListsPage(),
+        builder: (context, state) =>  ListsPage(),
       ),
       GoRoute(
         path: ListPage.routeName,
-        builder: (context, state) => const ListPage(),
+        builder: (context, state) => ListPage(
+            listId: state.queryParameters[ListPage.queryParametersList.first]
+                as String,listsPageBloc: state.extra as ListsPageBloc),
       ),
       GoRoute(
         path: MapsPage.routeName,
