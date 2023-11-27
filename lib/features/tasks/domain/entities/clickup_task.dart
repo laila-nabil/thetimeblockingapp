@@ -147,6 +147,14 @@ class ClickupTask extends Equatable {
       ? null
       : Duration(seconds: timeEstimateMilliseconds!.toInt());
 
+  bool get isOverdue => dueDateUtc?.isBefore(DateTime.now()) == true;
+
+  bool get isUpcoming =>
+      dueDateUtc?.isAfter(DateTime.now()) == true ||
+      dueDateUtc?.isAtSameMomentAs(DateTime.now()) == true;
+
+  bool get isUnscheduled => dueDateUtc == null;
+
   @override
   List<Object?> get props => [
         id,

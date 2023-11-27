@@ -131,6 +131,12 @@ class ListsPageState extends Equatable {
     );
   }
 
+  List<ClickupTask> get getCurrentListTasksOverdue =>
+      currentListTasks?.where((element) => element.isOverdue).toList() ?? [];
+  List<ClickupTask> get getCurrentListTasksUpcoming =>
+      currentListTasks?.where((element) => element.isUpcoming).toList() ?? [];
+  List<ClickupTask> get getCurrentListTasksUnscheduled =>
+      currentListTasks?.where((element) => element.isUnscheduled).toList() ?? [];
   @override
   List<Object?> get props => [
         listsPageStatus,
