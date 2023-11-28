@@ -96,15 +96,6 @@ class CustomDrawer extends StatelessWidget {
                       .location
                       .contains(SchedulePage.routeName)),
               _DrawerItem(
-                  title: localizationImpl.translate("Someday"),
-                  iconPath: Icons.calendar_today,
-                  onPressed: () {
-                    context.go(SomedayPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(SomedayPage.routeName)),
-              _DrawerItem(
                   title: localizationImpl.translate("Lists"),
                   iconPath: Icons.list_sharp,
                   onPressed: () {
@@ -128,7 +119,7 @@ class CustomDrawer extends StatelessWidget {
                       GoRouter.of(context)
                           .location
                           .contains(TagPage.routeName)),
-              _DrawerItem(
+              if(false)_DrawerItem(
                   title: localizationImpl.translate("Maps"),
                   iconPath: Icons.map_outlined,
                   onPressed: () {
@@ -147,7 +138,7 @@ class CustomDrawer extends StatelessWidget {
                   isSelected: GoRouter.of(context)
                       .location
                       .contains(ArchivePage.routeName)),
-              _DrawerItem(
+              if(false)_DrawerItem(
                   title: localizationImpl.translate("Trash"),
                   iconPath: Icons.delete,
                   onPressed: () {
