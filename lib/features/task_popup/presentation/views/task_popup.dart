@@ -74,7 +74,7 @@ class TaskPopupParams extends Equatable {
     cellDate = null;
   }
 
-  TaskPopupParams.openFromList({
+  TaskPopupParams.open({
     required this.task,
     required this.onSave,
     required this.onDelete,

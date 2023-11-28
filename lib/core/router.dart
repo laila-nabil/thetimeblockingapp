@@ -11,14 +11,14 @@ import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.da
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
 import '../common/widgets/responsive/responsive_scaffold.dart';
-import '../features/all/presentation/pages/all_page.dart';
+import '../features/all/presentation/pages/all_tasks_page.dart';
 import '../features/archive/presentation/pages/archive_page.dart';
 import '../features/auth/presentation/pages/auth_page.dart';
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
-import '../features/someday/presentation/pages/someday_page.dart';
+import '../features/all/presentation/pages/someday_page.dart';
 import '../features/tags/presentation/pages/tag_page.dart';
 import 'globals.dart';
 
@@ -63,8 +63,8 @@ final router = GoRouter(
         builder: (context, state) => const SchedulePage(),
       ),
       GoRoute(
-        path: AllPage.routeName,
-        builder: (context, state) => const AllPage(),
+        path: AllTasksPage.routeName,
+        builder: (context, state) => const AllTasksPage(),
       ),
       GoRoute(
         path: ArchivePage.routeName,

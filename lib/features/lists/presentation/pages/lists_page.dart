@@ -119,11 +119,7 @@ class ListsPage extends StatelessWidget {
                           listener: (context, state) {},
                           builder: (context, state) {
                             if (state.isInit && Globals.isSpaceAppWide) {
-                              listsPageBloc
-                                  .add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-                                clickupAccessToken: Globals.clickupAuthAccessToken,
-                                clickupWorkspace: Globals.selectedWorkspace!,
-                              ));
+                              getListsFolders(listsPageBloc);
                             }
                             return SingleChildScrollView(
                               child: Column(
@@ -377,6 +373,14 @@ class ListsPage extends StatelessWidget {
             );
           }),
     );
+  }
+
+  void getListsFolders(ListsPageBloc listsPageBloc) {
+    listsPageBloc
+        .add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+      clickupAccessToken: Globals.clickupAuthAccessToken,
+      clickupWorkspace: Globals.selectedWorkspace!,
+    ));
   }
 }
 

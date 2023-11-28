@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
-import 'package:thetimeblockingapp/features/all/presentation/pages/all_page.dart';
+import 'package:thetimeblockingapp/features/all/presentation/pages/all_tasks_page.dart';
 import 'package:thetimeblockingapp/features/archive/presentation/pages/archive_page.dart';
 import 'package:thetimeblockingapp/features/help/presentation/pages/help_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.
 import 'package:thetimeblockingapp/features/maps/presentation/pages/maps_page.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/pages/schedule_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/pages/settings_page.dart';
-import 'package:thetimeblockingapp/features/someday/presentation/pages/someday_page.dart';
+import 'package:thetimeblockingapp/features/all/presentation/pages/someday_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
@@ -81,11 +81,11 @@ class CustomDrawer extends StatelessWidget {
                   title: localizationImpl.translate("All"),
                   iconPath: Icons.all_inbox,
                   onPressed: () {
-                    context.go(AllPage.routeName);
+                    context.go(AllTasksPage.routeName);
                   },
                   isSelected: GoRouter.of(context)
                       .location
-                      .contains(AllPage.routeName)),
+                      .contains(AllTasksPage.routeName)),
               _DrawerItem(
                   title: localizationImpl.translate("Schedule"),
                   iconPath: Icons.calendar_month,

@@ -163,7 +163,7 @@ class TagPage extends StatelessWidget {
                               showTaskPopup(
                                   context: context,
                                   taskPopupParams:
-                                  TaskPopupParams.openFromList(
+                                  TaskPopupParams.open(
                                       task: e,
                                       bloc: tagsPageBloc,
                                       onDelete: (params) {
@@ -188,8 +188,7 @@ class TagPage extends StatelessWidget {
                                           : state.isLoading));
                             },
                           ))
-                              .toList() ??
-                              [],
+                              .toList(),
                         ),
                         if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Text(appLocalization.translate("Upcoming")),
                         if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Column(
@@ -200,7 +199,7 @@ class TagPage extends StatelessWidget {
                               showTaskPopup(
                                   context: context,
                                   taskPopupParams:
-                                  TaskPopupParams.openFromList(
+                                  TaskPopupParams.open(
                                       task: e,
                                       bloc: tagsPageBloc,
                                       onDelete: (params) {
@@ -225,8 +224,7 @@ class TagPage extends StatelessWidget {
                                           : state.isLoading));
                             },
                           ))
-                              .toList() ??
-                              [],
+                              .toList(),
                         ),
                         if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Text(appLocalization.translate("Unscheduled")),
                         if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Column(
@@ -237,7 +235,7 @@ class TagPage extends StatelessWidget {
                               showTaskPopup(
                                   context: context,
                                   taskPopupParams:
-                                  TaskPopupParams.openFromList(
+                                  TaskPopupParams.open(
                                       task: e,
                                       bloc: tagsPageBloc,
                                       onDelete: (params) {
@@ -262,8 +260,7 @@ class TagPage extends StatelessWidget {
                                           : state.isLoading));
                             },
                           ))
-                              .toList() ??
-                              [],
+                              .toList(),
                         ),
                       ],
                     ),
