@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
@@ -126,6 +127,13 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
       ));
+
+  serviceLocator.registerFactory(() => AllTasksBloc(
+    serviceLocator(),
+    serviceLocator(),
+    serviceLocator(),
+    serviceLocator(),
+  ));
 
   /// UseCases
 

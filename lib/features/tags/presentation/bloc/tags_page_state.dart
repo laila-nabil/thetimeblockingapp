@@ -87,6 +87,16 @@ class TagsPageState extends Equatable {
 
   bool updateTagTry(ClickupTag tag) => toUpdateTag == tag && tagsPageStatus == TagsPageStatus.updateTagTry;
 
+  List<ClickupTask> get getCurrentTagTasksResultOverdue =>
+      currentTagTasksResult?.where((element) => element.isOverdue).toList() ?? [];
+
+  List<ClickupTask> get getCurrentTagTasksResultUpcoming =>
+      currentTagTasksResult?.where((element) => element.isUpcoming).toList() ?? [];
+
+
+  List<ClickupTask> get getCurrentTagTasksResultUnscheduled =>
+      currentTagTasksResult?.where((element) => element.isUnscheduled).toList() ?? [];
+
   TagsPageState copyWith({
     required TagsPageStatus tagsPageStatus,
     ClickupTag? navigateTag,

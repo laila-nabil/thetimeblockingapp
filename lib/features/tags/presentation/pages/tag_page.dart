@@ -153,42 +153,119 @@ class TagPage extends StatelessWidget {
                       : Text(state.navigateTag?.name ?? ""),
                   Expanded(
                     child: ListView(
-                      children: state.currentTagTasksResult
-                              ?.map((e) => ListTile(
-                                    title: Text(e.name ?? ""),
-                                    onTap: () {
-                                      showTaskPopup(
-                                          context: context,
-                                          taskPopupParams:
-                                              TaskPopupParams.openFromList(
-                                                  task: e,
-                                                  bloc: tagsPageBloc,
-                                                  onDelete: (params) {
-                                                    tagsPageBloc.add(
-                                                        DeleteClickupTaskEvent(
-                                                            params: params,
-                                                            workspace: Globals
-                                                                .selectedWorkspace!));
-                                                    Navigator.maybePop(context);
-                                                  },
-                                                  onSave: (params) {
-                                                    tagsPageBloc.add(
-                                                        UpdateClickupTaskEvent(
-                                                            params: params,
-                                                            workspace: Globals
-                                                                .selectedWorkspace!));
-                                                    Navigator.maybePop(context);
-                                                  },
-                                                  isLoading: (state) =>
-                                                      state is! TagsPageState
-                                                          ? false
-                                                          : state.isLoading));
-                                    },
-                                  ))
-                              .toList() ??
-                          [],
+                      children: [
+                        if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Text(appLocalization.translate("Overdue")),
+                        if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Column(
+                          children: state.getCurrentTagTasksResultOverdue
+                              .map((e) => ListTile(
+                            title: Text(e.name ?? ""),
+                            onTap: () {
+                              showTaskPopup(
+                                  context: context,
+                                  taskPopupParams:
+                                  TaskPopupParams.open(
+                                      task: e,
+                                      bloc: tagsPageBloc,
+                                      onDelete: (params) {
+                                        tagsPageBloc.add(
+                                            DeleteClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      onSave: (params) {
+                                        tagsPageBloc.add(
+                                            UpdateClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      isLoading: (state) =>
+                                      state is! TagsPageState
+                                          ? false
+                                          : state.isLoading));
+                            },
+                          ))
+                              .toList(),
+                        ),
+                        if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Text(appLocalization.translate("Upcoming")),
+                        if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Column(
+                          children: state.getCurrentTagTasksResultUpcoming
+                              .map((e) => ListTile(
+                            title: Text(e.name ?? ""),
+                            onTap: () {
+                              showTaskPopup(
+                                  context: context,
+                                  taskPopupParams:
+                                  TaskPopupParams.open(
+                                      task: e,
+                                      bloc: tagsPageBloc,
+                                      onDelete: (params) {
+                                        tagsPageBloc.add(
+                                            DeleteClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      onSave: (params) {
+                                        tagsPageBloc.add(
+                                            UpdateClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      isLoading: (state) =>
+                                      state is! TagsPageState
+                                          ? false
+                                          : state.isLoading));
+                            },
+                          ))
+                              .toList(),
+                        ),
+                        if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Text(appLocalization.translate("Unscheduled")),
+                        if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Column(
+                          children: state.getCurrentTagTasksResultUnscheduled
+                              .map((e) => ListTile(
+                            title: Text(e.name ?? ""),
+                            onTap: () {
+                              showTaskPopup(
+                                  context: context,
+                                  taskPopupParams:
+                                  TaskPopupParams.open(
+                                      task: e,
+                                      bloc: tagsPageBloc,
+                                      onDelete: (params) {
+                                        tagsPageBloc.add(
+                                            DeleteClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      onSave: (params) {
+                                        tagsPageBloc.add(
+                                            UpdateClickupTaskEvent(
+                                                params: params,
+                                                workspace: Globals
+                                                    .selectedWorkspace!));
+                                        Navigator.maybePop(context);
+                                      },
+                                      isLoading: (state) =>
+                                      state is! TagsPageState
+                                          ? false
+                                          : state.isLoading));
+                            },
+                          ))
+                              .toList(),
+                        ),
+                      ],
                     ),
-                  ),
+                  )
+
                 ],
               )),
               context: context);

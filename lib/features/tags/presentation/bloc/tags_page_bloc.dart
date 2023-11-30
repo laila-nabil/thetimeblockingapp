@@ -133,8 +133,8 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           final result = await _deleteClickupTagUseCase(event.params!);
           result?.fold(
               (l) => emit(state.copyWith(
-                  tagsPageStatus: TagsPageStatus.updateTagFailure,
-                  updateTagFailure: l)), (r) {
+                  tagsPageStatus: TagsPageStatus.deleteTagFailure,
+                  deleteTagFailure: l)), (r) {
             emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.updateTaskSuccess,
             ));
@@ -164,8 +164,8 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         final result = await _updateClickupTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
-                tagsPageStatus: TagsPageStatus.updateTagFailure,
-                updateTagFailure: l)), (r) {
+                tagsPageStatus: TagsPageStatus.updateTaskFailed,
+                updateTaskFailure: l)), (r) {
           emit(state.copyWith(
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));

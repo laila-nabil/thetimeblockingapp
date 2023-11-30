@@ -38,5 +38,9 @@
   "createNewTag": "Create a new tag",
   "create": "Create",
   "delete": "Delete",
-  "areYouSureDelete": "Are you sure you want to delete"
+  "areYouSureDelete": "Are you sure you want to delete",
+  "edit": "Edit",
+  "Overdue": "Overdue",
+  "Upcoming": "Upcoming",
+  "Unscheduled": "Unscheduled"
 }
