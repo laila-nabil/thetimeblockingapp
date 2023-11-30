@@ -147,7 +147,7 @@ class CustomDrawer extends StatelessWidget {
                   isSelected: GoRouter.of(context)
                       .location
                       .contains(TrashPage.routeName)),
-              _DrawerItem(
+              if(false)_DrawerItem(
                   title: localizationImpl.translate("Help"),
                   iconPath: Icons.help,
                   onPressed: () {

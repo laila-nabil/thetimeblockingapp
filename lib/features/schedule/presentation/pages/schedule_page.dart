@@ -13,6 +13,8 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
+///FIXME in case of navigating to any page then to schedule,no tasks in it
+
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key}) : super(key: key);
   static const routeName = "/Schedule";
@@ -91,18 +93,22 @@ class SchedulePage extends StatelessWidget {
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Lists").toLowerCase()),
-                      onTap: () {},
+                      onTap: () {
+                        ///TODO filter by lists
+                      },
                     ),
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Tags").toLowerCase()),
-                      onTap: () {},
+                      onTap: () {
+                        ///TODO filter by tags
+                      },
                     ),
-                    PopupMenuItem(
+                    if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("autoSchedule")),
                       onTap: () {},
                     ),
-                    PopupMenuItem(
+                    if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},
                     ),
