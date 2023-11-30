@@ -61,6 +61,8 @@ class Globals {
       _clickupWorkspaces?.firstOrNull;
 
   static ClickupSpace? get defaultSpace => _clickupSpaces?.firstOrNull;
+
+  static String redirectAfterAuthRouteName = "";
 }
 
 ///just to make it harder to write global variable

@@ -33,7 +33,6 @@ class TagPage extends StatelessWidget {
         listener: (context, state) {
           printDebug("listener state.updateTagResult ${state.updateTagResult}");
           if (state.tagsPageStatus == TagsPageStatus.refreshTag) {
-            ///FIXME in case of pressing back goes to old tag's page
             context.go(Uri(path: TagPage.routeName, queryParameters: {
               TagPage.queryParametersList.first:
               state.updateTagResult?.name ?? ""

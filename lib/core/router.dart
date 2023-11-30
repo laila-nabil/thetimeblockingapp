@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/mock_web_packages/mock_dart_js.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
@@ -21,8 +22,6 @@ import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/all/presentation/pages/someday_page.dart';
 import '../features/tags/presentation/pages/tag_page.dart';
 import 'globals.dart';
-
-///FIXME refreshing any page redirects to schedule page
 
 // GoRouter configuration
 final router = GoRouter(
@@ -44,6 +43,10 @@ final router = GoRouter(
       } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
+        if(state?.location != AuthPage.routeName){
+          printDebug("state in redirect before authpage name:${state?.name},location:${state?.location},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.queryParametersAll},queryParameters:${state?.queryParameters}");
+          Globals.redirectAfterAuthRouteName = state?.location??"";
+        }
         return AuthPage.routeName;
       }
       return null;
@@ -63,6 +66,20 @@ final router = GoRouter(
       GoRoute(
         path: SchedulePage.routeName,
         builder: (context, state) => const SchedulePage(),
+        redirect: (context,state) async{
+          final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
+              Globals.clickupUser != null &&
+              Globals.clickupWorkspaces?.isNotEmpty == true;
+          if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){
+            String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;
+
+            Globals.redirectAfterAuthRouteName = "";
+
+            return redirectAfterAuthRouteName;
+
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: AllTasksPage.routeName,
@@ -85,6 +102,12 @@ final router = GoRouter(
         builder: (context, state) => ListPage(
             listId: state.queryParameters[ListPage.queryParametersList.first]
                 as String,listsPageBloc: state.extra as ListsPageBloc),
+        redirect: (context,state){
+          if(state.extra == null){
+            return ListsPage.routeName;
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: MapsPage.routeName,
@@ -111,6 +134,12 @@ final router = GoRouter(
         builder: (context, state) => TagPage(
             tagName: state.queryParameters[TagPage.queryParametersList.first]
             as String,tagsPageBloc: state.extra as TagsPageBloc),
+        redirect: (context,state){
+          if(state.extra == null){
+            return TagsPage.routeName;
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: TrashPage.routeName,
