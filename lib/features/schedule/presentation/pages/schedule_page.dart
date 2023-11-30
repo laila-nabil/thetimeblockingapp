@@ -94,14 +94,14 @@ class SchedulePage extends StatelessWidget {
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Lists").toLowerCase()),
                       onTap: () {
-                        ///TODO filter by lists
+                        ///TODO V2 filter by lists
                       },
                     ),
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Tags").toLowerCase()),
                       onTap: () {
-                        ///TODO filter by tags
+                        ///TODO V2 filter by tags
                       },
                     ),
                     if(false)PopupMenuItem(

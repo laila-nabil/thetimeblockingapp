@@ -129,7 +129,7 @@ class CustomDrawer extends StatelessWidget {
                       .location
                       .contains(MapsPage.routeName)),
               const Divider(),
-              _DrawerItem(
+              if(false)_DrawerItem(
                   title: localizationImpl.translate("Archive"),
                   iconPath: Icons.archive_outlined,
                   onPressed: () {

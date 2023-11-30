@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///TODO settings page
+///TODO V2 settings page
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

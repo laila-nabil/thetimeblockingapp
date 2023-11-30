@@ -18,7 +18,6 @@ import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
-///TODO create all day task from floating action button && control if task is all day or not
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
@@ -243,7 +242,7 @@ class TaskPopup extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
-                    ///TODO pop and push add are you sure alert dialog
+                    ///TODO V1 pop and push add are you sure alert dialog
                     if(task!=null)IconButton(
                         icon: Icon(
                           Icons.delete,
@@ -277,8 +276,7 @@ class TaskPopup extends StatelessWidget {
                       child: Column(
                         children: [
                           ///Space
-                          ///TODO B create a new Space
-                          ///TODO C default space is set in settings
+                          ///TODO V2 create a new Space
                           if(Globals.isSpaceAppWide == false)(task == null
                               ? DropdownButton<ClickupSpace>(
                                   hint:
@@ -323,7 +321,6 @@ class TaskPopup extends StatelessWidget {
                                     [],
                               ),
                               ///Priority
-                              ///TODO add priorities in case of disabled
                               if (state.isPrioritiesEnabled)
                                 DropdownButton<ClickupTaskPriority>(
                                   value: state.taskParams?.taskPriority,
@@ -399,7 +396,7 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Tags
-                          ///TODO B TODO create new tags
+                          ///TODO V2 TODO create new tags
                           if(state.viewTagsButton)CustomButton(
                             customButtonEnum: CustomButtonEnum.secondary,
                               child: Text(
@@ -475,7 +472,7 @@ class TaskPopup extends StatelessWidget {
                           Wrap(
                             children: [
 
-                              ///TODO B create a new Folder
+                              ///TODO V2 create a new Folder
                               ///Folder
                               if (state.isFoldersListAvailable && task == null)
                                 DropdownButton<ClickupFolder?>(
@@ -509,7 +506,7 @@ class TaskPopup extends StatelessWidget {
                                 Text(" ${task?.folder?.name ?? ""} "),
 
                               ///FIXME can only select list if no list is selected
-                              ///TODO B create a new list
+                              ///TODO V2 create a new list
                               ///List
                               if (task == null &&
                                   state.taskParams?.clickupList == null &&
@@ -541,7 +538,7 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              ///TODO is all day checkbox
+                              ///TODO V1 is all day checkbox
                               ///isAllDay
                               Checkbox(
                                   value: taskPopupParams.isAllDay,

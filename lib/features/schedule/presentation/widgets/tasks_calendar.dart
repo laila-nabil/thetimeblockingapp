@@ -39,7 +39,7 @@ class TasksCalendar extends StatelessWidget {
       // monthViewSettings: const MonthViewSettings(
       //   showAgenda: true,
       // ),
-      ///TODO C enable when enabling the feature
+      ///TODO V2 enable allowDragAndDrop
       allowDragAndDrop: false,
       allowAppointmentResize: false,
       allowViewNavigation: true,
@@ -48,29 +48,29 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO appointmentBuilder TaskCalendarWidget that takes UI colors from list & status
+      ///TODO V1 appointmentBuilder TaskCalendarWidget that takes UI colors from list & status
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
       timeZone: Globals.clickupUser?.timezone,
       onTap: onTapCalendarElement,
-      onLongPress: onTapCalendarElement,///TODO C
+      onLongPress: onTapCalendarElement,
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO C onAppointmentResizeEnd
+        ///TODO V2 onAppointmentResizeEnd
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO AB TimeSlotViewSettings
+        ///TODO V2 TimeSlotViewSettings
       ),
       onDragEnd: (appointmentDragEndDetails){
-        ///TODO C onDragEnd
+        ///TODO V2 onDragEnd
       },
       onDragStart: (appointmentDragEndDetails){
-        ///TODO C onDragStart
+        ///TODO V2 onDragStart
       },
       onDragUpdate: (appointmentDragEndDetails){
-        ///TODO C onDragUpdate
+        ///TODO V2 onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
 
@@ -177,7 +177,6 @@ class ClickupTasksDataSource extends CalendarDataSource {
   DateTime getStartTime(int index) {
     printDebug("${clickupTasks[index].name}=>"
         " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
-    ///TODO A ??
     return clickupTasks[index].startDateUtc ??
         getEndTime(index).subtract(Globals.defaultTaskDuration);
   }

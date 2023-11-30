@@ -14,7 +14,7 @@ import '../bloc/lists_page_bloc.dart';
 
 ///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
 
-///TODO have task widget & with details about status,priority,list,tags,due date ,start date viewed
+///TODO V1 have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
 class ListPage extends StatelessWidget {
   const ListPage(

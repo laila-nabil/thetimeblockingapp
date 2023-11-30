@@ -16,7 +16,7 @@ Future<DateTime?> showDateTimePicker({
     initialDate: initialDate,
     firstDate: firstDate,
     lastDate: lastDate,
-    confirmText: appLocalization.translate("selectTime")///TODO B better confirm text
+    confirmText: appLocalization.translate("selectTime")///TODO V2 better confirm text
   );
 
   if (selectedDate == null) return null;
