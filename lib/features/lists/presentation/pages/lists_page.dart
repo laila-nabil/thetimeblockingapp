@@ -20,8 +20,6 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
 import '../bloc/lists_page_bloc.dart';
 
-///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
-
 class ListsPage extends StatelessWidget {
   const ListsPage({super.key});
 

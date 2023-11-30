@@ -34,15 +34,16 @@ class Responsive {
     required BuildContext context,
   }) {
     final device = getDevice(context);
+    var tablet = params.tablet ?? params.mobile;
     switch (device) {
       case (ResponsiveDevice.mobile):
         return params.mobile;
       case (ResponsiveDevice.tablet):
-        return params.tablet ?? params.mobile;
+        return tablet;
       case (ResponsiveDevice.startShowingSmallDesign):
-        return params.startShowingSmallDesign ?? params.tablet ?? params.mobile;
+        return params.startShowingSmallDesign ?? tablet;
       case (ResponsiveDevice.laptop):
-        return params.laptop;
+        return params.laptop ?? params.startShowingSmallDesign ?? tablet;
     }
   }
 

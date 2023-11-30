@@ -14,8 +14,6 @@ import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
-///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
-
 
 ///TODO V1 have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
@@ -129,6 +127,7 @@ class TagPage extends StatelessWidget {
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
                   mobile: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   state.updateTagTry(state.navigateTag!)
                       ? Expanded(
