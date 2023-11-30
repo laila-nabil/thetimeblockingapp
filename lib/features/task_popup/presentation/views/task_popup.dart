@@ -243,6 +243,7 @@ class TaskPopup extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
+                    ///TODO pop and push add are you sure alert dialog
                     if(task!=null)IconButton(
                         icon: Icon(
                           Icons.delete,
@@ -507,6 +508,7 @@ class TaskPopup extends StatelessWidget {
                               else if (task?.folder != null)
                                 Text(" ${task?.folder?.name ?? ""} "),
 
+                              ///FIXME can only select list if no list is selected
                               ///TODO B create a new list
                               ///List
                               if (task == null &&
@@ -539,6 +541,7 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
+                              ///TODO is all day checkbox
                               ///isAllDay
                               Checkbox(
                                   value: taskPopupParams.isAllDay,

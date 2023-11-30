@@ -22,6 +22,8 @@ import '../features/all/presentation/pages/someday_page.dart';
 import '../features/tags/presentation/pages/tag_page.dart';
 import 'globals.dart';
 
+///FIXME refreshing any page redirects to schedule page
+
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
