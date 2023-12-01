@@ -29,7 +29,7 @@ class AuthPage extends StatelessWidget {
       listener: (context, state) {
         printDebug("AuthBloc state listener $state");
         if (state.canGoSchedulePage == true) {
-          context.go(SchedulePage.routeName);
+          context.go(SchedulePage.routeName,extra: true);
         }
 
       },

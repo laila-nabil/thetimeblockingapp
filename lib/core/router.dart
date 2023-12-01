@@ -65,7 +65,13 @@ final router = GoRouter(
           }),
       GoRoute(
         path: SchedulePage.routeName,
-        builder: (context, state) => const SchedulePage(),
+        builder: (context, state) {
+          bool? waitForStartGetTasks;
+          if(state.extra is bool){
+            waitForStartGetTasks = state.extra as bool;
+          }
+          return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
+        },
         redirect: (context,state) async{
           final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
               Globals.clickupUser != null &&
