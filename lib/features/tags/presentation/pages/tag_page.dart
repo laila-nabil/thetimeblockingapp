@@ -103,7 +103,6 @@ class TagPage extends StatelessWidget {
               ],
               floatingActionButton: AddItemFloatingActionButton(
                 onPressed: () {
-                  ///FIXME editing not working
                   showTaskPopup(
                       context: context,
                       taskPopupParams: TaskPopupParams.addToTag(
