@@ -474,7 +474,7 @@ class TaskPopup extends StatelessWidget {
 
                               ///TODO V2 create a new Folder
                               ///Folder
-                              if (state.isFoldersListAvailable && task == null)
+                              if (state.isFoldersListAvailable)
                                 DropdownButton<ClickupFolder?>(
                                   hint:
                                       Text(appLocalization.translate("folder")),
@@ -505,12 +505,9 @@ class TaskPopup extends StatelessWidget {
                               else if (task?.folder != null)
                                 Text(" ${task?.folder?.name ?? ""} "),
 
-                              ///FIXME can only select list if no list is selected
                               ///TODO V2 create a new list
                               ///List
-                              if (task == null &&
-                                  state.taskParams?.clickupList == null &&
-                                  (state.taskParams?.getAvailableLists
+                              if ((state.taskParams?.getAvailableLists
                                           .isNotEmpty ==
                                       true))
                                 DropdownButton<ClickupList>(
@@ -528,9 +525,6 @@ class TaskPopup extends StatelessWidget {
                                           .toList() ??
                                       [],
                                 )
-                              else if(task == null &&
-                                  state.taskParams?.clickupList != null)
-                                Text(" ${state.taskParams?.clickupList?.name ?? ""} ")
                               else if(task!=null)
                                 Text(" ${task.list?.name ?? ""} "),
                             ],

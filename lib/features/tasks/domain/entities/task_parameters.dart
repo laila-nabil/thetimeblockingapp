@@ -244,13 +244,15 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? updatedParentTask,
     ClickupTask? updatedLinkedTask,
     bool? updatedArchived,
+    ClickupList? list,
+    ClickupFolder? folder,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
-          clickupSpace: null,//not updatable
-          clickupList: null,//not updatable
-          folder: null,//not updatable
+          clickupSpace: null,
+          clickupList: list,
+          folder: folder,
           title: updatedTitle,
           description: updatedDescription,
           assignees: updatedAssignees,
@@ -416,7 +418,7 @@ class ClickupTaskParams extends Equatable{
       task: task ?? this.task,
       archived: archived ?? this.archived,
       folder: selectedFolder,
-      clickupSpace: selectedSpace
+      clickupSpace: selectedSpace,
     );
   }
 
@@ -446,4 +448,9 @@ class ClickupTaskParams extends Equatable{
     clickupSpace,
     getAvailableLists,
     archived];
+
+  @override
+  String toString() {
+    return 'ClickupTaskParams{clickupTaskParamsEnum: $clickupTaskParamsEnum, clickupAccessToken: $clickupAccessToken, clickupList: $clickupList, title: $title, description: $description, assignees: $assignees, addedAssignees: $addedAssignees, removedAssignees: $removedAssignees, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, timeEstimate: $timeEstimate, startDate: $startDate, notifyAll: $notifyAll, parentTask: $parentTask, linkedTask: $linkedTask, requiredCustomFields: $requiredCustomFields, task: $task, archived: $archived, clickupSpace: $clickupSpace, folder: $folder}';
+  }
 }

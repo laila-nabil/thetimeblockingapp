@@ -82,6 +82,12 @@ class TaskPopUpState extends Equatable {
         updatedParentTask: taskParams?.parentTask == task.list
             ? null
             : taskParams?.parentTask,
+        folder: taskParams?.folder == task.folder
+            ? null
+            : taskParams?.folder,
+        list: taskParams?.clickupList == task.list
+            ? null
+            : taskParams?.clickupList,
       );
     } else {
       params = taskParams ?? ClickupTaskParams.createNewTask(
