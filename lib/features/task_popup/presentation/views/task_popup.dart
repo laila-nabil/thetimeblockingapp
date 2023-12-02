@@ -242,7 +242,6 @@ class TaskPopup extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
                   contentPadding: const EdgeInsets.all(radius),
                   actions: [
-                    ///TODO V1 pop and push add are you sure alert dialog
                     if(task!=null)IconButton(
                         icon: Icon(
                           Icons.delete,
@@ -250,11 +249,35 @@ class TaskPopup extends StatelessWidget {
                         ),
                         onPressed: taskPopupParams.onDelete == null
                             ? null
-                            : () => taskPopupParams.onDelete!(
-                          DeleteClickupTaskParams(
-                              task: taskPopupParams.task!,
-                              clickupAccessToken: Globals
-                                  .clickupAuthAccessToken)),
+                            : () {
+                          Navigator.pop(context);
+                              showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return CustomAlertDialog(
+                                loading: false,
+                                actions: [
+                                  CustomButton(
+                                      child: Text(appLocalization.translate("delete")),
+                                      onPressed: () {
+                                        taskPopupParams.onDelete!(
+                                            DeleteClickupTaskParams(
+                                                task: taskPopupParams.task!,
+                                                clickupAccessToken: Globals
+                                                    .clickupAuthAccessToken));
+                                        Navigator.pop(ctx);
+                                      }),
+                                  CustomButton(
+                                      child: Text(appLocalization.translate("cancel")),
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      }),
+                                ],
+                                content: Text(
+                                    "${appLocalization.translate("areYouSureDelete")} ${taskPopupParams.task?.name}?"),
+                              );
+                            });
+                            },
                     ),
                     CustomButton(
                         onPressed: () => Navigator.maybePop(context),
