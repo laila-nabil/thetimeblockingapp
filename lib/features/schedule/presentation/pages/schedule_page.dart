@@ -95,6 +95,9 @@ class SchedulePage extends StatelessWidget {
                               .contains(ScheduleStateEnum.loading) ||
                           startUpCurrentState.isLoading),
                   pageActions: [
+                    ///TODO V2 select multiple tasks to perform bulk actions
+                    ///TODO V2 bulk move tasks to another list
+                    ///TODO V2 bulk delete tasks
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Lists").toLowerCase()),
@@ -109,10 +112,12 @@ class SchedulePage extends StatelessWidget {
                         ///TODO V2 filter by tags
                       },
                     ),
+                    ///TODO V3 auto Schedule
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("autoSchedule")),
-                      onTap: () {},
+                      onTap: () { },
                     ),
+                    ///TODO V2 show completed tasks
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},

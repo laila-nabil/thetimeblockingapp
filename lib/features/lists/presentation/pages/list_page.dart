@@ -41,6 +41,10 @@ class ListPage extends StatelessWidget {
                         clickupAccessToken: Globals.clickupAuthAccessToken)));
           }
           return ResponsiveScaffold(
+              ///TODO V2 select multiple tasks to perform bulk actions
+              ///TODO V2 bulk move tasks to another list
+              ///TODO V2 bulk delete tasks
+              // pageActions: null,
               floatingActionButton: AddItemFloatingActionButton(
                 onPressed: () {
                   showTaskPopup(
