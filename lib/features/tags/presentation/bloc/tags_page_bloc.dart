@@ -70,7 +70,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 tagsPageStatus: TagsPageStatus.getTasksForTagSuccess,
                 currentTagTasksResult: r)));
       } else if (event is CreateClickupTagInSpaceEvent) {
-        ///TODO V1 tag name can not end with question mark otherwise will not edit or delete
         if (event.tryEvent == true) {
           emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.createTagTry,));
@@ -94,7 +93,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           });
         }
       } else if (event is UpdateClickupTagEvent) {
-        ///TODO V1 tag name can not end with question mark otherwise will not edit or delete
         if(event.tryEvent == true){
           emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.updateTagTry,

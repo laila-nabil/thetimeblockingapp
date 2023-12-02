@@ -42,5 +42,6 @@
   "edit": "تعديل",
   "Overdue": "متأخر",
   "Upcoming": "قادم",
-  "Unscheduled": "غير مجدول"
+  "Unscheduled": "غير مجدول",
+  "tagCannotContainQuestionMark": "لا يمكن ان تنتهي علامة ب ؟"
 }
