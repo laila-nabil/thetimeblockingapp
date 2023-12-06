@@ -18,6 +18,7 @@ import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
+///TODO V1.5 full page in mobile?
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {

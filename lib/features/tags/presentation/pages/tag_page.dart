@@ -15,7 +15,6 @@ import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
 
-///TODO V1 have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
 class TagPage extends StatelessWidget {
   const TagPage({super.key, required this.tagName, required this.tagsPageBloc});

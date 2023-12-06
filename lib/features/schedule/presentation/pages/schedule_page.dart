@@ -14,6 +14,7 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
+///TODO V1.5 in web, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key, this.waitForStartGetTasks = false}) : super(key: key);

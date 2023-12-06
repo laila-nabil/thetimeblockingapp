@@ -39,7 +39,7 @@ class TasksCalendar extends StatelessWidget {
       // monthViewSettings: const MonthViewSettings(
       //   showAgenda: true,
       // ),
-      ///TODO V2 enable allowDragAndDrop
+      ///TODO V1.5 enable allowDragAndDrop
       allowDragAndDrop: false,
       allowAppointmentResize: false,
       allowViewNavigation: true,
@@ -48,7 +48,7 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO V1 appointmentBuilder TaskCalendarWidget that takes UI colors from list & status
+      ///TODO V1 use TaskCalendarWidget that takes UI colors from list & status
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
@@ -57,20 +57,20 @@ class TasksCalendar extends StatelessWidget {
       onTap: onTapCalendarElement,
       onLongPress: onTapCalendarElement,
       onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO V2 onAppointmentResizeEnd
+        ///TODO V1.5 onAppointmentResizeEnd
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO V2 TimeSlotViewSettings
+        ///TODO V1.5 TimeSlotViewSettings
       ),
       onDragEnd: (appointmentDragEndDetails){
-        ///TODO V2 onDragEnd
+        ///TODO V1.5 onDragEnd
       },
       onDragStart: (appointmentDragEndDetails){
-        ///TODO V2 onDragStart
+        ///TODO V1.5 onDragStart
       },
       onDragUpdate: (appointmentDragEndDetails){
-        ///TODO V2 onDragUpdate
+        ///TODO V1.5 onDragUpdate
       },
       onViewChanged: (viewChangedDetails){
 

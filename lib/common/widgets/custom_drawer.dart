@@ -119,6 +119,7 @@ class CustomDrawer extends StatelessWidget {
                       GoRouter.of(context)
                           .location
                           .contains(TagPage.routeName)),
+              ///TODO V3 maps and location
               if(false)_DrawerItem(
                   title: localizationImpl.translate("Maps"),
                   iconPath: Icons.map_outlined,

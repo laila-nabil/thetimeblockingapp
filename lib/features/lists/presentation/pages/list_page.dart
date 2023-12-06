@@ -12,7 +12,6 @@ import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/localization/localization.dart';
 import '../bloc/lists_page_bloc.dart';
 
-///TODO V1 have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
 class ListPage extends StatelessWidget {
   const ListPage(
