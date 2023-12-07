@@ -41,12 +41,8 @@ class TaskPopUpState extends Equatable {
     }
   }
 
-  bool get isPrioritiesEnabled => taskParams?.clickupSpace?.features
-      ?.priorities?.enabled ==
-      true &&
-      taskParams?.clickupSpace?.features
-          ?.priorities?.priorities?.isNotEmpty ==
-          true;
+  bool get isPrioritiesEnabled =>
+      taskParams?.clickupSpace?.isPrioritiesEnabled ?? false;
 
   bool get isFoldersListAvailable => taskParams?.clickupSpace?.folders
       .isNotEmpty ==

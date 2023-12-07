@@ -114,11 +114,13 @@ class SchedulePage extends StatelessWidget {
                       },
                     ),
                     ///TODO V3 auto Schedule
+                    // ignore: dead_code
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("autoSchedule")),
                       onTap: () { },
                     ),
                     ///TODO V2 show completed tasks
+                    // ignore: dead_code
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},

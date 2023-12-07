@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_input_field.dart';
@@ -13,6 +14,7 @@ import '../../../../core/print_debug.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 
 
@@ -161,109 +163,19 @@ class TagPage extends StatelessWidget {
                         if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Text(appLocalization.translate("Overdue")),
                         if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Column(
                           children: state.getCurrentTagTasksResultOverdue
-                              .map((e) => ListTile(
-                            title: Text(e.name ?? ""),
-                            onTap: () {
-                              showTaskPopup(
-                                  context: context,
-                                  taskPopupParams:
-                                  TaskPopupParams.open(
-                                      task: e,
-                                      bloc: tagsPageBloc,
-                                      onDelete: (params) {
-                                        tagsPageBloc.add(
-                                            DeleteClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      onSave: (params) {
-                                        tagsPageBloc.add(
-                                            UpdateClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      isLoading: (state) =>
-                                      state is! TagsPageState
-                                          ? false
-                                          : state.isLoading));
-                            },
-                          ))
+                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
                               .toList(),
                         ),
                         if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Text(appLocalization.translate("Upcoming")),
                         if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Column(
                           children: state.getCurrentTagTasksResultUpcoming
-                              .map((e) => ListTile(
-                            title: Text(e.name ?? ""),
-                            onTap: () {
-                              showTaskPopup(
-                                  context: context,
-                                  taskPopupParams:
-                                  TaskPopupParams.open(
-                                      task: e,
-                                      bloc: tagsPageBloc,
-                                      onDelete: (params) {
-                                        tagsPageBloc.add(
-                                            DeleteClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      onSave: (params) {
-                                        tagsPageBloc.add(
-                                            UpdateClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      isLoading: (state) =>
-                                      state is! TagsPageState
-                                          ? false
-                                          : state.isLoading));
-                            },
-                          ))
+                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
                               .toList(),
                         ),
                         if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Text(appLocalization.translate("Unscheduled")),
                         if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Column(
                           children: state.getCurrentTagTasksResultUnscheduled
-                              .map((e) => ListTile(
-                            title: Text(e.name ?? ""),
-                            onTap: () {
-                              showTaskPopup(
-                                  context: context,
-                                  taskPopupParams:
-                                  TaskPopupParams.open(
-                                      task: e,
-                                      bloc: tagsPageBloc,
-                                      onDelete: (params) {
-                                        tagsPageBloc.add(
-                                            DeleteClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      onSave: (params) {
-                                        tagsPageBloc.add(
-                                            UpdateClickupTaskEvent(
-                                                params: params,
-                                                workspace: Globals
-                                                    .selectedWorkspace!));
-                                        Navigator.maybePop(context);
-                                      },
-                                      isLoading: (state) =>
-                                      state is! TagsPageState
-                                          ? false
-                                          : state.isLoading));
-                            },
-                          ))
+                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
                               .toList(),
                         ),
                       ],
@@ -275,6 +187,25 @@ class TagPage extends StatelessWidget {
               context: context);
         },
       ),
+    );
+  }
+
+  StatelessWidget buildTaskWidget(
+      ClickupTask e, BuildContext context, TagsPageBloc tagsPageBloc) {
+    return TaskWidget(
+      clickupTask: e,
+      bloc: tagsPageBloc,
+      isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
+      onDelete: (params) {
+        tagsPageBloc.add(DeleteClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
+      },
+      onSave: (params) {
+        tagsPageBloc.add(UpdateClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
+      },
     );
   }
 }

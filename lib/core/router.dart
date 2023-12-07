@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
-import 'package:thetimeblockingapp/core/mock_web_packages/mock_dart_js.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';

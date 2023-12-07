@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -128,30 +129,22 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  ListTile buildTaskWidget(
-      ClickupTask e, BuildContext context, AllTasksBloc allTasksBloc) {
-    return ListTile(
-      title: Text(e.name ?? ""),
-      onTap: () {
-        showTaskPopup(
-            context: context,
-            taskPopupParams: TaskPopupParams.open(
-                task: e,
-                bloc: allTasksBloc,
-                onDelete: (params) {
-                  allTasksBloc.add(DeleteClickupTaskEvent(
-                      params: params, workspace: Globals.selectedWorkspace!));
-                  Navigator.maybePop(context);
-                },
-                onSave: (params) {
-                  allTasksBloc.add(UpdateClickupTaskEvent(
-                      params: params, workspace: Globals.selectedWorkspace!));
-                  Navigator.maybePop(context);
-                },
-                isLoading: (state) =>
-                    state is! AllTasksState ? false : state.isLoading));
+  StatelessWidget buildTaskWidget(ClickupTask e, BuildContext context,
+      AllTasksBloc allTasksBloc) {
+    return TaskWidget(
+      clickupTask: e,
+      bloc: allTasksBloc,
+      onDelete: (params) {
+        allTasksBloc.add(DeleteClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
       },
-    );
+      onSave: (params) {
+        allTasksBloc.add(UpdateClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
+      },
+      isLoading: (state) => state is! AllTasksState ? false : state.isLoading,);
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
