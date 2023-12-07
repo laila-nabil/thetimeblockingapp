@@ -556,7 +556,7 @@ class TaskPopup extends StatelessWidget {
 
                           Wrap(
                             children: [
-                              ///TODO V1 is all day checkbox
+                              ///TODO V2 is all day checkbox
                               ///isAllDay
                               Checkbox(
                                   value: taskPopupParams.isAllDay,
