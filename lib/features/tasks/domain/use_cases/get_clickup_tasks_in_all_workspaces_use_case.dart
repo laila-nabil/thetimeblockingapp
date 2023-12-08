@@ -4,6 +4,8 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'get_clickup_tasks_in_single_workspace_use_case.dart';
 
+///TODO V1 by default get completed tasks
+
 class GetClickupTasksInAllWorkspacesUseCase {
   final GetClickupTasksInSingleWorkspaceUseCase getClickupTasksInSingleWorkspaceUseCase;
   GetClickupTasksInAllWorkspacesUseCase(this.getClickupTasksInSingleWorkspaceUseCase);

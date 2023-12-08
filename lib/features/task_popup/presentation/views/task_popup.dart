@@ -20,6 +20,8 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 ///TODO V1.5 full page in mobile?
 
+///TODO V2 smart auto complete like Notion's \ to select a list,tags,due date and start date
+
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   ClickupTask? task;
