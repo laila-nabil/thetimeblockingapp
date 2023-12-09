@@ -44,7 +44,10 @@ class ClickupUser extends Equatable {
       username: username,
       profilePicture: profilePicture);
 
-  tz.TimeZone get getTimezone  {
+  tz.TimeZone? get getTimezone  {
+    if(timezone?.isNotEmpty == false){
+      return null;
+    }
     final location = tz.getLocation(timezone??"");
     printDebug("location from time zone $location");
     final currentTimeZone = location.currentTimeZone;
