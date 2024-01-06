@@ -20,7 +20,9 @@ import '../../../tasks/domain/entities/task_parameters.dart';
 
 ///TODO V1.5 full page in mobile?
 
-///TODO V2 smart auto complete like Notion's \ to select a list,tags,due date and start date
+///TODO V2 smart auto complete like Notion's / to select a list,tags,due date and start date
+///TODO V1 once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
+///TODO V1.5 duration input with time
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {

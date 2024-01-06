@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-///TODO V2 settings page
-///TODO V2 siri shortcuts functionality
-///TODO V2 add email
-///TODO V1.5 change language
+///TODO V1 settings page
+///TODO V2 add task from siri shortcuts functionality
+///TODO V2 add task from email
+///TODO V1.5 change language (arabic, german)
+///TODO V1.5 navigate to about me page with github and twitter links and why app created
 ///TODO V1 changing workspace and space here and remove from drawer
 ///TODO V1 sign out
 
