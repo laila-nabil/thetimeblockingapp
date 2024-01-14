@@ -28,7 +28,7 @@ List<ClickupSpace>? _clickupSpaces;
 class Globals {
   static String get appName => _appName;
 
-  static String get clickupUrl => _clickupUrl;
+  static String get clickupUrl => "https://corsproxy.io/?$_clickupUrl";
 
   static String clickupClientId = "";
 
