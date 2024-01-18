@@ -14,6 +14,9 @@ class GetClickupAccessTokenUseCase
   @override
   Future<Either<Failure, ClickupAccessToken>?> call(
       GetClickupAccessTokenParams params) {
+    // if(params.code.isEmpty){
+    //   return Future.value(const Left(UnknownFailure(message: "an error happened")));
+    // }
     return repo.getClickupAccessToken(params: params);
   }
 }

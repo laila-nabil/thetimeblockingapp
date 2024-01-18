@@ -18,11 +18,11 @@ import '../bloc/auth_bloc.dart';
 import '../widgets/auth_page_webview.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key}) : super(key: key);
+  const AuthPage({Key? key, this.code}) : super(key: key);
 
   static const routeName = "/Auth";
 
-
+  final String? code;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -40,6 +40,8 @@ class AuthPage extends StatelessWidget {
 
           ///in case saved locally
           authBloc.add(const GetClickupAccessToken(""));
+        }else if (code?.isNotEmpty == true) {
+          authBloc.add(GetClickupAccessToken(code??""));
         }
         return ResponsiveScaffold(
           hideAppBarDrawer: true,
@@ -96,7 +98,7 @@ class ExplainClickupAuth extends StatelessWidget {
                     launchWithURL(
                         url:
                             url);
-                    if (kDebugMode) {
+                    if (true) {
                       authBloc.add(const ShowCodeInputTextField(true));
                     }
                   } else if (Platform.isAndroid || Platform.isIOS) {
@@ -112,7 +114,7 @@ class ExplainClickupAuth extends StatelessWidget {
                   }
                 }),
             Text(appLocalization.translate("agreeTermsConditions")),
-            if (kDebugMode)
+            if (true)
               Row(
                 children: [
                   Expanded(

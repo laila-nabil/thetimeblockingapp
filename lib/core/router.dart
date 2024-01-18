@@ -36,9 +36,15 @@ final router = GoRouter(
           context: context);
     },
     redirect: (context, GoRouterState? state) {
+      printDebug("state?.location ${state?.location}");
+      printDebug("state?.queryParameters ${state?.queryParameters}");
+      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupAuthAccessToken}");
+      printDebug("Globals.clickupUser ${Globals.clickupUser}");
+      printDebug("Globals.clickupWorkspaces ${Globals.clickupWorkspaces}");
+      printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.queryParameters != null &&
           state?.queryParameters["code"] != null) {
-        ///TODO V1 when deploying
+        return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
       } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
@@ -53,7 +59,15 @@ final router = GoRouter(
     routes: [
       GoRoute(
           path: AuthPage.routeName,
-          builder: (context, state) => const AuthPage(),
+          builder: (context, state) {
+            String? code;
+            if (state.queryParameters.isNotEmpty &&
+                state.queryParameters.containsKey("code") &&
+                state.queryParameters["code"]?.isNotEmpty == true) {
+              code = state.queryParameters["code"];
+            }
+            return AuthPage(code: code,);
+          },
           redirect: (context, state) async {
             if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
                 Globals.clickupUser != null &&
