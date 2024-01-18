@@ -40,7 +40,7 @@ class AuthPage extends StatelessWidget {
 
           ///in case saved locally
           authBloc.add(const GetClickupAccessToken(""));
-        }else if (code?.isNotEmpty == true) {
+        }else if (code?.isNotEmpty == true && state.isLoading == false) {
           authBloc.add(GetClickupAccessToken(code??""));
         }
         return ResponsiveScaffold(
