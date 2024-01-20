@@ -41,12 +41,8 @@ class TaskPopUpState extends Equatable {
     }
   }
 
-  bool get isPrioritiesEnabled => taskParams?.clickupSpace?.features
-      ?.priorities?.enabled ==
-      true &&
-      taskParams?.clickupSpace?.features
-          ?.priorities?.priorities?.isNotEmpty ==
-          true;
+  bool get isPrioritiesEnabled =>
+      taskParams?.clickupSpace?.isPrioritiesEnabled ?? false;
 
   bool get isFoldersListAvailable => taskParams?.clickupSpace?.folders
       .isNotEmpty ==
@@ -82,6 +78,12 @@ class TaskPopUpState extends Equatable {
         updatedParentTask: taskParams?.parentTask == task.list
             ? null
             : taskParams?.parentTask,
+        folder: taskParams?.folder == task.folder
+            ? null
+            : taskParams?.folder,
+        list: taskParams?.clickupList == task.list
+            ? null
+            : taskParams?.clickupList,
       );
     } else {
       params = taskParams ?? ClickupTaskParams.createNewTask(

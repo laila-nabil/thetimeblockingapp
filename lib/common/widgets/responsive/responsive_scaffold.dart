@@ -85,6 +85,7 @@ class ResponsiveScaffold extends Scaffold {
         builder: (context, state) {
           if (state.drawerLargerScreenOpen) {
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const CustomDrawer(),
                 Expanded(

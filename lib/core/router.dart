@@ -38,12 +38,22 @@ final router = GoRouter(
           context: context);
     },
     redirect: (context, GoRouterState? state) {
+      printDebug("state?.location ${state?.location}");
+      printDebug("state?.queryParameters ${state?.queryParameters}");
+      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupAuthAccessToken}");
+      printDebug("Globals.clickupUser ${Globals.clickupUser}");
+      printDebug("Globals.clickupWorkspaces ${Globals.clickupWorkspaces}");
+      printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.queryParameters != null &&
-          state?.queryParameters["Code"] != null) {
-        ///TODO B when deploying
+          state?.queryParameters["code"] != null) {
+        return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
       } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
+        if(state?.location != AuthPage.routeName){
+          printDebug("state in redirect before authpage name:${state?.name},location:${state?.location},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.queryParametersAll},queryParameters:${state?.queryParameters}");
+          Globals.redirectAfterAuthRouteName = state?.location??"";
+        }
         return AuthPage.routeName;
       }
       return null;
@@ -51,7 +61,15 @@ final router = GoRouter(
     routes: [
       GoRoute(
           path: AuthPage.routeName,
-          builder: (context, state) => const AuthPage(),
+          builder: (context, state) {
+            String? code;
+            if (state.queryParameters.isNotEmpty &&
+                state.queryParameters.containsKey("code") &&
+                state.queryParameters["code"]?.isNotEmpty == true) {
+              code = state.queryParameters["code"];
+            }
+            return AuthPage(code: code,);
+          },
           redirect: (context, state) async {
             if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
                 Globals.clickupUser != null &&
@@ -62,7 +80,27 @@ final router = GoRouter(
           }),
       GoRoute(
         path: SchedulePage.routeName,
-        builder: (context, state) => const SchedulePage(),
+        builder: (context, state) {
+          bool? waitForStartGetTasks;
+          if(state.extra is bool){
+            waitForStartGetTasks = state.extra as bool;
+          }
+          return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
+        },
+        redirect: (context,state) async{
+          final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
+              Globals.clickupUser != null &&
+              Globals.clickupWorkspaces?.isNotEmpty == true;
+          if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){
+            String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;
+
+            Globals.redirectAfterAuthRouteName = "";
+
+            return redirectAfterAuthRouteName;
+
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: AllTasksPage.routeName,
@@ -85,6 +123,12 @@ final router = GoRouter(
         builder: (context, state) => ListPage(
             listId: state.queryParameters[ListPage.queryParametersList.first]
                 as String,listsPageBloc: state.extra as ListsPageBloc),
+        redirect: (context,state){
+          if(state.extra == null){
+            return ListsPage.routeName;
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: MapsPage.routeName,
@@ -111,6 +155,12 @@ final router = GoRouter(
         builder: (context, state) => TagPage(
             tagName: state.queryParameters[TagPage.queryParametersList.first]
             as String,tagsPageBloc: state.extra as TagsPageBloc),
+        redirect: (context,state){
+          if(state.extra == null){
+            return TagsPage.routeName;
+          }
+          return null;
+        }
       ),
       GoRoute(
         path: TrashPage.routeName,

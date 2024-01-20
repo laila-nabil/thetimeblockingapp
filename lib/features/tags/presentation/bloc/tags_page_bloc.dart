@@ -171,7 +171,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
           add(GetClickupTasksForTagEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              space: event.params.task!.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });

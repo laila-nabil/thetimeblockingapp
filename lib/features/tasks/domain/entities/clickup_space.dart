@@ -53,6 +53,12 @@ class ClickupSpace extends Equatable {
   List<ClickupList> lists;
   List<ClickupTag> tags;
 
+  bool get isPrioritiesEnabled => features
+      ?.priorities?.enabled ==
+      true && features
+          ?.priorities?.priorities?.isNotEmpty ==
+          true;
+
   @override
   List<Object?> get props => [id,
     name,

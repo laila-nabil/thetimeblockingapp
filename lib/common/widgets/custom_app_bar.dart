@@ -83,8 +83,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       [],
                   hint: Text(appLocalization.translate("spaces")),
                 ),
-              IconButton(onPressed: () {
-                ///TODO search
+              ///TODO V2 search tasks,tags, lists and folders
+              // ignore: dead_code
+              if(false)IconButton(onPressed: () {
+                ///TODO V2 search
               }, icon: const Icon(Icons.search)),
               if (pageActions?.isNotEmpty == true)
                 PopupMenuButton(itemBuilder: (context) {

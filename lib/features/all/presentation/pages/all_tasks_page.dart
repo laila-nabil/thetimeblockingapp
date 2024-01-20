@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -13,9 +14,6 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/clickup_space.dart';
 
-///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
-
-///TODO have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
 class AllTasksPage extends StatelessWidget {
   const AllTasksPage({super.key});
@@ -131,30 +129,22 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  ListTile buildTaskWidget(
-      ClickupTask e, BuildContext context, AllTasksBloc allTasksBloc) {
-    return ListTile(
-      title: Text(e.name ?? ""),
-      onTap: () {
-        showTaskPopup(
-            context: context,
-            taskPopupParams: TaskPopupParams.open(
-                task: e,
-                bloc: allTasksBloc,
-                onDelete: (params) {
-                  allTasksBloc.add(DeleteClickupTaskEvent(
-                      params: params, workspace: Globals.selectedWorkspace!));
-                  Navigator.maybePop(context);
-                },
-                onSave: (params) {
-                  allTasksBloc.add(UpdateClickupTaskEvent(
-                      params: params, workspace: Globals.selectedWorkspace!));
-                  Navigator.maybePop(context);
-                },
-                isLoading: (state) =>
-                    state is! AllTasksState ? false : state.isLoading));
+  StatelessWidget buildTaskWidget(ClickupTask e, BuildContext context,
+      AllTasksBloc allTasksBloc) {
+    return TaskWidget(
+      clickupTask: e,
+      bloc: allTasksBloc,
+      onDelete: (params) {
+        allTasksBloc.add(DeleteClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
       },
-    );
+      onSave: (params) {
+        allTasksBloc.add(UpdateClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+        Navigator.maybePop(context);
+      },
+      isLoading: (state) => state is! AllTasksState ? false : state.isLoading,);
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {

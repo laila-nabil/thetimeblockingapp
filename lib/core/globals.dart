@@ -6,7 +6,7 @@ import '../features/auth/domain/entities/clickup_access_token.dart';
 
 String _appName = "Time blocking app";
 
-String _clickupUrl = 'https://api.clickup.com/api/v2';
+String _clickupUrl = 'https://timeblockingapp.cyclic.app/clickup';
 
 ClickupAccessToken _clickupAuthAccessToken =
     const ClickupAccessToken(accessToken: "", tokenType: "");
@@ -61,6 +61,8 @@ class Globals {
       _clickupWorkspaces?.firstOrNull;
 
   static ClickupSpace? get defaultSpace => _clickupSpaces?.firstOrNull;
+
+  static String redirectAfterAuthRouteName = "";
 }
 
 ///just to make it harder to write global variable

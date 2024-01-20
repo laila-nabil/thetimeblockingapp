@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -13,12 +14,12 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
-///FIXME in case of navigating to any page then to schedule,no tasks in it
+///TODO V1.5 in web, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
-  const SchedulePage({Key? key}) : super(key: key);
+  const SchedulePage({Key? key, this.waitForStartGetTasks = false}) : super(key: key);
   static const routeName = "/Schedule";
-
+  final bool waitForStartGetTasks;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,16 +44,21 @@ class SchedulePage extends StatelessWidget {
                           StartupStateEnum.getAllInSpaceFailed ||
                       startUpCurrentState.startupStateEnum ==
                           StartupStateEnum.getAllInSpaceSuccess) &&
-                  startUpCurrentState.startGetTasks != false) {
+                  state.startGetTasks(
+                      startGetTasks: startUpCurrentState.startGetTasks,
+                      waitForStartGetTasks: waitForStartGetTasks)) {
                 startupBloc.add(const StartGetTasksEvent(startGetTasks: false));
               }
             },
             builder: (context, state) {
+              printDebug("ScheduleBloc state $state");
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if ((Globals.isSpaceAppWide == false && state.isInitial) ||
                   (Globals.isSpaceAppWide == true &&
-                      startUpCurrentState.startGetTasks == true) ||
+                      state.startGetTasks(
+                          startGetTasks: startUpCurrentState.startGetTasks,
+                          waitForStartGetTasks: waitForStartGetTasks)) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
@@ -90,24 +96,31 @@ class SchedulePage extends StatelessWidget {
                               .contains(ScheduleStateEnum.loading) ||
                           startUpCurrentState.isLoading),
                   pageActions: [
+                    ///TODO V2 select multiple tasks to perform bulk actions
+                    ///TODO V2 bulk move tasks to another list
+                    ///TODO V2 bulk delete tasks
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Lists").toLowerCase()),
                       onTap: () {
-                        ///TODO filter by lists
+                        ///TODO V2 filter by lists
                       },
                     ),
                     PopupMenuItem(
                       child: Text(appLocalization.translate("filterBy") +
                           appLocalization.translate("Tags").toLowerCase()),
                       onTap: () {
-                        ///TODO filter by tags
+                        ///TODO V2 filter by tags
                       },
                     ),
+                    ///TODO V3 auto Schedule
+                    // ignore: dead_code
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("autoSchedule")),
-                      onTap: () {},
+                      onTap: () { },
                     ),
+                    ///TODO V2 show completed tasks
+                    // ignore: dead_code
                     if(false)PopupMenuItem(
                       child: Text(appLocalization.translate("showCompleted")),
                       onTap: () {},

@@ -13,9 +13,17 @@ class CreateClickupTagInSpaceUseCase
 
   CreateClickupTagInSpaceUseCase(this.repo);
 
+  static bool readyToSubmit(ClickupTag tag) =>
+      tag.name?.isNotEmpty == true &&
+          tag.name?.endsWith("?") == false &&
+          tag.name?.endsWith("؟") == false;
+
   @override
-  Future<Either<Failure, Unit>?> call(CreateClickupTagInSpaceParams params) {
-    return repo.createClickupTagInSpace(params);
+  Future<Either<Failure, Unit>?> call(CreateClickupTagInSpaceParams params) async{
+    if(readyToSubmit(params.newTag) == false){
+      return const Left(InputFailure(message: "must not contain ? at the end"));
+    }
+    return await repo.createClickupTagInSpace(params);
   }
 }
 

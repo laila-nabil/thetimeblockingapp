@@ -21,7 +21,6 @@ import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
 
-///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
 
 class TagsPage extends StatelessWidget {
   const TagsPage({super.key});

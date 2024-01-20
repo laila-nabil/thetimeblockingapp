@@ -6,16 +6,26 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
+import '../entities/clickup_task.dart';
+
 class UpdateClickupTagUseCase
     implements UseCase<Unit, UpdateClickupTagParams> {
 
   final TasksRepo repo;
 
+  static bool readyToSubmit(ClickupTag tag) =>
+      tag.name?.isNotEmpty == true &&
+          tag.name?.endsWith("?") == false &&
+          tag.name?.endsWith("؟") == false;
+
   UpdateClickupTagUseCase(this.repo);
   @override
   Future<Either<Failure, Unit>?> call(
-      UpdateClickupTagParams params) {
-    return repo.updateClickupTag(params);
+      UpdateClickupTagParams params) async{
+    if(readyToSubmit(params.newTag) == false){
+      return const Left(InputFailure(message: "must not contain ? at the end"));
+    }
+    return await repo.updateClickupTag(params);
   }
 }
 

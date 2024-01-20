@@ -34,6 +34,9 @@ class CacheFailure extends Failure {
 class LocationFailure extends Failure {
   const LocationFailure({required String message}) : super(message: message);
 }
+class InputFailure extends Failure {
+  const InputFailure({required String message}) : super(message: message);
+}
 
 class FailuresList extends Failure {
   FailuresList({required List<Failure> failures})

@@ -11,7 +11,6 @@ import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.
 import 'package:thetimeblockingapp/features/maps/presentation/pages/maps_page.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/pages/schedule_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/pages/settings_page.dart';
-import 'package:thetimeblockingapp/features/all/presentation/pages/someday_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
@@ -20,6 +19,9 @@ import '../../core/globals.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../../features/tasks/domain/entities/clickup_space.dart';
 import '../entities/clickup_workspace.dart';
+
+///TODO V1.5 in web,folders and list from here
+
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -119,6 +121,7 @@ class CustomDrawer extends StatelessWidget {
                       GoRouter.of(context)
                           .location
                           .contains(TagPage.routeName)),
+              // ignore: dead_code
               if(false)_DrawerItem(
                   title: localizationImpl.translate("Maps"),
                   iconPath: Icons.map_outlined,
@@ -129,7 +132,8 @@ class CustomDrawer extends StatelessWidget {
                       .location
                       .contains(MapsPage.routeName)),
               const Divider(),
-              _DrawerItem(
+              // ignore: dead_code
+              if(false)_DrawerItem(
                   title: localizationImpl.translate("Archive"),
                   iconPath: Icons.archive_outlined,
                   onPressed: () {
@@ -138,6 +142,7 @@ class CustomDrawer extends StatelessWidget {
                   isSelected: GoRouter.of(context)
                       .location
                       .contains(ArchivePage.routeName)),
+              // ignore: dead_code
               if(false)_DrawerItem(
                   title: localizationImpl.translate("Trash"),
                   iconPath: Icons.delete,
@@ -147,6 +152,7 @@ class CustomDrawer extends StatelessWidget {
                   isSelected: GoRouter.of(context)
                       .location
                       .contains(TrashPage.routeName)),
+              // ignore: dead_code
               if(false)_DrawerItem(
                   title: localizationImpl.translate("Help"),
                   iconPath: Icons.help,

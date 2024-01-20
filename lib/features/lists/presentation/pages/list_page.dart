@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -12,9 +13,6 @@ import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/localization/localization.dart';
 import '../bloc/lists_page_bloc.dart';
 
-///FIXME in drawerLargerScreenOpen mode error: Expected a value of type 'Widget', but got one of type 'Null'
-
-///TODO have task widget & with details about status,priority,list,tags,due date ,start date viewed
 
 class ListPage extends StatelessWidget {
   const ListPage(
@@ -43,6 +41,10 @@ class ListPage extends StatelessWidget {
                         clickupAccessToken: Globals.clickupAuthAccessToken)));
           }
           return ResponsiveScaffold(
+              ///TODO V2 select multiple tasks to perform bulk actions
+              ///TODO V2 bulk move tasks to another list
+              ///TODO V2 bulk delete tasks
+              // pageActions: null,
               floatingActionButton: AddItemFloatingActionButton(
                 onPressed: () {
                   showTaskPopup(
@@ -109,26 +111,19 @@ class ListPage extends StatelessWidget {
     );
   }
 
-  ListTile buildTaskWidget(
+  StatelessWidget buildTaskWidget(
       ClickupTask e, BuildContext context, ListsPageBloc listsPageBloc) {
-    return ListTile(
-      title: Text(e.name ?? ""),
-      onTap: () {
-        showTaskPopup(
-            context: context,
-            taskPopupParams: TaskPopupParams.open(
-                task: e,
-                bloc: listsPageBloc,
-                onDelete: (params) {
-                  listsPageBloc.add(DeleteClickupTaskEvent(params: params));
-                  Navigator.maybePop(context);
-                },
-                onSave: (params) {
-                  listsPageBloc.add(UpdateClickupTaskEvent(params: params));
-                  Navigator.maybePop(context);
-                },
-                isLoading: (state) =>
-                    state is! ListsPageState ? false : state.isLoading));
+    return TaskWidget(
+      clickupTask: e,
+      bloc: listsPageBloc,
+      isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
+      onDelete: (params) {
+        listsPageBloc.add(DeleteClickupTaskEvent(params: params));
+        Navigator.maybePop(context);
+      },
+      onSave: (params) {
+        listsPageBloc.add(UpdateClickupTaskEvent(params: params));
+        Navigator.maybePop(context);
       },
     );
   }

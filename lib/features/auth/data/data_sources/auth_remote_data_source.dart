@@ -11,8 +11,8 @@ abstract class AuthRemoteDataSource {
   Future<ClickupAccessTokenModel> getClickupAccessToken(
       {required GetClickupAccessTokenParams params});
 
-  Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params});
-
+  Future<ClickupUserModel> getClickupUser(
+      {required GetClickupUserParams params});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -32,8 +32,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ClickupAccessTokenModel> getClickupAccessToken(
       {required GetClickupAccessTokenParams params}) async {
     final result = await network.post(
-        uri:
-        Uri.parse("$clickupUrl/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=${params.code}"));
+        uri: Uri.parse(
+            "https://corsproxy.io/?https://api.clickup.com/api/v2/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=${params.code}"));
     return ClickupAccessTokenModel.fromJson(json.decode(result.body));
   }
 

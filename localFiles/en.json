@@ -42,5 +42,6 @@
   "edit": "Edit",
   "Overdue": "Overdue",
   "Upcoming": "Upcoming",
-  "Unscheduled": "Unscheduled"
+  "Unscheduled": "Unscheduled",
+  "tagCannotContainQuestionMark": "Tag must not contain ? at the end"
 }
