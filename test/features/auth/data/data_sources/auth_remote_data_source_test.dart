@@ -35,7 +35,7 @@ void main() {
     group('getClickupAccessToken tests', () {
       test('getClickupAccessToken test', () async {
         const jsonString =
-            """{\"access_token\":\"55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152\",\"token_type\":\"Bearer\"} """;
+            """{"access_token":"55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152","token_type":"Bearer"} """;
         const model = ClickupAccessTokenModel(
             accessToken:
                 "55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152",
