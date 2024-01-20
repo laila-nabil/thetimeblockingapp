@@ -1,5 +1,7 @@
 // Widgetbook file: widgetbook.dart
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 void main() {
@@ -30,8 +32,12 @@ class HotReload extends StatelessWidget {
         ),
         LocalizationAddon(
           locales: [
-            const Locale('en',),
-            const Locale('ar',),
+            const Locale(
+              'en',
+            ),
+            const Locale(
+              'ar',
+            ),
           ],
           localizationsDelegates: [
             DefaultWidgetsLocalizations.delegate,
@@ -48,27 +54,111 @@ class HotReload extends StatelessWidget {
       ],
       directories: [
         WidgetbookComponent(
-          name: 'CustomCard',
+          name: 'Colors',
           useCases: [
             WidgetbookUseCase(
-              name: 'Default Style',
-              builder: (context) => const CustomCard(
-                child: Text('This is a custom card'),
-              ),
-            ),
-            WidgetbookUseCase(
-              name: 'With Custom Background Color',
-              builder: (context) => CustomCard(
-                backgroundColor: Colors.green.shade100,
-                child: const Text(
-                  'This is a custom card with a custom background color',
-                ),
-              ),
-            ),
+                name: 'Colors Swatches',
+                builder: (context) {
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        colorSwatches(AppColors.secondary),
+                        colorSwatches(AppColors.success),
+                        colorSwatches(AppColors.error),
+                        colorSwatches(AppColors.warning),
+                        colorSwatches(AppColors.grey),
+                        colorSwatches(AppColors.brown),
+                        colorSwatches(AppColors.paletteYellow),
+                        colorSwatches(AppColors.paletteGreen),
+                        colorSwatches(AppColors.palettePurple),
+                        colorSwatches(AppColors.paletteBlue),
+                        colorSwatches(AppColors.palettePink),
+                      ],
+                    ),
+                  );
+                }),
           ],
         ),
       ],
     );
+  }
+
+  Wrap colorSwatches(MaterialColor secondary) {
+    return Wrap(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade50,
+                        child: Text(secondary.shade50.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade100,
+                        child: Text(secondary.shade100.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade200,
+                        child: Text(secondary.shade200.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade300,
+                        child: Text(secondary.shade300.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade400,
+                        child: Text(secondary.shade400.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade500,
+                        child: Text(secondary.shade50.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade600,
+                        child: Text(secondary.shade600.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade700,
+                        child: Text(secondary.shade700.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade800,
+                        child: Text(secondary.shade800.toHex().toString()),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        color: secondary.shade900,
+                        child: Text(secondary.shade900.toHex().toString()),
+                      ),
+                    ],
+                  );
   }
 }
 
