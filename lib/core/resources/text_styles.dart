@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AppTextStyleCore {
+enum AppFontWeight{
+  regular(FontWeight.normal),
+  medium(FontWeight.w500),
+  semiBold(FontWeight.w600),
+  bold(FontWeight.w700);
+
+  const AppFontWeight(this.value);
+  final FontWeight value;
+}
+
+class AppTextStyle {
   TextStyle titleTextStyle(Color textColor) {
     return TextStyle(
       fontSize: (24),
