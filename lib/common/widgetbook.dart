@@ -53,33 +53,35 @@ class HotReload extends StatelessWidget {
         GridAddon(),
       ],
       directories: [
-        WidgetbookComponent(
-          name: 'Colors',
-          useCases: [
-            WidgetbookUseCase(
-                name: 'Colors Swatches',
-                builder: (context) {
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        colorSwatches(AppColors.secondary),
-                        colorSwatches(AppColors.success),
-                        colorSwatches(AppColors.error),
-                        colorSwatches(AppColors.warning),
-                        colorSwatches(AppColors.grey),
-                        colorSwatches(AppColors.brown),
-                        colorSwatches(AppColors.paletteYellow),
-                        colorSwatches(AppColors.paletteGreen),
-                        colorSwatches(AppColors.palettePurple),
-                        colorSwatches(AppColors.paletteBlue),
-                        colorSwatches(AppColors.palettePink),
-                      ],
-                    ),
-                  );
-                }),
-          ],
-        ),
+        WidgetbookFolder(name: "App design", children: [
+          WidgetbookComponent(
+            name: 'Colors',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Colors Swatches',
+                  builder: (context) {
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          colorSwatches(AppColors.secondary),
+                          colorSwatches(AppColors.success),
+                          colorSwatches(AppColors.error),
+                          colorSwatches(AppColors.warning),
+                          colorSwatches(AppColors.grey),
+                          colorSwatches(AppColors.brown),
+                          colorSwatches(AppColors.paletteYellow),
+                          colorSwatches(AppColors.paletteGreen),
+                          colorSwatches(AppColors.palettePurple),
+                          colorSwatches(AppColors.paletteBlue),
+                          colorSwatches(AppColors.palettePink),
+                        ],
+                      ),
+                    );
+                  }),
+            ],
+          ),
+        ])
       ],
     );
   }
