@@ -24,6 +24,10 @@ extension CustomButtonEnumExt on CustomButtonType {
 
   bool get isPrimary => this == CustomButtonType.primary;
 
+  bool get isGreySolid => this == CustomButtonType.greySolid;
+
+  bool get isDestructiveSolid => this == CustomButtonType.destructiveSolid;
+
   bool get isSecondary => this == CustomButtonType.secondary;
 }
 
@@ -125,7 +129,7 @@ class CustomButton extends StatelessWidget {
     Key? key,
     required IconData icon,
     required void Function()? onPressed,
-    CustomButtonType customButtonEnum = CustomButtonType.primary,
+    CustomButtonType type = CustomButtonType.primary,
     CustomButtonSize size = CustomButtonSize.small,
   }) : this(
             key: key,
@@ -133,7 +137,7 @@ class CustomButton extends StatelessWidget {
             icon: Right(icon),
             onPressed: onPressed,
             size: size,
-            type: customButtonEnum,
+            type: type,
             iconStyle: CustomButtonIconStyle.iconOnly);
   final String? label;
   final Either<String, IconData>? icon;
@@ -147,12 +151,16 @@ class CustomButton extends StatelessWidget {
     final isSmall = size == CustomButtonSize.small;
     final labelWithIcon = (iconStyle == CustomButtonIconStyle.trailingIcon ||
         iconStyle == CustomButtonIconStyle.leadingIcon);
+    final filledButtonBackgroundColor = type.isPrimary
+        ? AppColors.primary.shade500
+        : type.isGreySolid
+        ? AppColors.grey.shade500
+        : AppColors.error.shade500;
     final filledButtonStyle = FilledButton.styleFrom(
-        backgroundColor: AppColors.primary.shade500,
+        backgroundColor: filledButtonBackgroundColor,
         disabledBackgroundColor: AppColors.grey.shade300,
         disabledForegroundColor: AppColors.white,
         foregroundColor: AppColors.white,
-        surfaceTintColor: AppColors.primary.shade700,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         ),
@@ -203,7 +211,7 @@ class CustomButton extends StatelessWidget {
           decoration: ShapeDecoration(
             color: onPressed == null
                 ? AppColors.grey.shade300
-                : AppColors.primary.shade500,
+                : filledButtonBackgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             ),
