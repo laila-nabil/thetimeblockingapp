@@ -40,7 +40,9 @@ class AppTextStyle {
         inherit: true,
         fontWeight: appTextStyleParams.appFontWeight.value,
         color: appTextStyleParams.color,
-        height: appTextStyleParams.appFontSize.lineHeight);
+      height: appTextStyleParams.appFontSize.lineHeight /
+          appTextStyleParams.appFontSize.size, ///TODO make sure correct
+    );
   }
 }
 
@@ -49,6 +51,6 @@ class AppTextStyleParams {
   final AppFontWeight appFontWeight;
   final AppFontSize appFontSize;
 
-  AppTextStyleParams(this.appFontSize,
-      {required this.color, required this.appFontWeight});
+  AppTextStyleParams(
+      {required this.appFontSize,required this.color, required this.appFontWeight});
 }

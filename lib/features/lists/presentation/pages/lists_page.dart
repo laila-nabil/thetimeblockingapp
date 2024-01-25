@@ -51,8 +51,8 @@ class ListsPage extends StatelessWidget {
                     return CustomAlertDialog(
                       loading: false,
                       actions: [
-                        CustomButton(
-                            child: Text(appLocalization.translate("delete")),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("delete"),
                             onPressed: () {
                               listsPageBloc.add(DeleteClickupListEvent.submit(
                                   deleteClickupListParams:
@@ -64,8 +64,8 @@ class ListsPage extends StatelessWidget {
                                   clickupSpace: Globals.selectedSpace!));
                               Navigator.pop(context);
                             }),
-                        CustomButton(
-                            child: Text(appLocalization.translate("cancel")),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("cancel"),
                             onPressed: () {
                               listsPageBloc.add(DeleteClickupListEvent.cancelDelete());
                               Navigator.pop(context);
@@ -82,8 +82,8 @@ class ListsPage extends StatelessWidget {
                         return CustomAlertDialog(
                           loading: false,
                           actions: [
-                            CustomButton(
-                                child: Text(appLocalization.translate("delete")),
+                            CustomButton.noIcon(
+                                label: appLocalization.translate("delete"),
                                 onPressed: () {
                                   listsPageBloc.add(DeleteClickupFolderEvent.submit(
                                       deleteClickupFolderParams:
@@ -95,8 +95,8 @@ class ListsPage extends StatelessWidget {
                                       clickupSpace: Globals.selectedSpace!));
                                   Navigator.pop(context);
                                 }),
-                            CustomButton(
-                                child: Text(appLocalization.translate("cancel")),
+                            CustomButton.noIcon(
+                                label: appLocalization.translate("cancel"),
                                 onPressed: () {
                                   listsPageBloc.add(DeleteClickupFolderEvent.cancelDelete());
                                   Navigator.pop(context);
