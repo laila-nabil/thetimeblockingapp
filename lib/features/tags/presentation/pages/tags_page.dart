@@ -51,8 +51,8 @@ class TagsPage extends StatelessWidget {
                     return CustomAlertDialog(
                       loading: false,
                       actions: [
-                        CustomButton(
-                            child: Text(appLocalization.translate("delete")),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("delete"),
                             onPressed: () {
                               bloc.add(DeleteClickupTagEvent.submit(
                                   params: DeleteClickupTagParams(
@@ -62,8 +62,8 @@ class TagsPage extends StatelessWidget {
                                           Globals.clickupAuthAccessToken)));
                               Navigator.pop(context);
                             }),
-                        CustomButton(
-                            child: Text(appLocalization.translate("cancel")),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("cancel"),
                             onPressed: () {
                               bloc.add(DeleteClickupTagEvent.cancelDelete());
                               Navigator.pop(context);

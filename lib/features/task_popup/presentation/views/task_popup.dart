@@ -262,8 +262,8 @@ class TaskPopup extends StatelessWidget {
                               return CustomAlertDialog(
                                 loading: false,
                                 actions: [
-                                  CustomButton(
-                                      child: Text(appLocalization.translate("delete")),
+                                  CustomButton.noIcon(
+                                      label: appLocalization.translate("delete"),
                                       onPressed: () {
                                         taskPopupParams.onDelete!(
                                             DeleteClickupTaskParams(
@@ -272,8 +272,8 @@ class TaskPopup extends StatelessWidget {
                                                     .clickupAuthAccessToken));
                                         Navigator.pop(ctx);
                                       }),
-                                  CustomButton(
-                                      child: Text(appLocalization.translate("cancel")),
+                                  CustomButton.noIcon(
+                                      label: appLocalization.translate("cancel"),
                                       onPressed: () {
                                         Navigator.pop(ctx);
                                       }),
@@ -284,10 +284,10 @@ class TaskPopup extends StatelessWidget {
                             });
                             },
                     ),
-                    CustomButton(
+                    CustomButton.noIcon(
                         onPressed: () => Navigator.maybePop(context),
-                        child: Text(appLocalization.translate("cancel"))),
-                    CustomButton(
+                        label: appLocalization.translate("cancel")),
+                    CustomButton.noIcon(
                         onPressed: loading ||
                                 taskPopupParams.onSave == null ||
                                 state.readyToSubmit == false
@@ -296,7 +296,7 @@ class TaskPopup extends StatelessWidget {
                                 taskPopupParams.onSave!(state.onSaveTaskParams(
                                     taskPopupParams.dueDate));
                               },
-                        child: Text(appLocalization.translate("save"))),
+                        label: appLocalization.translate("save")),
                   ],
                   content: SingleChildScrollView(
                     child: SizedBox(
@@ -425,10 +425,9 @@ class TaskPopup extends StatelessWidget {
 
                           ///Tags
                           ///TODO V2 TODO create new tags
-                          if(state.viewTagsButton)CustomButton(
-                            customButtonEnum: CustomButtonEnum.secondary,
-                              child: Text(
-                                  "${state.taskParams?.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}"),
+                          if(state.viewTagsButton)CustomButton.noIcon(
+                            type: CustomButtonType.secondaryLabel,
+                              label: "${state.taskParams?.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}",
                               onPressed: () {
                                 showDialog(
                                     context: context,
@@ -566,7 +565,7 @@ class TaskPopup extends StatelessWidget {
                                   value: taskPopupParams.isAllDay,
                                   onChanged: null),
                               ///All day Date
-                              if(taskPopupParams.isAllDay)CustomButton(
+                              if(taskPopupParams.isAllDay)CustomButton.noIcon(
                                 onPressed: () {
                                   showDatePicker(
                                       context: context,
@@ -585,17 +584,16 @@ class TaskPopup extends StatelessWidget {
                                               taskParams: clickupTaskParams
                                                   .copyWith(startDate: value))));
                                 },
-                                customButtonEnum: CustomButtonEnum.secondary,
-                                child: Text(
-                                    " ${appLocalization.translate("date")}"
-                                      " ${DateTimeExtensions.customToString
-                                      (state.taskParams?.startDate,
-                                        includeTime: false) ?? ""} "),
+                                type: CustomButtonType.secondaryLabel,
+                                label: " ${appLocalization.translate("date")}"
+                                    " ${DateTimeExtensions.customToString
+                                  (state.taskParams?.startDate,
+                                    includeTime: false) ?? ""} ",
                                 ),
 
                               ///Start DATE
                               if (taskPopupParams.isAllDay == false)
-                                CustomButton(
+                                CustomButton.noIcon(
                                   onPressed: () {
                                     showDateTimePicker(
                                       context: context,
@@ -608,15 +606,14 @@ class TaskPopup extends StatelessWidget {
                                             taskParams: clickupTaskParams
                                                 .copyWith(startDate: value))));
                                   },
-                                  customButtonEnum: CustomButtonEnum.secondary,
-                                  child: Text(
-                                      " ${appLocalization.translate("startDate")}"
-                                      " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} "),
+                                  type: CustomButtonType.secondaryLabel,
+                                  label:" ${appLocalization.translate("startDate")}"
+                                      " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
                                 ),
 
                               ///DUE DATE
                               if (taskPopupParams.isAllDay == false)
-                                CustomButton(
+                                CustomButton.noIcon(
                                   onPressed: () {
                                     showDateTimePicker(
                                       context: context,
@@ -629,10 +626,9 @@ class TaskPopup extends StatelessWidget {
                                             taskParams: clickupTaskParams
                                                 .copyWith(dueDate: value))));
                                   },
-                                  customButtonEnum: CustomButtonEnum.secondary,
-                                  child: Text(
-                                      " ${appLocalization.translate("dueDate")}"
-                                      " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} "),
+                                  type: CustomButtonType.secondaryLabel,
+                                  label: " ${appLocalization.translate("dueDate")}"
+                                      " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} ",
                                 ),
                             ],
                           )

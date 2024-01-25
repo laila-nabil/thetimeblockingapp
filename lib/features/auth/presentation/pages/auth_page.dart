@@ -90,8 +90,8 @@ class ExplainClickupAuth extends StatelessWidget {
           children: [
             Text(appLocalization.translate("whyConnectClickup",
                 arguments: [appLocalization.translate("appName")])),
-            CustomButton(
-                child: const Text("Connect with Clickup"),
+            CustomButton.noIcon(
+                label: "Connect with Clickup",
                 onPressed: () {
                   final url = "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
                   if (kIsWeb) {
@@ -122,8 +122,8 @@ class ExplainClickupAuth extends StatelessWidget {
                       controller: controller,
                     ),
                   ),
-                  CustomButton(
-                    child: const Text("submit"),
+                  CustomButton.noIcon(
+                    label:"submit",
                     onPressed: () {
                       authBloc.add(GetClickupAccessToken(controller.text));
                     },
