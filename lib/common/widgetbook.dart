@@ -554,6 +554,162 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                               const Divider(),
+
+                              ///Secondary
+                              const Text(
+                                "Secondary , Enabled , small",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    type: CustomButtonType.secondary,
+                                    tooltip: tooltip,
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Secondary , Disabled , small",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.secondary,
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Secondary , Enabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Secondary , Disabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondary,
+                                  )
+                                ],
+                              ),
+                              const Divider(),
                             ]));
                   }),
             ],

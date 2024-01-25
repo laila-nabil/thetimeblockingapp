@@ -207,6 +207,38 @@ class CustomButton extends StatelessWidget {
                 ? AppFontSize.paragraphSmall
                 : AppFontSize.paragraphMedium)));
 
+    final outlinedButtonForegroundColor = AppColors.primary.shade600;
+    final outlinedButtonBorderColor = onPressed == null
+                ? AppColors.grey.shade100
+                : outlinedButtonForegroundColor;
+    final outlinedButtonBorderWidth = onPressed == null
+                ? 2.0
+                : 1.5;
+    final outlinedButtonDisabledForegroundColor = AppColors.grey.shade400;
+    final outlinedButtonStyle = OutlinedButton.styleFrom(
+        side: BorderSide(
+            color: outlinedButtonBorderColor,
+            width: outlinedButtonBorderWidth,
+            style: BorderStyle.solid),
+        backgroundColor: AppColors.white,
+        disabledBackgroundColor:  AppColors.white,
+        disabledForegroundColor: outlinedButtonDisabledForegroundColor,
+        foregroundColor: outlinedButtonForegroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+        padding: EdgeInsets.symmetric(
+            vertical: isSmall ? 8.0 : 16.0,
+            horizontal: isSmall
+                ? (labelWithIcon ? 12 : 16)
+                : (labelWithIcon ? 16 : 24)),
+        textStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+            color: AppColors.white,
+            appFontWeight: AppFontWeight.semiBold,
+            appFontSize: isSmall
+                ? AppFontSize.paragraphSmall
+                : AppFontSize.paragraphMedium)));
+
     if (type.isFilled && labelWithIcon) {
       return CustomToolTip(
         message: tooltip,
@@ -271,6 +303,77 @@ class CustomButton extends StatelessWidget {
                   (r) => Icon(
                         r,
                       )),
+            ),
+          ),
+        ),
+      );
+    }
+    if (type.isOutlined && labelWithIcon) {
+      return CustomToolTip(
+        message: tooltip,
+        child: OutlinedButton.icon(
+          onPressed: onPressed,
+          focusNode: focusNode,
+          style: outlinedButtonStyle,
+          label: Text(
+            label ?? "",
+          ),
+          icon: icon!.fold(
+                  (l) => Image.asset(
+                l,
+                width: isSmall ? 15 : 18,
+                fit: BoxFit.fitWidth,
+              ),
+                  (r) => Icon(
+                r,
+                size: isSmall ? 15 : 18,
+              )),
+        ),
+      );
+    }
+    if (type.isOutlined && iconStyle == CustomButtonIconStyle.none) {
+      return CustomToolTip(
+        message: tooltip,
+        child: OutlinedButton(
+          onPressed: onPressed,
+          focusNode: focusNode,
+          style: outlinedButtonStyle,
+          child: Text(
+            label ?? "",
+          ),
+        ),
+      );
+    }
+    if (type.isOutlined && iconStyle == CustomButtonIconStyle.iconOnly) {
+      return Material(
+        color: Colors.transparent,
+        child: Ink(
+          decoration: ShapeDecoration(
+            color: AppColors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+              side: BorderSide(
+                  color: outlinedButtonBorderColor,
+                  width: outlinedButtonBorderWidth,
+                  style: BorderStyle.solid)
+            ),
+          ),
+          child: CustomToolTip(
+            message: tooltip,
+            child: IconButton.outlined(
+              onPressed: onPressed,
+              focusNode: focusNode,
+              alignment: Alignment.center,
+              color: outlinedButtonForegroundColor,
+              disabledColor: outlinedButtonDisabledForegroundColor,
+              padding: EdgeInsets.all(isSmall ? 8 : 16),
+              icon: icon!.fold(
+                      (l) => Image.asset(
+                    l,
+                  ),
+                      (r) => Icon(
+                    r,
+                  )),
             ),
           ),
         ),
