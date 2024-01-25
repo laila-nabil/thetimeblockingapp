@@ -97,398 +97,464 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'Label text',
                       initialValue: 'Label',
                     );
+                    final tooltip = context.knobs.string(
+                      label: 'Tooltip text',
+                      initialValue: 'Tooltip message here',
+                    );
                     return SingleChildScrollView(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ///PRIMARY
-                          const Text(
-                            "Primary , Enabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
+                              ///PRIMARY
+                              const Text(
+                                "Primary , Enabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
+                              const Text(
+                                "Primary , Disabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.iconOnly(
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Primary , Disabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                onPressed: null,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                onPressed: null,
-                                icon: Icons.add,
+                              const Text(
+                                "Primary , Enabled , large",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                onPressed: null,
-                                icon: Icons.add,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                  )
+                                ],
                               ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Primary , Enabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
-                                size: CustomButtonSize.large,
+                              const Text(
+                                "Primary , Disabled , large",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                  )
+                                ],
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.iconOnly(
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Primary , Disabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                onPressed: null,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              )
-                            ],
-                          ),
-                          const Divider(),
-                          ///Grey Solid
-                          const Text(
-                            "Grey Solid, Enabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                              ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                              ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                              ),
-                              CustomButton.iconOnly(
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Grey Solid , Disabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                              ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                              ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                              ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                type: CustomButtonType.greySolid,
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Grey Solid , Enabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.iconOnly(
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                type: CustomButtonType.greySolid,
-                                size: CustomButtonSize.large,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Grey Solid , Disabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.greySolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                type: CustomButtonType.greySolid,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),
+                              const Divider(),
 
-                        ],
-                      ),
-                          const Divider(),
-                          ///Destructive Solid
-                          const Text(
-                            "Destructive Solid, Enabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
+                              ///Grey Solid
+                              const Text(
+                                "Grey Solid, Enabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
+                              const Text(
+                                "Grey Solid , Disabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.iconOnly(
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Destructive Solid , Disabled , small",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    type: CustomButtonType.greySolid,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
-                                icon: Icons.add,
+                              const Text(
+                                "Grey Solid , Enabled , large",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
-                                icon: Icons.add,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    size: CustomButtonSize.large,
+                                  )
+                                ],
                               ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                type: CustomButtonType.destructiveSolid,
-                                icon: Icons.add,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Destructive Solid , Enabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                size: CustomButtonSize.large,
+                              const Text(
+                                "Grey Solid , Disabled , large",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greySolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    type: CustomButtonType.greySolid,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                ],
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
+                              const Divider(),
+
+                              ///Destructive Solid
+                              const Text(
+                                "Destructive Solid, Enabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.iconOnly(
-                                onPressed: () => print("on pressed"),
-                                icon: Icons.add,
-                                type: CustomButtonType.destructiveSolid,
-                                size: CustomButtonSize.large,
-                              )
-                            ],
-                          ),
-                          const Text(
-                            "Destructive Solid , Disabled , large",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton.noIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
-                                size: CustomButtonSize.large,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.leadingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
+                              const Text(
+                                "Destructive Solid , Disabled , small",
+                                style: TextStyle(color: Colors.white),
                               ),
-                              CustomButton.trailingIcon(
-                                label: label,
-                                type: CustomButtonType.destructiveSolid,
-                                onPressed: null,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    type: CustomButtonType.destructiveSolid,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                  )
+                                ],
                               ),
-                              CustomButton.iconOnly(
-                                onPressed: null,
-                                type: CustomButtonType.greySolid,
-                                icon: Icons.add,
-                                size: CustomButtonSize.large,
-                              ),                            ],
-                          ),
-                          const Divider(),
-                    ]));
+                              const Text(
+                                "Destructive Solid , Enabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    size: CustomButtonSize.large,
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Destructive Solid , Disabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.trailingIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveSolid,
+                                    onPressed: null,
+                                    icon: Icons.add,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: null,
+                                    type: CustomButtonType.greySolid,
+                                    icon: Icons.add,
+                                    tooltip: tooltip,
+                                    size: CustomButtonSize.large,
+                                  ),
+                                ],
+                              ),
+                              const Divider(),
+                            ]));
                   }),
             ],
           ),
