@@ -55,7 +55,7 @@ class AllTasksPage extends StatelessWidget {
                           ResponsiveScaffoldLoadingEnum.contentLoading,
                       isLoading: state.isLoading || startupState.isLoading),
                   responsiveBody: ResponsiveTParams(
-                      mobile: BlocConsumer<AllTasksBloc, AllTasksState>(
+                      small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
                       if (state.isInit && Globals.isSpaceAppWide) {

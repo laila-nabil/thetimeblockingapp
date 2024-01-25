@@ -37,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
           child: ListView(
             children: [
               const _Logo(),
-              if (Responsive.showSmallDesign(context) &&
+              if (context.showSmallDesign &&
                   Globals.clickupWorkspaces?.isNotEmpty == true)
                 DropdownButton(
                   value: Globals.selectedWorkspace,
@@ -58,7 +58,7 @@ class CustomDrawer extends StatelessWidget {
                       [],
                   hint: Text(appLocalization.translate("workspaces")),
                 ),
-              if (Responsive.showSmallDesign(context) &&
+              if (context.showSmallDesign &&
                   Globals.isSpaceAppWide &&
                   Globals.clickupSpaces?.isNotEmpty == true)
                 DropdownButton<ClickupSpace?>(

@@ -67,7 +67,7 @@ class ListPage extends StatelessWidget {
                       ResponsiveScaffoldLoadingEnum.contentLoading,
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
-                  mobile: Column(
+                  small: Column(
                 children: [
                   Text(state.currentList?.name ?? ""),
                   Expanded(

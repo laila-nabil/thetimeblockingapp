@@ -80,7 +80,7 @@ class ResponsiveScaffold extends Scaffold {
 
   @override
   Widget? get body {
-    if (Responsive.showSmallDesign(context) == false) {
+    if (context.showSmallDesign == false) {
       return BlocBuilder<StartupBloc, StartupState>(
         builder: (context, state) {
           if (state.drawerLargerScreenOpen) {
@@ -113,7 +113,7 @@ class ResponsiveScaffold extends Scaffold {
   @override
   Widget? get drawer => hideAppBarDrawer
       ? null
-      : (Responsive.showSmallDesign(context) ? const CustomDrawer() : null);
+      : (context.showSmallDesign ? const CustomDrawer() : null);
 
   @override
   PreferredSizeWidget? get appBar => hideAppBarDrawer
@@ -134,13 +134,12 @@ class _ResponsiveBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actualResponsiveBody = Responsive.responsiveT(
+    final actualResponsiveBody = context.responsiveT(
         params: responsiveScaffoldLoading?.isLoadingContent == true
             ? ResponsiveTParams(
-                mobile: CustomLoading(color: Theme.of(context).primaryColor),
-                laptop: CustomLoading(color: Theme.of(context).primaryColor))
-            : responsiveTParams,
-        context: context);
+                small: CustomLoading(color: Theme.of(context).primaryColor),
+                large: CustomLoading(color: Theme.of(context).primaryColor))
+            : responsiveTParams);
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
             alignment: Alignment.center,

@@ -117,7 +117,7 @@ class ListsPage extends StatelessWidget {
                         ResponsiveScaffoldLoadingEnum.contentLoading,
                         isLoading: state.isLoading || startupState.isLoading),
                     responsiveBody: ResponsiveTParams(
-                        mobile: BlocConsumer<ListsPageBloc, ListsPageState>(
+                        small: BlocConsumer<ListsPageBloc, ListsPageState>(
                           listener: (context, state) {},
                           builder: (context, state) {
                             if (state.isInit && Globals.isSpaceAppWide) {

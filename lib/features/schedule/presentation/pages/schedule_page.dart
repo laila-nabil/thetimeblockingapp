@@ -127,11 +127,11 @@ class SchedulePage extends StatelessWidget {
                     ),
                   ],
                   responsiveBody: ResponsiveTParams(
-                    mobile: _SchedulePageContent(
+                    small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedClickupWorkspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id),
-                    laptop: _SchedulePageContent(
+                    large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedClickupWorkspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id),

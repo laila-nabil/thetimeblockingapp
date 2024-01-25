@@ -127,7 +127,7 @@ class TagPage extends StatelessWidget {
                       ResponsiveScaffoldLoadingEnum.contentLoading,
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
-                  mobile: Column(
+                  small: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   state.updateTagTry(state.navigateTag!)

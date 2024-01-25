@@ -141,12 +141,9 @@ enum AppScreen {
 
   small(width: 320,margin: 16,gutter: 12),
   medium(width: 600,margin: 32,gutter: 20),
-  large(width: 1136,margin: 112,gutter: 32),
-  fluid(width: 0,margin: 24,gutter: 24);
+  large(width: 1136,margin: 112,gutter: 32);
   const AppScreen({required this.width,required this.margin,required this.gutter});
   final int width;
   final int margin;
   final int gutter;
 }
-
-///TODO Responsive

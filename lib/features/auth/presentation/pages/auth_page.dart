@@ -50,7 +50,7 @@ class AuthPage extends StatelessWidget {
                   ResponsiveScaffoldLoadingEnum.contentLoading,
               isLoading: state.isLoading),
           responsiveBody: ResponsiveTParams(
-                mobile: Column(
+                small: Column(
                   children: [
                     const Expanded(child: Placeholder()),
                     Expanded(
@@ -59,7 +59,7 @@ class AuthPage extends StatelessWidget {
                     ))
                   ],
                 ),
-                laptop: Row(
+              large: Row(
                   children: [
                     Expanded(
                         child: ExplainClickupAuth(

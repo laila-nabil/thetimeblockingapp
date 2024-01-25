@@ -27,9 +27,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
                 clickupAccessToken: Globals.clickupAuthAccessToken));
           }
+          final showSmallDesign = context.showSmallDesign;
           return AppBar(
             elevation: 0,
-            leading: Responsive.showSmallDesign(context)
+            leading: showSmallDesign
                 ? null
                 : IconButton(
                     onPressed: () {
@@ -41,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.deepPurpleAccent,
                     )),
             actions: [
-              if (Responsive.showSmallDesign(context) == false &&
+              if (showSmallDesign == false &&
                   Globals.clickupWorkspaces?.isNotEmpty == true)
                 DropdownButton(
                   value: Globals.selectedWorkspace,
@@ -62,7 +63,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       [],
                   hint: Text(appLocalization.translate("workspaces")),
                 ),
-              if (Responsive.showSmallDesign(context) == false &&
+              if (showSmallDesign == false &&
                   Globals.isSpaceAppWide &&
                   Globals.clickupSpaces?.isNotEmpty == true)
                 DropdownButton<ClickupSpace?>(
