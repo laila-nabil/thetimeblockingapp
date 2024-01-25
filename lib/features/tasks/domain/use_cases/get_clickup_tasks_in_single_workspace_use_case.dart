@@ -69,7 +69,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     this.filterByListsIds,
     this.filterByProjectIds,
     this.filterByStatuses,
-    this.includeClosed,
+    this.includeClosed = true,
     this.filterByAssignees,
     this.filterByTags,
     this.filterByDueDateLessThanUnixTimeMilliseconds,
@@ -86,7 +86,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     required this.clickupAccessToken,
   });
 
-  String get toUrlString {
+  /*String get toUrlString {
     String result = '';
     if (props.length > 1) {
       result += "?";
@@ -220,7 +220,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     }
 
     return result;
-  }
+  }*/
 
   Map<String, Either<List<dynamic>, String>> get query {
     Map<String, Either<List<dynamic>, String>> result = {};
@@ -249,7 +249,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
       result["statuses"] = Left(filterByStatuses ?? []);
     }
     if (includeClosed != null) {
-      result["project_ids"] = Left(filterByProjectIds ?? []);
+      result["include_closed"] = Right((includeClosed ?? false).toString());
     }
     if (filterByAssignees != null) {
       result["assignees"] = Left(filterByAssignees ?? []);
@@ -294,14 +294,14 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }
 
-  Map<String,String> queryList<T>({required String key,required List<T> list}){
+  /*Map<String,String> queryList<T>({required String key,required List<T> list}){
     Map<String,String> result = {};
     for (var element in list) {
       result["$key[]"] = "$element";
     }
     return result;
     
-  }
+  }*/
   @override
   List<Object?> get props => [
         page,
