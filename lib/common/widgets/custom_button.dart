@@ -8,7 +8,7 @@ import 'custom_tooltip.dart';
 ///TODO trailing icon not done
 ///TODO text not done
 ///TODO needs refactoring
-///TODO focus and hover not following design
+///TODO focus and hover following design only for filled
 
 enum CustomButtonType {
   primary,
@@ -209,25 +209,55 @@ class CustomButton extends StatelessWidget {
         : type.isGreySolid
             ? AppColors.grey.shade500
             : AppColors.error.shade500;
-    final filledButtonStyle = FilledButton.styleFrom(
-        backgroundColor: filledButtonBackgroundColor,
-        disabledBackgroundColor: AppColors.grey.shade300,
-        disabledForegroundColor: AppColors.white,
-        foregroundColor: AppColors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        padding: EdgeInsets.symmetric(
-            vertical: isSmall ? 8.0 : 16.0,
-            horizontal: isSmall
-                ? (labelWithIcon ? 12 : 16)
-                : (labelWithIcon ? 16 : 24)),
-        textStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+    final filledButtonBackgroundColorOnHover = type.isPrimary
+        ? AppColors.primary.shade400
+        : type.isGreySolid
+        ? AppColors.grey.shade700
+        : AppColors.error.shade300;
+    final filledButtonBackgroundColorOnFocused = type.isPrimary
+        ? AppColors.primary.shade700
+        : type.isGreySolid
+        ? AppColors.grey.shade700
+        : AppColors.error.shade700;
+    final filledButtonStyle = ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+          if (states.contains(MaterialState.focused) ||
+              states.contains(MaterialState.pressed)) {
+            return filledButtonBackgroundColorOnFocused;
+          }
+          if (states.contains(MaterialState.hovered)) {
+            return filledButtonBackgroundColorOnHover;
+          }
+          if (states.contains(MaterialState.disabled)) {
+            return AppColors.grey.shade300;
+          }
+          return filledButtonBackgroundColor;
+        }),
+        foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          return AppColors.white;
+        }),
+        shape: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+          return RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+          );
+        }),
+        padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+          return EdgeInsets.symmetric(
+              vertical: isSmall ? 8.0 : 16.0,
+              horizontal: isSmall
+                  ? (labelWithIcon ? 12 : 16)
+                  : (labelWithIcon ? 16 : 24));
+        }),
+        textStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      return AppTextStyle.getTextStyle(AppTextStyleParams(
             color: AppColors.white,
             appFontWeight: AppFontWeight.semiBold,
             appFontSize: isSmall
                 ? AppFontSize.paragraphSmall
-                : AppFontSize.paragraphMedium)));
+                : AppFontSize.paragraphMedium));
+        }));
 
     final outlinedButtonBorderColor = onPressed == null
                 ? AppColors.grey.shade100
