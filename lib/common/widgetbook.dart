@@ -712,7 +712,7 @@ class WidgetBookApp extends StatelessWidget {
                               const Divider(),
                               ///Grey Outlined
                               const Text(
-                                "Secondary , Enabled , small",
+                                "Grey Outlined , Enabled , small",
                                 style: TextStyle(color: Colors.white),
                               ),
                               Row(
@@ -749,7 +749,7 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                               const Text(
-                                "Secondary , Disabled , small",
+                                "Grey Outlined , Disabled , small",
                                 style: TextStyle(color: Colors.white),
                               ),
                               Row(
@@ -785,7 +785,7 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                               const Text(
-                                "Secondary , Enabled , large",
+                                "Grey Outlined , Enabled , large",
                                 style: TextStyle(color: Colors.white),
                               ),
                               Row(
@@ -825,7 +825,7 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                               const Text(
-                                "Secondary , Disabled , large",
+                                "Grey Outlined , Disabled , large",
                                 style: TextStyle(color: Colors.white),
                               ),
                               Row(
@@ -861,6 +861,161 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
                                     type: CustomButtonType.greyOutlined
+                                  )
+                                ],
+                              ),
+                              const Divider(),
+                              ///Destructive Outlined
+                              const Text(
+                                "Destructive Outlined , Enabled , small",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                    label: label,
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.destructiveOutlined,
+                                  ),
+                                  CustomButton.leadingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.trailingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    type: CustomButtonType.destructiveOutlined,
+                                    tooltip: tooltip,
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Destructive Outlined , Disabled , small",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.leadingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.trailingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      type: CustomButtonType.destructiveOutlined
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Destructive Outlined , Enabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.leadingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.trailingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  )
+                                ],
+                              ),
+                              const Text(
+                                "Destructive Outlined , Disabled , large",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomButton.noIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.leadingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.trailingIcon(
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlined
                                   )
                                 ],
                               ),
