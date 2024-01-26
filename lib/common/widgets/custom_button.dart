@@ -5,20 +5,27 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import 'custom_tooltip.dart';
 
+///TODO trailing icon not done
+///TODO text not done
+///TODO needs refactoring
+///TODO focus and hover not following design
+
 enum CustomButtonType {
   primary,
   secondary,
   greyOutlined,
-  greySolid,
+  greyFilled,
   destructiveOutlined,
-  destructiveSolid,
-  text,
+  destructiveFilled,
+  primaryText,
+  greyText,
+  destructiveText,
 }
 
 extension CustomButtonEnumExt on CustomButtonType {
   bool get isFilled => (this == CustomButtonType.primary ||
-      this == CustomButtonType.greySolid ||
-      this == CustomButtonType.destructiveSolid);
+      this == CustomButtonType.greyFilled ||
+      this == CustomButtonType.destructiveFilled);
 
   bool get isOutlined => (this == CustomButtonType.secondary ||
       this == CustomButtonType.greyOutlined ||
@@ -26,13 +33,26 @@ extension CustomButtonEnumExt on CustomButtonType {
 
   bool get isPrimary => this == CustomButtonType.primary;
 
-  bool get isGreySolid => this == CustomButtonType.greySolid;
+  bool get isGreySolid => this == CustomButtonType.greyFilled;
 
-  bool get isDestructiveSolid => this == CustomButtonType.destructiveSolid;
+  bool get isDestructiveSolid => this == CustomButtonType.destructiveFilled;
 
   bool get isSecondary => this == CustomButtonType.secondary;
 
   bool get isGrey => this == CustomButtonType.greyOutlined;
+
+  bool get isText =>
+      this == CustomButtonType.destructiveText ||
+      this == CustomButtonType.greyText ||
+      this == CustomButtonType.primaryText;
+
+  bool get isDestructiveText =>
+      this == CustomButtonType.destructiveText;
+  bool get isGreyText =>
+          this == CustomButtonType.greyText ;
+
+  bool get isPrimaryText =>
+          this == CustomButtonType.primaryText;
 }
 
 enum CustomButtonSize { small, large }
@@ -386,6 +406,70 @@ class CustomButton extends StatelessWidget {
           ),
         ),
       );
+    }
+    final textForegroundColor = type.isPrimaryText
+        ? AppColors.primary.shade500
+        : type.isGreyText
+        ? AppColors.grey.shade500
+        : AppColors.error.shade400;
+    if(type.isText && iconStyle == CustomButtonIconStyle.none){
+      return CustomToolTip(
+          message: tooltip,
+          child: TextButton(
+            style: TextButton.styleFrom(
+                foregroundColor: textForegroundColor,
+                disabledForegroundColor: AppColors.grey.shade300,
+                padding: isSmall
+                    ? EdgeInsets.symmetric(
+                    vertical: 8.0, horizontal: (labelWithIcon ? 12 : 16))
+                    : EdgeInsets.zero),
+            onPressed: onPressed,
+            child: Text(label??""),
+          ));
+    }
+    if (type.isText &&
+        (iconStyle == CustomButtonIconStyle.trailingIcon ||
+            iconStyle == CustomButtonIconStyle.leadingIcon)) {
+      return CustomToolTip(
+          message: tooltip,
+          child: TextButton.icon(
+            style: TextButton.styleFrom(
+                foregroundColor: textForegroundColor,
+                disabledForegroundColor: AppColors.grey.shade300,
+                padding: isSmall
+                    ? EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: (labelWithIcon ? 12 : 16))
+                    : EdgeInsets.zero),
+            onPressed: onPressed,
+            icon: icon!.fold(
+                    (l) => Image.asset(
+                  l,
+                ),
+                    (r) => Icon(
+                  r,
+                )),
+            label: Text(label??""),
+          ));
+    }
+    if(type.isText && iconStyle == CustomButtonIconStyle.iconOnly){
+      return CustomToolTip(
+          message: tooltip,
+          child: IconButton(
+            style: TextButton.styleFrom(
+                foregroundColor: textForegroundColor,
+                padding: isSmall
+                    ? EdgeInsets.symmetric(
+                    vertical: 8.0, horizontal: (labelWithIcon ? 12 : 16))
+                    : EdgeInsets.zero),
+            onPressed: onPressed,
+            icon: icon!.fold(
+                    (l) => Image.asset(
+                  l,
+                ),
+                    (r) => Icon(
+                  r,
+                )),
+          ));
     }
     return CustomToolTip(
       message: tooltip,
