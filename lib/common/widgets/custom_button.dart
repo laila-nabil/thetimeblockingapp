@@ -31,6 +31,8 @@ extension CustomButtonEnumExt on CustomButtonType {
   bool get isDestructiveSolid => this == CustomButtonType.destructiveSolid;
 
   bool get isSecondary => this == CustomButtonType.secondary;
+
+  bool get isGrey => this == CustomButtonType.greyOutlined;
 }
 
 enum CustomButtonSize { small, large }
@@ -207,14 +209,20 @@ class CustomButton extends StatelessWidget {
                 ? AppFontSize.paragraphSmall
                 : AppFontSize.paragraphMedium)));
 
-    final outlinedButtonForegroundColor = AppColors.primary.shade600;
     final outlinedButtonBorderColor = onPressed == null
                 ? AppColors.grey.shade100
-                : outlinedButtonForegroundColor;
-    final outlinedButtonBorderWidth = onPressed == null
-                ? 2.0
-                : 1.5;
+                : type.isSecondary ? AppColors.primary.shade600 : type.isGrey ? AppColors.grey.shade300 : AppColors.error.shade400;
+    final outlinedButtonBorderWidth = type.isGrey ?( onPressed == null
+    ? 2.0
+        : 1.0): (onPressed == null
+    ? 2.0
+        : 1.5);
     final outlinedButtonDisabledForegroundColor = AppColors.grey.shade400;
+    final outlinedButtonForegroundColor = type.isSecondary
+        ? AppColors.primary.shade600
+        : type.isGrey
+            ? AppColors.grey.shade700
+            : AppColors.error.shade400;
     final outlinedButtonStyle = OutlinedButton.styleFrom(
         side: BorderSide(
             color: outlinedButtonBorderColor,
