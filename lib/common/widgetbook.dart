@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:widgetbook/widgetbook.dart';
@@ -1821,6 +1822,74 @@ class WidgetBookApp extends StatelessWidget {
                   }),
             ],
           ),
+          WidgetbookComponent(
+            name: 'Input Text field',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Input Text field',
+                  builder: (context){
+                    return Container(
+                      color: Colors.white,
+                      height: double.infinity,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(width: 10,),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text("Box small"),
+                                    SizedBox(height: 5,),
+                                    CustomTextInputField.box(size: CustomTextInputFieldSize.small),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text("Box large"),
+                                    SizedBox(height: 5,),
+                                    CustomTextInputField.box(size: CustomTextInputFieldSize.large),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(width: 10,),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text("Line small"),
+                                    SizedBox(height: 5,),
+                                    CustomTextInputField(),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text("Line large"),
+                                    SizedBox(height: 5,),
+                                    CustomTextInputField(),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+              )
+            ]
+          )
         ])
       ],
     );
