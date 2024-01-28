@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_t
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_button.dart';
-import '../../../../common/widgets/custom_input_field.dart';
+import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/injection_container.dart';
@@ -286,7 +286,7 @@ class _CreateEditFieldState extends State<_CreateEditField> {
     return Row(
       children: [
         Expanded(
-            child: CustomTextInputField(
+            child: CustomTextInputField(focusNode: FocusNode(),
               controller: controller,
             )),
         IconButton(icon: const Icon(Icons.cancel), onPressed: widget.onCancel),

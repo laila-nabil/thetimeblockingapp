@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../../../../common/widgets/custom_button.dart';
-import '../../../../common/widgets/custom_input_field.dart';
+import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/launch_url.dart';
 import '../../../schedule/presentation/pages/schedule_page.dart';
@@ -119,6 +119,7 @@ class ExplainClickupAuth extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextInputField(
+                      focusNode: FocusNode(),
                       controller: controller,
                     ),
                   ),

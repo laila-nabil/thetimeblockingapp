@@ -134,7 +134,7 @@ enum AppSpacing {
   x3Huge(192);
   const AppSpacing(this.value);
 
-  final int value;
+  final double value;
 }
 
 enum AppScreen {

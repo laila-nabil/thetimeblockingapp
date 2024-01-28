@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_blo
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
-import '../../../../common/widgets/custom_input_field.dart';
+import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/localization/localization.dart';
@@ -236,7 +236,7 @@ class _CreateEditFieldState extends State<_CreateEditField> {
     return Row(
       children: [
         Expanded(
-            child: CustomTextInputField(
+            child: CustomTextInputField(focusNode: FocusNode(),
               controller: controller,
             )),
         IconButton(icon: const Icon(Icons.cancel), onPressed: widget.onCancel),

@@ -1,5 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -17,90 +19,128 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final startupBloc = BlocProvider.of<StartupBloc>(context);
     return BlocBuilder<AuthBloc, AuthState>(
-    builder: (context, authState) {
-      return BlocBuilder<StartupBloc, StartupState>(
-        builder: (context, state) {
+      builder: (context, authState) {
+        return BlocBuilder<StartupBloc, StartupState>(
+          builder: (context, state) {
             if (state.reSelectWorkspace(authState.authStates
                 .contains(AuthStateEnum.triedGetSelectedWorkspacesSpace))) {
               startupBloc.add(SelectClickupWorkspace(
-                clickupWorkspace:
-                    Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
-                clickupAccessToken: Globals.clickupAuthAccessToken));
-          }
-          final showSmallDesign = context.showSmallDesign;
-          return AppBar(
-            elevation: 0,
-            leading: showSmallDesign
-                ? null
-                : IconButton(
-                    onPressed: () {
-                      startupBloc.add(ControlDrawerLargerScreen(
-                          !startupBloc.state.drawerLargerScreenOpen));
-                    },
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.deepPurpleAccent,
-                    )),
-            actions: [
-              if (showSmallDesign == false &&
-                  Globals.clickupWorkspaces?.isNotEmpty == true)
-                DropdownButton(
-                  value: Globals.selectedWorkspace,
-                  onChanged: (selected) {
-                    if (selected is ClickupWorkspace &&
-                        state.isLoading == false) {
-                      startupBloc.add(SelectClickupWorkspace(
-                          clickupWorkspace: selected,
-                          clickupAccessToken: Globals.clickupAuthAccessToken));
-                    }
-                  },
-                  items: Globals.clickupWorkspaces
-                          ?.map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.name ?? ""),
-                              ))
-                          .toList() ??
-                      [],
-                  hint: Text(appLocalization.translate("workspaces")),
-                ),
-              if (showSmallDesign == false &&
-                  Globals.isSpaceAppWide &&
-                  Globals.clickupSpaces?.isNotEmpty == true)
-                DropdownButton<ClickupSpace?>(
-                  value: Globals.selectedSpace,
-                  onChanged: (selected) {
-                    if (selected != null && state.isLoading == false) {
-                      startupBloc.add(SelectClickupSpace(
-                          clickupSpace: selected,
-                          clickupAccessToken: Globals.clickupAuthAccessToken));
-                    }
-                  },
-                  items: Globals.clickupSpaces
-                          ?.map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.name ?? ""),
-                              ))
-                          .toList() ??
-                      [],
-                  hint: Text(appLocalization.translate("spaces")),
-                ),
-              ///TODO V2 search tasks,tags, lists and folders
-              // ignore: dead_code
-              if(false)IconButton(onPressed: () {
-                ///TODO V2 search
-              }, icon: const Icon(Icons.search)),
-              if (pageActions?.isNotEmpty == true)
-                PopupMenuButton(itemBuilder: (context) {
-                  return pageActions ?? [];
-                })
-            ],
-          );
-        },
-      );
-  },
-);
+                  clickupWorkspace:
+                      Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
+                  clickupAccessToken: Globals.clickupAuthAccessToken));
+            }
+            final showSmallDesign = context.showSmallDesign;
+            return CustomAppBarWidget(
+              selectClickupWorkspace: (selected) {
+                if (selected is ClickupWorkspace && state.isLoading == false) {
+                  startupBloc.add(SelectClickupWorkspace(
+                      clickupWorkspace: selected,
+                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                }
+              },
+              openDrawer: () {
+                startupBloc.add(ControlDrawerLargerScreen(
+                    !startupBloc.state.drawerLargerScreenOpen));
+              },
+              showSmallDesign: showSmallDesign,
+              selectClickupSpace: (selected) {
+                if (selected != null && state.isLoading == false) {
+                  startupBloc.add(SelectClickupSpace(
+                      clickupSpace: selected,
+                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                }
+              },
+              pageActions: pageActions,
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(46.0);
+  Size get preferredSize => const Size.fromHeight(CustomAppBarWidget.height);
+}
+
+class CustomAppBarWidget extends StatelessWidget {
+  const CustomAppBarWidget({
+    Key? key,
+    this.pageActions,
+    required this.showSmallDesign,
+    required this.openDrawer,
+    required this.selectClickupSpace,
+    required this.selectClickupWorkspace,
+  }) : super(key: key);
+  final bool showSmallDesign;
+  final void Function() openDrawer;
+  final void Function(ClickupSpace? clickupSpace) selectClickupSpace;
+  final void Function(ClickupWorkspace? clickupWorkspace)
+      selectClickupWorkspace;
+  final List<PopupMenuEntry<Object?>>? pageActions;
+  static const height = 46.0;
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      leading: showSmallDesign
+          ? null
+          : IconButton(
+              onPressed: openDrawer,
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.deepPurpleAccent,
+              )),
+      actions: [
+        if (showSmallDesign == false &&
+            Globals.clickupWorkspaces?.isNotEmpty == true)
+          DropdownButton(
+            value: Globals.selectedWorkspace,
+            onChanged: (selected) {
+              if (selected is ClickupWorkspace) {
+                selectClickupWorkspace(selected);
+              }
+            },
+            items: Globals.clickupWorkspaces
+                    ?.map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name ?? ""),
+                        ))
+                    .toList() ??
+                [],
+            hint: Text(appLocalization.translate("workspaces")),
+          ),
+        if (showSmallDesign == false &&
+            Globals.isSpaceAppWide &&
+            Globals.clickupSpaces?.isNotEmpty == true)
+          DropdownButton<ClickupSpace?>(
+            value: Globals.selectedSpace,
+            onChanged: (selected) {
+              return selectClickupSpace(selected);
+            },
+            items: Globals.clickupSpaces
+                    ?.map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name ?? ""),
+                        ))
+                    .toList() ??
+                [],
+            hint: Text(appLocalization.translate("spaces")),
+          ),
+
+        ///TODO V2 search tasks,tags, lists and folders
+        // ignore: dead_code
+        if (false)
+          IconButton(
+              onPressed: () {
+                ///TODO V2 search
+              },
+              icon: const Icon(Icons.search)),
+        if (pageActions?.isNotEmpty == true)
+          PopupMenuButton(itemBuilder: (context) {
+            return pageActions ?? [];
+          })
+      ],
+    );
+    ;
+  }
 }

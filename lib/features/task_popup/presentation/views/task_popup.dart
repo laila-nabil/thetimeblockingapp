@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -393,7 +393,7 @@ class TaskPopup extends StatelessWidget {
                                       ],
                                 ),
                               Expanded(
-                                  child: CustomTextInputField(
+                                  child: CustomTextInputField(focusNode: FocusNode(),
                                 controller: taskPopUpBloc.titleController,
                                 decoration: InputDecoration(
                                     hintText:
@@ -409,7 +409,7 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Description
-                          CustomTextInputField(
+                          CustomTextInputField(focusNode: FocusNode(),
                             controller: taskPopUpBloc.descriptionController,
                             decoration: InputDecoration(
                               hintText:

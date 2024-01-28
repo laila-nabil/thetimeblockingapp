@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -398,7 +398,7 @@ class _CreateField extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            child: CustomTextInputField(
+            child: CustomTextInputField(focusNode: FocusNode(),
               controller: controller,
             )),
         IconButton(icon: const Icon(Icons.cancel), onPressed: onCancel),
