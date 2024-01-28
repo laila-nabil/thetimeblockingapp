@@ -101,6 +101,15 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'Tooltip text',
                       initialValue: 'Tooltip message here',
                     );
+                    final customChild = Row(
+                      children: [
+                        Text(label),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Icon(Icons.add)
+                      ],
+                    );
                     return SingleChildScrollView(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -120,6 +129,12 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.primaryLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.primaryLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -157,6 +172,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     type: CustomButtonType.primaryLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    type: CustomButtonType.primaryLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
@@ -193,6 +214,13 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
                                     type: CustomButtonType.primaryLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -233,6 +261,13 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     size: CustomButtonSize.large,
                                     type: CustomButtonType.primaryLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -277,6 +312,12 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.greyFilledLabel,
                                     onPressed: () => print("on pressed"),
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greyFilledLabel,
+                                    onPressed: () => print("on pressed"),
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
@@ -312,6 +353,12 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     type: CustomButtonType.greyFilledLabel,
                                     onPressed: null,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greyFilledLabel,
+                                    onPressed: null,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -349,6 +396,13 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.greyFilledLabel,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greyFilledLabel,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -389,6 +443,13 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.greyFilledLabel,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.greyFilledLabel,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -432,6 +493,12 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: () => print("on pressed"),
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveFilledLabel,
+                                    onPressed: () => print("on pressed"),
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
@@ -467,6 +534,12 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: null,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveFilledLabel,
+                                    onPressed: null,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -504,6 +577,13 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveFilledLabel,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -544,6 +624,13 @@ class WidgetBookApp extends StatelessWidget {
                                     type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    type: CustomButtonType.destructiveFilledLabel,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -587,6 +674,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.secondaryLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.secondaryLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
@@ -624,6 +717,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     type: CustomButtonType.secondaryLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    type: CustomButtonType.secondaryLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
@@ -660,6 +759,13 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
                                     type: CustomButtonType.secondaryLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondaryLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -700,6 +806,13 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     size: CustomButtonSize.large,
                                     type: CustomButtonType.secondaryLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: null,
+                                    size: CustomButtonSize.large,
+                                    type: CustomButtonType.secondaryLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -742,6 +855,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.greyOutlinedLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.greyOutlinedLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -779,6 +898,12 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       type: CustomButtonType.greyOutlinedLabel
                                   ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.greyOutlinedLabel,
+                                      child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -815,6 +940,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.greyOutlinedLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -855,6 +987,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.greyOutlinedLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -897,6 +1036,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.destructiveOutlinedLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.destructiveOutlinedLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -934,6 +1079,12 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       type: CustomButtonType.destructiveOutlinedLabel
                                   ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.destructiveOutlinedLabel,
+                                      child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -970,6 +1121,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.destructiveOutlinedLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlinedLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1011,6 +1169,13 @@ class WidgetBookApp extends StatelessWidget {
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.destructiveOutlinedLabel
                                   ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveOutlinedLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -1051,6 +1216,12 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.primaryTextLabel,
+                                  ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.primaryTextLabel,
+                                    child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1095,6 +1266,12 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       type: CustomButtonType.primaryTextLabel
                                   ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.primaryTextLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -1137,6 +1314,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.primaryTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.primaryTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1184,6 +1368,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.primaryTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.primaryTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1233,6 +1424,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.destructiveTextLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.destructiveTextLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -1269,6 +1466,12 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: null,
                                       type: CustomButtonType.destructiveTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.destructiveTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1312,6 +1515,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.destructiveTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1359,6 +1569,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.destructiveTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1408,6 +1625,12 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     type: CustomButtonType.greyTextLabel,
                                   ),
+                                  CustomButton.custom(
+                                    tooltip: tooltip,
+                                    onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.greyTextLabel,
+                                    child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -1451,6 +1674,12 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       type: CustomButtonType.greyTextLabel
                                   ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.greyTextLabel,
+                                      child: customChild,
+                                  ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
@@ -1493,6 +1722,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.greyTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1540,6 +1776,13 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       size: CustomButtonSize.large,
                                       type: CustomButtonType.greyTextLabel
+                                  ),
+                                  CustomButton.custom(
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyTextLabel,
+                                      child: customChild,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,

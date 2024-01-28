@@ -218,7 +218,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSmall = size == CustomButtonSize.small;
     final double buttonHeight = isSmall ? 36 : 56;
-    final labelWithIcon = type.hasIcon;
+    final notOnlyLabel = type.hasIcon || child !=null;
     final borderRadius = BorderRadius.circular(6);
     final verticalFilledOutlinedVerticalPadding = isSmall ? 8.0 : 16.0;
     final filledButtonBackgroundColor = type.isPrimary
@@ -263,8 +263,8 @@ class CustomButton extends StatelessWidget {
           return EdgeInsets.symmetric(
               vertical: verticalFilledOutlinedVerticalPadding,
               horizontal: isSmall
-                  ? (labelWithIcon ? 12 : 16)
-                  : (labelWithIcon ? 16 : 24));
+                  ? (notOnlyLabel ? 12 : 16)
+                  : (notOnlyLabel ? 16 : 24));
         }),
         textStyle:
         MaterialStateProperty.resolveWith((Set<MaterialState> states) {
@@ -339,8 +339,8 @@ class CustomButton extends StatelessWidget {
         return EdgeInsets.symmetric(
             vertical: verticalFilledOutlinedVerticalPadding,
             horizontal: isSmall
-                ? (labelWithIcon ? 12 : 16)
-                : (labelWithIcon ? 16 : 24));
+                ? (notOnlyLabel ? 12 : 16)
+                : (notOnlyLabel ? 16 : 24));
       }),
       textStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
@@ -506,7 +506,7 @@ class CustomButton extends StatelessWidget {
       padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         return isSmall
             ? EdgeInsets.symmetric(
-            vertical: 8.0, horizontal: (labelWithIcon ? 12 : 16))
+            vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16))
             : EdgeInsets.zero;
       }),
     );
