@@ -426,7 +426,7 @@ class TaskPopup extends StatelessWidget {
                           ///Tags
                           ///TODO V2 TODO create new tags
                           if(state.viewTagsButton)CustomButton.noIcon(
-                            type: CustomButtonType.secondary,
+                            type: CustomButtonType.secondaryLabel,
                               label: "${state.taskParams?.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}",
                               onPressed: () {
                                 showDialog(
@@ -584,7 +584,7 @@ class TaskPopup extends StatelessWidget {
                                               taskParams: clickupTaskParams
                                                   .copyWith(startDate: value))));
                                 },
-                                type: CustomButtonType.secondary,
+                                type: CustomButtonType.secondaryLabel,
                                 label: " ${appLocalization.translate("date")}"
                                     " ${DateTimeExtensions.customToString
                                   (state.taskParams?.startDate,
@@ -606,7 +606,7 @@ class TaskPopup extends StatelessWidget {
                                             taskParams: clickupTaskParams
                                                 .copyWith(startDate: value))));
                                   },
-                                  type: CustomButtonType.secondary,
+                                  type: CustomButtonType.secondaryLabel,
                                   label:" ${appLocalization.translate("startDate")}"
                                       " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
                                 ),
@@ -626,7 +626,7 @@ class TaskPopup extends StatelessWidget {
                                             taskParams: clickupTaskParams
                                                 .copyWith(dueDate: value))));
                                   },
-                                  type: CustomButtonType.secondary,
+                                  type: CustomButtonType.secondaryLabel,
                                   label: " ${appLocalization.translate("dueDate")}"
                                       " ${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} ",
                                 ),

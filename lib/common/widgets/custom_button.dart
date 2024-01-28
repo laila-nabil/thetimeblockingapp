@@ -81,7 +81,7 @@ class CustomButton extends StatelessWidget {
       {Key? key,
         required String label,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryLabel,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
@@ -100,7 +100,7 @@ class CustomButton extends StatelessWidget {
         required String label,
         required IconData icon,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryLeadingIcon,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
@@ -119,7 +119,7 @@ class CustomButton extends StatelessWidget {
         required String label,
         required String imagePath,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryLeadingIcon,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
@@ -138,7 +138,7 @@ class CustomButton extends StatelessWidget {
         required String label,
         required IconData icon,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryTrailingIcon,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
@@ -157,7 +157,7 @@ class CustomButton extends StatelessWidget {
         required String label,
         required String imagePath,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryTrailingIcon,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
@@ -175,7 +175,7 @@ class CustomButton extends StatelessWidget {
       {Key? key,
         required IconData icon,
         required void Function()? onPressed,
-        required CustomButtonType type,
+        CustomButtonType type = CustomButtonType.primaryIcon,
         CustomButtonSize size = CustomButtonSize.small,
         FocusNode? focusNode,
         String? tooltip})
