@@ -143,6 +143,7 @@ class CustomTextInputField extends TextField {
   CustomTextInputField.box({
     Key? key,
     CustomTextInputFieldSize size = CustomTextInputFieldSize.small,
+    String? labelText,
     String? hintText,
     String? helperText,
     String? errorText,
@@ -228,8 +229,16 @@ class CustomTextInputField extends TextField {
             cursorWidth: cursorWidth,
             decoration: InputDecoration(
                 enabled: enabled ?? true,
-                hoverColor: AppColors.primary.shade100,
-                focusColor: AppColors.primary.shade100,
+                labelText: labelText,
+                labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey.shade400,
+                    appFontWeight: AppFontWeight.regular)),
+                floatingLabelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey.shade900,
+                    appFontWeight: AppFontWeight.medium)),
+                floatingLabelAlignment: FloatingLabelAlignment.start,
                 hintText: hintText,
                 hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
@@ -248,6 +257,10 @@ class CustomTextInputField extends TextField {
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
                         BorderSide(color: AppColors.grey.shade300, width: 1)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6),
+                    borderSide:
+                    BorderSide(color: AppColors.primary.shade100, width: 1),),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
@@ -255,15 +268,19 @@ class CustomTextInputField extends TextField {
                 contentPadding: EdgeInsets.symmetric(
                     horizontal:
                         size == CustomTextInputFieldSize.small ? 12 : 16),
-              errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6),
-                  borderSide:
-                  BorderSide(color: AppColors.error.shade200, width: 1)),
-              errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.error.shade500,
-                  appFontWeight: AppFontWeight.regular)),
-              errorText: errorText
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6),
+                    borderSide:
+                        BorderSide(color: AppColors.error.shade200, width: 1)),
+                errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.error.shade500,
+                    appFontWeight: AppFontWeight.regular)),
+                errorText: errorText,
+                fillColor: enabled == false
+                    ? AppColors.grey.shade100
+                    : AppColors.white,
+                filled: true,
 
             ),
             dragStartBehavior: dragStartBehavior,

@@ -1841,6 +1841,10 @@ class WidgetBookApp extends StatelessWidget {
             WidgetbookUseCase(
                 name: 'Input Text field',
                 builder: (context) {
+                  final labelText = context.knobs.string(
+                    label: 'Label text',
+                    initialValue: 'Label',
+                  );
                   final hintText = context.knobs.string(
                     label: 'Hint text',
                     initialValue: 'Placeholder',
@@ -1852,6 +1856,10 @@ class WidgetBookApp extends StatelessWidget {
                   final errorText = context.knobs.stringOrNull(
                     label: 'Error text',
                     initialValue: null,
+                  );
+                  final enabled = context.knobs.booleanOrNull(
+                    label: 'Is enabled',
+                    initialValue: true,
                   );
                   return Container(
                     color: Colors.white,
@@ -1872,11 +1880,12 @@ class WidgetBookApp extends StatelessWidget {
                                     height: 5,
                                   ),
                                   CustomTextInputField.box(
-                                    size: CustomTextInputFieldSize.small,
-                                    hintText: hintText,
-                                    helperText: helperText,
-                                    errorText:errorText
-                                  ),
+                                      size: CustomTextInputFieldSize.small,
+                                      hintText: hintText,
+                                      helperText: helperText,
+                                      errorText: errorText,
+                                      enabled: enabled,
+                                      labelText: labelText),
                                 ],
                               ),
                             ),
@@ -1891,11 +1900,12 @@ class WidgetBookApp extends StatelessWidget {
                                     height: 5,
                                   ),
                                   CustomTextInputField.box(
-                                    size: CustomTextInputFieldSize.large,
-                                    hintText: hintText,
-                                    helperText: helperText,
-                                    errorText:errorText
-                                  ),
+                                      size: CustomTextInputFieldSize.large,
+                                      hintText: hintText,
+                                      helperText: helperText,
+                                      errorText: errorText,
+                                      enabled: enabled,
+                                      labelText: labelText),
                                 ],
                               ),
                             ),
