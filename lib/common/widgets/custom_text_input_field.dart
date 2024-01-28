@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 enum CustomTextInputFieldSize { small, large }
 
@@ -142,6 +143,9 @@ class CustomTextInputField extends TextField {
   CustomTextInputField.box({
     Key? key,
     CustomTextInputFieldSize size = CustomTextInputFieldSize.small,
+    String? hintText,
+    String? helperText,
+    String? errorText,
     TextEditingController? controller,
     FocusNode? focusNode,
     UndoHistoryController? undoController,
@@ -226,6 +230,16 @@ class CustomTextInputField extends TextField {
                 enabled: enabled ?? true,
                 hoverColor: AppColors.primary.shade100,
                 focusColor: AppColors.primary.shade100,
+                hintText: hintText,
+                hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey.shade400,
+                    appFontWeight: AppFontWeight.regular)),
+                helperText: helperText,
+                helperStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey.shade500,
+                    appFontWeight: AppFontWeight.regular)),
                 disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
@@ -237,7 +251,21 @@ class CustomTextInputField extends TextField {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                        BorderSide(color: AppColors.grey.shade300, width: 1))),
+                        BorderSide(color: AppColors.grey.shade300, width: 1)),
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal:
+                        size == CustomTextInputFieldSize.small ? 12 : 16),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide:
+                  BorderSide(color: AppColors.error.shade200, width: 1)),
+              errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphSmall,
+                  color: AppColors.error.shade500,
+                  appFontWeight: AppFontWeight.regular)),
+              errorText: errorText
+
+            ),
             dragStartBehavior: dragStartBehavior,
             enabled: enabled,
             enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
