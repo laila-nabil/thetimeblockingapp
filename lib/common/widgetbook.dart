@@ -109,81 +109,90 @@ class WidgetBookApp extends StatelessWidget {
                               ///PRIMARY
                               const Text(
                                 "Primary , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.primaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.primaryLeadingIcon,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
+                                    type: CustomButtonType.primaryTrailingIcon,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
+                                    type: CustomButtonType.primaryIcon,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
+                                    type: CustomButtonType.primaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
                                     icon: Icons.add,
+                                    type: CustomButtonType.primaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
                                     icon: Icons.add,
+                                    type: CustomButtonType.primaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
                                     icon: Icons.add,
                                     tooltip: tooltip,
+                                    type: CustomButtonType.primaryIcon,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -191,6 +200,7 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
@@ -198,28 +208,31 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryIcon,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -227,6 +240,7 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
@@ -234,12 +248,15 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
+                                    type: CustomButtonType.primaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
+
+                                    type: CustomButtonType.primaryIcon,
                                   )
                                 ],
                               ),
@@ -248,34 +265,34 @@ class WidgetBookApp extends StatelessWidget {
                               ///Grey Solid
                               const Text(
                                 "Grey Solid, Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLabel,
                                     onPressed: () => print("on pressed"),
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLeadingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledTrailingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                   ),
                                   CustomButton.iconOnly(
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
@@ -284,35 +301,35 @@ class WidgetBookApp extends StatelessWidget {
                               ),
                               const Text(
                                 "Grey Solid , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLabel,
                                     onPressed: null,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLeadingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledTrailingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledIcon,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                   )
@@ -320,23 +337,23 @@ class WidgetBookApp extends StatelessWidget {
                               ),
                               const Text(
                                 "Grey Solid , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLabel,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLeadingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -344,7 +361,7 @@ class WidgetBookApp extends StatelessWidget {
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledTrailingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -353,30 +370,30 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledIcon,
                                     size: CustomButtonSize.large,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Solid , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLabel,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledLeadingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -384,14 +401,14 @@ class WidgetBookApp extends StatelessWidget {
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledTrailingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledIcon,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
@@ -403,34 +420,34 @@ class WidgetBookApp extends StatelessWidget {
                               ///Destructive Solid
                               const Text(
                                 "Destructive Solid, Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: () => print("on pressed"),
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLeadingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledTrailingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                   ),
                                   CustomButton.iconOnly(
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
@@ -439,35 +456,35 @@ class WidgetBookApp extends StatelessWidget {
                               ),
                               const Text(
                                 "Destructive Solid , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: null,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLeadingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledTrailingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledIcon,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                   )
@@ -475,23 +492,23 @@ class WidgetBookApp extends StatelessWidget {
                               ),
                               const Text(
                                 "Destructive Solid , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLeadingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -499,7 +516,7 @@ class WidgetBookApp extends StatelessWidget {
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledTrailingIcon,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -508,30 +525,30 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledIcon,
                                     size: CustomButtonSize.large,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Solid , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLabel,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledLeadingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
@@ -539,14 +556,14 @@ class WidgetBookApp extends StatelessWidget {
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.destructiveFilled,
+                                    type: CustomButtonType.destructiveFilledTrailingIcon,
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
-                                    type: CustomButtonType.greyFilled,
+                                    type: CustomButtonType.greyFilledIcon,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
@@ -558,7 +575,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Secondary
                               const Text(
                                 "Secondary , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -568,7 +585,7 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -576,26 +593,26 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
 
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryIcon,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Secondary , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -605,33 +622,33 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
                                     icon: Icons.add,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: null,
                                     icon: Icons.add,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
                                     icon: Icons.add,
                                     tooltip: tooltip,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryIcon,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Secondary , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -642,7 +659,7 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -650,7 +667,7 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
@@ -658,20 +675,20 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryIcon,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Secondary , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -682,7 +699,7 @@ class WidgetBookApp extends StatelessWidget {
                                     tooltip: tooltip,
                                     onPressed: null,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                     label: label,
@@ -690,7 +707,7 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryLeadingIcon,
                                   ),
                                   CustomButton.trailingIcon(
                                     label: label,
@@ -698,14 +715,14 @@ class WidgetBookApp extends StatelessWidget {
                                     onPressed: null,
                                     icon: Icons.add,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryTrailingIcon,
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: null,
                                     icon: Icons.add,
                                     tooltip: tooltip,
                                     size: CustomButtonSize.large,
-                                    type: CustomButtonType.secondary,
+                                    type: CustomButtonType.secondaryIcon,
                                   )
                                 ],
                               ),
@@ -713,7 +730,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Grey Outlined
                               const Text(
                                 "Grey Outlined , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -723,144 +740,144 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.greyOutlined,
+                                    type: CustomButtonType.greyOutlinedLabel,
                                   ),
                                   CustomButton.leadingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: () => print("on pressed"),
-                                    icon: Icons.add,
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
 
-                                    type: CustomButtonType.greyOutlined
+                                      type: CustomButtonType.greyOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: () => print("on pressed"),
-                                    icon: Icons.add,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      type: CustomButtonType.greyOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.greyOutlined,
+                                    type: CustomButtonType.greyOutlinedIcon,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Outlined , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      type: CustomButtonType.greyOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      type: CustomButtonType.greyOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      type: CustomButtonType.greyOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    tooltip: tooltip,
-                                    type: CustomButtonType.greyOutlined
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      type: CustomButtonType.greyOutlinedIcon
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Outlined , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: () => print("on pressed"),
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: () => print("on pressed"),
-                                    icon: Icons.add,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: () => print("on pressed"),
-                                    icon: Icons.add,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
-                                    onPressed: () => print("on pressed"),
-                                    icon: Icons.add,
-                                    tooltip: tooltip,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedIcon
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Outlined , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomButton.noIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
-                                    label: label,
-                                    tooltip: tooltip,
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      label: label,
+                                      tooltip: tooltip,
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
-                                    onPressed: null,
-                                    icon: Icons.add,
-                                    tooltip: tooltip,
-                                    size: CustomButtonSize.large,
-                                    type: CustomButtonType.greyOutlined
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyOutlinedIcon
                                   )
                                 ],
                               ),
@@ -868,7 +885,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Destructive Outlined
                               const Text(
                                 "Destructive Outlined , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -878,7 +895,7 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.destructiveOutlined,
+                                    type: CustomButtonType.destructiveOutlinedLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -886,26 +903,26 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
 
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.destructiveOutlined,
+                                    type: CustomButtonType.destructiveOutlinedIcon,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Outlined , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -915,33 +932,33 @@ class WidgetBookApp extends StatelessWidget {
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedIcon
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Outlined , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -952,7 +969,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -960,7 +977,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -968,20 +985,20 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedIcon
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Outlined , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -992,7 +1009,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: null,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1000,7 +1017,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1008,14 +1025,14 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveOutlined
+                                      type: CustomButtonType.destructiveOutlinedIcon
                                   )
                                 ],
                               ),
@@ -1023,7 +1040,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Primary Text
                               const Text(
                                 "Primary Text , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1033,7 +1050,7 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.primaryText,
+                                    type: CustomButtonType.primaryTextLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1041,26 +1058,32 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
 
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.primaryText,
+                                    type: CustomButtonType.primaryTextIcon,
+                                    tooltip: tooltip,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    type: CustomButtonType.primaryIconMinPadding,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary Text , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1070,33 +1093,39 @@ class WidgetBookApp extends StatelessWidget {
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      type: CustomButtonType.primaryIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary Text , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1107,7 +1136,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1115,7 +1144,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1123,20 +1152,27 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.primaryIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Primary Text , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1147,7 +1183,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: null,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1155,7 +1191,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1163,14 +1199,21 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.primaryText
+                                      type: CustomButtonType.primaryTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.primaryIconMinPadding
                                   )
                                 ],
                               ),
@@ -1178,7 +1221,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Destructive Text
                               const Text(
                                 "Destructive Text , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1188,7 +1231,7 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.destructiveText,
+                                    type: CustomButtonType.destructiveTextLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1196,26 +1239,26 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
 
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.destructiveText,
+                                    type: CustomButtonType.destructiveTextIcon,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Text , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1225,33 +1268,39 @@ class WidgetBookApp extends StatelessWidget {
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      type: CustomButtonType.destructiveIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Text , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1262,7 +1311,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1270,7 +1319,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1278,20 +1327,27 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Destructive Text , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1302,7 +1358,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: null,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1310,7 +1366,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1318,14 +1374,21 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.destructiveText
+                                      type: CustomButtonType.destructiveTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.destructiveIconMinPadding
                                   )
                                 ],
                               ),
@@ -1333,7 +1396,7 @@ class WidgetBookApp extends StatelessWidget {
                               ///Grey Text
                               const Text(
                                 "Grey Text , Enabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1343,7 +1406,7 @@ class WidgetBookApp extends StatelessWidget {
                                     label: label,
                                     tooltip: tooltip,
                                     onPressed: () => print("on pressed"),
-                                    type: CustomButtonType.greyText,
+                                    type: CustomButtonType.greyTextLabel,
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1351,26 +1414,32 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
 
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                     onPressed: () => print("on pressed"),
                                     icon: Icons.add,
-                                    type: CustomButtonType.greyText,
+                                    type: CustomButtonType.greyTextIcon,
+                                    tooltip: tooltip,
+                                  ),
+                                  CustomButton.iconOnly(
+                                    onPressed: () => print("on pressed"),
+                                    icon: Icons.add,
+                                    type: CustomButtonType.greyIconMinPadding,
                                     tooltip: tooltip,
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Text , Disabled , small",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1380,33 +1449,39 @@ class WidgetBookApp extends StatelessWidget {
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
                                       tooltip: tooltip,
                                       onPressed: null,
                                       icon: Icons.add,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      type: CustomButtonType.greyIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Text , Enabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1417,7 +1492,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: () => print("on pressed"),
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1425,7 +1500,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1433,20 +1508,27 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: () => print("on pressed"),
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: () => print("on pressed"),
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyIconMinPadding
                                   )
                                 ],
                               ),
                               const Text(
                                 "Grey Text , Disabled , large",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -1457,7 +1539,7 @@ class WidgetBookApp extends StatelessWidget {
                                       tooltip: tooltip,
                                       onPressed: null,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLabel
                                   ),
                                   CustomButton.leadingIcon(
                                       label: label,
@@ -1465,7 +1547,7 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextLeadingIcon
                                   ),
                                   CustomButton.trailingIcon(
                                       label: label,
@@ -1473,14 +1555,21 @@ class WidgetBookApp extends StatelessWidget {
                                       onPressed: null,
                                       icon: Icons.add,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextTrailingIcon
                                   ),
                                   CustomButton.iconOnly(
                                       onPressed: null,
                                       icon: Icons.add,
                                       tooltip: tooltip,
                                       size: CustomButtonSize.large,
-                                      type: CustomButtonType.greyText
+                                      type: CustomButtonType.greyTextIcon
+                                  ),
+                                  CustomButton.iconOnly(
+                                      onPressed: null,
+                                      icon: Icons.add,
+                                      tooltip: tooltip,
+                                      size: CustomButtonSize.large,
+                                      type: CustomButtonType.greyIconMinPadding
                                   )
                                 ],
                               ),
