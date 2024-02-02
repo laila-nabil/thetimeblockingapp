@@ -6,15 +6,22 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
+import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import 'custom_drop_down.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key, this.pageActions, required this.showSmallDesign}) : super(key: key);
-  final List<PopupMenuEntry<Object?>>? pageActions;
+  const CustomAppBar(
+      {Key? key, this.pageActions, required this.showSmallDesign})
+      : super(key: key);
+  final List<CustomDropDownItem>? pageActions;
   final bool showSmallDesign;
+
   @override
   Widget build(BuildContext context) {
     final startupBloc = BlocProvider.of<StartupBloc>(context);
@@ -58,7 +65,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(CustomAppBarWidget.height(showSmallDesign));
+  Size get preferredSize =>
+      Size.fromHeight(CustomAppBarWidget.height(showSmallDesign));
 }
 
 class CustomAppBarWidget extends StatelessWidget {
@@ -75,11 +83,14 @@ class CustomAppBarWidget extends StatelessWidget {
   final void Function(ClickupSpace? clickupSpace) selectClickupSpace;
   final void Function(ClickupWorkspace? clickupWorkspace)
       selectClickupWorkspace;
-  final List<PopupMenuEntry<Object?>>? pageActions;
-  static double height(bool showSmallDesign) =>showSmallDesign? 52: 64;
+  final List<CustomDropDownItem>? pageActions;
+
+  static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: AppColors.background,
       elevation: 0,
       leading: showSmallDesign
           ? null
@@ -135,9 +146,13 @@ class CustomAppBarWidget extends StatelessWidget {
               },
               icon: const Icon(Icons.search)),
         if (pageActions?.isNotEmpty == true)
-          PopupMenuButton(itemBuilder: (context) {
-            return pageActions ?? [];
-          })
+          CustomDropDownMenu(
+              items: pageActions ?? [],
+              listButton: Image.asset(
+                AppAssets.dotsVPng,
+                height: 20,
+                fit: BoxFit.fitHeight,
+              )),
       ],
     );
     ;

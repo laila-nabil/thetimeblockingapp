@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -2014,17 +2015,21 @@ class WidgetBookApp extends StatelessWidget {
                 name: 'App bar',
                 builder: (context) {
                   final showSmallDesign = context.showSmallDesign;
-                
+
                   return Theme(
                     data: appTheme,
-                    child: SizedBox(
-                      height: CustomAppBarWidget.height(showSmallDesign),
-                      child: CustomAppBarWidget(
+                    child: Scaffold(
+                      appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
-                        openDrawer: () => print("open drawer"),
-                        selectClickupSpace: (s) => print("select $s"),
-                        selectClickupWorkspace: (s) => print("select $s"),
+                        pageActions: [
+                          CustomDropDownItem.text(
+                              title: "Filter by list", onTap: () {}),
+                          CustomDropDownItem.text(
+                              title: "Filter by tag", onTap: () {})
+                        ],
                       ),
+                      drawer: Container(),
+                      backgroundColor: Colors.black,
                     ),
                   );
                 })
@@ -2110,4 +2115,27 @@ class WidgetBookApp extends StatelessWidget {
       ],
     );
   }
+}
+
+class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _CustomAppBar(
+      {super.key, required this.showSmallDesign, this.pageActions});
+
+  final bool showSmallDesign;
+  final List<CustomDropDownItem>? pageActions;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomAppBarWidget(
+      showSmallDesign: showSmallDesign,
+      openDrawer: () => print("open drawer"),
+      selectClickupSpace: (s) => print("select s"),
+      selectClickupWorkspace: (s) => print("select s"),
+      pageActions: pageActions,
+    );
+  }
+
+  @override
+  Size get preferredSize =>
+      Size.fromHeight(CustomAppBarWidget.height(showSmallDesign));
 }
