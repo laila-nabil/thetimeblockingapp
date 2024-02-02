@@ -398,7 +398,7 @@ class _CreateField extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            child: CustomTextInputField(
+            child: CustomTextInputField(focusNode: FocusNode(),
               controller: controller,
             )),
         IconButton(icon: const Icon(Icons.cancel), onPressed: onCancel),

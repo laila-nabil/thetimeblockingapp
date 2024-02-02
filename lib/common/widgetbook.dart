@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:widgetbook/widgetbook.dart';
+import 'widgets/custom_app_bar.dart';
 
 void main() {
   runApp(const WidgetBookApp());
@@ -1857,8 +1860,16 @@ class WidgetBookApp extends StatelessWidget {
                     label: 'Error text',
                     initialValue: null,
                   );
+                  final successText = context.knobs.stringOrNull(
+                    label: 'Success text',
+                    initialValue: null,
+                  );
                   final enabled = context.knobs.booleanOrNull(
                     label: 'Is enabled',
+                    initialValue: true,
+                  );
+                  final prefixIconEnabled = context.knobs.booleanOrNull(
+                    label: 'prefixIcon enabled',
                     initialValue: true,
                   );
                   return Container(
@@ -1879,11 +1890,19 @@ class WidgetBookApp extends StatelessWidget {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  CustomTextInputField.box(
+                                  CustomTextInputField(
+                                      prefixIcon: prefixIconEnabled == true
+                                          ? Icons.search
+                                          : null,
+                                      buttonStyle:
+                                          CustomTextInputFieldStyle.box,
                                       size: CustomTextInputFieldSize.small,
+                                      focusNode: FocusNode(debugLabel: "b s"),
+                                      controller: TextEditingController(),
                                       hintText: hintText,
                                       helperText: helperText,
                                       errorText: errorText,
+                                      successText: successText,
                                       enabled: enabled,
                                       labelText: labelText),
                                 ],
@@ -1899,11 +1918,18 @@ class WidgetBookApp extends StatelessWidget {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  CustomTextInputField.box(
+                                  CustomTextInputField(
+                                      prefixIcon: prefixIconEnabled == true
+                                          ? Icons.search
+                                          : null,
+                                      buttonStyle:
+                                          CustomTextInputFieldStyle.box,
                                       size: CustomTextInputFieldSize.large,
+                                      focusNode: FocusNode(debugLabel: "b l"),
                                       hintText: hintText,
                                       helperText: helperText,
                                       errorText: errorText,
+                                      successText: successText,
                                       enabled: enabled,
                                       labelText: labelText),
                                 ],
@@ -1913,6 +1939,9 @@ class WidgetBookApp extends StatelessWidget {
                               width: 10,
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 30,
                         ),
                         Row(
                           children: [
@@ -1926,7 +1955,20 @@ class WidgetBookApp extends StatelessWidget {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  CustomTextInputField(),
+                                  CustomTextInputField(
+                                      prefixIcon: prefixIconEnabled == true
+                                          ? Icons.search
+                                          : null,
+                                      buttonStyle:
+                                          CustomTextInputFieldStyle.line,
+                                      size: CustomTextInputFieldSize.small,
+                                      focusNode: FocusNode(debugLabel: "l s"),
+                                      hintText: hintText,
+                                      helperText: helperText,
+                                      errorText: errorText,
+                                      successText: successText,
+                                      enabled: enabled,
+                                      labelText: labelText),
                                 ],
                               ),
                             ),
@@ -1940,7 +1982,20 @@ class WidgetBookApp extends StatelessWidget {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  CustomTextInputField(),
+                                  CustomTextInputField(
+                                      prefixIcon: prefixIconEnabled == true
+                                          ? Icons.search
+                                          : null,
+                                      buttonStyle:
+                                          CustomTextInputFieldStyle.line,
+                                      size: CustomTextInputFieldSize.large,
+                                      focusNode: FocusNode(debugLabel: "l l"),
+                                      hintText: hintText,
+                                      helperText: helperText,
+                                      errorText: errorText,
+                                      successText: successText,
+                                      enabled: enabled,
+                                      labelText: labelText),
                                 ],
                               ),
                             ),
@@ -1950,6 +2005,26 @@ class WidgetBookApp extends StatelessWidget {
                           ],
                         ),
                       ],
+                    ),
+                  );
+                })
+          ]),
+          WidgetbookComponent(name: 'App bar', useCases: [
+            WidgetbookUseCase(
+                name: 'App bar',
+                builder: (context) {
+                  final showSmallDesign = context.showSmallDesign;
+                
+                  return Theme(
+                    data: appTheme,
+                    child: SizedBox(
+                      height: CustomAppBarWidget.height,
+                      child: CustomAppBarWidget(
+                        showSmallDesign: showSmallDesign,
+                        openDrawer: () => print("open drawer"),
+                        selectClickupSpace: (s) => print("select $s"),
+                        selectClickupWorkspace: (s) => print("select $s"),
+                      ),
                     ),
                   );
                 })

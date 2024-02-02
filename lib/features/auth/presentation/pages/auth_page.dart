@@ -119,6 +119,7 @@ class ExplainClickupAuth extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextInputField(
+                      focusNode: FocusNode(),
                       controller: controller,
                     ),
                   ),

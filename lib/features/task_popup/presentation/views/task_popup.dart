@@ -393,7 +393,7 @@ class TaskPopup extends StatelessWidget {
                                       ],
                                 ),
                               Expanded(
-                                  child: CustomTextInputField(
+                                  child: CustomTextInputField(focusNode: FocusNode(),
                                 controller: taskPopUpBloc.titleController,
                                 decoration: InputDecoration(
                                     hintText:
@@ -409,7 +409,7 @@ class TaskPopup extends StatelessWidget {
                           ),
 
                           ///Description
-                          CustomTextInputField(
+                          CustomTextInputField(focusNode: FocusNode(),
                             controller: taskPopUpBloc.descriptionController,
                             decoration: InputDecoration(
                               hintText:
