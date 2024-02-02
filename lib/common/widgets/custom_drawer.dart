@@ -22,159 +22,185 @@ import '../entities/clickup_workspace.dart';
 
 ///TODO V1.5 in web,folders and list from here
 
-
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localizationImpl = appLocalization;
     final startupBloc = BlocProvider.of<StartupBloc>(context);
     return BlocBuilder<StartupBloc, StartupState>(
       builder: (context, state) {
-        return Drawer(
-          width: 200,
-          child: ListView(
-            children: [
-              const _Logo(),
-              if (context.showSmallDesign &&
-                  Globals.clickupWorkspaces?.isNotEmpty == true)
-                DropdownButton(
-                  value: Globals.selectedWorkspace,
-                  onChanged: (selected) {
-                    if (selected is ClickupWorkspace &&
-                        state.isLoading == false) {
-                      startupBloc.add(SelectClickupWorkspace(
-                          clickupWorkspace: selected,
-                          clickupAccessToken: Globals.clickupAuthAccessToken));
-                    }
-                  },
-                  items: Globals.clickupWorkspaces
-                          ?.map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.name ?? ""),
-                              ))
-                          .toList() ??
-                      [],
-                  hint: Text(appLocalization.translate("workspaces")),
-                ),
-              if (context.showSmallDesign &&
-                  Globals.isSpaceAppWide &&
-                  Globals.clickupSpaces?.isNotEmpty == true)
-                DropdownButton<ClickupSpace?>(
-                  value: Globals.selectedSpace,
-                  onChanged: (selected) {
-                    if (selected != null && state.isLoading == false) {
-                      startupBloc.add(SelectClickupSpace(
-                          clickupSpace: selected,
-                          clickupAccessToken: Globals.clickupAuthAccessToken));
-                    }
-                  },
-                  items: Globals.clickupSpaces
-                          ?.map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.name ?? ""),
-                              ))
-                          .toList() ??
-                      [],
-                  hint: Text(appLocalization.translate("spaces")),
-                ),
-              _DrawerItem(
-                  title: localizationImpl.translate("All"),
-                  iconPath: Icons.all_inbox,
-                  onPressed: () {
-                    context.go(AllTasksPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(AllTasksPage.routeName)),
-              _DrawerItem(
-                  title: localizationImpl.translate("Schedule"),
-                  iconPath: Icons.calendar_month,
-                  onPressed: () {
-                    context.go(SchedulePage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(SchedulePage.routeName)),
-              _DrawerItem(
-                  title: localizationImpl.translate("Lists"),
-                  iconPath: Icons.list_sharp,
-                  onPressed: () {
-                    context.go(ListsPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                          .location
-                          .contains(ListsPage.routeName) ||
-                      GoRouter.of(context)
-                          .location
-                          .contains(ListPage.routeName)),
-              _DrawerItem(
-                  title: localizationImpl.translate("Tags"),
-                  iconPath: Icons.tag_sharp,
-                  onPressed: () {
-                    context.go(TagsPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                          .location
-                          .contains(TagsPage.routeName) ||
-                      GoRouter.of(context)
-                          .location
-                          .contains(TagPage.routeName)),
-              // ignore: dead_code
-              if(false)_DrawerItem(
-                  title: localizationImpl.translate("Maps"),
-                  iconPath: Icons.map_outlined,
-                  onPressed: () {
-                    context.go(MapsPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(MapsPage.routeName)),
-              const Divider(),
-              // ignore: dead_code
-              if(false)_DrawerItem(
-                  title: localizationImpl.translate("Archive"),
-                  iconPath: Icons.archive_outlined,
-                  onPressed: () {
-                    context.go(ArchivePage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(ArchivePage.routeName)),
-              // ignore: dead_code
-              if(false)_DrawerItem(
-                  title: localizationImpl.translate("Trash"),
-                  iconPath: Icons.delete,
-                  onPressed: () {
-                    context.go(TrashPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(TrashPage.routeName)),
-              // ignore: dead_code
-              if(false)_DrawerItem(
-                  title: localizationImpl.translate("Help"),
-                  iconPath: Icons.help,
-                  onPressed: () {
-                    context.go(HelpPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(HelpPage.routeName)),
-              _DrawerItem(
-                  title: localizationImpl.translate("Settings"),
-                  iconPath: Icons.settings,
-                  onPressed: () {
-                    context.go(SettingsPage.routeName);
-                  },
-                  isSelected: GoRouter.of(context)
-                      .location
-                      .contains(SettingsPage.routeName)),
-            ],
-          ),
-        );
+        return CustomDrawerWidget(
+            router: GoRouter.of(context),
+            selectWorkspace: (selected) {
+              if (selected is ClickupWorkspace && state.isLoading == false) {
+                startupBloc.add(SelectClickupWorkspace(
+                    clickupWorkspace: selected,
+                    clickupAccessToken: Globals.clickupAuthAccessToken));
+              }
+            },
+            selectSpace: (selected) {
+              if (selected != null && state.isLoading == false) {
+                startupBloc.add(SelectClickupSpace(
+                    clickupSpace: selected,
+                    clickupAccessToken: Globals.clickupAuthAccessToken));
+              }
+            },
+            appLocalization: appLocalization);
       },
+    );
+  }
+}
+
+class CustomDrawerWidget extends StatelessWidget {
+  const CustomDrawerWidget({
+    super.key,
+    required this.appLocalization,
+    required this.selectWorkspace,
+    required this.selectSpace,
+    required this.router,
+  });
+
+  final void Function(ClickupWorkspace? clickupWorkspace) selectWorkspace;
+  final void Function(ClickupSpace? clickupSpace) selectSpace;
+  final Localization appLocalization;
+  final GoRouter? router;
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      width: 200,
+      child: ListView(
+        children: [
+          const _Logo(),
+          if (context.showSmallDesign &&
+              Globals.clickupWorkspaces?.isNotEmpty == true)
+            DropdownButton(
+              value: Globals.selectedWorkspace,
+              onChanged: (selected) {
+                if (selected is ClickupWorkspace) {
+                  selectWorkspace(selected);
+                }
+              },
+              items: Globals.clickupWorkspaces
+                      ?.map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e.name ?? ""),
+                          ))
+                      .toList() ??
+                  [],
+              hint: Text(appLocalization.translate("workspaces")),
+            ),
+          if (context.showSmallDesign &&
+              Globals.isSpaceAppWide &&
+              Globals.clickupSpaces?.isNotEmpty == true)
+            DropdownButton<ClickupSpace?>(
+              value: Globals.selectedSpace,
+              onChanged: (selected) {
+                if (selected != null) {
+                  selectSpace(selected);
+                }
+              },
+              items: Globals.clickupSpaces
+                      ?.map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e.name ?? ""),
+                          ))
+                      .toList() ??
+                  [],
+              hint: Text(appLocalization.translate("spaces")),
+            ),
+          _DrawerItem(
+              title: appLocalization.translate("All"),
+              iconPath: Icons.all_inbox,
+              onPressed: () {
+                context.go(AllTasksPage.routeName);
+              },
+              isSelected: router
+                  ?.location
+                  .contains(AllTasksPage.routeName) == true),
+          _DrawerItem(
+              title: appLocalization.translate("Schedule"),
+              iconPath: Icons.calendar_month,
+              onPressed: () {
+                context.go(SchedulePage.routeName);
+              },
+              isSelected: router
+                  ?.location
+                  .contains(SchedulePage.routeName)== true),
+          _DrawerItem(
+              title: appLocalization.translate("Lists"),
+              iconPath: Icons.list_sharp,
+              onPressed: () {
+                context.go(ListsPage.routeName);
+              },
+              isSelected: router
+                      ?.location
+                      .contains(ListsPage.routeName)== true ||
+                  router?.location.contains(ListPage.routeName)== true),
+          _DrawerItem(
+              title: appLocalization.translate("Tags"),
+              iconPath: Icons.tag_sharp,
+              onPressed: () {
+                context.go(TagsPage.routeName);
+              },
+              isSelected: router
+                      ?.location
+                      .contains(TagsPage.routeName)== true ||
+                  router?.location.contains(TagPage.routeName)== true),
+          // ignore: dead_code
+          if (false)
+            _DrawerItem(
+                title: appLocalization.translate("Maps"),
+                iconPath: Icons.map_outlined,
+                onPressed: () {
+                  context.go(MapsPage.routeName);
+                },
+                isSelected:
+                    router?.location.contains(MapsPage.routeName)== true),
+          const Divider(),
+          // ignore: dead_code
+          if (false)
+            _DrawerItem(
+                title: appLocalization.translate("Archive"),
+                iconPath: Icons.archive_outlined,
+                onPressed: () {
+                  context.go(ArchivePage.routeName);
+                },
+                isSelected: router
+                    ?.location
+                    .contains(ArchivePage.routeName)== true),
+          // ignore: dead_code
+          if (false)
+            _DrawerItem(
+                title: appLocalization.translate("Trash"),
+                iconPath: Icons.delete,
+                onPressed: () {
+                  context.go(TrashPage.routeName);
+                },
+                isSelected: router
+                    ?.location
+                    .contains(TrashPage.routeName)== true),
+          // ignore: dead_code
+          if (false)
+            _DrawerItem(
+                title: appLocalization.translate("Help"),
+                iconPath: Icons.help,
+                onPressed: () {
+                  context.go(HelpPage.routeName);
+                },
+                isSelected:
+                    router?.location.contains(HelpPage.routeName)== true),
+          _DrawerItem(
+              title: appLocalization.translate("Settings"),
+              iconPath: Icons.settings,
+              onPressed: () {
+                context.go(SettingsPage.routeName);
+              },
+              isSelected: router
+                  ?.location
+                  .contains(SettingsPage.routeName)== true),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
@@ -9,7 +10,9 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:widgetbook/widgetbook.dart';
+import '../core/localization/localization.dart';
 import 'widgets/custom_app_bar.dart';
+import 'widgets/custom_drawer.dart';
 
 void main() {
   runApp(const WidgetBookApp());
@@ -2033,7 +2036,35 @@ class WidgetBookApp extends StatelessWidget {
                     ),
                   );
                 })
-          ])
+          ]),
+          WidgetbookComponent(name: 'Drawer', useCases: [
+            WidgetbookUseCase(
+                name: 'Drawer',
+                builder: (context) {
+                  final showSmallDesign = context.showSmallDesign;
+
+                  return Theme(
+                    data: appTheme,
+                    child: Scaffold(
+                      appBar: _CustomAppBar(
+                        showSmallDesign: showSmallDesign,
+                        pageActions: [
+                          CustomDropDownItem.text(
+                              title: "Filter by list", onTap: () {}),
+                          CustomDropDownItem.text(
+                              title: "Filter by tag", onTap: () {})
+                        ],
+                      ),
+                      drawer: CustomDrawerWidget(
+                          router: GoRouter.maybeOf(context),
+                          appLocalization: appLocalization,
+                          selectWorkspace: (s)=>print("selectWorkspace $s"),
+                          selectSpace: (s)=>print("selectSpace $s"),),
+                      backgroundColor: Colors.black,
+                    ),
+                  );
+                })
+          ]),
         ])
       ],
     );
