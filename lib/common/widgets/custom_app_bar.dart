@@ -12,9 +12,9 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key, this.pageActions}) : super(key: key);
+  const CustomAppBar({Key? key, this.pageActions, required this.showSmallDesign}) : super(key: key);
   final List<PopupMenuEntry<Object?>>? pageActions;
-
+  final bool showSmallDesign;
   @override
   Widget build(BuildContext context) {
     final startupBloc = BlocProvider.of<StartupBloc>(context);
@@ -29,7 +29,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
                   clickupAccessToken: Globals.clickupAuthAccessToken));
             }
-            final showSmallDesign = context.showSmallDesign;
             return CustomAppBarWidget(
               selectClickupWorkspace: (selected) {
                 if (selected is ClickupWorkspace && state.isLoading == false) {
@@ -59,7 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(CustomAppBarWidget.height);
+  Size get preferredSize => Size.fromHeight(CustomAppBarWidget.height(showSmallDesign));
 }
 
 class CustomAppBarWidget extends StatelessWidget {
@@ -77,7 +76,7 @@ class CustomAppBarWidget extends StatelessWidget {
   final void Function(ClickupWorkspace? clickupWorkspace)
       selectClickupWorkspace;
   final List<PopupMenuEntry<Object?>>? pageActions;
-  static const height = 46.0;
+  static double height(bool showSmallDesign) =>showSmallDesign? 52: 64;
   @override
   Widget build(BuildContext context) {
     return AppBar(

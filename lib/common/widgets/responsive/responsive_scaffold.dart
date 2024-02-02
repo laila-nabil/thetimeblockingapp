@@ -120,6 +120,7 @@ class ResponsiveScaffold extends Scaffold {
       ? null
       : CustomAppBar(
           pageActions: pageActions,
+          showSmallDesign: context.showSmallDesign,
         );
 }
 

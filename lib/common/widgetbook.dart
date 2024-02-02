@@ -2018,7 +2018,7 @@ class WidgetBookApp extends StatelessWidget {
                   return Theme(
                     data: appTheme,
                     child: SizedBox(
-                      height: CustomAppBarWidget.height,
+                      height: CustomAppBarWidget.height(showSmallDesign),
                       child: CustomAppBarWidget(
                         showSmallDesign: showSmallDesign,
                         openDrawer: () => print("open drawer"),
