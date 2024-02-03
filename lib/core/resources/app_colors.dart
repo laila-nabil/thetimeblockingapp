@@ -14,6 +14,8 @@ class AppColors {
     900: Color(0xff),
   });*/
 
+  static Color background = grey.shade50;
+
   static MaterialColor primary = MaterialColor(const Color(0xff8133F1).value, const {
     50: Color(0xffEFE6FD),
     100: Color(0xffCEB0FA),

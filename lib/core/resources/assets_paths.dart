@@ -4,4 +4,5 @@ class AppAssets {
   static const checkCircleSvg = "assets/images/check_circle.svg";
   static const multiplyCirclePng = "assets/images/multiply_circle.png";
   static const multiplyCircleSvg = "assets/images/multiply_circle.svg";
+  static const dotsVPng = "assets/images/dots_v.png";
 }

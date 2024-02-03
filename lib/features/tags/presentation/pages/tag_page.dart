@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_blo
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
+import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
@@ -61,7 +62,7 @@ class TagPage extends StatelessWidget {
               ///TODO V2 select multiple tasks to perform bulk actions
               ///TODO V2 bulk delete tasks
               pageActions: [
-                PopupMenuItem(
+                CustomDropDownItem.widget(
                     onTap: () {
                       tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
                           insideTagPage: true,
@@ -74,7 +75,7 @@ class TagPage extends StatelessWidget {
                               Globals
                                   .clickupAuthAccessToken)));
                     },
-                    child: Row(
+                    titleWidget: Row(
                       children: [
                         const Icon(
                             Icons.edit),
@@ -83,7 +84,7 @@ class TagPage extends StatelessWidget {
                             "edit")),
                       ],
                     )),
-                PopupMenuItem(
+                CustomDropDownItem.widget(
                     onTap: () {
                       tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
                           DeleteClickupTagParams(
@@ -94,7 +95,7 @@ class TagPage extends StatelessWidget {
                               Globals
                                   .clickupAuthAccessToken)));
                     },
-                    child: Row(
+                    titleWidget: Row(
                       children: [
                         const Icon(
                             Icons.delete),

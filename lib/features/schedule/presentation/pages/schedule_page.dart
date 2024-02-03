@@ -10,6 +10,7 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
+import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
@@ -17,9 +18,11 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 ///TODO V1.5 in web, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
-  const SchedulePage({Key? key, this.waitForStartGetTasks = false}) : super(key: key);
+  const SchedulePage({Key? key, this.waitForStartGetTasks = false})
+      : super(key: key);
   static const routeName = "/Schedule";
   final bool waitForStartGetTasks;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -78,11 +81,11 @@ class SchedulePage extends StatelessWidget {
                       scheduleBloc.add(ShowTaskPopupEvent(
                           showTaskPopup: true,
                           taskPopupParams: TaskPopupParams.notAllDayTask(
-                              onSave: (params) {
-                                scheduleBloc.add(
-                                    CreateClickupTaskEvent(params: params));
-                              },
-                              bloc: scheduleBloc,
+                            onSave: (params) {
+                              scheduleBloc
+                                  .add(CreateClickupTaskEvent(params: params));
+                            },
+                            bloc: scheduleBloc,
                             isLoading: (state) => state is! ScheduleState
                                 ? false
                                 : state.isLoading,
@@ -99,32 +102,36 @@ class SchedulePage extends StatelessWidget {
                     ///TODO V2 select multiple tasks to perform bulk actions
                     ///TODO V2 bulk move tasks to another list
                     ///TODO V2 bulk delete tasks
-                    PopupMenuItem(
-                      child: Text(appLocalization.translate("filterBy") +
-                          appLocalization.translate("Lists").toLowerCase()),
+                    CustomDropDownItem.text(
+                      title: appLocalization.translate("filterBy") +
+                          appLocalization.translate("Lists").toLowerCase(),
                       onTap: () {
                         ///TODO V2 filter by lists
                       },
                     ),
-                    PopupMenuItem(
-                      child: Text(appLocalization.translate("filterBy") +
-                          appLocalization.translate("Tags").toLowerCase()),
+                    CustomDropDownItem.text(
+                      title: appLocalization.translate("filterBy") +
+                          appLocalization.translate("Tags").toLowerCase(),
                       onTap: () {
                         ///TODO V2 filter by tags
                       },
                     ),
+
                     ///TODO V3 auto Schedule
                     // ignore: dead_code
-                    if(false)PopupMenuItem(
-                      child: Text(appLocalization.translate("autoSchedule")),
-                      onTap: () { },
-                    ),
+                    if (false)
+                      CustomDropDownItem.text(
+                        title: appLocalization.translate("autoSchedule"),
+                        onTap: () {},
+                      ),
+
                     ///TODO V2 show completed tasks
                     // ignore: dead_code
-                    if(false)PopupMenuItem(
-                      child: Text(appLocalization.translate("showCompleted")),
-                      onTap: () {},
-                    ),
+                    if (false)
+                      CustomDropDownItem.text(
+                        title: appLocalization.translate("showCompleted"),
+                        onTap: () {},
+                      ),
                   ],
                   responsiveBody: ResponsiveTParams(
                     small: _SchedulePageContent(
@@ -162,8 +169,8 @@ class _SchedulePageContent extends StatelessWidget {
         scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: selectedWorkspace?.id ?? "",
-                filtersParams: scheduleBloc
-                    .state.defaultTasksInWorkspaceFiltersParams)));
+                filtersParams:
+                    scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
         startupBloc.add(SelectClickupWorkspace(
             clickupWorkspace: selectedWorkspace!,
             clickupAccessToken: Globals.clickupAuthAccessToken));
