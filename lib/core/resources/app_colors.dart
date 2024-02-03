@@ -180,4 +180,6 @@ class AppColors {
     800: Color(0xff763445),
     900: Color(0xff5a2735),
   });
+
+  static var text = const Color(0xff080619);
 }

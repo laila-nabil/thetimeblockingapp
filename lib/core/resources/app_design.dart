@@ -14,7 +14,7 @@ enum AppBorderRadius {
 
   const AppBorderRadius(this.value);
 
-  final int value;
+  final double value;
 }
 
 enum AppShadow {

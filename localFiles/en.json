@@ -44,5 +44,22 @@
   "Overdue": "Overdue",
   "Upcoming": "Upcoming",
   "Unscheduled": "Unscheduled",
-  "tagCannotContainQuestionMark": "Tag must not contain ? at the end"
+  "tagCannotContainQuestionMark": "Tag must not contain ? at the end",
+  "welcomeTimeblockingapp":"Welcome to Time blocking app The simplest way to manage your tasks",
+  "withThePowerOf":"with the power of",
+  "simplifyTasks":"🚀 Simplify Your Tasks",
+  "timeBlockingAppStreamlinesTaskManagement":"Time blocking app streamlines task management, making it easy to focus on what matters most.",
+  "seamlessClickUpIntegration":"🔗 Seamless ClickUp Integration",
+  "connectTimeblockingClickup":"Connect Time blocking app to ClickUp for simple and robust task storage and collaboration.",
+  "dateSecurity":"🛡️ Data Security",
+  "restEasyKnowingTasksSecured":"Rest easy knowing that all your task data is securely managed by ClickUp. Check out ClickUp's privacy and security policies for additional details",
+  "getStarted":"Get started",
+  "next":"Next",
+  "back":"Back",
+  "connectWithClickup":"Connect with ClickUp",
+  "copyLink":"Copy link",
+  "skip":"Skip",
+  "linkCopiedSuccessfully":"link copied to clipboard successfully"
+  
+
 }
