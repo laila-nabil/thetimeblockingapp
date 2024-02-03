@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
+import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/pages/all_tasks_page.dart';
 import 'package:thetimeblockingapp/features/archive/presentation/pages/archive_page.dart';
 import 'package:thetimeblockingapp/features/help/presentation/pages/help_page.dart';
@@ -14,8 +18,10 @@ import 'package:thetimeblockingapp/features/settings/presentation/pages/settings
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/globals.dart';
+import '../../core/launch_url.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../../features/tasks/domain/entities/clickup_space.dart';
 import '../entities/clickup_workspace.dart';
@@ -28,9 +34,11 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final startupBloc = BlocProvider.of<StartupBloc>(context);
+    final showSmallDesign = context.showSmallDesign;
     return BlocBuilder<StartupBloc, StartupState>(
       builder: (context, state) {
         return CustomDrawerWidget(
+            showSmallDesign: showSmallDesign,
             router: GoRouter.of(context),
             selectWorkspace: (selected) {
               if (selected is ClickupWorkspace && state.isLoading == false) {
@@ -59,147 +67,138 @@ class CustomDrawerWidget extends StatelessWidget {
     required this.selectWorkspace,
     required this.selectSpace,
     required this.router,
+    required this.showSmallDesign,
   });
 
   final void Function(ClickupWorkspace? clickupWorkspace) selectWorkspace;
   final void Function(ClickupSpace? clickupSpace) selectSpace;
   final Localization appLocalization;
   final GoRouter? router;
+  final bool showSmallDesign;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 200,
-      child: ListView(
-        children: [
-          const _Logo(),
-          if (context.showSmallDesign &&
-              Globals.clickupWorkspaces?.isNotEmpty == true)
-            DropdownButton(
-              value: Globals.selectedWorkspace,
-              onChanged: (selected) {
-                if (selected is ClickupWorkspace) {
-                  selectWorkspace(selected);
-                }
-              },
-              items: Globals.clickupWorkspaces
-                      ?.map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e.name ?? ""),
-                          ))
-                      .toList() ??
-                  [],
-              hint: Text(appLocalization.translate("workspaces")),
-            ),
-          if (context.showSmallDesign &&
-              Globals.isSpaceAppWide &&
-              Globals.clickupSpaces?.isNotEmpty == true)
-            DropdownButton<ClickupSpace?>(
-              value: Globals.selectedSpace,
-              onChanged: (selected) {
-                if (selected != null) {
-                  selectSpace(selected);
-                }
-              },
-              items: Globals.clickupSpaces
-                      ?.map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e.name ?? ""),
-                          ))
-                      .toList() ??
-                  [],
-              hint: Text(appLocalization.translate("spaces")),
-            ),
-          _DrawerItem(
-              title: appLocalization.translate("All"),
-              iconPath: Icons.all_inbox,
-              onPressed: () {
-                context.go(AllTasksPage.routeName);
-              },
-              isSelected: router
-                  ?.location
-                  .contains(AllTasksPage.routeName) == true),
-          _DrawerItem(
-              title: appLocalization.translate("Schedule"),
-              iconPath: Icons.calendar_month,
-              onPressed: () {
-                context.go(SchedulePage.routeName);
-              },
-              isSelected: router
-                  ?.location
-                  .contains(SchedulePage.routeName)== true),
-          _DrawerItem(
-              title: appLocalization.translate("Lists"),
-              iconPath: Icons.list_sharp,
-              onPressed: () {
-                context.go(ListsPage.routeName);
-              },
-              isSelected: router
-                      ?.location
-                      .contains(ListsPage.routeName)== true ||
-                  router?.location.contains(ListPage.routeName)== true),
-          _DrawerItem(
-              title: appLocalization.translate("Tags"),
-              iconPath: Icons.tag_sharp,
-              onPressed: () {
-                context.go(TagsPage.routeName);
-              },
-              isSelected: router
-                      ?.location
-                      .contains(TagsPage.routeName)== true ||
-                  router?.location.contains(TagPage.routeName)== true),
-          // ignore: dead_code
-          if (false)
+      width: showSmallDesign ? 272 : 392,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        color: AppColors.background,
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall.value),
+        child: Column(
+          children: [
+            const _Logo(),
             _DrawerItem(
-                title: appLocalization.translate("Maps"),
-                iconPath: Icons.map_outlined,
+                title: appLocalization.translate("Schedule"),
+                iconPath: AppAssets.calendar,
                 onPressed: () {
-                  context.go(MapsPage.routeName);
+                  context.go(SchedulePage.routeName);
                 },
                 isSelected:
-                    router?.location.contains(MapsPage.routeName)== true),
-          const Divider(),
-          // ignore: dead_code
-          if (false)
+                    router?.location.contains(SchedulePage.routeName) ==
+                        true),
+            ///TODO brain dump/ inbox or default list
             _DrawerItem(
-                title: appLocalization.translate("Archive"),
-                iconPath: Icons.archive_outlined,
+                title: appLocalization.translate("AllTasks"),
+                iconPath: AppAssets.folder,
                 onPressed: () {
-                  context.go(ArchivePage.routeName);
-                },
-                isSelected: router
-                    ?.location
-                    .contains(ArchivePage.routeName)== true),
-          // ignore: dead_code
-          if (false)
-            _DrawerItem(
-                title: appLocalization.translate("Trash"),
-                iconPath: Icons.delete,
-                onPressed: () {
-                  context.go(TrashPage.routeName);
-                },
-                isSelected: router
-                    ?.location
-                    .contains(TrashPage.routeName)== true),
-          // ignore: dead_code
-          if (false)
-            _DrawerItem(
-                title: appLocalization.translate("Help"),
-                iconPath: Icons.help,
-                onPressed: () {
-                  context.go(HelpPage.routeName);
+                  context.go(AllTasksPage.routeName);
                 },
                 isSelected:
-                    router?.location.contains(HelpPage.routeName)== true),
-          _DrawerItem(
-              title: appLocalization.translate("Settings"),
-              iconPath: Icons.settings,
-              onPressed: () {
-                context.go(SettingsPage.routeName);
-              },
-              isSelected: router
-                  ?.location
-                  .contains(SettingsPage.routeName)== true),
-        ],
+                    router?.location.contains(AllTasksPage.routeName) ==
+                        true),
+            _DrawerItem(
+                title: appLocalization.translate("Lists"),
+                iconPath: AppAssets.list,
+                onPressed: () {
+                  context.go(ListsPage.routeName);
+                },
+                isSelected: router?.location
+                            .contains(ListsPage.routeName) ==
+                        true ||
+                    router?.location.contains(ListPage.routeName) == true),
+            _DrawerItem(
+                title: appLocalization.translate("Tags"),
+                iconPath: AppAssets.hashtag,
+                onPressed: () {
+                  context.go(TagsPage.routeName);
+                },
+                isSelected: router?.location.contains(TagsPage.routeName) ==
+                        true ||
+                    router?.location.contains(TagPage.routeName) == true),
+            // ignore: dead_code
+            if (false)
+              _DrawerItem(
+                  title: appLocalization.translate("Maps"),
+                  iconPath: AppAssets.map,
+                  onPressed: () {
+                    context.go(MapsPage.routeName);
+                  },
+                  isSelected:
+                      router?.location.contains(MapsPage.routeName) ==
+                          true),
+            const Spacer(),
+            const Divider(),
+            // ignore: dead_code
+            // if (false)
+            // _DrawerItem(
+            //     title: appLocalization.translate("Archive"),
+            //     iconPath: Icons.archive_outlined,
+            //     onPressed: () {
+            //       context.go(ArchivePage.routeName);
+            //     },
+            //     isSelected:
+            //         router?.location.contains(ArchivePage.routeName) == true),
+            // ignore: dead_code
+            if (false)
+              _DrawerItem(
+                  title: appLocalization.translate("Trash"),
+                  iconPath: AppAssets.bin,
+                  onPressed: () {
+                    context.go(TrashPage.routeName);
+                  },
+                  isSelected:
+                      router?.location.contains(TrashPage.routeName) ==
+                          true),
+
+            _DrawerItem(
+                title: appLocalization.translate("Settings"),
+                iconPath: AppAssets.settings,
+                onPressed: () {
+                  context.go(SettingsPage.routeName);
+                },
+                isSelected:
+                    router?.location.contains(SettingsPage.routeName) ==
+                        true),
+            // ignore: dead_code
+            if (false)
+              _DrawerItem(
+                  title: appLocalization.translate("Help"),
+                  iconPath: AppAssets.infoCircle,
+                  onPressed: () {
+                    context.go(HelpPage.routeName);
+                  },
+                  isSelected:
+                  router?.location.contains(HelpPage.routeName) ==
+                      true),
+            Container(
+              margin: const EdgeInsets.only(top: 22,right: 24,left: 24,bottom: 20),
+              child: Row(
+                children: [
+                  InkWell(
+                    child: Image.asset(AppAssets.github,width: 24,height: 24,),
+                    onTap: ()=>launchWithURL(url: "https://github.com/laila-nabil/"),
+                  ),
+                  const SizedBox(width: 10,),
+                  InkWell(
+                    child: Image.asset(AppAssets.twitter,width: 24,height: 24,),
+                    onTap: ()=>launchWithURL(url: "https://twitter.com/laila_nabil_"),
+                  ),
+                ],
+              ),
+            )
+
+          ],
+        ),
       ),
     );
   }
@@ -210,34 +209,68 @@ class _DrawerItem extends StatelessWidget {
       {required this.title,
       required this.iconPath,
       required this.onPressed,
-      required this.isSelected});
+      required this.isSelected,
+      this.hasSubPage = false,
+      this.isSubPage = false});
 
   final String title;
-  final IconData iconPath;
+  final String iconPath;
   final void Function() onPressed;
   final bool isSelected;
+  final bool hasSubPage;
+  final bool isSubPage;
 
+  ///TODO subpages
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateColor.resolveWith(
-            (states) => isSelected ? Colors.grey : Colors.white),
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(iconPath),
-          ),
-          Text(title),
-          const Spacer(),
-          const Icon(Icons.arrow_forward_ios),
-          const SizedBox(
-            width: 8,
-          )
-        ],
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 2.0),
+      child: TextButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.focused) ||
+                  states.contains(MaterialState.pressed)) {
+                return AppColors.primary.shade50;
+              }
+              if (states.contains(MaterialState.hovered)) {
+                return AppColors.grey.shade50;
+              }
+              return AppColors.background;
+            }),
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              return AppColors.white;
+            }),
+            padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
+            shape:
+                MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+              return RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              );
+            })),
+        child: Row(
+          children: [
+            Image.asset(
+              iconPath,
+              width: 20,
+              height: 20,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(
+              width: AppSpacing.small.value,
+            ),
+            Text(
+              title,
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphSmall,
+                  color: AppColors.grey.shade700,
+                  appFontWeight: AppFontWeight.regular)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -248,18 +281,20 @@ class _Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
+    final showSmallDesign = context.showSmallDesign;
+    return Container(
+      height: showSmallDesign ? 43 : 54,
+      margin: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          const Placeholder(
-            fallbackHeight: 35,
-            fallbackWidth: 35,
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(
+                showSmallDesign ? 24 : 29, 0, 0, 0),
+            child: Image.asset(
+              AppAssets.logo,
+              width: showSmallDesign ? 180 : 200,
+            ),
           ),
-          const SizedBox(
-            width: 10,
-          ),
-          Expanded(child: Text(appLocalization.translate("appName")))
         ],
       ),
     );

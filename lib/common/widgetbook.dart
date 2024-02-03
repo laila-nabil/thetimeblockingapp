@@ -2056,6 +2056,7 @@ class WidgetBookApp extends StatelessWidget {
                         ],
                       ),
                       drawer: CustomDrawerWidget(
+                          showSmallDesign: context.showSmallDesign,
                           router: GoRouter.maybeOf(context),
                           appLocalization: appLocalization,
                           selectWorkspace: (s)=>print("selectWorkspace $s"),
