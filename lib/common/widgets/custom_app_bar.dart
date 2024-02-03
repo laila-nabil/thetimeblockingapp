@@ -85,12 +85,15 @@ class CustomAppBarWidget extends StatelessWidget {
       selectClickupWorkspace;
   final List<CustomDropDownItem>? pageActions;
 
-  static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
+  ///TODO
+  static double height(bool showSmallDesign) => 52;
+  // static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background,
+      surfaceTintColor: AppColors.background,
       elevation: 0,
       leading: showSmallDesign
           ? null
@@ -101,7 +104,7 @@ class CustomAppBarWidget extends StatelessWidget {
                 color: Colors.deepPurpleAccent,
               )),
       actions: [
-        if (showSmallDesign == false &&
+        /*if (showSmallDesign == false &&
             Globals.clickupWorkspaces?.isNotEmpty == true)
           DropdownButton(
             value: Globals.selectedWorkspace,
@@ -135,7 +138,7 @@ class CustomAppBarWidget extends StatelessWidget {
                     .toList() ??
                 [],
             hint: Text(appLocalization.translate("spaces")),
-          ),
+          ),*/
 
         ///TODO V2 search tasks,tags, lists and folders
         // ignore: dead_code
@@ -146,15 +149,19 @@ class CustomAppBarWidget extends StatelessWidget {
               },
               icon: const Icon(Icons.search)),
         if (pageActions?.isNotEmpty == true)
-          CustomDropDownMenu(
-              items: pageActions ?? [],
-              listButton: Image.asset(
-                AppAssets.dotsVPng,
-                height: 20,
-                fit: BoxFit.fitHeight,
-              )),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(
+                0, 0, showSmallDesign ? 0 : AppSpacing.xBig.value, 0),
+            child: CustomDropDownMenu(
+                items: pageActions ?? [],
+                listButton: Image.asset(
+                  AppAssets.dotsVPng,
+                  height: 20,
+                  fit: BoxFit.fitHeight,
+                )),
+          ),
       ],
     );
-    ;
+
   }
 }
