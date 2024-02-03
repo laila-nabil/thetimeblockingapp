@@ -136,8 +136,8 @@ class CustomDrawerWidget extends StatelessWidget {
                   isSelected:
                       router?.location.contains(MapsPage.routeName) ==
                           true),
+            Divider(height: 1,color: AppColors.grey.shade100,),
             const Spacer(),
-            const Divider(),
             // ignore: dead_code
             // if (false)
             // _DrawerItem(

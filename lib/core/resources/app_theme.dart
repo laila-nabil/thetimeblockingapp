@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
+
 ThemeData appTheme = ThemeData(
-  useMaterial3: true
+  useMaterial3: true,
+  appBarTheme: AppBarTheme(
+    backgroundColor: AppColors.background
+  ),
+  colorScheme: ColorScheme(
+      brightness: Brightness.light,
+      primary: AppColors.primary,
+      onPrimary: AppColors.white,
+      secondary: AppColors.secondary,
+      onSecondary: AppColors.primary,
+      error: AppColors.error,
+      onError: AppColors.white,
+      background: AppColors.background,
+      onBackground: AppColors.text,
+      surface: AppColors.background,
+      onSurface: AppColors.text,),
 );
 /*
 
