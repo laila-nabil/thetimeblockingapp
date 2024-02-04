@@ -66,106 +66,68 @@ class TaskWidget extends StatelessWidget {
         appFontSize: AppFontSize.paragraphX2Small,
         color: AppColors.grey.shade400,
         appFontWeight: AppFontWeight.semiBold));
-    return Container(
-      constraints: const BoxConstraints(minHeight: 68),
-      padding: EdgeInsets.all(AppSpacing.xSmall.value),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: AppSpacing.xSmall.value),
-            child: Text(
-              clickupTask.name ?? "",
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade900,
-                  appFontWeight: AppFontWeight.semiBold)),
-            ),
-          ),
-          if (clickupTask.startDateUtc != null &&
-              clickupTask.dueDateUtc != null)
-            Text(
-                "🕑 ${DateTimeExtensions.customToString(clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(clickupTask.dueDateUtc)}",
-                style: dateTextStyle)
-          else
-            Text("", style: dateTextStyle),
-          Padding(
-            padding: EdgeInsets.only(top: AppSpacing.xSmall.value),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    spacing: AppSpacing.x2Small.value,
-                    runSpacing: AppSpacing.x2Small.value,
-                    direction: Axis.horizontal,
-                    verticalDirection: VerticalDirection.down,
-                    children: clickupTask.tags
-                            ?.map((e) => TagChip(
-                                tagName: e.name ?? "", color: e.getTagFgColor))
-                            .toList() ??
-                        [],
-                  ),
-                ),
-                SizedBox(
-                  width: AppSpacing.small.value,
-                ),
-                if (showList)
-                  ListChip(
-                      listName: clickupTask.list?.name ?? "",
-                      folderName: clickupTask.folder?.name ?? "")
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-    return Column(
-      children: [
-        Row(
-          children: [
-            const Spacer(),
-            IconButton(onPressed: onTap, icon: const Icon(Icons.more_horiz))
-          ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 68),
+        padding: EdgeInsets.all(AppSpacing.xSmall.value),
+        decoration: BoxDecoration(
+          color: AppColors.background,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(clickupTask.status?.status ?? "",
-                  style: TextStyle(
-                      textBaseline: TextBaseline.alphabetic,
-                      color: clickupTask.status?.getColor)),
-            ),
-            if (Globals.selectedSpace?.isPrioritiesEnabled == true)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text((clickupTask.priority?.isNum == true
-                        ? clickupTask.priority?.priorityNum.toString()
-                        : clickupTask.priority?.priority.toString()) ??
-                    ""),
+              padding: EdgeInsets.only(bottom: AppSpacing.xSmall.value),
+              child: Text(
+                clickupTask.name ?? "",
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey.shade900,
+                    appFontWeight: AppFontWeight.semiBold)),
               ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(clickupTask.name ?? ""),
             ),
+            if (clickupTask.startDateUtc != null &&
+                clickupTask.dueDateUtc != null)
+              Text(
+                  "🕑 ${DateTimeExtensions.customToString(clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(clickupTask.dueDateUtc)}",
+                  style: dateTextStyle)
+            else
+              Text("", style: dateTextStyle),
+            Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xSmall.value),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: AppSpacing.x2Small.value,
+                      runSpacing: AppSpacing.x2Small.value,
+                      direction: Axis.horizontal,
+                      verticalDirection: VerticalDirection.down,
+                      children: clickupTask.tags
+                              ?.map((e) => TagChip(
+                                  tagName: e.name ?? "", color: e.getTagFgColor))
+                              .toList() ??
+                          [],
+                    ),
+                  ),
+                  SizedBox(
+                    width: AppSpacing.small.value,
+                  ),
+                  if (showList)
+                    ListChip(
+                        listName: clickupTask.list?.name ?? "",
+                        folderName: clickupTask.folder?.name ?? "")
+                ],
+              ),
+            )
           ],
         ),
-        Text(clickupTask.description ?? ""),
-        Text(
-            "${clickupTask.folder?.name ?? ""}/${clickupTask.list?.name ?? ""}"),
-        Text(
-            "${clickupTask.startDateUtc.toString()} to ${clickupTask.dueDateUtc.toString()}"),
-        Text(
-            "${clickupTask.tags?.map((e) => e.name) ?? appLocalization.translate("tags")}"),
-      ],
+      ),
     );
   }
 }
