@@ -139,6 +139,8 @@ class ListsPage extends StatelessWidget {
                         children: [
                           Container(
                             padding: EdgeInsets.all(AppSpacing.medium16.value),
+                            margin: EdgeInsets.only(
+                                bottom: AppSpacing.medium16.value),
                             child: Text(
                               appLocalization.translate("Lists"),
                               style: AppTextStyle.getTextStyle(
