@@ -180,7 +180,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
       children: [
         if (widget.labelText?.isNotEmpty == true)
           Padding(
-            padding: EdgeInsets.only(bottom: AppSpacing.x2Small.value),
+            padding: EdgeInsets.only(bottom: AppSpacing.x2Small4.value),
             child: Text(
               widget.labelText ?? "",
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
@@ -279,10 +279,10 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: widget.size == CustomTextInputFieldSize.small
-                          ? AppSpacing.small.value
-                          : AppSpacing.medium.value,
+                          ? AppSpacing.small12.value
+                          : AppSpacing.medium16.value,
                       vertical: widget.size == CustomTextInputFieldSize.small
-                          ? AppSpacing.xSmall.value + 4
+                          ? AppSpacing.xSmall8.value + 4
                           : 18 + 4),
                   floatingLabelStyle: AppTextStyle.getTextStyle(
                       AppTextStyleParams(

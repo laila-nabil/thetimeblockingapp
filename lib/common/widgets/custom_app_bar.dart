@@ -151,7 +151,7 @@ class CustomAppBarWidget extends StatelessWidget {
         if (pageActions?.isNotEmpty == true)
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(
-                0, 0, showSmallDesign ? 0 : AppSpacing.xBig.value, 0),
+                0, 0, showSmallDesign ? 0 : AppSpacing.xBig24.value, 0),
             child: CustomDropDownMenu(
                 items: pageActions ?? [],
                 listButton: Image.asset(

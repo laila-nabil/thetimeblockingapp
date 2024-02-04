@@ -83,7 +83,7 @@ class CustomDrawerWidget extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         color: AppColors.background,
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall.value),
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall8.value),
         child: Column(
           children: [
             const _Logo(),
@@ -260,7 +260,7 @@ class _DrawerItem extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             SizedBox(
-              width: AppSpacing.small.value,
+              width: AppSpacing.small12.value,
             ),
             Text(
               title,
