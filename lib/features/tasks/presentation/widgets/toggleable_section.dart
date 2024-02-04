@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
@@ -38,6 +39,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
           boxShadow: AppShadow.xSmall.shadows),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
             onTap: () {
@@ -77,10 +79,19 @@ class _ToggleableSectionState extends State<ToggleableSection> {
             ),
           ),
           if (isOpen)
-            ...widget.children.map((e) => Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.medium.value),
-                  child: e,
-                ))
+            ...(widget.children +
+                    (widget.buttons
+                            ?.map((button) => CustomButton.noIcon(
+                                  label: button.title,
+                                  onPressed: button.onTap,
+                                  type: CustomButtonType.greyTextLabel,
+                                ))
+                            .toList() ??
+                        []))
+                .map((e) => Padding(
+                      padding: EdgeInsets.only(bottom: AppSpacing.medium.value),
+                      child: e,
+                    ))
         ],
       ),
     );

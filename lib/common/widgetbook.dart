@@ -2233,11 +2233,16 @@ class WidgetBookApp extends StatelessWidget {
                             .millisecondsSinceEpoch
                             .toString(),
                         dueDateUtcTimestamp:
-                        DateTime.now().millisecondsSinceEpoch.toString(),
+                            DateTime.now().millisecondsSinceEpoch.toString(),
                         list: ClickupList(name: listName2),
                         folder: ClickupFolder(name: folderName2),
                         tags: tags2);
                     return ToggleableSection(
+                      title: 'Overdue',
+                      buttons: [
+                        ToggleableSectionButtonParams(
+                            title: " + Create new task", onTap: () {})
+                      ],
                       children: [
                         TaskWidget(
                           showList: showList1,
@@ -2249,7 +2254,7 @@ class WidgetBookApp extends StatelessWidget {
                           clickupTask: task2,
                           onTap: () {},
                         )
-                      ], title: 'Overdue',
+                      ],
                     );
                   }),
             ],
