@@ -9,11 +9,17 @@ import '../../../../core/resources/assets_paths.dart';
 import '../../../../core/resources/text_styles.dart';
 
 class TagComponent extends StatelessWidget {
-  const TagComponent({super.key, required this.tag, this.onTap, this.actions});
+  const TagComponent(
+      {super.key,
+      required this.tag,
+      this.onTap,
+      this.actions,
+      this.updateTagInline});
 
   final ClickupTag tag;
   final void Function()? onTap;
   final List<CustomDropDownItem>? actions;
+  final Widget? updateTagInline;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +31,25 @@ class TagComponent extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              tag.name ?? "",
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade900,
-                  appFontWeight: AppFontWeight.semiBold)),
+            Row(
+              children: [
+                Icon(
+                  Icons.tag,
+                  color: tag.getTagFgColor,
+                  size: 16,
+                ),
+                const SizedBox(width: 2.5,),
+                if (updateTagInline == null)
+                  Text(
+                    tag.name ?? "",
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphSmall,
+                        color: AppColors.grey.shade900,
+                        appFontWeight: AppFontWeight.semiBold)),
+                  )
+                else
+                  updateTagInline!,
+              ],
             ),
             if (actions?.isNotEmpty == true)
               CustomDropDownMenu(
