@@ -40,7 +40,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.background,
-          border: Border.all(color: AppColors.grey.shade50, width: 1),
+          border: Border.all(color: AppColors.grey.shade100, width: 1),
           borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
           boxShadow: AppShadow.xSmall.shadows),
       child: Column(
@@ -57,7 +57,13 @@ class _ToggleableSectionState extends State<ToggleableSection> {
               margin: isOpen
                   ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
                   : EdgeInsets.zero,
-              padding: EdgeInsets.all(AppSpacing.medium16.value),
+              padding: widget.actions?.isNotEmpty == true
+                  ? EdgeInsetsDirectional.only(
+                      top: AppSpacing.medium16.value,
+                      bottom: AppSpacing.medium16.value,
+                      start: AppSpacing.medium16.value,
+                      end: AppSpacing.xSmall8.value)
+                  : EdgeInsets.all(AppSpacing.medium16.value),
               decoration: BoxDecoration(
                   border: Border(
                       bottom: isOpen
@@ -92,7 +98,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                         items: widget.actions ?? [],
                         listButton: Image.asset(
                           AppAssets.dotsVPng,
-                          height: 20,
+                          height: 16,
                           fit: BoxFit.fitHeight,
                         ))
                 ],

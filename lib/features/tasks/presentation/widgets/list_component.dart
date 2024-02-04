@@ -37,7 +37,7 @@ class ListComponent extends StatelessWidget {
                   items: actions ?? [],
                   listButton: Image.asset(
                     AppAssets.dotsVPng,
-                    height: 20,
+                    height: 16,
                     fit: BoxFit.fitHeight,
                   ))
           ],
