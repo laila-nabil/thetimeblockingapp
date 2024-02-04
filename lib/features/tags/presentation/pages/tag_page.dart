@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
@@ -193,7 +193,7 @@ class TagPage extends StatelessWidget {
 
   StatelessWidget buildTaskWidget(
       ClickupTask e, BuildContext context, TagsPageBloc tagsPageBloc) {
-    return TaskWidget(
+    return TaskComponent(
       clickupTask: e,
       bloc: tagsPageBloc,
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,

@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -113,7 +113,7 @@ class ListPage extends StatelessWidget {
 
   StatelessWidget buildTaskWidget(
       ClickupTask e, BuildContext context, ListsPageBloc listsPageBloc) {
-    return TaskWidget(
+    return TaskComponent(
       clickupTask: e,
       bloc: listsPageBloc,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,

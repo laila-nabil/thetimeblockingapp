@@ -9,6 +9,10 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
 import 'widgets/custom_app_bar.dart';
@@ -1879,19 +1883,19 @@ class WidgetBookApp extends StatelessWidget {
                   return Container(
                     color: Colors.white,
                     height: double.infinity,
-                    padding: EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(18.0),
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Box small"),
-                                  SizedBox(
+                                  const Text("Box small"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1912,14 +1916,14 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Box large"),
-                                  SizedBox(
+                                  const Text("Box large"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1939,24 +1943,24 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Line small"),
-                                  SizedBox(
+                                  const Text("Line small"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1976,14 +1980,14 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Line large"),
-                                  SizedBox(
+                                  const Text("Line large"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -2003,7 +2007,7 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],
@@ -2056,16 +2060,83 @@ class WidgetBookApp extends StatelessWidget {
                         ],
                       ),
                       drawer: CustomDrawerWidget(
-                          showSmallDesign: context.showSmallDesign,
-                          router: GoRouter.maybeOf(context),
-                          appLocalization: appLocalization,
-                          selectWorkspace: (s)=>print("selectWorkspace $s"),
-                          selectSpace: (s)=>print("selectSpace $s"),),
+                        showSmallDesign: context.showSmallDesign,
+                        router: GoRouter.maybeOf(context),
+                        appLocalization: appLocalization,
+                        selectWorkspace: (s) => print("selectWorkspace $s"),
+                        selectSpace: (s) => print("selectSpace $s"),
+                      ),
                       backgroundColor: Colors.black,
                     ),
                   );
                 })
           ]),
+        ]),
+        WidgetbookFolder(name: "Other widgets", children: [
+          WidgetbookComponent(
+            name: 'Task widget',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Task widget',
+                  builder: (context) {
+                    final taskName = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create UI components for the app',
+                    );
+                    final listName = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName = context.knobs.stringOrNull(
+                      label: 'Folder name',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList = context.knobs.boolean(
+                      label: 'showList',
+                      initialValue: true,
+                    );
+                    final includeTag1 = context.knobs.boolean(
+                      label: 'include Tag 1',
+                      initialValue: true,
+                    );
+                    final includeTag2 = context.knobs.boolean(
+                      label: 'include Tag 2',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag1) {
+                      tags.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag2) {
+                      tags.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task = ClickupTask(
+                        name: taskName,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName),
+                        folder: ClickupFolder(name: folderName),
+                        tags: tags);
+                    return ListView(
+                      children: [
+                        TaskWidget(
+                          showList: showList,
+                          clickupTask: task,
+                          onTap: () {},
+                        )
+                      ],
+                    );
+                  }),
+            ],
+          ),
         ])
       ],
     );
