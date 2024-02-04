@@ -116,22 +116,22 @@ enum AppBlur {
 
 enum AppSpacing {
 
-  x2Small(4),
-  xSmall(8),
-  small(12),
-  medium(16),
-  big(20),
-  xBig(24),
-  x2Big(28),
-  x3Big(32),
-  large(40),
-  xLarge(48),
-  x2Large(64),
-  x3Large(80),
-  huge(96),
-  xHuge(128),
-  x2Huge(160),
-  x3Huge(192);
+  x2Small4(4),
+  xSmall8(8),
+  small12(12),
+  medium16(16),
+  big20(20),
+  xBig24(24),
+  x2Big28(28),
+  x3Big32(32),
+  large40(40),
+  xLarge48(48),
+  x2Large64(64),
+  x3Large80(80),
+  huge96(96),
+  xHuge128(128),
+  x2Huge160(160),
+  x3Huge192(192);
   const AppSpacing(this.value);
 
   final double value;

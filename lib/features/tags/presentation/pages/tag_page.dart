@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
@@ -12,10 +12,15 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/print_debug.dart';
+import '../../../../core/resources/app_colors.dart';
+import '../../../../core/resources/app_design.dart';
+import '../../../../core/resources/text_styles.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+
+import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
 
 
@@ -128,63 +133,92 @@ class TagPage extends StatelessWidget {
                       ResponsiveScaffoldLoadingEnum.contentLoading,
                   isLoading: state.isLoading),
               responsiveBody: ResponsiveTParams(
-                  small: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  small: Padding(
+                    padding: EdgeInsets.all(AppSpacing.medium16.value),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  state.updateTagTry(state.navigateTag!)
-                      ? Expanded(
-                    child: _CreateEditField(
-                        text: state.navigateTag!.name,
-                        onAdd: (text) {
-                          printDebug("text now $text");
-                          tagsPageBloc.add(
-                              UpdateClickupTagEvent
-                                  .submit(
-                                insideTagPage: true,
-                                params: UpdateClickupTagParams(
-                                    clickupAccessToken:
-                                    Globals
-                                        .clickupAuthAccessToken,
-                                    newTag: state.navigateTag!.copyWith(name: text).getModel,
-                                    originalTagName: state.navigateTag!.name??"",
-                                    space: Globals
-                                        .selectedSpace!),
-                              ));
-                        },
-                        onCancel: () {
-                          tagsPageBloc.add(
-                              UpdateClickupTagEvent
-                                  .cancel(insideTagPage: true));
-                        }),
-                  )
-                      : Text(state.navigateTag?.name ?? ""),
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Text(appLocalization.translate("Overdue")),
-                        if(state.getCurrentTagTasksResultOverdue.isNotEmpty)Column(
-                          children: state.getCurrentTagTasksResultOverdue
-                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
-                              .toList(),
-                        ),
-                        if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Text(appLocalization.translate("Upcoming")),
-                        if(state.getCurrentTagTasksResultUpcoming.isNotEmpty)Column(
-                          children: state.getCurrentTagTasksResultUpcoming
-                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
-                              .toList(),
-                        ),
-                        if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Text(appLocalization.translate("Unscheduled")),
-                        if(state.getCurrentTagTasksResultUnscheduled.isNotEmpty)Column(
-                          children: state.getCurrentTagTasksResultUnscheduled
-                              .map((e) => buildTaskWidget(e, context, tagsPageBloc))
-                              .toList(),
-                        ),
-                      ],
+                    Container(
+                      padding: EdgeInsets.all(AppSpacing.medium16.value),
+                      margin:
+                      EdgeInsets.only(bottom: AppSpacing.medium16.value),
+                      child: state.updateTagTry(state.navigateTag!)
+                          ? Expanded(
+                        child: _CreateEditField(
+                            text: state.navigateTag!.name,
+                            onAdd: (text) {
+                              printDebug("text now $text");
+                              tagsPageBloc.add(
+                                  UpdateClickupTagEvent
+                                      .submit(
+                                    insideTagPage: true,
+                                    params: UpdateClickupTagParams(
+                                        clickupAccessToken:
+                                        Globals
+                                            .clickupAuthAccessToken,
+                                        newTag: state.navigateTag!.copyWith(name: text).getModel,
+                                        originalTagName: state.navigateTag!.name??"",
+                                        space: Globals
+                                            .selectedSpace!),
+                                  ));
+                            },
+                            onCancel: () {
+                              tagsPageBloc.add(
+                                  UpdateClickupTagEvent
+                                      .cancel(insideTagPage: true));
+                            }),
+                      )
+                          : Text(
+                        state.navigateTag?.name ?? "",
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            color: AppColors.grey.shade900,
+                            appFontWeight: AppFontWeight.medium,
+                            appFontSize: AppFontSize.heading4)),
+                      ),
                     ),
-                  )
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          if (state.getCurrentTagTasksResultOverdue.isNotEmpty)
+                            Container(
+                              margin: EdgeInsets.only(
+                                  bottom: AppSpacing.xSmall8.value),
+                              child: ToggleableSection(
+                                  title: appLocalization.translate("Overdue"),
+                                  children: state.getCurrentTagTasksResultOverdue
+                                      .map<Widget>((e) => buildTaskWidget(
+                                      e, context, tagsPageBloc))
+                                      .toList()),
+                            ),
+                          if (state.getCurrentTagTasksResultUpcoming.isNotEmpty)
+                            Container(
+                              margin: EdgeInsets.only(
+                                  bottom: AppSpacing.xSmall8.value),
+                              child: ToggleableSection(
+                                  title: appLocalization.translate("Upcoming"),
+                                  children: state.getCurrentTagTasksResultUpcoming
+                                      .map<Widget>((e) => buildTaskWidget(
+                                      e, context, tagsPageBloc))
+                                      .toList()),
+                            ),
+                          if (state.getCurrentTagTasksResultUnscheduled.isNotEmpty)
+                            Container(
+                              margin: EdgeInsets.only(
+                                  bottom: AppSpacing.xSmall8.value),
+                              child: ToggleableSection(
+                                  title: appLocalization.translate("Unscheduled"),
+                                  children: state.getCurrentTagTasksResultUnscheduled
+                                      .map<Widget>((e) => buildTaskWidget(
+                                      e, context, tagsPageBloc))
+                                      .toList()),
+                            ),
+                        ],
+                      ),
+                    )
 
                 ],
-              )),
+              ),
+                  )),
               context: context);
         },
       ),
@@ -193,7 +227,7 @@ class TagPage extends StatelessWidget {
 
   StatelessWidget buildTaskWidget(
       ClickupTask e, BuildContext context, TagsPageBloc tagsPageBloc) {
-    return TaskWidget(
+    return TaskComponent(
       clickupTask: e,
       bloc: tagsPageBloc,
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
