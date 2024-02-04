@@ -13,6 +13,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
 import 'widgets/custom_app_bar.dart';
@@ -2092,7 +2093,7 @@ class WidgetBookApp extends StatelessWidget {
                       initialValue: 'Time blocking app project',
                     );
                     final showList = context.knobs.boolean(
-                      label: 'showList',
+                      label: 'showList1',
                       initialValue: true,
                     );
                     final includeTag1 = context.knobs.boolean(
@@ -2133,6 +2134,122 @@ class WidgetBookApp extends StatelessWidget {
                           onTap: () {},
                         )
                       ],
+                    );
+                  }),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Tasks section',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Tasks section',
+                  builder: (context) {
+                    final taskName1 = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create UI components for the app',
+                    );
+                    final listName1 = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName1 = context.knobs.stringOrNull(
+                      label: 'Folder name',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList1 = context.knobs.boolean(
+                      label: 'showList1',
+                      initialValue: true,
+                    );
+                    final includeTag1_1 = context.knobs.boolean(
+                      label: 'include Tag 1 for task 1',
+                      initialValue: true,
+                    );
+                    final includeTag1_2 = context.knobs.boolean(
+                      label: 'include Tag 2 for task 1',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag1_1) {
+                      tags.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag1_2) {
+                      tags.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task1 = ClickupTask(
+                        name: taskName1,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName1),
+                        folder: ClickupFolder(name: folderName1),
+                        tags: tags);
+
+                    final taskName2 = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create Other UI components for the app',
+                    );
+                    final listName2 = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName2 = context.knobs.stringOrNull(
+                      label: 'Folder name2',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList2 = context.knobs.boolean(
+                      label: 'showList2',
+                      initialValue: true,
+                    );
+                    final includeTag2_1 = context.knobs.boolean(
+                      label: 'include Tag 1 for task 2',
+                      initialValue: true,
+                    );
+                    final includeTag2_2 = context.knobs.boolean(
+                      label: 'include Tag 2 for task 2',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags2 = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag2_1) {
+                      tags2.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag2_2) {
+                      tags2.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task2 = ClickupTask(
+                        name: taskName2,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                        DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName2),
+                        folder: ClickupFolder(name: folderName2),
+                        tags: tags2);
+                    return ToggleableSection(
+                      children: [
+                        TaskWidget(
+                          showList: showList1,
+                          clickupTask: task1,
+                          onTap: () {},
+                        ),
+                        TaskWidget(
+                          showList: showList2,
+                          clickupTask: task2,
+                          onTap: () {},
+                        )
+                      ], title: 'Overdue',
                     );
                   }),
             ],
