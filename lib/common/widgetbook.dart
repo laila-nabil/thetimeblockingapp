@@ -16,6 +16,7 @@ import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_comp
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
+import '../features/tasks/presentation/widgets/list_component.dart';
 import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
 
@@ -2139,7 +2140,7 @@ class WidgetBookApp extends StatelessWidget {
             ],
           ),
           WidgetbookComponent(
-            name: 'Tasks section',
+            name: 'Toggleable section',
             useCases: [
               WidgetbookUseCase(
                   name: 'Tasks section',
@@ -2239,10 +2240,6 @@ class WidgetBookApp extends StatelessWidget {
                         tags: tags2);
                     return ToggleableSection(
                       title: 'Overdue',
-                      buttons: [
-                        ToggleableSectionButtonParams(
-                            title: " + Create new task", onTap: () {})
-                      ],
                       children: [
                         TaskWidget(
                           showList: showList1,
@@ -2254,6 +2251,32 @@ class WidgetBookApp extends StatelessWidget {
                           clickupTask: task2,
                           onTap: () {},
                         )
+                      ],
+                    );
+                  }),
+              WidgetbookUseCase(
+                  name: 'Lists section',
+                  builder: (context) {
+                    final folderName = context.knobs.string(
+                        label: "Folder name",
+                        initialValue: "Time blocking app folder");
+                    final list1Name = context.knobs.string(
+                        label: "List 1 name", initialValue: "Development");
+                    final list2Name = context.knobs
+                        .string(label: "List 1 name", initialValue: "UI/UX");
+                    final list1 = ClickupList(name: list1Name);
+                    final list2 = ClickupList(name: list2Name);
+                    return ToggleableSection(
+                      title: folderName,
+                      buttons: [
+                        ToggleableSectionButtonParams(
+                            title: " + Create new folder", onTap: () {}),
+                        ToggleableSectionButtonParams(
+                            title: " + Create new list", onTap: () {})
+                      ],
+                      children: [
+                        ListComponent(list: list1),
+                        ListComponent(list: list2)
                       ],
                     );
                   }),
