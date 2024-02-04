@@ -152,25 +152,45 @@ class ListsPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[] +
                                   (Globals.selectedSpace?.folders
-                                          .map<Widget>((folder) => true
-                                              ? ToggleableSection(
+                                          .map<Widget>((folder) =>
+                                              ToggleableSection(
                                                   actions: [
-                                                      CustomDropDownItem.text(
-                                                          title: appLocalization
-                                                              .translate(
-                                                                  "delete"),
+                                                    CustomDropDownItem.text(
+                                                        title: appLocalization
+                                                            .translate(
+                                                                "delete"),
+                                                        onTap: () {
+                                                          listsPageBloc.add(
+                                                              DeleteClickupFolderEvent
+                                                                  .tryDelete(
+                                                                      folder));
+                                                        })
+                                                  ],
+                                                  title: folder.name ?? "",
+                                                  buttons: [
+                                                    if (state
+                                                            .tryCreateListInFolder(
+                                                                folder) ==
+                                                        false)
+                                                      ToggleableSectionButtonParams(
+                                                          title:
+                                                              "+ ${appLocalization.translate("createNewList")}",
                                                           onTap: () {
                                                             listsPageBloc.add(
-                                                                DeleteClickupFolderEvent
-                                                                    .tryDelete(
-                                                                        folder));
+                                                                CreateListInFolderEvent
+                                                                    .tryCreate(
+                                                                        folderToCreateListIn:
+                                                                            folder));
                                                           })
-                                                    ],
-                                                  title: folder.name ?? "",
-                                                  children: folder.lists
-                                                          ?.map<Widget>(
-                                                              (e) =>
+                                                  ],
+                                                  children: (folder.lists
+                                                              ?.map<Widget>((e) =>
                                                                   ListComponent(
+                                                                    onTap: () {
+                                                                      listsPageBloc.add(
+                                                                          NavigateToListPageEvent(
+                                                                              e));
+                                                                    },
                                                                     list: e,
                                                                     actions: [
                                                                       CustomDropDownItem.text(
@@ -180,159 +200,63 @@ class ListsPage extends StatelessWidget {
                                                                           })
                                                                     ],
                                                                   ))
-                                                          .toList() ??
-                                                      [])
-                                              : ExpansionTile(
-                                                  controlAffinity:
-                                                      ListTileControlAffinity
-                                                          .leading,
-                                                  title: Row(
-                                                    children: [
-                                                      const Icon(Icons.folder),
-                                                      Text(folder.name ?? ""),
-                                                      const Spacer(),
-                                                      PopupMenuButton(
-                                                          icon: const Icon(
-                                                              Icons.more_horiz),
-                                                          itemBuilder:
-                                                              (ctx) => [
-                                                                    PopupMenuItem(
-                                                                        onTap:
-                                                                            () {
-                                                                          listsPageBloc
-                                                                              .add(DeleteClickupFolderEvent.tryDelete(folder));
-                                                                        },
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            const Icon(Icons.delete),
-                                                                            Text(appLocalization.translate("delete")),
-                                                                          ],
-                                                                        ))
-                                                                  ])
-                                                    ],
-                                                  ),
-                                                  children: (folder.lists
-                                                              ?.map((e) =>
-                                                                  ListTile(
-                                                                      onTap:
-                                                                          () {
-                                                                        listsPageBloc
-                                                                            .add(NavigateToListPageEvent(e));
-                                                                      },
-                                                                      title:
-                                                                          Row(
-                                                                        children: [
-                                                                          const Icon(
-                                                                              Icons.list),
-                                                                          Text(e.name ??
-                                                                              ""),
-                                                                          const Spacer(),
-                                                                          PopupMenuButton(
-                                                                              icon: const Icon(Icons.more_horiz),
-                                                                              itemBuilder: (ctx) => [
-                                                                                    PopupMenuItem(
-                                                                                        onTap: () {
-                                                                                          listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
-                                                                                        },
-                                                                                        child: Row(
-                                                                                          children: [
-                                                                                            const Icon(Icons.delete),
-                                                                                            Text(appLocalization.translate("delete")),
-                                                                                          ],
-                                                                                        ))
-                                                                                  ])
-                                                                        ],
-                                                                      )))
                                                               .toList() ??
                                                           []) +
                                                       [
-                                                        state.tryCreateListInFolder(
-                                                                folder)
-                                                            ? ListTile(
-                                                                title: _CreateField(
-                                                                    onAdd:
-                                                                        (text) {
-                                                                  listsPageBloc.add(CreateListInFolderEvent.submit(
-                                                                      createClickupListInFolderParams: CreateClickupListInFolderParams(
-                                                                          clickupAccessToken: Globals
+                                                        if (state
+                                                            .tryCreateListInFolder(
+                                                                folder))
+                                                          ListTile(
+                                                            title: _CreateField(
+                                                                onAdd: (text) {
+                                                              listsPageBloc.add(CreateListInFolderEvent.submit(
+                                                                  createClickupListInFolderParams: CreateClickupListInFolderParams(
+                                                                      clickupAccessToken:
+                                                                          Globals
                                                                               .clickupAuthAccessToken,
-                                                                          clickupFolder:
-                                                                              folder,
-                                                                          listName:
-                                                                              text),
-                                                                      clickupWorkspace:
-                                                                          Globals
-                                                                              .selectedWorkspace!,
-                                                                      clickupSpace:
-                                                                          Globals
-                                                                              .selectedSpace!));
-                                                                }, onCancel:
-                                                                        () {
-                                                                  listsPageBloc.add(
-                                                                      CreateListInFolderEvent
-                                                                          .cancelCreate());
-                                                                }),
-                                                              )
-                                                            : ListTile(
-                                                                title:
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          listsPageBloc
-                                                                              .add(CreateListInFolderEvent.tryCreate(folderToCreateListIn: folder));
-                                                                        },
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            Text(appLocalization.translate("createNewList")),
-                                                                          ],
-                                                                        )),
-                                                              )
-                                                      ],
-                                                ))
+                                                                      clickupFolder:
+                                                                          folder,
+                                                                      listName:
+                                                                          text),
+                                                                  clickupWorkspace:
+                                                                      Globals
+                                                                          .selectedWorkspace!,
+                                                                  clickupSpace:
+                                                                      Globals
+                                                                          .selectedSpace!));
+                                                            }, onCancel: () {
+                                                              listsPageBloc.add(
+                                                                  CreateListInFolderEvent
+                                                                      .cancelCreate());
+                                                            }),
+                                                          )
+                                                      ]))
                                           .toList() ??
                                       []) +
                                   ((Globals.selectedSpace?.lists
-                                              .map((e) => ListTile(
-                                                  onTap: () {
-                                                    listsPageBloc.add(
-                                                        NavigateToListPageEvent(
-                                                            e));
-                                                  },
-                                                  title: Row(
-                                                    children: [
-                                                      const Icon(Icons.list),
-                                                      Expanded(
-                                                          child: Text(
-                                                              e.name ?? "")),
-                                                      PopupMenuButton(
-                                                          icon: const Icon(
-                                                              Icons.more_horiz),
-                                                          onSelected: (_) =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          itemBuilder:
-                                                              (ctx) => [
-                                                                    PopupMenuItem(
-                                                                        onTap:
-                                                                            () {
-                                                                          listsPageBloc
-                                                                              .add(DeleteClickupListEvent.tryDelete(e));
-                                                                        },
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            const Icon(Icons.delete),
-                                                                            Text(appLocalization.translate("delete")),
-                                                                          ],
-                                                                        ))
-                                                                  ]),
+                                              .map<Widget>((e) => ListComponent(
+                                                    list: e,
+                                                    actions: [
+                                                      CustomDropDownItem.text(
+                                                          title: appLocalization
+                                                              .translate(
+                                                                  "delete"),
+                                                          onTap: () {
+                                                            listsPageBloc.add(
+                                                                DeleteClickupListEvent
+                                                                    .tryDelete(
+                                                                        e));
+                                                          })
                                                     ],
-                                                  )))
+                                                    onTap: () {
+                                                      listsPageBloc.add(
+                                                          NavigateToListPageEvent(
+                                                              e));
+                                                    },
+                                                  ))
                                               .toList() ??
                                           []) +
-                                      [
+                                      <Widget>[
                                         state.tryCreateFolderInSpace
                                             ? ListTile(
                                                 title:
@@ -372,7 +296,7 @@ class ListsPage extends StatelessWidget {
                                                     )),
                                               )
                                       ] +
-                                      [
+                                      <Widget>[
                                         state.tryCreateListInSpace
                                             ? ListTile(
                                                 title:
