@@ -41,7 +41,7 @@ class ListChip extends StatelessWidget {
               ),
             if (isListInsideFolder)
               Text(
-                listName,
+                folderName??"",
                 style: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphXSmall,
                     color: colors,
