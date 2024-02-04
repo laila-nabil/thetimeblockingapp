@@ -150,6 +150,7 @@ class ListsPage extends StatelessWidget {
                           ),
                           SingleChildScrollView(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[] +
                                   (Globals.selectedSpace?.folders
                                           .map<Widget>((folder) =>
@@ -206,30 +207,28 @@ class ListsPage extends StatelessWidget {
                                                         if (state
                                                             .tryCreateListInFolder(
                                                                 folder))
-                                                          ListTile(
-                                                            title: _CreateField(
-                                                                onAdd: (text) {
-                                                              listsPageBloc.add(CreateListInFolderEvent.submit(
-                                                                  createClickupListInFolderParams: CreateClickupListInFolderParams(
-                                                                      clickupAccessToken:
-                                                                          Globals
-                                                                              .clickupAuthAccessToken,
-                                                                      clickupFolder:
-                                                                          folder,
-                                                                      listName:
-                                                                          text),
-                                                                  clickupWorkspace:
-                                                                      Globals
-                                                                          .selectedWorkspace!,
-                                                                  clickupSpace:
-                                                                      Globals
-                                                                          .selectedSpace!));
-                                                            }, onCancel: () {
-                                                              listsPageBloc.add(
-                                                                  CreateListInFolderEvent
-                                                                      .cancelCreate());
-                                                            }),
-                                                          )
+                                                          _CreateField(
+                                                              onAdd: (text) {
+                                                            listsPageBloc.add(CreateListInFolderEvent.submit(
+                                                                createClickupListInFolderParams: CreateClickupListInFolderParams(
+                                                                    clickupAccessToken:
+                                                                        Globals
+                                                                            .clickupAuthAccessToken,
+                                                                    clickupFolder:
+                                                                        folder,
+                                                                    listName:
+                                                                        text),
+                                                                clickupWorkspace:
+                                                                    Globals
+                                                                        .selectedWorkspace!,
+                                                                clickupSpace:
+                                                                    Globals
+                                                                        .selectedSpace!));
+                                                          }, onCancel: () {
+                                                            listsPageBloc.add(
+                                                                CreateListInFolderEvent
+                                                                    .cancelCreate());
+                                                          })
                                                       ]))
                                           .toList() ??
                                       []) +
@@ -258,9 +257,8 @@ class ListsPage extends StatelessWidget {
                                           []) +
                                       <Widget>[
                                         state.tryCreateFolderInSpace
-                                            ? ListTile(
-                                                title:
-                                                    _CreateField(onAdd: (text) {
+                                            ? _CreateField(
+                                                onAdd: (text) {
                                                   listsPageBloc.add(CreateClickupFolderInSpaceEvent.submit(
                                                       createClickupFolderInSpaceParams:
                                                           CreateClickupFolderInSpaceParams(
@@ -274,66 +272,56 @@ class ListsPage extends StatelessWidget {
                                                           .selectedWorkspace!,
                                                       clickupSpace: Globals
                                                           .selectedSpace!));
-                                                }, onCancel: () {
+                                                },
+                                                onCancel: () {
                                                   listsPageBloc.add(
                                                       CreateClickupFolderInSpaceEvent
                                                           .cancelCreate());
-                                                }),
+                                                },
                                               )
-                                            : ListTile(
-                                                title: TextButton(
-                                                    onPressed: () {
-                                                      listsPageBloc.add(
-                                                          CreateClickupFolderInSpaceEvent
-                                                              .tryCreate());
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        Text(appLocalization
-                                                            .translate(
-                                                                "createNewFolder")),
-                                                      ],
-                                                    )),
+                                            : CustomButton.noIcon(
+                                                label:
+                                                    "+ ${appLocalization.translate("createNewFolder")}",
+                                                onPressed: () {
+                                                  listsPageBloc.add(
+                                                      CreateClickupFolderInSpaceEvent
+                                                          .tryCreate());
+                                                },
+                                                type: CustomButtonType
+                                                    .greyTextLabel,
                                               )
                                       ] +
                                       <Widget>[
                                         state.tryCreateListInSpace
-                                            ? ListTile(
-                                                title:
-                                                    _CreateField(onAdd: (text) {
-                                                  listsPageBloc.add(CreateFolderlessListEvent.submit(
-                                                      createFolderlessListClickupParams:
-                                                          CreateFolderlessListClickupParams(
-                                                              clickupAccessToken:
-                                                                  Globals
-                                                                      .clickupAuthAccessToken,
-                                                              listName: text,
-                                                              clickupSpace: Globals
-                                                                  .selectedSpace!),
-                                                      clickupWorkspace: Globals
-                                                          .selectedWorkspace!,
-                                                      clickupSpace: Globals
-                                                          .selectedSpace!));
-                                                }, onCancel: () {
+                                            ? _CreateField(onAdd: (text) {
+                                                listsPageBloc.add(CreateFolderlessListEvent.submit(
+                                                    createFolderlessListClickupParams:
+                                                        CreateFolderlessListClickupParams(
+                                                            clickupAccessToken:
+                                                                Globals
+                                                                    .clickupAuthAccessToken,
+                                                            listName: text,
+                                                            clickupSpace: Globals
+                                                                .selectedSpace!),
+                                                    clickupWorkspace: Globals
+                                                        .selectedWorkspace!,
+                                                    clickupSpace: Globals
+                                                        .selectedSpace!));
+                                              }, onCancel: () {
+                                                listsPageBloc.add(
+                                                    CreateListInFolderEvent
+                                                        .cancelCreate());
+                                              })
+                                            : CustomButton.noIcon(
+                                                label:
+                                                    "+ ${appLocalization.translate("createNewList")}",
+                                                onPressed: () {
                                                   listsPageBloc.add(
-                                                      CreateListInFolderEvent
-                                                          .cancelCreate());
-                                                }),
-                                              )
-                                            : ListTile(
-                                                title: TextButton(
-                                                    onPressed: () {
-                                                      listsPageBloc.add(
-                                                          CreateFolderlessListEvent
-                                                              .tryCreate());
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        Text(appLocalization
-                                                            .translate(
-                                                                "createNewList")),
-                                                      ],
-                                                    )),
+                                                      CreateFolderlessListEvent
+                                                          .tryCreate());
+                                                },
+                                                type: CustomButtonType
+                                                    .greyTextLabel,
                                               )
                                       ]),
                             ),
