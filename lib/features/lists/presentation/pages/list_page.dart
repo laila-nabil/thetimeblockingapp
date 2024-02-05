@@ -88,44 +88,46 @@ class ListPage extends StatelessWidget {
                             appFontSize: AppFontSize.heading4)),
                       ),
                     ),
-                    SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          if (state.getCurrentListTasksOverdue.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Overdue"),
-                                  children: state.getCurrentListTasksOverdue
-                                      .map<Widget>((e) => buildTaskWidget(
-                                          e, context, listsPageBloc))
-                                      .toList()),
-                            ),
-                          if (state.getCurrentListTasksUpcoming.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Upcoming"),
-                                  children: state.getCurrentListTasksUpcoming
-                                      .map<Widget>((e) => buildTaskWidget(
-                                          e, context, listsPageBloc))
-                                      .toList()),
-                            ),
-                          if (state.getCurrentListTasksUnscheduled.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Unscheduled"),
-                                  children: state.getCurrentListTasksUnscheduled
-                                      .map<Widget>((e) => buildTaskWidget(
-                                          e, context, listsPageBloc))
-                                      .toList()),
-                            ),
-                        ],
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            if (state.getCurrentListTasksOverdue.isNotEmpty)
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: AppSpacing.xSmall8.value),
+                                child: ToggleableSection(
+                                    title: appLocalization.translate("Overdue"),
+                                    children: state.getCurrentListTasksOverdue
+                                        .map<Widget>((e) => buildTaskWidget(
+                                            e, context, listsPageBloc))
+                                        .toList()),
+                              ),
+                            if (state.getCurrentListTasksUpcoming.isNotEmpty)
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: AppSpacing.xSmall8.value),
+                                child: ToggleableSection(
+                                    title: appLocalization.translate("Upcoming"),
+                                    children: state.getCurrentListTasksUpcoming
+                                        .map<Widget>((e) => buildTaskWidget(
+                                            e, context, listsPageBloc))
+                                        .toList()),
+                              ),
+                            if (state.getCurrentListTasksUnscheduled.isNotEmpty)
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: AppSpacing.xSmall8.value),
+                                child: ToggleableSection(
+                                    title: appLocalization.translate("Unscheduled"),
+                                    children: state.getCurrentListTasksUnscheduled
+                                        .map<Widget>((e) => buildTaskWidget(
+                                            e, context, listsPageBloc))
+                                        .toList()),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -143,6 +145,7 @@ class ListPage extends StatelessWidget {
     return TaskComponent(
       clickupTask: e,
       bloc: listsPageBloc,
+      showListChip: false ,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
       onDelete: (params) {
         listsPageBloc.add(DeleteClickupTaskEvent(params: params));

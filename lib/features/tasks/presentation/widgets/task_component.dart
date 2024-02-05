@@ -17,31 +17,32 @@ import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/delete_clickup_task_use_case.dart';
 
 class TaskComponent extends StatelessWidget {
-  const TaskComponent(
-      {super.key,
-      required this.clickupTask,
-      required this.bloc,
-      required this.isLoading,
-      required this.onDelete,
-      required this.onSave,
-      this.showList = true,});
+  const TaskComponent({
+    super.key,
+    required this.clickupTask,
+    required this.bloc,
+    required this.isLoading,
+    required this.onDelete,
+    required this.onSave,
+    this.showListChip = true,
+  });
 
   final ClickupTask clickupTask;
   final Bloc<dynamic, dynamic> bloc;
   final bool Function(Object?) isLoading;
   final void Function(DeleteClickupTaskParams) onDelete;
   final void Function(ClickupTaskParams) onSave;
-  final bool showList;
+  final bool showListChip;
 
   @override
   Widget build(BuildContext context) {
     return TaskWidget(
         actions: [
-          // CustomDropDownItem.text(
-          //     title: appLocalization.translate("delete"),
-          //     onTap:()=> onDelete)
+          CustomDropDownItem.text(
+              title: appLocalization.translate("delete"),
+              onTap:(){})
         ],
-        showList: showList,
+        showList: showListChip,
         onTap: () {
           showTaskPopup(
               context: context,
@@ -83,11 +84,12 @@ class TaskWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.background,
         ),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
@@ -99,54 +101,54 @@ class TaskWidget extends StatelessWidget {
                         appFontWeight: AppFontWeight.semiBold)),
                   ),
                 ),
-                if (clickupTask.startDateUtc != null &&
-                    clickupTask.dueDateUtc != null)
-                  Text(
-                      "🕑 ${DateTimeExtensions.customToString(clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(clickupTask.dueDateUtc)}",
-                      style: dateTextStyle)
-                else
-                  Text("", style: dateTextStyle),
-                Padding(
-                  padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: AppSpacing.x2Small4.value,
-                          runSpacing: AppSpacing.x2Small4.value,
-                          direction: Axis.horizontal,
-                          verticalDirection: VerticalDirection.down,
-                          children: clickupTask.tags
-                                  ?.map((e) => TagChip(
-                                      tagName: e.name ?? "",
-                                      color: e.getTagFgColor))
-                                  .toList() ??
-                              [],
-                        ),
-                      ),
-                      SizedBox(
-                        width: AppSpacing.small12.value,
-                      ),
-                      if (showList)
-                        ListChip(
-                            listName: clickupTask.list?.name ?? "",
-                            folderName: clickupTask.folder?.name ?? "")
-                    ],
-                  ),
-                )
+                if (actions?.isNotEmpty == true)
+                  CustomDropDownMenu(
+                      items: actions ?? [],
+                      listButton: Image.asset(
+                        AppAssets.dotsVPng,
+                        height: 16,
+                        fit: BoxFit.fitHeight,
+                      )),
               ],
             ),
-            if (actions?.isNotEmpty == true)
-              CustomDropDownMenu(
-                  items: actions ?? [],
-                  listButton: Image.asset(
-                    AppAssets.dotsVPng,
-                    height: 16,
-                    fit: BoxFit.fitHeight,
-                  ))
+            if (clickupTask.startDateUtc != null &&
+                clickupTask.dueDateUtc != null)
+              Text(
+                  "🕑 ${DateTimeExtensions.customToString(clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(clickupTask.dueDateUtc)}",
+                  style: dateTextStyle)
+            else
+              Text("", style: dateTextStyle),
+            Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: AppSpacing.x2Small4.value,
+                      runSpacing: AppSpacing.x2Small4.value,
+                      direction: Axis.horizontal,
+                      verticalDirection: VerticalDirection.down,
+                      children: clickupTask.tags
+                          ?.map((e) => TagChip(
+                          tagName: e.name ?? "",
+                          color: e.getTagFgColor))
+                          .toList() ??
+                          [],
+                    ),
+                  ),
+                  SizedBox(
+                    width: AppSpacing.small12.value,
+                  ),
+                  if (showList)
+                    ListChip(
+                        listName: clickupTask.list?.name ?? "",
+                        folderName: clickupTask.folder?.name ?? "")
+                ],
+              ),
+            )
           ],
         ),
       ),
