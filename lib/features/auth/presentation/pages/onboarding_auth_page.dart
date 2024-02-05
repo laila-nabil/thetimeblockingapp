@@ -63,6 +63,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
         appFontSize: AppFontSize.heading4,
         color: AppColors.text,
         appFontWeight: AppFontWeight.medium));
+    const boxConstraints = BoxConstraints(maxWidth: 510);
     return ResponsiveScaffold(
       hideAppBarDrawer: true,
       responsiveScaffoldLoading: ResponsiveScaffoldLoading(
@@ -71,70 +72,75 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
           isLoading: widget.authBloc.state.isLoading),
       responsiveBody: switch (step) {
         OnBoardingAndAuthStep.first => ResponsiveTParams(
-            small: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(
-                    flex: 86,
-                  ),
-                  Image.asset(
-                    AppAssets.logo,
-                    width: 258,
-                    height: 39,
-                    fit: BoxFit.contain,
-                  ),
-                  const Spacer(
-                    flex: 34,
-                  ),
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(AppBorderRadius.x3Large.value),
-                    child: Image.asset(
-                      AppAssets.onBoarding1mobile,
-                      width: 246,
-                      height: 290,
+            small: Center(
+              child: Container(
+                constraints: boxConstraints,
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(
+                      flex: 86,
+                    ),
+                    Image.asset(
+                      AppAssets.logo,
+                      width: 258,
+                      height: 39,
                       fit: BoxFit.contain,
                     ),
-                  ),
-                  const Spacer(
-                    flex: 66,
-                  ),
-                  Wrap(
-                      children:
-                          "${appLocalization.translate("welcomeTimeblockingapp")} ${appLocalization.translate("withThePowerOf")}"
-                                  .split(" ")
-                                  .toList()
-                                  .map<Widget>((e) =>
-                                      Text("$e ", style: contentStyleMobile))
-                                  .toList() +
-                              [Text(" ", style: contentStyleMobile)] +
-                              [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 1.0),
-                                  child: Image.asset(
-                                    AppAssets.clickupLogo,
-                                    width: 95,
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                )
-                              ]),
-                  const Spacer(
-                    flex: 88,
-                  ),
-                  CustomButton.noIcon(
-                      label: appLocalization.translate("getStarted"),
-                      onPressed: () {
-                        setState(() {
-                          step = OnBoardingAndAuthStep.second;
-                        });
-                      },
-                      type: CustomButtonType.primaryLabel),
-                  SizedBox(
-                    height: AppSpacing.huge.value,
-                  )
-                ],
+                    const Spacer(
+                      flex: 34,
+                    ),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                      child: Image.asset(
+                        AppAssets.onBoarding1mobile,
+                        width: 246,
+                        height: 290,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 66,
+                    ),
+                    Wrap(
+                        children:
+                            "${appLocalization.translate("welcomeTimeblockingapp")} ${appLocalization.translate("withThePowerOf")}"
+                                    .split(" ")
+                                    .toList()
+                                    .map<Widget>((e) =>
+                                        Text("$e ", style: contentStyleMobile))
+                                    .toList() +
+                                [Text(" ", style: contentStyleMobile)] +
+                                [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 1.0),
+                                    child: Image.asset(
+                                      AppAssets.clickupLogo,
+                                      width: 95,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  )
+                                ]),
+                    const Spacer(
+                      flex: 88,
+                    ),
+                    CustomButton.noIcon(
+                        label: appLocalization.translate("getStarted"),
+                        onPressed: () {
+                          setState(() {
+                            step = OnBoardingAndAuthStep.second;
+                          });
+                        },
+                        type: CustomButtonType.primaryLabel),
+                    SizedBox(
+                      height: AppSpacing.huge.value,
+                    )
+                  ],
+                ),
               ),
             ),
             large: Row(
@@ -208,88 +214,93 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
               ],
             )),
         OnBoardingAndAuthStep.second => ResponsiveTParams(
-            small: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(
-                    flex: 36,
-                  ),
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(AppBorderRadius.x3Large.value),
-                    child: Image.asset(
-                      AppAssets.onBoarding2mobile,
-                      width: 246,
-                      height: 290,
-                      fit: BoxFit.contain,
+            small: Center(
+              child: Container(
+                constraints: boxConstraints,
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(
+                      flex: 36,
                     ),
-                  ),
-                  const Spacer(
-                    flex: 66,
-                  ),
-                  Text(
-                    appLocalization.translate("simplifyTasks"),
-                    style: titleStyleMobile,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    appLocalization
-                        .translate("timeBlockingAppStreamlinesTaskManagement"),
-                    style: contentStyleMobile,
-                  ),
-                  const Spacer(
-                    flex: 72,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomButton.noIcon(
-                          size: CustomButtonSize.small,
-                          label: appLocalization.translate("back"),
-                          onPressed: () {
-                            setState(() {
-                              step = OnBoardingAndAuthStep.first;
-                            });
-                          },
-                          type: CustomButtonType.secondaryLabel),
-                      const SizedBox(
-                        width: 8,
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                      child: Image.asset(
+                        AppAssets.onBoarding2mobile,
+                        width: 246,
+                        height: 290,
+                        fit: BoxFit.contain,
                       ),
-                      CustomButton.noIcon(
-                          size: CustomButtonSize.small,
-                          label: appLocalization.translate("next"),
-                          onPressed: () {
-                            setState(() {
-                              step = OnBoardingAndAuthStep.third;
-                            });
-                          },
-                          type: CustomButtonType.primaryLabel),
-                    ],
-                  ),
-                  SizedBox(
-                    height: AppSpacing.huge.value,
-                    child: Column(
+                    ),
+                    const Spacer(
+                      flex: 66,
+                    ),
+                    Text(
+                      appLocalization.translate("simplifyTasks"),
+                      style: titleStyleMobile,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      appLocalization
+                          .translate("timeBlockingAppStreamlinesTaskManagement"),
+                      style: contentStyleMobile,
+                    ),
+                    const Spacer(
+                      flex: 72,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        CustomButton.noIcon(
+                            size: CustomButtonSize.small,
+                            label: appLocalization.translate("back"),
+                            onPressed: () {
+                              setState(() {
+                                step = OnBoardingAndAuthStep.first;
+                              });
+                            },
+                            type: CustomButtonType.secondaryLabel),
                         const SizedBox(
-                          height: 18,
+                          width: 8,
                         ),
                         CustomButton.noIcon(
                             size: CustomButtonSize.small,
-                            label: appLocalization.translate("skip"),
+                            label: appLocalization.translate("next"),
                             onPressed: () {
                               setState(() {
-                                step = OnBoardingAndAuthStep.auth;
+                                step = OnBoardingAndAuthStep.third;
                               });
                             },
-                            type: CustomButtonType.primaryTextLabel),
+                            type: CustomButtonType.primaryLabel),
                       ],
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: AppSpacing.huge.value,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          CustomButton.noIcon(
+                              size: CustomButtonSize.small,
+                              label: appLocalization.translate("skip"),
+                              onPressed: () {
+                                setState(() {
+                                  step = OnBoardingAndAuthStep.auth;
+                                });
+                              },
+                              type: CustomButtonType.primaryTextLabel),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             large: Row(
@@ -386,89 +397,94 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
               ],
             )),
         OnBoardingAndAuthStep.third => ResponsiveTParams(
-              small: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Spacer(
-                  flex: 36,
-                ),
-                ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(AppBorderRadius.x3Large.value),
-                  child: Image.asset(
-                    AppAssets.onBoarding3mobile,
-                    width: 246,
-                    height: 290,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const Spacer(
-                  flex: 66,
-                ),
-                Text(
-                  appLocalization.translate("seamlessClickUpIntegration"),
-                  style: titleStyleMobile,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  appLocalization.translate("connectTimeblockingClickup"),
-                  style: contentStyleMobile,
-                ),
-                const Spacer(
-                  flex: 72,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            small: Center(
+              child: Container(
+                constraints: boxConstraints,
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomButton.noIcon(
-                        size: CustomButtonSize.small,
-                        label: appLocalization.translate("back"),
-                        onPressed: () {
-                          setState(() {
-                            step = OnBoardingAndAuthStep.second;
-                          });
-                        },
-                        type: CustomButtonType.secondaryLabel),
-                    const SizedBox(
-                      width: 8,
+                    const Spacer(
+                      flex: 36,
                     ),
-                    CustomButton.noIcon(
-                        size: CustomButtonSize.small,
-                        label: appLocalization.translate("next"),
-                        onPressed: () {
-                          setState(() {
-                            step = OnBoardingAndAuthStep.fourth;
-                          });
-                        },
-                        type: CustomButtonType.primaryLabel),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                      child: Image.asset(
+                        AppAssets.onBoarding3mobile,
+                        width: 246,
+                        height: 290,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 66,
+                    ),
+                    Text(
+                      appLocalization.translate("seamlessClickUpIntegration"),
+                      style: titleStyleMobile,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      appLocalization.translate("connectTimeblockingClickup"),
+                      style: contentStyleMobile,
+                    ),
+                    const Spacer(
+                      flex: 72,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton.noIcon(
+                            size: CustomButtonSize.small,
+                            label: appLocalization.translate("back"),
+                            onPressed: () {
+                              setState(() {
+                                step = OnBoardingAndAuthStep.second;
+                              });
+                            },
+                            type: CustomButtonType.secondaryLabel),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        CustomButton.noIcon(
+                            size: CustomButtonSize.small,
+                            label: appLocalization.translate("next"),
+                            onPressed: () {
+                              setState(() {
+                                step = OnBoardingAndAuthStep.fourth;
+                              });
+                            },
+                            type: CustomButtonType.primaryLabel),
+                      ],
+                    ),
+                    SizedBox(
+                      height: AppSpacing.huge.value,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          CustomButton.noIcon(
+                              size: CustomButtonSize.small,
+                              label: appLocalization.translate("skip"),
+                              onPressed: () {
+                                setState(() {
+                                  step = OnBoardingAndAuthStep.auth;
+                                });
+                              },
+                              type: CustomButtonType.primaryTextLabel),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: AppSpacing.huge.value,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      CustomButton.noIcon(
-                          size: CustomButtonSize.small,
-                          label: appLocalization.translate("skip"),
-                          onPressed: () {
-                            setState(() {
-                              step = OnBoardingAndAuthStep.auth;
-                            });
-                          },
-                          type: CustomButtonType.primaryTextLabel),
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
             large: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -491,8 +507,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         height: 20,
                       ),
                       Text(
-                        appLocalization.translate(
-                            "connectTimeblockingClickup"),
+                        appLocalization.translate("connectTimeblockingClickup"),
                         style: contentStyleDesktop,
                       ),
                       const Spacer(
@@ -554,249 +569,258 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 ),
                 ClipRRect(
                   borderRadius:
-                  BorderRadius.circular(AppBorderRadius.x3Large.value),
+                      BorderRadius.circular(AppBorderRadius.x3Large.value),
                   child: Image.asset(
                     AppAssets.onBoarding3desktop,
                     fit: BoxFit.fitHeight,
                   ),
                 )
               ],
-            )
-        ),
+            )),
         OnBoardingAndAuthStep.fourth => ResponsiveTParams(
-              small: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Spacer(
-                  flex: 36,
-                ),
-                ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(AppBorderRadius.x3Large.value),
-                  child: Image.asset(
-                    AppAssets.onBoarding3mobile,
-                    width: 246,
-                    height: 290,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const Spacer(
-                  flex: 66,
-                ),
-                Text(
-                  appLocalization.translate("dateSecurity"),
-                  style: titleStyleMobile,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  appLocalization.translate("restEasyKnowingTasksSecured"),
-                  style: contentStyleMobile,
-                ),
-                const Spacer(
-                  flex: 72,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            small: Center(
+              child: Container(
+                constraints: boxConstraints,
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomButton.custom(
-                      size: CustomButtonSize.small,
-                      onPressed: () {
-                        final url = clickupAuthUrl;
-                        if (kIsWeb) {
-                          launchWithURL(url: url);
-                          if (true) {
-                            widget.authBloc
-                                .add(const ShowCodeInputTextField(true));
-                          }
-                        } else if (Platform.isAndroid || Platform.isIOS) {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return AuthPageWebView(
-                              url: url,
-                              getAccessToken: (String code) {
-                                widget.authBloc
-                                    .add(GetClickupAccessToken(code));
-                              },
-                            );
-                          }));
-                        }
-                      },
-                      type: CustomButtonType.primaryLabel,
-                      child: Row(
-                        children: [
-                          Text(
-                            "${appLocalization.translate("connectWithClickup")} ",
-                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                color: AppColors.white,
-                                appFontWeight: AppFontWeight.semiBold,
-                                appFontSize: AppFontSize.paragraphSmall)),
-                          ),
-                          Image.asset(
-                            AppAssets.clickupLogoMin,
-                            width: 20,
-                            height: 20,
-                          )
-                        ],
+                    const Spacer(
+                      flex: 36,
+                    ),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                      child: Image.asset(
+                        AppAssets.onBoarding3mobile,
+                        width: 246,
+                        height: 290,
+                        fit: BoxFit.contain,
                       ),
                     ),
+                    const Spacer(
+                      flex: 66,
+                    ),
+                    Text(
+                      appLocalization.translate("dateSecurity"),
+                      style: titleStyleMobile,
+                    ),
                     const SizedBox(
-                      width: 8,
+                      height: 20,
                     ),
-                    CustomButton.trailingIcon(
-                      size: CustomButtonSize.small,
-                      label: appLocalization.translate("copyLink"),
-                      onPressed: () async {
-                        await Clipboard.setData(
-                                ClipboardData(text: clickupAuthUrl))
-                            .then((value) => ScaffoldMessenger.maybeOf(context)
-                                    ?.showSnackBar(SnackBar(
-                                        content: Text(
-                                  appLocalization.translate(
-                                    "linkCopiedSuccessfully",
-                                  ),
-                                  style: AppTextStyle.getTextStyle(
-                                      AppTextStyleParams(
-                                          appFontSize:
-                                              AppFontSize.paragraphSmall,
-                                          color: AppColors.grey.shade50,
-                                          appFontWeight:
-                                              AppFontWeight.regular)),
-                                ))));
-                      },
-                      type: CustomButtonType.secondaryTrailingIcon,
-                      icon: Icons.link,
+                    Text(
+                      'Rest easy knowing that all your task data is securely managed by ClickUp. Check out ClickUp\'s privacy and security policies for additional details',
+                      style: contentStyleMobile,
+                      overflow: TextOverflow.visible,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: AppSpacing.huge.value,
-                )
-              ],
-            ),
-          ),
-              large: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.sizeOf(context).width * 0.4,
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                        AppSpacing.x2Large.value, 0, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const Spacer(
+                      flex: 72,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Spacer(
-                          flex: 228,
-                        ),
-                        Text(
-                          appLocalization.translate("dateSecurity"),
-                          style: titleStyleDesktop,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          appLocalization.translate(
-                              "restEasyKnowingTasksSecured"),
-                          style: contentStyleDesktop,
-                        ),
-                        const Spacer(
-                          flex: 390,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomButton.custom(
-                              size: CustomButtonSize.large,
-                              onPressed: () {
-                                final url = clickupAuthUrl;
-                                if (kIsWeb) {
-                                  launchWithURL(url: url);
-                                  if (true) {
+                        CustomButton.custom(
+                          size: CustomButtonSize.small,
+                          onPressed: () {
+                            final url = clickupAuthUrl;
+                            if (kIsWeb) {
+                              launchWithURL(url: url);
+                              if (true) {
+                                widget.authBloc
+                                    .add(const ShowCodeInputTextField(true));
+                              }
+                            } else if (Platform.isAndroid || Platform.isIOS) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return AuthPageWebView(
+                                  url: url,
+                                  getAccessToken: (String code) {
                                     widget.authBloc
-                                        .add(const ShowCodeInputTextField(true));
-                                  }
-                                } else if (Platform.isAndroid || Platform.isIOS) {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return AuthPageWebView(
-                                          url: url,
-                                          getAccessToken: (String code) {
-                                            widget.authBloc
-                                                .add(GetClickupAccessToken(code));
-                                          },
-                                        );
-                                      }));
-                                }
-                              },
-                              type: CustomButtonType.primaryLabel,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "${appLocalization.translate("connectWithClickup")} ",
-                                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                        .add(GetClickupAccessToken(code));
+                                  },
+                                );
+                              }));
+                            }
+                          },
+                          type: CustomButtonType.primaryLabel,
+                          child: Row(
+                            children: [
+                              Text(
+                                "${appLocalization.translate("connectWithClickup")} ",
+                                style: AppTextStyle.getTextStyle(
+                                    AppTextStyleParams(
                                         color: AppColors.white,
                                         appFontWeight: AppFontWeight.semiBold,
-                                        appFontSize: AppFontSize.paragraphLarge)),
-                                  ),
-                                  Image.asset(
-                                    AppAssets.clickupLogoMin,
-                                    width: 20,
-                                    height: 20,
-                                  )
-                                ],
+                                        appFontSize: AppFontSize.paragraphSmall)),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            CustomButton.trailingIcon(
-                              size: CustomButtonSize.large,
-                              label: appLocalization.translate("copyLink"),
-                              onPressed: () async {
-                                await Clipboard.setData(
+                              Image.asset(
+                                AppAssets.clickupLogoMin,
+                                width: 20,
+                                height: 20,
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        CustomButton.trailingIcon(
+                          size: CustomButtonSize.small,
+                          label: appLocalization.translate("copyLink"),
+                          onPressed: () async {
+                            await Clipboard.setData(
                                     ClipboardData(text: clickupAuthUrl))
-                                    .then((value) => ScaffoldMessenger.maybeOf(context)
-                                    ?.showSnackBar(SnackBar(
-                                    content: Text(
+                                .then((value) =>
+                                    ScaffoldMessenger.maybeOf(context)
+                                        ?.showSnackBar(SnackBar(
+                                            content: Text(
                                       appLocalization.translate(
                                         "linkCopiedSuccessfully",
                                       ),
                                       style: AppTextStyle.getTextStyle(
                                           AppTextStyleParams(
                                               appFontSize:
-                                              AppFontSize.paragraphSmall,
+                                                  AppFontSize.paragraphSmall,
                                               color: AppColors.grey.shade50,
                                               appFontWeight:
-                                              AppFontWeight.regular)),
+                                                  AppFontWeight.regular)),
                                     ))));
-                              },
-                              type: CustomButtonType.secondaryTrailingIcon,
-                              icon: Icons.link,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: AppSpacing.xHuge.value,
+                          },
+                          type: CustomButtonType.secondaryTrailingIcon,
+                          icon: Icons.link,
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: AppSpacing.huge.value,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            large: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 0.4,
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                      AppSpacing.x2Large.value, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(
+                        flex: 228,
+                      ),
+                      Text(
+                        appLocalization.translate("dateSecurity"),
+                        style: titleStyleDesktop,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        appLocalization
+                            .translate("restEasyKnowingTasksSecured"),
+                        style: contentStyleDesktop,
+                      ),
+                      const Spacer(
+                        flex: 390,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomButton.custom(
+                            size: CustomButtonSize.large,
+                            onPressed: () {
+                              final url = clickupAuthUrl;
+                              if (kIsWeb) {
+                                launchWithURL(url: url);
+                                if (true) {
+                                  widget.authBloc
+                                      .add(const ShowCodeInputTextField(true));
+                                }
+                              } else if (Platform.isAndroid || Platform.isIOS) {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return AuthPageWebView(
+                                    url: url,
+                                    getAccessToken: (String code) {
+                                      widget.authBloc
+                                          .add(GetClickupAccessToken(code));
+                                    },
+                                  );
+                                }));
+                              }
+                            },
+                            type: CustomButtonType.primaryLabel,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${appLocalization.translate("connectWithClickup")} ",
+                                  style: AppTextStyle.getTextStyle(
+                                      AppTextStyleParams(
+                                          color: AppColors.white,
+                                          appFontWeight: AppFontWeight.semiBold,
+                                          appFontSize:
+                                              AppFontSize.paragraphLarge)),
+                                ),
+                                Image.asset(
+                                  AppAssets.clickupLogoMin,
+                                  width: 20,
+                                  height: 20,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          CustomButton.trailingIcon(
+                            size: CustomButtonSize.large,
+                            label: appLocalization.translate("copyLink"),
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                      ClipboardData(text: clickupAuthUrl))
+                                  .then((value) =>
+                                      ScaffoldMessenger.maybeOf(context)
+                                          ?.showSnackBar(SnackBar(
+                                              content: Text(
+                                        appLocalization.translate(
+                                          "linkCopiedSuccessfully",
+                                        ),
+                                        style: AppTextStyle.getTextStyle(
+                                            AppTextStyleParams(
+                                                appFontSize:
+                                                    AppFontSize.paragraphSmall,
+                                                color: AppColors.grey.shade50,
+                                                appFontWeight:
+                                                    AppFontWeight.regular)),
+                                      ))));
+                            },
+                            type: CustomButtonType.secondaryTrailingIcon,
+                            icon: Icons.link,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: AppSpacing.xHuge.value,
+                      ),
+                    ],
                   ),
-                  ClipRRect(
-                    borderRadius:
-                    BorderRadius.circular(AppBorderRadius.x3Large.value),
-                    child: Image.asset(
-                      AppAssets.onBoarding3desktop,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  )
-                ],
-              )
-        ),
+                ),
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(AppBorderRadius.x3Large.value),
+                  child: Image.asset(
+                    AppAssets.onBoarding3desktop,
+                    fit: BoxFit.fitHeight,
+                  ),
+                )
+              ],
+            )),
       },
       context: context,
     );
