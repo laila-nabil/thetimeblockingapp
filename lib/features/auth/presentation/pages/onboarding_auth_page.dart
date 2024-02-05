@@ -60,7 +60,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
         color: AppColors.text,
         appFontWeight: AppFontWeight.medium));
     final contentStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
-        appFontSize: AppFontSize.heading4,
+        appFontSize: AppFontSize.heading6,
         color: AppColors.text,
         appFontWeight: AppFontWeight.medium));
     const boxConstraints = BoxConstraints(maxWidth: 510);
@@ -230,7 +230,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                       padding: const EdgeInsets.only(top: 4.0),
                                       child: Image.asset(
                                         AppAssets.clickupLogo,
-                                        width: 127,
+                                        width: 85,
                                         fit: BoxFit.fitWidth,
                                       ),
                                     )
