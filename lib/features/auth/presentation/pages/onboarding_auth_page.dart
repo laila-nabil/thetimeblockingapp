@@ -128,14 +128,64 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                     const Spacer(
                       flex: 88,
                     ),
-                    CustomButton.noIcon(
-                        label: appLocalization.translate("getStarted"),
-                        onPressed: () {
-                          setState(() {
-                            step = OnBoardingAndAuthStep.second;
-                          });
-                        },
-                        type: CustomButtonType.primaryLabel),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        CustomButton.custom(
+                          onPressed: () {
+                            final url = clickupAuthUrl;
+                            if (kIsWeb) {
+                              launchWithURL(url: url);
+                              if (true) {
+                                widget.authBloc
+                                    .add(const ShowCodeInputTextField(true));
+                              }
+                            } else if (Platform.isAndroid || Platform.isIOS) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return AuthPageWebView(
+                                      url: url,
+                                      getAccessToken: (String code) {
+                                        widget.authBloc
+                                            .add(GetClickupAccessToken(code));
+                                      },
+                                    );
+                                  }));
+                            }
+                          },
+                          type: CustomButtonType.secondaryLabel,
+                          child: Row(
+                            children: [
+                              Text(
+                                "${appLocalization.translate("connectWithClickupNow")} ",
+                                style: AppTextStyle.getTextStyle(
+                                    AppTextStyleParams(
+                                        color: AppColors.primary.shade500,
+                                        appFontWeight: AppFontWeight.semiBold,
+                                        appFontSize: AppFontSize.paragraphSmall)),
+                              ),
+                              Image.asset(
+                                AppAssets.clickupLogoMin,
+                                width: 20,
+                                height: 20,
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("getStarted"),
+                            onPressed: () {
+                              setState(() {
+                                step = OnBoardingAndAuthStep.second;
+                              });
+                            },
+                            type: CustomButtonType.primaryLabel),
+                      ],
+                    ),
                     SizedBox(
                       height: AppSpacing.huge.value,
                     )
@@ -188,15 +238,64 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       const Spacer(
                         flex: 390,
                       ),
-                      CustomButton.noIcon(
-                          size: CustomButtonSize.large,
-                          label: appLocalization.translate("getStarted"),
-                          onPressed: () {
-                            setState(() {
-                              step = OnBoardingAndAuthStep.second;
-                            });
-                          },
-                          type: CustomButtonType.primaryLabel),
+                      Row(
+                        children: [
+                          CustomButton.custom(
+                            size: CustomButtonSize.large,
+                            onPressed: () {
+                              final url = clickupAuthUrl;
+                              if (kIsWeb) {
+                                launchWithURL(url: url);
+                                if (true) {
+                                  widget.authBloc
+                                      .add(const ShowCodeInputTextField(true));
+                                }
+                              } else if (Platform.isAndroid || Platform.isIOS) {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return AuthPageWebView(
+                                        url: url,
+                                        getAccessToken: (String code) {
+                                          widget.authBloc
+                                              .add(GetClickupAccessToken(code));
+                                        },
+                                      );
+                                    }));
+                              }
+                            },
+                            type: CustomButtonType.secondaryLabel,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${appLocalization.translate("connectWithClickupNow")} ",
+                                  style: AppTextStyle.getTextStyle(
+                                      AppTextStyleParams(
+                                          color: AppColors.primary.shade500,
+                                          appFontWeight: AppFontWeight.semiBold,
+                                          appFontSize: AppFontSize.paragraphSmall)),
+                                ),
+                                Image.asset(
+                                  AppAssets.clickupLogoMin,
+                                  width: 20,
+                                  height: 20,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          CustomButton.noIcon(
+                              size: CustomButtonSize.large,
+                              label: appLocalization.translate("getStarted"),
+                              onPressed: () {
+                                setState(() {
+                                  step = OnBoardingAndAuthStep.second;
+                                });
+                              },
+                              type: CustomButtonType.primaryLabel),
+                        ],
+                      ),
                       SizedBox(
                         height: AppSpacing.xHuge.value,
                       )
