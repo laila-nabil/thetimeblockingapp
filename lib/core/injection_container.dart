@@ -363,6 +363,11 @@ void reRegisterClickupVariables() async {
       const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
   Globals.clickupRedirectUrl =
       const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
+  const overrideClickupUrl =
+      String.fromEnvironment("clickupUrl", defaultValue: "");
+  Globals.clickupUrl = overrideClickupUrl.isNotEmpty
+      ? overrideClickupUrl
+      : 'https://timeblockingrender.onrender.com/clickup';
 }
 
 void initServiceLocator() {
