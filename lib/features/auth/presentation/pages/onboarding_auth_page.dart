@@ -75,7 +75,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
             small: Center(
               child: Container(
                 constraints: boxConstraints,
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big28.value),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -187,7 +187,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       ],
                     ),
                     SizedBox(
-                      height: AppSpacing.huge.value,
+                      height: AppSpacing.huge96.value,
                     )
                   ],
                 ),
@@ -200,7 +200,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   padding: EdgeInsetsDirectional.fromSTEB(
-                      AppSpacing.x2Large.value, 0, 0, 0),
+                      AppSpacing.x2Large64 .value, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -297,7 +297,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         ],
                       ),
                       SizedBox(
-                        height: AppSpacing.xHuge.value,
+                        height: AppSpacing.xHuge128.value,
                       )
                     ],
                   ),
@@ -316,7 +316,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
             small: Center(
               child: Container(
                 constraints: boxConstraints,
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big28.value),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -380,7 +380,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       ],
                     ),
                     SizedBox(
-                      height: AppSpacing.huge.value,
+                      height: AppSpacing.huge96.value,
                       child: Column(
                         children: [
                           const SizedBox(
@@ -409,7 +409,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   padding: EdgeInsetsDirectional.fromSTEB(
-                      AppSpacing.x2Large.value, 0, 0, 0),
+                      AppSpacing.x2Large64.value, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -462,7 +462,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             ],
                           ),
                           SizedBox(
-                            height: AppSpacing.xHuge.value,
+                            height: AppSpacing.xHuge128.value,
                             child: Column(
                               children: [
                                 const SizedBox(
@@ -499,7 +499,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
             small: Center(
               child: Container(
                 constraints: boxConstraints,
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big28.value),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -562,7 +562,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       ],
                     ),
                     SizedBox(
-                      height: AppSpacing.huge.value,
+                      height: AppSpacing.huge96.value,
                       child: Column(
                         children: [
                           const SizedBox(
@@ -591,7 +591,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   padding: EdgeInsetsDirectional.fromSTEB(
-                      AppSpacing.x2Large.value, 0, 0, 0),
+                      AppSpacing.x2Large64.value, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -643,7 +643,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             ],
                           ),
                           SizedBox(
-                            height: AppSpacing.xHuge.value,
+                            height: AppSpacing.xHuge128.value,
                             child: Column(
                               children: [
                                 const SizedBox(
@@ -680,7 +680,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
             small: Center(
               child: Container(
                 constraints: boxConstraints,
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big.value),
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.x2Big28.value),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -793,7 +793,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       ],
                     ),
                     SizedBox(
-                      height: AppSpacing.huge.value,
+                      height: AppSpacing.huge96.value,
                     )
                   ],
                 ),
@@ -806,7 +806,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   padding: EdgeInsetsDirectional.fromSTEB(
-                      AppSpacing.x2Large.value, 0, 0, 0),
+                      AppSpacing.x2Large64.value, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -905,7 +905,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         ],
                       ),
                       SizedBox(
-                        height: AppSpacing.xHuge.value,
+                        height: AppSpacing.xHuge128.value,
                       ),
                     ],
                   ),
