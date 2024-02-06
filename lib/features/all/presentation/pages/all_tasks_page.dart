@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
@@ -131,7 +131,7 @@ class AllTasksPage extends StatelessWidget {
 
   StatelessWidget buildTaskWidget(ClickupTask e, BuildContext context,
       AllTasksBloc allTasksBloc) {
-    return TaskWidget(
+    return TaskComponent(
       clickupTask: e,
       bloc: allTasksBloc,
       onDelete: (params) {

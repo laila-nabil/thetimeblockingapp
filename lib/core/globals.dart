@@ -6,7 +6,7 @@ import '../features/auth/domain/entities/clickup_access_token.dart';
 
 String _appName = "Time blocking app";
 
-String _clickupUrl = 'https://timeblockingapp.cyclic.app/clickup';
+String _clickupUrl = 'https://timeblockingrender.onrender.com/clickup';
 
 ClickupAccessToken _clickupAuthAccessToken =
     const ClickupAccessToken(accessToken: "", tokenType: "");

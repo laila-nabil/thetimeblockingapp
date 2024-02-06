@@ -8,7 +8,7 @@ class AppAssets {
   static const calendar = "assets/images/calendar@2x.png";
   static const bin = "assets/images/bin@2x.png";
   static const chevronRight = "assets/images/chevron-right@2x.png";
-  static const chevronDown = "assets/images/chevron-down@2x.png";
+  static const chevronDown = "assets/images/chevron_down@2x.png";
   static const folder = "assets/images/folder@2x.png";
   static const github = "assets/images/github@2x.png";
   static const twitter = "assets/images/twitter@2x.png";

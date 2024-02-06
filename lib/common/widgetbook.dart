@@ -9,8 +9,14 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
+import '../features/tasks/presentation/widgets/list_component.dart';
 import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
 
@@ -1879,19 +1885,19 @@ class WidgetBookApp extends StatelessWidget {
                   return Container(
                     color: Colors.white,
                     height: double.infinity,
-                    padding: EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(18.0),
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Box small"),
-                                  SizedBox(
+                                  const Text("Box small"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1912,14 +1918,14 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Box large"),
-                                  SizedBox(
+                                  const Text("Box large"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1939,24 +1945,24 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Line small"),
-                                  SizedBox(
+                                  const Text("Line small"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -1976,14 +1982,14 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text("Line large"),
-                                  SizedBox(
+                                  const Text("Line large"),
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   CustomTextInputField(
@@ -2003,7 +2009,7 @@ class WidgetBookApp extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],
@@ -2056,16 +2062,226 @@ class WidgetBookApp extends StatelessWidget {
                         ],
                       ),
                       drawer: CustomDrawerWidget(
-                          showSmallDesign: context.showSmallDesign,
-                          router: GoRouter.maybeOf(context),
-                          appLocalization: appLocalization,
-                          selectWorkspace: (s)=>print("selectWorkspace $s"),
-                          selectSpace: (s)=>print("selectSpace $s"),),
+                        showSmallDesign: context.showSmallDesign,
+                        router: GoRouter.maybeOf(context),
+                        appLocalization: appLocalization,
+                        selectWorkspace: (s) => print("selectWorkspace $s"),
+                        selectSpace: (s) => print("selectSpace $s"),
+                      ),
                       backgroundColor: Colors.black,
                     ),
                   );
                 })
           ]),
+        ]),
+        WidgetbookFolder(name: "Other widgets", children: [
+          WidgetbookComponent(
+            name: 'Task widget',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Task widget',
+                  builder: (context) {
+                    final taskName = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create UI components for the app',
+                    );
+                    final listName = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName = context.knobs.stringOrNull(
+                      label: 'Folder name',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList = context.knobs.boolean(
+                      label: 'showList1',
+                      initialValue: true,
+                    );
+                    final includeTag1 = context.knobs.boolean(
+                      label: 'include Tag 1',
+                      initialValue: true,
+                    );
+                    final includeTag2 = context.knobs.boolean(
+                      label: 'include Tag 2',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag1) {
+                      tags.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag2) {
+                      tags.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task = ClickupTask(
+                        name: taskName,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName),
+                        folder: ClickupFolder(name: folderName),
+                        tags: tags);
+                    return ListView(
+                      children: [
+                        TaskWidget(
+                          showList: showList,
+                          clickupTask: task,
+                          onTap: () {},
+                        )
+                      ],
+                    );
+                  }),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Toggleable section',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Tasks section',
+                  builder: (context) {
+                    final taskName1 = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create UI components for the app',
+                    );
+                    final listName1 = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName1 = context.knobs.stringOrNull(
+                      label: 'Folder name',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList1 = context.knobs.boolean(
+                      label: 'showList1',
+                      initialValue: true,
+                    );
+                    final includeTag1_1 = context.knobs.boolean(
+                      label: 'include Tag 1 for task 1',
+                      initialValue: true,
+                    );
+                    final includeTag1_2 = context.knobs.boolean(
+                      label: 'include Tag 2 for task 1',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag1_1) {
+                      tags.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag1_2) {
+                      tags.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task1 = ClickupTask(
+                        name: taskName1,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName1),
+                        folder: ClickupFolder(name: folderName1),
+                        tags: tags);
+
+                    final taskName2 = context.knobs.string(
+                      label: 'Task name',
+                      initialValue: 'Create Other UI components for the app',
+                    );
+                    final listName2 = context.knobs.string(
+                      label: 'List name',
+                      initialValue: 'Development',
+                    );
+                    final folderName2 = context.knobs.stringOrNull(
+                      label: 'Folder name2',
+                      initialValue: 'Time blocking app project',
+                    );
+                    final showList2 = context.knobs.boolean(
+                      label: 'showList2',
+                      initialValue: true,
+                    );
+                    final includeTag2_1 = context.knobs.boolean(
+                      label: 'include Tag 1 for task 2',
+                      initialValue: true,
+                    );
+                    final includeTag2_2 = context.knobs.boolean(
+                      label: 'include Tag 2 for task 2',
+                      initialValue: true,
+                    );
+                    List<ClickupTag> tags2 = [
+                      const ClickupTag(name: "Milestone 1"),
+                      const ClickupTag(name: "Personal projects"),
+                    ];
+                    if (includeTag2_1) {
+                      tags2.add(const ClickupTag(name: "UI dev"));
+                    }
+                    if (includeTag2_2) {
+                      tags2.add(const ClickupTag(
+                          name: "Setup project", tagFg: "0xffe3effc"));
+                    }
+                    final task2 = ClickupTask(
+                        name: taskName2,
+                        startDateUtcTimestamp: DateTime.now()
+                            .subtract(const Duration(hours: 1))
+                            .millisecondsSinceEpoch
+                            .toString(),
+                        dueDateUtcTimestamp:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        list: ClickupList(name: listName2),
+                        folder: ClickupFolder(name: folderName2),
+                        tags: tags2);
+                    return ToggleableSection(
+                      title: 'Overdue',
+                      children: [
+                        TaskWidget(
+                          showList: showList1,
+                          clickupTask: task1,
+                          onTap: () {},
+                        ),
+                        TaskWidget(
+                          showList: showList2,
+                          clickupTask: task2,
+                          onTap: () {},
+                        )
+                      ],
+                    );
+                  }),
+              WidgetbookUseCase(
+                  name: 'Lists section',
+                  builder: (context) {
+                    final folderName = context.knobs.string(
+                        label: "Folder name",
+                        initialValue: "Time blocking app folder");
+                    final list1Name = context.knobs.string(
+                        label: "List 1 name", initialValue: "Development");
+                    final list2Name = context.knobs
+                        .string(label: "List 1 name", initialValue: "UI/UX");
+                    final list1 = ClickupList(name: list1Name);
+                    final list2 = ClickupList(name: list2Name);
+                    return ToggleableSection(
+                      title: folderName,
+                      buttons: [
+                        ToggleableSectionButtonParams(
+                            title: " + Create new folder", onTap: () {}),
+                        ToggleableSectionButtonParams(
+                            title: " + Create new list", onTap: () {})
+                      ],
+                      children: [
+                        ListComponent(list: list1),
+                        ListComponent(list: list2)
+                      ],
+                    );
+                  }),
+            ],
+          ),
         ])
       ],
     );
