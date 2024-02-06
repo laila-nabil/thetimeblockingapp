@@ -128,9 +128,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                     const Spacer(
                       flex: 88,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
                       children: [
                         CustomButton.custom(
                           onPressed: () {
@@ -156,6 +157,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           },
                           type: CustomButtonType.secondaryLabel,
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 "${appLocalization.translate("connectWithClickupNow")} ",
@@ -172,9 +174,6 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               )
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          width: 8,
                         ),
                         CustomButton.noIcon(
                             label: appLocalization.translate("getStarted"),
