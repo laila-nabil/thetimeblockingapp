@@ -25,11 +25,12 @@ class CustomDropDownMenu extends StatelessWidget {
       {super.key,
       required this.items,
       required this.listButton,
-      this.backgroundColor = AppColors.white});
+      this.backgroundColor = AppColors.white, this.tooltip});
 
   final List<CustomDropDownItem> items;
   final Widget listButton;
   final Color backgroundColor;
+  final String? tooltip;
   static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
       color: AppColors.grey.shade900,
@@ -38,6 +39,7 @@ class CustomDropDownMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+        tooltip: tooltip,
         color: AppColors.white,
         surfaceTintColor: AppColors.white,
         icon: Container(

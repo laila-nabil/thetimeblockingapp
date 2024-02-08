@@ -344,6 +344,8 @@ class TaskPopup extends StatelessWidget {
                               ///Status
                               true
                                   ? CustomDropDownMenu(
+                                      tooltip:
+                                          "${appLocalization.translate("status")}: ${state.taskParams?.taskStatus?.status.toStringOrNull()??""}",
                                       backgroundColor: Colors.transparent,
                                       items: state.taskParams?.clickupSpace
                                               ?.statuses
@@ -414,54 +416,121 @@ class TaskPopup extends StatelessWidget {
 
                               ///Priority
                               if (state.isPrioritiesEnabled)
-                                DropdownButton<ClickupTaskPriority>(
-                                  value: state.taskParams?.taskPriority,
-                                  hint: Text(
-                                      appLocalization.translate("priority")),
-                                  onChanged: (priority) => priority == null
-                                      ? taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams:
-                                                  clickupTaskParams.copyWith(
-                                                      clearPriority: true)))
-                                      : taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams:
-                                                  clickupTaskParams.copyWith(
-                                                      taskPriority: priority))),
-                                  items: (state.taskParams?.clickupSpace
-                                              ?.features?.priorities?.priorities
-                                              ?.map((e) => e.isNum
-                                                  ? DropdownMenuItem(
-                                                      value: e,
-                                                      child: Text(
-                                                        e.priorityNum
-                                                            .toString(),
-                                                      ),
-                                                    )
-                                                  : DropdownMenuItem(
-                                                      value: e,
-                                                      child: Text(
-                                                        e.priority ??
-                                                            e.id?.toStringOrNull() ??
-                                                            "",
-                                                        style: TextStyle(
-                                                            textBaseline:
-                                                                TextBaseline
-                                                                    .alphabetic,
-                                                            color: e
-                                                                .getPriorityColor),
-                                                      ),
-                                                    ))
-                                              .toList() ??
-                                          []) +
-                                      [
-                                        DropdownMenuItem(
-                                            value: null,
-                                            child: Text(appLocalization
-                                                .translate("clear")))
-                                      ],
-                                ),
+                                true
+                                    ? CustomDropDownMenu(
+                                        tooltip:
+                                            "${appLocalization.translate("priority")} : ${(state.taskParams?.taskPriority?.isNum == true ? state.taskParams?.taskPriority?.priorityNum : state.taskParams?.taskPriority?.priority).toStringOrNull()??""}",
+                                        backgroundColor: Colors.transparent,
+                                        items: ((state
+                                                        .taskParams
+                                                        ?.clickupSpace
+                                                        ?.features
+                                                        ?.priorities
+                                                        ?.priorities)
+                                                    ?.map<CustomDropDownItem>((e) => CustomDropDownItem
+                                                        .widget(
+                                                            titleWidget: Text(
+                                                                (e.isNum ? e.priorityNum : e.priority)
+                                                                        .toStringOrNull() ??
+                                                                    "",
+                                                                style: CustomDropDownMenu
+                                                                    .textStyle
+                                                                    .copyWith(
+                                                                        color: e.getPriorityColor,
+                                                                        fontWeight: state.taskParams?.taskStatus == e ? AppFontWeight.semiBold.value : null)),
+                                                            onTap: () {
+                                                              taskPopUpBloc.add(
+                                                                  UpdateClickupTaskParamsEvent(
+                                                                      taskParams:
+                                                                          clickupTaskParams.copyWith(
+                                                                              taskPriority: e)));
+                                                            }))
+                                                    .toList() ??
+                                                []) +
+                                            <CustomDropDownItem>[
+                                              CustomDropDownItem.widget(
+                                                  titleWidget: Text(
+                                                      appLocalization
+                                                          .translate("clear"),
+                                                      style: CustomDropDownMenu
+                                                          .textStyle
+                                                          .copyWith(
+                                                        color: AppColors.text,
+                                                      )),
+                                                  onTap: () {
+                                                    taskPopUpBloc.add(
+                                                        UpdateClickupTaskParamsEvent(
+                                                            taskParams: clickupTaskParams
+                                                                .copyWith(
+                                                                    clearPriority:
+                                                                        true)));
+                                                  })
+                                            ],
+                                        listButton: Icon(
+                                            Icons.outlined_flag_rounded,
+                                            color: state
+                                                    .taskParams
+                                                    ?.taskPriority
+                                                    ?.getPriorityColor ??
+                                                AppColors.text),
+                                      )
+                                    : DropdownButton<ClickupTaskPriority>(
+                                        value: state.taskParams?.taskPriority,
+                                        hint: Text(appLocalization
+                                            .translate("priority")),
+                                        onChanged: (priority) => priority ==
+                                                null
+                                            ? taskPopUpBloc.add(
+                                                UpdateClickupTaskParamsEvent(
+                                                    taskParams:
+                                                        clickupTaskParams
+                                                            .copyWith(
+                                                                clearPriority:
+                                                                    true)))
+                                            : taskPopUpBloc.add(
+                                                UpdateClickupTaskParamsEvent(
+                                                    taskParams:
+                                                        clickupTaskParams
+                                                            .copyWith(
+                                                                taskPriority:
+                                                                    priority))),
+                                        items: (state
+                                                    .taskParams
+                                                    ?.clickupSpace
+                                                    ?.features
+                                                    ?.priorities
+                                                    ?.priorities
+                                                    ?.map((e) => e.isNum
+                                                        ? DropdownMenuItem(
+                                                            value: e,
+                                                            child: Text(
+                                                              e.priorityNum
+                                                                  .toString(),
+                                                            ),
+                                                          )
+                                                        : DropdownMenuItem(
+                                                            value: e,
+                                                            child: Text(
+                                                              e.priority ??
+                                                                  e.id?.toStringOrNull() ??
+                                                                  "",
+                                                              style: TextStyle(
+                                                                  textBaseline:
+                                                                      TextBaseline
+                                                                          .alphabetic,
+                                                                  color: e
+                                                                      .getPriorityColor),
+                                                            ),
+                                                          ))
+                                                    .toList() ??
+                                                []) +
+                                            [
+                                              DropdownMenuItem(
+                                                  value: null,
+                                                  child: Text(appLocalization
+                                                      .translate("clear")))
+                                            ],
+                                      ),
                               Expanded(
                                   child: CustomTextInputField(
                                 focusNode: FocusNode(),
