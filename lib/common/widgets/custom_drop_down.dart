@@ -22,10 +22,18 @@ class CustomDropDownItem {
 
 class CustomDropDownMenu extends StatelessWidget {
   const CustomDropDownMenu(
-      {super.key, required this.items, required this.listButton});
+      {super.key,
+      required this.items,
+      required this.listButton,
+      this.backgroundColor = AppColors.white});
 
   final List<CustomDropDownItem> items;
   final Widget listButton;
+  final Color backgroundColor;
+  static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
+      appFontSize: AppFontSize.paragraphSmall,
+      color: AppColors.grey.shade900,
+      appFontWeight: AppFontWeight.regular));
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class CustomDropDownMenu extends StatelessWidget {
             padding: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.0),
-                color: AppColors.white),
+                color: backgroundColor),
             child: listButton),
         itemBuilder: (context) {
           return items
@@ -45,10 +53,7 @@ class CustomDropDownMenu extends StatelessWidget {
                     child: e.title?.isNotEmpty == true
                         ? Text(
                             e.title ?? "",
-                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                appFontSize: AppFontSize.paragraphSmall,
-                                color: AppColors.grey.shade900,
-                                appFontWeight: AppFontWeight.regular)),
+                            style: textStyle,
                           )
                         : e.titleWidget,
                   ))

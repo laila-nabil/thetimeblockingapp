@@ -111,7 +111,7 @@ class AppColors {
     900: Color(0xff101928),
   });
 
-  static Color white = Colors.white;
+  static const Color white = Colors.white;
 
   static Color black = Colors.black;
 
