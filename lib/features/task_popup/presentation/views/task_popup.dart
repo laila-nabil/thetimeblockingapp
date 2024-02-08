@@ -250,6 +250,7 @@ class TaskPopup extends StatelessWidget {
               final initialStartDate =
                   task?.startDateUtc ?? taskPopupParams.startDate;
               final loading = taskPopupParams.isLoading(blocState);
+              final spacer = SizedBox(height: AppSpacing.medium16.value,);
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -413,7 +414,6 @@ class TaskPopup extends StatelessWidget {
                                               .toList() ??
                                           [],
                                     ),
-
                               ///Priority
                               if (state.isPrioritiesEnabled)
                                 true
@@ -533,11 +533,10 @@ class TaskPopup extends StatelessWidget {
                                       ),
                               Expanded(
                                   child: CustomTextInputField(
-                                focusNode: FocusNode(),
+                                buttonStyle: CustomTextInputFieldStyle.line,
+                                focusNode: taskPopUpBloc.titleFocusNode,
                                 controller: taskPopUpBloc.titleController,
-                                decoration: InputDecoration(
-                                    hintText:
-                                        appLocalization.translate("title")),
+                                hintText: appLocalization.translate("taskName"),
                                 onChanged: (change) {
                                   taskPopUpBloc.add(
                                       UpdateClickupTaskParamsEvent(
@@ -547,23 +546,23 @@ class TaskPopup extends StatelessWidget {
                               ))
                             ],
                           ),
-
+                          spacer,
                           ///Description
                           CustomTextInputField(
-                            focusNode: FocusNode(),
+                            buttonStyle: CustomTextInputFieldStyle.line,
+                            focusNode: taskPopUpBloc.descriptionFocusNode,
                             controller: taskPopUpBloc.descriptionController,
-                            decoration: InputDecoration(
-                              hintText:
-                                  appLocalization.translate("description"),
-                            ),
+                            hintText:
+                            appLocalization.translate("description"),
                             maxLines: 3,
+                            minLines: 1,
                             onChanged: (change) {
                               taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
                                   taskParams: clickupTaskParams.copyWith(
                                       description: change)));
                             },
                           ),
-
+                          spacer,
                           ///Tags
                           ///TODO V2 TODO create new tags
                           if (state.viewTagsButton)

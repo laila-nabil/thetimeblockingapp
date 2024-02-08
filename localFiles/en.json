@@ -60,7 +60,8 @@
   "connectWithClickupNow":"Connect with ClickUp Now",
   "copyLink":"Copy link",
   "skip":"Skip",
-  "linkCopiedSuccessfully":"link copied to clipboard successfully"
-  
+  "linkCopiedSuccessfully":"link copied to clipboard successfully",
+  "taskName":"Task name"
+
 
 }

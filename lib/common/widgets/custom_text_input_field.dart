@@ -86,6 +86,7 @@ class CustomTextInputField extends StatefulWidget {
     this.prefixIcon,
     this.prefixImage,
   });
+
   final CustomTextInputFieldStyle buttonStyle;
   final CustomTextInputFieldSize size;
   final String? labelText;
@@ -159,6 +160,7 @@ class CustomTextInputField extends StatefulWidget {
   final TextMagnifierConfiguration? magnifierConfiguration;
   final IconData? prefixIcon;
   final String? prefixImage;
+
   @override
   State<CustomTextInputField> createState() => _CustomTextInputFieldState();
 }
@@ -173,8 +175,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
     double iconSize = 20;
     bool isBox = widget.buttonStyle == CustomTextInputFieldStyle.box;
     bool isSmall = widget.size == CustomTextInputFieldSize.small;
-    double textFieldHeight =
-        isSmall ? 36 : 56;
+    double textFieldHeight = isSmall ? 36 : 56;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -192,10 +193,10 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
         Stack(
           children: [
             Container(
-              height: isBox ? (textFieldHeight+( isSmall ? 2 : 0)) : 1,
+              height: isBox ? (textFieldHeight + (isSmall ? 2 : 0)) : 1,
               margin: isBox
                   ? EdgeInsets.only(
-                      top: isSmall? 1 : 0,
+                      top: isSmall ? 1 : 0,
                     )
                   : EdgeInsets.only(
                       top: (textFieldHeight) - 0.1,
@@ -207,29 +208,31 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   borderRadius:
                       isBox ? BorderRadius.circular(6) : BorderRadius.zero,
                 ),
-                shadows: [
-                  if (isChanging)
-                    BoxShadow(
-                      color: AppColors.warning.shade50,
-                      blurRadius: 0,
-                      offset: const Offset(0, 0),
-                      spreadRadius: 4,
-                    ),
-                  if (isError)
-                    BoxShadow(
-                      color: AppColors.error.shade50,
-                      blurRadius: 0,
-                      offset: const Offset(0, 0),
-                      spreadRadius: 4,
-                    ),
-                  if (isSuccess)
-                    BoxShadow(
-                      color: AppColors.success.shade50,
-                      blurRadius: 0,
-                      offset: const Offset(0, 0),
-                      spreadRadius: 4,
-                    ),
-                ],
+                shadows: (widget.maxLines != null && widget.maxLines! > 1)
+                    ? []
+                    : [
+                        if (isChanging)
+                          BoxShadow(
+                            color: AppColors.warning.shade50,
+                            blurRadius: 0,
+                            offset: const Offset(0, 0),
+                            spreadRadius: 4,
+                          ),
+                        if (isError)
+                          BoxShadow(
+                            color: AppColors.error.shade50,
+                            blurRadius: 0,
+                            offset: const Offset(0, 0),
+                            spreadRadius: 4,
+                          ),
+                        if (isSuccess)
+                          BoxShadow(
+                            color: AppColors.success.shade50,
+                            blurRadius: 0,
+                            offset: const Offset(0, 0),
+                            spreadRadius: 4,
+                          ),
+                      ],
               ),
             ),
             TextField(
@@ -327,7 +330,17 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.primary.shade100, width: 1),
+                              color: (widget.maxLines != null &&
+                                      widget.maxLines! > 1)
+                                  ? (isChanging
+                                      ? AppColors.warning.shade300
+                                      : isError
+                                          ? AppColors.error.shade300
+                                          : isSuccess
+                                              ? AppColors.success.shade300
+                                              : AppColors.primary.shade100)
+                                  : AppColors.primary.shade100,
+                              width: 1),
                         ),
                   border: isBox
                       ? OutlineInputBorder(
@@ -362,7 +375,9 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   errorText: widget.successText ?? widget.errorText,
                   fillColor: widget.enabled == false
                       ? AppColors.grey.shade100
-                      : AppColors.white,
+                      : widget.buttonStyle == CustomTextInputFieldStyle.line
+                          ? Colors.transparent
+                          : AppColors.white,
                   filled: true,
                 ),
                 dragStartBehavior: widget.dragStartBehavior,

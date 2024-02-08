@@ -60,5 +60,6 @@
   "connectWithClickupNow":"اتصل بـ ClickUp الان",
   "copyLink": "انسخ الرابط",
   "skip": "تخطى",
-  "linkCopiedSuccessfully":"تم تسخ الرابط بنجاح"
+  "linkCopiedSuccessfully":"تم تسخ الرابط بنجاح",
+  "taskName":"اسم المهمة"
 }

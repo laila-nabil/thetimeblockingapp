@@ -13,7 +13,9 @@ part 'task_pop_up_state.dart';
 
 class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
   final TextEditingController titleController = TextEditingController();
+  final FocusNode titleFocusNode = FocusNode();
   final TextEditingController descriptionController = TextEditingController();
+  final FocusNode descriptionFocusNode = FocusNode();
 
   final TaskPopupParams taskPopupParams;
 
