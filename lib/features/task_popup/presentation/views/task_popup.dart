@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
@@ -16,6 +18,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 
 ///TODO V1.5 full page in mobile?
@@ -187,7 +190,7 @@ class TaskPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const radius = 20.0;
+    final radius = AppBorderRadius.xLarge.value;
     final borderRadius = BorderRadius.circular(radius);
     final task = taskPopupParams.task;
     return MultiBlocProvider(
@@ -245,7 +248,7 @@ class TaskPopup extends StatelessWidget {
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
-                  contentPadding: const EdgeInsets.all(radius),
+                  contentPadding: EdgeInsets.all(radius),
                   actions: [
                     if(task!=null)IconButton(
                         icon: Icon(
@@ -301,6 +304,7 @@ class TaskPopup extends StatelessWidget {
                   content: SingleChildScrollView(
                     child: SizedBox(
                       width: double.maxFinite,
+                      height: context.showSmallDesign ? double.maxFinite : null,
                       child: Column(
                         children: [
                           ///Space

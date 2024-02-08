@@ -19,6 +19,11 @@ ThemeData appTheme = ThemeData(
       onBackground: AppColors.text,
       surface: AppColors.background,
       onSurface: AppColors.text,),
+  dialogTheme: DialogTheme(
+    backgroundColor: AppColors.background,
+    shadowColor: Colors.grey.shade500,
+    surfaceTintColor: AppColors.background,
+  )
 );
 /*
 
