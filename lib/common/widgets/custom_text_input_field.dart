@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
@@ -270,13 +271,15 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                               height: iconSize,
                             ),
                   suffixIcon: isSuccess
-                      ? Image.asset(
-                          AppAssets.checkCirclePng,
+                      ? Icon(
+                          AppIcons.checkcircle,
+                          color: AppColors.success.shade500,
                         )
                       : isError
-                          ? Image.asset(
-                              AppAssets.multiplyCirclePng,
-                            )
+                          ?  Icon(
+                            AppIcons.multiplycircle,
+                            color: AppColors.error.shade500,
+                          )
                           : null,
                   enabled: widget.enabled ?? true,
                   isDense: true,

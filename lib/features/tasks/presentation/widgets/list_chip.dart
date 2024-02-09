@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../../../core/resources/assets_paths.dart';
@@ -28,11 +29,10 @@ class ListChip extends StatelessWidget {
             if (isListInsideFolder)
               Padding(
                 padding: const EdgeInsets.only(bottom: 3.0),
-                child: Image.asset(
-                  AppAssets.folder,
+                child: Icon(
+                  AppIcons.folder,
                   color: colors,
-                  width: iconSize,
-                  height: iconSize,
+                  size: iconSize,
                 ),
               ),
             if (isListInsideFolder)
@@ -60,11 +60,10 @@ class ListChip extends StatelessWidget {
               ),
             Padding(
               padding: const EdgeInsets.only(bottom: 3.0),
-              child: Image.asset(
-                AppAssets.list,
+              child: Icon(
+                AppIcons.list,
                 color: colors,
-                width: iconSize,
-                height: iconSize,
+                size: iconSize,
               ),
             ),
             const SizedBox(

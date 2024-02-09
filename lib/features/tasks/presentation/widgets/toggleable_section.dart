@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
@@ -76,12 +77,12 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Image.asset(
+                        child: Icon(
                           isOpen
-                              ? AppAssets.chevronDown
-                              : AppAssets.chevronRight,
+                              ? AppIcons.chevrondown
+                              : AppIcons.chevronright,
                           color: AppColors.grey.shade500,
-                          width: 20,
+                          size: 20,
                         ),
                       ),
                       Text(
@@ -96,10 +97,10 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                   if (widget.actions?.isNotEmpty == true)
                     CustomDropDownMenu(
                         items: widget.actions ?? [],
-                        listButton: Image.asset(
-                          AppAssets.dotsVPng,
-                          height: 16,
-                          fit: BoxFit.fitHeight,
+                        listButton: Icon(
+                          AppIcons.dotsv,
+                          size: 16,
+                          color: AppColors.grey.shade500,
                         ))
                 ],
               ),

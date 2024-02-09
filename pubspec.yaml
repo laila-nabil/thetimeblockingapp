@@ -144,6 +144,10 @@ flutter:
        - asset: assets/fonts/Inter/Inter-ThinItalic.ttf
          weight: 100
          style: italic
+
+   - family: AppIcons
+     fonts:
+     - asset: assets/fonts/AppIcons.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: assets/fonts/TrajanPro.ttf

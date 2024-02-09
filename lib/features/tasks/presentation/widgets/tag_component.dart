@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
@@ -54,10 +55,10 @@ class TagComponent extends StatelessWidget {
             if (actions?.isNotEmpty == true)
               CustomDropDownMenu(
                   items: actions ?? [],
-                  listButton: Image.asset(
-                    AppAssets.dotsVPng,
-                    height: 16,
-                    fit: BoxFit.fitHeight,
+                  listButton: Icon(
+                    AppIcons.dotsv,
+                    size: 16,
+                    color: AppColors.grey.shade500,
                   ))
           ],
         ),

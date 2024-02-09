@@ -22,6 +22,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/globals.dart';
 import '../../core/launch_url.dart';
+import '../../core/resources/app_icons.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../../features/tasks/domain/entities/clickup_space.dart';
 import '../entities/clickup_workspace.dart';
@@ -89,7 +90,7 @@ class CustomDrawerWidget extends StatelessWidget {
             const _Logo(),
             _DrawerItem(
                 title: appLocalization.translate("Schedule"),
-                iconPath: AppAssets.calendar,
+                iconPath: AppIcons.calendar,
                 onPressed: () {
                   context.go(SchedulePage.routeName);
                 },
@@ -99,7 +100,7 @@ class CustomDrawerWidget extends StatelessWidget {
             ///TODO brain dump/ inbox or default list
             _DrawerItem(
                 title: appLocalization.translate("AllTasks"),
-                iconPath: AppAssets.folder,
+                iconPath: AppIcons.folder,
                 onPressed: () {
                   context.go(AllTasksPage.routeName);
                 },
@@ -108,7 +109,7 @@ class CustomDrawerWidget extends StatelessWidget {
                         true),
             _DrawerItem(
                 title: appLocalization.translate("Lists"),
-                iconPath: AppAssets.list,
+                iconPath: AppIcons.list,
                 onPressed: () {
                   context.go(ListsPage.routeName);
                 },
@@ -118,7 +119,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     router?.location.contains(ListPage.routeName) == true),
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
-                iconPath: AppAssets.hashtag,
+                iconPath: AppIcons.hashtag,
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },
@@ -129,7 +130,7 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Maps"),
-                  iconPath: AppAssets.map,
+                  iconPath: AppIcons.map,
                   onPressed: () {
                     context.go(MapsPage.routeName);
                   },
@@ -152,7 +153,7 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Trash"),
-                  iconPath: AppAssets.bin,
+                  iconPath: AppIcons.bin,
                   onPressed: () {
                     context.go(TrashPage.routeName);
                   },
@@ -162,7 +163,7 @@ class CustomDrawerWidget extends StatelessWidget {
 
             _DrawerItem(
                 title: appLocalization.translate("Settings"),
-                iconPath: AppAssets.settings,
+                iconPath: AppIcons.settingsv,
                 onPressed: () {
                   context.go(SettingsPage.routeName);
                 },
@@ -173,7 +174,7 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Help"),
-                  iconPath: AppAssets.infoCircle,
+                  iconPath: AppIcons.infocircle,
                   onPressed: () {
                     context.go(HelpPage.routeName);
                   },
@@ -214,7 +215,7 @@ class _DrawerItem extends StatelessWidget {
       this.isSubPage = false});
 
   final String title;
-  final String iconPath;
+  final IconData iconPath;
   final void Function() onPressed;
   final bool isSelected;
   final bool hasSubPage;
@@ -253,11 +254,10 @@ class _DrawerItem extends StatelessWidget {
             })),
         child: Row(
           children: [
-            Image.asset(
+            Icon(
               iconPath,
-              width: 20,
-              height: 20,
-              fit: BoxFit.contain,
+              size: 20,
+              color: AppColors.black,
             ),
             SizedBox(
               width: AppSpacing.small12.value,

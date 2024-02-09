@@ -16,6 +16,7 @@ import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_comp
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
+import '../core/resources/app_icons.dart';
 import '../features/tasks/presentation/widgets/list_component.dart';
 import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
@@ -94,6 +95,53 @@ class WidgetBookApp extends StatelessWidget {
                           colorSwatches(AppColors.paletteBlue),
                           colorSwatches(AppColors.palettePink),
                         ],
+                      ),
+                    );
+                  }),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'App icons',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'App icons',
+                  builder: (context) {
+                    final iconSize = context.knobs.double.input(
+                      label: 'iconSize',
+                      initialValue: 30,
+                    );
+                    final iconColor = context.knobs.color(
+                      label: "Color",
+                      initialValue: Colors.black
+                    );
+                    return Container(
+                      color: Colors.white,
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          children:[
+                            Icon(
+                              AppIcons.bin,
+                              size: iconSize,
+                              color: iconColor,
+                            ),
+                            Icon(AppIcons.bin_bold,
+                              size: iconSize,
+                              color: iconColor,),
+                            Icon(AppIcons.hashtag,
+                              size: iconSize,
+                              color: iconColor,),
+                            Icon(AppIcons.list,
+                              size: iconSize,
+                              color: iconColor,),
+                            Icon(AppIcons.hashtag,
+                              size: iconSize,
+                              color: iconColor,),
+                            Icon(AppIcons.listbold,
+                              size: iconSize,
+                              color: iconColor,),
+
+                          ],
+                        ),
                       ),
                     );
                   }),

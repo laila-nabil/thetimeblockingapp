@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
@@ -154,10 +155,10 @@ class CustomAppBarWidget extends StatelessWidget {
                 0, 0, showSmallDesign ? 0 : AppSpacing.xBig24.value, 0),
             child: CustomDropDownMenu(
                 items: pageActions ?? [],
-                listButton: Image.asset(
-                  AppAssets.dotsVPng,
-                  height: 20,
-                  fit: BoxFit.fitHeight,
+                listButton: Icon(
+                  AppIcons.dotsv,
+                  size: 20,
+                  color: AppColors.grey.shade500,
                 )),
           ),
       ],

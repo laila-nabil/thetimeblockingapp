@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 
 import '../../../../core/resources/app_colors.dart';
@@ -22,11 +23,10 @@ class TagChip extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 3.0),
-              child: Image.asset(
-                AppAssets.hashtag,
+              child: Icon(
+                AppIcons.hashtag,
                 color: color ?? color,
-                width: 12,
-                height: 12,
+                size: 12,
               ),
             ),
             const SizedBox(
