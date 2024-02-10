@@ -209,8 +209,10 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   borderRadius:
                       isBox ? BorderRadius.circular(6) : BorderRadius.zero,
                 ),
-                shadows: (widget.maxLines != null && widget.maxLines! > 1)
-                    ? []
+                shadows:
+                    (widget.buttonStyle == CustomTextInputFieldStyle.line ||
+                            (widget.maxLines != null && widget.maxLines! > 1))
+                        ? []
                     : [
                         if (isChanging)
                           BoxShadow(
@@ -333,8 +335,8 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: (widget.maxLines != null &&
-                                      widget.maxLines! > 1)
+                              color: (widget.buttonStyle == CustomTextInputFieldStyle.line ||
+                                  (widget.maxLines != null && widget.maxLines! > 1))
                                   ? (isChanging
                                       ? AppColors.warning.shade300
                                       : isError
