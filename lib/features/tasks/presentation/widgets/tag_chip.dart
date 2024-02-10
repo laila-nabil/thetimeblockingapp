@@ -6,17 +6,24 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/text_styles.dart';
 
 class TagChip extends StatelessWidget {
-  const TagChip({super.key, required this.tagName, this.color});
+  const TagChip({super.key, required this.tagName, this.color, this.onDelete});
 
   final String tagName;
   final Color? color;
+  final void Function()? onDelete;
 
+  static TextStyle textStyle(Color color) => AppTextStyle.getTextStyle(AppTextStyleParams(
+  appFontSize: AppFontSize.paragraphXSmall,
+  color: color,
+  appFontWeight: AppFontWeight.medium));
   @override
   Widget build(BuildContext context) {
     final color = AppColors.grey.shade600;
     return Chip(
+        onDeleted: onDelete,
         backgroundColor: AppColors.background,
         elevation: 0.5,
+        padding: EdgeInsets.zero,
         label: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -34,10 +41,7 @@ class TagChip extends StatelessWidget {
             ),
             Text(
               tagName,
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphXSmall,
-                  color: color,
-                  appFontWeight: AppFontWeight.medium)),
+              style: textStyle(color),
             ),
           ],
         ));
