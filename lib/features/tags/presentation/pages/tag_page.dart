@@ -14,6 +14,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
+import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
@@ -103,7 +104,7 @@ class TagPage extends StatelessWidget {
                     titleWidget: Row(
                       children: [
                         const Icon(
-                            Icons.delete),
+                            AppIcons.bin),
                         Text(appLocalization
                             .translate(
                             "delete")),

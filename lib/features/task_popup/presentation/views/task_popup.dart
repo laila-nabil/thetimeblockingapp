@@ -270,7 +270,7 @@ class TaskPopup extends StatelessWidget {
                     if (task != null)
                       IconButton(
                         icon: Icon(
-                          Icons.delete,
+                          AppIcons.bin,
                           color: Theme.of(context).colorScheme.error,
                         ),
                         onPressed: taskPopupParams.onDelete == null
@@ -546,9 +546,8 @@ class TaskPopup extends StatelessWidget {
                                           state.taskParams?.taskStatus ==
                                                   state.taskParams?.clickupSpace
                                                       ?.statuses?.last
-                                              ? Icons.check_box_outlined
-                                              : Icons
-                                                  .check_box_outline_blank_rounded,
+                                              ? AppIcons.checkboxchecked
+                                              : AppIcons.checkbox,
                                           color: state.taskParams?.taskStatus
                                                   ?.getColor ??
                                               AppColors.text),
@@ -632,8 +631,11 @@ class TaskPopup extends StatelessWidget {
                                                                         true)));
                                                   })
                                             ],
-                                        listButton: Icon(
-                                            Icons.outlined_flag_rounded,
+                                  listButton: Icon(
+                                            state.taskParams?.taskPriority ==
+                                                    null
+                                                ? AppIcons.flag
+                                                : AppIcons.flagbold,
                                             color: state
                                                     .taskParams
                                                     ?.taskPriority
@@ -896,7 +898,7 @@ class TaskPopup extends StatelessWidget {
                                                                                   title: Row(
                                                                                     children: [
                                                                                       Icon(
-                                                                                        Icons.tag,
+                                                                                        AppIcons.hashtag,
                                                                                         color: e.getTagFgColor,
                                                                                       ),
                                                                                       Text(

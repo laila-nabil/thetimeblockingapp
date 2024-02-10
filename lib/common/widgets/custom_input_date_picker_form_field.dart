@@ -246,7 +246,7 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
             if (widget.onTapClear != null)
               IconButton(
                   onPressed: () => widget.onTapClear!(),
-                  icon: const Icon(Icons.delete))
+                  icon: const Icon(AppIcons.bin))
           ],
         ),
         hintText: widget.fieldHintText ?? localizations.dateHelpText,
