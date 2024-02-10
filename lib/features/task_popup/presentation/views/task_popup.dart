@@ -252,7 +252,7 @@ class TaskPopup extends StatelessWidget {
               final initialStartDate =
                   task?.startDateUtc ?? taskPopupParams.startDate;
               final loading = taskPopupParams.isLoading(blocState);
-              final spacer = SizedBox(
+              final spacerV = SizedBox(
                 height: AppSpacing.medium16.value,
               );
               final taskLocationTextStyle = AppTextStyle.getTextStyle(
@@ -260,6 +260,10 @@ class TaskPopup extends StatelessWidget {
                       appFontSize: AppFontSize.paragraphSmall,
                       appFontWeight: AppFontWeight.medium,
                       color: AppColors.grey.shade800));
+              final sectionTitle = AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphSmall,
+                  color: AppColors.grey.shade900,
+                  appFontWeight: AppFontWeight.medium));
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -325,7 +329,6 @@ class TaskPopup extends StatelessWidget {
                   content: SingleChildScrollView(
                     child: SizedBox(
                       width: double.maxFinite,
-                      height: context.showSmallDesign ? double.maxFinite : null,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -338,6 +341,7 @@ class TaskPopup extends StatelessWidget {
                                   "${Globals.selectedWorkspace?.name}/${Globals.selectedSpace?.name}/",
                                   style: taskLocationTextStyle,
                                 ),
+
                               ///TODO V2 create a new Folder
                               ///Folder
                               if (state.isFoldersListAvailable)
@@ -425,6 +429,7 @@ class TaskPopup extends StatelessWidget {
                                 "/",
                                 style: taskLocationTextStyle,
                               ),
+
                               ///TODO V2 create a new list
                               ///List
                               if ((state.taskParams?.getAvailableLists
@@ -480,7 +485,7 @@ class TaskPopup extends StatelessWidget {
                                       ),
                             ],
                           ),
-                          spacer,
+                          spacerV,
 
                           ///Space
                           ///TODO V2 create a new Space
@@ -631,7 +636,7 @@ class TaskPopup extends StatelessWidget {
                                                                         true)));
                                                   })
                                             ],
-                                  listButton: Icon(
+                                        listButton: Icon(
                                             state.taskParams?.taskPriority ==
                                                     null
                                                 ? AppIcons.flag
@@ -714,7 +719,7 @@ class TaskPopup extends StatelessWidget {
                               ))
                             ],
                           ),
-                          spacer,
+                          spacerV,
 
                           ///Description
                           CustomTextInputField(
@@ -730,17 +735,18 @@ class TaskPopup extends StatelessWidget {
                                       description: change)));
                             },
                           ),
-                          spacer,
+                          spacerV,
                           Wrap(
+                            spacing: AppSpacing.xSmall8.value,
                             children: [
                               ///TODO V2 is all day checkbox
                               ///isAllDay
-                              Checkbox(
+                              if(false)Checkbox(
                                   value: taskPopupParams.isAllDay,
                                   onChanged: null),
 
                               ///All day Date
-                              if (taskPopupParams.isAllDay)
+                              if (false && taskPopupParams.isAllDay)
                                 CustomButton.noIcon(
                                   onPressed: () {
                                     showDatePicker(
@@ -766,28 +772,93 @@ class TaskPopup extends StatelessWidget {
 
                               ///Start DATE
                               if (taskPopupParams.isAllDay == false)
-                                CustomButton.noIcon(
-                                  onPressed: () {
-                                    showDateTimePicker(
-                                      context: context,
-                                      initialDate:
-                                          initialStartDate ?? DateTime.now(),
-                                      firstDate: firstDate,
-                                      lastDate: lastDate,
-                                    ).then((value) => taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
-                                            taskParams: clickupTaskParams
-                                                .copyWith(startDate: value))));
-                                  },
-                                  type: CustomButtonType.secondaryLabel,
-                                  label:
-                                      " ${appLocalization.translate("startDate")}"
-                                      " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
-                                ),
-
+                                true
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            appLocalization
+                                                .translate("startDate"),
+                                            style: sectionTitle,
+                                          ),
+                                          SizedBox(
+                                            height: AppSpacing.x2Small4.value,
+                                          ),
+                                          CustomButton.noIcon(
+                                            onPressed: () {
+                                              showDateTimePicker(
+                                                context: context,
+                                                initialDate: initialStartDate ??
+                                                    DateTime.now(),
+                                                firstDate: firstDate,
+                                                lastDate: lastDate,
+                                              ).then((value) => taskPopUpBloc.add(
+                                                  UpdateClickupTaskParamsEvent(
+                                                      taskParams: clickupTaskParams
+                                                          .copyWith(
+                                                          startDate: value))));
+                                            },
+                                            type: CustomButtonType.greyOutlinedLabel,
+                                            label:
+                                            "${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
+                                          )
+                                        ],
+                                      )
+                                    : CustomButton.noIcon(
+                                        onPressed: () {
+                                          showDateTimePicker(
+                                            context: context,
+                                            initialDate: initialStartDate ??
+                                                DateTime.now(),
+                                            firstDate: firstDate,
+                                            lastDate: lastDate,
+                                          ).then((value) => taskPopUpBloc.add(
+                                              UpdateClickupTaskParamsEvent(
+                                                  taskParams: clickupTaskParams
+                                                      .copyWith(
+                                                          startDate: value))));
+                                        },
+                                        type: CustomButtonType.secondaryLabel,
+                                        label:
+                                            " ${appLocalization.translate("startDate")}"
+                                            " ${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
+                                      ),
                               ///DUE DATE
                               if (taskPopupParams.isAllDay == false)
-                                CustomButton.noIcon(
+                                true
+                                    ? Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      appLocalization
+                                          .translate("dueDate"),
+                                      style: sectionTitle,
+                                    ),
+                                    SizedBox(
+                                      height: AppSpacing.x2Small4.value,
+                                    ),
+                                    CustomButton.noIcon(
+                                      onPressed: () {
+                                        showDateTimePicker(
+                                          context: context,
+                                          initialDate:
+                                          initialDueDate ?? DateTime.now(),
+                                          firstDate: firstDate,
+                                          lastDate: lastDate,
+                                        ).then((value) => taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams: clickupTaskParams
+                                                    .copyWith(dueDate: value))));
+                                      },
+                                      type: CustomButtonType.greyOutlinedLabel,
+                                      label:
+                                     "${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} ",
+                                    ),
+                                  ],
+                                )
+                                    :  CustomButton.noIcon(
                                   onPressed: () {
                                     showDateTimePicker(
                                       context: context,
@@ -807,7 +878,7 @@ class TaskPopup extends StatelessWidget {
                                 ),
                             ],
                           ),
-                          spacer,
+                          spacerV,
 
                           ///Tags
                           ///TODO V2 TODO create new tags
@@ -819,13 +890,7 @@ class TaskPopup extends StatelessWidget {
                                     children: [
                                       Text(
                                         appLocalization.translate("Tags"),
-                                        style: AppTextStyle.getTextStyle(
-                                            AppTextStyleParams(
-                                                appFontSize:
-                                                    AppFontSize.paragraphSmall,
-                                                color: AppColors.grey.shade900,
-                                                appFontWeight:
-                                                    AppFontWeight.medium)),
+                                        style: sectionTitle,
                                       ),
                                       SizedBox(
                                         height: AppSpacing.x2Small4.value,
