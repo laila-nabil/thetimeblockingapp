@@ -94,12 +94,31 @@ class TaskWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                  child: Text(
-                    clickupTask.name ?? "",
-                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                        appFontSize: AppFontSize.paragraphSmall,
-                        color: AppColors.grey.shade900,
-                        appFontWeight: AppFontWeight.semiBold)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        clickupTask.status ==
+                            Globals.selectedSpace
+                                ?.statuses?.last
+                            ? AppIcons.checkboxchecked
+                            : AppIcons.checkbox,
+                        color: clickupTask.status
+                            ?.getColor ??
+                            AppColors.text,
+                        size: 20,
+                      ),
+                      SizedBox(width: AppSpacing.xSmall8.value ,),
+                      Text(
+                        clickupTask.name ?? "",
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphSmall,
+                            color: AppColors.grey.shade900,
+                            appFontWeight: AppFontWeight.semiBold)),
+                      ),
+                    ],
                   ),
                 ),
                 if (actions?.isNotEmpty == true)
