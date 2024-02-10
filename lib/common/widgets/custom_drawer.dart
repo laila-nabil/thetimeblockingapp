@@ -84,7 +84,10 @@ class CustomDrawerWidget extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         color: AppColors.background,
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall8.value),
+        padding: EdgeInsets.only(
+            top: AppSpacing.medium16.value,
+            left: AppSpacing.xSmall8.value,
+            right: AppSpacing.xSmall8.value),
         child: Column(
           children: [
             const _Logo(),

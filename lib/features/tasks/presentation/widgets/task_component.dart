@@ -58,7 +58,7 @@ class TaskComponent extends StatelessWidget {
   }
 }
 
-class TaskWidget extends StatelessWidget {
+class TaskWidget extends StatefulWidget {
   const TaskWidget(
       {super.key,
       required this.onTap,
@@ -72,18 +72,32 @@ class TaskWidget extends StatelessWidget {
   final List<CustomDropDownItem>? actions;
 
   @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  bool onHover = false;
+  @override
   Widget build(BuildContext context) {
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
         color: AppColors.grey.shade400,
         appFontWeight: AppFontWeight.semiBold));
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
+      onHover: (hover){
+        if (hover!=onHover) {
+          setState(() {
+                    onHover = hover;
+                  });
+        }
+      },
       child: Container(
         constraints: const BoxConstraints(minHeight: 68),
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
-          color: AppColors.background,
+          borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+          color: onHover ? AppColors.primary.shade50.withOpacity(0.5) :AppColors.background,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,19 +114,19 @@ class TaskWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        clickupTask.status ==
+                        widget.clickupTask.status ==
                             Globals.selectedSpace
                                 ?.statuses?.last
                             ? AppIcons.checkboxchecked
                             : AppIcons.checkbox,
-                        color: clickupTask.status
+                        color: widget.clickupTask.status
                             ?.getColor ??
                             AppColors.text,
                         size: 20,
                       ),
                       SizedBox(width: AppSpacing.xSmall8.value ,),
                       Text(
-                        clickupTask.name ?? "",
+                        widget.clickupTask.name ?? "",
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphSmall,
                             color: AppColors.grey.shade900,
@@ -121,9 +135,9 @@ class TaskWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (actions?.isNotEmpty == true)
+                if (widget.actions?.isNotEmpty == true)
                   CustomDropDownMenu(
-                      items: actions ?? [],
+                      items: widget.actions ?? [],
                       listButton: Icon(
                         AppIcons.dotsv,
                         size: 16,
@@ -131,10 +145,10 @@ class TaskWidget extends StatelessWidget {
                       )),
               ],
             ),
-            if (clickupTask.startDateUtc != null &&
-                clickupTask.dueDateUtc != null)
+            if (widget.clickupTask.startDateUtc != null &&
+                widget.clickupTask.dueDateUtc != null)
               Text(
-                  "🕑 ${DateTimeExtensions.customToString(clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(clickupTask.dueDateUtc)}",
+                  "🕑 ${DateTimeExtensions.customToString(widget.clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(widget.clickupTask.dueDateUtc)}",
                   style: dateTextStyle)
             else
               Text("", style: dateTextStyle),
@@ -151,7 +165,7 @@ class TaskWidget extends StatelessWidget {
                       runSpacing: AppSpacing.x2Small4.value,
                       direction: Axis.horizontal,
                       verticalDirection: VerticalDirection.down,
-                      children: clickupTask.tags
+                      children: widget.clickupTask.tags
                           ?.map((e) => TagChip(
                           tagName: e.name ?? "",
                           color: e.getTagFgColor))
@@ -162,10 +176,10 @@ class TaskWidget extends StatelessWidget {
                   SizedBox(
                     width: AppSpacing.small12.value,
                   ),
-                  if (showList)
+                  if (widget.showList)
                     ListChip(
-                        listName: clickupTask.list?.name ?? "",
-                        folderName: clickupTask.folder?.name ?? "")
+                        listName: widget.clickupTask.list?.name ?? "",
+                        folderName: widget.clickupTask.folder?.name ?? "")
                 ],
               ),
             )

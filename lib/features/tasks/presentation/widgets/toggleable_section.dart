@@ -36,6 +36,7 @@ class ToggleableSection extends StatefulWidget {
 
 class _ToggleableSectionState extends State<ToggleableSection> {
   bool isOpen = true;
+  bool onHover = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,13 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                   isOpen = !isOpen;
                 });
               },
+              onHover: (hover){
+                if (hover!=onHover) {
+                  setState(() {
+                    onHover = hover;
+                  });
+                }
+              },
               child: Container(
                 margin: isOpen
                     ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
@@ -73,7 +81,9 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                     border: Border(
                         bottom: isOpen
                             ? BorderSide(color: AppColors.grey.shade200, width: 1)
-                            : BorderSide.none)),
+                            : BorderSide.none),
+                    color:  onHover ? AppColors.primary.shade50.withOpacity(0.5) :null
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

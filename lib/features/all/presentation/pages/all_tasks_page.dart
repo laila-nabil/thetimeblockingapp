@@ -73,7 +73,7 @@ class AllTasksPage extends StatelessWidget {
                             margin: EdgeInsets.only(
                                 bottom: AppSpacing.medium16.value),
                             child: Text(
-                              appLocalization.translate("Lists"),
+                              appLocalization.translate("AllTasks"),
                               style: AppTextStyle.getTextStyle(
                                   AppTextStyleParams(
                                       color: AppColors.grey.shade900,
