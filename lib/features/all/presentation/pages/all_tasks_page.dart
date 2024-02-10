@@ -108,67 +108,51 @@ class AllTasksPage extends StatelessWidget {
                             child: ListView(
                               children: [
                                 if (state.getAllTasksResultOverdue.isNotEmpty)
-                                  true? Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: AppSpacing.xSmall8.value),
-                                    child: ToggleableSection(
-                                        title: appLocalization.translate("Overdue"),
-                                        titleColor: AppColors.error.shade500,
-                                        children: state.getAllTasksResultOverdue
-                                            .map<Widget>((e) => buildTaskWidget(
-                                            e, context, allTasksBloc))
-                                            .toList()),
-                                  ):Column(
+                                  true? ToggleableSection(
+                                      title: appLocalization.translate("Overdue"),
+                                      titleColor: AppColors.error.shade500,
+                                      children: state.getAllTasksResultOverdue
+                                          .map<Widget>((e) => buildTaskWidget(
+                                          e, context, allTasksBloc))
+                                          .toList()):Column(
                                     children: state.getAllTasksResultOverdue
                                             .map((e) => buildTaskWidget(
                                                 e, context, allTasksBloc))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultUpcoming.isNotEmpty)
-                                  true? Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: AppSpacing.xSmall8.value),
-                                    child: ToggleableSection(
-                                        title: appLocalization.translate("Upcoming"),
-                                        titleColor: AppColors.warning.shade500,
-                                        children: state.getAllTasksResultUpcoming
-                                            .map<Widget>((e) => buildTaskWidget(
-                                            e, context, allTasksBloc))
-                                            .toList()),
-                                  ):Column(
+                                  true? ToggleableSection(
+                                      title: appLocalization.translate("Upcoming"),
+                                      titleColor: AppColors.warning.shade500,
+                                      children: state.getAllTasksResultUpcoming
+                                          .map<Widget>((e) => buildTaskWidget(
+                                          e, context, allTasksBloc))
+                                          .toList()):Column(
                                     children: state.getAllTasksResultUpcoming
                                             .map((e) => buildTaskWidget(
                                                 e, context, allTasksBloc))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultUnscheduled.isNotEmpty)
-                                  true ? Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: AppSpacing.xSmall8.value),
-                                    child: ToggleableSection(
-                                        title: appLocalization.translate("Unscheduled"),
-                                        children: state.getAllTasksResultUnscheduled
-                                            .map<Widget>((e) => buildTaskWidget(
-                                            e, context, allTasksBloc))
-                                            .toList()),
-                                  ):Column(
+                                  true ? ToggleableSection(
+                                      title: appLocalization.translate("Unscheduled"),
+                                      children: state.getAllTasksResultUnscheduled
+                                          .map<Widget>((e) => buildTaskWidget(
+                                          e, context, allTasksBloc))
+                                          .toList()):Column(
                                     children: state.getAllTasksResultUnscheduled
                                             .map((e) => buildTaskWidget(
                                                 e, context, allTasksBloc))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultCompleted.isNotEmpty)
-                                  true ? Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: AppSpacing.xSmall8.value),
-                                    child: ToggleableSection(
-                                        title: appLocalization.translate("Completed"),
-                                        titleColor: AppColors.success.shade500,
-                                        children: state.getAllTasksResultCompleted
-                                            .map<Widget>((e) => buildTaskWidget(
-                                            e, context, allTasksBloc))
-                                            .toList()),
-                                  ):Column(
+                                  true ? ToggleableSection(
+                                      title: appLocalization.translate("Completed"),
+                                      titleColor: AppColors.success.shade500,
+                                      children: state.getAllTasksResultCompleted
+                                          .map<Widget>((e) => buildTaskWidget(
+                                          e, context, allTasksBloc))
+                                          .toList()):Column(
                                     children: state.getAllTasksResultUnscheduled
                                         .map((e) => buildTaskWidget(
                                         e, context, allTasksBloc))

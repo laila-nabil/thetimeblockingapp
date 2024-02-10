@@ -40,96 +40,99 @@ class _ToggleableSectionState extends State<ToggleableSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: AppColors.background,
-          border: Border.all(color: AppColors.grey.shade100, width: 1),
-          borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
-          boxShadow: AppShadow.xSmall.shadows),
-      margin: EdgeInsets.all(AppSpacing.medium16.value),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                isOpen = !isOpen;
-              });
-            },
-            child: Container(
-              margin: isOpen
-                  ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
-                  : EdgeInsets.zero,
-              padding: widget.actions?.isNotEmpty == true
-                  ? EdgeInsetsDirectional.only(
-                      top: AppSpacing.medium16.value,
-                      bottom: AppSpacing.medium16.value,
-                      start: AppSpacing.medium16.value,
-                      end: AppSpacing.xSmall8.value)
-                  : EdgeInsets.all(AppSpacing.medium16.value),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: isOpen
-                          ? BorderSide(color: AppColors.grey.shade200, width: 1)
-                          : BorderSide.none)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Icon(
-                          isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
-                          color: AppColors.grey.shade500,
-                          size: 20,
+      margin: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppColors.background,
+            border: Border.all(color: AppColors.grey.shade100, width: 1),
+            borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+            boxShadow: AppShadow.xSmall.shadows),
+        margin: EdgeInsets.all(AppSpacing.medium16.value),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  isOpen = !isOpen;
+                });
+              },
+              child: Container(
+                margin: isOpen
+                    ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
+                    : EdgeInsets.zero,
+                padding: widget.actions?.isNotEmpty == true
+                    ? EdgeInsetsDirectional.only(
+                        top: AppSpacing.medium16.value,
+                        bottom: AppSpacing.medium16.value,
+                        start: AppSpacing.medium16.value,
+                        end: AppSpacing.xSmall8.value)
+                    : EdgeInsets.all(AppSpacing.medium16.value),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: isOpen
+                            ? BorderSide(color: AppColors.grey.shade200, width: 1)
+                            : BorderSide.none)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Icon(
+                            isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
+                            color: AppColors.grey.shade500,
+                            size: 20,
+                          ),
                         ),
-                      ),
-                      Text(
-                        widget.title,
-                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                            appFontSize: AppFontSize.paragraphMedium,
-                            color: widget.titleColor ?? AppColors.grey.shade900,
-                            appFontWeight: AppFontWeight.semiBold)),
-                      )
-                    ],
-                  ),
-                  if (widget.actions?.isNotEmpty == true)
-                    CustomDropDownMenu(
-                        items: widget.actions ?? [],
-                        listButton: Icon(
-                          AppIcons.dotsv,
-                          size: 16,
-                          color: AppColors.grey.shade500,
-                        ))
-                ],
+                        Text(
+                          widget.title,
+                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphMedium,
+                              color: widget.titleColor ?? AppColors.grey.shade900,
+                              appFontWeight: AppFontWeight.semiBold)),
+                        )
+                      ],
+                    ),
+                    if (widget.actions?.isNotEmpty == true)
+                      CustomDropDownMenu(
+                          items: widget.actions ?? [],
+                          listButton: Icon(
+                            AppIcons.dotsv,
+                            size: 16,
+                            color: AppColors.grey.shade500,
+                          ))
+                  ],
+                ),
               ),
             ),
-          ),
-          if (isOpen)
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSpacing.medium16.value),
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: (widget.children +
-                          (widget.buttons
-                                  ?.map((button) => CustomButton.noIcon(
-                                        label: button.title,
-                                        onPressed: button.onTap,
-                                        type: CustomButtonType.greyTextLabel,
-                                      ))
-                                  .toList() ??
-                              []))
-                      .map((e) => Padding(
-                            padding: EdgeInsets.only(
-                                bottom: AppSpacing.medium16.value),
-                            child: e,
-                          ))
-                      .toList()),
-            ),
-        ],
+            if (isOpen)
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: AppSpacing.medium16.value),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: (widget.children +
+                            (widget.buttons
+                                    ?.map((button) => CustomButton.noIcon(
+                                          label: button.title,
+                                          onPressed: button.onTap,
+                                          type: CustomButtonType.greyTextLabel,
+                                        ))
+                                    .toList() ??
+                                []))
+                        .map((e) => Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: AppSpacing.medium16.value),
+                              child: e,
+                            ))
+                        .toList()),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -94,52 +94,36 @@ class ListPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             if (state.getCurrentListTasksOverdue.isNotEmpty)
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: AppSpacing.xSmall8.value),
-                                child: ToggleableSection(
-                                    title: appLocalization.translate("Overdue"),
-                                    titleColor: AppColors.error.shade500,
-                                    children: state.getCurrentListTasksOverdue
-                                        .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
-                                        .toList()),
-                              ),
+                              ToggleableSection(
+                                  title: appLocalization.translate("Overdue"),
+                                  titleColor: AppColors.error.shade500,
+                                  children: state.getCurrentListTasksOverdue
+                                      .map<Widget>((e) => buildTaskWidget(
+                                          e, context, listsPageBloc))
+                                      .toList()),
                             if (state.getCurrentListTasksUpcoming.isNotEmpty)
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: AppSpacing.xSmall8.value),
-                                child: ToggleableSection(
-                                    title: appLocalization.translate("Upcoming"),
-                                    titleColor: AppColors.warning.shade500,
-                                    children: state.getCurrentListTasksUpcoming
-                                        .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
-                                        .toList()),
-                              ),
+                              ToggleableSection(
+                                  title: appLocalization.translate("Upcoming"),
+                                  titleColor: AppColors.warning.shade500,
+                                  children: state.getCurrentListTasksUpcoming
+                                      .map<Widget>((e) => buildTaskWidget(
+                                          e, context, listsPageBloc))
+                                      .toList()),
                             if (state.getCurrentListTasksUnscheduled.isNotEmpty)
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: AppSpacing.xSmall8.value),
-                                child: ToggleableSection(
-                                    title: appLocalization.translate("Unscheduled"),
-                                    children: state.getCurrentListTasksUnscheduled
-                                        .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
-                                        .toList()),
-                              ),
+                              ToggleableSection(
+                                  title: appLocalization.translate("Unscheduled"),
+                                  children: state.getCurrentListTasksUnscheduled
+                                      .map<Widget>((e) => buildTaskWidget(
+                                          e, context, listsPageBloc))
+                                      .toList()),
                             if (state.getCurrentListTasksCompleted.isNotEmpty)
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: AppSpacing.xSmall8.value),
-                                child: ToggleableSection(
-                                    title: appLocalization.translate("Completed"),
-                                    titleColor: AppColors.success.shade500,
-                                    children: state.getCurrentListTasksCompleted
-                                        .map<Widget>((e) => buildTaskWidget(
-                                        e, context, listsPageBloc))
-                                        .toList()),
-                              ),
+                              ToggleableSection(
+                                  title: appLocalization.translate("Completed"),
+                                  titleColor: AppColors.success.shade500,
+                                  children: state.getCurrentListTasksCompleted
+                                      .map<Widget>((e) => buildTaskWidget(
+                                      e, context, listsPageBloc))
+                                      .toList()),
                           ],
                         ),
                       ),

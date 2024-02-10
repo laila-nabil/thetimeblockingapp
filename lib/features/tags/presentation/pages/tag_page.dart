@@ -181,52 +181,36 @@ class TagPage extends StatelessWidget {
                       child: ListView(
                         children: [
                           if (state.getCurrentTagTasksResultOverdue.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Overdue"),
-                                  titleColor: AppColors.error.shade500,
-                                  children: state.getCurrentTagTasksResultOverdue
-                                      .map<Widget>((e) => buildTaskWidget(
-                                      e, context, tagsPageBloc))
-                                      .toList()),
-                            ),
+                            ToggleableSection(
+                                title: appLocalization.translate("Overdue"),
+                                titleColor: AppColors.error.shade500,
+                                children: state.getCurrentTagTasksResultOverdue
+                                    .map<Widget>((e) => buildTaskWidget(
+                                    e, context, tagsPageBloc))
+                                    .toList()),
                           if (state.getCurrentTagTasksResultUpcoming.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Upcoming"),
-                                  titleColor: AppColors.warning.shade500,
-                                  children: state.getCurrentTagTasksResultUpcoming
-                                      .map<Widget>((e) => buildTaskWidget(
-                                      e, context, tagsPageBloc))
-                                      .toList()),
-                            ),
+                            ToggleableSection(
+                                title: appLocalization.translate("Upcoming"),
+                                titleColor: AppColors.warning.shade500,
+                                children: state.getCurrentTagTasksResultUpcoming
+                                    .map<Widget>((e) => buildTaskWidget(
+                                    e, context, tagsPageBloc))
+                                    .toList()),
                           if (state.getCurrentTagTasksResultUnscheduled.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Unscheduled"),
-                                  children: state.getCurrentTagTasksResultUnscheduled
-                                      .map<Widget>((e) => buildTaskWidget(
-                                      e, context, tagsPageBloc))
-                                      .toList()),
-                            ),
+                            ToggleableSection(
+                                title: appLocalization.translate("Unscheduled"),
+                                children: state.getCurrentTagTasksResultUnscheduled
+                                    .map<Widget>((e) => buildTaskWidget(
+                                    e, context, tagsPageBloc))
+                                    .toList()),
                           if (state.getCurrentTagTasksResultCompleted.isNotEmpty)
-                            Container(
-                              margin: EdgeInsets.only(
-                                  bottom: AppSpacing.xSmall8.value),
-                              child: ToggleableSection(
-                                  title: appLocalization.translate("Completed"),
-                                  titleColor: AppColors.success.shade500,
-                                  children: state.getCurrentTagTasksResultCompleted
-                                      .map<Widget>((e) => buildTaskWidget(
-                                      e, context, tagsPageBloc))
-                                      .toList()),
-                            ),
+                            ToggleableSection(
+                                title: appLocalization.translate("Completed"),
+                                titleColor: AppColors.success.shade500,
+                                children: state.getCurrentTagTasksResultCompleted
+                                    .map<Widget>((e) => buildTaskWidget(
+                                    e, context, tagsPageBloc))
+                                    .toList()),
                         ],
                       ),
                     )
