@@ -99,6 +99,7 @@ class ListPage extends StatelessWidget {
                                     bottom: AppSpacing.xSmall8.value),
                                 child: ToggleableSection(
                                     title: appLocalization.translate("Overdue"),
+                                    titleColor: AppColors.error.shade500,
                                     children: state.getCurrentListTasksOverdue
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc))
@@ -110,6 +111,7 @@ class ListPage extends StatelessWidget {
                                     bottom: AppSpacing.xSmall8.value),
                                 child: ToggleableSection(
                                     title: appLocalization.translate("Upcoming"),
+                                    titleColor: AppColors.warning.shade500,
                                     children: state.getCurrentListTasksUpcoming
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc))
@@ -132,6 +134,7 @@ class ListPage extends StatelessWidget {
                                     bottom: AppSpacing.xSmall8.value),
                                 child: ToggleableSection(
                                     title: appLocalization.translate("Completed"),
+                                    titleColor: AppColors.success.shade500,
                                     children: state.getCurrentListTasksCompleted
                                         .map<Widget>((e) => buildTaskWidget(
                                         e, context, listsPageBloc))

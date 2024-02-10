@@ -22,11 +22,12 @@ class ToggleableSection extends StatefulWidget {
       required this.children,
       required this.title,
       this.buttons,
-      this.actions});
+      this.actions, this.titleColor});
 
   final List<Widget> children;
   final List<ToggleableSectionButtonParams>? buttons;
   final String title;
+  final Color? titleColor;
   final List<CustomDropDownItem>? actions;
 
   @override
@@ -88,7 +89,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                         widget.title,
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphMedium,
-                            color: AppColors.grey.shade900,
+                            color: widget.titleColor ?? AppColors.grey.shade900,
                             appFontWeight: AppFontWeight.semiBold)),
                       )
                     ],
