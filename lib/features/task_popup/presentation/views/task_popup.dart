@@ -736,6 +736,7 @@ class TaskPopup extends StatelessWidget {
                             },
                           ),
                           spacerV,
+                          spacerV,
                           Wrap(
                             spacing: AppSpacing.xSmall8.value,
                             children: [
@@ -801,7 +802,7 @@ class TaskPopup extends StatelessWidget {
                                             },
                                             type: CustomButtonType.greyOutlinedLabel,
                                             label:
-                                            "${DateTimeExtensions.customToString(state.taskParams?.startDate) ?? ""} ",
+                                            DateTimeExtensions.customToString(state.taskParams?.startDate) ?? "YYYY-MM-DD HH:MM AM",
                                           )
                                         ],
                                       )
@@ -854,7 +855,7 @@ class TaskPopup extends StatelessWidget {
                                       },
                                       type: CustomButtonType.greyOutlinedLabel,
                                       label:
-                                     "${DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? ""} ",
+                                     DateTimeExtensions.customToString(state.taskParams?.dueDate) ?? "YYYY-MM-DD HH:MM AM",
                                     ),
                                   ],
                                 )
