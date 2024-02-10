@@ -126,6 +126,17 @@ class ListPage extends StatelessWidget {
                                             e, context, listsPageBloc))
                                         .toList()),
                               ),
+                            if (state.getCurrentListTasksCompleted.isNotEmpty)
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: AppSpacing.xSmall8.value),
+                                child: ToggleableSection(
+                                    title: appLocalization.translate("Completed"),
+                                    children: state.getCurrentListTasksCompleted
+                                        .map<Widget>((e) => buildTaskWidget(
+                                        e, context, listsPageBloc))
+                                        .toList()),
+                              ),
                           ],
                         ),
                       ),

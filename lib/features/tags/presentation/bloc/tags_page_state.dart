@@ -97,6 +97,9 @@ class TagsPageState extends Equatable {
   List<ClickupTask> get getCurrentTagTasksResultUnscheduled =>
       currentTagTasksResult?.where((element) => element.isUnscheduled).toList() ?? [];
 
+  List<ClickupTask> get getCurrentTagTasksResultCompleted =>
+      currentTagTasksResult?.where((element) => element.isCompleted).toList() ?? [];
+
   TagsPageState copyWith({
     required TagsPageStatus tagsPageStatus,
     ClickupTag? navigateTag,

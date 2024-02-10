@@ -213,6 +213,17 @@ class TagPage extends StatelessWidget {
                                       e, context, tagsPageBloc))
                                       .toList()),
                             ),
+                          if (state.getCurrentTagTasksResultCompleted.isNotEmpty)
+                            Container(
+                              margin: EdgeInsets.only(
+                                  bottom: AppSpacing.xSmall8.value),
+                              child: ToggleableSection(
+                                  title: appLocalization.translate("Completed"),
+                                  children: state.getCurrentTagTasksResultCompleted
+                                      .map<Widget>((e) => buildTaskWidget(
+                                      e, context, tagsPageBloc))
+                                      .toList()),
+                            ),
                         ],
                       ),
                     )
