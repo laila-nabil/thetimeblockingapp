@@ -80,7 +80,8 @@ class CustomDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: showSmallDesign ? 272 : 392,
+      width: 272,
+      // width: showSmallDesign ? 272 : 392,
       backgroundColor: Colors.transparent,
       child: Container(
         color: AppColors.background,
