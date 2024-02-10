@@ -20,7 +20,7 @@ class CustomDropDownItem {
       : this._(onTap: onTap, title: null, titleWidget: titleWidget);
 }
 
-class CustomDropDownMenu extends StatelessWidget {
+class CustomDropDownMenu extends StatefulWidget {
   const CustomDropDownMenu(
       {super.key,
       required this.items,
@@ -37,25 +37,56 @@ class CustomDropDownMenu extends StatelessWidget {
       appFontWeight: AppFontWeight.regular));
 
   @override
+  State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
+}
+
+class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
+  bool isOpened = false;
+  @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-        tooltip: tooltip,
+        tooltip: widget.tooltip,
         color: AppColors.white,
         surfaceTintColor: AppColors.white,
-        icon: Container(
+        shadowColor: AppColors.secondary.shade100,
+        child: Container(
             padding: const EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.0),
-                color: backgroundColor),
-            child: listButton),
+            decoration: ShapeDecoration(
+                color: widget.backgroundColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0)),
+                shadows: [
+                  if(isOpened)BoxShadow(
+                    color: AppColors.secondary.shade50,
+                    blurRadius: 0,
+                    offset: const Offset(0, 0),
+                    spreadRadius: 4,
+                  ),
+                ]),
+            child: widget.listButton),
+        onOpened: (){
+          setState(() {
+            isOpened = true;
+          });
+        },
+        onCanceled: (){
+          setState(() {
+            isOpened = false;
+          });
+        },
+        onSelected: (_){
+          setState(() {
+            isOpened = false;
+          });
+        },
         itemBuilder: (context) {
-          return items
+          return widget.items
               .map((e) => PopupMenuItem(
                     onTap: e.onTap,
                     child: e.title?.isNotEmpty == true
                         ? Text(
                             e.title ?? "",
-                            style: textStyle,
+                            style: CustomDropDownMenu.textStyle,
                           )
                         : e.titleWidget,
                   ))

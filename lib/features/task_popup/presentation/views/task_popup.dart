@@ -255,6 +255,11 @@ class TaskPopup extends StatelessWidget {
               final spacer = SizedBox(
                 height: AppSpacing.medium16.value,
               );
+              final taskLocationTextStyle = AppTextStyle.getTextStyle(
+                  AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      appFontWeight: AppFontWeight.medium,
+                      color: AppColors.grey.shade800));
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -324,6 +329,159 @@ class TaskPopup extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              if (task != null)
+                                Text(
+                                  "${Globals.selectedWorkspace?.name}/${Globals.selectedSpace?.name}/",
+                                  style: taskLocationTextStyle,
+                                ),
+                              ///TODO V2 create a new Folder
+                              ///Folder
+                              if (state.isFoldersListAvailable)
+                                true
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: CustomDropDownMenu(
+                                          tooltip: appLocalization
+                                              .translate("selectFolder"),
+                                          listButton: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              appLocalization
+                                                  .translate("folder"),
+                                              style: taskLocationTextStyle,
+                                            ),
+                                          ),
+                                          items: (state.taskParams?.clickupSpace
+                                                      ?.folders
+                                                      .map(
+                                                          (e) => CustomDropDownItem
+                                                              .text(
+                                                                  onTap: () {
+                                                                    taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                                                        taskParams:
+                                                                            clickupTaskParams.copyWith(folder: e)));
+                                                                  },
+                                                                  title:
+                                                                      e.name ??
+                                                                          ""))
+                                                      .toList() ??
+                                                  []) +
+                                              [
+                                                CustomDropDownItem.text(
+                                                    onTap: () {
+                                                      taskPopUpBloc.add(
+                                                          UpdateClickupTaskParamsEvent(
+                                                              taskParams: clickupTaskParams
+                                                                  .copyWith(
+                                                                      clearFolder:
+                                                                          true)));
+                                                    },
+                                                    title: appLocalization
+                                                        .translate("clear"))
+                                              ],
+                                        ),
+                                      )
+                                    : DropdownButton<ClickupFolder?>(
+                                        hint: Text(appLocalization
+                                            .translate("folder")),
+                                        value: state.taskParams?.folder,
+                                        onChanged: (folder) => folder == null
+                                            ? taskPopUpBloc.add(
+                                                UpdateClickupTaskParamsEvent(
+                                                    taskParams:
+                                                        clickupTaskParams
+                                                            .copyWith(
+                                                                clearFolder:
+                                                                    true)))
+                                            : taskPopUpBloc.add(
+                                                UpdateClickupTaskParamsEvent(
+                                                    taskParams:
+                                                        clickupTaskParams
+                                                            .copyWith(
+                                                                folder:
+                                                                    folder))),
+                                        items: (state.taskParams?.clickupSpace
+                                                    ?.folders
+                                                    .map((e) =>
+                                                        DropdownMenuItem(
+                                                            value: e,
+                                                            child: Text(
+                                                                e.name ?? "")))
+                                                    .toList() ??
+                                                []) +
+                                            [
+                                              DropdownMenuItem(
+                                                  value: null,
+                                                  child: Text(appLocalization
+                                                      .translate("clear")))
+                                            ],
+                                      ),
+                              Text(
+                                "/",
+                                style: taskLocationTextStyle,
+                              ),
+                              ///TODO V2 create a new list
+                              ///List
+                              if ((state.taskParams?.getAvailableLists
+                                      .isNotEmpty ==
+                                  true))
+                                true
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: CustomDropDownMenu(
+                                          tooltip: appLocalization
+                                              .translate("selectList"),
+                                          listButton: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              appLocalization.translate("list"),
+                                              style: taskLocationTextStyle,
+                                            ),
+                                          ),
+                                          items: (state
+                                                  .taskParams?.getAvailableLists
+                                                  .map((e) =>
+                                                      CustomDropDownItem.text(
+                                                          onTap: () {
+                                                            taskPopUpBloc.add(
+                                                                UpdateClickupTaskParamsEvent(
+                                                                    taskParams: clickupTaskParams.copyWith(
+                                                                        clickupList:
+                                                                            e)));
+                                                          },
+                                                          title: e.name ?? ""))
+                                                  .toList() ??
+                                              []),
+                                        ),
+                                      )
+                                    : DropdownButton<ClickupList>(
+                                        elevation: 0,
+                                        hint: Text(
+                                            appLocalization.translate("list")),
+                                        value: state.taskParams?.clickupList,
+                                        onChanged: (list) => taskPopUpBloc.add(
+                                            UpdateClickupTaskParamsEvent(
+                                                taskParams:
+                                                    clickupTaskParams.copyWith(
+                                                        clickupList: list))),
+                                        items: state
+                                                .taskParams?.getAvailableLists
+                                                .map((e) => DropdownMenuItem(
+                                                    value: e,
+                                                    child: Text(e.name ?? "")))
+                                                .toList() ??
+                                            [],
+                                      ),
+                            ],
+                          ),
+                          spacer,
+
                           ///Space
                           ///TODO V2 create a new Space
                           if (Globals.isSpaceAppWide == false)
@@ -569,67 +727,6 @@ class TaskPopup extends StatelessWidget {
                                   taskParams: clickupTaskParams.copyWith(
                                       description: change)));
                             },
-                          ),
-                          spacer,
-
-                          Wrap(
-                            children: [
-                              ///TODO V2 create a new Folder
-                              ///Folder
-                              if (state.isFoldersListAvailable)
-                                DropdownButton<ClickupFolder?>(
-                                  hint:
-                                      Text(appLocalization.translate("folder")),
-                                  value: state.taskParams?.folder,
-                                  onChanged: (folder) => folder == null
-                                      ? taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams: clickupTaskParams
-                                                  .copyWith(clearFolder: true)))
-                                      : taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams: clickupTaskParams
-                                                  .copyWith(folder: folder))),
-                                  items: (state
-                                              .taskParams?.clickupSpace?.folders
-                                              .map((e) => DropdownMenuItem(
-                                                  value: e,
-                                                  child: Text(e.name ?? "")))
-                                              .toList() ??
-                                          []) +
-                                      [
-                                        DropdownMenuItem(
-                                            value: null,
-                                            child: Text(appLocalization
-                                                .translate("clear")))
-                                      ],
-                                )
-                              else if (task?.folder != null)
-                                Text(" ${task?.folder?.name ?? ""} "),
-
-                              ///TODO V2 create a new list
-                              ///List
-                              if ((state.taskParams?.getAvailableLists
-                                      .isNotEmpty ==
-                                  true))
-                                DropdownButton<ClickupList>(
-                                  elevation: 0,
-                                  hint: Text(appLocalization.translate("list")),
-                                  value: state.taskParams?.clickupList,
-                                  onChanged: (list) => taskPopUpBloc.add(
-                                      UpdateClickupTaskParamsEvent(
-                                          taskParams: clickupTaskParams
-                                              .copyWith(clickupList: list))),
-                                  items: state.taskParams?.getAvailableLists
-                                          .map((e) => DropdownMenuItem(
-                                              value: e,
-                                              child: Text(e.name ?? "")))
-                                          .toList() ??
-                                      [],
-                                )
-                              else if (task != null)
-                                Text(" ${task.list?.name ?? ""} "),
-                            ],
                           ),
                           spacer,
                           Wrap(
