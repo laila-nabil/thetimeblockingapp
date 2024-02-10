@@ -154,6 +154,22 @@ class AllTasksPage extends StatelessWidget {
                                             .map((e) => buildTaskWidget(
                                                 e, context, allTasksBloc))
                                             .toList(),
+                                  ),
+                                if (state.getAllTasksResultCompleted.isNotEmpty)
+                                  true ? Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: AppSpacing.xSmall8.value),
+                                    child: ToggleableSection(
+                                        title: appLocalization.translate("Completed"),
+                                        children: state.getAllTasksResultCompleted
+                                            .map<Widget>((e) => buildTaskWidget(
+                                            e, context, allTasksBloc))
+                                            .toList()),
+                                  ):Column(
+                                    children: state.getAllTasksResultUnscheduled
+                                        .map((e) => buildTaskWidget(
+                                        e, context, allTasksBloc))
+                                        .toList(),
                                   )
                               ],
                             ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import '../../../../core/extensions.dart';
+import '../../../../core/globals.dart';
 import 'clickup_folder.dart';
 import 'clickup_list.dart';
 import 'clickup_space.dart';
@@ -160,6 +161,9 @@ class ClickupTask extends Equatable {
       dueDateUtc?.isAtSameMomentAs(DateTime.now()) == true;
 
   bool get isUnscheduled => dueDateUtc == null;
+
+  bool get isCompleted =>
+      status != null && status == Globals.selectedSpace?.statuses?.lastOrNull;
 
   @override
   List<Object?> get props => [
