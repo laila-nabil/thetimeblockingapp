@@ -44,6 +44,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
           border: Border.all(color: AppColors.grey.shade100, width: 1),
           borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
           boxShadow: AppShadow.xSmall.shadows),
+      margin: EdgeInsets.all(AppSpacing.medium16.value),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,9 +79,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: Icon(
-                          isOpen
-                              ? AppIcons.chevrondown
-                              : AppIcons.chevronright,
+                          isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
                           color: AppColors.grey.shade500,
                           size: 20,
                         ),
@@ -107,20 +106,28 @@ class _ToggleableSectionState extends State<ToggleableSection> {
             ),
           ),
           if (isOpen)
-            ...(widget.children +
-                    (widget.buttons
-                            ?.map((button) => CustomButton.noIcon(
-                                  label: button.title,
-                                  onPressed: button.onTap,
-                                  type: CustomButtonType.greyTextLabel,
-                                ))
-                            .toList() ??
-                        []))
-                .map((e) => Padding(
-                      padding:
-                          EdgeInsets.only(bottom: AppSpacing.medium16.value),
-                      child: e,
-                    ))
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: AppSpacing.medium16.value),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: (widget.children +
+                          (widget.buttons
+                                  ?.map((button) => CustomButton.noIcon(
+                                        label: button.title,
+                                        onPressed: button.onTap,
+                                        type: CustomButtonType.greyTextLabel,
+                                      ))
+                                  .toList() ??
+                              []))
+                      .map((e) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom: AppSpacing.medium16.value),
+                            child: e,
+                          ))
+                      .toList()),
+            ),
         ],
       ),
     );
