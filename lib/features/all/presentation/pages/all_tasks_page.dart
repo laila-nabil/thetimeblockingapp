@@ -67,7 +67,9 @@ class AllTasksPage extends StatelessWidget {
                       }
                       return Padding(
                         padding: EdgeInsets.all(AppSpacing.medium16.value),
-                        child: Column(children: <Widget>[
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
                           Container(
                             padding: EdgeInsets.all(AppSpacing.medium16.value),
                             margin: EdgeInsets.only(
