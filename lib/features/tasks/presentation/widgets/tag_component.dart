@@ -9,7 +9,7 @@ import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../core/resources/assets_paths.dart';
 import '../../../../core/resources/text_styles.dart';
 
-class TagComponent extends StatelessWidget {
+class TagComponent extends StatefulWidget {
   const TagComponent(
       {super.key,
       required this.tag,
@@ -23,12 +23,30 @@ class TagComponent extends StatelessWidget {
   final Widget? updateTagInline;
 
   @override
+  State<TagComponent> createState() => _TagComponentState();
+}
+
+class _TagComponentState extends State<TagComponent> {
+  bool onHover = false;
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
+      borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+      onHover: (hover){
+        if (hover!=onHover) {
+          setState(() {
+            onHover = hover;
+          });
+        }
+      },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall8.value),
-        decoration: BoxDecoration(color: AppColors.background),
+        padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+            color: onHover
+            ? AppColors.primary.shade50.withOpacity(0.5)
+            :  AppColors.background),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -36,25 +54,25 @@ class TagComponent extends StatelessWidget {
               children: [
                 Icon(
                   Icons.tag,
-                  color: tag.getTagFgColor,
+                  color: widget.tag.getTagFgColor,
                   size: 16,
                 ),
                 const SizedBox(width: 2.5,),
-                if (updateTagInline == null)
+                if (widget.updateTagInline == null)
                   Text(
-                    tag.name ?? "",
+                    widget.tag.name ?? "",
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
                         appFontSize: AppFontSize.paragraphSmall,
                         color: AppColors.grey.shade900,
                         appFontWeight: AppFontWeight.semiBold)),
                   )
                 else
-                  updateTagInline!,
+                  widget.updateTagInline!,
               ],
             ),
-            if (actions?.isNotEmpty == true)
+            if (widget.actions?.isNotEmpty == true)
               CustomDropDownMenu(
-                  items: actions ?? [],
+                  items: widget.actions ?? [],
                   listButton: Icon(
                     AppIcons.dotsv,
                     size: 16,
