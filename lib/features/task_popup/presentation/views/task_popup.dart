@@ -258,7 +258,9 @@ class TaskPopup extends StatelessWidget {
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
-                  contentPadding: EdgeInsets.all(radius),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.medium16.value,
+                      vertical: AppSpacing.small12.value),
                   actions: [
                     if (task != null)
                       IconButton(
@@ -320,6 +322,7 @@ class TaskPopup extends StatelessWidget {
                       width: double.maxFinite,
                       height: context.showSmallDesign ? double.maxFinite : null,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ///Space
                           ///TODO V2 create a new Space
@@ -757,64 +760,65 @@ class TaskPopup extends StatelessWidget {
                                                 []) +
                                             [
                                               CustomButton.trailingIcon(
-                                                  type: CustomButtonType.greyTextLeadingIcon,
+                                                  type: CustomButtonType
+                                                      .greyTextLeadingIcon,
                                                   label: appLocalization
                                                       .translate("addTag"),
                                                   icon: Icons.add,
-                                                  onPressed: (){
+                                                  onPressed: () {
                                                     showDialog(
                                                         context: context,
                                                         builder: (ctx) {
                                                           return AlertDialog(
-                                                            title: Text(appLocalization
-                                                                .translate("tags")),
+                                                            title: Text(
+                                                                appLocalization
+                                                                    .translate(
+                                                                        "tags")),
                                                             scrollable: true,
-                                                            content: BlocProvider.value(
-                                                              value: taskPopUpBloc,
+                                                            content:
+                                                                BlocProvider
+                                                                    .value(
+                                                              value:
+                                                                  taskPopUpBloc,
                                                               child: BlocBuilder<
                                                                   TaskPopUpBloc,
                                                                   TaskPopUpState>(
-                                                                builder: (context, state) {
+                                                                builder:
+                                                                    (context,
+                                                                        state) {
                                                                   return SizedBox(
                                                                     height: 400,
                                                                     width: 400,
-                                                                    child: ListView(
+                                                                    child:
+                                                                        ListView(
                                                                       children: state
-                                                                          .taskParams
-                                                                          ?.clickupSpace
-                                                                          ?.tags
-                                                                          .map((e) =>
-                                                                          CheckboxListTile(
-                                                                              title:
-                                                                              Row(
-                                                                                children: [
-                                                                                  Icon(
-                                                                                    Icons.tag,
-                                                                                    color: e.getTagFgColor,
+                                                                              .taskParams
+                                                                              ?.clickupSpace
+                                                                              ?.tags
+                                                                              .map((e) => CheckboxListTile(
+                                                                                  title: Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.tag,
+                                                                                        color: e.getTagFgColor,
+                                                                                      ),
+                                                                                      Text(
+                                                                                        e.name ?? "",
+                                                                                        style: TagChip.textStyle(AppColors.text),
+                                                                                      ),
+                                                                                    ],
                                                                                   ),
-                                                                                  Text(
-                                                                                    e.name ?? "",
-                                                                                    style: TagChip.textStyle(AppColors.text),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              value: state.taskParams?.tags?.contains(e) ==
-                                                                                  true,
-                                                                              onChanged:
-                                                                                  (value) {
-                                                                                List<ClickupTag>?
-                                                                                tags =
-                                                                                List.from(state.taskParams?.tags ?? [], growable: true);
-                                                                                if (value ==
-                                                                                    true) {
-                                                                                  tags.add(e);
-                                                                                } else {
-                                                                                  tags.remove(e);
-                                                                                }
-                                                                                taskPopUpBloc
-                                                                                    .add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
-                                                                              }))
-                                                                          .toList() ??
+                                                                                  value: state.taskParams?.tags?.contains(e) == true,
+                                                                                  onChanged: (value) {
+                                                                                    List<ClickupTag>? tags = List.from(state.taskParams?.tags ?? [], growable: true);
+                                                                                    if (value == true) {
+                                                                                      tags.add(e);
+                                                                                    } else {
+                                                                                      tags.remove(e);
+                                                                                    }
+                                                                                    taskPopUpBloc.add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
+                                                                                  }))
+                                                                              .toList() ??
                                                                           [],
                                                                     ),
                                                                   );
