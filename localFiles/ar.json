@@ -62,5 +62,6 @@
   "copyLink": "انسخ الرابط",
   "skip": "تخطى",
   "linkCopiedSuccessfully":"تم تسخ الرابط بنجاح",
-  "taskName":"اسم المهمة"
+  "taskName":"اسم المهمة",
+  "otherLists":"القوائم الأخرى"
 }

@@ -62,7 +62,6 @@
   "copyLink":"Copy link",
   "skip":"Skip",
   "linkCopiedSuccessfully":"link copied to clipboard successfully",
-  "taskName":"Task name"
-
-
+  "taskName":"Task name",
+  "otherLists":"Other lists"
 }

@@ -150,93 +150,14 @@ class ListsPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[] +
-                                  (Globals.selectedSpace?.folders
-                                          .map<Widget>((folder) =>
-                                              ToggleableSection(
-                                                  actions: [
-                                                    CustomDropDownItem.text(
-                                                        title: appLocalization
-                                                            .translate(
-                                                                "delete"),
-                                                        onTap: () {
-                                                          listsPageBloc.add(
-                                                              DeleteClickupFolderEvent
-                                                                  .tryDelete(
-                                                                      folder));
-                                                        })
-                                                  ],
-                                                  title: folder.name ?? "",
-                                                  buttons: [
-                                                    if (state
-                                                            .tryCreateListInFolder(
-                                                                folder) ==
-                                                        false)
-                                                      ToggleableSectionButtonParams(
-                                                          title:
-                                                              "+ ${appLocalization.translate("createNewList")}",
-                                                          onTap: () {
-                                                            listsPageBloc.add(
-                                                                CreateListInFolderEvent
-                                                                    .tryCreate(
-                                                                        folderToCreateListIn:
-                                                                            folder));
-                                                          })
-                                                  ],
-                                                  children: (folder.lists
-                                                              ?.map<Widget>((e) =>
-                                                                  ListComponent(
-                                                                    onTap: () {
-                                                                      listsPageBloc.add(
-                                                                          NavigateToListPageEvent(
-                                                                              e));
-                                                                    },
-                                                                    list: e,
-                                                                    actions: [
-                                                                      CustomDropDownItem.text(
-                                                                          title: appLocalization.translate("delete"),
-                                                                          onTap: () {
-                                                                            listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
-                                                                          })
-                                                                    ],
-                                                                  ))
-                                                              .toList() ??
-                                                          []) +
-                                                      [
-                                                        if (state
-                                                            .tryCreateListInFolder(
-                                                                folder))
-                                                          _CreateField(
-                                                              onAdd: (text) {
-                                                            listsPageBloc.add(CreateListInFolderEvent.submit(
-                                                                createClickupListInFolderParams: CreateClickupListInFolderParams(
-                                                                    clickupAccessToken:
-                                                                        Globals
-                                                                            .clickupAuthAccessToken,
-                                                                    clickupFolder:
-                                                                        folder,
-                                                                    listName:
-                                                                        text),
-                                                                clickupWorkspace:
-                                                                    Globals
-                                                                        .selectedWorkspace!,
-                                                                clickupSpace:
-                                                                    Globals
-                                                                        .selectedSpace!));
-                                                          }, onCancel: () {
-                                                            listsPageBloc.add(
-                                                                CreateListInFolderEvent
-                                                                    .cancelCreate());
-                                                          })
-                                                      ]))
-                                          .toList() ??
-                                      []) +
-                                  ((Globals.selectedSpace?.lists
-                                              .map<Widget>((e) => ListComponent(
-                                                    list: e,
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[] +
+                                    (Globals.selectedSpace?.folders
+                                            .map<Widget>((folder) =>
+                                                ToggleableSection(
                                                     actions: [
                                                       CustomDropDownItem.text(
                                                           title: appLocalization
@@ -244,89 +165,173 @@ class ListsPage extends StatelessWidget {
                                                                   "delete"),
                                                           onTap: () {
                                                             listsPageBloc.add(
-                                                                DeleteClickupListEvent
+                                                                DeleteClickupFolderEvent
                                                                     .tryDelete(
-                                                                        e));
+                                                                        folder));
                                                           })
                                                     ],
-                                                    onTap: () {
-                                                      listsPageBloc.add(
-                                                          NavigateToListPageEvent(
-                                                              e));
-                                                    },
-                                                  ))
+                                                    title: folder.name ?? "",
+                                                    buttons: [
+                                                      if (state
+                                                              .tryCreateListInFolder(
+                                                                  folder) ==
+                                                          false)
+                                                        ToggleableSectionButtonParams(
+                                                            title:
+                                                                "+ ${appLocalization.translate("createNewList")}",
+                                                            onTap: () {
+                                                              listsPageBloc.add(
+                                                                  CreateListInFolderEvent
+                                                                      .tryCreate(
+                                                                          folderToCreateListIn:
+                                                                              folder));
+                                                            })
+                                                    ],
+                                                    children: (folder.lists
+                                                                ?.map<Widget>((e) =>
+                                                                    ListComponent(
+                                                                      onTap: () {
+                                                                        listsPageBloc.add(
+                                                                            NavigateToListPageEvent(
+                                                                                e));
+                                                                      },
+                                                                      list: e,
+                                                                      actions: [
+                                                                        CustomDropDownItem.text(
+                                                                            title: appLocalization.translate("delete"),
+                                                                            onTap: () {
+                                                                              listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
+                                                                            })
+                                                                      ],
+                                                                    ))
+                                                                .toList() ??
+                                                            []) +
+                                                        [
+                                                          if (state
+                                                              .tryCreateListInFolder(
+                                                                  folder))
+                                                            _CreateField(
+                                                                onAdd: (text) {
+                                                              listsPageBloc.add(CreateListInFolderEvent.submit(
+                                                                  createClickupListInFolderParams: CreateClickupListInFolderParams(
+                                                                      clickupAccessToken:
+                                                                          Globals
+                                                                              .clickupAuthAccessToken,
+                                                                      clickupFolder:
+                                                                          folder,
+                                                                      listName:
+                                                                          text),
+                                                                  clickupWorkspace:
+                                                                      Globals
+                                                                          .selectedWorkspace!,
+                                                                  clickupSpace:
+                                                                      Globals
+                                                                          .selectedSpace!));
+                                                            }, onCancel: () {
+                                                              listsPageBloc.add(
+                                                                  CreateListInFolderEvent
+                                                                      .cancelCreate());
+                                                            })
+                                                        ]))
+                                            .toList() ??
+                                        []) +
+                                    [
+                                      ToggleableSection(
+                                          title: appLocalization.translate("otherLists"),
+                                          children: (Globals.selectedSpace?.lists
+                                              .map<Widget>((e) => ListComponent(
+                                            list: e,
+                                            actions: [
+                                              CustomDropDownItem.text(
+                                                  title: appLocalization
+                                                      .translate(
+                                                      "delete"),
+                                                  onTap: () {
+                                                    listsPageBloc.add(
+                                                        DeleteClickupListEvent
+                                                            .tryDelete(
+                                                            e));
+                                                  })
+                                            ],
+                                            onTap: () {
+                                              listsPageBloc.add(
+                                                  NavigateToListPageEvent(
+                                                      e));
+                                            },
+                                          ))
                                               .toList() ??
-                                          []) +
-                                      <Widget>[
-                                        state.tryCreateFolderInSpace
-                                            ? _CreateField(
-                                                onAdd: (text) {
-                                                  listsPageBloc.add(CreateClickupFolderInSpaceEvent.submit(
-                                                      createClickupFolderInSpaceParams:
-                                                          CreateClickupFolderInSpaceParams(
+                                              []))
+                                    ] +
+                                        <Widget>[
+                                          state.tryCreateFolderInSpace
+                                              ? _CreateField(
+                                                  onAdd: (text) {
+                                                    listsPageBloc.add(CreateClickupFolderInSpaceEvent.submit(
+                                                        createClickupFolderInSpaceParams:
+                                                            CreateClickupFolderInSpaceParams(
+                                                                clickupAccessToken:
+                                                                    Globals
+                                                                        .clickupAuthAccessToken,
+                                                                folderName: text,
+                                                                clickupSpace: Globals
+                                                                    .selectedSpace!),
+                                                        clickupWorkspace: Globals
+                                                            .selectedWorkspace!,
+                                                        clickupSpace: Globals
+                                                            .selectedSpace!));
+                                                  },
+                                                  onCancel: () {
+                                                    listsPageBloc.add(
+                                                        CreateClickupFolderInSpaceEvent
+                                                            .cancelCreate());
+                                                  },
+                                                )
+                                              : CustomButton.noIcon(
+                                                  label:
+                                                      "+ ${appLocalization.translate("createNewFolder")}",
+                                                  onPressed: () {
+                                                    listsPageBloc.add(
+                                                        CreateClickupFolderInSpaceEvent
+                                                            .tryCreate());
+                                                  },
+                                                  type: CustomButtonType
+                                                      .greyTextLabel,
+                                                )
+                                        ] +
+                                        <Widget>[
+                                          state.tryCreateListInSpace
+                                              ? _CreateField(onAdd: (text) {
+                                                  listsPageBloc.add(CreateFolderlessListEvent.submit(
+                                                      createFolderlessListClickupParams:
+                                                          CreateFolderlessListClickupParams(
                                                               clickupAccessToken:
                                                                   Globals
                                                                       .clickupAuthAccessToken,
-                                                              folderName: text,
+                                                              listName: text,
                                                               clickupSpace: Globals
                                                                   .selectedSpace!),
                                                       clickupWorkspace: Globals
                                                           .selectedWorkspace!,
                                                       clickupSpace: Globals
                                                           .selectedSpace!));
-                                                },
-                                                onCancel: () {
+                                                }, onCancel: () {
                                                   listsPageBloc.add(
-                                                      CreateClickupFolderInSpaceEvent
+                                                      CreateListInFolderEvent
                                                           .cancelCreate());
-                                                },
-                                              )
-                                            : CustomButton.noIcon(
-                                                label:
-                                                    "+ ${appLocalization.translate("createNewFolder")}",
-                                                onPressed: () {
-                                                  listsPageBloc.add(
-                                                      CreateClickupFolderInSpaceEvent
-                                                          .tryCreate());
-                                                },
-                                                type: CustomButtonType
-                                                    .greyTextLabel,
-                                              )
-                                      ] +
-                                      <Widget>[
-                                        state.tryCreateListInSpace
-                                            ? _CreateField(onAdd: (text) {
-                                                listsPageBloc.add(CreateFolderlessListEvent.submit(
-                                                    createFolderlessListClickupParams:
-                                                        CreateFolderlessListClickupParams(
-                                                            clickupAccessToken:
-                                                                Globals
-                                                                    .clickupAuthAccessToken,
-                                                            listName: text,
-                                                            clickupSpace: Globals
-                                                                .selectedSpace!),
-                                                    clickupWorkspace: Globals
-                                                        .selectedWorkspace!,
-                                                    clickupSpace: Globals
-                                                        .selectedSpace!));
-                                              }, onCancel: () {
-                                                listsPageBloc.add(
-                                                    CreateListInFolderEvent
-                                                        .cancelCreate());
-                                              })
-                                            : CustomButton.noIcon(
-                                                label:
-                                                    "+ ${appLocalization.translate("createNewList")}",
-                                                onPressed: () {
-                                                  listsPageBloc.add(
-                                                      CreateFolderlessListEvent
-                                                          .tryCreate());
-                                                },
-                                                type: CustomButtonType
-                                                    .greyTextLabel,
-                                              )
-                                      ]),
-                            ),
+                                                })
+                                              : CustomButton.noIcon(
+                                                  label:
+                                                      "+ ${appLocalization.translate("createNewList")}",
+                                                  onPressed: () {
+                                                    listsPageBloc.add(
+                                                        CreateFolderlessListEvent
+                                                            .tryCreate());
+                                                  },
+                                                  type: CustomButtonType
+                                                      .greyTextLabel,
+                                                )
+                                        ]),
+                              ),
                           )
                         ],
                       ),

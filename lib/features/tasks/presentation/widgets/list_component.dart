@@ -8,7 +8,7 @@ import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../core/resources/assets_paths.dart';
 import '../../../../core/resources/text_styles.dart';
 
-class ListComponent extends StatelessWidget {
+class ListComponent extends StatefulWidget {
   const ListComponent(
       {super.key, required this.list, this.onTap, this.actions});
 
@@ -17,25 +17,41 @@ class ListComponent extends StatelessWidget {
   final List<CustomDropDownItem>? actions;
 
   @override
+  State<ListComponent> createState() => _ListComponentState();
+}
+
+class _ListComponentState extends State<ListComponent> {
+  bool onHover = false;
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
+      onHover: (hover){
+        if (hover!=onHover) {
+          setState(() {
+            onHover = hover;
+          });
+        }
+      },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xSmall8.value),
-        decoration: BoxDecoration(color: AppColors.background),
+        padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+        decoration: BoxDecoration(
+            color: onHover
+                ? AppColors.primary.shade50.withOpacity(0.5)
+                : AppColors.background),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              list.name ?? "",
+              widget.list.name ?? "",
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
                   color: AppColors.grey.shade900,
                   appFontWeight: AppFontWeight.semiBold)),
             ),
-            if (actions?.isNotEmpty == true)
+            if (widget.actions?.isNotEmpty == true)
               CustomDropDownMenu(
-                  items: actions ?? [],
+                  items: widget.actions ?? [],
                   listButton: Icon(
                     AppIcons.dotsv,
                     size: 16,
