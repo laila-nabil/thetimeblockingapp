@@ -154,13 +154,15 @@ class ClickupTask extends Equatable {
       ? null
       : Duration(seconds: timeEstimateMilliseconds!.toInt());
 
-  bool get isOverdue => dueDateUtc?.isBefore(DateTime.now()) == true;
+  bool get isOverdue =>
+      dueDateUtc?.isBefore(DateTime.now()) == true && isCompleted == false;
 
   bool get isUpcoming =>
-      dueDateUtc?.isAfter(DateTime.now()) == true ||
-      dueDateUtc?.isAtSameMomentAs(DateTime.now()) == true;
+      (dueDateUtc?.isAfter(DateTime.now()) == true ||
+          dueDateUtc?.isAtSameMomentAs(DateTime.now()) == true) &&
+      isCompleted == false;
 
-  bool get isUnscheduled => dueDateUtc == null;
+  bool get isUnscheduled => dueDateUtc == null && isCompleted == false;
 
   bool get isCompleted =>
       status != null && status == Globals.selectedSpace?.statuses?.lastOrNull;
