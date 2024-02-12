@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
-import '../../../../common/widgets/custom_drop_down.dart';
+import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
@@ -120,7 +120,7 @@ class SchedulePage extends StatelessWidget {
                     ///TODO V3 auto Schedule
                     // ignore: dead_code
                     if (false)
-                      CustomDropDownItem.text(
+                      CustomPopupItem.text(
                         title: appLocalization.translate("autoSchedule"),
                         onTap: () {},
                       ),
@@ -128,7 +128,7 @@ class SchedulePage extends StatelessWidget {
                     ///TODO V2 show completed tasks
                     // ignore: dead_code
                     if (false)
-                      CustomDropDownItem.text(
+                      CustomPopupItem.text(
                         title: appLocalization.translate("showCompleted"),
                         onTap: () {},
                       ),

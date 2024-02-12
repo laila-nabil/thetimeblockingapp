@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -21,6 +21,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../common/widgets/custom_drop_down_menu.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
@@ -347,55 +348,17 @@ class TaskPopup extends StatelessWidget {
                                 ///TODO V2 create a new Folder
                                 ///Folder
                                 if (state.isFoldersListAvailable)
-                                  true
-                                      ? Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CustomDropDownMenu(
-                                      tooltip: appLocalization
-                                          .translate("selectFolder"),
-                                      listButton: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          appLocalization
-                                              .translate("folder"),
-                                          style: taskLocationTextStyle,
-                                        ),
-                                      ),
-                                      items: (state.taskParams?.clickupSpace
-                                          ?.folders
-                                          .map(
-                                              (e) => CustomDropDownItem
-                                              .text(
-                                              onTap: () {
-                                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                                    taskParams:
-                                                    clickupTaskParams.copyWith(folder: e)));
-                                              },
-                                              title:
-                                              e.name ??
-                                                  ""))
-                                          .toList() ??
-                                          []) +
-                                          [
-                                            CustomDropDownItem.text(
-                                                onTap: () {
-                                                  taskPopUpBloc.add(
-                                                      UpdateClickupTaskParamsEvent(
-                                                          taskParams: clickupTaskParams
-                                                              .copyWith(
-                                                              clearFolder:
-                                                              true)));
-                                                },
-                                                title: appLocalization
-                                                    .translate("clear"))
-                                          ],
-                                    ),
-                                  )
-                                      : DropdownButton<ClickupFolder?>(
+                                  CustomDropDownMenu(
+                                    isDense: true,
                                     hint: Text(appLocalization
                                         .translate("folder")),
+                                    style: taskLocationTextStyle,
                                     value: state.taskParams?.folder,
+                                    icon: const Padding(
+                                      padding:  EdgeInsets.all(4.0),
+                                      child: Icon(AppIcons.chevrondown,size: 14),
+                                    ),
+
                                     onChanged: (folder) => folder == null
                                         ? taskPopUpBloc.add(
                                         UpdateClickupTaskParamsEvent(
@@ -437,38 +400,9 @@ class TaskPopup extends StatelessWidget {
                                 if ((state.taskParams?.getAvailableLists
                                     .isNotEmpty ==
                                     true))
-                                  true
-                                      ? Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CustomDropDownMenu(
-                                      tooltip: appLocalization
-                                          .translate("selectList"),
-                                      listButton: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          appLocalization.translate("list"),
-                                          style: taskLocationTextStyle,
-                                        ),
-                                      ),
-                                      items: (state
-                                          .taskParams?.getAvailableLists
-                                          .map((e) =>
-                                          CustomDropDownItem.text(
-                                              onTap: () {
-                                                taskPopUpBloc.add(
-                                                    UpdateClickupTaskParamsEvent(
-                                                        taskParams: clickupTaskParams.copyWith(
-                                                            clickupList:
-                                                            e)));
-                                              },
-                                              title: e.name ?? ""))
-                                          .toList() ??
-                                          []),
-                                    ),
-                                  )
-                                      : DropdownButton<ClickupList>(
-                                    elevation: 0,
+                                  CustomDropDownMenu(
+                                    isDense: true,
+                                    style: taskLocationTextStyle,
                                     hint: Text(
                                         appLocalization.translate("list")),
                                     value: state.taskParams?.clickupList,
@@ -515,7 +449,7 @@ class TaskPopup extends StatelessWidget {
                             Row(
                               children: [
                                 ///Status
-                                true
+                                /*true
                                     ? CustomDropDownMenu(
                                   tooltip:
                                   "${appLocalization.translate("status")}: ${state.taskParams?.taskStatus?.status.toStringOrNull() ?? ""}",
@@ -559,8 +493,10 @@ class TaskPopup extends StatelessWidget {
                                           ?.getColor ??
                                           AppColors.text),
                                 )
-                                    : DropdownButton<ClickupStatus>(
+                                    :*/ CustomDropDownMenu(
                                   value: state.taskParams?.taskStatus,
+                                  style:  CustomDropDownMenu
+                                      .textStyle,
                                   hint: Text(
                                       appLocalization.translate("status")),
                                   onChanged: (status) => taskPopUpBloc.add(
@@ -575,81 +511,55 @@ class TaskPopup extends StatelessWidget {
                                           ClickupStatus>>((e) =>
                                       DropdownMenuItem(
                                           value: e,
-                                          child: Text(e.status ?? "",
-                                              style: TextStyle(
-                                                  textBaseline:
-                                                  TextBaseline
-                                                      .alphabetic,
-                                                  color:
-                                                  e.getColor))))
+                                          child: false ? Text(
+                                              e.status ?? "",
+                                              style: CustomDropDownMenu
+                                                  .textStyle
+                                                  .copyWith(
+                                                  color: e
+                                                      .getColor,
+                                                  fontWeight: state
+                                                      .taskParams
+                                                      ?.taskStatus ==
+                                                      e
+                                                      ? AppFontWeight
+                                                      .semiBold
+                                                      .value
+                                                      : null)):Row(
+                                            children: [
+                                              Icon(
+                                                  e ==
+                                                      state.taskParams?.clickupSpace
+                                                          ?.statuses?.last
+                                                      ? AppIcons.checkboxchecked
+                                                      : AppIcons.checkbox,
+                                                  color: e.getColor ??
+                                                      AppColors.text),
+                                              const SizedBox(width: 2,),
+                                              Text(
+                                                  e.status ?? "",
+                                                  style: CustomDropDownMenu
+                                                      .textStyle
+                                                      .copyWith(
+                                                      color: e
+                                                          .getColor,
+                                                      fontWeight: state
+                                                          .taskParams
+                                                          ?.taskStatus ==
+                                                          e
+                                                          ? AppFontWeight
+                                                          .semiBold
+                                                          .value
+                                                          : null)),
+                                            ],
+                                          )))
                                       .toList() ??
                                       [],
                                 ),
 
                                 ///Priority
                                 if (state.isPrioritiesEnabled)
-                                  true
-                                      ? CustomDropDownMenu(
-                                    tooltip:
-                                    "${appLocalization.translate("priority")} : ${(state.taskParams?.taskPriority?.isNum == true ? state.taskParams?.taskPriority?.priorityNum : state.taskParams?.taskPriority?.priority).toStringOrNull() ?? ""}",
-                                    backgroundColor: Colors.transparent,
-                                    items: ((state
-                                        .taskParams
-                                        ?.clickupSpace
-                                        ?.features
-                                        ?.priorities
-                                        ?.priorities)
-                                        ?.map<CustomDropDownItem>((e) => CustomDropDownItem
-                                        .widget(
-                                        titleWidget: Text(
-                                            (e.isNum ? e.priorityNum : e.priority)
-                                                .toStringOrNull() ??
-                                                "",
-                                            style: CustomDropDownMenu
-                                                .textStyle
-                                                .copyWith(
-                                                color: e.getPriorityColor,
-                                                fontWeight: state.taskParams?.taskStatus == e ? AppFontWeight.semiBold.value : null)),
-                                        onTap: () {
-                                          taskPopUpBloc.add(
-                                              UpdateClickupTaskParamsEvent(
-                                                  taskParams:
-                                                  clickupTaskParams.copyWith(
-                                                      taskPriority: e)));
-                                        }))
-                                        .toList() ??
-                                        []) +
-                                        <CustomDropDownItem>[
-                                          CustomDropDownItem.widget(
-                                              titleWidget: Text(
-                                                  appLocalization
-                                                      .translate("clear"),
-                                                  style: CustomDropDownMenu
-                                                      .textStyle
-                                                      .copyWith(
-                                                    color: AppColors.text,
-                                                  )),
-                                              onTap: () {
-                                                taskPopUpBloc.add(
-                                                    UpdateClickupTaskParamsEvent(
-                                                        taskParams: clickupTaskParams
-                                                            .copyWith(
-                                                            clearPriority:
-                                                            true)));
-                                              })
-                                        ],
-                                    listButton: Icon(
-                                        state.taskParams?.taskPriority ==
-                                            null
-                                            ? AppIcons.flag
-                                            : AppIcons.flagbold,
-                                        color: state
-                                            .taskParams
-                                            ?.taskPriority
-                                            ?.getPriorityColor ??
-                                            AppColors.text),
-                                  )
-                                      : DropdownButton<ClickupTaskPriority>(
+                                  CustomDropDownMenu(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
                                         .translate("priority")),
@@ -678,23 +588,47 @@ class TaskPopup extends StatelessWidget {
                                         ?.map((e) => e.isNum
                                         ? DropdownMenuItem(
                                       value: e,
-                                      child: Text(
-                                        e.priorityNum
-                                            .toString(),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                              e.priorityNum ==
+                                                  null
+                                                  ? AppIcons.flag
+                                                  : AppIcons.flagbold,
+                                              color: e.getPriorityColor ??
+                                                  AppColors.text),
+                                          const SizedBox(width: 2,),
+                                          Text(
+                                            e.priorityNum
+                                                .toString(),
+                                          ),
+                                        ],
                                       ),
                                     )
                                         : DropdownMenuItem(
                                       value: e,
-                                      child: Text(
-                                        e.priority ??
-                                            e.id?.toStringOrNull() ??
-                                            "",
-                                        style: TextStyle(
-                                            textBaseline:
-                                            TextBaseline
-                                                .alphabetic,
-                                            color: e
-                                                .getPriorityColor),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                              e.priority ==
+                                                  null
+                                                  ? AppIcons.flag
+                                                  : AppIcons.flagbold,
+                                              color: e.getPriorityColor ??
+                                                  AppColors.text),
+                                          const SizedBox(width: 2,),
+                                          Text(
+                                            e.priority ??
+                                                e.id?.toStringOrNull() ??
+                                                "",
+                                            style: TextStyle(
+                                                textBaseline:
+                                                TextBaseline
+                                                    .alphabetic,
+                                                color: e
+                                                    .getPriorityColor),
+                                          ),
+                                        ],
                                       ),
                                     ))
                                         .toList() ??
@@ -702,8 +636,16 @@ class TaskPopup extends StatelessWidget {
                                         [
                                           DropdownMenuItem(
                                               value: null,
-                                              child: Text(appLocalization
-                                                  .translate("clear")))
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                       AppIcons.flag,
+                                                      color: AppColors.grey.shade50),
+                                                  const SizedBox(width: 2,),
+                                                  Text(appLocalization
+                                                      .translate("clear")),
+                                                ],
+                                              ))
                                         ],
                                   ),
                                 Expanded(

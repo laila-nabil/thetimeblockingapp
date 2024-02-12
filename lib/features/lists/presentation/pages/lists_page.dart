@@ -17,7 +17,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
-import '../../../../common/widgets/custom_drop_down.dart';
+import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
@@ -159,7 +159,7 @@ class ListsPage extends StatelessWidget {
                                             .map<Widget>((folder) =>
                                                 ToggleableSection(
                                                     actions: [
-                                                      CustomDropDownItem.text(
+                                                      CustomPopupItem.text(
                                                           title: appLocalization
                                                               .translate(
                                                                   "delete"),
@@ -197,7 +197,7 @@ class ListsPage extends StatelessWidget {
                                                                       },
                                                                       list: e,
                                                                       actions: [
-                                                                        CustomDropDownItem.text(
+                                                                        CustomPopupItem.text(
                                                                             title: appLocalization.translate("delete"),
                                                                             onTap: () {
                                                                               listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
@@ -242,7 +242,7 @@ class ListsPage extends StatelessWidget {
                                               .map<Widget>((e) => ListComponent(
                                             list: e,
                                             actions: [
-                                              CustomDropDownItem.text(
+                                              CustomPopupItem.text(
                                                   title: appLocalization
                                                       .translate(
                                                       "delete"),

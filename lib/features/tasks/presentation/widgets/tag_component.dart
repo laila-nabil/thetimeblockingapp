@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
-import '../../../../common/widgets/custom_drop_down.dart';
+import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/resources/assets_paths.dart';
 import '../../../../core/resources/text_styles.dart';
 
@@ -19,7 +19,7 @@ class TagComponent extends StatefulWidget {
 
   final ClickupTag tag;
   final void Function()? onTap;
-  final List<CustomDropDownItem>? actions;
+  final List<CustomPopupItem>? actions;
   final Widget? updateTagInline;
 
   @override
@@ -71,13 +71,9 @@ class _TagComponentState extends State<TagComponent> {
               ],
             ),
             if (widget.actions?.isNotEmpty == true)
-              CustomDropDownMenu(
+              CustomPopupMenu(
                   items: widget.actions ?? [],
-                  listButton: Icon(
-                    AppIcons.dotsv,
-                    size: 16,
-                    color: AppColors.grey.shade500,
-                  ))
+                  )
           ],
         ),
       ),

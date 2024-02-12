@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../core/resources/app_colors.dart';
+import '../../core/resources/app_icons.dart';
 import '../../core/resources/assets_paths.dart';
 
-class CustomDropDownItem {
+class CustomPopupItem {
   final String? title;
   final Widget? titleWidget;
   final void Function() onTap;
 
-  CustomDropDownItem._({this.title, this.titleWidget, required this.onTap});
+  CustomPopupItem._({this.title, this.titleWidget, required this.onTap});
 
-  CustomDropDownItem.text(
+  CustomPopupItem.text(
       {required String title, required void Function() onTap})
       : this._(onTap: onTap, title: title, titleWidget: null);
 
-  CustomDropDownItem.widget(
+  CustomPopupItem.widget(
       {required Widget titleWidget, required void Function() onTap})
       : this._(onTap: onTap, title: null, titleWidget: titleWidget);
 }
 
-class CustomDropDownMenu extends StatefulWidget {
-  const CustomDropDownMenu(
+class CustomPopupMenu extends StatefulWidget {
+  const CustomPopupMenu(
       {super.key,
       required this.items,
-      required this.listButton,
       this.backgroundColor = AppColors.white, this.tooltip});
 
-  final List<CustomDropDownItem> items;
-  final Widget listButton;
+  final List<CustomPopupItem> items;
   final Color backgroundColor;
   final String? tooltip;
   static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
@@ -37,10 +36,10 @@ class CustomDropDownMenu extends StatefulWidget {
       appFontWeight: AppFontWeight.regular));
 
   @override
-  State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
+  State<CustomPopupMenu> createState() => _CustomPopupMenuState();
 }
 
-class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
+class _CustomPopupMenuState extends State<CustomPopupMenu> {
   bool isOpened = false;
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
         color: AppColors.white,
         surfaceTintColor: AppColors.white,
         shadowColor: AppColors.secondary.shade100,
-        child: Container(
+        icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(
                 color: widget.backgroundColor,
@@ -63,7 +62,11 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
                     spreadRadius: 4,
                   ),
                 ]),
-            child: widget.listButton),
+            child: Icon(
+              AppIcons.dotsv,
+              size: 16,
+              color: AppColors.grey.shade500,
+            )),
         onOpened: (){
           setState(() {
             isOpened = true;
@@ -86,7 +89,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
                     child: e.title?.isNotEmpty == true
                         ? Text(
                             e.title ?? "",
-                            style: CustomDropDownMenu.textStyle,
+                            style: CustomPopupMenu.textStyle,
                           )
                         : e.titleWidget,
                   ))

@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_chip.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
-import '../../../../common/widgets/custom_drop_down.dart';
+import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/assets_paths.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
@@ -39,7 +39,7 @@ class TaskComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TaskWidget(
         actions: [
-          CustomDropDownItem.text(
+          CustomPopupItem.text(
               title: appLocalization.translate("delete"),
               onTap:(){})
         ],
@@ -69,7 +69,7 @@ class TaskWidget extends StatefulWidget {
   final void Function() onTap;
   final ClickupTask clickupTask;
   final bool showList;
-  final List<CustomDropDownItem>? actions;
+  final List<CustomPopupItem>? actions;
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
@@ -136,13 +136,9 @@ class _TaskWidgetState extends State<TaskWidget> {
                   ),
                 ),
                 if (widget.actions?.isNotEmpty == true)
-                  CustomDropDownMenu(
+                  CustomPopupMenu(
                       items: widget.actions ?? [],
-                      listButton: Icon(
-                        AppIcons.dotsv,
-                        size: 16,
-                        color: AppColors.grey.shade500,
-                      )),
+                     ),
               ],
             ),
             if (widget.clickupTask.startDateUtc != null &&

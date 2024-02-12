@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
@@ -155,7 +155,7 @@ class TagsPage extends StatelessWidget {
                                                           )
                                                         : null,
                                                 actions: [
-                                                  CustomDropDownItem.text(
+                                                  CustomPopupItem.text(
                                                       title: appLocalization
                                                           .translate("edit"),
                                                       onTap: () {
@@ -173,7 +173,7 @@ class TagsPage extends StatelessWidget {
                                                                     Globals
                                                                         .clickupAuthAccessToken)));
                                                       }),
-                                                  CustomDropDownItem.text(
+                                                  CustomPopupItem.text(
                                                       title: appLocalization
                                                           .translate("delete"),
                                                       onTap: () {

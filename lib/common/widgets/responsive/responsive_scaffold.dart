@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
-import '../custom_drop_down.dart';
+import '../custom_pop_up_menu.dart';
 import '../custom_loading.dart';
 
 enum ResponsiveScaffoldLoadingEnum {
@@ -34,7 +34,7 @@ class ResponsiveScaffoldLoading {
 
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
-  final List<CustomDropDownItem>? pageActions;
+  final List<CustomPopupItem>? pageActions;
 
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;

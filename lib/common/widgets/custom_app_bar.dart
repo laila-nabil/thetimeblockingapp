@@ -14,13 +14,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 
 import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
-import 'custom_drop_down.dart';
+import 'custom_pop_up_menu.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
       {Key? key, this.pageActions, required this.showSmallDesign})
       : super(key: key);
-  final List<CustomDropDownItem>? pageActions;
+  final List<CustomPopupItem>? pageActions;
   final bool showSmallDesign;
 
   @override
@@ -84,7 +84,7 @@ class CustomAppBarWidget extends StatelessWidget {
   final void Function(ClickupSpace? clickupSpace) selectClickupSpace;
   final void Function(ClickupWorkspace? clickupWorkspace)
       selectClickupWorkspace;
-  final List<CustomDropDownItem>? pageActions;
+  final List<CustomPopupItem>? pageActions;
 
   ///TODO
   static double height(bool showSmallDesign) => 52;
@@ -153,13 +153,9 @@ class CustomAppBarWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(
                 0, 0, showSmallDesign ? 0 : AppSpacing.xBig24.value, 0),
-            child: CustomDropDownMenu(
+            child: CustomPopupMenu(
                 items: pageActions ?? [],
-                listButton: Icon(
-                  AppIcons.dotsv,
-                  size: 20,
-                  color: AppColors.grey.shade500,
-                )),
+               ),
           ),
       ],
     );

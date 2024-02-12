@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -2419,7 +2419,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       {super.key, required this.showSmallDesign, this.pageActions});
 
   final bool showSmallDesign;
-  final List<CustomDropDownItem>? pageActions;
+  final List<CustomPopupItem>? pageActions;
 
   @override
   Widget build(BuildContext context) {

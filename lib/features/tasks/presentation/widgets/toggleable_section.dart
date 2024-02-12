@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
-import '../../../../common/widgets/custom_drop_down.dart';
+import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/resources/text_styles.dart';
 
 class ToggleableSectionButtonParams {
@@ -28,7 +28,7 @@ class ToggleableSection extends StatefulWidget {
   final List<ToggleableSectionButtonParams>? buttons;
   final String title;
   final Color? titleColor;
-  final List<CustomDropDownItem>? actions;
+  final List<CustomPopupItem>? actions;
 
   @override
   State<ToggleableSection> createState() => _ToggleableSectionState();
@@ -107,13 +107,9 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                       ],
                     ),
                     if (widget.actions?.isNotEmpty == true)
-                      CustomDropDownMenu(
+                      CustomPopupMenu(
                           items: widget.actions ?? [],
-                          listButton: Icon(
-                            AppIcons.dotsv,
-                            size: 16,
-                            color: AppColors.grey.shade500,
-                          ))
+                          )
                   ],
                 ),
               ),
