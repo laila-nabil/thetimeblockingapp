@@ -102,20 +102,20 @@ class SchedulePage extends StatelessWidget {
                     ///TODO V2 select multiple tasks to perform bulk actions
                     ///TODO V2 bulk move tasks to another list
                     ///TODO V2 bulk delete tasks
-                    CustomDropDownItem.text(
-                      title: appLocalization.translate("filterBy") +
-                          appLocalization.translate("Lists").toLowerCase(),
-                      onTap: () {
-                        ///TODO V2 filter by lists
-                      },
-                    ),
-                    CustomDropDownItem.text(
-                      title: appLocalization.translate("filterBy") +
-                          appLocalization.translate("Tags").toLowerCase(),
-                      onTap: () {
-                        ///TODO V2 filter by tags
-                      },
-                    ),
+                    // CustomDropDownItem.text(
+                    //   title: appLocalization.translate("filterBy") +
+                    //       appLocalization.translate("Lists").toLowerCase(),
+                    //   onTap: () {
+                    //     ///TODO V2 filter by lists
+                    //   },
+                    // ),
+                    // CustomDropDownItem.text(
+                    //   title: appLocalization.translate("filterBy") +
+                    //       appLocalization.translate("Tags").toLowerCase(),
+                    //   onTap: () {
+                    //     ///TODO V2 filter by tags
+                    //   },
+                    // ),
 
                     ///TODO V3 auto Schedule
                     // ignore: dead_code

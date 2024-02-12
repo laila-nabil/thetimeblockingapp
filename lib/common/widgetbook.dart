@@ -2079,10 +2079,11 @@ class WidgetBookApp extends StatelessWidget {
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
                         pageActions: [
-                          CustomDropDownItem.text(
-                              title: "Filter by list", onTap: () {}),
-                          CustomDropDownItem.text(
-                              title: "Filter by tag", onTap: () {})
+                          // CustomDropDownItem.text(
+                          //     value: ,
+                          //     title: "Filter by list", onTap: () {}),
+                          // CustomDropDownItem.text(
+                          //     title: "Filter by tag", onTap: () {})
                         ],
                       ),
                       drawer: Container(),
@@ -2103,10 +2104,10 @@ class WidgetBookApp extends StatelessWidget {
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
                         pageActions: [
-                          CustomDropDownItem.text(
-                              title: "Filter by list", onTap: () {}),
-                          CustomDropDownItem.text(
-                              title: "Filter by tag", onTap: () {})
+                          // CustomDropDownItem.text(
+                          //     title: "Filter by list", onTap: () {}),
+                          // CustomDropDownItem.text(
+                          //     title: "Filter by tag", onTap: () {})
                         ],
                       ),
                       drawer: CustomDrawerWidget(

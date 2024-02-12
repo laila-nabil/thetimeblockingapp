@@ -63,5 +63,7 @@
   "skip":"Skip",
   "linkCopiedSuccessfully":"link copied to clipboard successfully",
   "taskName":"Task name",
-  "otherLists":"Other lists"
+  "otherLists":"Other lists",
+  "selectFolder":"Select folder",
+  "selectList":"Select list"
 }

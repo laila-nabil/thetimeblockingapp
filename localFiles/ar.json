@@ -63,5 +63,7 @@
   "skip": "تخطى",
   "linkCopiedSuccessfully":"تم تسخ الرابط بنجاح",
   "taskName":"اسم المهمة",
-  "otherLists":"القوائم الأخرى"
+  "otherLists":"القوائم الأخرى",
+  "selectFolder":"اختر مجلد",
+  "selectList":"اختر قائمة"
 }
