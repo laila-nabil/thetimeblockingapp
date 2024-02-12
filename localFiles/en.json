@@ -65,5 +65,6 @@
   "taskName":"Task name",
   "otherLists":"Other lists",
   "selectFolder":"Select folder",
-  "selectList":"Select list"
+  "selectList":"Select list",
+  "Completed":"Completed"
 }

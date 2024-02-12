@@ -65,5 +65,6 @@
   "taskName":"اسم المهمة",
   "otherLists":"القوائم الأخرى",
   "selectFolder":"اختر مجلد",
-  "selectList":"اختر قائمة"
+  "selectList":"اختر قائمة",
+  "Completed":"مكتمل"
 }

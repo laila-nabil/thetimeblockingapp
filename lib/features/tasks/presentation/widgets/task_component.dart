@@ -130,7 +130,10 @@ class _TaskWidgetState extends State<TaskWidget> {
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphSmall,
                             color: AppColors.grey.shade900,
-                            appFontWeight: AppFontWeight.semiBold)),
+                            appFontWeight: AppFontWeight.semiBold)).copyWith(
+                          decoration: widget.clickupTask.isCompleted
+                             ? TextDecoration.lineThrough : null
+                        ),
                       ),
                     ],
                   ),

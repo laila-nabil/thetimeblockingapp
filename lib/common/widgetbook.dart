@@ -12,12 +12,14 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 import 'package:widgetbook/widgetbook.dart';
 import '../core/localization/localization.dart';
 import '../core/resources/app_icons.dart';
 import '../features/tasks/presentation/widgets/list_component.dart';
+import '../features/tasks/presentation/widgets/tag_chip.dart';
 import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
 
@@ -2328,6 +2330,40 @@ class WidgetBookApp extends StatelessWidget {
                         ListComponent(list: list2)
                       ],
                     );
+                  }),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Tag chip',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'Tag chip',
+                  builder: (context) {
+                    final name = context.knobs.string(
+                      label: 'Tag name',
+                      initialValue: 'tag',
+                    );
+
+                    ClickupTag tag = ClickupTag(name: name,tagFg: "");
+
+                    return TagChip(tagName: tag.name??"",color: Colors.red,);
+                  }),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'TagComponent',
+            useCases: [
+              WidgetbookUseCase(
+                  name: 'TagComponent',
+                  builder: (context) {
+                    final name = context.knobs.string(
+                      label: 'Tag name',
+                      initialValue: 'tag',
+                    );
+
+                    ClickupTag tag = ClickupTag(name: name,tagFg: "");
+
+                    return TagComponent(tag: tag);
                   }),
             ],
           ),
