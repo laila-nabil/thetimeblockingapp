@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../../core/resources/app_colors.dart';
+import '../../../tasks/data/models/clickup_task_model.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
@@ -181,6 +183,15 @@ class ClickupTasksDataSource extends CalendarDataSource {
         getEndTime(index).subtract(Globals.defaultTaskDuration);
   }
 
+  @override
+  Color getColor(int index) {
+    var clickupTask = clickupTasks[index];
+    if(clickupTask.isCompleted){
+      return AppColors.grey.shade300;
+    }
+    return clickupTask.priority?.getPriorityColor ??
+        AppColors.paletteBlue;
+  }
   @override
   DateTime getEndTime(int index) {
     printDebug("${clickupTasks[index].name}=>"
