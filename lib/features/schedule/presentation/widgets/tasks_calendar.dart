@@ -3,6 +3,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
@@ -42,8 +43,8 @@ class TasksCalendar extends StatelessWidget {
       //   showAgenda: true,
       // ),
       ///TODO V1.5 enable allowDragAndDrop
-      allowDragAndDrop: false,
-      allowAppointmentResize: false,
+      allowDragAndDrop: true,
+      allowAppointmentResize: true,
       allowViewNavigation: true,
       firstDayOfWeek: 6,
       showTodayButton: true,
@@ -58,21 +59,33 @@ class TasksCalendar extends StatelessWidget {
       timeZone: Globals.clickupUser?.timezone,
       onTap: onTapCalendarElement,
       onLongPress: onTapCalendarElement,
-      onAppointmentResizeEnd: (appointmentResizeEndDetails){
-        ///TODO V1.5 onAppointmentResizeEnd
+      onAppointmentResizeEnd: (details){
+        printDebug("details.startTime ${details.startTime}");
+        printDebug("details.endTime ${details.endTime}");
+        scheduleBloc.add(UpdateClickupTaskEvent(
+            params: ClickupTaskParams.updateTask(
+              task: details.appointment as ClickupTask,
+              clickupAccessToken: Globals.clickupAuthAccessToken,
+              updatedDueDate: details.endTime,
+            )));
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
         ///TODO V1.5 TimeSlotViewSettings
       ),
-      onDragEnd: (appointmentDragEndDetails){
-        ///TODO V1.5 onDragEnd
-      },
-      onDragStart: (appointmentDragEndDetails){
-        ///TODO V1.5 onDragStart
-      },
-      onDragUpdate: (appointmentDragEndDetails){
-        ///TODO V1.5 onDragUpdate
+      dragAndDropSettings: const DragAndDropSettings(
+        allowNavigation: false
+      ),
+      onDragEnd: (details){
+        final task = details.appointment as ClickupTask;
+        scheduleBloc.add(UpdateClickupTaskEvent(
+            params: ClickupTaskParams.updateTask(
+              task: task,
+              clickupAccessToken: Globals.clickupAuthAccessToken,
+          updatedDueDate: details.droppingTime
+              !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
+          updatedStartDate: details.droppingTime,
+        )));
       },
       onViewChanged: (viewChangedDetails){
 
@@ -217,6 +230,14 @@ class ClickupTasksDataSource extends CalendarDataSource {
   @override
   bool isAllDay(int index) {
     return clickupTasks[index].isAllDay;
+  }
+
+  @override
+  Object? convertAppointmentToObject(
+      Object? customData, Appointment appointment) {
+    printDebug("customData $customData");
+    printDebug("appointment $appointment");
+    return customData as ClickupTaskModel;
   }
 
   @override

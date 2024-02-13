@@ -1,6 +1,6 @@
 # The time blocking app
 
-Time blocking app made with Flutter,it is a powerful and intuitive task management tool designed to help users stay organized and productive. With features inspired by [ClickUp](https://clickup.com/), Apple Reminders, [TickTick](https://ticktick.com/), and [Sorted iOS app](https://www.sortedapp.com/), users can effortlessly create tasks, set due dates, priorities, and reminders, and categorize tasks using tags. The app's auto-scheduling feature intelligently organizes tasks based on their due dates and priorities. With a user-friendly interface, search functionality, and customizable settings, this app streamlines task management for individuals, ensuring efficient and stress-free workflow.
+**Time blocking app** is made with Flutter,it is a task management tool designed  to help users stay organized and productive for **personal** use. With features inspired by [ClickUp](https://clickup.com/), Apple Reminders, [TickTick](https://ticktick.com/), and [Sorted app](https://www.sortedapp.com/), users can effortlessly create tasks, set due dates, priorities, and reminders, and categorize tasks using tags. With a user-friendly interface, search functionality, and customizable settings, this app streamlines task management for individuals, ensuring efficient and stress-free workflow.
 
 ## Table of components
 
