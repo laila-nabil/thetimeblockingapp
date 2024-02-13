@@ -115,118 +115,120 @@ class TagsPage extends StatelessWidget {
                                   appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: (state.getTagsInSpaceResult ?? [])
-                                          .map<Widget>((tag) => TagComponent(
-                                                updateTagInline:
-                                                    state.updateTagTry(tag)
-                                                        ? SizedBox(
-                                                            width: 300,
-                                                            child:
-                                                                _CreateEditField(
-                                                                    text:
-                                                                        tag.name,
-                                                                    onAdd:
-                                                                        (text) {
-                                                                      printDebug(
-                                                                          "text now $text");
-                                                                      tagsPageBloc.add(
-                                                                          UpdateClickupTagEvent
-                                                                              .submit(
-                                                                        insideTagPage:
-                                                                            false,
-                                                                        params: UpdateClickupTagParams(
-                                                                            clickupAccessToken: Globals
-                                                                                .clickupAuthAccessToken,
-                                                                            newTag: tag
-                                                                                .copyWith(name: text)
-                                                                                .getModel,
-                                                                            originalTagName: tag.name ?? "",
-                                                                            space: Globals.selectedSpace!),
-                                                                      ));
-                                                                    },
-                                                                    onCancel: () {
-                                                                      tagsPageBloc.add(UpdateClickupTagEvent.cancel(
+                          Expanded(
+                            child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: (state.getTagsInSpaceResult ?? [])
+                                            .map<Widget>((tag) => TagComponent(
+                                                  updateTagInline:
+                                                      state.updateTagTry(tag)
+                                                          ? SizedBox(
+                                                              width: 300,
+                                                              child:
+                                                                  _CreateEditField(
+                                                                      text:
+                                                                          tag.name,
+                                                                      onAdd:
+                                                                          (text) {
+                                                                        printDebug(
+                                                                            "text now $text");
+                                                                        tagsPageBloc.add(
+                                                                            UpdateClickupTagEvent
+                                                                                .submit(
                                                                           insideTagPage:
-                                                                              false));
-                                                                    }),
-                                                          )
-                                                        : null,
-                                                actions: [
-                                                  CustomPopupItem.text(
-                                                      title: appLocalization
-                                                          .translate("edit"),
-                                                      onTap: () {
-                                                        tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
-                                                            insideTagPage: false,
-                                                            params: UpdateClickupTagParams(
-                                                                space: Globals
-                                                                    .selectedSpace!,
-                                                                newTag:
-                                                                    tag.getModel,
-                                                                originalTagName:
-                                                                    tag.name ??
-                                                                        "",
-                                                                clickupAccessToken:
-                                                                    Globals
-                                                                        .clickupAuthAccessToken)));
-                                                      }),
-                                                  CustomPopupItem.text(
-                                                      title: appLocalization
-                                                          .translate("delete"),
-                                                      onTap: () {
-                                                        tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
-                                                            DeleteClickupTagParams(
-                                                                space: Globals
-                                                                    .selectedSpace!,
-                                                                tag: tag,
-                                                                clickupAccessToken:
-                                                                    Globals
-                                                                        .clickupAuthAccessToken)));
-                                                      }),
-                                                ],
-                                                tag: tag,
-                                                onTap: () {
-                                                  tagsPageBloc.add(
-                                                      NavigateToTagPageEvent(
-                                                          tag: tag,
-                                                          insideTagPage: false));
-                                                },
-                                              ))
-                                          .toList() +
-                                      [
-                                        state.tryCreateTagInSpace == true
-                                            ? _CreateEditField(onAdd: (text) {
-                                                tagsPageBloc.add(
-                                                    CreateClickupTagInSpaceEvent
-                                                        .submit(
-                                                  params: CreateClickupTagInSpaceParams(
-                                                      clickupAccessToken: Globals
-                                                          .clickupAuthAccessToken,
-                                                      newTag: ClickupTagModel(
-                                                          name: text),
-                                                      space:
-                                                          Globals.selectedSpace!),
-                                                ));
-                                              }, onCancel: () {
-                                                tagsPageBloc.add(
-                                                    CreateClickupTagInSpaceEvent
-                                                        .cancelCreate());
-                                              })
-                                            : CustomButton.noIcon(
-                                                label:
-                                                    "+ ${appLocalization.translate("createNewTag")}",
-                                                onPressed: () {
+                                                                              false,
+                                                                          params: UpdateClickupTagParams(
+                                                                              clickupAccessToken: Globals
+                                                                                  .clickupAuthAccessToken,
+                                                                              newTag: tag
+                                                                                  .copyWith(name: text)
+                                                                                  .getModel,
+                                                                              originalTagName: tag.name ?? "",
+                                                                              space: Globals.selectedSpace!),
+                                                                        ));
+                                                                      },
+                                                                      onCancel: () {
+                                                                        tagsPageBloc.add(UpdateClickupTagEvent.cancel(
+                                                                            insideTagPage:
+                                                                                false));
+                                                                      }),
+                                                            )
+                                                          : null,
+                                                  actions: [
+                                                    CustomPopupItem.text(
+                                                        title: appLocalization
+                                                            .translate("edit"),
+                                                        onTap: () {
+                                                          tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
+                                                              insideTagPage: false,
+                                                              params: UpdateClickupTagParams(
+                                                                  space: Globals
+                                                                      .selectedSpace!,
+                                                                  newTag:
+                                                                      tag.getModel,
+                                                                  originalTagName:
+                                                                      tag.name ??
+                                                                          "",
+                                                                  clickupAccessToken:
+                                                                      Globals
+                                                                          .clickupAuthAccessToken)));
+                                                        }),
+                                                    CustomPopupItem.text(
+                                                        title: appLocalization
+                                                            .translate("delete"),
+                                                        onTap: () {
+                                                          tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
+                                                              DeleteClickupTagParams(
+                                                                  space: Globals
+                                                                      .selectedSpace!,
+                                                                  tag: tag,
+                                                                  clickupAccessToken:
+                                                                      Globals
+                                                                          .clickupAuthAccessToken)));
+                                                        }),
+                                                  ],
+                                                  tag: tag,
+                                                  onTap: () {
+                                                    tagsPageBloc.add(
+                                                        NavigateToTagPageEvent(
+                                                            tag: tag,
+                                                            insideTagPage: false));
+                                                  },
+                                                ))
+                                            .toList() +
+                                        [
+                                          state.tryCreateTagInSpace == true
+                                              ? _CreateEditField(onAdd: (text) {
                                                   tagsPageBloc.add(
                                                       CreateClickupTagInSpaceEvent
-                                                          .tryCreate());
-                                                },
-                                                type: CustomButtonType
-                                                    .greyTextLabel,
-                                              )
-                                      ])),
+                                                          .submit(
+                                                    params: CreateClickupTagInSpaceParams(
+                                                        clickupAccessToken: Globals
+                                                            .clickupAuthAccessToken,
+                                                        newTag: ClickupTagModel(
+                                                            name: text),
+                                                        space:
+                                                            Globals.selectedSpace!),
+                                                  ));
+                                                }, onCancel: () {
+                                                  tagsPageBloc.add(
+                                                      CreateClickupTagInSpaceEvent
+                                                          .cancelCreate());
+                                                })
+                                              : CustomButton.noIcon(
+                                                  label:
+                                                      "+ ${appLocalization.translate("createNewTag")}",
+                                                  onPressed: () {
+                                                    tagsPageBloc.add(
+                                                        CreateClickupTagInSpaceEvent
+                                                            .tryCreate());
+                                                  },
+                                                  type: CustomButtonType
+                                                      .greyTextLabel,
+                                                )
+                                        ])),
+                          ),
                         ],
                       ),
                     );
