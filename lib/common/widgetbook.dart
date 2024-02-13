@@ -2178,14 +2178,17 @@ class WidgetBookApp extends StatelessWidget {
                         list: ClickupList(name: listName),
                         folder: ClickupFolder(name: folderName),
                         tags: tags);
-                    return ListView(
-                      children: [
-                        TaskWidget(
-                          showList: showList,
-                          clickupTask: task,
-                          onTap: () {},
-                        )
-                      ],
+                    return Theme(
+                      data: appTheme,
+                      child: ListView(
+                        children: [
+                          TaskWidget(
+                            showList: showList,
+                            clickupTask: task,
+                            onTap: () {},
+                          )
+                        ],
+                      ),
                     );
                   }),
             ],

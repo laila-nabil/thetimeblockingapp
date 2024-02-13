@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 
 import 'app_colors.dart';
 
@@ -23,6 +24,10 @@ ThemeData appTheme = ThemeData(
     backgroundColor: AppColors.background,
     shadowColor: Colors.grey.shade500,
     surfaceTintColor: AppColors.background,
+  ),
+  chipTheme: const ChipThemeData(
+    side: BorderSide.none,
+    elevation: 1,
   )
 );
 /*

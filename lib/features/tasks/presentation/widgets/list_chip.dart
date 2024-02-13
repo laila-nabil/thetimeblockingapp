@@ -21,8 +21,6 @@ class ListChip extends StatelessWidget {
     const iconSize = 12.0;
     final colors = AppColors.grey.shade600;
     return Chip(
-        backgroundColor: AppColors.background,
-        elevation:  0.5,
         label: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

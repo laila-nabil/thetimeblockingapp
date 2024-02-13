@@ -21,9 +21,6 @@ class TagChip extends StatelessWidget {
     final color = AppColors.grey.shade600;
     return Chip(
         onDeleted: onDelete,
-        backgroundColor: AppColors.background,
-        elevation: 0.5,
-        padding: EdgeInsets.zero,
         label: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
