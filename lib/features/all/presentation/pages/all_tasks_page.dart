@@ -170,6 +170,9 @@ class AllTasksPage extends StatelessWidget {
                   )),
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc);
+                startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+                    clickupWorkspace: Globals.selectedWorkspace!,
+                    clickupAccessToken: Globals.clickupAuthAccessToken));
               },);
             },
           );

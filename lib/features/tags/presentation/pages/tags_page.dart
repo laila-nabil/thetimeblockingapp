@@ -240,6 +240,9 @@ class TagsPage extends StatelessWidget {
                       clickupAccessToken:
                       Globals.clickupAuthAccessToken,
                       clickupSpace: Globals.selectedSpace!)));
+              startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+                  clickupWorkspace: Globals.selectedWorkspace!,
+                  clickupAccessToken: Globals.clickupAuthAccessToken));
             },);
           },
         );

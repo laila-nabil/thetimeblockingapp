@@ -31,6 +31,7 @@ class SchedulePage extends StatelessWidget {
       child: BlocConsumer<StartupBloc, StartupState>(
         listener: (context, startUpCurrentState) {},
         builder: (context, startUpCurrentState) {
+          final startupBloc = BlocProvider.of<StartupBloc>(context);
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
@@ -145,14 +146,16 @@ class SchedulePage extends StatelessWidget {
                             startUpCurrentState.selectedClickupWorkspace?.id),
                   ),
                   context: context, onRefresh: ()async {
+                var selectedWorkspace =
+                    Globals.selectedWorkspace ?? Globals.defaultWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetClickupTasksInWorkspaceParams(
-                        workspaceId:
-                        startUpCurrentState.selectedClickupWorkspace?.id ??
-                            Globals.clickupWorkspaces?.first.id ??
-                            "",
-                        filtersParams: scheduleBloc
-                            .state.defaultTasksInWorkspaceFiltersParams)));
+                        workspaceId: selectedWorkspace?.id ?? "",
+                        filtersParams:
+                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
+                startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+                    clickupWorkspace: selectedWorkspace!,
+                    clickupAccessToken: Globals.clickupAuthAccessToken));
               },);
             },
           );
@@ -171,30 +174,15 @@ class _SchedulePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startupBloc = BlocProvider.of<StartupBloc>(context);
-    return RefreshIndicator.adaptive(
-      onRefresh: () async {
-        var selectedWorkspace =
-            Globals.selectedWorkspace ?? Globals.defaultWorkspace;
-        scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-            GetClickupTasksInWorkspaceParams(
-                workspaceId: selectedWorkspace?.id ?? "",
-                filtersParams:
-                    scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
-        startupBloc.add(SelectClickupWorkspace(
-            clickupWorkspace: selectedWorkspace!,
-            clickupAccessToken: Globals.clickupAuthAccessToken));
-      },
-      child: TasksCalendar(
-        tasksDataSource: ClickupTasksDataSource(
-            clickupTasks: scheduleBloc.state.clickupTasks
-                    ?.where((element) => element.dueDateUtcTimestamp != null)
-                    .toList() ??
-                []),
-        controller: scheduleBloc.controller,
-        scheduleBloc: scheduleBloc,
-        selectedClickupWorkspaceId: selectedClickupWorkspaceId,
-      ),
+    return TasksCalendar(
+      tasksDataSource: ClickupTasksDataSource(
+          clickupTasks: scheduleBloc.state.clickupTasks
+                  ?.where((element) => element.dueDateUtcTimestamp != null)
+                  .toList() ??
+              []),
+      controller: scheduleBloc.controller,
+      scheduleBloc: scheduleBloc,
+      selectedClickupWorkspaceId: selectedClickupWorkspaceId,
     );
   }
 }

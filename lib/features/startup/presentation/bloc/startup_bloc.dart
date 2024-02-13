@@ -37,7 +37,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       }
-      else if (event is SelectClickupWorkspace) {
+      else if (event is SelectClickupWorkspaceAndGetSpacesTagsLists) {
         selectedWorkspace = event.clickupWorkspace;
         if (Globals.isSpaceAppWide == false) {
           emit(state.copyWith(

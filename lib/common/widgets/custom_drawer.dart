@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
             router: GoRouter.of(context),
             selectWorkspace: (selected) {
               if (selected is ClickupWorkspace && state.isLoading == false) {
-                startupBloc.add(SelectClickupWorkspace(
+                startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: selected,
                     clickupAccessToken: Globals.clickupAuthAccessToken));
               }
