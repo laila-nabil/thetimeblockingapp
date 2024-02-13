@@ -151,37 +151,41 @@ class _TaskWidgetState extends State<TaskWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        widget.clickupTask.status ==
-                                Globals.selectedSpace?.statuses?.last
-                            ? AppIcons.checkboxchecked
-                            : AppIcons.checkbox,
-                        color: widget.clickupTask.status?.getColor ??
-                            AppColors.text,
-                        size: 20,
-                      ),
-                      SizedBox(
-                        width: AppSpacing.xSmall8.value,
-                      ),
-                      Text(
-                        widget.clickupTask.name ?? "",
-                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                appFontSize: AppFontSize.paragraphSmall,
-                                color: AppColors.grey.shade900,
-                                appFontWeight: AppFontWeight.semiBold))
-                            .copyWith(
-                                decoration: widget.clickupTask.isCompleted
-                                    ? TextDecoration.lineThrough
-                                    : null),
-                      ),
-                    ],
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          widget.clickupTask.status ==
+                                  Globals.selectedSpace?.statuses?.last
+                              ? AppIcons.checkboxchecked
+                              : AppIcons.checkbox,
+                          color: widget.clickupTask.status?.getColor ??
+                              AppColors.text,
+                          size: 20,
+                        ),
+                        SizedBox(
+                          width: AppSpacing.xSmall8.value,
+                        ),
+                        Expanded(
+                          child: Text(
+                            widget.clickupTask.name ?? "",
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                    appFontSize: AppFontSize.paragraphSmall,
+                                    color: AppColors.grey.shade900,
+                                    appFontWeight: AppFontWeight.semiBold))
+                                .copyWith(
+                                    decoration: widget.clickupTask.isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : null),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 if (widget.actions?.isNotEmpty == true)
