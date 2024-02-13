@@ -94,7 +94,8 @@ class CustomDrawerWidget extends StatelessWidget {
             const _Logo(),
             _DrawerItem(
                 title: appLocalization.translate("Schedule"),
-                iconPath: AppIcons.calendar,
+                iconPath: (isSelected) =>
+                    isSelected ? AppIcons.calendarbold : AppIcons.calendar,
                 onPressed: () {
                   context.go(SchedulePage.routeName);
                 },
@@ -104,7 +105,8 @@ class CustomDrawerWidget extends StatelessWidget {
             ///TODO brain dump/ inbox or default list
             _DrawerItem(
                 title: appLocalization.translate("AllTasks"),
-                iconPath: AppIcons.folder,
+                iconPath: (isSelected) =>
+                isSelected ? AppIcons.folderbold :AppIcons.folder,
                 onPressed: () {
                   context.go(AllTasksPage.routeName);
                 },
@@ -113,7 +115,8 @@ class CustomDrawerWidget extends StatelessWidget {
                         true),
             _DrawerItem(
                 title: appLocalization.translate("Lists"),
-                iconPath: AppIcons.list,
+                iconPath: (isSelected) =>
+                isSelected ? AppIcons.listbold :AppIcons.list,
                 onPressed: () {
                   context.go(ListsPage.routeName);
                 },
@@ -123,7 +126,8 @@ class CustomDrawerWidget extends StatelessWidget {
                     router?.location.contains(ListPage.routeName) == true),
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
-                iconPath: AppIcons.hashtag,
+                iconPath:(isSelected) =>
+                isSelected ? AppIcons.hashtagbold : AppIcons.hashtag,
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },
@@ -134,7 +138,8 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Maps"),
-                  iconPath: AppIcons.map,
+                  iconPath: (isSelected) =>
+                  isSelected ? AppIcons.mapbold :AppIcons.map,
                   onPressed: () {
                     context.go(MapsPage.routeName);
                   },
@@ -157,7 +162,8 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Trash"),
-                  iconPath: AppIcons.bin,
+                  iconPath: (isSelected) =>
+                  isSelected ? AppIcons.binbold :AppIcons.bin,
                   onPressed: () {
                     context.go(TrashPage.routeName);
                   },
@@ -167,7 +173,8 @@ class CustomDrawerWidget extends StatelessWidget {
 
             if(false)_DrawerItem(
                 title: appLocalization.translate("Settings"),
-                iconPath: AppIcons.settingsv,
+                iconPath: (isSelected) =>
+                isSelected ? AppIcons.settingsvbold :AppIcons.settingsv,
                 onPressed: () {
                   context.go(SettingsPage.routeName);
                 },
@@ -178,7 +185,8 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Help"),
-                  iconPath: AppIcons.infocircle,
+                  iconPath: (isSelected) =>
+                  isSelected ? AppIcons.infocirclebold :AppIcons.infocircle,
                   onPressed: () {
                     context.go(HelpPage.routeName);
                   },
@@ -219,7 +227,7 @@ class _DrawerItem extends StatelessWidget {
       this.isSubPage = false});
 
   final String title;
-  final IconData iconPath;
+  final IconData Function(bool isSelected) iconPath;
   final void Function() onPressed;
   final bool isSelected;
   final bool hasSubPage;
@@ -259,7 +267,7 @@ class _DrawerItem extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              iconPath,
+              iconPath(isSelected),
               size: 20,
               color: AppColors.black,
             ),
@@ -271,7 +279,9 @@ class _DrawerItem extends StatelessWidget {
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
                   color: AppColors.grey.shade700,
-                  appFontWeight: AppFontWeight.regular)),
+                  appFontWeight: isSelected
+                      ? AppFontWeight.semiBold
+                      : AppFontWeight.regular)),
             ),
           ],
         ),
