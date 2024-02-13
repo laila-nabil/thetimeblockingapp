@@ -20,61 +20,70 @@ class ListChip extends StatelessWidget {
     final isListInsideFolder = folderName?.isNotEmpty == true;
     const iconSize = 12.0;
     final colors = AppColors.grey.shade600;
-    return Chip(
-        label: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            if (isListInsideFolder)
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 110),
+      child: Chip(
+          label: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (isListInsideFolder)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3.0),
+                  child: Icon(
+                    AppIcons.folder,
+                    color: colors,
+                    size: iconSize,
+                  ),
+                ),
+              if (isListInsideFolder)
+                const SizedBox(
+                  width: 2.5,
+                ),
+              if (isListInsideFolder)
+                Expanded(
+                  child: Text(
+                    folderName??"",
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphXSmall,
+                        color: colors,
+                        appFontWeight: AppFontWeight.medium)),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              if (isListInsideFolder)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                  child: Text(
+                    "/",
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphXSmall,
+                        color: colors,
+                        appFontWeight: AppFontWeight.medium)),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 3.0),
                 child: Icon(
-                  AppIcons.folder,
+                  AppIcons.list,
                   color: colors,
                   size: iconSize,
                 ),
               ),
-            if (isListInsideFolder)
               const SizedBox(
                 width: 2.5,
               ),
-            if (isListInsideFolder)
-              Text(
-                folderName??"",
-                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphXSmall,
-                    color: colors,
-                    appFontWeight: AppFontWeight.medium)),
-              ),
-            if (isListInsideFolder)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 1.0),
+              Expanded(
                 child: Text(
-                  "/",
+                  listName,
                   style: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphXSmall,
                       color: colors,
                       appFontWeight: AppFontWeight.medium)),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 3.0),
-              child: Icon(
-                AppIcons.list,
-                color: colors,
-                size: iconSize,
-              ),
-            ),
-            const SizedBox(
-              width: 2.5,
-            ),
-            Text(
-              listName,
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphXSmall,
-                  color: colors,
-                  appFontWeight: AppFontWeight.medium)),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 }

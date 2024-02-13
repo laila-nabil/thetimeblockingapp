@@ -28,6 +28,7 @@ ThemeData appTheme = ThemeData(
   chipTheme: const ChipThemeData(
     side: BorderSide.none,
     elevation: 1,
+    padding: EdgeInsets.zero,
   )
 );
 /*

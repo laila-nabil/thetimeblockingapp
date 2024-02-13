@@ -339,12 +339,6 @@ class TaskPopup extends StatelessWidget {
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                if (task != null)
-                                  Text(
-                                    "${Globals.selectedWorkspace?.name}/${Globals.selectedSpace?.name}/",
-                                    style: taskLocationTextStyle,
-                                  ),
-
                                 ///TODO V2 create a new Folder
                                 ///Folder
                                 if (state.isFoldersListAvailable)
@@ -445,55 +439,12 @@ class TaskPopup extends StatelessWidget {
                               )
                                   : Text(" ${task.space?.name ?? ""} ")),
 
-                            ///Status && Priority & Title
+                            ///Status && Priority
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                                /*true
-                                    ? CustomDropDownMenu(
-                                  tooltip:
-                                  "${appLocalization.translate("status")}: ${state.taskParams?.taskStatus?.status.toStringOrNull() ?? ""}",
-                                  backgroundColor: Colors.transparent,
-                                  items: state.taskParams?.clickupSpace
-                                      ?.statuses
-                                      ?.map((e) =>
-                                      CustomDropDownItem.widget(
-                                          titleWidget: Text(
-                                              e.status ?? "",
-                                              style: CustomDropDownMenu
-                                                  .textStyle
-                                                  .copyWith(
-                                                  color: e
-                                                      .getColor,
-                                                  fontWeight: state
-                                                      .taskParams
-                                                      ?.taskStatus ==
-                                                      e
-                                                      ? AppFontWeight
-                                                      .semiBold
-                                                      .value
-                                                      : null)),
-                                          onTap: () {
-                                            taskPopUpBloc.add(
-                                                UpdateClickupTaskParamsEvent(
-                                                    taskParams: clickupTaskParams
-                                                        .copyWith(
-                                                        taskStatus:
-                                                        e)));
-                                          }))
-                                      .toList() ??
-                                      [],
-                                  listButton: Icon(
-                                      state.taskParams?.taskStatus ==
-                                          state.taskParams?.clickupSpace
-                                              ?.statuses?.last
-                                          ? AppIcons.checkboxchecked
-                                          : AppIcons.checkbox,
-                                      color: state.taskParams?.taskStatus
-                                          ?.getColor ??
-                                          AppColors.text),
-                                )
-                                    :*/ CustomDropDownMenu(
+                               CustomDropDownMenu(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDownMenu
                                       .textStyle,
@@ -648,20 +599,23 @@ class TaskPopup extends StatelessWidget {
                                               ))
                                         ],
                                   ),
-                                Expanded(
-                                    child: CustomTextInputField(
-                                      buttonStyle: CustomTextInputFieldStyle.line,
-                                      focusNode: taskPopUpBloc.titleFocusNode,
-                                      controller: taskPopUpBloc.titleController,
-                                      hintText: appLocalization.translate("taskName"),
-                                      onChanged: (change) {
-                                        taskPopUpBloc.add(
-                                            UpdateClickupTaskParamsEvent(
-                                                taskParams: clickupTaskParams
-                                                    .copyWith(title: change)));
-                                      },
-                                    ))
                               ],
+                            ),
+                            SizedBox(
+                              height: AppSpacing.xSmall8.value,
+                            ),
+                            ///Title
+                            CustomTextInputField(
+                              buttonStyle: CustomTextInputFieldStyle.line,
+                              focusNode: taskPopUpBloc.titleFocusNode,
+                              controller: taskPopUpBloc.titleController,
+                              hintText: appLocalization.translate("taskName"),
+                              onChanged: (change) {
+                                taskPopUpBloc.add(
+                                    UpdateClickupTaskParamsEvent(
+                                        taskParams: clickupTaskParams
+                                            .copyWith(title: change)));
+                              },
                             ),
                             spacerV,
 

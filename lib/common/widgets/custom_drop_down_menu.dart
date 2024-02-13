@@ -42,10 +42,7 @@ class CustomDropDownMenu extends DropdownButton {
   Color? get focusColor => AppColors.grey.shade50;
 
   @override
-  Widget? get icon => const Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Icon(AppIcons.chevrondown, size: 14),
-      );
+  Widget? get icon => const Icon(AppIcons.chevrondown, size: 0);
 
   @override
   EdgeInsetsGeometry? get padding => EdgeInsets.zero;

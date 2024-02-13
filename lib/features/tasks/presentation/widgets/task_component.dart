@@ -40,8 +40,7 @@ class TaskComponent extends StatelessWidget {
     return TaskWidget(
         actions: [
           CustomPopupItem.text(
-              title: appLocalization.translate("delete"),
-              onTap:(){})
+              title: appLocalization.translate("delete"), onTap: () {})
         ],
         showList: showListChip,
         onTap: () {
@@ -77,19 +76,25 @@ class TaskWidget extends StatefulWidget {
 
 class _TaskWidgetState extends State<TaskWidget> {
   bool onHover = false;
+  static const iconSize = 12.0;
+  final colors = AppColors.grey.shade500;
   @override
   Widget build(BuildContext context) {
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
         color: AppColors.grey.shade400,
         appFontWeight: AppFontWeight.semiBold));
+    final folderName = widget.clickupTask.folder?.name;
+    final listName = widget.clickupTask.list?.name;
+    final isListInsideFolder =
+        folderName?.isNotEmpty == true;
     return InkWell(
       onTap: widget.onTap,
-      onHover: (hover){
-        if (hover!=onHover) {
+      onHover: (hover) {
+        if (hover != onHover) {
           setState(() {
-                    onHover = hover;
-                  });
+            onHover = hover;
+          });
         }
       },
       child: Container(
@@ -97,12 +102,52 @@ class _TaskWidgetState extends State<TaskWidget> {
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
-          color: onHover ? AppColors.primary.shade50.withOpacity(0.5) :AppColors.background,
+          color: onHover
+              ? AppColors.primary.shade50.withOpacity(0.5)
+              : AppColors.background,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (widget.showList)
+              Padding(
+                padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (isListInsideFolder)
+                      Text(
+                        folderName ?? "",
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphXSmall,
+                            color: colors,
+                            appFontWeight: AppFontWeight.medium)),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    if (isListInsideFolder)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                        child: Text(
+                          "/",
+                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphXSmall,
+                              color: colors,
+                              appFontWeight: AppFontWeight.medium)),
+                        ),
+                      ),
+                    Text(
+                      listName ?? '',
+                      style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                          appFontSize: AppFontSize.paragraphXSmall,
+                          color: colors,
+                          appFontWeight: AppFontWeight.medium)),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -115,33 +160,34 @@ class _TaskWidgetState extends State<TaskWidget> {
                     children: [
                       Icon(
                         widget.clickupTask.status ==
-                            Globals.selectedSpace
-                                ?.statuses?.last
+                                Globals.selectedSpace?.statuses?.last
                             ? AppIcons.checkboxchecked
                             : AppIcons.checkbox,
-                        color: widget.clickupTask.status
-                            ?.getColor ??
+                        color: widget.clickupTask.status?.getColor ??
                             AppColors.text,
                         size: 20,
                       ),
-                      SizedBox(width: AppSpacing.xSmall8.value ,),
+                      SizedBox(
+                        width: AppSpacing.xSmall8.value,
+                      ),
                       Text(
                         widget.clickupTask.name ?? "",
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                            appFontSize: AppFontSize.paragraphSmall,
-                            color: AppColors.grey.shade900,
-                            appFontWeight: AppFontWeight.semiBold)).copyWith(
-                          decoration: widget.clickupTask.isCompleted
-                             ? TextDecoration.lineThrough : null
-                        ),
+                                appFontSize: AppFontSize.paragraphSmall,
+                                color: AppColors.grey.shade900,
+                                appFontWeight: AppFontWeight.semiBold))
+                            .copyWith(
+                                decoration: widget.clickupTask.isCompleted
+                                    ? TextDecoration.lineThrough
+                                    : null),
                       ),
                     ],
                   ),
                 ),
                 if (widget.actions?.isNotEmpty == true)
                   CustomPopupMenu(
-                      items: widget.actions ?? [],
-                     ),
+                    items: widget.actions ?? [],
+                  ),
               ],
             ),
             if (widget.clickupTask.startDateUtc != null &&
@@ -153,33 +199,17 @@ class _TaskWidgetState extends State<TaskWidget> {
               Text("", style: dateTextStyle),
             Padding(
               padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: AppSpacing.x2Small4.value,
-                      runSpacing: AppSpacing.x2Small4.value,
-                      direction: Axis.horizontal,
-                      verticalDirection: VerticalDirection.down,
-                      children: widget.clickupTask.tags
-                          ?.map((e) => TagChip(
-                          tagName: e.name ?? "",
-                          color: e.getTagFgColor))
-                          .toList() ??
-                          [],
-                    ),
-                  ),
-                  SizedBox(
-                    width: AppSpacing.small12.value,
-                  ),
-                  if (widget.showList)
-                    ListChip(
-                        listName: widget.clickupTask.list?.name ?? "",
-                        folderName: widget.clickupTask.folder?.name ?? "")
-                ],
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                spacing: AppSpacing.x2Small4.value,
+                runSpacing: AppSpacing.x2Small4.value,
+                direction: Axis.horizontal,
+                verticalDirection: VerticalDirection.down,
+                children: widget.clickupTask.tags
+                        ?.map((e) => TagChip(
+                            tagName: e.name ?? "", color: e.getTagFgColor))
+                        .toList() ??
+                    [],
               ),
             )
           ],

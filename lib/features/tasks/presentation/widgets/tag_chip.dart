@@ -19,28 +19,34 @@ class TagChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = AppColors.grey.shade600;
-    return Chip(
-        onDeleted: onDelete,
-        label: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 3.0),
-              child: Icon(
-                AppIcons.hashtag,
-                color: color ?? color,
-                size: 12,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 100),
+      child: Chip(
+          onDeleted: onDelete,
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 3.0),
+                child: Icon(
+                  AppIcons.hashtag,
+                  color: color ?? color,
+                  size: 12,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 2.5,
-            ),
-            Text(
-              tagName,
-              style: textStyle(color),
-            ),
-          ],
-        ));
+              const SizedBox(
+                width: 2.5,
+              ),
+              Expanded(
+                child: Text(
+                  tagName,
+                  style: textStyle(color),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }
