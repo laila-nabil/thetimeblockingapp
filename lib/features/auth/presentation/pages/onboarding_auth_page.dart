@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
@@ -920,7 +921,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
               ],
             )),
       },
-      context: context,
+      context: context, onRefresh: ()async {},
     );
   }
 }

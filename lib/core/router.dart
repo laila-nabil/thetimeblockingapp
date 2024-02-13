@@ -35,7 +35,11 @@ final router = GoRouter(
       return ResponsiveScaffold(
           responsiveBody: ResponsiveTParams(
               small: Text(errorMessage), large: Text(errorMessage)),
-          context: context);
+        context: context,
+        onRefresh: () async {
+          GoRouter.of(context).go(AuthPage.routeName);
+        },
+      );
     },
     redirect: (context, GoRouterState? state) {
       printDebug("state?.location ${state?.location}");

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
@@ -131,7 +132,13 @@ class ListPage extends StatelessWidget {
                   ],
                 ),
               )),
-              context: context);
+              context: context, onRefresh: ()async {
+            listsPageBloc.add(GetListDetailsAndTasksInListEvent(
+                getClickupListAndItsTasksParams:
+                GetClickupListAndItsTasksParams(
+                    listId: listId,
+                    clickupAccessToken: Globals.clickupAuthAccessToken)));
+          },);
         },
       ),
     );

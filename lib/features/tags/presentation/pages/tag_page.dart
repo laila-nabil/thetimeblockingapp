@@ -218,7 +218,13 @@ class TagPage extends StatelessWidget {
                 ],
               ),
                   )),
-              context: context);
+              context: context, onRefresh: ()async {
+            tagsPageBloc.add(GetClickupTasksForTagEvent(
+                clickupAccessToken: Globals.clickupAuthAccessToken,
+                workspace: Globals.selectedWorkspace!,
+                tag: state.navigateTag!,
+                space: Globals.selectedSpace!));
+          },);
         },
       ),
     );

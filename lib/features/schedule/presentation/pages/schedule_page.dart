@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -143,7 +144,16 @@ class SchedulePage extends StatelessWidget {
                         selectedClickupWorkspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id),
                   ),
-                  context: context);
+                  context: context, onRefresh: ()async {
+                scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
+                    GetClickupTasksInWorkspaceParams(
+                        workspaceId:
+                        startUpCurrentState.selectedClickupWorkspace?.id ??
+                            Globals.clickupWorkspaces?.first.id ??
+                            "",
+                        filtersParams: scheduleBloc
+                            .state.defaultTasksInWorkspaceFiltersParams)));
+              },);
             },
           );
         },

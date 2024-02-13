@@ -338,7 +338,9 @@ class ListsPage extends StatelessWidget {
                     );
                   },
                 )),
-                context: context);
+                context: context, onRefresh: ()async {
+              getListsFolders(listsPageBloc);
+            },);
           },
         );
       }),
@@ -346,9 +348,10 @@ class ListsPage extends StatelessWidget {
   }
 
   void getListsFolders(ListsPageBloc listsPageBloc) {
-    listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+    listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
       clickupAccessToken: Globals.clickupAuthAccessToken,
       clickupWorkspace: Globals.selectedWorkspace!,
+      clickupSpace: Globals.selectedSpace!,
     ));
   }
 }

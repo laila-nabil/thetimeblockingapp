@@ -42,14 +42,16 @@ class ResponsiveScaffold extends Scaffold {
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final bool hideAppBarDrawer;
 
+  final Future<void> Function() onRefresh;
   // ignore: prefer_const_constructors_in_immutables
-  ResponsiveScaffold({
+  ResponsiveScaffold( {
     super.key,
     required this.responsiveBody,
     required this.context,
     this.pageActions,
     this.responsiveScaffoldLoading,
     this.hideAppBarDrawer = false,
+    required this.onRefresh,
     super.floatingActionButton,
     super.floatingActionButtonLocation,
     super.floatingActionButtonAnimator,
@@ -93,6 +95,7 @@ class ResponsiveScaffold extends Scaffold {
                   child: _ResponsiveBody(
                     responsiveTParams: responsiveBody,
                     responsiveScaffoldLoading: responsiveScaffoldLoading,
+                    onRefresh: onRefresh ,
                   ),
                 ),
               ],
@@ -101,6 +104,7 @@ class ResponsiveScaffold extends Scaffold {
           return _ResponsiveBody(
             responsiveTParams: responsiveBody,
             responsiveScaffoldLoading: responsiveScaffoldLoading,
+            onRefresh: onRefresh,
           );
         },
       );
@@ -108,6 +112,7 @@ class ResponsiveScaffold extends Scaffold {
     return _ResponsiveBody(
       responsiveTParams: responsiveBody,
       responsiveScaffoldLoading: responsiveScaffoldLoading,
+      onRefresh: onRefresh,
     );
   }
 
@@ -129,27 +134,51 @@ class _ResponsiveBody extends StatelessWidget {
   const _ResponsiveBody(
       {Key? key,
       this.responsiveScaffoldLoading,
-      required this.responsiveTParams})
+      required this.responsiveTParams,
+      required this.onRefresh})
       : super(key: key);
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
-  final ResponsiveTParams responsiveTParams;
+  final ResponsiveTParams<Widget> responsiveTParams;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
-    final actualResponsiveBody = context.responsiveT(
+    final actualResponsiveBody = RefreshIndicator(
+        onRefresh: onRefresh,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        child: context.responsiveT(
         params: responsiveScaffoldLoading?.isLoadingContent == true
             ? ResponsiveTParams(
-                small: CustomLoading(color: Theme.of(context).primaryColor),
-                large: CustomLoading(color: Theme.of(context).primaryColor))
-            : responsiveTParams);
+            small: CustomLoading(color: Theme.of(context).primaryColor),
+            large: CustomLoading(color: Theme.of(context).primaryColor))
+            : responsiveTParams));
+    return (responsiveScaffoldLoading?.isLoadingOverlay == true)
+        ? Stack(
+      alignment: Alignment.center,
+      children: [
+        actualResponsiveBody,
+        const LoadingOverlay(),
+      ],
+    )
+        : actualResponsiveBody;
+    final content = RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: onRefresh,
+        child: context.responsiveT(params: responsiveTParams));
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
             alignment: Alignment.center,
             children: [
-              actualResponsiveBody,
+              content,
               const LoadingOverlay(),
             ],
           )
-        : actualResponsiveBody;
+        : (responsiveScaffoldLoading?.isLoadingOverlay == true)
+            ? context.responsiveT(
+                params: ResponsiveTParams(
+                    small: CustomLoading(color: Theme.of(context).primaryColor),
+                    large:
+                        CustomLoading(color: Theme.of(context).primaryColor)))
+            : content;
   }
 }

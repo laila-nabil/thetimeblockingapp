@@ -234,7 +234,13 @@ class TagsPage extends StatelessWidget {
                     );
                   },
                 )),
-                context: context);
+                context: context, onRefresh: ()async {
+              tagsPageBloc.add(GetClickupTagsInSpaceEvent(
+                  GetClickupTagsInSpaceParams(
+                      clickupAccessToken:
+                      Globals.clickupAuthAccessToken,
+                      clickupSpace: Globals.selectedSpace!)));
+            },);
           },
         );
       }),
