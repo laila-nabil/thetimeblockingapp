@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
@@ -177,6 +179,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           ),
                         ),
                         CustomButton.noIcon(
+                            analyticsEvent: AnalyticsEvents.onBoardingStep1Start,
                             label: appLocalization.translate("getStarted"),
                             onPressed: () {
                               setState(() {
@@ -241,6 +244,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       Row(
                         children: [
                           CustomButton.custom(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep1ConnectClickup,
                             size: CustomButtonSize.large,
                             onPressed: () {
                               final url = clickupAuthUrl;
@@ -286,6 +290,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             width: 8,
                           ),
                           CustomButton.noIcon(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep1Start,
                               size: CustomButtonSize.large,
                               label: appLocalization.translate("getStarted"),
                               onPressed: () {
@@ -357,6 +362,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton.noIcon(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep2Back,
                             size: CustomButtonSize.small,
                             label: appLocalization.translate("back"),
                             onPressed: () {
@@ -369,6 +375,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           width: 8,
                         ),
                         CustomButton.noIcon(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep2Next,
                             size: CustomButtonSize.small,
                             label: appLocalization.translate("next"),
                             onPressed: () {
@@ -387,6 +394,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             height: 18,
                           ),
                           CustomButton.noIcon(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
                               size: CustomButtonSize.small,
                               label: appLocalization.translate("skip"),
                               onPressed: () {
@@ -439,6 +447,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep2Back,
                                   size: CustomButtonSize.large,
                                   label: appLocalization.translate("back"),
                                   onPressed: () {
@@ -451,6 +460,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 width: 8,
                               ),
                               CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep2Next,
                                   size: CustomButtonSize.large,
                                   label: appLocalization.translate("next"),
                                   onPressed: () {
@@ -469,6 +479,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                   height: 18,
                                 ),
                                 CustomButton.noIcon(
+                                    analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
                                     size: CustomButtonSize.large,
                                     label: appLocalization.translate("skip"),
                                     onPressed: () {
@@ -539,6 +550,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton.noIcon(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep3Back,
                             size: CustomButtonSize.small,
                             label: appLocalization.translate("back"),
                             onPressed: () {
@@ -551,6 +563,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           width: 8,
                         ),
                         CustomButton.noIcon(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep3Next,
                             size: CustomButtonSize.small,
                             label: appLocalization.translate("next"),
                             onPressed: () {
@@ -569,6 +582,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             height: 18,
                           ),
                           CustomButton.noIcon(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
                               size: CustomButtonSize.small,
                               label: appLocalization.translate("skip"),
                               onPressed: () {
@@ -620,6 +634,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep3Back,
                                   size: CustomButtonSize.large,
                                   label: appLocalization.translate("back"),
                                   onPressed: () {
@@ -632,6 +647,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 width: 8,
                               ),
                               CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep3Next,
                                   size: CustomButtonSize.large,
                                   label: appLocalization.translate("next"),
                                   onPressed: () {
@@ -650,6 +666,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                   height: 18,
                                 ),
                                 CustomButton.noIcon(
+                                    analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
                                     size: CustomButtonSize.large,
                                     label: appLocalization.translate("skip"),
                                     onPressed: () {
@@ -721,6 +738,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton.custom(
+                          analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                           size: CustomButtonSize.small,
                           onPressed: () {
                             final url = clickupAuthUrl;
@@ -766,6 +784,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           width: 8,
                         ),
                         CustomButton.trailingIcon(
+                          analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
                           size: CustomButtonSize.small,
                           label: appLocalization.translate("copyLink"),
                           onPressed: () async {
@@ -832,6 +851,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomButton.custom(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                             size: CustomButtonSize.large,
                             onPressed: () {
                               final url = clickupAuthUrl;
@@ -878,6 +898,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             width: 8,
                           ),
                           CustomButton.trailingIcon(
+                            analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
                             size: CustomButtonSize.large,
                             label: appLocalization.translate("copyLink"),
                             onPressed: () async {

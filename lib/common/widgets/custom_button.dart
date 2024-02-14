@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
@@ -54,9 +56,13 @@ enum CustomButtonType {
 
 extension CustomButtonTypeExt on CustomButtonType {
   bool get isPrimary => name.toLowerCase().contains("primary");
+
   bool get isSecondary => name.toLowerCase().contains("secondary");
+
   bool get isGrey => name.toLowerCase().contains("grey");
+
   bool get isDestructive => name.toLowerCase().contains("destructive");
+
   bool get hasIcon => name.toLowerCase().contains("icon");
 }
 
@@ -65,146 +71,162 @@ enum CustomButtonSize { small, large, xlarge }
 class CustomButton extends StatelessWidget {
   const CustomButton(
       {Key? key,
-        required this.label,
-        required this.icon,
-        required this.onPressed,
-        required this.type,
-        this.size = CustomButtonSize.large,
-        this.focusNode,
-        this.child,
-        this.tooltip})
+      required this.label,
+      required this.icon,
+      required this.onPressed,
+      required this.type,
+      this.size = CustomButtonSize.large,
+      this.focusNode,
+      this.child,
+      this.tooltip,
+      this.analyticsEvent})
       : super(key: key);
 
-  const CustomButton.custom(
-      {Key? key,
-        required Widget child,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryLabel,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      child: child,
-      icon: null,
-      label: null,
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  const CustomButton.custom({
+    Key? key,
+    required Widget child,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryLabel,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            child: child,
+            icon: null,
+            label: null,
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
 
-  const CustomButton.noIcon(
-      {Key? key,
-        required String label,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryLabel,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      icon: null,
-      label: label,
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  const CustomButton.noIcon({
+    Key? key,
+    required String label,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryLabel,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+          key: key,
+          icon: null,
+          label: label,
+          onPressed: onPressed,
+          size: size,
+          type: type,
+          focusNode: focusNode,
+          tooltip: tooltip,
+          analyticsEvent: analyticsEvent,
+        );
 
-  CustomButton.leadingIcon(
-      {Key? key,
-        required String label,
-        required IconData icon,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryLeadingIcon,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      label: label,
-      icon: Right(icon),
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  CustomButton.leadingIcon({
+    Key? key,
+    required String label,
+    required IconData icon,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryLeadingIcon,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            label: label,
+            icon: Right(icon),
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
 
-  CustomButton.leadingImage(
-      {Key? key,
-        required String label,
-        required String imagePath,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryLeadingIcon,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      label: label,
-      icon: Left(imagePath),
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  CustomButton.leadingImage({
+    Key? key,
+    required String label,
+    required String imagePath,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryLeadingIcon,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            label: label,
+            icon: Left(imagePath),
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
 
-  CustomButton.trailingIcon(
-      {Key? key,
-        required String label,
-        required IconData icon,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryTrailingIcon,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      label: label,
-      icon: Right(icon),
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  CustomButton.trailingIcon({
+    Key? key,
+    required String label,
+    required IconData icon,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryTrailingIcon,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            label: label,
+            icon: Right(icon),
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
 
-  CustomButton.trailingImage(
-      {Key? key,
-        required String label,
-        required String imagePath,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryTrailingIcon,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      label: label,
-      icon: Left(imagePath),
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  CustomButton.trailingImage({
+    Key? key,
+    required String label,
+    required String imagePath,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryTrailingIcon,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            label: label,
+            icon: Left(imagePath),
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
 
-  CustomButton.iconOnly(
-      {Key? key,
-        required IconData icon,
-        required void Function()? onPressed,
-        CustomButtonType type = CustomButtonType.primaryIcon,
-        CustomButtonSize size = CustomButtonSize.small,
-        FocusNode? focusNode,
-        String? tooltip})
-      : this(
-      key: key,
-      label: null,
-      icon: Right(icon),
-      onPressed: onPressed,
-      size: size,
-      type: type,
-      focusNode: focusNode,
-      tooltip: tooltip);
+  CustomButton.iconOnly({
+    Key? key,
+    required IconData icon,
+    required void Function()? onPressed,
+    CustomButtonType type = CustomButtonType.primaryIcon,
+    CustomButtonSize size = CustomButtonSize.small,
+    FocusNode? focusNode,
+    String? tooltip,
+    AnalyticsEvents? analyticsEvent,
+  }) : this(
+            key: key,
+            label: null,
+            icon: Right(icon),
+            onPressed: onPressed,
+            size: size,
+            type: type,
+            focusNode: focusNode,
+            analyticsEvent: analyticsEvent,
+            tooltip: tooltip);
   final String? label;
   final Widget? child;
   final Either<String, IconData>? icon;
@@ -213,47 +235,57 @@ class CustomButton extends StatelessWidget {
   final CustomButtonSize size;
   final FocusNode? focusNode;
   final String? tooltip;
+  final AnalyticsEvents? analyticsEvent;
 
   @override
   Widget build(BuildContext context) {
+    onPressedWithAnalytics() {
+      if (onPressed != null) {
+        if (analyticsEvent != null) {
+          serviceLocator<Analytics>().logEvent(analyticsEvent.toString());
+        }
+        onPressed!();
+      }
+    }
+
     final isSmall = size == CustomButtonSize.small;
     final double buttonHeight = isSmall ? 36 : 56;
-    final notOnlyLabel = type.hasIcon || child !=null;
+    final notOnlyLabel = type.hasIcon || child != null;
     final borderRadius = BorderRadius.circular(6);
     final verticalFilledOutlinedVerticalPadding = isSmall ? 8.0 : 16.0;
     final filledButtonBackgroundColor = type.isPrimary
         ? AppColors.primary.shade500
         : type.isGrey
-        ? AppColors.grey.shade500
-        : AppColors.error.shade500;
+            ? AppColors.grey.shade500
+            : AppColors.error.shade500;
     final filledButtonStyle = ButtonStyle(
         fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeight)),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.focused) ||
-                  states.contains(MaterialState.pressed)) {
-                return filledButtonBackgroundColor;
-              }
-              if (states.contains(MaterialState.hovered)) {
-                return type.isPrimary
-                    ? AppColors.primary.shade400
-                    : type.isGrey
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.focused) ||
+              states.contains(MaterialState.pressed)) {
+            return filledButtonBackgroundColor;
+          }
+          if (states.contains(MaterialState.hovered)) {
+            return type.isPrimary
+                ? AppColors.primary.shade400
+                : type.isGrey
                     ? AppColors.grey.shade700
                     : AppColors.error.shade300;
-              }
-              if (states.contains(MaterialState.disabled)) {
-                return AppColors.grey.shade300;
-              }
-              return type.isPrimary
-                  ? AppColors.primary.shade500
-                  : type.isGrey
+          }
+          if (states.contains(MaterialState.disabled)) {
+            return AppColors.grey.shade300;
+          }
+          return type.isPrimary
+              ? AppColors.primary.shade500
+              : type.isGrey
                   ? AppColors.grey.shade500
                   : AppColors.error.shade500;
-            }),
+        }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              return AppColors.white;
-            }),
+            (Set<MaterialState> states) {
+          return AppColors.white;
+        }),
         shape: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
           return RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
@@ -267,7 +299,7 @@ class CustomButton extends StatelessWidget {
                   : (notOnlyLabel ? 16 : 24));
         }),
         textStyle:
-        MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+            MaterialStateProperty.resolveWith((Set<MaterialState> states) {
           return AppTextStyle.getTextStyle(AppTextStyleParams(
               color: AppColors.white,
               appFontWeight: AppFontWeight.semiBold,
@@ -280,25 +312,25 @@ class CustomButton extends StatelessWidget {
         states.contains(MaterialState.disabled)
             ? AppColors.grey.shade100
             : type.isSecondary
-            ? (states.contains(MaterialState.hovered)
-            ? AppColors.primary.shade700
-            : AppColors.primary.shade600)
-            : type.isGrey
-            ? (states.contains(MaterialState.focused)
-            ? AppColors.grey.shade100
-            : AppColors.grey.shade300)
-            : AppColors.error.shade400;
+                ? (states.contains(MaterialState.hovered)
+                    ? AppColors.primary.shade700
+                    : AppColors.primary.shade600)
+                : type.isGrey
+                    ? (states.contains(MaterialState.focused)
+                        ? AppColors.grey.shade100
+                        : AppColors.grey.shade300)
+                    : AppColors.error.shade400;
     double outlinedButtonBorderWidth(Set<MaterialState> states) =>
         states.contains(MaterialState.disabled) ||
-            states.contains(MaterialState.focused)
+                states.contains(MaterialState.focused)
             ? 2.0
             : (type.isGrey ? 1.0 : 1.5);
     final outlinedButtonDisabledForegroundColor = AppColors.grey.shade400;
     final outlinedButtonForegroundColor = type.isSecondary
         ? AppColors.primary.shade600
         : type.isGrey
-        ? AppColors.grey.shade700
-        : AppColors.error.shade400;
+            ? AppColors.grey.shade700
+            : AppColors.error.shade400;
     final outlinedButtonStyle = ButtonStyle(
       fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeight)),
       side: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
@@ -308,7 +340,7 @@ class CustomButton extends StatelessWidget {
             style: BorderStyle.solid);
       }),
       backgroundColor:
-      MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.white;
         }
@@ -317,14 +349,14 @@ class CustomButton extends StatelessWidget {
           return type.isSecondary
               ? AppColors.primary.shade50
               : type.isGrey
-              ? AppColors.grey.shade50
-              : AppColors.error.shade50;
+                  ? AppColors.grey.shade50
+                  : AppColors.error.shade50;
         }
 
         return AppColors.white;
       }),
       foregroundColor:
-      MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) {
           return outlinedButtonDisabledForegroundColor;
         }
@@ -338,9 +370,8 @@ class CustomButton extends StatelessWidget {
       padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         return EdgeInsets.symmetric(
             vertical: verticalFilledOutlinedVerticalPadding,
-            horizontal: isSmall
-                ? (notOnlyLabel ? 12 : 16)
-                : (notOnlyLabel ? 16 : 24));
+            horizontal:
+                isSmall ? (notOnlyLabel ? 12 : 16) : (notOnlyLabel ? 16 : 24));
       }),
       textStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
@@ -356,30 +387,32 @@ class CustomButton extends StatelessWidget {
     );
     final iconWidget = icon?.fold(
             (l) => Image.asset(
-          l,
-          width: isSmall ? 15 : 18,
-          fit: BoxFit.fitWidth,
-        ),
+                  l,
+                  width: isSmall ? 15 : 18,
+                  fit: BoxFit.fitWidth,
+                ),
             (r) => Icon(
-          r,
-          size: isSmall ? 15 : 18,
-        )) ??
+                  r,
+                  size: isSmall ? 15 : 18,
+                )) ??
         Container();
-    Widget filledLabel(Either<Widget,String> child) => CustomToolTip(
-      message: tooltip,
-      child: FilledButton(
-        onPressed: onPressed,
-        focusNode: focusNode,
-        style: filledButtonStyle,
-        child: child.fold((l) => l, (r) => Text(
-          r ?? "",
-        )),
-      ),
-    );
+    Widget filledLabel(Either<Widget, String> child) => CustomToolTip(
+          message: tooltip,
+          child: FilledButton(
+            onPressed: onPressedWithAnalytics,
+            focusNode: focusNode,
+            style: filledButtonStyle,
+            child: child.fold(
+                (l) => l,
+                (r) => Text(
+                      r ?? "",
+                    )),
+          ),
+        );
     final filledLeadingIcon = CustomToolTip(
       message: tooltip,
       child: FilledButton.icon(
-        onPressed: onPressed,
+        onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: filledButtonStyle,
         label: labelWidget,
@@ -389,7 +422,7 @@ class CustomButton extends StatelessWidget {
     final filledTrailingIcon = CustomToolTip(
       message: tooltip,
       child: FilledButton.icon(
-        onPressed: onPressed,
+        onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: filledButtonStyle,
         label: labelWidget,
@@ -410,7 +443,7 @@ class CustomButton extends StatelessWidget {
         child: CustomToolTip(
           message: tooltip,
           child: IconButton(
-            onPressed: onPressed,
+            onPressed: onPressedWithAnalytics,
             focusNode: focusNode,
             alignment: Alignment.center,
             color: AppColors.white,
@@ -424,7 +457,7 @@ class CustomButton extends StatelessWidget {
     final outlinedLeadingIcon = CustomToolTip(
       message: tooltip,
       child: OutlinedButton.icon(
-        onPressed: onPressed,
+        onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: outlinedButtonStyle,
         label: Text(
@@ -436,7 +469,7 @@ class CustomButton extends StatelessWidget {
     final outlinedTrailingIcon = CustomToolTip(
       message: tooltip,
       child: OutlinedButton.icon(
-        onPressed: onPressed,
+        onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: outlinedButtonStyle,
         label: Text(
@@ -445,28 +478,28 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    Widget outlinedLabel(Either<Widget,String> child) =>  CustomToolTip(
-      message: tooltip,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        focusNode: focusNode,
-        style: outlinedButtonStyle,
-        child: child.fold((l) => l, (r) => Text(r??"")),
-      ),
-    );
+    Widget outlinedLabel(Either<Widget, String> child) => CustomToolTip(
+          message: tooltip,
+          child: OutlinedButton(
+            onPressed: onPressedWithAnalytics,
+            focusNode: focusNode,
+            style: outlinedButtonStyle,
+            child: child.fold((l) => l, (r) => Text(r ?? "")),
+          ),
+        );
     final outlinedIcon = SizedBox(
       width: buttonHeight,
       height: buttonHeight,
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           focusNode: focusNode,
           style: outlinedButtonStyle.copyWith(
               alignment: Alignment.center,
               padding: const MaterialStatePropertyAll(EdgeInsets.zero),
               fixedSize:
-              MaterialStatePropertyAll(Size(buttonHeight, buttonHeight))),
+                  MaterialStatePropertyAll(Size(buttonHeight, buttonHeight))),
           child: iconWidget,
         ),
       ),
@@ -479,15 +512,15 @@ class CustomButton extends StatelessWidget {
         return states.contains(MaterialState.focused)
             ? AppColors.primary.shade700
             : states.contains(MaterialState.hovered)
-            ? AppColors.primary.shade600
-            : AppColors.primary.shade500;
+                ? AppColors.primary.shade600
+                : AppColors.primary.shade500;
       }
       if (type.isGrey) {
         return states.contains(MaterialState.focused)
             ? AppColors.grey.shade700
             : states.contains(MaterialState.hovered)
-            ? AppColors.grey.shade400
-            : AppColors.grey.shade500;
+                ? AppColors.grey.shade400
+                : AppColors.grey.shade500;
       }
       return AppColors.error.shade400;
     }
@@ -502,18 +535,18 @@ class CustomButton extends StatelessWidget {
             appFontWeight: AppFontWeight.semiBold));
       }),
       foregroundColor: MaterialStateProperty.resolveWith(
-              (Set<MaterialState> states) => textForegroundColor(states)),
+          (Set<MaterialState> states) => textForegroundColor(states)),
       padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
         return isSmall
             ? EdgeInsets.symmetric(
-            vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16))
+                vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16))
             : EdgeInsets.zero;
       }),
     );
-    Widget textLabel (Either<Widget,String> child) =>  CustomToolTip(
+    Widget textLabel(Either<Widget, String> child) => CustomToolTip(
         message: tooltip,
         child: TextButton(
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           style: textButtonStyle,
           child: child.fold((l) => l, (r) => Text(r ?? "")),
         ));
@@ -521,7 +554,7 @@ class CustomButton extends StatelessWidget {
         message: tooltip,
         child: TextButton.icon(
           style: textButtonStyle,
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           icon: iconWidget,
           label: labelWidget,
         ));
@@ -529,7 +562,7 @@ class CustomButton extends StatelessWidget {
         message: tooltip,
         child: TextButton.icon(
           style: textButtonStyle,
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           icon: iconWidget,
           label: labelWidget,
         ));
@@ -539,7 +572,7 @@ class CustomButton extends StatelessWidget {
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           focusNode: focusNode,
           style: textButtonStyle.copyWith(
             alignment: Alignment.center,
@@ -556,7 +589,7 @@ class CustomButton extends StatelessWidget {
         message: tooltip,
         child: IconButton(
           padding: EdgeInsets.zero,
-          onPressed: onPressed,
+          onPressed: onPressedWithAnalytics,
           focusNode: focusNode,
           style: textButtonStyle.copyWith(
             alignment: Alignment.center,
@@ -569,7 +602,8 @@ class CustomButton extends StatelessWidget {
     );
     switch (type) {
       case (CustomButtonType.primaryLabel):
-        return filledLabel(child == null ? Right(label??""): Left(child??Container()));
+        return filledLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.primaryTrailingIcon):
         return filledTrailingIcon;
       case (CustomButtonType.primaryLeadingIcon):
@@ -577,7 +611,8 @@ class CustomButton extends StatelessWidget {
       case (CustomButtonType.primaryIcon):
         return filledIcon;
       case (CustomButtonType.secondaryLabel):
-        return outlinedLabel(child == null ? Right(label??""): Left(child??Container()));
+        return outlinedLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.secondaryTrailingIcon):
         return outlinedTrailingIcon;
       case (CustomButtonType.secondaryLeadingIcon):
@@ -585,7 +620,8 @@ class CustomButton extends StatelessWidget {
       case (CustomButtonType.secondaryIcon):
         return outlinedIcon;
       case (CustomButtonType.greyFilledLabel):
-        return filledLabel(child == null ? Right(label??""): Left(child??Container()));
+        return filledLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyFilledTrailingIcon):
         return filledTrailingIcon;
       case (CustomButtonType.greyFilledLeadingIcon):
@@ -593,7 +629,8 @@ class CustomButton extends StatelessWidget {
       case (CustomButtonType.greyFilledIcon):
         return filledIcon;
       case (CustomButtonType.destructiveFilledLabel):
-        return filledLabel(child == null ? Right(label??""): Left(child??Container()));
+        return filledLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveFilledTrailingIcon):
         return filledTrailingIcon;
       case (CustomButtonType.destructiveFilledLeadingIcon):
@@ -602,7 +639,8 @@ class CustomButton extends StatelessWidget {
         return filledIcon;
 
       case (CustomButtonType.greyOutlinedLabel):
-        return outlinedLabel(child == null ? Right(label??""): Left(child??Container()));
+        return outlinedLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyOutlinedTrailingIcon):
         return outlinedTrailingIcon;
       case (CustomButtonType.greyOutlinedLeadingIcon):
@@ -610,7 +648,8 @@ class CustomButton extends StatelessWidget {
       case (CustomButtonType.greyOutlinedIcon):
         return outlinedIcon;
       case (CustomButtonType.destructiveOutlinedLabel):
-        return outlinedLabel(child == null ? Right(label??""): Left(child??Container()));
+        return outlinedLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveOutlinedTrailingIcon):
         return outlinedTrailingIcon;
       case (CustomButtonType.destructiveOutlinedLeadingIcon):
@@ -619,7 +658,8 @@ class CustomButton extends StatelessWidget {
         return outlinedIcon;
 
       case (CustomButtonType.primaryTextLabel):
-        return textLabel(child == null ? Right(label??""): Left(child??Container()));
+        return textLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.primaryTextTrailingIcon):
         return textTrailingIcon;
       case (CustomButtonType.primaryTextLeadingIcon):
@@ -630,7 +670,8 @@ class CustomButton extends StatelessWidget {
         return iconMinPadding;
 
       case (CustomButtonType.greyTextLabel):
-        return textLabel(child == null ? Right(label??""): Left(child??Container()));
+        return textLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyTextTrailingIcon):
         return textTrailingIcon;
       case (CustomButtonType.greyTextLeadingIcon):
@@ -641,7 +682,8 @@ class CustomButton extends StatelessWidget {
         return iconMinPadding;
 
       case (CustomButtonType.destructiveTextLabel):
-        return textLabel(child == null ? Right(label??""): Left(child??Container()));
+        return textLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveTextTrailingIcon):
         return textTrailingIcon;
       case (CustomButtonType.destructiveTextLeadingIcon):
@@ -651,7 +693,8 @@ class CustomButton extends StatelessWidget {
       case (CustomButtonType.destructiveIconMinPadding):
         return iconMinPadding;
       default:
-        return filledLabel(child == null ? Right(label??""): Left(child??Container()));
+        return filledLabel(
+            child == null ? Right(label ?? "") : Left(child ?? Container()));
     }
   }
 }

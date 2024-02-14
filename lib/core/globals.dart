@@ -35,6 +35,8 @@ class Globals {
 
   static String clickupRedirectUrl = "";
 
+  static bool analyticsEnabled = false;
+
   static ClickupAccessToken get clickupAuthAccessToken =>
       _clickupAuthAccessToken;
 

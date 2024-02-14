@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
@@ -61,6 +62,8 @@ import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace
 import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import 'analytics/analytics.dart';
+import 'analytics/firebase_analytics_impl.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
@@ -354,6 +357,9 @@ void _initServiceLocator({required Network network}) {
       () => SharedPrefLocalDataSource());
 
   serviceLocator.registerLazySingleton<Network>(() => network);
+
+  serviceLocator.registerLazySingleton<Analytics>(
+      () => FirebaseAnalyticsImpl());
 }
 
 void reRegisterClickupVariables() async {
@@ -368,6 +374,9 @@ void reRegisterClickupVariables() async {
   Globals.clickupUrl = overrideClickupUrl.isNotEmpty
       ? overrideClickupUrl
       : 'https://timeblockingrender.onrender.com/clickup';
+
+  Globals.analyticsEnabled =
+      const bool.fromEnvironment("analyticsEnabled", defaultValue: false);
 }
 
 void initServiceLocator() {

@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/globals.dart';
@@ -18,11 +21,14 @@ import 'core/mock_web_packages/mock_timezone.dart'
 import 'package:timezone/data/latest_all.dart'
     if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await appLocalization.ensureInitialized();
   di.initServiceLocator();
   di.reRegisterClickupVariables();
+  await di.serviceLocator<Analytics>().initialize();
   if (kIsWeb) {
     await tz_web.initializeTimeZone();
   } else {
