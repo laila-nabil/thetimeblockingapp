@@ -171,7 +171,7 @@ class CustomDrawerWidget extends StatelessWidget {
                       router?.location.contains(TrashPage.routeName) ==
                           true),
 
-            if(false)_DrawerItem(
+            _DrawerItem(
                 title: appLocalization.translate("Settings"),
                 iconPath: (isSelected) =>
                 isSelected ? AppIcons.settingsvbold :AppIcons.settingsv,

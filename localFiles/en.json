@@ -66,5 +66,8 @@
   "otherLists":"Other lists",
   "selectFolder":"Select folder",
   "selectList":"Select list",
-  "Completed":"Completed"
+  "Completed":"Completed",
+  "en": "English",
+  "ar": "العربية",
+  "language": "Language"
 }

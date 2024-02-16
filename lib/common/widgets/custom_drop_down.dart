@@ -6,13 +6,13 @@ import '../../core/resources/app_design.dart';
 import '../../core/resources/app_icons.dart';
 import '../../core/resources/assets_paths.dart';
 
-class CustomDropDownMenu extends DropdownButton {
+class CustomDropDown extends DropdownButton {
   static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
       color: AppColors.grey.shade900,
       appFontWeight: AppFontWeight.regular));
 
-  CustomDropDownMenu({
+  CustomDropDown({
     super.key,
     required super.items,
     super.selectedItemBuilder,
@@ -56,6 +56,35 @@ class CustomDropDownMenu extends DropdownButton {
 
   @override
   int get elevation => 0;
+}
+
+class CustomDropDownMenu extends DropdownMenu {
+  const CustomDropDownMenu({
+    super.key,
+    super.enabled = true,
+    super.width,
+    super.menuHeight,
+    super.leadingIcon,
+    super.trailingIcon,
+    super.label,
+    super.hintText,
+    super.helperText,
+    super.errorText,
+    super.selectedTrailingIcon,
+    super.enableFilter = false,
+    super.enableSearch = true,
+    super.textStyle,
+    super.inputDecorationTheme,
+    super.controller,
+    required super.initialSelection,
+    required super.onSelected,
+    super.requestFocusOnTap,
+    required super.dropdownMenuEntries,
+  });
 
 
+  @override
+  MenuStyle? get menuStyle => MenuStyle(
+      surfaceTintColor:
+          MaterialStateColor.resolveWith((states) => AppColors.background));
 }

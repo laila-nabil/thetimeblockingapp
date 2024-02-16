@@ -21,7 +21,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
-import '../../../../common/widgets/custom_drop_down_menu.dart';
+import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
@@ -342,7 +342,7 @@ class TaskPopup extends StatelessWidget {
                                 ///TODO V2 create a new Folder
                                 ///Folder
                                 if (state.isFoldersListAvailable)
-                                  CustomDropDownMenu(
+                                  CustomDropDown(
                                     isDense: true,
                                     hint: Text(appLocalization
                                         .translate("folder")),
@@ -394,7 +394,7 @@ class TaskPopup extends StatelessWidget {
                                 if ((state.taskParams?.getAvailableLists
                                     .isNotEmpty ==
                                     true))
-                                  CustomDropDownMenu(
+                                  CustomDropDown(
                                     isDense: true,
                                     style: taskLocationTextStyle,
                                     hint: Text(
@@ -444,9 +444,9 @@ class TaskPopup extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                               CustomDropDownMenu(
+                               CustomDropDown(
                                   value: state.taskParams?.taskStatus,
-                                  style:  CustomDropDownMenu
+                                  style:  CustomDropDown
                                       .textStyle,
                                   hint: Text(
                                       appLocalization.translate("status")),
@@ -464,7 +464,7 @@ class TaskPopup extends StatelessWidget {
                                           value: e,
                                           child: false ? Text(
                                               e.status ?? "",
-                                              style: CustomDropDownMenu
+                                              style: CustomDropDown
                                                   .textStyle
                                                   .copyWith(
                                                   color: e
@@ -489,7 +489,7 @@ class TaskPopup extends StatelessWidget {
                                               const SizedBox(width: 2,),
                                               Text(
                                                   e.status ?? "",
-                                                  style: CustomDropDownMenu
+                                                  style: CustomDropDown
                                                       .textStyle
                                                       .copyWith(
                                                       color: e
@@ -510,7 +510,7 @@ class TaskPopup extends StatelessWidget {
 
                                 ///Priority
                                 if (state.isPrioritiesEnabled)
-                                  CustomDropDownMenu(
+                                  CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
                                         .translate("priority")),

@@ -48,7 +48,6 @@
   
 ### TODO Features
 
-- Localization
 - Error handling
 - Recurring task
 - Duplicate tasks

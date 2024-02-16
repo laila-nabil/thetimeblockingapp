@@ -66,5 +66,8 @@
   "otherLists":"القوائم الأخرى",
   "selectFolder":"اختر مجلد",
   "selectList":"اختر قائمة",
-  "Completed":"مكتمل"
+  "Completed":"مكتمل",
+  "en": "English",
+  "ar": "العربية",
+  "language": "اللغة"
 }

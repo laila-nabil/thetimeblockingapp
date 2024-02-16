@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
@@ -43,8 +44,9 @@ class ResponsiveScaffold extends Scaffold {
   final bool hideAppBarDrawer;
 
   final Future<void> Function() onRefresh;
+
   // ignore: prefer_const_constructors_in_immutables
-  ResponsiveScaffold( {
+  ResponsiveScaffold({
     super.key,
     required this.responsiveBody,
     required this.context,
@@ -87,24 +89,36 @@ class ResponsiveScaffold extends Scaffold {
       return BlocBuilder<StartupBloc, StartupState>(
         builder: (context, state) {
           if (state.drawerLargerScreenOpen) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CustomDrawer(),
-                Expanded(
-                  child: _ResponsiveBody(
-                    responsiveTParams: responsiveBody,
-                    responsiveScaffoldLoading: responsiveScaffoldLoading,
-                    onRefresh: onRefresh ,
-                  ),
-                ),
-              ],
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomDrawer(),
+                    Expanded(
+                      child: _ResponsiveBody(
+                        responsiveTParams: responsiveBody,
+                        responsiveScaffoldLoading: responsiveScaffoldLoading,
+                        onRefresh: onRefresh,
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           }
-          return _ResponsiveBody(
-            responsiveTParams: responsiveBody,
-            responsiveScaffoldLoading: responsiveScaffoldLoading,
-            onRefresh: onRefresh,
+          return BlocBuilder<StartupBloc, StartupState>(
+            builder: (context, state) {
+              return BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  return _ResponsiveBody(
+                    responsiveTParams: responsiveBody,
+                    responsiveScaffoldLoading: responsiveScaffoldLoading,
+                    onRefresh: onRefresh,
+                  );
+                },
+              );
+            },
           );
         },
       );
@@ -147,19 +161,19 @@ class _ResponsiveBody extends StatelessWidget {
         onRefresh: onRefresh,
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         child: context.responsiveT(
-        params: responsiveScaffoldLoading?.isLoadingContent == true
-            ? ResponsiveTParams(
-            small: CustomLoading(color: Theme.of(context).primaryColor),
-            large: CustomLoading(color: Theme.of(context).primaryColor))
-            : responsiveTParams));
+            params: responsiveScaffoldLoading?.isLoadingContent == true
+                ? ResponsiveTParams(
+                    small: CustomLoading(color: Theme.of(context).primaryColor),
+                    large: CustomLoading(color: Theme.of(context).primaryColor))
+                : responsiveTParams));
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
-      alignment: Alignment.center,
-      children: [
-        actualResponsiveBody,
-        const LoadingOverlay(),
-      ],
-    )
+            alignment: Alignment.center,
+            children: [
+              actualResponsiveBody,
+              const LoadingOverlay(),
+            ],
+          )
         : actualResponsiveBody;
     final content = RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,

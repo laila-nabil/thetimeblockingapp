@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/globals.dart';
 import 'core/localization/localization.dart';
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => di.serviceLocator<AuthBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.serviceLocator<SettingsBloc>(),
         ),
       ],
       child: MaterialApp.router(
