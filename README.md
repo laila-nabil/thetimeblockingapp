@@ -15,6 +15,8 @@
 
 - [The time blocking app](#the-time-blocking-app)
 - [Table of content](#table-of-content)
+  - [Key Features](#key-features)
+    - [TODO Features](#todo-features)
   - [Working Process](#working-process)
     - [A) Planning](#a-planning)
       - [1-Opportunity canvas](#1-opportunity-canvas)
@@ -24,14 +26,7 @@
       - [=\> Resources and tools used for planning](#-resources-and-tools-used-for-planning)
     - [B) UI/UX Design](#b-uiux-design)
       - [MVP Wireframes](#mvp-wireframes)
-        - [Splash screen](#splash-screen)
-          - [Authentication screens](#authentication-screens)
-          - [Schedule screens](#schedule-screens)
-          - [Add a task](#add-a-task)
-          - [Lists screens](#lists-screens)
-          - [Tags screens](#tags-screens)
-          - [Settings screen](#settings-screen)
-        - [High fedielty design](#high-fedielty-design)
+      - [High fedielty design](#high-fedielty-design)
       - [=\> Resources and tools used for UI/UX design](#-resources-and-tools-used-for-uiux-design)
     - [C) Development](#c-development)
       - [=\> Resources and tools used for Front end Development](#-resources-and-tools-used-for-front-end-development)
@@ -39,6 +34,39 @@
       - [=\> Packages used for Testing](#-packages-used-for-testing)
       - [=\> Resources and tools used for Deployment and Hosting](#-resources-and-tools-used-for-deployment-and-hosting)
       - [=\> Other Resources and tools used for](#-other-resources-and-tools-used-for)
+
+## Key Features
+
+- Task creation using time blocking method as the calendar is the main view
+  - You can create tasks with start date and due date ,add tags to tasks, set task status and set task priority
+  - task are inside lists and folders
+- Different but simple views
+  - Calendar view in schedule page
+  - view tasks in single list
+  - view tasks that are tagged with a specific tag
+- Available for web to access from any device [www.timeblocking.web.app](www.timeblocking.web.app)
+  
+### TODO Features
+
+- Localization
+- Error handling
+- Recurring task
+- Duplicate tasks
+- Add attachments to tasks
+- Subtasks
+- Checklists
+- Markdown description
+- Add location to task
+- Map view of tasks
+- Voice input of tasks
+- Create tasks with email
+- Tasks manager
+- Auto scheduler
+- Trash page
+- Smart complete creating task with shortcuts to select list ,tags, priority and status
+- Key shortcuts
+- Copy list of tasks as text
+- Settings page
 
 ## Working Process
 
@@ -88,13 +116,12 @@ When planning for this project,I followed [idea to MVP Series](https://www.youtu
 Features,User stories, Tasks and Spikes are inside github as issues, [The time blocking app overview](https://github.com/laila-nabil/thetimeblockingapp/issues/29) includes all of them ordered
 
 #### Competitors analysis
-
-|                                             | **Time blocking app** | **Sorted**          | **Apple Reminder**                                | **Fantastical** | **Clickup**                                                  |
-|---------------------------------------------|-----------------------|---------------------|---------------------------------------------------|-----------------|--------------------------------------------------------------|
-| **For personal use**                        | Yes                   | Yes                 | Yes                                               |                 | too Complicated for personal use and the app is to cluttered |
-| **task and events are handled differently** | No                    | Yes                 | only tasks are available                          | Yes             | No                                                           |
-| **Available for Web**                       | Web only              | iPhone and Mac only | iPhone and Mac and web only (with iCloud account) |                 | Desktop, iPhone and Android                                  |
-| Pricing                                     | Free                  | Free and Paid       | Free                                              | Paid            | Free and Paid                                                |
+|                                             | **Time blocking app** | **Sorted**          | **Apple Reminder**                                | **Fantastical** | **Ticktick**     | **Clickup**                                                  |   |
+|---------------------------------------------|-----------------------|---------------------|---------------------------------------------------|-----------------|------------------|--------------------------------------------------------------|---|
+| **For personal use**                        | Yes                   | Yes                 | Yes                                               | Yes             | Yes              | too Complicated for personal use and the app is to cluttered |   |
+| **task and events are handled differently** | No                    | Yes                 | only tasks are available                          | Yes             | Yes              | No                                                           |   |
+| **Available for Web**                       | Web only              | iPhone and Mac only | iPhone and Mac and web only (with iCloud account) | No              | Yes              | Desktop, iPhone and Android                                  |   |
+| **Pricing**                                 | Free                  | Free and Paid       | Free                                              | Paid            | Calendar is Paid | Free and Paid                                                |   |
 
 #### => Resources and tools used for planning
 
@@ -106,7 +133,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 #### MVP Wireframes
 
-##### Splash screen
 
 <details>
 <summary>Splash screen</summary>
@@ -115,10 +141,8 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-###### Authentication screens
-
 <details>
-<summary>Only clickup</summary>
+<summary>Onboarding</summary>
 
 ![Only clickup 1](documentation_files/design/wireframes/auth/Auth_page(clickup).png)
 ![Only clickup 1(redirect to clickup 1)](documentation_files/design/wireframes/auth/redirect_clickup1.png)
@@ -127,27 +151,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-<details>
-<summary>Anything but clickup  APIs</summary>
-
-![Not clickup 1](documentation_files/design/wireframes/auth/Auth_page(Not_clickup)sign_in.png)
-![Not clickup 2](documentation_files/design/wireframes/auth/Auth_page(Not_clickup)sign_up.png)
-
-</details>
-
-<details>
-<summary>Clickup with other backend</summary>
-
-![Clickup with other backend sign up](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)sign_up.png)
-![Clickup with other backend sign in](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)sign_in.png)
-![Clickup with other backend connect with Clickup](documentation_files/design/wireframes/auth/Auth_page(clickup_after_other)connect1.png)
-![Clickup with other backend connect with Clickup(redirect to clickup 1)](documentation_files/design/wireframes/auth/redirect_clickup1.png)
-![Clickup with other backend connect with Clickup(redirect to clickup 2)](documentation_files/design/wireframes/auth/redirect_clickup2.png)
-![Clickup with other backend connect with Clickup(redirect to clickup 3)](documentation_files/design/wireframes/auth/redirect_clickup3.png)
-
-</details>
-
-###### Schedule screens
 
 <details>
 <summary>Schedule screens</summary>
@@ -158,8 +161,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 ![Schedule page](documentation_files/design/wireframes/schedule/Schedule4.png)
 
 </details>
-
-###### Add a task
 
 <details>
 <summary>Add a task</summary>
@@ -174,7 +175,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-###### Lists screens
 
 <details>
 <summary>Lists</summary>
@@ -184,8 +184,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-###### Tags screens
-
 <details>
 <summary>Tags</summary>
 
@@ -194,8 +192,6 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-###### Settings screen
-
 <details>
 <summary>Settings screen</summary>
 
@@ -203,7 +199,62 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 </details>
 
-##### High fedielty design
+#### High fedielty design
+
+<details>
+<summary>Onboarding </summary>
+
+| Desktop | Mobile |
+|---------|---------|
+|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-3.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-3.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-4.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-15.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-7.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-14.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-5.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-16.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-6.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-17.png)|
+
+</details>
+
+
+<details>
+<summary>Schedule </summary>
+
+| Desktop | Mobile |
+|---------|---------|
+|![Screenshots from the website desktop view](documentation_files\design\high\schedule\desktop-2.png)| ![Screenshots from the website mobile view](documentation_files\design\high\schedule\mobile-2.png)|
+
+</details>
+
+
+<details>
+<summary>Add / Edit task </summary>
+
+| Desktop | Mobile |
+|---------|---------|
+|![Screenshots from the website desktop view](documentation_files\design\high\addedittask\desktop-2.png)| ![Screenshots from the website mobile view](documentation_files\design\high\addedittask\mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\addedittask\desktop-2-1.png)| ![Screenshots from the website mobile view](documentation_files\design\high\addedittask\mobile-2-1.png)|
+
+</details>
+
+
+<details>
+<summary>List/Lists page </summary>
+
+| Desktop | Mobile |
+|---------|---------|
+|![Screenshots from the website desktop view](documentation_files\design\high\lists\desktop-3.png)| ![Screenshots from the website mobile view](documentation_files\design\high\lists\mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files\design\high\lists\desktop-3-1.png)| ![Screenshots from the website mobile view](documentation_files\design\high\lists\mobile-2-1.png)|
+
+</details>
+
+
+<details>
+<summary>Settings </summary>
+
+| Desktop | Mobile |
+|---------|---------|
+|![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-3.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-4.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-5.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-6.png)| ![Screenshots from the website mobile view](documentation_files\design\high\settings\mobile-2.png)|
+
+</details>
 
 #### => Resources and tools used for UI/UX design
 
