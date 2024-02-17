@@ -1,63 +1,54 @@
 import 'package:flutter/material.dart';
 
-enum ResponsiveDevice {
-  mobile(400),
-  tablet(800),
-  startShowingSmallDesign(1100),
-  laptop(1440);
-
-  final int value;
-
-  const ResponsiveDevice(this.value);
-}
+import '../../../core/resources/app_design.dart';
 
 class ResponsiveTParams<T> {
-  final T mobile;
-  final T? tablet;
-  final T? startShowingSmallDesign;
-  final T? laptop;
+  final T small;
+  final T? medium;
+  final T? large;
 
   ResponsiveTParams(
-      {required this.mobile,
-      this.tablet,
-      this.startShowingSmallDesign,
-      this.laptop});
+      {required this.small,
+      this.medium,
+      this.large,});
 }
 
-class Responsive {
-  static bool showSmallDesign(BuildContext context) =>
-      MediaQuery.sizeOf(context).width <=
-      ResponsiveDevice.startShowingSmallDesign.value;
+extension AppResponsive on BuildContext {
+  bool get showSmallDesign =>
+      MediaQuery.sizeOf(this).width <=
+          AppScreen.large.width;
 
-  static T responsiveT<T>({
+  T responsiveT<T>({
     required ResponsiveTParams params,
-    required BuildContext context,
   }) {
-    final device = getDevice(context);
-    var tablet = params.tablet ?? params.mobile;
+    final device = getDevice;
+    var tablet = params.medium ?? params.small;
     switch (device) {
-      case (ResponsiveDevice.mobile):
-        return params.mobile;
-      case (ResponsiveDevice.tablet):
+      case (AppScreen.small):
+        return params.small;
+      case (AppScreen.medium):
         return tablet;
-      case (ResponsiveDevice.startShowingSmallDesign):
-        return params.startShowingSmallDesign ?? tablet;
-      case (ResponsiveDevice.laptop):
-        return params.laptop ?? params.startShowingSmallDesign ?? tablet;
+      case (AppScreen.large):
+        return params.large ?? tablet;
     }
   }
 
-  static ResponsiveDevice getDevice(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    if (width >= ResponsiveDevice.laptop.value) {
-      return ResponsiveDevice.laptop;
+  AppScreen get getDevice {
+    final width = MediaQuery.sizeOf(this).width;
+    if (width >= AppScreen.large.width) {
+      return AppScreen.large;
     }
-    if (width >= ResponsiveDevice.startShowingSmallDesign.value) {
-      return ResponsiveDevice.startShowingSmallDesign;
+    if (width >= AppScreen.medium.width) {
+      return AppScreen.medium;
     }
-    if (width >= ResponsiveDevice.tablet.value) {
-      return ResponsiveDevice.tablet;
-    }
-    return ResponsiveDevice.mobile;
+    return AppScreen.small;
+  }
+
+  int get getMargin {
+    return getDevice.margin;
+  }
+
+  int get getGutter {
+    return getDevice.gutter;
   }
 }

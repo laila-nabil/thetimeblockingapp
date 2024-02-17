@@ -1,93 +1,56 @@
 import 'package:flutter/material.dart';
 
-class AppTextStyleCore {
-  TextStyle titleTextStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (24),
-      inherit: true,
-      fontWeight: FontWeight.w700,
-      color: textColor,
-    );
-  }
+enum AppFontWeight {
+  regular(FontWeight.normal),
+  medium(FontWeight.w500),
+  semiBold(FontWeight.w600),
+  bold(FontWeight.w700);
 
-  TextStyle subtitleTextStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (17),
-      inherit: true,
-      fontWeight: FontWeight.w400,
-      color: textColor,
-    );
-  }
+  const AppFontWeight(this.value);
 
-  TextStyle subtitleTextStyleBold(Color textColor) {
-    return TextStyle(
-      fontSize: (17),
-      inherit: true,
-      fontWeight: FontWeight.w700,
-      color: textColor,
-    );
-  }
+  final FontWeight value;
+}
 
-  TextStyle bodyTextStyleBold(Color textColor) {
-    return TextStyle(
-      fontSize: (19),
-      inherit: true,
-      fontWeight: FontWeight.w600,
-      color: textColor,
-    );
-  }
+enum AppFontSize {
+  displayLarge(size: 52, lineHeight: 56),
+  displaySmall(size: 44, lineHeight: 48),
+  heading1(size: 40, lineHeight: 48),
+  heading2(size: 36, lineHeight: 44),
+  heading3(size: 32, lineHeight: 40),
+  heading4(size: 28, lineHeight: 36),
+  heading5(size: 24, lineHeight: 32),
+  heading6(size: 20, lineHeight: 28),
+  paragraphLarge(size: 18, lineHeight: 28),
+  paragraphMedium(size: 16, lineHeight: 24),
+  paragraphSmall(size: 14, lineHeight: 20),
+  paragraphXSmall(size: 12, lineHeight: 20),
+  paragraphX2Small(size: 10, lineHeight: 20);
 
-  TextStyle bodyTextStyle(Color textColor, {String? langCode}) {
-    return TextStyle(
-      fontSize: (19),
-      inherit: true,
-      height: 1.2,
-      fontWeight: FontWeight.w400,
-      color: textColor,
-    );
-  }
+  const AppFontSize({required this.size, required this.lineHeight});
 
-  TextStyle buttonNavigationTextStyle(Color textColor) {
+  final double size;
+  final double lineHeight;
+}
+
+class AppTextStyle {
+  static TextStyle getTextStyle(AppTextStyleParams appTextStyleParams) {
     return TextStyle(
-        fontSize: (10),
+        fontFamily: 'Inter',
+        fontSize: appTextStyleParams.appFontSize.size,
         inherit: true,
-        fontWeight: FontWeight.w300,
-        color: textColor);
-  }
-
-  TextStyle bodySmallTextStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (12),
-      inherit: true,
-      fontWeight: FontWeight.w300,
-      color: textColor,
+        fontWeight: appTextStyleParams.appFontWeight.value,
+        color: appTextStyleParams.color,
+      height: appTextStyleParams.appFontSize.lineHeight /
+          appTextStyleParams.appFontSize.size, ///TODO make sure correct
     );
   }
+}
 
-  TextStyle popupTitleTextStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (22),
-      inherit: true,
-      fontWeight: FontWeight.w600,
-      color: textColor,
-    );
-  }
+class AppTextStyleParams {
+  final Color color;
+  final AppFontWeight appFontWeight;
+  final AppFontSize appFontSize;
 
-  TextStyle popupTextFieldStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (14),
-      inherit: true,
-      fontWeight: FontWeight.w400,
-      color: textColor,
-    );
-  }
-
-  TextStyle popupTextStyle(Color textColor) {
-    return TextStyle(
-      fontSize: (24),
-      inherit: true,
-      fontWeight: FontWeight.w400,
-      color: textColor,
-    );
-  }
+  AppTextStyleParams(
+      {required this.appFontSize,required this.color, required this.appFontWeight});
 }

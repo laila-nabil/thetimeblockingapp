@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
@@ -34,8 +36,12 @@ final router = GoRouter(
       String errorMessage = appLocalization.translate("pageNotFound");
       return ResponsiveScaffold(
           responsiveBody: ResponsiveTParams(
-              mobile: Text(errorMessage), laptop: Text(errorMessage)),
-          context: context);
+              small: Text(errorMessage), large: Text(errorMessage)),
+        context: context,
+        onRefresh: () async {
+          GoRouter.of(context).go(AuthPage.routeName);
+        },
+      );
     },
     redirect: (context, GoRouterState? state) {
       printDebug("state?.location ${state?.location}");
@@ -170,8 +176,10 @@ final router = GoRouter(
 
 class MyNavObserver extends NavigatorObserver {
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) => printDebug(
-      'GoRouter didPush: ${route.str}, previousRoute= ${previousRoute?.str}');
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    serviceLocator<Analytics>().setCurrentScreen("${route.settings.name}/${route.settings.arguments}");
+    printDebug('GoRouter didPush: ${route.str}, previousRoute= ${previousRoute?.str}');
+  }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) => printDebug(

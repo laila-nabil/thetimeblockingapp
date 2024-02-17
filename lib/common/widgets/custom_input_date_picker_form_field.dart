@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
+import '../../core/resources/app_icons.dart';
+
 /// A [TextFormField] configured to accept and validate a date entered by a user.
 ///
 /// When the field is saved or submitted, the text will be parsed into a
@@ -246,7 +248,7 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
             if (widget.onTapClear != null)
               IconButton(
                   onPressed: () => widget.onTapClear!(),
-                  icon: const Icon(Icons.delete))
+                  icon: const Icon(AppIcons.bin))
           ],
         ),
         hintText: widget.fieldHintText ?? localizations.dateHelpText,

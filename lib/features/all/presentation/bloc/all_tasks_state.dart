@@ -1,6 +1,6 @@
 part of 'all_tasks_bloc.dart';
 
-enum AllTasksStatus{
+enum AllTasksStatus {
   initial,
   loading,
   getTasksSuccess,
@@ -13,7 +13,6 @@ enum AllTasksStatus{
   deleteTaskSuccess,
   deleteTaskFailed,
 }
-
 
 class AllTasksState extends Equatable {
   final AllTasksStatus allTasksStatus;
@@ -30,22 +29,37 @@ class AllTasksState extends Equatable {
       this.deleteTaskFailure});
 
   @override
-  List<Object?> get props => [allTasksStatus, allTasksResult,
-    createTaskFailure, updateTaskFailure, deleteTaskFailure];
+  List<Object?> get props => [
+        allTasksStatus,
+        allTasksResult,
+        createTaskFailure,
+        updateTaskFailure,
+        deleteTaskFailure
+      ];
 
   List<ClickupTask> get getAllTasksResultOverdue =>
-      allTasksResult?.where((element) => element.isOverdue).toList() ?? [];
+      allTasksResult
+          ?.where((element) =>
+              element.isOverdue &&
+              element.isCompleted == false)
+          .toList() ??
+      [];
+
+  List<ClickupTask> get getAllTasksResultCompleted =>
+      allTasksResult
+          ?.where((element) => element.isCompleted)
+          .toList() ??
+          [];
 
   List<ClickupTask> get getAllTasksResultUpcoming =>
       allTasksResult?.where((element) => element.isUpcoming).toList() ?? [];
 
-
   List<ClickupTask> get getAllTasksResultUnscheduled =>
       allTasksResult?.where((element) => element.isUnscheduled).toList() ?? [];
 
-  bool get isLoading => allTasksStatus == AllTasksStatus.loading ;
+  bool get isLoading => allTasksStatus == AllTasksStatus.loading;
 
-  bool get isInit => allTasksStatus == AllTasksStatus.initial ;
+  bool get isInit => allTasksStatus == AllTasksStatus.initial;
 
   AllTasksState copyWith({
     AllTasksStatus? allTasksStatus,

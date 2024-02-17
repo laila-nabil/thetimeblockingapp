@@ -1,10 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
@@ -61,6 +65,8 @@ import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace
 import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import 'analytics/analytics.dart';
+import 'analytics/firebase_analytics_impl.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
@@ -134,6 +140,8 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
     serviceLocator(),
   ));
+
+  serviceLocator.registerFactory(() => SettingsBloc(serviceLocator()));
 
   /// UseCases
 
@@ -306,6 +314,9 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
 
+  serviceLocator
+      .registerLazySingleton(() => ChangeLanguageUseCase(appLocalization));
+
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
@@ -354,6 +365,9 @@ void _initServiceLocator({required Network network}) {
       () => SharedPrefLocalDataSource());
 
   serviceLocator.registerLazySingleton<Network>(() => network);
+
+  serviceLocator.registerLazySingleton<Analytics>(
+      () => FirebaseAnalyticsImpl());
 }
 
 void reRegisterClickupVariables() async {
@@ -363,6 +377,14 @@ void reRegisterClickupVariables() async {
       const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
   Globals.clickupRedirectUrl =
       const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
+  const overrideClickupUrl =
+      String.fromEnvironment("clickupUrl", defaultValue: "");
+  Globals.clickupUrl = overrideClickupUrl.isNotEmpty
+      ? overrideClickupUrl
+      : 'https://timeblockingrender.onrender.com/clickup';
+
+  Globals.analyticsEnabled = bool.fromEnvironment("analyticsEnabled",
+      defaultValue: Globals.analyticsEnabledDefault);
 }
 
 void initServiceLocator() {

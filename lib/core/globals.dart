@@ -6,7 +6,6 @@ import '../features/auth/domain/entities/clickup_access_token.dart';
 
 String _appName = "Time blocking app";
 
-String _clickupUrl = 'https://timeblockingapp.cyclic.app/clickup';
 
 ClickupAccessToken _clickupAuthAccessToken =
     const ClickupAccessToken(accessToken: "", tokenType: "");
@@ -28,13 +27,17 @@ List<ClickupSpace>? _clickupSpaces;
 class Globals {
   static String get appName => _appName;
 
-  static String get clickupUrl => _clickupUrl;
+  static String clickupUrl = "";
 
   static String clickupClientId = "";
 
   static String clickupClientSecret = "";
 
   static String clickupRedirectUrl = "";
+
+  static bool analyticsEnabledDefault  = false;
+
+  static bool analyticsEnabled = analyticsEnabledDefault;
 
   static ClickupAccessToken get clickupAuthAccessToken =>
       _clickupAuthAccessToken;
@@ -70,10 +73,6 @@ class Globals {
 mixin class GlobalsWriteAccess {
   set appName(String value) {
     _appName = value;
-  }
-
-  set clickupUrl(String value) {
-    _clickupUrl = value;
   }
 
   set clickupAuthAccessToken(ClickupAccessToken value) {

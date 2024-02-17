@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
+import '../custom_pop_up_menu.dart';
 import '../custom_loading.dart';
 
 enum ResponsiveScaffoldLoadingEnum {
@@ -33,13 +35,15 @@ class ResponsiveScaffoldLoading {
 
 class ResponsiveScaffold extends Scaffold {
   final BuildContext context;
-  final List<PopupMenuEntry<Object?>>? pageActions;
+  final List<CustomPopupItem>? pageActions;
 
   ///[responsiveBody] overrides [body]
   final ResponsiveTParams<Widget> responsiveBody;
 
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final bool hideAppBarDrawer;
+
+  final Future<void> Function() onRefresh;
 
   // ignore: prefer_const_constructors_in_immutables
   ResponsiveScaffold({
@@ -49,6 +53,7 @@ class ResponsiveScaffold extends Scaffold {
     this.pageActions,
     this.responsiveScaffoldLoading,
     this.hideAppBarDrawer = false,
+    required this.onRefresh,
     super.floatingActionButton,
     super.floatingActionButtonLocation,
     super.floatingActionButtonAnimator,
@@ -80,26 +85,40 @@ class ResponsiveScaffold extends Scaffold {
 
   @override
   Widget? get body {
-    if (Responsive.showSmallDesign(context) == false) {
+    if (context.showSmallDesign == false) {
       return BlocBuilder<StartupBloc, StartupState>(
         builder: (context, state) {
           if (state.drawerLargerScreenOpen) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CustomDrawer(),
-                Expanded(
-                  child: _ResponsiveBody(
-                    responsiveTParams: responsiveBody,
-                    responsiveScaffoldLoading: responsiveScaffoldLoading,
-                  ),
-                ),
-              ],
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomDrawer(),
+                    Expanded(
+                      child: _ResponsiveBody(
+                        responsiveTParams: responsiveBody,
+                        responsiveScaffoldLoading: responsiveScaffoldLoading,
+                        onRefresh: onRefresh,
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           }
-          return _ResponsiveBody(
-            responsiveTParams: responsiveBody,
-            responsiveScaffoldLoading: responsiveScaffoldLoading,
+          return BlocBuilder<StartupBloc, StartupState>(
+            builder: (context, state) {
+              return BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  return _ResponsiveBody(
+                    responsiveTParams: responsiveBody,
+                    responsiveScaffoldLoading: responsiveScaffoldLoading,
+                    onRefresh: onRefresh,
+                  );
+                },
+              );
+            },
           );
         },
       );
@@ -107,19 +126,21 @@ class ResponsiveScaffold extends Scaffold {
     return _ResponsiveBody(
       responsiveTParams: responsiveBody,
       responsiveScaffoldLoading: responsiveScaffoldLoading,
+      onRefresh: onRefresh,
     );
   }
 
   @override
   Widget? get drawer => hideAppBarDrawer
       ? null
-      : (Responsive.showSmallDesign(context) ? const CustomDrawer() : null);
+      : (context.showSmallDesign ? const CustomDrawer() : null);
 
   @override
   PreferredSizeWidget? get appBar => hideAppBarDrawer
       ? null
       : CustomAppBar(
           pageActions: pageActions,
+          showSmallDesign: context.showSmallDesign,
         );
 }
 
@@ -127,20 +148,24 @@ class _ResponsiveBody extends StatelessWidget {
   const _ResponsiveBody(
       {Key? key,
       this.responsiveScaffoldLoading,
-      required this.responsiveTParams})
+      required this.responsiveTParams,
+      required this.onRefresh})
       : super(key: key);
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
-  final ResponsiveTParams responsiveTParams;
+  final ResponsiveTParams<Widget> responsiveTParams;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
-    final actualResponsiveBody = Responsive.responsiveT(
-        params: responsiveScaffoldLoading?.isLoadingContent == true
-            ? ResponsiveTParams(
-                mobile: CustomLoading(color: Theme.of(context).primaryColor),
-                laptop: CustomLoading(color: Theme.of(context).primaryColor))
-            : responsiveTParams,
-        context: context);
+    final actualResponsiveBody = RefreshIndicator(
+        onRefresh: onRefresh,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        child: context.responsiveT(
+            params: responsiveScaffoldLoading?.isLoadingContent == true
+                ? ResponsiveTParams(
+                    small: CustomLoading(color: Theme.of(context).primaryColor),
+                    large: CustomLoading(color: Theme.of(context).primaryColor))
+                : responsiveTParams));
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
             alignment: Alignment.center,
@@ -150,5 +175,24 @@ class _ResponsiveBody extends StatelessWidget {
             ],
           )
         : actualResponsiveBody;
+    final content = RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: onRefresh,
+        child: context.responsiveT(params: responsiveTParams));
+    return (responsiveScaffoldLoading?.isLoadingOverlay == true)
+        ? Stack(
+            alignment: Alignment.center,
+            children: [
+              content,
+              const LoadingOverlay(),
+            ],
+          )
+        : (responsiveScaffoldLoading?.isLoadingOverlay == true)
+            ? context.responsiveT(
+                params: ResponsiveTParams(
+                    small: CustomLoading(color: Theme.of(context).primaryColor),
+                    large:
+                        CustomLoading(color: Theme.of(context).primaryColor)))
+            : content;
   }
 }

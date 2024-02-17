@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+
+import '../../../../common/widgets/custom_pop_up_menu.dart';
+import '../../../../core/resources/assets_paths.dart';
+import '../../../../core/resources/text_styles.dart';
+
+class TagComponent extends StatefulWidget {
+  const TagComponent(
+      {super.key,
+      required this.tag,
+      this.onTap,
+      this.actions,
+      this.updateTagInline});
+
+  final ClickupTag tag;
+  final void Function()? onTap;
+  final List<CustomPopupItem>? actions;
+  final Widget? updateTagInline;
+
+  @override
+  State<TagComponent> createState() => _TagComponentState();
+}
+
+class _TagComponentState extends State<TagComponent> {
+  bool onHover = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: widget.onTap,
+      borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+      onHover: (hover){
+        if (hover!=onHover) {
+          setState(() {
+            onHover = hover;
+          });
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+            color: onHover
+            ? AppColors.primary.shade50.withOpacity(0.5)
+            :  AppColors.background),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.tag,
+                  color: widget.tag.getTagFgColor,
+                  size: 16,
+                ),
+                const SizedBox(width: 2.5,),
+                if (widget.updateTagInline == null)
+                  Text(
+                    widget.tag.name ?? "",
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphSmall,
+                        color: AppColors.grey.shade900,
+                        appFontWeight: AppFontWeight.semiBold)),
+                  )
+                else
+                  widget.updateTagInline!,
+              ],
+            ),
+            if (widget.actions?.isNotEmpty == true)
+              CustomPopupMenu(
+                  items: widget.actions ?? [],
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+}
