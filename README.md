@@ -7,7 +7,7 @@
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\ezgif-6-8ae95125f1.gif)| ![Screenshots from the website mobile view](documentation_files\ezgif-6-10870eef38.gif)|
+|![Screenshots from the website desktop view](documentation_files/ezgif-6-8ae95125f1.gif)| ![Screenshots from the website mobile view](documentation_files/ezgif-6-10870eef38.gif)|
 
 ------------------------------------------------
 
@@ -207,11 +207,11 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-3.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-3.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-4.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-15.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-7.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-14.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-5.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-16.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\onboarding\desktop-6.png)| ![Screenshots from the website mobile view](documentation_files\design\high\onboarding\mobile-17.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/onboarding/desktop-3.png)| ![Screenshots from the website mobile view](documentation_files/design/high/onboarding/mobile-3.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/onboarding/desktop-4.png)| ![Screenshots from the website mobile view](documentation_files/design/high/onboarding/mobile-15.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/onboarding/desktop-7.png)| ![Screenshots from the website mobile view](documentation_files/design/high/onboarding/mobile-14.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/onboarding/desktop-5.png)| ![Screenshots from the website mobile view](documentation_files/design/high/onboarding/mobile-16.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/onboarding/desktop-6.png)| ![Screenshots from the website mobile view](documentation_files/design/high/onboarding/mobile-17.png)|
 
 </details>
 
@@ -221,7 +221,7 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\design\high\schedule\desktop-2.png)| ![Screenshots from the website mobile view](documentation_files\design\high\schedule\mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/schedule/desktop-2.png)| ![Screenshots from the website mobile view](documentation_files/design/high/schedule/mobile-2.png)|
 
 </details>
 
@@ -231,8 +231,8 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\design\high\addedittask\desktop-2.png)| ![Screenshots from the website mobile view](documentation_files\design\high\addedittask\mobile-2.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\addedittask\desktop-2-1.png)| ![Screenshots from the website mobile view](documentation_files\design\high\addedittask\mobile-2-1.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/addedittask/desktop-2.png)| ![Screenshots from the website mobile view](documentation_files/design/high/addedittask/mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/addedittask/desktop-2-1.png)| ![Screenshots from the website mobile view](documentation_files/design/high/addedittask/mobile-2-1.png)|
 
 </details>
 
@@ -242,8 +242,8 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\design\high\lists\desktop-3.png)| ![Screenshots from the website mobile view](documentation_files\design\high\lists\mobile-2.png)|
-|![Screenshots from the website desktop view](documentation_files\design\high\lists\desktop-3-1.png)| ![Screenshots from the website mobile view](documentation_files\design\high\lists\mobile-2-1.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/lists/desktop-3.png)| ![Screenshots from the website mobile view](documentation_files/design/high/lists/mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/lists/desktop-3-1.png)| ![Screenshots from the website mobile view](documentation_files/design/high/lists/mobile-2-1.png)|
 
 </details>
 
@@ -253,7 +253,7 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 | Desktop | Mobile |
 |---------|---------|
-|![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-3.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-4.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-5.png)![Screenshots from the website desktop view](documentation_files\design\high\settings\desktop-6.png)| ![Screenshots from the website mobile view](documentation_files\design\high\settings\mobile-2.png)|
+|![Screenshots from the website desktop view](documentation_files/design/high/settings/desktop-3.png)![Screenshots from the website desktop view](documentation_files/design/high/settings/desktop-4.png)![Screenshots from the website desktop view](documentation_files/design/high/settings/desktop-5.png)![Screenshots from the website desktop view](documentation_files/design/high/settings/desktop-6.png)| ![Screenshots from the website mobile view](documentation_files/design/high/settings/mobile-2.png)|
 
 </details>
 
