@@ -29,11 +29,13 @@
       - [High fedielty design](#high-fedielty-design)
       - [=\> Resources and tools used for UI/UX design](#-resources-and-tools-used-for-uiux-design)
     - [C) Development](#c-development)
-      - [=\> Resources and tools used for Front end Development](#-resources-and-tools-used-for-front-end-development)
-      - [=\> Resources and tools used for Backend Development](#-resources-and-tools-used-for-backend-development)
-      - [=\> Packages used for Testing](#-packages-used-for-testing)
-      - [=\> Resources and tools used for Deployment and Hosting](#-resources-and-tools-used-for-deployment-and-hosting)
-      - [=\> Other Resources and tools used for](#-other-resources-and-tools-used-for)
+      - [Architecture](#architecture)
+      - [Resources and tools used](#resources-and-tools-used)
+        - [for Front end Development](#for-front-end-development)
+        - [for Backend Development](#for-backend-development)
+        - [for Testing](#for-testing)
+        - [for Deployment and Hosting](#for-deployment-and-hosting)
+        - [Others](#others)
 
 ## Key Features
 
@@ -263,27 +265,43 @@ Features,User stories, Tasks and Spikes are inside github as issues, [The time b
 
 ### C) Development
 
-#### => Resources and tools used for Front end Development
+#### Architecture
 
-- **Framework**: Flutter/Dart
-- **State** Management: Bloc
+The archtiecture is based on [Uncle bob's archtiecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 
-#### => Resources and tools used for Backend Development
+![architecture](documentation_files/architecture.png)
+
+#### Resources and tools used
+
+##### for Front end Development
+
+- **Framework**: [Flutter/Dart](https://flutter.dev/)
+- **State Management** : [Bloc](https://pub.dev/packages/flutter_bloc) with [equatable](https://pub.dev/packages/equatable) and [dartz](https://pub.dev/packages/dartz/versions)
+- **Navigation** : [go router](https://pub.dev/packages/go_router)
+- **Log** : [logger](https://pub.dev/packages/logger)
+- **Local storage** : [shared preferences](https://pub.dev/packages/shared_preferences)
+- **Localization** : [easy localization](https://pub.dev/packages/easy_localization)
+- **Analytics** : [firebase analytics](https://pub.dev/packages/firebase_analytics)
+- **Catalog for widgets** : [widgetbook](https://pub.dev/packages/widgetbook), available at [design-timeblocking.web.app](design-timeblocking.web.app)
+- **timezone** : [timezone](https://pub.dev/packages/timezone)
+- **Calendar** : [syncfusion_flutter_calendar](https://pub.dev/packages/syncfusion_flutter_calendar)
+
+##### for Backend Development
 
 - **Clickup** Public API
 - **Render** as proxy server since Clickup APIs has CORS
 
-#### => Packages used for Testing
+##### for Testing
 
 - [Test](https://pub.dev/packages/test)
 - [Flutter test](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html)
 - [Mochito](https://pub.dev/packages/mockito)
 - [Golden toolkit](https://pub.dev/packages/golden_toolkit)
 
-#### => Resources and tools used for Deployment and Hosting
+##### for Deployment and Hosting
 
 - **Hosting**: Firebase for website
 
-#### => Other Resources and tools used for
+##### Others
 
 - **Project Management**: Github issues with <https://zube.io/>
