@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
 
 import '../common/entities/clickup_user.dart';
@@ -66,6 +67,8 @@ class Globals {
   static ClickupSpace? get defaultSpace => _clickupSpaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
+
+  static const ThemeMode defaultThemeMode = ThemeMode.light;
 }
 
 ///just to make it harder to write global variable

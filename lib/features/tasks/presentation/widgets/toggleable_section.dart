@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
@@ -44,8 +45,8 @@ class _ToggleableSectionState extends State<ToggleableSection> {
       margin: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
       child: Container(
         decoration: BoxDecoration(
-            color: AppColors.background,
-            border: Border.all(color: AppColors.grey.shade100, width: 1),
+            color: AppColors.background(context.isDarkMode),
+            border: Border.all(color: AppColors.grey(context.isDarkMode).shade100, width: 1),
             borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
             boxShadow: AppShadow.xSmall.shadows),
         margin: EdgeInsets.all(AppSpacing.medium16.value),
@@ -80,9 +81,9 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                 decoration: BoxDecoration(
                     border: Border(
                         bottom: isOpen
-                            ? BorderSide(color: AppColors.grey.shade200, width: 1)
+                            ? BorderSide(color: AppColors.grey(context.isDarkMode).shade200, width: 1)
                             : BorderSide.none),
-                    color:  onHover ? AppColors.primary.shade50.withOpacity(0.5) :null
+                    color:  onHover ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5) :null
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +94,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(
                             isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
-                            color: AppColors.grey.shade500,
+                            color: AppColors.grey(context.isDarkMode).shade500,
                             size: 20,
                           ),
                         ),
@@ -101,7 +102,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                           widget.title,
                           style: AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.paragraphMedium,
-                              color: widget.titleColor ?? AppColors.grey.shade900,
+                              color: widget.titleColor ?? AppColors.grey(context.isDarkMode).shade900,
                               appFontWeight: AppFontWeight.semiBold)),
                         )
                       ],

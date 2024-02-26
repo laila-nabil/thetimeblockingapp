@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
@@ -52,19 +53,19 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
         "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
     final titleStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text,
+        color: AppColors.text(context.isDarkMode),
         appFontWeight: AppFontWeight.medium));
     final contentStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphLarge,
-        color: AppColors.text,
+        color: AppColors.text(context.isDarkMode),
         appFontWeight: AppFontWeight.medium));
     final titleStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading3,
-        color: AppColors.text,
+        color: AppColors.text(context.isDarkMode),
         appFontWeight: AppFontWeight.medium));
     final contentStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text,
+        color: AppColors.text(context.isDarkMode),
         appFontWeight: AppFontWeight.medium));
     const boxConstraints = BoxConstraints(maxWidth: 510);
     return ResponsiveScaffold(
@@ -88,7 +89,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       flex: 86,
                     ),
                     Image.asset(
-                      AppAssets.logo,
+                      AppAssets.logo(context.isDarkMode),
                       width: 258,
                       height: 39,
                       fit: BoxFit.contain,
@@ -122,7 +123,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 1.0),
                                     child: Image.asset(
-                                      AppAssets.clickupLogo,
+                                      AppAssets.clickupLogo(context.isDarkMode),
                                       width: 95,
                                       fit: BoxFit.fitWidth,
                                     ),
@@ -166,7 +167,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 "${appLocalization.translate("connectWithClickupNow")} ",
                                 style: AppTextStyle.getTextStyle(
                                     AppTextStyleParams(
-                                        color: AppColors.primary.shade500,
+                                        color: AppColors.primary(context.isDarkMode).shade500,
                                         appFontWeight: AppFontWeight.semiBold,
                                         appFontSize: AppFontSize.paragraphSmall)),
                               ),
@@ -211,7 +212,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         flex: 105,
                       ),
                       Image.asset(
-                        AppAssets.logo,
+                        AppAssets.logo(context.isDarkMode),
                         width: 258,
                         height: 39,
                         fit: BoxFit.contain,
@@ -232,7 +233,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 4.0),
                                       child: Image.asset(
-                                        AppAssets.clickupLogo,
+                                        AppAssets.clickupLogo(context.isDarkMode),
                                         width: 85,
                                         fit: BoxFit.fitWidth,
                                       ),
@@ -274,7 +275,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                   "${appLocalization.translate("connectWithClickupNow")} ",
                                   style: AppTextStyle.getTextStyle(
                                       AppTextStyleParams(
-                                          color: AppColors.primary.shade500,
+                                          color: AppColors.primary(context.isDarkMode).shade500,
                                           appFontWeight: AppFontWeight.semiBold,
                                           appFontSize: AppFontSize.paragraphSmall)),
                                 ),
@@ -768,7 +769,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 "${appLocalization.translate("connectWithClickup")} ",
                                 style: AppTextStyle.getTextStyle(
                                     AppTextStyleParams(
-                                        color: AppColors.white,
+                                        color: AppColors.white(context.isDarkMode),
                                         appFontWeight: AppFontWeight.semiBold,
                                         appFontSize: AppFontSize.paragraphSmall)),
                               ),
@@ -801,7 +802,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                           AppTextStyleParams(
                                               appFontSize:
                                                   AppFontSize.paragraphSmall,
-                                              color: AppColors.grey.shade50,
+                                              color: AppColors.grey(context.isDarkMode).shade50,
                                               appFontWeight:
                                                   AppFontWeight.regular)),
                                     ))));
@@ -881,7 +882,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                   "${appLocalization.translate("connectWithClickup")} ",
                                   style: AppTextStyle.getTextStyle(
                                       AppTextStyleParams(
-                                          color: AppColors.white,
+                                          color: AppColors.white(context.isDarkMode),
                                           appFontWeight: AppFontWeight.semiBold,
                                           appFontSize:
                                               AppFontSize.paragraphLarge)),
@@ -915,7 +916,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                             AppTextStyleParams(
                                                 appFontSize:
                                                     AppFontSize.paragraphSmall,
-                                                color: AppColors.grey.shade50,
+                                                color: AppColors.grey(context.isDarkMode).shade50,
                                                 appFontWeight:
                                                     AppFontWeight.regular)),
                                       ))));

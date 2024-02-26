@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
@@ -260,10 +261,10 @@ class TaskPopup extends StatelessWidget {
                   AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
                       appFontWeight: AppFontWeight.medium,
-                      color: AppColors.grey.shade800));
+                      color: AppColors.grey(context.isDarkMode).shade800));
               final sectionTitle = AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade900,
+                  color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium));
               return CustomAlertDialog(
                   loading: loading,
@@ -382,7 +383,7 @@ class TaskPopup extends StatelessWidget {
                                               value: null,
                                               child: Text(appLocalization
                                                   .translate("clear")))
-                                        ],
+                                        ], isDarkMode: (context.isDarkMode),
                                   ),
                                 Text(
                                   "/",
@@ -411,7 +412,7 @@ class TaskPopup extends StatelessWidget {
                                         value: e,
                                         child: Text(e.name ?? "")))
                                         .toList() ??
-                                        [],
+                                        [], isDarkMode: (context.isDarkMode),
                                   ),
                               ],
                             ),
@@ -447,7 +448,7 @@ class TaskPopup extends StatelessWidget {
                                CustomDropDown(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDown
-                                      .textStyle,
+                                      .textStyle(context.isDarkMode),
                                   hint: Text(
                                       appLocalization.translate("status")),
                                   onChanged: (status) => taskPopUpBloc.add(
@@ -465,7 +466,7 @@ class TaskPopup extends StatelessWidget {
                                           child: false ? Text(
                                               e.status ?? "",
                                               style: CustomDropDown
-                                                  .textStyle
+                                                  .textStyle(context.isDarkMode)
                                                   .copyWith(
                                                   color: e
                                                       .getColor,
@@ -485,12 +486,12 @@ class TaskPopup extends StatelessWidget {
                                                       ? AppIcons.checkboxchecked
                                                       : AppIcons.checkbox,
                                                   color: e.getColor ??
-                                                      AppColors.text),
+                                                      AppColors.text(context.isDarkMode)),
                                               const SizedBox(width: 2,),
                                               Text(
                                                   e.status ?? "",
                                                   style: CustomDropDown
-                                                      .textStyle
+                                                      .textStyle(context.isDarkMode)
                                                       .copyWith(
                                                       color: e
                                                           .getColor,
@@ -505,7 +506,7 @@ class TaskPopup extends StatelessWidget {
                                             ],
                                           )))
                                       .toList() ??
-                                      [],
+                                      [], isDarkMode: (context.isDarkMode),
                                 ),
 
                                 ///Priority
@@ -547,7 +548,7 @@ class TaskPopup extends StatelessWidget {
                                                   ? AppIcons.flag
                                                   : AppIcons.flagbold,
                                               color: e.getPriorityColor ??
-                                                  AppColors.text),
+                                                  AppColors.text(context.isDarkMode)),
                                           const SizedBox(width: 2,),
                                           Text(
                                             e.priorityNum
@@ -566,7 +567,7 @@ class TaskPopup extends StatelessWidget {
                                                   ? AppIcons.flag
                                                   : AppIcons.flagbold,
                                               color: e.getPriorityColor ??
-                                                  AppColors.text),
+                                                  AppColors.text(context.isDarkMode)),
                                           const SizedBox(width: 2,),
                                           Text(
                                             e.priority ??
@@ -591,13 +592,13 @@ class TaskPopup extends StatelessWidget {
                                                 children: [
                                                   Icon(
                                                        AppIcons.flag,
-                                                      color: AppColors.grey.shade50),
+                                                      color: AppColors.grey(context.isDarkMode).shade50),
                                                   const SizedBox(width: 2,),
                                                   Text(appLocalization
                                                       .translate("clear")),
                                                 ],
                                               ))
-                                        ],
+                                        ], isDarkMode: (context.isDarkMode),
                                   ),
                               ],
                             ),
@@ -867,7 +868,7 @@ class TaskPopup extends StatelessWidget {
                                                                           ),
                                                                           Text(
                                                                             e.name ?? "",
-                                                                            style: TagChip.textStyle(AppColors.text),
+                                                                            style: TagChip.textStyle(AppColors.text(context.isDarkMode)),
                                                                           ),
                                                                         ],
                                                                       ),

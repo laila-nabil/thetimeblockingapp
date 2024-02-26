@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
@@ -141,6 +142,7 @@ class ResponsiveScaffold extends Scaffold {
       : CustomAppBar(
           pageActions: pageActions,
           showSmallDesign: context.showSmallDesign,
+          isDarkMode: context.isDarkMode,
         );
 }
 

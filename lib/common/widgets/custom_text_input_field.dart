@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
@@ -187,7 +188,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
               widget.labelText ?? "",
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade900,
+                  color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium)),
             ),
           ),
@@ -216,21 +217,21 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                     : [
                         if (isChanging)
                           BoxShadow(
-                            color: AppColors.warning.shade50,
+                            color: AppColors.warning(context.isDarkMode).shade50,
                             blurRadius: 0,
                             offset: const Offset(0, 0),
                             spreadRadius: 4,
                           ),
                         if (isError)
                           BoxShadow(
-                            color: AppColors.error.shade50,
+                            color: AppColors.error(context.isDarkMode).shade50,
                             blurRadius: 0,
                             offset: const Offset(0, 0),
                             spreadRadius: 4,
                           ),
                         if (isSuccess)
                           BoxShadow(
-                            color: AppColors.success.shade50,
+                            color: AppColors.success(context.isDarkMode).shade50,
                             blurRadius: 0,
                             offset: const Offset(0, 0),
                             spreadRadius: 4,
@@ -275,12 +276,12 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   suffixIcon: isSuccess
                       ? Icon(
                           AppIcons.checkcircle,
-                          color: AppColors.success.shade500,
+                          color: AppColors.success(context.isDarkMode).shade500,
                         )
                       : isError
                           ?  Icon(
                             AppIcons.multiplycircle,
-                            color: AppColors.error.shade500,
+                            color: AppColors.error(context.isDarkMode).shade500,
                           )
                           : null,
                   enabled: widget.enabled ?? true,
@@ -295,42 +296,42 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                   floatingLabelStyle: AppTextStyle.getTextStyle(
                       AppTextStyleParams(
                           appFontSize: AppFontSize.paragraphSmall,
-                          color: AppColors.grey.shade900,
+                          color: AppColors.grey(context.isDarkMode).shade900,
                           appFontWeight: AppFontWeight.medium)),
                   floatingLabelAlignment: FloatingLabelAlignment.start,
                   hintText: widget.hintText,
                   hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.grey.shade400,
+                      color: AppColors.grey(context.isDarkMode).shade400,
                       appFontWeight: AppFontWeight.regular)),
                   helperText: widget.helperText,
                   helperStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.grey.shade500,
+                      color: AppColors.grey(context.isDarkMode).shade500,
                       appFontWeight: AppFontWeight.regular)),
                   disabledBorder: isBox
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 1))
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 1))
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 0)),
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 0)),
                   enabledBorder: isBox
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 1))
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 1))
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 1)),
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
                   focusedBorder: isBox
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.primary.shade100, width: 1),
+                              color: AppColors.primary(context.isDarkMode).shade100, width: 1),
                         )
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
@@ -338,51 +339,51 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                               color: (widget.buttonStyle == CustomTextInputFieldStyle.line ||
                                   (widget.maxLines != null && widget.maxLines! > 1))
                                   ? (isChanging
-                                      ? AppColors.warning.shade300
+                                      ? AppColors.warning(context.isDarkMode).shade300
                                       : isError
-                                          ? AppColors.error.shade300
+                                          ? AppColors.error(context.isDarkMode).shade300
                                           : isSuccess
-                                              ? AppColors.success.shade300
-                                              : AppColors.primary.shade100)
-                                  : AppColors.primary.shade100,
+                                              ? AppColors.success(context.isDarkMode).shade300
+                                              : AppColors.primary(context.isDarkMode).shade100)
+                                  : AppColors.primary(context.isDarkMode).shade100,
                               width: 1),
                         ),
                   border: isBox
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 1))
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 1))
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.grey.shade300, width: 1)),
+                              color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
                   errorBorder: isBox
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
                               color: isSuccess
-                                  ? AppColors.success.shade200
-                                  : AppColors.error.shade200,
+                                  ? AppColors.success(context.isDarkMode).shade200
+                                  : AppColors.error(context.isDarkMode).shade200,
                               width: 1))
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
                               color: isSuccess
-                                  ? AppColors.success.shade200
-                                  : AppColors.error.shade200,
+                                  ? AppColors.success(context.isDarkMode).shade200
+                                  : AppColors.error(context.isDarkMode).shade200,
                               width: 1)),
                   errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
                       color: isSuccess
-                          ? AppColors.success.shade600
-                          : AppColors.error.shade500,
+                          ? AppColors.success(context.isDarkMode).shade600
+                          : AppColors.error(context.isDarkMode).shade500,
                       appFontWeight: AppFontWeight.regular)),
                   errorText: widget.successText ?? widget.errorText,
                   fillColor: widget.enabled == false
-                      ? AppColors.grey.shade100
+                      ? AppColors.grey(context.isDarkMode).shade100
                       : widget.buttonStyle == CustomTextInputFieldStyle.line
                           ? Colors.transparent
-                          : AppColors.white,
+                          : AppColors.white(context.isDarkMode),
                   filled: true,
                 ),
                 dragStartBehavior: widget.dragStartBehavior,
@@ -671,53 +672,53 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                 labelText: labelText,
                 labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey.shade400,
+                    color: AppColors.grey(context.isDarkMode).shade400,
                     appFontWeight: AppFontWeight.regular)),
                 floatingLabelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey.shade900,
+                    color: AppColors.grey(context.isDarkMode).shade900,
                     appFontWeight: AppFontWeight.medium)),
                 floatingLabelAlignment: FloatingLabelAlignment.start,
                 hintText: hintText,
                 hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey.shade400,
+                    color: AppColors.grey(context.isDarkMode).shade400,
                     appFontWeight: AppFontWeight.regular)),
                 helperText: helperText,
                 helperStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey.shade500,
+                    color: AppColors.grey(context.isDarkMode).shade500,
                     appFontWeight: AppFontWeight.regular)),
                 disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                        BorderSide(color: AppColors.grey.shade300, width: 1)),
+                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                        BorderSide(color: AppColors.grey.shade300, width: 1)),
+                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                    BorderSide(color: AppColors.primary.shade100, width: 1),),
+                    BorderSide(color: AppColors.primary(context.isDarkMode).shade100, width: 1),),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                        BorderSide(color: AppColors.grey.shade300, width: 1)),
+                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
                 contentPadding: EdgeInsets.symmetric(
                     horizontal:
                         size == CustomTextInputFieldSize.small ? 12 : 16),
                 errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6),
                     borderSide:
-                        BorderSide(color: AppColors.error.shade200, width: 1)),
+                        BorderSide(color: AppColors.error(context.isDarkMode).shade200, width: 1)),
                 errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.error.shade500,
+                    color: AppColors.error(context.isDarkMode).shade500,
                     appFontWeight: AppFontWeight.regular)),
                 errorText: errorText,
                 fillColor: enabled == false
-                    ? AppColors.grey.shade100
+                    ? AppColors.grey(context.isDarkMode).shade100
                     : AppColors.white,
                 filled: true,
 

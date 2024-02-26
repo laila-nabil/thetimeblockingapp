@@ -200,7 +200,7 @@ class ClickupTasksDataSource extends CalendarDataSource {
   Color getColor(int index) {
     var clickupTask = clickupTasks[index];
     if(clickupTask.isCompleted){
-      return AppColors.grey.shade300;
+      return AppColors.grey(false).shade300;
     }
     return clickupTask.priority?.getPriorityColor ??
         AppColors.paletteBlue;

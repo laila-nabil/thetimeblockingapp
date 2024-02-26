@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
@@ -167,7 +168,7 @@ class TagPage extends StatelessWidget {
                                 state.navigateTag?.name ?? "",
                                 style: AppTextStyle.getTextStyle(
                                     AppTextStyleParams(
-                                        color: AppColors.grey.shade900,
+                                        color: AppColors.grey(context.isDarkMode).shade900,
                                         appFontWeight: AppFontWeight.medium,
                                         appFontSize: AppFontSize.heading4)),
                               ),
@@ -179,7 +180,7 @@ class TagPage extends StatelessWidget {
                                 .getCurrentTagTasksResultOverdue.isNotEmpty)
                               ToggleableSection(
                                   title: appLocalization.translate("Overdue"),
-                                  titleColor: AppColors.error.shade500,
+                                  titleColor: AppColors.error(context.isDarkMode).shade500,
                                   children: state
                                       .getCurrentTagTasksResultOverdue
                                       .map<Widget>((e) => buildTaskWidget(
@@ -189,7 +190,7 @@ class TagPage extends StatelessWidget {
                                 .getCurrentTagTasksResultUpcoming.isNotEmpty)
                               ToggleableSection(
                                   title: appLocalization.translate("Upcoming"),
-                                  titleColor: AppColors.warning.shade500,
+                                  titleColor: AppColors.warning(context.isDarkMode).shade500,
                                   children: state
                                       .getCurrentTagTasksResultUpcoming
                                       .map<Widget>((e) => buildTaskWidget(
@@ -209,7 +210,7 @@ class TagPage extends StatelessWidget {
                                 .getCurrentTagTasksResultCompleted.isNotEmpty)
                               ToggleableSection(
                                   title: appLocalization.translate("Completed"),
-                                  titleColor: AppColors.success.shade500,
+                                  titleColor: AppColors.success(context.isDarkMode).shade500,
                                   children: state
                                       .getCurrentTagTasksResultCompleted
                                       .map<Widget>((e) => buildTaskWidget(

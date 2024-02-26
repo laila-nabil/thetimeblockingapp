@@ -7,11 +7,12 @@ import '../../core/resources/app_icons.dart';
 import '../../core/resources/assets_paths.dart';
 
 class CustomDropDown extends DropdownButton {
-  static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
+  static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
-      color: AppColors.grey.shade900,
+      color: AppColors.grey(isDarkMode).shade900,
       appFontWeight: AppFontWeight.regular));
 
+  final bool isDarkMode;
   CustomDropDown({
     super.key,
     required super.items,
@@ -33,13 +34,14 @@ class CustomDropDown extends DropdownButton {
     super.menuMaxHeight,
     super.enableFeedback,
     super.alignment = AlignmentDirectional.centerStart,
+    required this.isDarkMode
   });
 
   @override
-  Color? get dropdownColor => AppColors.background;
+  Color? get dropdownColor => AppColors.background(isDarkMode);
 
   @override
-  Color? get focusColor => AppColors.grey.shade50;
+  Color? get focusColor => AppColors.grey(isDarkMode).shade50;
 
   @override
   Widget? get icon => const Icon(AppIcons.chevrondown, size: 0);
@@ -59,6 +61,7 @@ class CustomDropDown extends DropdownButton {
 }
 
 class CustomDropDownMenu extends DropdownMenu {
+  final bool isDarkMode;
   const CustomDropDownMenu({
     super.key,
     super.enabled = true,
@@ -80,11 +83,12 @@ class CustomDropDownMenu extends DropdownMenu {
     required super.onSelected,
     super.requestFocusOnTap,
     required super.dropdownMenuEntries,
+    required this.isDarkMode
   });
 
 
   @override
   MenuStyle? get menuStyle => MenuStyle(
       surfaceTintColor:
-          MaterialStateColor.resolveWith((states) => AppColors.background));
+          MaterialStateColor.resolveWith((states) => AppColors.background(isDarkMode)));
 }

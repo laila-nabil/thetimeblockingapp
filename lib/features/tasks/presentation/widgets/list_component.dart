@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 
 import '../../../../common/widgets/custom_pop_up_menu.dart';
@@ -37,8 +38,8 @@ class _ListComponentState extends State<ListComponent> {
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
             color: onHover
-                ? AppColors.primary.shade50.withOpacity(0.5)
-                : AppColors.background),
+                ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+                : AppColors.background(context.isDarkMode)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -46,7 +47,7 @@ class _ListComponentState extends State<ListComponent> {
               widget.list.name ?? "",
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade900,
+                  color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.semiBold)),
             ),
             if (widget.actions?.isNotEmpty == true)

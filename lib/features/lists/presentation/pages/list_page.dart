@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
@@ -89,7 +90,7 @@ class ListPage extends StatelessWidget {
                         child: Text(
                           state.currentList?.name ?? "",
                           style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                              color: AppColors.grey.shade900,
+                              color: AppColors.grey(context.isDarkMode).shade900,
                               appFontWeight: AppFontWeight.medium,
                               appFontSize: AppFontSize.heading4)),
                         ),
@@ -102,7 +103,7 @@ class ListPage extends StatelessWidget {
                               if (state.getCurrentListTasksOverdue.isNotEmpty)
                                 ToggleableSection(
                                     title: appLocalization.translate("Overdue"),
-                                    titleColor: AppColors.error.shade500,
+                                    titleColor: AppColors.error(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksOverdue
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc))
@@ -111,7 +112,7 @@ class ListPage extends StatelessWidget {
                                 ToggleableSection(
                                     title:
                                         appLocalization.translate("Upcoming"),
-                                    titleColor: AppColors.warning.shade500,
+                                    titleColor: AppColors.warning(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksUpcoming
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc))
@@ -130,7 +131,7 @@ class ListPage extends StatelessWidget {
                                 ToggleableSection(
                                     title:
                                         appLocalization.translate("Completed"),
-                                    titleColor: AppColors.success.shade500,
+                                    titleColor: AppColors.success(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksCompleted
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc))

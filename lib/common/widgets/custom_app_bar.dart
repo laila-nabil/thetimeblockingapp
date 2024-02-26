@@ -6,8 +6,10 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
@@ -18,13 +20,14 @@ import 'custom_pop_up_menu.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {Key? key, this.pageActions, required this.showSmallDesign})
+      {Key? key, this.pageActions, required this.showSmallDesign, required this.isDarkMode})
       : super(key: key);
   final List<CustomPopupItem>? pageActions;
   final bool showSmallDesign;
-
+  final bool isDarkMode;
   @override
   Widget build(BuildContext context) {
+    printDebug("CustomAppBar isDarkMode $isDarkMode");
     final startupBloc = BlocProvider.of<StartupBloc>(context);
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
@@ -58,6 +61,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 }
               },
               pageActions: pageActions,
+              isDarkMode: isDarkMode,
             );
           },
         );
@@ -78,6 +82,7 @@ class CustomAppBarWidget extends StatelessWidget {
     required this.openDrawer,
     required this.selectClickupSpace,
     required this.selectClickupWorkspace,
+    required this.isDarkMode,
   }) : super(key: key);
   final bool showSmallDesign;
   final void Function() openDrawer;
@@ -85,7 +90,7 @@ class CustomAppBarWidget extends StatelessWidget {
   final void Function(ClickupWorkspace? clickupWorkspace)
       selectClickupWorkspace;
   final List<CustomPopupItem>? pageActions;
-
+  final bool isDarkMode;
   ///TODO
   static double height(bool showSmallDesign) => 52;
   // static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
@@ -93,8 +98,8 @@ class CustomAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.background,
-      surfaceTintColor: AppColors.background,
+      backgroundColor: AppColors.background(isDarkMode),
+      surfaceTintColor: AppColors.background(isDarkMode),
       elevation: 0,
       leading: showSmallDesign
           ? null

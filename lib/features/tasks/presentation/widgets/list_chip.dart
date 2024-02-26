@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../../../core/resources/assets_paths.dart';
@@ -19,7 +20,7 @@ class ListChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final isListInsideFolder = folderName?.isNotEmpty == true;
     const iconSize = 12.0;
-    final colors = AppColors.grey.shade600;
+    final colors = AppColors.grey(context.isDarkMode).shade600;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 110),
       child: Chip(

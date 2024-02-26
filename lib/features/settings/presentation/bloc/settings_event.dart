@@ -12,3 +12,12 @@ class ChangeLanguageEvent extends SettingsEvent {
   @override
   List<Object?> get props => [changeLanguageParams];
 }
+
+class ChangeThemeEvent extends SettingsEvent {
+  final ThemeMode themeMode;
+
+  const ChangeThemeEvent(this.themeMode);
+
+  @override
+  List<Object?> get props => [themeMode];
+}

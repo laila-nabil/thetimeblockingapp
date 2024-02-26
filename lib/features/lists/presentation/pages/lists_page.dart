@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
@@ -145,7 +146,7 @@ class ListsPage extends StatelessWidget {
                               appLocalization.translate("Lists"),
                               style: AppTextStyle.getTextStyle(
                                   AppTextStyleParams(
-                                      color: AppColors.grey.shade900,
+                                      color: AppColors.grey(context.isDarkMode).shade900,
                                       appFontWeight: AppFontWeight.medium,
                                       appFontSize: AppFontSize.heading4)),
                             ),

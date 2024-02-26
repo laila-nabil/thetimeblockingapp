@@ -35,13 +35,13 @@ enum AppFontSize {
 class AppTextStyle {
   static TextStyle getTextStyle(AppTextStyleParams appTextStyleParams) {
     return TextStyle(
-        fontFamily: 'Inter',
-        fontSize: appTextStyleParams.appFontSize.size,
-        inherit: true,
-        fontWeight: appTextStyleParams.appFontWeight.value,
-        color: appTextStyleParams.color,
+      fontFamily: 'Inter',
+      fontSize: appTextStyleParams.appFontSize.size,
+      inherit: true,
+      fontWeight: appTextStyleParams.appFontWeight.value,
+      color: appTextStyleParams.color,
       height: appTextStyleParams.appFontSize.lineHeight /
-          appTextStyleParams.appFontSize.size, ///TODO make sure correct
+          appTextStyleParams.appFontSize.size,
     );
   }
 }
