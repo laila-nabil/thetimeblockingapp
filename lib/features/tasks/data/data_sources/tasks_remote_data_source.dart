@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/demo.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
@@ -12,6 +13,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/extensions.dart';
+import '../../../../core/globals.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
@@ -164,6 +166,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params}) async {
     List<ClickupWorkspaceModel> result = [];
+    if(Globals.isDemo){
+      return Demo.workspaces;
+    }
     final response = await network.get(
         uri: Uri.parse("$clickupUrl/team"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
@@ -176,6 +181,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<List<ClickupFolderModel>> getClickupFolders(
       {required GetClickupFoldersInSpaceParams params}) async {
+    if(Globals.isDemo){
+      return Demo.folders;
+    }
     List<ClickupFolderModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/folder";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
@@ -196,6 +204,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params}) async {
     List<ClickupListModel> result = [];
+    if(Globals.isDemo){
+      return Demo.folderlessLists;
+    }
     final url = "$clickupUrl/folder/${params.clickupFolder.id}/list";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
@@ -234,6 +245,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params}) async {
     List<ClickupSpaceModel> result = [];
+    if(Globals.isDemo){
+      return Demo.spaces;
+    }
     final url = "$clickupUrl/team/${params.clickupWorkspace.id}/space";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
@@ -253,6 +267,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupTagModel>> getClickupTags(
       {required GetClickupTagsInSpaceParams params}) async {
     List<ClickupTagModel> result = [];
+    if(Globals.isDemo){
+      return Demo.tags;
+    }
     final url = "$clickupUrl/space/${params.clickupSpace.id}/tag";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null

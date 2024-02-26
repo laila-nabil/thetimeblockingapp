@@ -68,7 +68,9 @@ class Globals {
 
   static String redirectAfterAuthRouteName = "";
 
-  static   static const ThemeMode defaultThemeMode = ThemeMode.light;
+  static const ThemeMode defaultThemeMode = ThemeMode.light;
+
+  static const bool isDemo = true;
 }
 
 ///just to make it harder to write global variable
