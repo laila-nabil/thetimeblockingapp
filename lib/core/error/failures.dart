@@ -42,3 +42,7 @@ class FailuresList extends Failure {
   FailuresList({required List<Failure> failures})
       : super(message: failures.map((e) => "${e.message}\n").toString());
 }
+
+class DemoFailure extends Failure {
+  const DemoFailure({required super.message});
+}

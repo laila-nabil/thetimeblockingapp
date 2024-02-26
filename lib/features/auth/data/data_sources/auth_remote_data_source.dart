@@ -35,9 +35,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ClickupAccessTokenModel> getClickupAccessToken(
       {required GetClickupAccessTokenParams params}) async {
     printDebug("params.code ${params.code}");
-    if(Globals.isDemo && params.code == "demo"){
-      return Demo.accessTokenModel;
-    }
     final result = await network.post(
         uri: Uri.parse(
             "https://corsproxy.io/?https://api.clickup.com/api/v2/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=${params.code}"));
@@ -46,9 +43,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<ClickupUserModel> getClickupUser({required GetClickupUserParams params}) async {
-    if(Globals.isDemo){
-      return Demo.user;
-    }
     final result = await network.get(
         uri: Uri.parse("$clickupUrl/user"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
