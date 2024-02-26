@@ -69,6 +69,10 @@ class Globals {
   static String redirectAfterAuthRouteName = "";
 
   static const ThemeMode defaultThemeMode = ThemeMode.light;
+
+  static const bool isDemo = true;
+  static String clickupAuthUrl =
+      "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
 }
 
 ///just to make it harder to write global variable

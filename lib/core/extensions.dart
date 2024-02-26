@@ -113,6 +113,10 @@ extension DateTimeExtensions on DateTime {
       return "$y-$m-$d ${includeTime ? "$h:$min $amPm" : ""}";
     }
   }
+
+  DateTime get dateAtZeroHour {
+    return DateTime(year,month,day);
+  }
 }
 
 extension ListDateTimeExtensions on List<DateTime> {

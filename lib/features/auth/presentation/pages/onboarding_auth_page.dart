@@ -49,8 +49,6 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    final clickupAuthUrl =
-        "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
     final titleStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
         color: AppColors.text(context.isDarkMode),
@@ -139,7 +137,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       children: [
                         CustomButton.custom(
                           onPressed: () {
-                            final url = clickupAuthUrl;
+                            final url = Globals.clickupAuthUrl;
                             if (kIsWeb) {
                               launchWithURL(url: url);
                               if (true) {
@@ -248,7 +246,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             analyticsEvent:AnalyticsEvents.onBoardingStep1ConnectClickup,
                             size: CustomButtonSize.large,
                             onPressed: () {
-                              final url = clickupAuthUrl;
+                              final url = Globals.clickupAuthUrl;
                               if (kIsWeb) {
                                 launchWithURL(url: url);
                                 if (true) {
@@ -742,7 +740,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                           size: CustomButtonSize.small,
                           onPressed: () {
-                            final url = clickupAuthUrl;
+                            final url = Globals.clickupAuthUrl;
                             if (kIsWeb) {
                               launchWithURL(url: url);
                               if (true) {
@@ -790,7 +788,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           label: appLocalization.translate("copyLink"),
                           onPressed: () async {
                             await Clipboard.setData(
-                                    ClipboardData(text: clickupAuthUrl))
+                                    ClipboardData(text: Globals.clickupAuthUrl))
                                 .then((value) =>
                                     ScaffoldMessenger.maybeOf(context)
                                         ?.showSnackBar(SnackBar(
@@ -855,7 +853,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                             size: CustomButtonSize.large,
                             onPressed: () {
-                              final url = clickupAuthUrl;
+                              final url = Globals.clickupAuthUrl;
                               if (kIsWeb) {
                                 launchWithURL(url: url);
                                 if (true) {
@@ -904,7 +902,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                             label: appLocalization.translate("copyLink"),
                             onPressed: () async {
                               await Clipboard.setData(
-                                      ClipboardData(text: clickupAuthUrl))
+                                      ClipboardData(text: Globals.clickupAuthUrl))
                                   .then((value) =>
                                       ScaffoldMessenger.maybeOf(context)
                                           ?.showSnackBar(SnackBar(

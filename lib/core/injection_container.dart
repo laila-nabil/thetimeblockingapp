@@ -28,6 +28,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_l
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
+import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
@@ -40,6 +41,7 @@ import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
+import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
@@ -327,23 +329,27 @@ void _initServiceLocator({required Network network}) {
       () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
 
   /// DataSources
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(
-            network: serviceLocator(),
-            clickupClientId: Globals.clickupClientId,
-            clickupClientSecret: Globals.clickupClientSecret,
-            clickupUrl: Globals.clickupUrl,
-          ));
+  serviceLocator
+      .registerLazySingleton<AuthRemoteDataSource>(() => Globals.isDemo
+          ? AuthDemoRemoteDataSourceImpl()
+          : AuthRemoteDataSourceImpl(
+              network: serviceLocator(),
+              clickupClientId: Globals.clickupClientId,
+              clickupClientSecret: Globals.clickupClientSecret,
+              clickupUrl: Globals.clickupUrl,
+            ));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
-  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
-      () => TasksRemoteDataSourceImpl(
-            network: serviceLocator(),
-            clickupClientId: Globals.clickupClientId,
-            clickupClientSecret: Globals.clickupClientSecret,
-            clickupUrl: Globals.clickupUrl,
-          ));
+  serviceLocator
+      .registerLazySingleton<TasksRemoteDataSource>(() => Globals.isDemo
+          ? TasksDemoRemoteDataSourceImpl()
+          : TasksRemoteDataSourceImpl(
+              network: serviceLocator(),
+              clickupClientId: Globals.clickupClientId,
+              clickupClientSecret: Globals.clickupClientSecret,
+              clickupUrl: Globals.clickupUrl,
+            ));
 
   serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
       () => StartUpRemoteDataSourceImpl(

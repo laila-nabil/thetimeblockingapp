@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
@@ -9,6 +11,8 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
@@ -33,6 +37,13 @@ class WidgetBookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Widgetbook.material(
+      appBuilder: (context, w) {
+        return BlocProvider(
+          create: (context) =>
+              SettingsBloc(ChangeLanguageUseCase(appLocalization)),
+          child: w,
+        );
+      },
       addons: [
         // MaterialThemeAddon(
         //   themes: [
@@ -2128,6 +2139,187 @@ class WidgetBookApp extends StatelessWidget {
                         selectSpace: (s) => print("selectSpace $s"),
                       ),
                       backgroundColor: Colors.black,
+                    ),
+                  );
+                })
+          ]),
+          WidgetbookComponent(name: 'Alerts', useCases: [
+            WidgetbookUseCase(
+                name: 'Alerts',
+                builder: (context) {
+                  final title = context.knobs
+                      .string(label: "title", initialValue: "Main title");
+                  final details = context.knobs
+                      .string(label: "Details", initialValue: "details here");
+                  return Theme(
+                    data: appTheme(context.isDarkMode),
+                    child: Scaffold(
+                      body: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            const Text("base"),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.base,
+                              customAlertThemeType: CustomAlertThemeType.filled,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.base,
+                              customAlertThemeType: CustomAlertThemeType.accent,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.base,
+                              customAlertThemeType:
+                                  CustomAlertThemeType.outlined,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            const Text('information'),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.information,
+                              customAlertThemeType: CustomAlertThemeType.filled,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.information,
+                              customAlertThemeType: CustomAlertThemeType.accent,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.information,
+                              customAlertThemeType:
+                                  CustomAlertThemeType.outlined,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            const Text('success'),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.success,
+                              customAlertThemeType: CustomAlertThemeType.filled,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.success,
+                              customAlertThemeType: CustomAlertThemeType.accent,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.success,
+                              customAlertThemeType:
+                                  CustomAlertThemeType.outlined,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            const Text('warning'),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.warning,
+                              customAlertThemeType: CustomAlertThemeType.filled,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.warning,
+                              customAlertThemeType: CustomAlertThemeType.accent,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.warning,
+                              customAlertThemeType:
+                                  CustomAlertThemeType.outlined,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            const Text('error'),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.error,
+                              customAlertThemeType: CustomAlertThemeType.filled,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.error,
+                              customAlertThemeType: CustomAlertThemeType.accent,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                            CustomAlertWidget(
+                              customAlertType: CustomAlertType.error,
+                              customAlertThemeType:
+                                  CustomAlertThemeType.outlined,
+                              title: title,
+                              details: details,
+                              primaryCta: "Confirm",
+                              primaryCtaOnPressed: () {},
+                              secondaryCta: "Cancel",
+                              secondaryCtaOnPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 })

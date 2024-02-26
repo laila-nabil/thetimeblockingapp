@@ -1,11 +1,22 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
+import '../../../core/launch_url.dart';
+import '../../../features/auth/presentation/widgets/auth_page_webview.dart';
 import '../../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_pop_up_menu.dart';
@@ -86,49 +97,76 @@ class ResponsiveScaffold extends Scaffold {
 
   @override
   Widget? get body {
-    if (context.showSmallDesign == false) {
-      return BlocBuilder<StartupBloc, StartupState>(
+    return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state.drawerLargerScreenOpen) {
-            return BlocBuilder<SettingsBloc, SettingsState>(
+          final authBloc = BlocProvider.of<AuthBloc>(context);
+          if (context.showSmallDesign == false) {
+            return BlocBuilder<StartupBloc, StartupState>(
               builder: (context, state) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CustomDrawer(),
-                    Expanded(
-                      child: _ResponsiveBody(
-                        responsiveTParams: responsiveBody,
-                        responsiveScaffoldLoading: responsiveScaffoldLoading,
-                        onRefresh: onRefresh,
-                      ),
-                    ),
-                  ],
+                if (state.drawerLargerScreenOpen) {
+                  return BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CustomDrawer(),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                continueWithClickupToUse(authBloc),
+                                Expanded(
+                                  child: _ResponsiveBody(
+                                    responsiveTParams: responsiveBody,
+                                    responsiveScaffoldLoading: responsiveScaffoldLoading,
+                                    onRefresh: onRefresh,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                return BlocBuilder<StartupBloc, StartupState>(
+                  builder: (context, state) {
+                    return BlocBuilder<SettingsBloc, SettingsState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            continueWithClickupToUse(authBloc),
+                            Expanded(
+                              child: _ResponsiveBody(
+                                responsiveTParams: responsiveBody,
+                                responsiveScaffoldLoading: responsiveScaffoldLoading,
+                                onRefresh: onRefresh,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 );
               },
             );
           }
-          return BlocBuilder<StartupBloc, StartupState>(
-            builder: (context, state) {
-              return BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, state) {
-                  return _ResponsiveBody(
-                    responsiveTParams: responsiveBody,
-                    responsiveScaffoldLoading: responsiveScaffoldLoading,
-                    onRefresh: onRefresh,
-                  );
-                },
-              );
-            },
+          return Column(
+            children: [
+              continueWithClickupToUse(authBloc),
+              Expanded(
+                child: _ResponsiveBody(
+                  responsiveTParams: responsiveBody,
+                  responsiveScaffoldLoading: responsiveScaffoldLoading,
+                  onRefresh: onRefresh,
+                ),
+              ),
+            ],
           );
-        },
-      );
-    }
-    return _ResponsiveBody(
-      responsiveTParams: responsiveBody,
-      responsiveScaffoldLoading: responsiveScaffoldLoading,
-      onRefresh: onRefresh,
-    );
+        });
+
+
   }
 
   @override
@@ -144,6 +182,63 @@ class ResponsiveScaffold extends Scaffold {
           showSmallDesign: context.showSmallDesign,
           isDarkMode: context.isDarkMode,
         );
+
+  Widget continueWithClickupToUse(AuthBloc authBloc){
+     if(Globals.isDemo) {
+      return true
+          ? Padding(
+            padding: EdgeInsets.all(AppSpacing.small12.value),
+            child: CustomAlertWidget(
+                customAlertType: CustomAlertType.warning,
+                customAlertThemeType: CustomAlertThemeType.accent,
+                title: "${appLocalization.translate("continueWithClickupToUse")} ${appLocalization.translate("connectWithClickup")}",
+                primaryCta: appLocalization.translate("connectWithClickup"),
+                primaryCtaOnPressed: (){
+                  final url = Globals.clickupAuthUrl;
+                  if (kIsWeb) {
+                    launchWithURL(url: url);
+                  } else if (Platform.isAndroid || Platform.isIOS) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return AuthPageWebView(
+                            url: url,
+                            getAccessToken: (String code) {
+                              authBloc
+                                  .add(GetClickupAccessToken(code));
+                            },
+                          );
+                        }));
+                  }
+                },
+      ),
+          )
+          : Row(
+              children: [
+           Text(appLocalization.translate("continueWithClickupToUse")),
+           CustomButton.noIcon(
+               type: CustomButtonType.greyTextLabel,
+               label: appLocalization.translate("connectWithClickup"), onPressed: (){
+             final url = Globals.clickupAuthUrl;
+             if (kIsWeb) {
+               launchWithURL(url: url);
+             } else if (Platform.isAndroid || Platform.isIOS) {
+               Navigator.push(context,
+                   MaterialPageRoute(builder: (context) {
+                     return AuthPageWebView(
+                       url: url,
+                       getAccessToken: (String code) {
+                         authBloc
+                             .add(GetClickupAccessToken(code));
+                       },
+                     );
+                   }));
+             }
+           })
+         ],
+       );
+     }
+     return Container();
+  }
 }
 
 class _ResponsiveBody extends StatelessWidget {
