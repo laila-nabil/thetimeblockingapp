@@ -85,12 +85,13 @@ class WidgetBookApp extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          colorSwatches(AppColors.secondary),
-                          colorSwatches(AppColors.success),
-                          colorSwatches(AppColors.error),
-                          colorSwatches(AppColors.warning),
-                          colorSwatches(AppColors.grey),
-                          colorSwatches(AppColors.brown),
+                          colorSwatches(
+                              AppColors.secondary(context.isDarkMode)),
+                          colorSwatches(AppColors.success(context.isDarkMode)),
+                          colorSwatches(AppColors.error(context.isDarkMode)),
+                          colorSwatches(AppColors.warning(context.isDarkMode)),
+                          colorSwatches(AppColors.grey(context.isDarkMode)),
+                          colorSwatches(AppColors.brown(context.isDarkMode)),
                           colorSwatches(AppColors.paletteYellow),
                           colorSwatches(AppColors.paletteGreen),
                           colorSwatches(AppColors.palettePurple),
@@ -112,36 +113,43 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'iconSize',
                       initialValue: 30,
                     );
-                    final iconColor = context.knobs.color(
-                      label: "Color",
-                      initialValue: Colors.black
-                    );
+                    final iconColor = context.knobs
+                        .color(label: "Color", initialValue: Colors.black);
                     return Container(
                       color: Colors.white,
                       child: SingleChildScrollView(
                         child: Wrap(
-                          children:[
+                          children: [
                             Icon(
                               AppIcons.bin,
                               size: iconSize,
                               color: iconColor,
                             ),
-                            Icon(AppIcons.bin_bold,
+                            Icon(
+                              AppIcons.bin_bold,
                               size: iconSize,
-                              color: iconColor,),
-                            Icon(AppIcons.hashtag,
+                              color: iconColor,
+                            ),
+                            Icon(
+                              AppIcons.hashtag,
                               size: iconSize,
-                              color: iconColor,),
-                            Icon(AppIcons.list,
+                              color: iconColor,
+                            ),
+                            Icon(
+                              AppIcons.list,
                               size: iconSize,
-                              color: iconColor,),
-                            Icon(AppIcons.hashtag,
+                              color: iconColor,
+                            ),
+                            Icon(
+                              AppIcons.hashtag,
                               size: iconSize,
-                              color: iconColor,),
-                            Icon(AppIcons.listbold,
+                              color: iconColor,
+                            ),
+                            Icon(
+                              AppIcons.listbold,
                               size: iconSize,
-                              color: iconColor,),
-
+                              color: iconColor,
+                            ),
                           ],
                         ),
                       ),
@@ -2076,7 +2084,7 @@ class WidgetBookApp extends StatelessWidget {
                   final showSmallDesign = context.showSmallDesign;
 
                   return Theme(
-                    data: appTheme,
+                    data: appTheme(context.isDarkMode),
                     child: Scaffold(
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
@@ -2101,7 +2109,7 @@ class WidgetBookApp extends StatelessWidget {
                   final showSmallDesign = context.showSmallDesign;
 
                   return Theme(
-                    data: appTheme,
+                    data: appTheme(context.isDarkMode),
                     child: Scaffold(
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
@@ -2179,7 +2187,7 @@ class WidgetBookApp extends StatelessWidget {
                         folder: ClickupFolder(name: folderName),
                         tags: tags);
                     return Theme(
-                      data: appTheme,
+                      data: appTheme(context.isDarkMode),
                       child: ListView(
                         children: [
                           TaskWidget(
@@ -2347,9 +2355,12 @@ class WidgetBookApp extends StatelessWidget {
                       initialValue: 'tag',
                     );
 
-                    ClickupTag tag = ClickupTag(name: name,tagFg: "");
+                    ClickupTag tag = ClickupTag(name: name, tagFg: "");
 
-                    return TagChip(tagName: tag.name??"",color: Colors.red,);
+                    return TagChip(
+                      tagName: tag.name ?? "",
+                      color: Colors.red,
+                    );
                   }),
             ],
           ),
@@ -2364,7 +2375,7 @@ class WidgetBookApp extends StatelessWidget {
                       initialValue: 'tag',
                     );
 
-                    ClickupTag tag = ClickupTag(name: name,tagFg: "");
+                    ClickupTag tag = ClickupTag(name: name, tagFg: "");
 
                     return TagComponent(tag: tag);
                   }),
@@ -2468,6 +2479,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       selectClickupSpace: (s) => print("select s"),
       selectClickupWorkspace: (s) => print("select s"),
       pageActions: pageActions,
+      isDarkMode: context.isDarkMode,
     );
   }
 

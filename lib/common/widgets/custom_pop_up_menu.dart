@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../core/resources/app_colors.dart';
@@ -25,14 +26,14 @@ class CustomPopupMenu extends StatefulWidget {
   const CustomPopupMenu(
       {super.key,
       required this.items,
-      this.backgroundColor = AppColors.white, this.tooltip});
+      this.backgroundColor, this.tooltip});
 
   final List<CustomPopupItem> items;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final String? tooltip;
-  static TextStyle textStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
+  static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
-      color: AppColors.grey.shade900,
+      color: AppColors.grey(isDarkMode).shade900,
       appFontWeight: AppFontWeight.regular));
 
   @override
@@ -43,20 +44,21 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
   bool isOpened = false;
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = widget.backgroundColor ?? AppColors.white(context.isDarkMode);
     return PopupMenuButton(
         tooltip: widget.tooltip,
-        color: AppColors.white,
-        surfaceTintColor: AppColors.white,
-        shadowColor: AppColors.secondary.shade100,
+        color: AppColors.white(context.isDarkMode),
+        surfaceTintColor: AppColors.white(context.isDarkMode),
+        shadowColor: AppColors.secondary(context.isDarkMode).shade100,
         icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(
-                color: widget.backgroundColor,
+                color: backgroundColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6.0)),
                 shadows: [
                   if(isOpened)BoxShadow(
-                    color: AppColors.secondary.shade50,
+                    color: AppColors.secondary(context.isDarkMode).shade50,
                     blurRadius: 0,
                     offset: const Offset(0, 0),
                     spreadRadius: 4,
@@ -65,7 +67,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
             child: Icon(
               AppIcons.dotsv,
               size: 16,
-              color: AppColors.grey.shade500,
+              color: AppColors.grey(context.isDarkMode).shade500,
             )),
         onOpened: (){
           setState(() {
@@ -89,7 +91,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                     child: e.title?.isNotEmpty == true
                         ? Text(
                             e.title ?? "",
-                            style: CustomPopupMenu.textStyle,
+                            style: CustomPopupMenu.textStyle(context.isDarkMode),
                           )
                         : e.titleWidget,
                   ))

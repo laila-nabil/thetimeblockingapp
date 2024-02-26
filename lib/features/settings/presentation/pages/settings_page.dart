@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
 import '../../../../core/resources/app_colors.dart';
@@ -49,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                         child: Text(
                           appLocalization.translate("Settings"),
                           style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                              color: AppColors.grey.shade900,
+                              color: AppColors.grey(context.isDarkMode).shade900,
                               appFontWeight: AppFontWeight.medium,
                               appFontSize: AppFontSize.heading4)),
                         ),
@@ -63,7 +64,7 @@ class SettingsPage extends StatelessWidget {
                         appLocalization.translate("language"),
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphSmall,
-                            color: AppColors.grey.shade900,
+                            color: AppColors.grey(context.isDarkMode).shade900,
                             appFontWeight: AppFontWeight.medium)),
                       ),
                       SizedBox(height: AppSpacing.x2Small4.value,),
@@ -80,7 +81,31 @@ class SettingsPage extends StatelessWidget {
                           onSelected: (selected) {
                             bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
                                 locale: selected, context: context)));
-                          }),
+                          }, isDarkMode: (context.isDarkMode),),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        appLocalization.translate("theme"),
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphSmall,
+                            color: AppColors.grey(context.isDarkMode).shade900,
+                            appFontWeight: AppFontWeight.medium)),
+                      ),
+                      SizedBox(height: AppSpacing.x2Small4.value,),
+                      CustomDropDownMenu(
+                          initialSelection: state.themeMode,
+                          dropdownMenuEntries: ThemeMode.values
+                              .map<DropdownMenuEntry>((e) =>
+                                  DropdownMenuEntry(
+                                      value: e,
+                                      label: appLocalization.translate(e.name)))
+                              .toList(),
+                          onSelected: (selected) {
+                            bloc.add(ChangeThemeEvent(selected));
+                          }, isDarkMode: (context.isDarkMode),),
                     ],
                   )
                 ],

@@ -14,109 +14,202 @@ class AppColors {
     900: Color(0xff),
   });*/
 
-  static Color background = grey.shade50;
+  static Color background(bool isDarkMode) => grey(isDarkMode).shade50;
 
-  static MaterialColor primary = MaterialColor(const Color(0xff8133F1).value, const {
-    50: Color(0xffEFE6FD),
-    100: Color(0xffCEB0FA),
-    200: Color(0xffB78AF7),
-    300: Color(0xff9654F4),
-    400: Color(0xff8133F1),
-    500: Color(0xff6200EE),
-    600: Color(0xff5900D9),
-    700: Color(0xff4600A9),
-    800: Color(0xff360083),
-    900: Color(0xff290064),
-  });
+  static MaterialColor primary(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xff8133F1).value, const {
+          50: Color(0xff290064),
+          100: Color(0xff360083),
+          200: Color(0xff4600A9),
+          300: Color(0xff5900D9),
+          400: Color(0xff6200EE),
+          500: Color(0xff8133F1),
+          600: Color(0xff9654F4),
+          700: Color(0xffB78AF7),
+          800: Color(0xffCEB0FA),
+          900: Color(0xffEFE6FD),
+        })
+      : MaterialColor(const Color(0xff8133F1).value, const {
+          50: Color(0xffEFE6FD),
+          100: Color(0xffCEB0FA),
+          200: Color(0xffB78AF7),
+          300: Color(0xff9654F4),
+          400: Color(0xff8133F1),
+          500: Color(0xff6200EE),
+          600: Color(0xff5900D9),
+          700: Color(0xff4600A9),
+          800: Color(0xff360083),
+          900: Color(0xff290064),
+        });
 
-  static MaterialColor secondary = MaterialColor(const Color(0xff1671d9).value, const {
-    50: Color(0xffe3effc),
-    100: Color(0xffb6d8ff),
-    200: Color(0xff80bbff),
-    300: Color(0xff3d89df),
-    400: Color(0xff1671d9),
-    500: Color(0xff0d5eba),
-    600: Color(0xff034592),
-    700: Color(0xff04326b),
-    800: Color(0xff012657),
-    900: Color(0xff001633),
-  });
+  static MaterialColor secondary(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xff0d5eba).value, const {
+          50: Color(0xff001633),
+          100: Color(0xff012657),
+          200: Color(0xff04326b),
+          300: Color(0xff034592),
+          400: Color(0xff0d5eba),
+          500: Color(0xff1671d9),
+          600: Color(0xff3d89df),
+          700: Color(0xff80bbff),
+          800: Color(0xffb6d8ff),
+          900: Color(0xffe3effc),
+        })
+      : MaterialColor(const Color(0xff1671d9).value, const {
+          50: Color(0xffe3effc),
+          100: Color(0xffb6d8ff),
+          200: Color(0xff80bbff),
+          300: Color(0xff3d89df),
+          400: Color(0xff1671d9),
+          500: Color(0xff0d5eba),
+          600: Color(0xff034592),
+          700: Color(0xff04326b),
+          800: Color(0xff012657),
+          900: Color(0xff001633),
+        });
 
   ///SEMANTICS
 
-  static MaterialColor warning = MaterialColor(const Color(0xffF3A218).value, const {
-    50: Color(0xffFEF6E7),
-    100: Color(0xffF7D394),
-    200: Color(0xffF7C164),
-    300: Color(0xffF5B546),
-    400: Color(0xffF3A218),
-    500: Color(0xffDD900D),
-    600: Color(0xffAD6F07),
-    700: Color(0xff865503),
-    800: Color(0xff664101),
-    900: Color(0xff523300),
-  });
+  static MaterialColor warning(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xffDD900D).value, const {
+          50: Color(0xff523300),
+          100: Color(0xff664101),
+          200: Color(0xff865503),
+          300: Color(0xffAD6F07),
+          400: Color(0xffDD900D),
+          500: Color(0xffF3A218),
+          600: Color(0xffF5B546),
+          700: Color(0xffF7C164),
+          800: Color(0xffF7D394),
+          900: Color(0xffFEF6E7),
+        })
+      : MaterialColor(const Color(0xffF3A218).value, const {
+          50: Color(0xffFEF6E7),
+          100: Color(0xffF7D394),
+          200: Color(0xffF7C164),
+          300: Color(0xffF5B546),
+          400: Color(0xffF3A218),
+          500: Color(0xffDD900D),
+          600: Color(0xffAD6F07),
+          700: Color(0xff865503),
+          800: Color(0xff664101),
+          900: Color(0xff523300),
+        });
 
-  static MaterialColor error = MaterialColor(const Color(0xffD42620).value, const {
-    50: Color(0xffFBEAE9),
-    100: Color(0xffEB9B98),
-    200: Color(0xffE26E6A),
-    300: Color(0xffDD524D),
-    400: Color(0xffD42620),
-    500: Color(0xffCB1A14),
-    600: Color(0xffBA110B),
-    700: Color(0xff9E0A05),
-    800: Color(0xff800501),
-    900: Color(0xff591000),
-  });
+  static MaterialColor error(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xffCB1A14).value, const {
+          50: Color(0xff591000),
+          100: Color(0xff800501),
+          200: Color(0xff9E0A05),
+          300: Color(0xffBA110B),
+          400: Color(0xffCB1A14),
+          500: Color(0xffD42620),
+          600: Color(0xffDD524D),
+          700: Color(0xffE26E6A),
+          800: Color(0xffEB9B98),
+          900: Color(0xffFBEAE9),
+        })
+      : MaterialColor(const Color(0xffD42620).value, const {
+          50: Color(0xffFBEAE9),
+          100: Color(0xffEB9B98),
+          200: Color(0xffE26E6A),
+          300: Color(0xffDD524D),
+          400: Color(0xffD42620),
+          500: Color(0xffCB1A14),
+          600: Color(0xffBA110B),
+          700: Color(0xff9E0A05),
+          800: Color(0xff800501),
+          900: Color(0xff591000),
+        });
 
-  static MaterialColor success = MaterialColor(const Color(0xff0F973D).value, const {
-    50: Color(0xffE7F6EC),
-    100: Color(0xff91D6A8),
-    200: Color(0xff5FC381),
-    300: Color(0xff40B869),
-    400: Color(0xff0F973D),
-    500: Color(0xff099137),
-    600: Color(0xff04802E),
-    700: Color(0xff036B26),
-    800: Color(0xff015B20),
-    900: Color(0xff004617),
-  });
+  static MaterialColor success(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xff099137).value, const {
+          50: Color(0xff004617),
+          100: Color(0xff015B20),
+          200: Color(0xff036B26),
+          300: Color(0xff04802E),
+          400: Color(0xff099137),
+          500: Color(0xff0F973D),
+          600: Color(0xff40B869),
+          700: Color(0xff5FC381),
+          800: Color(0xff91D6A8),
+          900: Color(0xffE7F6EC),
+        })
+      : MaterialColor(const Color(0xff0F973D).value, const {
+          50: Color(0xffE7F6EC),
+          100: Color(0xff91D6A8),
+          200: Color(0xff5FC381),
+          300: Color(0xff40B869),
+          400: Color(0xff0F973D),
+          500: Color(0xff099137),
+          600: Color(0xff04802E),
+          700: Color(0xff036B26),
+          800: Color(0xff015B20),
+          900: Color(0xff004617),
+        });
 
- ///NEUTRALS
+  ///NEUTRALS
 
-  static MaterialColor brown = MaterialColor(const Color(0xffA29999).value, const {
-    50: Color(0xffFBF1F1),
-    100: Color(0xffE4DBDB),
-    200: Color(0xffCDC4C4),
-    300: Color(0xffB7AFAF),
-    400: Color(0xffA29999),
-    500: Color(0xff8D8484),
-    600: Color(0xff787070),
-    700: Color(0xff645D5D),
-    800: Color(0xff514A4A),
-    900: Color(0xff3E3838),
-  });
+  static MaterialColor brown(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xff8D8484).value, const {
+          50: Color(0xff3E3838),
+          100: Color(0xff514A4A),
+          200: Color(0xff645D5D),
+          300: Color(0xff787070),
+          400: Color(0xff8D8484),
+          500: Color(0xffA29999),
+          600: Color(0xffB7AFAF),
+          700: Color(0xffCDC4C4),
+          800: Color(0xffE4DBDB),
+          900: Color(0xffFBF1F1),
+        })
+      : MaterialColor(const Color(0xffA29999).value, const {
+          50: Color(0xffFBF1F1),
+          100: Color(0xffE4DBDB),
+          200: Color(0xffCDC4C4),
+          300: Color(0xffB7AFAF),
+          400: Color(0xffA29999),
+          500: Color(0xff8D8484),
+          600: Color(0xff787070),
+          700: Color(0xff645D5D),
+          800: Color(0xff514A4A),
+          900: Color(0xff3E3838),
+        });
 
-  static MaterialColor grey = MaterialColor(const Color(0xff98A2B3).value, const {
-    50: Color(0xffF9FAFB),
-    100: Color(0xffF0F2F5),
-    200: Color(0xffE4E7EC),
-    300: Color(0xffD0D5DD),
-    400: Color(0xff98A2B3),
-    500: Color(0xff667185),
-    600: Color(0xff475367),
-    700: Color(0xff344054),
-    800: Color(0xff1D2739),
-    900: Color(0xff101928),
-  });
+  static MaterialColor grey(bool isDarkMode) => isDarkMode
+      ? MaterialColor(const Color(0xff667185).value, const {
+          50: Color(0xff101928),
+          100: Color(0xff1D2739),
+          200: Color(0xff344054),
+          300: Color(0xff475367),
+          400: Color(0xff667185),
+          500: Color(0xff98A2B3),
+          600: Color(0xffD0D5DD),
+          700: Color(0xffE4E7EC),
+          800: Color(0xffF0F2F5),
+          900: Color(0xffF9FAFB),
+        })
+      : MaterialColor(const Color(0xff98A2B3).value, const {
+          50: Color(0xffF9FAFB),
+          100: Color(0xffF0F2F5),
+          200: Color(0xffE4E7EC),
+          300: Color(0xffD0D5DD),
+          400: Color(0xff98A2B3),
+          500: Color(0xff667185),
+          600: Color(0xff475367),
+          700: Color(0xff344054),
+          800: Color(0xff1D2739),
+          900: Color(0xff101928),
+        });
 
-  static const Color white = Colors.white;
+  static Color white(bool isDarkMode) =>
+      isDarkMode ? Colors.black : Colors.white;
 
-  static Color black = Colors.black;
+  static Color black(bool isDarkMode) =>
+      isDarkMode ? Colors.white : Colors.black;
 
-
-  static MaterialColor paletteYellow = MaterialColor(const Color(0xfffad469).value, const {
+  static MaterialColor paletteYellow =
+      MaterialColor(const Color(0xfffad469).value, const {
     50: Color(0xfffefaec),
     100: Color(0xfffdeec5),
     200: Color(0xfffce6a9),
@@ -129,7 +222,8 @@ class AppColors {
     900: Color(0xff69541c),
   });
 
-  static MaterialColor paletteGreen = MaterialColor(const Color(0xff33baa7).value, const {
+  static MaterialColor paletteGreen =
+      MaterialColor(const Color(0xff33baa7).value, const {
     50: Color(0xffe6f6f4),
     100: Color(0xffb0e4dd),
     200: Color(0xff8ad7cc),
@@ -142,7 +236,8 @@ class AppColors {
     900: Color(0xff00473d),
   });
 
-  static MaterialColor palettePurple = MaterialColor(const Color(0xff8133F1).value, const {
+  static MaterialColor palettePurple =
+      MaterialColor(const Color(0xff8133F1).value, const {
     50: Color(0xffEFE6FD),
     100: Color(0xffCEB0FA),
     200: Color(0xffB78AF7),
@@ -155,20 +250,22 @@ class AppColors {
     900: Color(0xff290064),
   });
 
-  static MaterialColor paletteBlue = MaterialColor(const Color(0xff1671d9).value, const {
-  50: Color(0xffe3effc),
-  100: Color(0xffb6d8ff),
-  200: Color(0xff80bbff),
-  300: Color(0xff3d89df),
-  400: Color(0xff1671d9),
-  500: Color(0xff0d5eba),
-  600: Color(0xff034592),
-  700: Color(0xff04326b),
-  800: Color(0xff012657),
-  900: Color(0xff001633),
+  static MaterialColor paletteBlue =
+      MaterialColor(const Color(0xff1671d9).value, const {
+    50: Color(0xffe3effc),
+    100: Color(0xffb6d8ff),
+    200: Color(0xff80bbff),
+    300: Color(0xff3d89df),
+    400: Color(0xff1671d9),
+    500: Color(0xff0d5eba),
+    600: Color(0xff034592),
+    700: Color(0xff04326b),
+    800: Color(0xff012657),
+    900: Color(0xff001633),
   });
 
-  static MaterialColor palettePink = MaterialColor(const Color(0xffde7e98).value, const {
+  static MaterialColor palettePink =
+      MaterialColor(const Color(0xffde7e98).value, const {
     50: Color(0xfffbeff2),
     100: Color(0xfff2cdd7),
     200: Color(0xffecb5c4),
@@ -181,5 +278,6 @@ class AppColors {
     900: Color(0xff5a2735),
   });
 
-  static var text = const Color(0xff080619);
+  static Color text(bool isDarkMode) =>
+  isDarkMode ? Colors.white : const Color(0xff080619);
 }

@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_chip.dart';
@@ -77,12 +78,12 @@ class TaskWidget extends StatefulWidget {
 class _TaskWidgetState extends State<TaskWidget> {
   bool onHover = false;
   static const iconSize = 12.0;
-  final colors = AppColors.grey.shade500;
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
-        color: AppColors.grey.shade400,
+        color: AppColors.grey(context.isDarkMode).shade400,
         appFontWeight: AppFontWeight.semiBold));
     final folderName = widget.clickupTask.folder?.name;
     final listName = widget.clickupTask.list?.name;
@@ -103,8 +104,8 @@ class _TaskWidgetState extends State<TaskWidget> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
           color: onHover
-              ? AppColors.primary.shade50.withOpacity(0.5)
-              : AppColors.background,
+              ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+              : AppColors.background(context.isDarkMode),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,7 +166,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.clickupTask.status?.getColor ??
-                              AppColors.text,
+                              AppColors.text(context.isDarkMode),
                           size: 20,
                         ),
                         SizedBox(
@@ -176,7 +177,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             widget.clickupTask.name ?? "",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                     appFontSize: AppFontSize.paragraphSmall,
-                                    color: AppColors.grey.shade900,
+                                    color: AppColors.grey(context.isDarkMode).shade900,
                                     appFontWeight: AppFontWeight.semiBold))
                                 .copyWith(
                                     decoration: widget.clickupTask.isCompleted

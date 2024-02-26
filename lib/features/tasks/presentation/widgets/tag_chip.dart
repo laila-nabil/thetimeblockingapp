@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 
 import '../../../../core/resources/app_colors.dart';
@@ -18,7 +19,7 @@ class TagChip extends StatelessWidget {
   appFontWeight: AppFontWeight.medium));
   @override
   Widget build(BuildContext context) {
-    final color = AppColors.grey.shade600;
+    final color = AppColors.grey(context.isDarkMode).shade600;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 100),
       child: Chip(

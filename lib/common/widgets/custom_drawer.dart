@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/pages/all_tasks_page.dart';
@@ -84,7 +85,7 @@ class CustomDrawerWidget extends StatelessWidget {
       // width: showSmallDesign ? 272 : 392,
       backgroundColor: Colors.transparent,
       child: Container(
-        color: AppColors.background,
+        color: AppColors.background(context.isDarkMode),
         padding: EdgeInsets.only(
             top: AppSpacing.medium16.value,
             left: AppSpacing.xSmall8.value,
@@ -146,7 +147,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   isSelected:
                       router?.location.contains(MapsPage.routeName) ==
                           true),
-            Divider(height: 1,color: AppColors.grey.shade100,),
+            Divider(height: 1,color: AppColors.grey(context.isDarkMode).shade100,),
             const Spacer(),
             // ignore: dead_code
             // if (false)
@@ -245,16 +246,16 @@ class _DrawerItem extends StatelessWidget {
                 (Set<MaterialState> states) {
               if (states.contains(MaterialState.focused) ||
                   states.contains(MaterialState.pressed)) {
-                return AppColors.primary.shade50;
+                return AppColors.primary(context.isDarkMode).shade50;
               }
               if (states.contains(MaterialState.hovered)) {
-                return AppColors.grey.shade50;
+                return AppColors.grey(context.isDarkMode).shade50;
               }
-              return AppColors.background;
+              return AppColors.background(context.isDarkMode);
             }),
             foregroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
-              return AppColors.white;
+              return AppColors.white(context.isDarkMode);
             }),
             padding: MaterialStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
@@ -269,7 +270,7 @@ class _DrawerItem extends StatelessWidget {
             Icon(
               iconPath(isSelected),
               size: 20,
-              color: AppColors.black,
+              color: AppColors.black(context.isDarkMode),
             ),
             SizedBox(
               width: AppSpacing.small12.value,
@@ -278,7 +279,7 @@ class _DrawerItem extends StatelessWidget {
               title,
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey.shade700,
+                  color: AppColors.grey(context.isDarkMode).shade700,
                   appFontWeight: isSelected
                       ? AppFontWeight.semiBold
                       : AppFontWeight.regular)),
@@ -305,7 +306,7 @@ class _Logo extends StatelessWidget {
             padding: EdgeInsetsDirectional.fromSTEB(
                 showSmallDesign ? 24 : 29, 0, 0, 0),
             child: Image.asset(
-              AppAssets.logo,
+              AppAssets.logo(context.isDarkMode),
               width: showSmallDesign ? 180 : 200,
             ),
           ),

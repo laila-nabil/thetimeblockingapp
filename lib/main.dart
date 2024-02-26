@@ -18,9 +18,9 @@ import 'core/router.dart';
 import 'features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/mock_web_packages/mock_timezone.dart'
-    if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
+if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
 import 'package:timezone/data/latest_all.dart'
-    if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
+if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
 import 'firebase_options.dart';
 
@@ -36,7 +36,7 @@ Future<void> main() async {
     tz_not_web.initializeTimeZones();
   }
   FlutterError.onError = (errorDetails) {
-    printDebug(errorDetails,printLevel: PrintLevel.fatalError);//👾
+    printDebug(errorDetails, printLevel: PrintLevel.fatalError); //👾
   };
   // turn off the # in the URLs on the web
   usePathUrlStrategy();
@@ -61,18 +61,24 @@ class MyApp extends StatelessWidget {
           create: (context) => di.serviceLocator<SettingsBloc>(),
         ),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-        title: Globals.appName,
-        theme: appTheme,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        onGenerateTitle: (BuildContext context) {
-          return Globals.appName;
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, settingsState) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: router,
+            title: Globals.appName,
+            themeMode: settingsState.themeMode,
+            theme: appTheme(false),
+            darkTheme: appTheme(true),
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            onGenerateTitle: (BuildContext context) {
+              return Globals.appName;
+            },
+            scrollBehavior: MyCustomScrollBehavior(),
+          );
         },
-        scrollBehavior: MyCustomScrollBehavior(),
       ),
     );
   }
@@ -82,7 +88,8 @@ class MyApp extends StatelessWidget {
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
-  Set<PointerDeviceKind> get dragDevices => {
+  Set<PointerDeviceKind> get dragDevices =>
+      {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
         PointerDeviceKind.stylus

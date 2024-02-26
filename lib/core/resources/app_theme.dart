@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:thetimeblockingapp/core/resources/app_design.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import 'app_colors.dart';
 
-ThemeData appTheme = ThemeData(
-  useMaterial3: true,
-  appBarTheme: AppBarTheme(
-    backgroundColor: AppColors.background
-  ),
-  colorScheme: ColorScheme(
-      brightness: Brightness.light,
-      primary: AppColors.primary,
-      onPrimary: AppColors.white,
-      secondary: AppColors.secondary,
-      onSecondary: AppColors.primary,
-      error: AppColors.error,
-      onError: AppColors.white,
-      background: AppColors.background,
-      onBackground: AppColors.text,
-      surface: AppColors.background,
-      onSurface: AppColors.text,),
-  dialogTheme: DialogTheme(
-    backgroundColor: AppColors.background,
-    shadowColor: Colors.grey.shade500,
-    surfaceTintColor: AppColors.background,
-  ),
-  chipTheme: const ChipThemeData(
-    side: BorderSide.none,
-    elevation: 1,
-    padding: EdgeInsets.zero,
-  )
-);
+/// Dark mode extension
+extension DarkMode on BuildContext {
+  bool get isDarkMode {
+    return BlocProvider.of<SettingsBloc>(this).state.themeMode == ThemeMode.dark;
+  }
+}
+
+ThemeData appTheme(bool isDarkMode) => ThemeData(
+    useMaterial3: true,
+    colorScheme: ColorScheme(
+      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      primary: AppColors.primary(isDarkMode),
+      onPrimary: AppColors.white(isDarkMode),
+      secondary: AppColors.secondary(isDarkMode),
+      onSecondary: AppColors.primary(isDarkMode),
+      error: AppColors.error(isDarkMode),
+      onError: AppColors.white(isDarkMode),
+      background: AppColors.background(isDarkMode),
+      onBackground: AppColors.text(isDarkMode),
+      surface: AppColors.background(isDarkMode),
+      onSurface: AppColors.text(isDarkMode),
+    ),
+    dialogTheme: DialogTheme(
+      backgroundColor: AppColors.background(isDarkMode),
+      shadowColor: AppColors.grey(isDarkMode).shade500,
+      surfaceTintColor: AppColors.background(isDarkMode),
+    ),
+    chipTheme: const ChipThemeData(
+      side: BorderSide.none,
+      elevation: 1,
+      padding: EdgeInsets.zero,
+    ));
 /*
 
 class MaterialTheme {

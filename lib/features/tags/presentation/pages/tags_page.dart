@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
@@ -110,7 +111,7 @@ class TagsPage extends StatelessWidget {
                             child: Text(
                               appLocalization.translate("Tags"),
                               style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                  color: AppColors.grey.shade900,
+                                  color: AppColors.grey(context.isDarkMode).shade900,
                                   appFontWeight: AppFontWeight.medium,
                                   appFontSize: AppFontSize.heading4)),
                             ),
