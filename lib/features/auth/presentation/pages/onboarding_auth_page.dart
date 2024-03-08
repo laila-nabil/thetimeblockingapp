@@ -131,61 +131,72 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                       flex: 88,
                     ),
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: AppSpacing.xSmall8.value,
+                      runSpacing: AppSpacing.xSmall8.value,
+                      direction: Axis.vertical,
+                      runAlignment: WrapAlignment.center,
                       alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        CustomButton.custom(
-                          onPressed: () {
-                            final url = Globals.clickupAuthUrl;
-                            if (kIsWeb) {
-                              launchWithURL(url: url);
-                              if (true) {
-                                widget.authBloc
-                                    .add(const ShowCodeInputTextField(true));
-                              }
-                            } else if (Platform.isAndroid || Platform.isIOS) {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return AuthPageWebView(
-                                      url: url,
-                                      getAccessToken: (String code) {
-                                        widget.authBloc
-                                            .add(GetClickupAccessToken(code));
-                                      },
-                                    );
-                                  }));
-                            }
-                          },
-                          type: CustomButtonType.secondaryLabel,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "${appLocalization.translate("connectWithClickupNow")} ",
-                                style: AppTextStyle.getTextStyle(
-                                    AppTextStyleParams(
-                                        color: AppColors.primary(context.isDarkMode).shade500,
-                                        appFontWeight: AppFontWeight.semiBold,
-                                        appFontSize: AppFontSize.paragraphSmall)),
+                        Wrap(
+                          spacing: AppSpacing.xSmall8.value,
+                          runSpacing: AppSpacing.xSmall8.value,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            CustomButton.custom(
+                              onPressed: () {
+                                final url = Globals.clickupAuthUrl;
+                                if (kIsWeb) {
+                                  launchWithURL(url: url);
+                                  if (true) {
+                                    widget.authBloc
+                                        .add(const ShowCodeInputTextField(true));
+                                  }
+                                } else if (Platform.isAndroid || Platform.isIOS) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return AuthPageWebView(
+                                          url: url,
+                                          getAccessToken: (String code) {
+                                            widget.authBloc
+                                                .add(GetClickupAccessToken(code));
+                                          },
+                                        );
+                                      }));
+                                }
+                              },
+                              type: CustomButtonType.secondaryLabel,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "${appLocalization.translate("connectWithClickupNow")} ",
+                                    style: AppTextStyle.getTextStyle(
+                                        AppTextStyleParams(
+                                            color: AppColors.primary(context.isDarkMode).shade500,
+                                            appFontWeight: AppFontWeight.semiBold,
+                                            appFontSize: AppFontSize.paragraphSmall)),
+                                  ),
+                                  Image.asset(
+                                    AppAssets.clickupLogoMin,
+                                    width: 20,
+                                    height: 20,
+                                  )
+                                ],
                               ),
-                              Image.asset(
-                                AppAssets.clickupLogoMin,
-                                width: 20,
-                                height: 20,
-                              )
-                            ],
-                          ),
+                            ),
+                            CustomButton.noIcon(
+                                analyticsEvent: AnalyticsEvents.onBoardingStep1Start,
+                                label: appLocalization.translate("getStarted"),
+                                onPressed: () {
+                                  setState(() {
+                                    step = OnBoardingAndAuthStep.second;
+                                  });
+                                },
+                                type: CustomButtonType.primaryLabel),
+                          ],
                         ),
-                        CustomButton.noIcon(
-                            analyticsEvent: AnalyticsEvents.onBoardingStep1Start,
-                            label: appLocalization.translate("getStarted"),
-                            onPressed: () {
-                              setState(() {
-                                step = OnBoardingAndAuthStep.second;
-                              });
-                            },
-                            type: CustomButtonType.primaryLabel),
+                        demoButton( AnalyticsEvents.onBoardingStep1Demo,),
                       ],
                     ),
                     SizedBox(
@@ -300,6 +311,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               type: CustomButtonType.primaryLabel),
                         ],
                       ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      demoButton( AnalyticsEvents.onBoardingStep1Demo,),
                       SizedBox(
                         height: AppSpacing.xHuge128.value,
                       )
@@ -357,32 +372,41 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                     const Spacer(
                       flex: 72,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      spacing: AppSpacing.xSmall8.value,
+                      runSpacing: AppSpacing.xSmall8.value,
+                      runAlignment: WrapAlignment.center,
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        CustomButton.noIcon(
-                            analyticsEvent:AnalyticsEvents.onBoardingStep2Back,
-                            size: CustomButtonSize.small,
-                            label: appLocalization.translate("back"),
-                            onPressed: () {
-                              setState(() {
-                                step = OnBoardingAndAuthStep.first;
-                              });
-                            },
-                            type: CustomButtonType.secondaryLabel),
-                        const SizedBox(
-                          width: 8,
+                        Wrap(
+                          spacing: AppSpacing.xSmall8.value,
+                          runSpacing: AppSpacing.xSmall8.value,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            CustomButton.noIcon(
+                                analyticsEvent:AnalyticsEvents.onBoardingStep2Back,
+                                size: CustomButtonSize.small,
+                                label: appLocalization.translate("back"),
+                                onPressed: () {
+                                  setState(() {
+                                    step = OnBoardingAndAuthStep.first;
+                                  });
+                                },
+                                type: CustomButtonType.secondaryLabel),
+                            CustomButton.noIcon(
+                                analyticsEvent:AnalyticsEvents.onBoardingStep2Next,
+                                size: CustomButtonSize.small,
+                                label: appLocalization.translate("next"),
+                                onPressed: () {
+                                  setState(() {
+                                    step = OnBoardingAndAuthStep.third;
+                                  });
+                                },
+                                type: CustomButtonType.primaryLabel),
+                          ],
                         ),
-                        CustomButton.noIcon(
-                            analyticsEvent:AnalyticsEvents.onBoardingStep2Next,
-                            size: CustomButtonSize.small,
-                            label: appLocalization.translate("next"),
-                            onPressed: () {
-                              setState(() {
-                                step = OnBoardingAndAuthStep.third;
-                              });
-                            },
-                            type: CustomButtonType.primaryLabel),
+
                       ],
                     ),
                     SizedBox(
@@ -392,16 +416,21 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           const SizedBox(
                             height: 18,
                           ),
-                          CustomButton.noIcon(
-                              analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
-                              size: CustomButtonSize.small,
-                              label: appLocalization.translate("skip"),
-                              onPressed: () {
-                                setState(() {
-                                  step = OnBoardingAndAuthStep.auth;
-                                });
-                              },
-                              type: CustomButtonType.primaryTextLabel),
+                          Wrap(
+                            children: [
+                              CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
+                                  size: CustomButtonSize.small,
+                                  label: appLocalization.translate("skip"),
+                                  onPressed: () {
+                                    setState(() {
+                                      step = OnBoardingAndAuthStep.auth;
+                                    });
+                                  },
+                                  type: CustomButtonType.primaryTextLabel),
+                              demoButton(AnalyticsEvents.onBoardingStep2Demo),
+                            ],
+                          ),
                         ],
                       ),
                     )
@@ -439,7 +468,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         flex: 390,
                       ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -455,8 +484,8 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                     });
                                   },
                                   type: CustomButtonType.secondaryLabel),
-                              const SizedBox(
-                                width: 8,
+                              SizedBox(
+                                width: AppSpacing.xSmall8.value,
                               ),
                               CustomButton.noIcon(
                                   analyticsEvent:AnalyticsEvents.onBoardingStep2Next,
@@ -477,16 +506,24 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 const SizedBox(
                                   height: 18,
                                 ),
-                                CustomButton.noIcon(
-                                    analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
-                                    size: CustomButtonSize.large,
-                                    label: appLocalization.translate("skip"),
-                                    onPressed: () {
-                                      setState(() {
-                                        step = OnBoardingAndAuthStep.auth;
-                                      });
-                                    },
-                                    type: CustomButtonType.primaryTextLabel),
+                                Row(
+                                  children: [
+                                    CustomButton.noIcon(
+                                        analyticsEvent:AnalyticsEvents.onBoardingStep2Skip,
+                                        size: CustomButtonSize.large,
+                                        label: appLocalization.translate("skip"),
+                                        onPressed: () {
+                                          setState(() {
+                                            step = OnBoardingAndAuthStep.auth;
+                                          });
+                                        },
+                                        type: CustomButtonType.primaryTextLabel),
+                                    SizedBox(
+                                      width: AppSpacing.xSmall8.value,
+                                    ),
+                                    demoButton(AnalyticsEvents.onBoardingStep2Demo),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -580,16 +617,21 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           const SizedBox(
                             height: 18,
                           ),
-                          CustomButton.noIcon(
-                              analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
-                              size: CustomButtonSize.small,
-                              label: appLocalization.translate("skip"),
-                              onPressed: () {
-                                setState(() {
-                                  step = OnBoardingAndAuthStep.auth;
-                                });
-                              },
-                              type: CustomButtonType.primaryTextLabel),
+                          Wrap(
+                            children: [
+                              CustomButton.noIcon(
+                                  analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
+                                  size: CustomButtonSize.small,
+                                  label: appLocalization.translate("skip"),
+                                  onPressed: () {
+                                    setState(() {
+                                      step = OnBoardingAndAuthStep.auth;
+                                    });
+                                  },
+                                  type: CustomButtonType.primaryTextLabel),
+                              demoButton(AnalyticsEvents.onBoardingStep3Demo),
+                            ],
+                          ),
                         ],
                       ),
                     )
@@ -626,7 +668,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         flex: 390,
                       ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -642,8 +684,8 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                     });
                                   },
                                   type: CustomButtonType.secondaryLabel),
-                              const SizedBox(
-                                width: 8,
+                              SizedBox(
+                                width: AppSpacing.xSmall8.value,
                               ),
                               CustomButton.noIcon(
                                   analyticsEvent:AnalyticsEvents.onBoardingStep3Next,
@@ -664,16 +706,24 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                 const SizedBox(
                                   height: 18,
                                 ),
-                                CustomButton.noIcon(
-                                    analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
-                                    size: CustomButtonSize.large,
-                                    label: appLocalization.translate("skip"),
-                                    onPressed: () {
-                                      setState(() {
-                                        step = OnBoardingAndAuthStep.auth;
-                                      });
-                                    },
-                                    type: CustomButtonType.primaryTextLabel),
+                                Row(
+                                  children: [
+                                    CustomButton.noIcon(
+                                        analyticsEvent:AnalyticsEvents.onBoardingStep3Skip,
+                                        size: CustomButtonSize.large,
+                                        label: appLocalization.translate("skip"),
+                                        onPressed: () {
+                                          setState(() {
+                                            step = OnBoardingAndAuthStep.auth;
+                                          });
+                                        },
+                                        type: CustomButtonType.primaryTextLabel),
+                                    SizedBox(
+                                      width: AppSpacing.xSmall8.value,
+                                    ),
+                                    demoButton(AnalyticsEvents.onBoardingStep3Demo),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -733,81 +783,91 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                     const Spacer(
                       flex: 72,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      spacing: AppSpacing.xSmall8.value,
+                      runSpacing: AppSpacing.xSmall8.value,
+                      direction: Axis.vertical,
+                      runAlignment: WrapAlignment.center,
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        CustomButton.custom(
-                          analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
-                          size: CustomButtonSize.small,
-                          onPressed: () {
-                            final url = Globals.clickupAuthUrl;
-                            if (kIsWeb) {
-                              launchWithURL(url: url);
-                              if (true) {
-                                widget.authBloc
-                                    .add(const ShowCodeInputTextField(true));
-                              }
-                            } else if (Platform.isAndroid || Platform.isIOS) {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return AuthPageWebView(
-                                  url: url,
-                                  getAccessToken: (String code) {
+                        Wrap(
+                          spacing: AppSpacing.xSmall8.value,
+                          runSpacing: AppSpacing.xSmall8.value,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            CustomButton.custom(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
+                              size: CustomButtonSize.small,
+                              onPressed: () {
+                                final url = Globals.clickupAuthUrl;
+                                if (kIsWeb) {
+                                  launchWithURL(url: url);
+                                  if (true) {
                                     widget.authBloc
-                                        .add(GetClickupAccessToken(code));
-                                  },
-                                );
-                              }));
-                            }
-                          },
-                          type: CustomButtonType.primaryLabel,
-                          child: Row(
-                            children: [
-                              Text(
-                                "${appLocalization.translate("connectWithClickup")} ",
-                                style: AppTextStyle.getTextStyle(
-                                    AppTextStyleParams(
-                                        color: AppColors.white(context.isDarkMode),
-                                        appFontWeight: AppFontWeight.semiBold,
-                                        appFontSize: AppFontSize.paragraphSmall)),
+                                        .add(const ShowCodeInputTextField(true));
+                                  }
+                                } else if (Platform.isAndroid || Platform.isIOS) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return AuthPageWebView(
+                                      url: url,
+                                      getAccessToken: (String code) {
+                                        widget.authBloc
+                                            .add(GetClickupAccessToken(code));
+                                      },
+                                    );
+                                  }));
+                                }
+                              },
+                              type: CustomButtonType.primaryLabel,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "${appLocalization.translate("connectWithClickup")} ",
+                                    style: AppTextStyle.getTextStyle(
+                                        AppTextStyleParams(
+                                            color: AppColors.white(context.isDarkMode),
+                                            appFontWeight: AppFontWeight.semiBold,
+                                            appFontSize: AppFontSize.paragraphSmall)),
+                                  ),
+                                  Image.asset(
+                                    AppAssets.clickupLogoMin,
+                                    width: 20,
+                                    height: 20,
+                                  )
+                                ],
                               ),
-                              Image.asset(
-                                AppAssets.clickupLogoMin,
-                                width: 20,
-                                height: 20,
-                              )
-                            ],
-                          ),
+                            ),
+                            CustomButton.trailingIcon(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
+                              size: CustomButtonSize.small,
+                              label: appLocalization.translate("copyLink"),
+                              onPressed: () async {
+                                await Clipboard.setData(
+                                        ClipboardData(text: Globals.clickupAuthUrl))
+                                    .then((value) =>
+                                        ScaffoldMessenger.maybeOf(context)
+                                            ?.showSnackBar(SnackBar(
+                                                content: Text(
+                                          appLocalization.translate(
+                                            "linkCopiedSuccessfully",
+                                          ),
+                                          style: AppTextStyle.getTextStyle(
+                                              AppTextStyleParams(
+                                                  appFontSize:
+                                                      AppFontSize.paragraphSmall,
+                                                  color: AppColors.grey(context.isDarkMode).shade50,
+                                                  appFontWeight:
+                                                      AppFontWeight.regular)),
+                                        ))));
+                              },
+                              type: CustomButtonType.secondaryTrailingIcon,
+                              icon: Icons.link,
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        CustomButton.trailingIcon(
-                          analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
-                          size: CustomButtonSize.small,
-                          label: appLocalization.translate("copyLink"),
-                          onPressed: () async {
-                            await Clipboard.setData(
-                                    ClipboardData(text: Globals.clickupAuthUrl))
-                                .then((value) =>
-                                    ScaffoldMessenger.maybeOf(context)
-                                        ?.showSnackBar(SnackBar(
-                                            content: Text(
-                                      appLocalization.translate(
-                                        "linkCopiedSuccessfully",
-                                      ),
-                                      style: AppTextStyle.getTextStyle(
-                                          AppTextStyleParams(
-                                              appFontSize:
-                                                  AppFontSize.paragraphSmall,
-                                              color: AppColors.grey(context.isDarkMode).shade50,
-                                              appFontWeight:
-                                                  AppFontWeight.regular)),
-                                    ))));
-                          },
-                          type: CustomButtonType.secondaryTrailingIcon,
-                          icon: Icons.link,
-                        ),
+                        demoButton(AnalyticsEvents.onBoardingStep4Demo)
                       ],
                     ),
                     SizedBox(
@@ -893,8 +953,8 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 8,
+                          SizedBox(
+                            width: AppSpacing.xSmall8.value,
                           ),
                           CustomButton.trailingIcon(
                             analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
@@ -925,6 +985,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         ],
                       ),
                       SizedBox(
+                        height: AppSpacing.xSmall8.value,
+                      ),
+                      demoButton(AnalyticsEvents.onBoardingStep4Demo),
+                      SizedBox(
                         height: AppSpacing.xHuge128.value,
                       ),
                     ],
@@ -943,6 +1007,17 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
       },
       context: context, onRefresh: ()async {},
     );
+  }
+
+  CustomButton demoButton(AnalyticsEvents analyticsEvents) {
+    return CustomButton.noIcon(
+        analyticsEvent: analyticsEvents,
+        label: appLocalization.translate("demo"),
+        onPressed: () {
+          final url = Globals.demoUrl;
+          launchWithURL(url: url);
+        },
+        type: CustomButtonType.primaryTextLabel);
   }
 }
 

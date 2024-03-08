@@ -70,9 +70,12 @@ class Globals {
 
   static const ThemeMode defaultThemeMode = ThemeMode.light;
 
-  static const bool isDemo = true;
+  static const bool isDemo = false;
   static String clickupAuthUrl =
       "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
+
+  static String demoUrl =
+      "https://demoo-timeblocking.web.app";
 }
 
 ///just to make it harder to write global variable
