@@ -45,7 +45,8 @@ class FirebaseAnalyticsImpl implements Analytics {
   @override
   Future<void> setCurrentScreen(String screenName) async {
     try {
-      await _firebaseAnalytics.setCurrentScreen(screenName: screenName);
+      await _firebaseAnalytics.setCurrentScreen(
+          screenName: Globals.isDemo ? "demo/$screenName" : screenName);
     } catch (e) {
       printDebug(e);
     }
