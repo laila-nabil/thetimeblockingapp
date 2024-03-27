@@ -16,7 +16,7 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
-///TODO V1.5 in web, month calendar view in drawer like SORTED for MAC
+///TODO V2 in web, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({Key? key, this.waitForStartGetTasks = false})
@@ -101,25 +101,25 @@ class SchedulePage extends StatelessWidget {
                               .contains(ScheduleStateEnum.loading) ||
                           startUpCurrentState.isLoading),
                   pageActions: [
-                    ///TODO V2 select multiple tasks to perform bulk actions
-                    ///TODO V2 bulk move tasks to another list
-                    ///TODO V2 bulk delete tasks
+                    ///TODO V3 select multiple tasks to perform bulk actions
+                    ///TODO V3 bulk move tasks to another list
+                    ///TODO V3 bulk delete tasks
                     // CustomDropDownItem.text(
                     //   title: appLocalization.translate("filterBy") +
                     //       appLocalization.translate("Lists").toLowerCase(),
                     //   onTap: () {
-                    //     ///TODO V2 filter by lists
+                    //     ///TODO V3 filter by lists
                     //   },
                     // ),
                     // CustomDropDownItem.text(
                     //   title: appLocalization.translate("filterBy") +
                     //       appLocalization.translate("Tags").toLowerCase(),
                     //   onTap: () {
-                    //     ///TODO V2 filter by tags
+                    //     ///TODO V3 filter by tags
                     //   },
                     // ),
 
-                    ///TODO V3 auto Schedule
+                    ///TODO V4 auto Schedule
                     // ignore: dead_code
                     if (false)
                       CustomPopupItem.text(
@@ -127,7 +127,7 @@ class SchedulePage extends StatelessWidget {
                         onTap: () {},
                       ),
 
-                    ///TODO V2 show completed tasks
+                    ///TODO V3 show completed tasks
                     // ignore: dead_code
                     if (false)
                       CustomPopupItem.text(

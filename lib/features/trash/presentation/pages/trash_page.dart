@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///TODO V3 view deleted tasks
+///TODO V4 view deleted tasks
 
 class TrashPage extends StatelessWidget {
   const TrashPage({super.key});

@@ -8,10 +8,7 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import 'custom_tooltip.dart';
 
-///TODO trailing icon not done
-///TODO needs refactoring
-///TODO icons in iconNotFilledNotOutlined
-///TODO icon sizes in label with icon
+///FIXME fix implementation trailing icon
 
 enum CustomButtonType {
   primaryLabel,

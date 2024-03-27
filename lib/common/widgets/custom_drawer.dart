@@ -28,7 +28,7 @@ import '../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../../features/tasks/domain/entities/clickup_space.dart';
 import '../entities/clickup_workspace.dart';
 
-///TODO V1.5 in web,folders and list from here
+///TODO V2 in web,folders and list from here
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -103,7 +103,7 @@ class CustomDrawerWidget extends StatelessWidget {
                 isSelected:
                     router?.location.contains(SchedulePage.routeName) ==
                         true),
-            ///TODO brain dump/ inbox or default list
+            ///TODO V4 brain dump/ inbox or default list
             _DrawerItem(
                 title: appLocalization.translate("AllTasks"),
                 iconPath: (isSelected) =>
@@ -234,7 +234,7 @@ class _DrawerItem extends StatelessWidget {
   final bool hasSubPage;
   final bool isSubPage;
 
-  ///TODO subpages
+  ///TODO V2 show lists and tags in drawer as subpages
   @override
   Widget build(BuildContext context) {
     return Container(

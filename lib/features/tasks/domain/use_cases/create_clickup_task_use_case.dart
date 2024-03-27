@@ -6,8 +6,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
-///TODO V2 add note or attachment with link to task url in timeblockingapp for quick access
-///TODO V2 create page that takes id of task and open it
+///TODO V3 add note or attachment with link to task url in timeblockingapp for quick access
+///TODO V3 create page that takes id of task and open it
 ///TODO V1 have default list
 
 class CreateClickupTaskUseCase

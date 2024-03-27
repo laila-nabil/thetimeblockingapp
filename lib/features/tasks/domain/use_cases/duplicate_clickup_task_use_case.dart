@@ -1,1 +1,1 @@
-///TODO V1.5 duplicate task for specific week days and specific period of time
+///TODO V2 duplicate task for specific week days and specific period of time

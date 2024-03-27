@@ -13,11 +13,10 @@ import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../bloc/settings_bloc.dart';
 
-///TODO V1 settings page
-///TODO V2 add task from siri shortcuts functionality
-///TODO V2 add task from email
-///TODO V1.5 change language (arabic, german)
-///TODO V1.5 navigate to about me page with github and twitter links and why app created
+///TODO V3 add task from siri shortcuts functionality
+///TODO V3 add task from email
+///TODO V2 change language (arabic, german)
+///TODO V2 navigate to about me page with github and twitter links and why app created
 ///TODO V1 changing workspace and space here and remove from drawer
 ///TODO V1 sign out
 
@@ -29,9 +28,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SettingsBloc, SettingsState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {      },
       builder: (context, state) {
         final bloc = BlocProvider.of<SettingsBloc>(context);
         return ResponsiveScaffold(

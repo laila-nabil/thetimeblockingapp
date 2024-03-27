@@ -41,10 +41,10 @@ import 'clickup_space.dart';
 /// folder : {"id":"1","name":"Folder","hidden":false,"access":true}
 /// space : {"id":"1"}
 
-///TODO V2 support checklists in task
-///TODO V3 support parent task
-///TODO V3 support linked tasks
-///TODO V3 support time estimate
+///TODO V3 support checklists in task
+///TODO V4 support parent task
+///TODO V4 support linked tasks
+///TODO V4 support time estimate
 
 
 class ClickupTask extends Equatable {

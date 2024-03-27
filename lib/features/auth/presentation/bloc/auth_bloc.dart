@@ -96,7 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
       }
       else if(event is TryGetSelectedWorkspaceSpaceEvent){
-        ///TODO in case of no spaces,create new space
+        ///TODO V1 in case of no spaces,create new space
         await _getSelectedWorkspaceUseCase(NoParams());
         await _getSpacesOfSelectedWorkspaceUseCase(NoParams());
         if (Globals.isSpaceAppWide) {

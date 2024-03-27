@@ -30,7 +30,7 @@ class TasksCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
-      ///TODO keep view in schedule to keep selected view
+      ///TODO V1 save selected view
       // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
@@ -38,11 +38,10 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      ///FIXME enabling agenda disables navigating to day from month view
       // monthViewSettings: const MonthViewSettings(
       //   showAgenda: true,
       // ),
-      ///TODO V1.5 enable allowDragAndDrop
+      ///TODO V2 enable allowDragAndDrop
       allowDragAndDrop: true,
       allowAppointmentResize: true,
       allowViewNavigation: true,
@@ -51,7 +50,7 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO V1.5 use TaskCalendarWidget that takes UI colors from list & status
+      ///TODO V2 use TaskCalendarWidget that takes UI colors from list & status
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
@@ -71,7 +70,7 @@ class TasksCalendar extends StatelessWidget {
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO V1.5 TimeSlotViewSettings
+        ///TODO V2 TimeSlotViewSettings
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: false
