@@ -77,7 +77,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetClickupTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              space: event.params.clickupSpace ?? Globals.selectedSpace!,
               workspace: event.workspace));
         });
       } else if (event is DeleteClickupTaskEvent) {
