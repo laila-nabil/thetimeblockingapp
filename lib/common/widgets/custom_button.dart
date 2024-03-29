@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+import 'dart:ui' show lerpDouble;
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -416,7 +419,26 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    final filledTrailingIconButton = CustomToolTip(
+    final double scale = MediaQuery.textScaleFactorOf(context);
+    // Adjust the gap based on the text scale factor. Start at 8, and lerp
+    // to 4 based on how large the text is.
+    final double gap = scale <= 1 ? 8 : lerpDouble(8, 4, math.min(scale - 1, 1))!;
+    final filledTrailingIconButton = true ? CustomToolTip(
+      message: tooltip,
+      child: FilledButton(
+        onPressed: onPressedWithAnalytics,
+        focusNode: focusNode,
+        style: filledButtonStyle,
+        child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Flexible(child: labelWidget),
+                  SizedBox(width: gap),
+                  iconWidget,
+                ],
+              ),
+            ),
+    ): CustomToolTip(
       message: tooltip,
       child: FilledButton.icon(
         onPressed: onPressedWithAnalytics,
@@ -465,14 +487,18 @@ class CustomButton extends StatelessWidget {
     );
     final outlinedTrailingIconButton = CustomToolTip(
       message: tooltip,
-      child: OutlinedButton.icon(
+      child: OutlinedButton(
         onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: outlinedButtonStyle,
-        label: Text(
-          label ?? "",
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Flexible(child: labelWidget),
+            SizedBox(width: gap),
+            iconWidget,
+          ],
         ),
-        icon: iconWidget,
       ),
     );
     Widget outlinedLabelButton(Either<Widget, String> child) => CustomToolTip(
@@ -549,11 +575,17 @@ class CustomButton extends StatelessWidget {
         ));
     final textTrailingIconButton = CustomToolTip(
         message: tooltip,
-        child: TextButton.icon(
+        child: TextButton(
           style: textButtonStyle,
           onPressed: onPressedWithAnalytics,
-          icon: iconWidget,
-          label: labelWidget,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Flexible(child: labelWidget),
+              SizedBox(width: gap),
+              iconWidget,
+            ],
+          ),
         ));
     final textLeadingIconButton = CustomToolTip(
         message: tooltip,
