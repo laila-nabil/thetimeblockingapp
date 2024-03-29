@@ -8,8 +8,6 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import 'custom_tooltip.dart';
 
-///FIXME fix implementation trailing icon
-
 enum CustomButtonType {
   primaryLabel,
   primaryTrailingIcon,
@@ -395,7 +393,7 @@ class CustomButton extends StatelessWidget {
                   size: isSmall ? 15 : 18,
                 )) ??
         Container();
-    Widget filledLabel(Either<Widget, String> child) => CustomToolTip(
+    Widget filledLabelButton(Either<Widget, String> child) => CustomToolTip(
           message: tooltip,
           child: FilledButton(
             onPressed: onPressedWithAnalytics,
@@ -408,7 +406,7 @@ class CustomButton extends StatelessWidget {
                     )),
           ),
         );
-    final filledLeadingIcon = CustomToolTip(
+    final filledLeadingIconButton = CustomToolTip(
       message: tooltip,
       child: FilledButton.icon(
         onPressed: onPressedWithAnalytics,
@@ -418,7 +416,7 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    final filledTrailingIcon = CustomToolTip(
+    final filledTrailingIconButton = CustomToolTip(
       message: tooltip,
       child: FilledButton.icon(
         onPressed: onPressedWithAnalytics,
@@ -428,7 +426,7 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    final filledIcon = Material(
+    final filledIconButton = Material(
       color: Colors.transparent,
       child: Ink(
         decoration: ShapeDecoration(
@@ -453,7 +451,7 @@ class CustomButton extends StatelessWidget {
         ),
       ),
     );
-    final outlinedLeadingIcon = CustomToolTip(
+    final outlinedLeadingIconButton = CustomToolTip(
       message: tooltip,
       child: OutlinedButton.icon(
         onPressed: onPressedWithAnalytics,
@@ -465,7 +463,7 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    final outlinedTrailingIcon = CustomToolTip(
+    final outlinedTrailingIconButton = CustomToolTip(
       message: tooltip,
       child: OutlinedButton.icon(
         onPressed: onPressedWithAnalytics,
@@ -477,7 +475,7 @@ class CustomButton extends StatelessWidget {
         icon: iconWidget,
       ),
     );
-    Widget outlinedLabel(Either<Widget, String> child) => CustomToolTip(
+    Widget outlinedLabelButton(Either<Widget, String> child) => CustomToolTip(
           message: tooltip,
           child: OutlinedButton(
             onPressed: onPressedWithAnalytics,
@@ -486,7 +484,7 @@ class CustomButton extends StatelessWidget {
             child: child.fold((l) => l, (r) => Text(r ?? "")),
           ),
         );
-    final outlinedIcon = SizedBox(
+    final outlinedIconButton = SizedBox(
       width: buttonHeight,
       height: buttonHeight,
       child: CustomToolTip(
@@ -542,14 +540,14 @@ class CustomButton extends StatelessWidget {
             : EdgeInsets.zero;
       }),
     );
-    Widget textLabel(Either<Widget, String> child) => CustomToolTip(
+    Widget textLabelButton(Either<Widget, String> child) => CustomToolTip(
         message: tooltip,
         child: TextButton(
           onPressed: onPressedWithAnalytics,
           style: textButtonStyle,
           child: child.fold((l) => l, (r) => Text(r ?? "")),
         ));
-    final textTrailingIcon = CustomToolTip(
+    final textTrailingIconButton = CustomToolTip(
         message: tooltip,
         child: TextButton.icon(
           style: textButtonStyle,
@@ -557,7 +555,7 @@ class CustomButton extends StatelessWidget {
           icon: iconWidget,
           label: labelWidget,
         ));
-    final textLeadingIcon = CustomToolTip(
+    final textLeadingIconButton = CustomToolTip(
         message: tooltip,
         child: TextButton.icon(
           style: textButtonStyle,
@@ -565,7 +563,7 @@ class CustomButton extends StatelessWidget {
           icon: iconWidget,
           label: labelWidget,
         ));
-    final textIcon = SizedBox(
+    final textIconButton = SizedBox(
       width: buttonHeight,
       height: buttonHeight,
       child: CustomToolTip(
@@ -581,7 +579,7 @@ class CustomButton extends StatelessWidget {
         ),
       ),
     );
-    final iconMinPadding = SizedBox(
+    final iconMinPaddingButton = SizedBox(
       width: isSmall ? 15 : 18,
       height: isSmall ? 15 : 18,
       child: CustomToolTip(
@@ -601,98 +599,98 @@ class CustomButton extends StatelessWidget {
     );
     switch (type) {
       case (CustomButtonType.primaryLabel):
-        return filledLabel(
+        return filledLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.primaryTrailingIcon):
-        return filledTrailingIcon;
+        return filledTrailingIconButton;
       case (CustomButtonType.primaryLeadingIcon):
-        return filledLeadingIcon;
+        return filledLeadingIconButton;
       case (CustomButtonType.primaryIcon):
-        return filledIcon;
+        return filledIconButton;
       case (CustomButtonType.secondaryLabel):
-        return outlinedLabel(
+        return outlinedLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.secondaryTrailingIcon):
-        return outlinedTrailingIcon;
+        return outlinedTrailingIconButton;
       case (CustomButtonType.secondaryLeadingIcon):
-        return outlinedLeadingIcon;
+        return outlinedLeadingIconButton;
       case (CustomButtonType.secondaryIcon):
-        return outlinedIcon;
+        return outlinedIconButton;
       case (CustomButtonType.greyFilledLabel):
-        return filledLabel(
+        return filledLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyFilledTrailingIcon):
-        return filledTrailingIcon;
+        return filledTrailingIconButton;
       case (CustomButtonType.greyFilledLeadingIcon):
-        return filledLeadingIcon;
+        return filledLeadingIconButton;
       case (CustomButtonType.greyFilledIcon):
-        return filledIcon;
+        return filledIconButton;
       case (CustomButtonType.destructiveFilledLabel):
-        return filledLabel(
+        return filledLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveFilledTrailingIcon):
-        return filledTrailingIcon;
+        return filledTrailingIconButton;
       case (CustomButtonType.destructiveFilledLeadingIcon):
-        return filledLeadingIcon;
+        return filledLeadingIconButton;
       case (CustomButtonType.destructiveFilledIcon):
-        return filledIcon;
+        return filledIconButton;
 
       case (CustomButtonType.greyOutlinedLabel):
-        return outlinedLabel(
+        return outlinedLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyOutlinedTrailingIcon):
-        return outlinedTrailingIcon;
+        return outlinedTrailingIconButton;
       case (CustomButtonType.greyOutlinedLeadingIcon):
-        return outlinedLeadingIcon;
+        return outlinedLeadingIconButton;
       case (CustomButtonType.greyOutlinedIcon):
-        return outlinedIcon;
+        return outlinedIconButton;
       case (CustomButtonType.destructiveOutlinedLabel):
-        return outlinedLabel(
+        return outlinedLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveOutlinedTrailingIcon):
-        return outlinedTrailingIcon;
+        return outlinedTrailingIconButton;
       case (CustomButtonType.destructiveOutlinedLeadingIcon):
-        return outlinedLeadingIcon;
+        return outlinedLeadingIconButton;
       case (CustomButtonType.destructiveOutlinedIcon):
-        return outlinedIcon;
+        return outlinedIconButton;
 
       case (CustomButtonType.primaryTextLabel):
-        return textLabel(
+        return textLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.primaryTextTrailingIcon):
-        return textTrailingIcon;
+        return textTrailingIconButton;
       case (CustomButtonType.primaryTextLeadingIcon):
-        return textLeadingIcon;
+        return textLeadingIconButton;
       case (CustomButtonType.primaryTextIcon):
-        return textIcon;
+        return textIconButton;
       case (CustomButtonType.primaryIconMinPadding):
-        return iconMinPadding;
+        return iconMinPaddingButton;
 
       case (CustomButtonType.greyTextLabel):
-        return textLabel(
+        return textLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.greyTextTrailingIcon):
-        return textTrailingIcon;
+        return textTrailingIconButton;
       case (CustomButtonType.greyTextLeadingIcon):
-        return textLeadingIcon;
+        return textLeadingIconButton;
       case (CustomButtonType.greyTextIcon):
-        return textIcon;
+        return textIconButton;
       case (CustomButtonType.greyIconMinPadding):
-        return iconMinPadding;
+        return iconMinPaddingButton;
 
       case (CustomButtonType.destructiveTextLabel):
-        return textLabel(
+        return textLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
       case (CustomButtonType.destructiveTextTrailingIcon):
-        return textTrailingIcon;
+        return textTrailingIconButton;
       case (CustomButtonType.destructiveTextLeadingIcon):
-        return textLeadingIcon;
+        return textLeadingIconButton;
       case (CustomButtonType.destructiveTextIcon):
-        return textIcon;
+        return textIconButton;
       case (CustomButtonType.destructiveIconMinPadding):
-        return iconMinPadding;
+        return iconMinPaddingButton;
       default:
-        return filledLabel(
+        return filledLabelButton(
             child == null ? Right(label ?? "") : Left(child ?? Container()));
     }
   }
