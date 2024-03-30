@@ -35,4 +35,9 @@ class SharedPrefLocalDataSource implements LocalDataSource {
       throw(FailedCachingException());
     }
   }
+
+  @override
+  Future<bool> clear() {
+    return _sharedPreferences.clear();
+  }
 }

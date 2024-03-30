@@ -89,6 +89,16 @@ mixin class GlobalsWriteAccess {
     _clickupAuthAccessToken = value;
   }
 
+  void clearGlobals() {
+    _clickupAuthAccessToken =
+        const ClickupAccessToken(accessToken: "", tokenType: "");
+    _clickupUser = null;
+    _selectedWorkspace = null;
+    _selectedSpaceId = null;
+    _clickupWorkspaces = null;
+    _clickupSpaces = null;
+  }
+
   set clickupUser(ClickupUser value) {
     _clickupUser = value;
   }
@@ -118,4 +128,5 @@ mixin class GlobalsWriteAccess {
   set clickupSpaces(List<ClickupSpace>? value) {
     _clickupSpaces = value;
   }
+
 }

@@ -71,5 +71,6 @@
   "ar": "العربية",
   "language": "Language",
   "continueWithClickupToUse" : "To use Time blocking app, you must",
-  "demo" : "Demo"
+  "demo" : "Demo",
+  "signOut" : "Sign out"
 }

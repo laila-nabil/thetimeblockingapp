@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
+import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import '../models/clickup_access_token_model.dart';
 import 'dart:convert';
@@ -13,6 +15,8 @@ abstract class AuthLocalDataSource {
       ClickupAccessTokenModel clickupAccessTokenModel);
 
   Future<void> saveClickupUser(ClickupUserModel clickupUserModel);
+
+  Future<void> signOut();
 
 }
 
@@ -49,6 +53,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     return localDataSource.setData(
         key: LocalDataSourceKeys.clickupUser.name,
         value: clickupUserModel.toJson());
+  }
+
+  @override
+  Future<void> signOut() async {
+    await localDataSource.clear();
   }
 
 }

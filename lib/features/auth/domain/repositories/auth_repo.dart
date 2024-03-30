@@ -13,4 +13,6 @@ abstract class AuthRepo {
   Future<Either<Failure, ClickupUser>> getClickupUser(
       {required GetClickupUserParams params});
 
+  Future<Either<Failure, Unit>> signOut();
+
 }

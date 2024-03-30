@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
@@ -142,7 +143,7 @@ void _initServiceLocator({required Network network}) {
     serviceLocator(),
   ));
 
-  serviceLocator.registerFactory(() => SettingsBloc(serviceLocator()));
+  serviceLocator.registerFactory(() => SettingsBloc(serviceLocator(),serviceLocator(),));
 
   /// UseCases
 
@@ -317,6 +318,9 @@ void _initServiceLocator({required Network network}) {
 
   serviceLocator
       .registerLazySingleton(() => ChangeLanguageUseCase(appLocalization));
+
+  serviceLocator
+      .registerLazySingleton(() => SignOutUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

@@ -13,6 +13,7 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 
 import '../../../../common/models/clickup_user_model.dart';
+import '../../../../core/error/exception_to_failure.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
@@ -57,6 +58,18 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
         },
         tryGetFromLocalStorage: () async =>
             await authLocalDataSource.getClickupUser());
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signOut() async {
+    try {
+      await authLocalDataSource.signOut();
+      clearGlobals();
+      return const Right(unit);
+    } catch (e) {
+      printDebug(e);
+      return Left(exceptionToFailure(e as Exception));
+    }
   }
 
 }

@@ -16,4 +16,6 @@ abstract class LocalDataSource {
     required String key,
     required T value,
   });
+
+  Future<bool> clear();
 }

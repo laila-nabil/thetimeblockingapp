@@ -3,15 +3,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/local_data_sources/shared_preferences_local_data_source.dart';
+import 'package:thetimeblockingapp/core/network/clickup_exception_handler.dart';
+import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
@@ -39,8 +47,17 @@ class WidgetBookApp extends StatelessWidget {
     return Widgetbook.material(
       appBuilder: (context, w) {
         return BlocProvider(
-          create: (context) =>
-              SettingsBloc(ChangeLanguageUseCase(appLocalization)),
+          create: (context) => SettingsBloc(
+              ChangeLanguageUseCase(appLocalization),
+              SignOutUseCase(AuthRepoImpl(
+                  AuthRemoteDataSourceImpl(
+                      clickupClientId: "",
+                      clickupClientSecret: "",
+                      clickupUrl: "",
+                      network: NetworkHttp(
+                          httpClient: Client(),
+                          responseHandler: clickupResponseHandler)),
+                  AuthLocalDataSourceImpl(SharedPrefLocalDataSource())))),
           child: w,
         );
       },
