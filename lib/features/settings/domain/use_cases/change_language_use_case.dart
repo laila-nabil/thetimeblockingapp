@@ -5,14 +5,13 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../../core/localization/localization.dart';
 
-class ChangeLanguageUseCase implements UseCase<Unit,ChangeLanguageParams>{
+class ChangeLanguageUseCase {
   final Localization localization;
 
   ChangeLanguageUseCase(this.localization);
-  @override
-  Future<Either<Failure, Unit>?> call(ChangeLanguageParams params) async{
-    localization.setLocale(params.context, params.locale);
-    return const Right(unit);
+
+  Future<void> call(ChangeLanguageParams params) {
+    return localization.setLocale(params.context, params.locale);
   }
 
 }

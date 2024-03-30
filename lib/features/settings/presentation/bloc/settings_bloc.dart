@@ -21,15 +21,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       : super(const SettingsState()) {
     on<SettingsEvent>((event, emit) async {
       if (event is ChangeLanguageEvent) {
+        await _changeLanguageUseCase(event.changeLanguageParams);
         emit(SettingsState(
-            isLoading: true,
-            currentLanguage: state.currentLanguage,
-            themeMode: state.themeMode));
-        final result = await _changeLanguageUseCase(event.changeLanguageParams);
-        result?.fold(
-            (l) => null,
-            (r) => emit(SettingsState(
-                currentLanguage: event.changeLanguageParams.locale)));
+          isLoading: false,
+            themeMode: state.themeMode,
+            signOutSuccess: state.signOutSuccess,
+            currentLanguage: event.changeLanguageParams.locale));
       } else if (event is ChangeThemeEvent) {
         emit(SettingsState(
             currentLanguage: state.currentLanguage,

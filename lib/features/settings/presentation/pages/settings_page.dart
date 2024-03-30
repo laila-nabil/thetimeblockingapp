@@ -18,7 +18,6 @@ import '../bloc/settings_bloc.dart';
 
 ///TODO create task from siri shortcuts functionality
 ///TODO create task from email
-///TODO change language (Arabic,English)
 ///TODO about me page with github and twitter links and why app created
 ///TODO changing workspace and space in settings page
 ///TODO create a new Workspace/Space in settings page

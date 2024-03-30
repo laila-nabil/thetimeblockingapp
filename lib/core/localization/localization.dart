@@ -12,7 +12,7 @@ abstract class Localization {
   Locale getCurrentLocale(BuildContext context);
   LanguagesEnum? getCurrentLanguagesEnum(BuildContext context);
   String getCurrentLangCode(BuildContext context);
-  void setLocale(BuildContext context, Locale selectedLanguage);
+  Future<void> setLocale(BuildContext context, Locale selectedLanguage);
   void setLanguage(BuildContext context, LanguagesEnum selectedLanguage);
   String translate(String key,
       {List<String>? arguments, Map<String, String>? namedArguments});
@@ -61,8 +61,8 @@ class LocalizationImpl implements Localization{
   }
 
   @override
-  void setLocale(BuildContext context, Locale selectedLanguage) {
-    context.setLocale(selectedLanguage);
+  Future<void> setLocale(BuildContext context, Locale selectedLanguage) {
+    return context.setLocale(selectedLanguage);
   }
 
   @override

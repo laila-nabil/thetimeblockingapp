@@ -36,7 +36,7 @@ class Globals {
 
   static String clickupRedirectUrl = "";
 
-  static bool analyticsEnabledDefault  = false;
+  static const bool analyticsEnabledDefault  = false;
 
   static bool analyticsEnabled = analyticsEnabledDefault;
 

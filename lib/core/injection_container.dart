@@ -392,7 +392,7 @@ void reRegisterClickupVariables() async {
       ? overrideClickupUrl
       : 'https://timeblockingrender.onrender.com/clickup';
 
-  Globals.analyticsEnabled = bool.fromEnvironment("analyticsEnabled",
+  Globals.analyticsEnabled = const bool.fromEnvironment("analyticsEnabled",
       defaultValue: Globals.analyticsEnabledDefault);
 }
 
