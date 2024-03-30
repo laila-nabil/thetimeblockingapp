@@ -30,7 +30,7 @@ class TasksCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
-      ///TODO V1 save selected view
+      ///TODO save selected view in calendar
       // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
@@ -41,7 +41,6 @@ class TasksCalendar extends StatelessWidget {
       // monthViewSettings: const MonthViewSettings(
       //   showAgenda: true,
       // ),
-      ///TODO V2 enable allowDragAndDrop
       allowDragAndDrop: true,
       allowAppointmentResize: true,
       allowViewNavigation: true,
@@ -50,7 +49,7 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO V2 use TaskCalendarWidget that takes UI colors from list & status
+      ///TODO calendar widget color in calendar is based on list with checkbox colored based on status as design
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
@@ -70,7 +69,7 @@ class TasksCalendar extends StatelessWidget {
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO V2 TimeSlotViewSettings
+        ///TODO adjust TimeSlotViewSettings in calendar
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: false

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///TODO V4 help page
+///TODO help page
 
 class HelpPage extends StatelessWidget {
   const HelpPage({super.key});

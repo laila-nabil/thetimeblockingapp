@@ -104,8 +104,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
       serviceLocator(),
       serviceLocator(),
-      serviceLocator(),
-      serviceLocator()));
+      serviceLocator(),));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 

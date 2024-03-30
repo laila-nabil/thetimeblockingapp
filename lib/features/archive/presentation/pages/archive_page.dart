@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///TODO V3 archive page
+///TODO archive page
 
 class ArchivePage extends StatelessWidget {
   const ArchivePage({super.key});

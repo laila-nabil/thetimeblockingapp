@@ -20,9 +20,6 @@ part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  final GetClickupTasksInAllWorkspacesUseCase
-      // ignore: unused_field
-      _getClickupTasksInAllWorkspacesUseCase;
 
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
@@ -33,7 +30,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(
-      this._getClickupTasksInAllWorkspacesUseCase,
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTaskUseCase,
       this._updateClickupTaskUseCase,

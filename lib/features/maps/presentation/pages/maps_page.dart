@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///TODO V4 maps and location
+///TODO maps and location
 
 class MapsPage extends StatelessWidget {
   const MapsPage({super.key});

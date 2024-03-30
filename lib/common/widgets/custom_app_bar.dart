@@ -91,7 +91,7 @@ class CustomAppBarWidget extends StatelessWidget {
       selectClickupWorkspace;
   final List<CustomPopupItem>? pageActions;
   final bool isDarkMode;
-  ///TODO V2 app bar different height based on size
+  ///TODO app bar different height based on size as design
   static double height(bool showSmallDesign) => 52;
   // static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
 
@@ -146,7 +146,7 @@ class CustomAppBarWidget extends StatelessWidget {
             hint: Text(appLocalization.translate("spaces")),
           ),*/
 
-        ///TODO V3 search tasks,tags, lists and folders
+        ///TODO search tasks,tags, lists and folders
         // ignore: dead_code
         if (false)
           IconButton(

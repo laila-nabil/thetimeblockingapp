@@ -70,7 +70,7 @@ class TagPage extends StatelessWidget {
                     space: Globals.selectedSpace!));
               }
               return ResponsiveScaffold(
-                ///TODO V3 select multiple tasks to perform bulk actions
+                ///TODO Bulk actions on tasks
                 pageActions: [
                   CustomPopupItem.widget(
                       onTap: () {

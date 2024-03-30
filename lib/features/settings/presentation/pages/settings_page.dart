@@ -13,12 +13,13 @@ import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../bloc/settings_bloc.dart';
 
-///TODO V3 add task from siri shortcuts functionality
-///TODO V3 add task from email
-///TODO V2 change language (arabic, german)
-///TODO V2 navigate to about me page with github and twitter links and why app created
-///TODO V1 changing workspace and space here and remove from drawer
-///TODO V1 sign out
+///TODO create task from siri shortcuts functionality
+///TODO create task from email
+///TODO change language (Arabic,English)
+///TODO about me page with github and twitter links and why app created
+///TODO changing workspace and space in settings page
+///TODO sign out
+///TODO create a new Workspace/Space in settings page
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

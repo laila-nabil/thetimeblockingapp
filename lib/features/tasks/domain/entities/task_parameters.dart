@@ -219,7 +219,7 @@ class ClickupTaskParams extends Equatable{
         tags: task.tags,
         taskStatus: task.status,
         timeEstimate: task.timeEstimate,
-        ///TODO V4 get parentTask
+        ///TODO get parentTask
         parentTask: null,
         dueDate: task.dueDateUtc,
         startDate: task.startDateUtc,

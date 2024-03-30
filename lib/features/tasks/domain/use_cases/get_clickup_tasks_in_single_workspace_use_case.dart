@@ -210,7 +210,6 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
       result += "date_done_lt=$filterByDateDoneLessThanUnixTimeMilliseconds&";
     }
 
-    ///TODO V4 custom fields
 
     if (customTaskIds != null) {
       result += "custom_task_ids=$customTaskIds&";
