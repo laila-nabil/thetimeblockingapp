@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -11,6 +12,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.d
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_chip.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
+import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/assets_paths.dart';
@@ -41,7 +44,43 @@ class TaskComponent extends StatelessWidget {
     return TaskWidget(
         actions: [
           CustomPopupItem.text(
-              title: appLocalization.translate("delete"), onTap: () {})
+              title: appLocalization.translate("delete"),
+              onTap: () {
+                //showDialog is not shown on PopupMenuItem tap
+                //
+                // That's because onTap of popupMenuItem tries to use Navigator.pop
+                // to close the popup but at same time you are trying to show the dialog,
+                // So it closes the dialog and leaves the popup so, you can wait till
+                // the all the animations or ongoing things complete then show dialog
+
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        return CustomAlertDialog(
+                          loading: false,
+                          actions: [
+                            CustomButton.noIcon(
+                                label: appLocalization.translate("delete"),
+                                onPressed: () {
+                                  onDelete(DeleteClickupTaskParams(
+                                      task: clickupTask,
+                                      clickupAccessToken:
+                                          Globals.clickupAuthAccessToken));
+                                  Navigator.pop(ctx);
+                                }),
+                            CustomButton.noIcon(
+                                label: appLocalization.translate("cancel"),
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                }),
+                          ],
+                          content: Text(
+                              "${appLocalization.translate("areYouSureDelete")} ${clickupTask.name}?"),
+                        );
+                      });
+                });
+              })
         ],
         showList: showListChip,
         onTap: () {
@@ -78,6 +117,7 @@ class TaskWidget extends StatefulWidget {
 class _TaskWidgetState extends State<TaskWidget> {
   bool onHover = false;
   static const iconSize = 12.0;
+
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.grey(context.isDarkMode).shade500;
