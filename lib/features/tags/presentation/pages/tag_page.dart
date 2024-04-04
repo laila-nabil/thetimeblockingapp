@@ -72,7 +72,7 @@ class TagPage extends StatelessWidget {
               return ResponsiveScaffold(
                 ///TODO Bulk actions on tasks
                 pageActions: [
-                  CustomPopupItem.widget(
+                  CustomPopupItem.custom(
                       onTap: () {
                         tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
                             insideTagPage: true,
@@ -89,7 +89,7 @@ class TagPage extends StatelessWidget {
                           Text(appLocalization.translate("edit")),
                         ],
                       )),
-                  CustomPopupItem.widget(
+                  CustomPopupItem.custom(
                       onTap: () {
                         tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
                             DeleteClickupTagParams(
@@ -255,7 +255,10 @@ class TagPage extends StatelessWidget {
         tagsPageBloc.add(UpdateClickupTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
-      },
+      }, onDuplicate: (params ) {
+      tagsPageBloc.add(DuplicateClickupTaskEvent(
+          params: params, workspace: Globals.selectedWorkspace!));
+    },
     );
   }
 }

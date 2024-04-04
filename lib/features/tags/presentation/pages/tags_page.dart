@@ -66,7 +66,7 @@ class TagsPage extends StatelessWidget {
                                       clickupAccessToken:
                                           Globals.clickupAuthAccessToken)));
                               Navigator.pop(context);
-                            }),
+                            },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
@@ -157,7 +157,7 @@ class TagsPage extends StatelessWidget {
                                                             )
                                                           : null,
                                                   actions: [
-                                                    CustomPopupItem.text(
+                                                    CustomPopupItem(
                                                         title: appLocalization
                                                             .translate("edit"),
                                                         onTap: () {
@@ -175,7 +175,7 @@ class TagsPage extends StatelessWidget {
                                                                       Globals
                                                                           .clickupAuthAccessToken)));
                                                         }),
-                                                    CustomPopupItem.text(
+                                                    CustomPopupItem(
                                                         title: appLocalization
                                                             .translate("delete"),
                                                         onTap: () {

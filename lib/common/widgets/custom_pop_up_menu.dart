@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
@@ -8,20 +9,24 @@ import '../../core/resources/assets_paths.dart';
 
 class CustomPopupItem {
   final String? title;
+  final IconData? icon;
   final Widget? titleWidget;
   final void Function()? onTap;
   final AlertDialog? alertDialog;
-  CustomPopupItem._({this.title, this.titleWidget, this.onTap,this.alertDialog});
 
-  CustomPopupItem.text(
-      {required String title, void Function()? onTap, AlertDialog? alertDialog})
+  CustomPopupItem._(
+      {this.title, this.titleWidget, this.onTap, this.alertDialog, this.icon});
+
+  CustomPopupItem(
+      {required String title, void Function()? onTap, AlertDialog? alertDialog,IconData? icon})
       : this._(
             onTap: onTap,
             title: title,
+            icon: icon,
             titleWidget: null,
             alertDialog: alertDialog);
 
-  CustomPopupItem.widget(
+  CustomPopupItem.custom(
       {required Widget titleWidget,
       void Function()? onTap,
       AlertDialog? alertDialog})
@@ -113,10 +118,17 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                       });
                     }: e.onTap,
                     child: e.title?.isNotEmpty == true
-                        ? Text(
-                            e.title ?? "",
-                            style: CustomPopupMenu.textStyle(context.isDarkMode),
-                          )
+                        ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if(e.icon!=null)Icon(e.icon,),
+                            if(e.icon!=null)SizedBox(width: AppSpacing.xSmall8.value,),
+                            Text(
+                                e.title ?? "",
+                                style: CustomPopupMenu.textStyle(context.isDarkMode),
+                              ),
+                          ],
+                        )
                         : e.titleWidget,
                   ))
               .toList();

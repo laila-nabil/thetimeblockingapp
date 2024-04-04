@@ -120,14 +120,14 @@ class SchedulePage extends StatelessWidget {
                     ///TODO auto Schedule
                     // ignore: dead_code
                     if (false)
-                      CustomPopupItem.text(
+                      CustomPopupItem(
                         title: appLocalization.translate("autoSchedule"),
                         onTap: () {},
                       ),
 
                     // ignore: dead_code
                     if (false)
-                      CustomPopupItem.text(
+                      CustomPopupItem(
                         title: appLocalization.translate("showCompleted"),
                         onTap: () {},
                       ),

@@ -176,7 +176,10 @@ class ListPage extends StatelessWidget {
       onSave: (params) {
         listsPageBloc.add(UpdateClickupTaskEvent(params: params));
         Navigator.maybePop(context);
-      },
+      }, onDuplicate: (params ) {
+        listsPageBloc.add(DuplicateClickupTaskEvent(
+          params: params,));
+    },
     );
   }
 }

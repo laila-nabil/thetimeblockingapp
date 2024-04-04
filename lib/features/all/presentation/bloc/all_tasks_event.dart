@@ -31,6 +31,19 @@ class CreateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params, workspace];
 }
 
+class DuplicateClickupTaskEvent extends AllTasksEvent {
+  final ClickupTaskParams params;
+  final ClickupWorkspace workspace;
+
+  const DuplicateClickupTaskEvent({
+    required this.params,
+    required this.workspace,
+  });
+
+  @override
+  List<Object?> get props => [params, workspace];
+}
+
 class UpdateClickupTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
   final ClickupWorkspace workspace;

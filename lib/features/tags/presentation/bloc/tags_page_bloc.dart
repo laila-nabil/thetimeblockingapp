@@ -159,6 +159,23 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
+      }
+        else if (event is DuplicateClickupTaskEvent) {
+        emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
+        final result = await _createClickupTaskUseCase(event.params);
+        result?.fold(
+            (l) => emit(state.copyWith(
+                tagsPageStatus: TagsPageStatus.createTaskFailed,
+                createTaskFailure: l)), (r) {
+          emit(state.copyWith(
+            tagsPageStatus: TagsPageStatus.createTaskSuccess,
+          ));
+          add(GetClickupTasksForTagEvent(
+              clickupAccessToken: event.params.clickupAccessToken,
+              space: event.params.clickupSpace!,
+              tag: state.navigateTag!,
+              workspace: event.workspace));
+        });
       } else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
         final result = await _updateClickupTaskUseCase(event.params);
