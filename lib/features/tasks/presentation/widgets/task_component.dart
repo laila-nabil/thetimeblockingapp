@@ -29,6 +29,7 @@ class TaskComponent extends StatelessWidget {
     required this.isLoading,
     required this.onDelete,
     required this.onSave,
+    required this.onDuplicate,
     this.showListChip = true,
   });
 
@@ -37,13 +38,15 @@ class TaskComponent extends StatelessWidget {
   final bool Function(Object?) isLoading;
   final void Function(DeleteClickupTaskParams) onDelete;
   final void Function(ClickupTaskParams) onSave;
+  final void Function(ClickupTaskParams) onDuplicate;
   final bool showListChip;
 
   @override
   Widget build(BuildContext context) {
     return TaskWidget(
         actions: [
-          CustomPopupItem.text(
+          CustomPopupItem(
+              icon: AppIcons.bin,
               title: appLocalization.translate("delete"),
               alertDialog: CustomAlertDialog(
                 loading: false,
@@ -56,7 +59,7 @@ class TaskComponent extends StatelessWidget {
                             clickupAccessToken:
                             Globals.clickupAuthAccessToken));
                         Navigator.pop(context);
-                      }),
+                      },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
                       label: appLocalization.translate("cancel"),
                       onPressed: () {
@@ -65,7 +68,23 @@ class TaskComponent extends StatelessWidget {
                 ],
                 content: Text(
                     "${appLocalization.translate("areYouSureDelete")} ${clickupTask.name}?"),
-              ))
+              )),
+          CustomPopupItem(
+              icon: AppIcons.copy,
+              title: appLocalization.translate("duplicate"),
+              onTap: () => onDuplicate(ClickupTaskParams.createNewTask(
+                    clickupAccessToken: Globals.clickupAuthAccessToken,
+                    clickupList: clickupTask.list!,
+                    title: clickupTask.name ?? "",
+                    description: clickupTask.description,
+                    dueDate: clickupTask.dueDateUtc,
+                    folder: clickupTask.folder,
+                    space: clickupTask.space,
+                    tags: clickupTask.tags,
+                    taskPriority: clickupTask.priority,
+                    startDate: clickupTask.startDateUtc,
+                    timeEstimate: clickupTask.timeEstimate,
+                  )))
         ],
         showList: showListChip,
         onTap: () {
@@ -76,6 +95,22 @@ class TaskComponent extends StatelessWidget {
                   bloc: bloc,
                   onDelete: onDelete,
                   onSave: onSave,
+                  onDuplicate: () {
+                    onDuplicate(ClickupTaskParams.createNewTask(
+                      clickupAccessToken: Globals.clickupAuthAccessToken,
+                      clickupList: clickupTask.list!,
+                      title: clickupTask.name ?? "",
+                      description: clickupTask.description,
+                      dueDate: clickupTask.dueDateUtc,
+                      folder: clickupTask.folder,
+                      space: clickupTask.space,
+                      tags: clickupTask.tags,
+                      taskPriority: clickupTask.priority,
+                      startDate: clickupTask.startDateUtc,
+                      timeEstimate: clickupTask.timeEstimate,
+                    ));
+                    Navigator.pop(context);
+                  },
                   isLoading: (state) => isLoading(state)));
         },
         clickupTask: clickupTask);

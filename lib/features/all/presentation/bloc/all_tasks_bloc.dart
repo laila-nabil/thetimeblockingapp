@@ -65,6 +65,21 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
               space: event.params.clickupSpace!,
               workspace: event.workspace));
         });
+      } else if (event is DuplicateClickupTaskEvent) {
+        emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
+        final result = await _createClickupTaskUseCase(event.params);
+        result?.fold(
+                (l) => emit(state.copyWith(
+                allTasksStatus: AllTasksStatus.createTaskFailed,
+                createTaskFailure: l)), (r) {
+          emit(state.copyWith(
+            allTasksStatus: AllTasksStatus.createTaskSuccess,
+          ));
+          add(GetClickupTasksInSpaceEvent(
+              clickupAccessToken: event.params.clickupAccessToken,
+              space: event.params.clickupSpace!,
+              workspace: event.workspace));
+        });
       } else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _updateClickupTaskUseCase(event.params);

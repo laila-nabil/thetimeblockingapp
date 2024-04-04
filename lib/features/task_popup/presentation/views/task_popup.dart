@@ -37,6 +37,7 @@ import '../../../tasks/presentation/widgets/tag_chip.dart';
 class TaskPopupParams extends Equatable {
   ClickupTask? task;
   final void Function(ClickupTaskParams params)? onSave;
+  void Function()? onDuplicate;
   final void Function(DeleteClickupTaskParams params)? onDelete;
   final Bloc bloc;
   final bool Function(Object? state) isLoading;
@@ -94,7 +95,7 @@ class TaskPopupParams extends Equatable {
     required this.onSave,
     required this.onDelete,
     required this.bloc,
-    required this.isLoading,
+    required this.isLoading, this.onDuplicate,
   }) {
     startDate = task?.startDateUtc;
     dueDate = task?.dueDateUtc;
@@ -274,11 +275,8 @@ class TaskPopup extends StatelessWidget {
                       vertical: AppSpacing.small12.value),
                   actions: [
                     if (task != null)
-                      IconButton(
-                        icon: Icon(
-                          AppIcons.bin,
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                         CustomButton.iconOnly(
+                        icon: AppIcons.bin,
                         onPressed: taskPopupParams.onDelete == null
                             ? null
                             : () {
@@ -300,7 +298,9 @@ class TaskPopup extends StatelessWidget {
                                                         clickupAccessToken: Globals
                                                             .clickupAuthAccessToken));
                                                 Navigator.pop(ctx);
-                                              }),
+                                              },
+                                              type: CustomButtonType
+                                                  .destructiveFilledLabel),
                                           CustomButton.noIcon(
                                               label: appLocalization
                                                   .translate("cancel"),
@@ -313,6 +313,17 @@ class TaskPopup extends StatelessWidget {
                                       );
                                     });
                               },
+                           size: CustomButtonSize.large,
+                           type: CustomButtonType.destructiveTextIcon,
+                      ),
+                    if (task != null )
+                      CustomButton.iconOnly(
+                          icon: AppIcons.copy,
+                          onPressed: () {
+                            taskPopupParams.onDuplicate!();
+                          },
+                          type: CustomButtonType.primaryTextIcon,
+                        size: CustomButtonSize.large,
                       ),
                     CustomButton.noIcon(
                         onPressed: () => Navigator.maybePop(context),

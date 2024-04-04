@@ -320,6 +320,22 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }
+      else if (event is DuplicateClickupTaskEvent) {
+        emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+        final result = await _createClickupTaskUseCase(event.params);
+        result?.fold(
+            (l) => emit(state.copyWith(
+                listsPageStatus: ListsPageStatus.createTaskFailed,
+                deleteListFailure: l)), (r) {
+          emit(state.copyWith(
+            listsPageStatus: ListsPageStatus.createTaskSuccess,
+          ));
+          add(GetListDetailsAndTasksInListEvent(
+              getClickupListAndItsTasksParams: GetClickupListAndItsTasksParams(
+                  listId: event.params.getListId,
+                  clickupAccessToken: event.params.clickupAccessToken)));
+        });
+      }
       else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _updateClickupTaskUseCase(event.params);

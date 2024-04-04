@@ -112,6 +112,19 @@ class CreateClickupTaskEvent extends TagsPageEvent {
   List<Object?> get props => [params, workspace];
 }
 
+class DuplicateClickupTaskEvent extends TagsPageEvent {
+  final ClickupTaskParams params;
+  final ClickupWorkspace workspace;
+
+  const DuplicateClickupTaskEvent({
+    required this.params,
+    required this.workspace,
+  });
+
+  @override
+  List<Object?> get props => [params, workspace];
+}
+
 class UpdateClickupTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
   final ClickupWorkspace workspace;

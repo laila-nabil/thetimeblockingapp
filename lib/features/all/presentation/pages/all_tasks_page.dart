@@ -197,7 +197,12 @@ class AllTasksPage extends StatelessWidget {
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
-      isLoading: (state) => state is! AllTasksState ? false : state.isLoading,);
+      isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
+      onDuplicate: (params) {
+        allTasksBloc.add(DuplicateClickupTaskEvent(
+            params: params, workspace: Globals.selectedWorkspace!));
+      },
+    );
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {

@@ -69,7 +69,7 @@ class ListsPage extends StatelessWidget {
                                   clickupWorkspace: Globals.selectedWorkspace!,
                                   clickupSpace: Globals.selectedSpace!));
                               Navigator.pop(context);
-                            }),
+                            },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
@@ -102,7 +102,7 @@ class ListsPage extends StatelessWidget {
                                   clickupWorkspace: Globals.selectedWorkspace!,
                                   clickupSpace: Globals.selectedSpace!));
                               Navigator.pop(context);
-                            }),
+                            },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
@@ -159,7 +159,7 @@ class ListsPage extends StatelessWidget {
                                             .map<Widget>((folder) =>
                                                 ToggleableSection(
                                                     actions: [
-                                                      CustomPopupItem.text(
+                                                      CustomPopupItem(
                                                           title: appLocalization
                                                               .translate(
                                                                   "delete"),
@@ -197,7 +197,7 @@ class ListsPage extends StatelessWidget {
                                                                       },
                                                                       list: e,
                                                                       actions: [
-                                                                        CustomPopupItem.text(
+                                                                        CustomPopupItem(
                                                                             title: appLocalization.translate("delete"),
                                                                             onTap: () {
                                                                               listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
@@ -242,7 +242,7 @@ class ListsPage extends StatelessWidget {
                                               .map<Widget>((e) => ListComponent(
                                             list: e,
                                             actions: [
-                                              CustomPopupItem.text(
+                                              CustomPopupItem(
                                                   title: appLocalization
                                                       .translate(
                                                       "delete"),
