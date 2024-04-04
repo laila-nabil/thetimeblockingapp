@@ -88,6 +88,25 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           ));
         });
       }
+      else if (event is DuplicateClickupTaskEvent) {
+        emit(state.copyWith(
+          persistingScheduleStateAddRemove:
+              const Right(ScheduleStateEnum.loading),
+        ));
+        final result = await _createClickupTaskUseCase(event.params);
+        emit(state.copyWith(
+            persistingScheduleStateAddRemove:
+                const Left(ScheduleStateEnum.loading)));
+        result?.fold((l) {
+          emit(state.copyWith(
+              nonPersistingScheduleState: ScheduleStateEnum.createTaskFailed,
+              createTaskFailure: l));
+        }, (r) {
+          emit(state.copyWith(
+            nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
+          ));
+        });
+      }
       else if (event is UpdateClickupTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:

@@ -67,6 +67,21 @@ class ClickupTaskParams extends Equatable{
     return <ClickupList>[];
   }
 
+  factory ClickupTaskParams.fromTask(ClickupTask clickupTask){
+    return ClickupTaskParams.createNewTask(
+      clickupAccessToken: Globals.clickupAuthAccessToken,
+      clickupList: clickupTask.list!,
+      title: clickupTask.name ?? "",
+      description: clickupTask.description,
+      dueDate: clickupTask.dueDateUtc,
+      folder: clickupTask.folder,
+      space: clickupTask.space,
+      tags: clickupTask.tags,
+      taskPriority: clickupTask.priority,
+      startDate: clickupTask.startDateUtc,
+      timeEstimate: clickupTask.timeEstimate,
+    );
+  }
   const ClickupTaskParams._(
       {this.clickupList,
       this.title,

@@ -133,10 +133,11 @@ class TasksCalendar extends StatelessWidget {
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
       printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
       if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+        final task = calendarTapDetails.appointments?.first as ClickupTask;
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams.notAllDayTask(
-                task: calendarTapDetails.appointments?.first as ClickupTask,
+            taskPopupParams: TaskPopupParams.openNotAllDayTask(
+                task: task,
                 onSave: (params) {
                   scheduleBloc.add(UpdateClickupTaskEvent(params: params));
                 },
@@ -145,7 +146,11 @@ class TasksCalendar extends StatelessWidget {
                 bloc: scheduleBloc,
                 isLoading: (state)=> state is! ScheduleState
                     ? false
-                    : state.isLoading,)));
+                    : state.isLoading,
+                onDuplicate: () {
+              scheduleBloc.add(DuplicateClickupTaskEvent(
+                  params: ClickupTaskParams.fromTask(task)));
+            },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&
           calendarTapDetails.appointments == null) {

@@ -72,19 +72,7 @@ class TaskComponent extends StatelessWidget {
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(ClickupTaskParams.createNewTask(
-                    clickupAccessToken: Globals.clickupAuthAccessToken,
-                    clickupList: clickupTask.list!,
-                    title: clickupTask.name ?? "",
-                    description: clickupTask.description,
-                    dueDate: clickupTask.dueDateUtc,
-                    folder: clickupTask.folder,
-                    space: clickupTask.space,
-                    tags: clickupTask.tags,
-                    taskPriority: clickupTask.priority,
-                    startDate: clickupTask.startDateUtc,
-                    timeEstimate: clickupTask.timeEstimate,
-                  )))
+              onTap: () => onDuplicate(ClickupTaskParams.fromTask(clickupTask)))
         ],
         showList: showListChip,
         onTap: () {

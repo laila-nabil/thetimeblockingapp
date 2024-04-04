@@ -48,6 +48,20 @@ class TaskPopupParams extends Equatable {
   ClickupList? list;
   ClickupTag? tag;
 
+  TaskPopupParams.openNotAllDayTask({
+    required this.task,
+    required this.onSave,
+    required this.onDelete,
+    required this.onDuplicate,
+    this.cellDate,
+    required this.bloc,
+    required this.isLoading,
+  }) {
+    startDate = task?.startDateUtc ?? cellDate;
+    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
+    isAllDay = false;
+    list = null;
+  }
   TaskPopupParams.notAllDayTask({
     this.task,
     this.onSave,
@@ -316,7 +330,7 @@ class TaskPopup extends StatelessWidget {
                            size: CustomButtonSize.large,
                            type: CustomButtonType.destructiveTextIcon,
                       ),
-                    if (task != null )
+                    if (task != null && taskPopupParams.onDuplicate!=null)
                       CustomButton.iconOnly(
                           icon: AppIcons.copy,
                           onPressed: () {

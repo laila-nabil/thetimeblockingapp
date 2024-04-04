@@ -35,6 +35,15 @@ class CreateClickupTaskEvent extends ScheduleEvent {
   List<Object?> get props => [params];
 }
 
+class DuplicateClickupTaskEvent extends ScheduleEvent {
+  final ClickupTaskParams params;
+
+  const DuplicateClickupTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
 class UpdateClickupTaskEvent extends ScheduleEvent {
   final ClickupTaskParams params;
 
