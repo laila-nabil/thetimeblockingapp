@@ -45,42 +45,27 @@ class TaskComponent extends StatelessWidget {
         actions: [
           CustomPopupItem.text(
               title: appLocalization.translate("delete"),
-              onTap: () {
-                //showDialog is not shown on PopupMenuItem tap
-                //
-                // That's because onTap of popupMenuItem tries to use Navigator.pop
-                // to close the popup but at same time you are trying to show the dialog,
-                // So it closes the dialog and leaves the popup so, you can wait till
-                // the all the animations or ongoing things complete then show dialog
-
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        return CustomAlertDialog(
-                          loading: false,
-                          actions: [
-                            CustomButton.noIcon(
-                                label: appLocalization.translate("delete"),
-                                onPressed: () {
-                                  onDelete(DeleteClickupTaskParams(
-                                      task: clickupTask,
-                                      clickupAccessToken:
-                                          Globals.clickupAuthAccessToken));
-                                  Navigator.pop(ctx);
-                                }),
-                            CustomButton.noIcon(
-                                label: appLocalization.translate("cancel"),
-                                onPressed: () {
-                                  Navigator.pop(ctx);
-                                }),
-                          ],
-                          content: Text(
-                              "${appLocalization.translate("areYouSureDelete")} ${clickupTask.name}?"),
-                        );
-                      });
-                });
-              })
+              alertDialog: CustomAlertDialog(
+                loading: false,
+                actions: [
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("delete"),
+                      onPressed: () {
+                        onDelete(DeleteClickupTaskParams(
+                            task: clickupTask,
+                            clickupAccessToken:
+                            Globals.clickupAuthAccessToken));
+                        Navigator.pop(context);
+                      }),
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("cancel"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+                content: Text(
+                    "${appLocalization.translate("areYouSureDelete")} ${clickupTask.name}?"),
+              ))
         ],
         showList: showListChip,
         onTap: () {

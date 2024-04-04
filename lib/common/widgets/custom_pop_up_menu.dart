@@ -9,17 +9,26 @@ import '../../core/resources/assets_paths.dart';
 class CustomPopupItem {
   final String? title;
   final Widget? titleWidget;
-  final void Function() onTap;
-
-  CustomPopupItem._({this.title, this.titleWidget, required this.onTap});
+  final void Function()? onTap;
+  final AlertDialog? alertDialog;
+  CustomPopupItem._({this.title, this.titleWidget, this.onTap,this.alertDialog});
 
   CustomPopupItem.text(
-      {required String title, required void Function() onTap})
-      : this._(onTap: onTap, title: title, titleWidget: null);
+      {required String title, void Function()? onTap, AlertDialog? alertDialog})
+      : this._(
+            onTap: onTap,
+            title: title,
+            titleWidget: null,
+            alertDialog: alertDialog);
 
   CustomPopupItem.widget(
-      {required Widget titleWidget, required void Function() onTap})
-      : this._(onTap: onTap, title: null, titleWidget: titleWidget);
+      {required Widget titleWidget,
+      void Function()? onTap,
+      AlertDialog? alertDialog})
+      : this._(
+            onTap: onTap,
+            title: null,
+            titleWidget: titleWidget,alertDialog: alertDialog);
 }
 
 class CustomPopupMenu extends StatefulWidget {
@@ -87,7 +96,22 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
         itemBuilder: (context) {
           return widget.items
               .map((e) => PopupMenuItem(
-                    onTap: e.onTap,
+                    onTap: e.alertDialog!=null ? (){
+                      //showDialog is not shown on PopupMenuItem tap
+                      //
+                      // That's because onTap of popupMenuItem tries to use Navigator.pop
+                      // to close the popup but at same time you are trying to show the dialog,
+                      // So it closes the dialog and leaves the popup so, you can wait till
+                      // the all the animations or ongoing things complete then show dialog
+
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return e.alertDialog!;
+                            });
+                      });
+                    }: e.onTap,
                     child: e.title?.isNotEmpty == true
                         ? Text(
                             e.title ?? "",
