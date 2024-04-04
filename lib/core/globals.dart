@@ -76,6 +76,9 @@ class Globals {
 
   static String demoUrl =
       "https://demoo-timeblocking.web.app";
+
+  static String clickupTerms = "https://clickup.com/terms";
+  static String clickupPrivacy = "https://clickup.com/terms/privacy";
 }
 
 ///just to make it harder to write global variable

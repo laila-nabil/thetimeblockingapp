@@ -73,5 +73,9 @@
   "continueWithClickupToUse" : "لاستخدام البرنامج، يجب ",
   "demo" : "Demo",
   "signOut" : "تسجيل الخروج",
-  "duplicate" : "كرر"
+  "duplicate" : "كرر",
+  "byConnectingAgreeClickup" : "عند الاتصال، انت توافق علي ",
+  "and" : "و",
+  "termsOfUse" : "الشروط و الأحكام",
+  "privacyPolicy" : "سياسة الخصوصية"
 }

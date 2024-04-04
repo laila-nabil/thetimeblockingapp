@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -204,8 +206,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         demoButton( AnalyticsEvents.onBoardingStep1Demo,),
                       ],
                     ),
-                    SizedBox(
+                    Container(
                       height: AppSpacing.huge96.value,
+                      alignment: Alignment.center,
+                      child: agreeClickupPrivacyTerms(),
                     )
                   ],
                 ),
@@ -321,8 +325,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           height: 8,
                         ),
                         demoButton( AnalyticsEvents.onBoardingStep1Demo,),
-                        SizedBox(
+                        Container(
                           height: AppSpacing.xHuge128.value,
+                          alignment:AlignmentDirectional.centerStart,
+                          child: agreeClickupPrivacyTerms(),
                         )
                       ],
                     ),
@@ -881,8 +887,10 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                         demoButton(AnalyticsEvents.onBoardingStep4Demo)
                       ],
                     ),
-                    SizedBox(
+                    Container(
                       height: AppSpacing.huge96.value,
+                      alignment: Alignment.center,
+                      child: agreeClickupPrivacyTerms(),
                     )
                   ],
                 ),
@@ -1000,9 +1008,11 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           height: AppSpacing.xSmall8.value,
                         ),
                         demoButton(AnalyticsEvents.onBoardingStep4Demo),
-                        SizedBox(
+                        Container(
                           height: AppSpacing.xHuge128.value,
-                        ),
+                          alignment: AlignmentDirectional.centerStart,
+                          child: agreeClickupPrivacyTerms(),
+                        )
                       ],
                     ),
                   ),
@@ -1091,67 +1101,48 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
       ],
     );
   }
-}
-
-class ExplainClickupAuth extends StatelessWidget {
-  ExplainClickupAuth({Key? key, required this.authBloc}) : super(key: key);
-
-  final TextEditingController controller = TextEditingController();
-  final AuthBloc authBloc;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(appLocalization.translate("whyConnectClickup",
-                arguments: [appLocalization.translate("appName")])),
-            CustomButton.noIcon(
-                label: "Connect with Clickup",
-                onPressed: () {
-                  final url =
-                      "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
-                  if (kIsWeb) {
-                    launchWithURL(url: url);
-                    if (true) {
-                      authBloc.add(const ShowCodeInputTextField(true));
-                    }
-                  } else if (Platform.isAndroid || Platform.isIOS) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return AuthPageWebView(
-                        url: url,
-                        getAccessToken: (String code) {
-                          authBloc.add(GetClickupAccessToken(code));
-                        },
-                      );
-                    }));
-                  }
-                }),
-            Text(appLocalization.translate("agreeTermsConditions")),
-            if (true)
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextInputField(
-                      focusNode: FocusNode(),
-                      controller: controller,
-                    ),
-                  ),
-                  CustomButton.noIcon(
-                    label: "submit",
-                    onPressed: () {
-                      authBloc.add(GetClickupAccessToken(controller.text));
-                    },
-                  )
-                ],
-              )
-          ],
+  
+  Widget agreeClickupPrivacyTerms(){
+    final linkStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
+        appFontSize: AppFontSize.paragraphXSmall,
+        color: AppColors.primary(context.isDarkMode),
+        appFontWeight: AppFontWeight.bold)).copyWith(
+      decoration: TextDecoration.underline
+    );
+    return RichText(
+        text: TextSpan(
+            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                appFontSize: AppFontSize.paragraphXSmall,
+                color: AppColors.grey(context.isDarkMode),
+                appFontWeight: AppFontWeight.regular)),
+            text: appLocalization.translate("byConnectingAgreeClickup"),
+      children: [
+        TextSpan(
+          style: linkStyle,
+          text: appLocalization.translate("termsOfUse"),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              launchWithURL(url: Globals.clickupTerms);
+            },
         ),
-      ),
+        TextSpan(text: " ${appLocalization.translate("and")} "),
+        TextSpan(
+          style: linkStyle,
+          text: appLocalization.translate("privacyPolicy"),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              launchWithURL(url: Globals.clickupPrivacy);
+            },
+        )
+      ]
+    ));
+    return Wrap(
+      children: [
+        Text("by connecting,you agree to Clickup's "),
+        CustomButton.noIcon(label: "Terms of use", onPressed: (){launchWithURL(url: "https://clickup.com/terms");}),
+        Text("by connecting,you agree to Clickup's "),
+        CustomButton.noIcon(label: "Privacy policy", onPressed: (){launchWithURL(url: "https://clickup.com/terms/privacy");}),
+      ],
     );
   }
 }

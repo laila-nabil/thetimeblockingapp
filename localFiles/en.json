@@ -73,5 +73,9 @@
   "continueWithClickupToUse" : "To use Time blocking app, you must",
   "demo" : "Demo",
   "signOut" : "Sign out",
-  "duplicate" : "Duplicate"
+  "duplicate" : "Duplicate",
+  "byConnectingAgreeClickup" : "By connecting,you agree to Clickup's ",
+  "and" : "and",
+  "termsOfUse" : "Terms of use",
+  "privacyPolicy" : "Privacy policy"
 }
