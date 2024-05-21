@@ -1,14 +1,18 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
+import 'injection_container.dart';
 
 Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
+  AnalyticsEvents? analyticsEvent,
+  Map<String, Object?>? analyticsEventParameters,
 }) async {
   late T result;
   try {
@@ -18,6 +22,10 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
       } catch (e) {
         printDebug("tryGetFromLocalStorage error $e");
         result = await remoteDataSourceRequest();
+        if(analyticsEvent!=null){
+          serviceLocator<Analytics>().logEvent(analyticsEvent.name,
+              parameters: analyticsEventParameters);
+        }
       }
     } else {
       result = await remoteDataSourceRequest();
