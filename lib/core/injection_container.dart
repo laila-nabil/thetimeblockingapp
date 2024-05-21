@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/core/environment.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -88,13 +89,12 @@ void _initServiceLocator({required Network network}) {
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc(
-        serviceLocator(),
-        serviceLocator(),
-        serviceLocator(),
-        serviceLocator(),
-        serviceLocator(),
-        serviceLocator()
-      ));
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),
       serviceLocator(),
@@ -102,10 +102,12 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),
       serviceLocator(),
       serviceLocator()));
-  serviceLocator.registerFactory(() => ScheduleBloc(serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),));
+  serviceLocator.registerFactory(() => ScheduleBloc(
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ));
   serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
@@ -137,13 +139,16 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerFactory(() => AllTasksBloc(
-    serviceLocator(),
-    serviceLocator(),
-    serviceLocator(),
-    serviceLocator(),
-  ));
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+        serviceLocator(),
+      ));
 
-  serviceLocator.registerFactory(() => SettingsBloc(serviceLocator(),serviceLocator(),));
+  serviceLocator.registerFactory(() => SettingsBloc(
+        serviceLocator(),
+        serviceLocator(),
+      ));
 
   /// UseCases
 
@@ -169,15 +174,13 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
-  serviceLocator
-      .registerLazySingleton(() => GetClickupTagsInSpaceUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => GetClickupTagsInSpaceUseCase(
+        serviceLocator(),
+      ));
 
-  serviceLocator
-      .registerLazySingleton(() => GetAllInClickupWorkspaceUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => GetAllInClickupWorkspaceUseCase(
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
         serviceLocator(),
@@ -195,12 +198,12 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerLazySingleton(() => DeleteClickupListUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => DeleteClickupFolderUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
         serviceLocator(),
@@ -215,112 +218,95 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupListInFolderUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
-  serviceLocator.registerLazySingleton(() => CreateFolderlessListClickupListUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator
+      .registerLazySingleton(() => CreateFolderlessListClickupListUseCase(
+            serviceLocator(),
+          ));
 
   serviceLocator.registerLazySingleton(() => MoveClickupTaskBetweenListsUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => CreateClickupFolderInSpaceUseCase(
-    serviceLocator(),
-  ));
+        serviceLocator(),
+      ));
 
   serviceLocator
       .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
             serviceLocator(),
           ));
 
-  serviceLocator
-      .registerLazySingleton(() => SelectWorkspaceUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => SelectWorkspaceUseCase(
+        serviceLocator(),
+      ));
 
-  serviceLocator
-      .registerLazySingleton(() => GetSelectedWorkspaceUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => GetSelectedWorkspaceUseCase(
+        serviceLocator(),
+      ));
   serviceLocator
       .registerLazySingleton(() => GetSpacesOfSelectedWorkspaceUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => AddTagToTaskUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => GetClickupListUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => AddTagsToTaskUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => RemoveTagFromTaskUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => RemoveTagsFromTaskUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => AddTaskToListUseCase(
-    serviceLocator(),
-  ));
+            serviceLocator(),
+          ));
+  serviceLocator.registerLazySingleton(() => AddTagToTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => GetClickupListUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => AddTagsToTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => RemoveTagFromTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => RemoveTagsFromTaskUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => AddTaskToListUseCase(
+        serviceLocator(),
+      ));
   serviceLocator
       .registerLazySingleton(() => RemoveTaskFromAdditionalListUseCase(
-    serviceLocator(),
-  ));
+            serviceLocator(),
+          ));
+  serviceLocator.registerLazySingleton(() => GetSelectedSpaceUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => SelectSpaceUseCase(
+        serviceLocator(),
+      ));
   serviceLocator
-      .registerLazySingleton(() => GetSelectedSpaceUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => SelectSpaceUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => SaveSpacesUseCase(
-    serviceLocator()
-  ));
-  serviceLocator
-      .registerLazySingleton(() => GetAllInClickupSpaceUseCase(
-    serviceLocator(),
-  ));
+      .registerLazySingleton(() => SaveSpacesUseCase(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => GetAllInClickupSpaceUseCase(
+        serviceLocator(),
+      ));
   serviceLocator
       .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
-    serviceLocator(),
-  ));
-  serviceLocator
-      .registerLazySingleton(() => GetClickupListAndItsTasksUseCase(
-    serviceLocator(),
-  ));
+            serviceLocator(),
+          ));
+  serviceLocator.registerLazySingleton(() => GetClickupListAndItsTasksUseCase(
+        serviceLocator(),
+      ));
 
-  serviceLocator
-      .registerLazySingleton(() => CreateClickupTagInSpaceUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => CreateClickupTagInSpaceUseCase(
+        serviceLocator(),
+      ));
 
-  serviceLocator
-      .registerLazySingleton(() => UpdateClickupTagUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => UpdateClickupTagUseCase(
+        serviceLocator(),
+      ));
 
-  serviceLocator
-      .registerLazySingleton(() => DeleteClickupTagUseCase(
-    serviceLocator(),
-  ));
+  serviceLocator.registerLazySingleton(() => DeleteClickupTagUseCase(
+        serviceLocator(),
+      ));
 
   serviceLocator
       .registerLazySingleton(() => ChangeLanguageUseCase(appLocalization));
 
-  serviceLocator
-      .registerLazySingleton(() => SignOutUseCase(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => SignOutUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
@@ -375,8 +361,8 @@ void _initServiceLocator({required Network network}) {
 
   serviceLocator.registerLazySingleton<Network>(() => network);
 
-  serviceLocator.registerLazySingleton<Analytics>(
-      () => FirebaseAnalyticsImpl());
+  serviceLocator
+      .registerLazySingleton<Analytics>(() => FirebaseAnalyticsImpl());
 }
 
 void reRegisterClickupVariables() async {
@@ -392,8 +378,8 @@ void reRegisterClickupVariables() async {
       ? overrideClickupUrl
       : 'https://timeblockingrender.onrender.com/clickup';
 
-  Globals.analyticsEnabled = const bool.fromEnvironment("analyticsEnabled",
-      defaultValue: Globals.analyticsEnabledDefault);
+  Globals.env = Env.getEnv(
+      const String.fromEnvironment("env", defaultValue: "prod"));
 }
 
 void initServiceLocator() {

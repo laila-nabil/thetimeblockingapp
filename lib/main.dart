@@ -30,6 +30,7 @@ Future<void> main() async {
   di.initServiceLocator();
   di.reRegisterClickupVariables();
   await di.serviceLocator<Analytics>().initialize();
+  await di.serviceLocator<Analytics>().logAppOpen();
   if (kIsWeb && Globals.isDemo == false) {
     await tz_web.initializeTimeZone();
   } else {

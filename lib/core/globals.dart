@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 import '../common/entities/clickup_user.dart';
 import '../common/entities/clickup_workspace.dart';
 import '../features/auth/domain/entities/clickup_access_token.dart';
+import 'environment.dart';
 
 String _appName = "Time blocking app";
 
@@ -36,9 +37,11 @@ class Globals {
 
   static String clickupRedirectUrl = "";
 
-  static const bool analyticsEnabledDefault  = false;
+  static const Env defaultEnv  = Env.prod;
 
-  static bool analyticsEnabled = analyticsEnabledDefault;
+  static Env env = defaultEnv;
+
+  static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
   static ClickupAccessToken get clickupAuthAccessToken =>
       _clickupAuthAccessToken;
