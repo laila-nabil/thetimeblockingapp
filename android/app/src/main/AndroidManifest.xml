@@ -33,6 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+       <meta-data android:name="com.posthog.posthog.API_KEY" android:value="phc_pqgnBIeiqRHGF7wfrDFdESbKmOk16FHcb0682tpQR2N" />
+       <meta-data android:name="com.posthog.posthog.POSTHOG_HOST" android:value="https://us.i.posthog.com" />
+       <meta-data android:name="com.posthog.posthog.TRACK_APPLICATION_LIFECYCLE_EVENTS" android:value="true" />
+       <meta-data android:name="com.posthog.posthog.DEBUG" android:value="true" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

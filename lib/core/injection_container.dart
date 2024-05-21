@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/core/analytics/posthog_impl.dart';
 import 'package:thetimeblockingapp/core/environment.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
@@ -362,7 +363,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<Network>(() => network);
 
   serviceLocator
-      .registerLazySingleton<Analytics>(() => FirebaseAnalyticsImpl());
+      .registerLazySingleton<Analytics>(() => PostHogImpl());
 }
 
 void reRegisterClickupVariables() async {
@@ -379,7 +380,7 @@ void reRegisterClickupVariables() async {
       : 'https://timeblockingrender.onrender.com/clickup';
 
   Globals.env = Env.getEnv(
-      const String.fromEnvironment("env", defaultValue: "prod"));
+      const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }
 
 void initServiceLocator() {

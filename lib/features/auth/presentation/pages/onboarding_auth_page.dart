@@ -1115,7 +1115,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                 appFontSize: AppFontSize.paragraphXSmall,
                 color: AppColors.grey(context.isDarkMode),
                 appFontWeight: AppFontWeight.regular)),
-            text: appLocalization.translate("byConnectingAgreeClickup"),
+            text: appLocalization.translate("byUsingTheAppAgreeClickup"),
       children: [
         TextSpan(
           style: linkStyle,
@@ -1133,7 +1133,8 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
             ..onTap = () {
               launchWithURL(url: Globals.clickupPrivacy);
             },
-        )
+        ),
+        TextSpan(text: " ${appLocalization.translate("andAutoOptInUsingAnalyticsForImproving")} "),
       ]
     ));
     return Wrap(

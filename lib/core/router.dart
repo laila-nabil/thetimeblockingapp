@@ -30,7 +30,7 @@ final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
     initialLocation: AuthPage.routeName,
     debugLogDiagnostics: true,
-    observers: [MyNavObserver()],
+    observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
       String errorMessage = appLocalization.translate("pageNotFound");
       return ResponsiveScaffold(
@@ -176,7 +176,6 @@ final router = GoRouter(
 class MyNavObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    serviceLocator<Analytics>().setCurrentScreen("${route.settings.name}/${route.settings.arguments}");
     printDebug('GoRouter didPush: ${route.str}, previousRoute= ${previousRoute?.str}');
   }
 

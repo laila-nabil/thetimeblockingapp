@@ -74,8 +74,9 @@
   "demo" : "Demo",
   "signOut" : "تسجيل الخروج",
   "duplicate" : "كرر",
-  "byConnectingAgreeClickup" : "عند الاتصال، انت توافق علي ",
+  "byUsingTheAppAgreeClickup" : "بأستخدامك للبرنامج، انت توافق علي ",
   "and" : "و",
   "termsOfUse" : "الشروط و الأحكام",
-  "privacyPolicy" : "سياسة الخصوصية"
+  "privacyPolicy" : "سياسة الخصوصية",
+  "andAutoOptInUsingAnalyticsForImproving" : "و توافق تلقائيا علي تجميع البيانات بهدف تطوير البرنامج"
 }

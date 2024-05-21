@@ -12,7 +12,7 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
   AnalyticsEvents? analyticsEvent,
-  Map<String, Object?>? analyticsEventParameters,
+  Map<String, Object>? analyticsEventParameters,
 }) async {
   late T result;
   try {

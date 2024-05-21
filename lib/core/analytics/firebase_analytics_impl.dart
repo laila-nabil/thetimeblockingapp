@@ -1,14 +1,16 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/src/widgets/navigator.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';
 
 import '../globals.dart';
+import '../injection_container.dart';
 import 'analytics.dart';
 
 class FirebaseAnalyticsImpl implements Analytics {
-  late FirebaseAnalytics _firebaseAnalytics;
+  late FirebaseAnalytics _instance;
 
   @override
   Future<void> initialize() async {
@@ -18,7 +20,7 @@ class FirebaseAnalyticsImpl implements Analytics {
       );
       await FirebaseAnalytics.instance
           .setAnalyticsCollectionEnabled(Globals.isAnalyticsEnabled);
-      _firebaseAnalytics = FirebaseAnalytics.instance;
+      _instance = FirebaseAnalytics.instance;
       printDebug("FirebaseAnalyticsImpl initialize");
     } catch (e) {
       printDebug(e);
@@ -28,7 +30,7 @@ class FirebaseAnalyticsImpl implements Analytics {
   @override
   Future<void> logAppOpen() async {
     try {
-      await _firebaseAnalytics.logAppOpen();
+      await _instance.logAppOpen();
       printDebug("FirebaseAnalyticsImpl logAppOpen");
     } catch (e) {
       printDebug(e);
@@ -39,8 +41,10 @@ class FirebaseAnalyticsImpl implements Analytics {
   Future<void> logEvent(String eventName,
       {Map<String, Object?>? parameters}) async {
     try {
-      await _firebaseAnalytics.logEvent(name: eventName,parameters: parameters);
-      printDebug("FirebaseAnalyticsImpl logEvent $eventName ${parameters.toString()}");
+      await _instance.logEvent(
+          name: eventName, parameters: parameters);
+      printDebug(
+          "FirebaseAnalyticsImpl logEvent $eventName ${parameters.toString()}");
     } catch (e) {
       printDebug(e);
     }
@@ -49,7 +53,7 @@ class FirebaseAnalyticsImpl implements Analytics {
   @override
   Future<void> setCurrentScreen(String screenName) async {
     try {
-      await _firebaseAnalytics.setCurrentScreen(
+      await _instance.setCurrentScreen(
           screenName: Globals.isDemo ? "demo/$screenName" : screenName);
       printDebug("FirebaseAnalyticsImpl setCurrentScreen $screenName");
     } catch (e) {
@@ -60,10 +64,21 @@ class FirebaseAnalyticsImpl implements Analytics {
   @override
   Future<void> setUserId(String userId) async {
     try {
-      await _firebaseAnalytics.setUserId(id: userId);
+      await _instance.setUserId(id: userId);
       printDebug("FirebaseAnalyticsImpl setUserId $userId");
     } catch (e) {
       printDebug(e);
     }
+  }
+
+  @override
+  NavigatorObserver navigatorObserver = FirebaseAnalyticsObserver();
+}
+
+class FirebaseAnalyticsObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    serviceLocator<Analytics>().setCurrentScreen(
+        "${route.settings.name}/${route.settings.arguments}");
   }
 }

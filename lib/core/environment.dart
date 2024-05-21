@@ -2,19 +2,25 @@ enum Env {
   prod,
   test,
   demo,
-  dev;
+  dev,
+  debugLocally;
 
   bool get isAnalyticsEnabled => this != dev;
 
-  static Env getEnv(String envString){
-    if(envString == Env.test.name){
+  bool get isDebug => this != Env.debugLocally;
+
+  static Env getEnv(String envString) {
+    if (envString == Env.test.name) {
       return Env.test;
     }
-    if(envString == Env.demo.name){
+    if (envString == Env.demo.name) {
       return Env.demo;
     }
-    if(envString == Env.dev.name){
+    if (envString == Env.dev.name) {
       return Env.dev;
+    }
+    if (envString == Env.debugLocally.name) {
+      return Env.debugLocally;
     }
     return Env.prod;
   }

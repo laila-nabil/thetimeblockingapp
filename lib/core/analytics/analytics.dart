@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 enum AnalyticsEvents {
   onBoardingStep1ConnectClickup,
   onBoardingStep1Start,
@@ -28,14 +30,20 @@ enum AnalyticsEvents {
   changeLanguage,
 }
 
+enum AnalyticsEventParameter {
+  language,
+}
+
 abstract class Analytics {
   Future<void> initialize();
 
   Future<void> logAppOpen();
 
-  Future<void> logEvent(String eventName, {Map<String, Object?>? parameters});
+  Future<void> logEvent(String eventName, {Map<String, Object>? parameters});
 
   Future<void> setCurrentScreen(String screenName);
 
   Future<void> setUserId(String userId);
+
+  late NavigatorObserver navigatorObserver;
 }

@@ -37,7 +37,7 @@ class Globals {
 
   static String clickupRedirectUrl = "";
 
-  static const Env defaultEnv  = Env.prod;
+  static const Env defaultEnv  = Env.debugLocally;
 
   static Env env = defaultEnv;
 

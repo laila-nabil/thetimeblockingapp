@@ -74,8 +74,9 @@
   "demo" : "Demo",
   "signOut" : "Sign out",
   "duplicate" : "Duplicate",
-  "byConnectingAgreeClickup" : "By connecting,you agree to Clickup's ",
+  "byUsingTheAppAgreeClickup" : "By using the app,you agree to Clickup's ",
   "and" : "and",
   "termsOfUse" : "Terms of use",
-  "privacyPolicy" : "Privacy policy"
+  "privacyPolicy" : "Privacy policy",
+  "andAutoOptInUsingAnalyticsForImproving" : "and automatically opt in using analytics for improving the app"
 }

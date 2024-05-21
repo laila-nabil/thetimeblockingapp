@@ -13,14 +13,16 @@ class ChangeLanguageUseCase {
   ChangeLanguageUseCase(this.localization);
 
   Future<void> call(ChangeLanguageParams params) {
-    serviceLocator<Analytics>().logEvent(AnalyticsEvents.changeLanguage.name);
+    serviceLocator<Analytics>().logEvent(AnalyticsEvents.changeLanguage.name,
+        parameters: {
+          AnalyticsEventParameter.language.name: params.locale.languageCode
+        });
+
     return localization.setLocale(params.context, params.locale);
   }
-
 }
 
-
-class ChangeLanguageParams{
+class ChangeLanguageParams {
   final Locale locale;
   final BuildContext context;
 
