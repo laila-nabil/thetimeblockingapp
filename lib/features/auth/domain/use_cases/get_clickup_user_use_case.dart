@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 
+import '../../../../core/analytics/analytics.dart';
+import '../../../../core/injection_container.dart';
 import '../entities/clickup_access_token.dart';
 
 class GetClickupUserUseCase
@@ -12,11 +14,18 @@ class GetClickupUserUseCase
   final AuthRepo repo;
 
   GetClickupUserUseCase(this.repo);
-  @override
-  Future<Either<Failure, ClickupUser>?> call(GetClickupUserParams params) {
-    return repo.getClickupUser(params: params);
-  }
 
+  @override
+  Future<Either<Failure, ClickupUser>?> call(
+      GetClickupUserParams params) async {
+    final result = await repo.getClickupUser(params: params);
+    if (result.isRight()) {
+      late ClickupUser user;
+      result.fold((l) => null, (r) => user = r);
+      serviceLocator<Analytics>().setUserId(user.id.toString());
+    }
+    return result;
+  }
 }
 
 class GetClickupUserParams extends Equatable {
