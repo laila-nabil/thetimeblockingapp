@@ -22,13 +22,13 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
       } catch (e) {
         printDebug("tryGetFromLocalStorage error $e");
         result = await remoteDataSourceRequest();
-        if(analyticsEvent!=null){
-          serviceLocator<Analytics>().logEvent(analyticsEvent.name,
-              parameters: analyticsEventParameters);
-        }
       }
     } else {
       result = await remoteDataSourceRequest();
+    }
+    if(analyticsEvent!=null){
+      serviceLocator<Analytics>().logEvent(analyticsEvent.name,
+          parameters: analyticsEventParameters);
     }
   } on ServerException {
     printDebug("repo ServerException", printLevel: PrintLevel.error);
