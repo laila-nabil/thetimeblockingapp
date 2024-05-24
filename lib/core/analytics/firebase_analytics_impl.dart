@@ -73,6 +73,16 @@ class FirebaseAnalyticsImpl implements Analytics {
 
   @override
   NavigatorObserver navigatorObserver = FirebaseAnalyticsObserver();
+
+  @override
+  Future<void> resetUser() async {
+    try {
+      await _instance.setUserId();
+      printDebug("FirebaseAnalyticsImpl reset UserId");
+    } catch (e) {
+      printDebug(e);
+    }
+  }
 }
 
 class FirebaseAnalyticsObserver extends NavigatorObserver {

@@ -67,4 +67,14 @@ class PostHogImpl implements Analytics {
 
   @override
   NavigatorObserver navigatorObserver = PosthogObserver();
+
+  @override
+  Future<void> resetUser() async{
+    try {
+      await _instance.reset();
+      printDebug("PostHogImpl reset UserId");
+    } catch (e) {
+      printDebug(e);
+    }
+  }
 }

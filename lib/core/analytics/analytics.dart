@@ -45,5 +45,7 @@ abstract class Analytics {
 
   Future<void> setUserId(String userId);
 
+  Future<void> resetUser();
+
   late NavigatorObserver navigatorObserver;
 }
