@@ -28,11 +28,10 @@ enum AnalyticsEvents {
   updateTag,
   deleteTag,
   changeLanguage,
+  launchUrl,
 }
 
-enum AnalyticsEventParameter {
-  language,
-}
+enum AnalyticsEventParameter { language, link, status, error, screen_name }
 
 abstract class Analytics {
   Future<void> initialize();
