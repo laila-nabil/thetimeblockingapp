@@ -42,7 +42,9 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
         ? AnalyticsEvents.completeTask.name
         : AnalyticsEvents.updateTask.name;
     final task = params.task;
-    if (params.clickupList == task?.list || params.clickupList == null) {
+    printDebug("task?.list ${task?.list}");
+    printDebug("params.clickupList ${params.clickupList}");
+    if (params.clickupList?.id == task?.list?.id || params.clickupList == null) {
       final taskTags = task?.tags;
       final newTags = params.tags;
       if (newTags != taskTags) {
@@ -73,60 +75,23 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       printDebug("updateTaskResult $updateTaskResult");
       printDebug("failures $failures");
       if (failures.isNotEmpty) {
-        await serviceLocator<Analytics>().logEvent(
-            eventName,
-            parameters: {
-              AnalyticsEventParameter.status.name: false,
-              AnalyticsEventParameter.error.name: failures.toString(),
-            });
+        await serviceLocator<Analytics>().logEvent(eventName, parameters: {
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: failures.toString(),
+        });
         return Left(FailuresList(failures: failures));
       }
-      await serviceLocator<Analytics>()
-          .logEvent(eventName, parameters: {
+      await serviceLocator<Analytics>().logEvent(eventName, parameters: {
         AnalyticsEventParameter.status.name: true,
       });
       return const Right(unit);
     } else {
-      Either<Failure, ClickupTask>? createTask;
-      Either<Failure, Unit>? deleteOldTask;
-      try {
-        createTask = await createClickupTaskUseCase(
-                  ClickupTaskParams.createNewTask(
-                      clickupAccessToken: params.clickupAccessToken,
-                      clickupList: (params.clickupList ?? task?.list)!,
-                      title: params.title?? task?.name?? "",
-                      space: (params.clickupSpace ?? task?.space)!,
-                      tags: params.tags ?? task?.tags,
-                      description: params.description ?? task?.description,
-                      dueDate: params.dueDate ?? task?.dueDateUtc,
-                      folder: params.folder ?? task?.folder,
-                      taskStatus: params.taskStatus ?? task?.status,
-                      taskPriority: params.taskPriority ?? task?.priority,
-                      startDate: params.startDate ?? task?.startDateUtc,
-                      timeEstimate: params.timeEstimate ?? task?.timeEstimate,
-                      notifyAll: params.notifyAll,
-                      requiredCustomFields: params.requiredCustomFields,
-                parentTask: (params.parentTask != null)
-                    ? params.parentTask
-                    : (task?.parent != null)
-                        ? ClickupTask(id: task?.parent ?? "")
-                        : null,
-                linkedTask: params.linkedTask ?? ((task?.linkedTasks != null)
-                          ? ClickupTask(id: task?.linkedTasks?.tryElementAt(0) ?? "")
-                          : null),
-              ));
-        await createTask?.fold((l) async => failures.add(l), (r) async {
-          deleteOldTask = await deleteClickupTaskUseCase(DeleteClickupTaskParams(
-              task: task!, clickupAccessToken: params.clickupAccessToken));
-          deleteOldTask?.fold((l) => failures.add(l), (r) => null);
-        });
-      } catch (e) {
-        printDebug("createTask === $e $createTask");
-      }
-      if (failures.isNotEmpty || createTask == null) {
-        return Left(FailuresList(failures: failures));
-      }
-      return const Right(unit);
+      await serviceLocator<Analytics>().logEvent(eventName, parameters: {
+        AnalyticsEventParameter.status.name: false,
+        AnalyticsEventParameter.error.name:'list problem',
+      });
+      return Left(FailuresList(
+          failures: const [UnknownFailure(message: 'list problem')]));
     }
   }
 }
