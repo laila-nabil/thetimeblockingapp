@@ -12,11 +12,18 @@ class SignOutUseCase implements UseCase<Unit, NoParams> {
   SignOutUseCase(this.authRepo);
 
   @override
-  Future<Either<Failure, Unit>?> call(NoParams params) async{
+  Future<Either<Failure, Unit>?> call(NoParams params) async {
     final result = await authRepo.signOut();
-    if (result.isRight()) {
-      serviceLocator<Analytics>().resetUser();
-    }
+    await result.fold(
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.signOut.name, parameters: {
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString()
+            }), (r) async {
+      await serviceLocator<Analytics>().logEvent(AnalyticsEvents.signOut.name,
+          parameters: {AnalyticsEventParameter.status.name: true});
+      await serviceLocator<Analytics>().resetUser();
+    });
     return result;
   }
 }

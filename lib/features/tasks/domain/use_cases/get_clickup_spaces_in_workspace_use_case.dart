@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../core/globals.dart';
@@ -20,10 +22,21 @@ class GetClickupSpacesInWorkspacesUseCase
   Future<Either<Failure, List<ClickupSpace>>?> call(
       GetClickupSpacesInWorkspacesParams params) async {
     final result = await repo.getClickupSpacesInWorkspaces(params: params);
-    result.fold((l) => null, (r) {
+    await result.fold(
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "spaces",
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString(),
+            }), (r) async {
       clickupSpaces = r;
       printDebug(
           "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.clickupSpaces}");
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.getData.name, parameters: {
+        AnalyticsEventParameter.data.name: "spaces",
+        AnalyticsEventParameter.status.name: true,
+      });
     });
     return result;
   }

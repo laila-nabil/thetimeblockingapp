@@ -33,9 +33,12 @@ enum AnalyticsEvents {
   launchUrl,
   connectClickup,
   openDemo,
+  getData, signOut,
+  addTagToTask,
+  removeTagToTask,
 }
 
-enum AnalyticsEventParameter { language, link, status, error }
+enum AnalyticsEventParameter { language, link, status, error ,data}
 
 abstract class Analytics {
   Future<void> initialize();

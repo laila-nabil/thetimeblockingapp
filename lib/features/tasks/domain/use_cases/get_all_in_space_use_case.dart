@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -53,8 +55,19 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
     if (failures.isEmpty) {
       printDebug(
           "GetAllInSpaceUseCase Globals.selectedSpace ${Globals.selectedSpaceId}");
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.getData.name, parameters: {
+        AnalyticsEventParameter.data.name: "allInSpace",
+        AnalyticsEventParameter.status.name: true,
+      });
       return Right(space);
     }
+    await serviceLocator<Analytics>()
+        .logEvent(AnalyticsEvents.getData.name, parameters: {
+      AnalyticsEventParameter.data.name: "allInSpace",
+      AnalyticsEventParameter.status.name: false,
+      AnalyticsEventParameter.error.name: failures.toString(),
+    });
     return Left(failures);
   }
 }

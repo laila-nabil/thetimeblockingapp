@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -32,18 +34,43 @@ class GetClickupListAndItsTasksUseCase {
       GetClickupListAndItsTasksParams params) async {
     final listResult = await repo.getClickupList(GetClickupListParams(
         listId: params.listId, clickupAccessToken: params.clickupAccessToken));
+    await listResult?.fold(
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "lists",
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString(),
+            }),
+        (r) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "lists",
+              AnalyticsEventParameter.status.name: true,
+            }));
     final tasksResult = await repo.getTasksInWorkspace(
         params: GetClickupTasksInWorkspaceParams(
             workspaceId: Globals.selectedWorkspace?.id ?? "",
             filtersParams: defaultTasksInWorkspaceFiltersParams
                 .copyWith(filterByListsIds: [params.listId])));
 
+    await tasksResult.fold(
+            (l) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "tasks",
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }),
+            (r) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "tasks",
+          AnalyticsEventParameter.status.name: true,
+        }));
+
     return GetClickupListAndItsTasksResult(
         listResult: listResult, tasksResult: tasksResult);
   }
 }
 
-class GetClickupListAndItsTasksParams extends Equatable{
+class GetClickupListAndItsTasksParams extends Equatable {
   final String listId;
   final ClickupAccessToken clickupAccessToken;
 
@@ -51,8 +78,7 @@ class GetClickupListAndItsTasksParams extends Equatable{
       {required this.listId, required this.clickupAccessToken});
 
   @override
-  List<Object?> get props => [listId,clickupAccessToken];
-
+  List<Object?> get props => [listId, clickupAccessToken];
 }
 
 class GetClickupListAndItsTasksResult extends Equatable {

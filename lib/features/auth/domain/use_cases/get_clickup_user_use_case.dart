@@ -19,11 +19,20 @@ class GetClickupUserUseCase
   Future<Either<Failure, ClickupUser>?> call(
       GetClickupUserParams params) async {
     final result = await repo.getClickupUser(params: params);
-    if (result.isRight()) {
-      late ClickupUser user;
-      result.fold((l) => null, (r) => user = r);
-      serviceLocator<Analytics>().setUserId(user.id.toString());
-    }
+    await result.fold(
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "user",
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString(),
+            }), (r) async {
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.getData.name, parameters: {
+        AnalyticsEventParameter.data.name: "user",
+        AnalyticsEventParameter.status.name: true,
+      });
+      await serviceLocator<Analytics>().setUserId(r.id.toString());
+    });
     return result;
   }
 }

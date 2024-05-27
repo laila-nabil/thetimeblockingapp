@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 
@@ -11,13 +13,24 @@ class GetClickupAccessTokenUseCase
   final AuthRepo repo;
 
   GetClickupAccessTokenUseCase(this.repo);
+
   @override
   Future<Either<Failure, ClickupAccessToken>?> call(
-      GetClickupAccessTokenParams params) {
-    // if(params.code.isEmpty){
-    //   return Future.value(const Left(UnknownFailure(message: "an error happened")));
-    // }
-    return repo.getClickupAccessToken(params: params);
+      GetClickupAccessTokenParams params) async {
+    final result = await repo.getClickupAccessToken(params: params);
+    await result.fold(
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "accessToken",
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString(),
+            }),
+        (r) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.getData.name, parameters: {
+              AnalyticsEventParameter.data.name: "accessToken",
+              AnalyticsEventParameter.status.name: true,
+            }));
+    return result;
   }
 }
 

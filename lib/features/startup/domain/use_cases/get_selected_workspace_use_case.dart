@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
@@ -12,7 +14,19 @@ class GetSelectedWorkspaceUseCase
 
   @override
   Future<Either<Failure, ClickupWorkspace>?> call(
-      NoParams params) {
-    return repo.getSelectedWorkspace(params);
+      NoParams params)async {
+    final result = await repo.getSelectedWorkspace(params);
+    await result?.fold(
+            (l) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "selectedWorkspace",
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }), (r) async => await serviceLocator<Analytics>()
+        .logEvent(AnalyticsEvents.getData.name, parameters: {
+      AnalyticsEventParameter.data.name: "selectedWorkspace",
+      AnalyticsEventParameter.status.name: true,
+    }));
+    return result;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -15,8 +17,21 @@ class GetClickupTagsInSpaceUseCase
 
   @override
   Future<Either<Failure, List<ClickupTag>>?> call(
-      GetClickupTagsInSpaceParams params) {
-    return repo.getClickupTags(params: params);
+      GetClickupTagsInSpaceParams params) async {
+    final result = await repo.getClickupTags(params: params);
+    await result.fold(
+            (l) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "tags",
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }),
+            (r) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "tags",
+          AnalyticsEventParameter.status.name: true,
+        }));
+    return result;
   }
 }
 

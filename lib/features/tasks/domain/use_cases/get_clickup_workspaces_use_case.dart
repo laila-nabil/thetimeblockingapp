@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
@@ -14,8 +16,20 @@ class GetClickupWorkspacesUseCase
 
   @override
   Future<Either<Failure, List<ClickupWorkspace>>?> call(
-      GetClickupWorkspacesParams params) {
-    return repo.getClickupWorkspaces(params: params);
+      GetClickupWorkspacesParams params) async {
+    final result = await repo.getClickupWorkspaces(params: params);
+    await result.fold(
+            (l) async => await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.getData.name, parameters: {
+          AnalyticsEventParameter.data.name: "workspaces",
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }), (r) async => await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.getData.name, parameters: {
+        AnalyticsEventParameter.data.name: "workspaces",
+        AnalyticsEventParameter.status.name: true,
+      }));
+    return result;
   }
 }
 
