@@ -38,6 +38,9 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&
         params.taskStatus == Globals.selectedSpace?.statuses?.last;
+    final eventName = isCompletingTask
+        ? AnalyticsEvents.completeTask.name
+        : AnalyticsEvents.updateTask.name;
     final task = params.task;
     if (params.clickupList == task?.list || params.clickupList == null) {
       final taskTags = task?.tags;
@@ -70,8 +73,18 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       printDebug("updateTaskResult $updateTaskResult");
       printDebug("failures $failures");
       if (failures.isNotEmpty) {
+        await serviceLocator<Analytics>().logEvent(
+            eventName,
+            parameters: {
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: failures.toString(),
+            });
         return Left(FailuresList(failures: failures));
       }
+      await serviceLocator<Analytics>()
+          .logEvent(eventName, parameters: {
+        AnalyticsEventParameter.status.name: true,
+      });
       return const Right(unit);
     } else {
       Either<Failure, ClickupTask>? createTask;
@@ -110,22 +123,9 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       } catch (e) {
         printDebug("createTask === $e $createTask");
       }
-      final eventName = isCompletingTask
-          ? AnalyticsEvents.updateTask.name
-          : AnalyticsEvents.completeTask.name;
       if (failures.isNotEmpty || createTask == null) {
-        await serviceLocator<Analytics>().logEvent(
-            eventName,
-            parameters: {
-              AnalyticsEventParameter.status.name: false,
-          AnalyticsEventParameter.error.name: failures.toString(),
-        });
         return Left(FailuresList(failures: failures));
       }
-      await serviceLocator<Analytics>()
-          .logEvent(eventName, parameters: {
-        AnalyticsEventParameter.status.name: true,
-      });
       return const Right(unit);
     }
   }
