@@ -16,8 +16,10 @@ enum AnalyticsEvents {
   onBoardingStep3Demo,
   onBoardingStep4Demo,
   createTask,
+  moveTaskBetweenLists,
   updateTask,
   deleteTask,
+  completeTask,
   createList,
   editList,
   deleteList,
@@ -29,9 +31,11 @@ enum AnalyticsEvents {
   deleteTag,
   changeLanguage,
   launchUrl,
+  connectClickup,
+  openDemo,
 }
 
-enum AnalyticsEventParameter { language, link, status, error, screen_name }
+enum AnalyticsEventParameter { language, link, status, error }
 
 abstract class Analytics {
   Future<void> initialize();

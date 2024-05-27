@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
@@ -38,11 +40,20 @@ class MoveClickupTaskBetweenListsUseCase
           task: task, clickupAccessToken: params.clickupAccessToken));
     }
     if (createResult?.isRight() == true && deleteResult?.isRight() == true) {
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.moveTaskBetweenLists.name, parameters: {
+        AnalyticsEventParameter.status.name: true,
+      });
       return const Right(unit);
     } else {
       List<Failure> failures = [];
       createResult?.fold((l) => failures.add(l), (r) => null);
       deleteResult?.fold((l) => failures.add(l), (r) => null);
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.moveTaskBetweenLists.name, parameters: {
+        AnalyticsEventParameter.status.name: false,
+        AnalyticsEventParameter.error.name: failures.toString(),
+      });
       return Left(FailuresList(failures: failures));
     }
   }

@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../../core/globals.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
@@ -19,8 +21,19 @@ class CreateClickupListInFolderUseCase
 
   @override
   Future<Either<Failure, ClickupList>?> call(
-      CreateClickupListInFolderParams params) {
-    return repo.createClickupListInFolder(params);
+      CreateClickupListInFolderParams params) async {
+    final result = await repo.createClickupListInFolder(params);
+    await result?.fold(
+        (l) async =>await  serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.createList.name, parameters: {
+              AnalyticsEventParameter.status.name: false,
+              AnalyticsEventParameter.error.name: l.toString(),
+            }),
+        (r) async =>await  serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.createList.name, parameters: {
+              AnalyticsEventParameter.status.name: true,
+            }));
+    return result;
   }
 }
 
@@ -29,7 +42,8 @@ class CreateClickupListInFolderParams extends Equatable {
   final ClickupFolder clickupFolder;
   final String listName;
   final Color? statusColor;
-  final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee ;
+  final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;
+
   CreateClickupListInFolderParams({
     required this.clickupAccessToken,
     required this.clickupFolder,

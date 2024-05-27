@@ -1,6 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
@@ -33,6 +36,8 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
     Either<Failure, ClickupTask>? updateTaskResult;
     List<Failure> failures = [];
     printDebug("params $params");
+    final isCompletingTask = params.taskStatus != null &&
+        params.taskStatus == Globals.selectedSpace?.statuses?.last;
     final task = params.task;
     if (params.clickupList == task?.list || params.clickupList == null) {
       final taskTags = task?.tags;
@@ -105,9 +110,22 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       } catch (e) {
         printDebug("createTask === $e $createTask");
       }
+      final eventName = isCompletingTask
+          ? AnalyticsEvents.updateTask.name
+          : AnalyticsEvents.completeTask.name;
       if (failures.isNotEmpty || createTask == null) {
+        await serviceLocator<Analytics>().logEvent(
+            eventName,
+            parameters: {
+              AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: failures.toString(),
+        });
         return Left(FailuresList(failures: failures));
       }
+      await serviceLocator<Analytics>()
+          .logEvent(eventName, parameters: {
+        AnalyticsEventParameter.status.name: true,
+      });
       return const Right(unit);
     }
   }

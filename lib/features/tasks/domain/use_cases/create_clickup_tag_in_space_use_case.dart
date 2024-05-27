@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
@@ -22,9 +24,25 @@ class CreateClickupTagInSpaceUseCase
   @override
   Future<Either<Failure, Unit>?> call(CreateClickupTagInSpaceParams params) async{
     if(readyToSubmit(params.newTag) == false){
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.createTag.name, parameters: {
+        AnalyticsEventParameter.status.name: false,
+        AnalyticsEventParameter.error.name: "must not contain ? at the end",
+      });
       return const Left(InputFailure(message: "must not contain ? at the end"));
     }
-    return await repo.createClickupTagInSpace(params);
+    final result = await repo.createClickupTagInSpace(params);
+    await result?.fold(
+            (l) async =>await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.createTag.name, parameters: {
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }),
+            (r) async =>await  serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.createTag.name, parameters: {
+          AnalyticsEventParameter.status.name: true,
+        }));
+    return result;
   }
 }
 

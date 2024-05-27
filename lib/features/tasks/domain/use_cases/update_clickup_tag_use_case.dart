@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
@@ -23,9 +25,25 @@ class UpdateClickupTagUseCase
   Future<Either<Failure, Unit>?> call(
       UpdateClickupTagParams params) async{
     if(readyToSubmit(params.newTag) == false){
+      await serviceLocator<Analytics>()
+          .logEvent(AnalyticsEvents.updateTag.name, parameters: {
+        AnalyticsEventParameter.status.name: false,
+        AnalyticsEventParameter.error.name: "must not contain ? at the end",
+      });
       return const Left(InputFailure(message: "must not contain ? at the end"));
     }
-    return await repo.updateClickupTag(params);
+    final result = await repo.updateClickupTag(params);
+    await result?.fold(
+            (l) async =>await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.updateTag.name, parameters: {
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        }),
+            (r) async =>await  serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.updateTag.name, parameters: {
+          AnalyticsEventParameter.status.name: true,
+        }));
+    return result;
   }
 }
 

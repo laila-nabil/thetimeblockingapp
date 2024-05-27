@@ -11,8 +11,6 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
-  AnalyticsEvents? analyticsEvent,
-  Map<String, Object>? analyticsEventParameters,
 }) async {
   late T result;
   try {
@@ -25,10 +23,6 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
       }
     } else {
       result = await remoteDataSourceRequest();
-    }
-    if(analyticsEvent!=null){
-      serviceLocator<Analytics>().logEvent(analyticsEvent.name,
-          parameters: analyticsEventParameters);
     }
   } on ServerException {
     printDebug("repo ServerException", printLevel: PrintLevel.error);

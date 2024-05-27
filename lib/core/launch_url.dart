@@ -5,16 +5,19 @@ import 'package:url_launcher/url_launcher.dart';
 void launchWithURL({required String url}) async {
   final uri = Uri.parse(url);
   final canLaunch = await canLaunchUrl(uri);
+  var eventName = url.contains("https://app.clickup.com/api?")
+      ? AnalyticsEvents.connectClickup.name
+      : url.contains("demoo")
+          ? AnalyticsEvents.openDemo.name
+          : AnalyticsEvents.launchUrl.name;
   if (canLaunch) {
     await launchUrl(uri);
-    await serviceLocator<Analytics>()
-        .logEvent(AnalyticsEvents.launchUrl.name, parameters: {
+    await serviceLocator<Analytics>().logEvent(eventName, parameters: {
       AnalyticsEventParameter.link.name: url,
       AnalyticsEventParameter.status.name: true,
     });
   } else {
-    await serviceLocator<Analytics>()
-        .logEvent(AnalyticsEvents.launchUrl.name, parameters: {
+    await serviceLocator<Analytics>().logEvent(eventName, parameters: {
       AnalyticsEventParameter.link.name: url,
       AnalyticsEventParameter.status.name: false,
       AnalyticsEventParameter.error.name: 'Could not launch $url',

@@ -59,7 +59,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, ClickupTaskModel>?> createTaskInList(
       ClickupTaskParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.createTask,
         remoteDataSourceRequest: () async =>
             await remoteDataSource.createTaskInList(params: params));
   }
@@ -68,7 +67,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, ClickupTaskModel>?> updateTask(
       ClickupTaskParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.updateTask,
         remoteDataSourceRequest: () async =>
             await remoteDataSource.updateTask(params: params));
   }
@@ -76,7 +74,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<Either<Failure, Unit>?> deleteTask(DeleteClickupTaskParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.deleteTask,
         remoteDataSourceRequest: () async =>
             await remoteDataSource.deleteTask(params: params));
   }
@@ -242,7 +239,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, ClickupListModel>?> createClickupListInFolder(
       CreateClickupListInFolderParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.createList,
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupListInFolder(params: params));
   }
@@ -251,7 +247,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, ClickupListModel>?> createFolderlessClickupList(
       CreateFolderlessListClickupParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.createList,
         remoteDataSourceRequest: () =>
             remoteDataSource.createFolderlessClickupList(params: params));
   }
@@ -260,7 +255,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, ClickupFolderModel>?> createClickupFolderInSpace(
       CreateClickupFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.createFolder,
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupFolderInSpace(params: params));
   }
@@ -268,7 +262,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<Either<Failure, Unit>?> deleteList(DeleteClickupListParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.deleteList,
         remoteDataSourceRequest: () =>
             remoteDataSource.deleteList(params: params));
   }
@@ -276,7 +269,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<Either<Failure, Unit>?> deleteFolder(DeleteClickupFolderParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.deleteFolder,
         remoteDataSourceRequest: () =>
             remoteDataSource.deleteFolder(params: params));
   }
@@ -284,7 +276,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<Either<Failure, Unit>?> deleteClickupTag(DeleteClickupTagParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.deleteTag,
         remoteDataSourceRequest: () =>
             remoteDataSource.deleteClickupTag(params: params));
   }
@@ -293,7 +284,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, Unit>?> createClickupTagInSpace(
       CreateClickupTagInSpaceParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.createTag,
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupTagInSpace(params: params));
   }
@@ -302,7 +292,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<Either<Failure, Unit>?> updateClickupTag(
       UpdateClickupTagParams params) {
     return repoHandleRemoteRequest(
-        analyticsEvent: AnalyticsEvents.updateTag,
         remoteDataSourceRequest: () =>
             remoteDataSource.updateClickupTag(params: params));
   }
