@@ -1,6 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
 import 'package:timezone/data/latest_all.dart'
 if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
-import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2116,7 +2116,7 @@ class WidgetBookApp extends StatelessWidget {
                     child: Scaffold(
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
-                        pageActions: [
+                        pageActions: const [
                           // CustomDropDownItem.text(
                           //     value: ,
                           //     title: "Filter by list", onTap: () {}),
@@ -2141,7 +2141,7 @@ class WidgetBookApp extends StatelessWidget {
                     child: Scaffold(
                       appBar: _CustomAppBar(
                         showSmallDesign: showSmallDesign,
-                        pageActions: [
+                        pageActions: const [
                           // CustomDropDownItem.text(
                           //     title: "Filter by list", onTap: () {}),
                           // CustomDropDownItem.text(
@@ -2675,7 +2675,7 @@ class WidgetBookApp extends StatelessWidget {
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _CustomAppBar(
-      {super.key, required this.showSmallDesign, this.pageActions});
+      {required this.showSmallDesign, this.pageActions});
 
   final bool showSmallDesign;
   final List<CustomPopupItem>? pageActions;

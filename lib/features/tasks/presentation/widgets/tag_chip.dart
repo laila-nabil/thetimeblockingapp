@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/text_styles.dart';

@@ -1,14 +1,11 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
-import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
@@ -18,7 +15,6 @@ import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_
 
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
-import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/globals.dart';
@@ -1139,9 +1135,9 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
     ));
     return Wrap(
       children: [
-        Text("by connecting,you agree to Clickup's "),
+        const Text("by connecting,you agree to Clickup's "),
         CustomButton.noIcon(label: "Terms of use", onPressed: (){launchWithURL(url: "https://clickup.com/terms");}),
-        Text("by connecting,you agree to Clickup's "),
+        const Text("by connecting,you agree to Clickup's "),
         CustomButton.noIcon(label: "Privacy policy", onPressed: (){launchWithURL(url: "https://clickup.com/terms/privacy");}),
       ],
     );

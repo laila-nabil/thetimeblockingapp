@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';

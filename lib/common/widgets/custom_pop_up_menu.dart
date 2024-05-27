@@ -5,7 +5,6 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../core/resources/app_icons.dart';
-import '../../core/resources/assets_paths.dart';
 
 class CustomPopupItem {
   final String? title;

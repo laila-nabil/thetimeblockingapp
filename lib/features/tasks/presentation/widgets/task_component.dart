@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -9,14 +8,12 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_chip.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/localization/localization.dart';
-import '../../../../core/resources/assets_paths.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/delete_clickup_task_use_case.dart';

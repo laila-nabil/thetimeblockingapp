@@ -1,23 +1,13 @@
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/pages/onboarding_auth_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
-import '../../../../common/widgets/custom_button.dart';
-import '../../../../common/widgets/custom_text_input_field.dart';
-import '../../../../common/widgets/responsive/responsive_scaffold.dart';
-import '../../../../core/launch_url.dart';
 import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
-import '../widgets/auth_page_webview.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key, this.code}) : super(key: key);

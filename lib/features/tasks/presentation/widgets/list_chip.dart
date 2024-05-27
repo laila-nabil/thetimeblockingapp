@@ -4,7 +4,6 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
-import '../../../../core/resources/assets_paths.dart';
 
 class ListChip extends StatelessWidget {
   const ListChip({

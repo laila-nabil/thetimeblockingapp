@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
-import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
 
 import '../../../../common/widgets/custom_pop_up_menu.dart';
-import '../../../../core/resources/assets_paths.dart';
 import '../../../../core/resources/text_styles.dart';
 
 class ListComponent extends StatefulWidget {

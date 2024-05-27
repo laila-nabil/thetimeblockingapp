@@ -1,9 +1,7 @@
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/core/demo.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
@@ -14,10 +12,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
-import '../../../../core/extensions.dart';
-import '../../../../core/globals.dart';
-import '../../../../core/network/clickup_header.dart';
-import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';

@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
-import 'injection_container.dart';
 
 Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,

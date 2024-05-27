@@ -24,7 +24,6 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
-import '../../../tasks/domain/entities/clickup_space.dart';
 import '../bloc/lists_page_bloc.dart';
 
 

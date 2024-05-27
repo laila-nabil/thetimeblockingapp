@@ -1,11 +1,7 @@
-import 'dart:convert';
 
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/core/demo.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import '../../../../core/network/clickup_header.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
 import '../models/clickup_access_token_model.dart';
