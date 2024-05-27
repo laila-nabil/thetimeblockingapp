@@ -241,7 +241,7 @@ class CustomButton extends StatelessWidget {
     onPressedWithAnalytics() {
       if (onPressed != null) {
         if (analyticsEvent != null) {
-          serviceLocator<Analytics>().logEvent(analyticsEvent.toString());
+          serviceLocator<Analytics>().logEvent(analyticsEvent!.name);
         }
         onPressed!();
       }
