@@ -1,0 +1,34 @@
+name: Flutter Deploy Test Env
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: suborbital/flutter@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter app (web)
+        run: flutter build web --dart-define=clickUpClientId=${{ secrets.CLICKUP_CLIENT_ID }} --dart-define=clickUpClientSecret=${{ secrets.CLICKUP_CLIENT_SECRET }} --dart-define=clickUpRedirectUrl=test-timeblocking.web.app --dart-define=env=test
+
+      - name: Configure Firebase CLI
+        uses: google/firebase-tools@v11
+        with:
+          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          service_account: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Deploy to Firebase Hosting
+        run: firebase deploy --only hosting:test-timeblocking
