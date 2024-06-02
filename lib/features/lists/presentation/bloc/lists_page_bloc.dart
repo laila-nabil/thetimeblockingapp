@@ -11,6 +11,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
@@ -45,6 +46,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final DeleteClickupFolderUseCase _deleteClickupFolderUseCase;
   final DeleteClickupListUseCase _deleteClickupListUseCase;
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
 
@@ -60,6 +62,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     this._deleteClickupFolderUseCase,
     this._deleteClickupListUseCase,
     this._createClickupTaskUseCase,
+    this._duplicateClickupTaskUseCase,
     this._updateClickupTaskUseCase,
     this._deleteClickupTaskUseCase,
   ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
@@ -322,7 +325,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       }
       else if (event is DuplicateClickupTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _duplicateClickupTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.createTaskFailed,

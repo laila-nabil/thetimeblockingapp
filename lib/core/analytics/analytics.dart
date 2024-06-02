@@ -20,6 +20,7 @@ enum AnalyticsEvents {
   updateTask,
   deleteTask,
   completeTask,
+  duplicateTask,
   createList,
   editList,
   deleteList,

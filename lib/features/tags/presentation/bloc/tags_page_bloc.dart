@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
@@ -28,6 +29,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
   final UpdateClickupTagUseCase _updateClickupTagUseCase;
   final DeleteClickupTagUseCase _deleteClickupTagUseCase;
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
 
@@ -35,6 +37,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       this._getClickupTagsInSpaceUseCase,
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTagInSpaceUseCase,
+      this._duplicateClickupTaskUseCase,
       this._updateClickupTagUseCase,
       this._deleteClickupTagUseCase,
       this._createClickupTaskUseCase,
@@ -162,7 +165,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       }
         else if (event is DuplicateClickupTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _duplicateClickupTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.createTaskFailed,

@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/globals.dart';
@@ -25,6 +26,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       _getClickupTasksInSingleWorkspaceUseCase;
 
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
   final CalendarController controller = CalendarController();
@@ -32,6 +34,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   ScheduleBloc(
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTaskUseCase,
+      this._duplicateClickupTaskUseCase,
       this._updateClickupTaskUseCase,
       this._deleteClickupTaskUseCase,)
       : super(ScheduleState._(
@@ -93,7 +96,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           persistingScheduleStateAddRemove:
               const Right(ScheduleStateEnum.loading),
         ));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _duplicateClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const Left(ScheduleStateEnum.loading)));

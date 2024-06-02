@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../../core/error/failures.dart';
@@ -23,12 +24,14 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
   final CreateClickupTaskUseCase _createClickupTaskUseCase;
+  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
   final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
 
   AllTasksBloc(
       this._getClickupTasksInSingleWorkspaceUseCase,
       this._createClickupTaskUseCase,
+      this._duplicateClickupTaskUseCase,
       this._updateClickupTaskUseCase,
       this._deleteClickupTaskUseCase)
       : super(const AllTasksState(allTasksStatus: AllTasksStatus.initial)) {
@@ -67,7 +70,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         });
       } else if (event is DuplicateClickupTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _duplicateClickupTaskUseCase(event.params);
         result?.fold(
                 (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
