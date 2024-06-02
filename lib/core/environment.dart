@@ -5,7 +5,7 @@ enum Env {
   dev,
   debugLocally;
 
-  bool get isAnalyticsEnabled => this != dev;
+  bool get isAnalyticsEnabled => true;
 
   bool get isDebug => this != Env.debugLocally;
 
