@@ -1,0 +1,74 @@
+# Name of the workflow
+name: Flutter Deploy Test Env
+
+# Controls what will trigger the workflow.
+# Change it to your needs.
+on:
+  # A new push to the "live/test" branch.
+  push:
+    branches: [ "live/test" ]
+  # A new pull request to the "live/test" branch.
+  pull_request:
+    branches: [ "live/test" ]
+  # Allows to trigger the workflow from GitHub interfaces.
+  workflow_dispatch:
+
+# A single workflow can have multiple jobs.
+jobs:
+  test:
+    # Defines what operating system will be used for the actions.
+    runs-on: ubuntu-latest
+    # Defines what step should be passed for successful run
+    steps:
+      - uses: actions/checkout@v3
+
+      # Download and install flutter packages
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # Define which stable flutter version should be used
+          flutter-version: "3.10.2"
+          channel: 'stable'
+          # Enables cache for flutter packages
+          # Speed up the process
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test  # Replace with specific command if needed
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Build and deploy depend on successful tests
+    steps:
+      # Checkout to the selected branch
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Download and install flutter packages
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # Define which stable flutter version should be used
+          flutter-version: "3.10.2"
+          channel: 'stable'
+          # Enables cache for flutter packages
+          # Speed up the process
+          cache: true
+
+      # Get Flutter project dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter app (web)
+        run: flutter build web --dart-define=clickUpClientId=${{ secrets.CLICKUP_CLIENT_ID }} --dart-define=clickUpClientSecret=${{ secrets.CLICKUP_CLIENT_SECRET }} --dart-define=clickUpRedirectUrl=test-timeblocking.web.app --dart-define=env=test
+
+      - name: Configure Firebase CLI
+        uses: google/firebase-tools@v11
+        with:
+          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          service_account: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Deploy to Firebase Hosting
+        run: firebase deploy --only hosting:test-timeblocking
