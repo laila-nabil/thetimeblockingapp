@@ -54,8 +54,8 @@ void main(){
             UriExtension.uriHttps(url: url, queryParameters: queryParameters),
             Uri(
                 scheme: "https",
-                host: "",
-                path: url,
+                host: url,
+                path: "",
                 queryParameters: queryParameters),
           );
         });
@@ -66,8 +66,8 @@ void main(){
                 url: url),
             Uri(
               scheme: "https",
-              host: "",
-              path: url,),
+              host: url,
+              path: "",),
           );
         });
       });
@@ -86,8 +86,8 @@ void main(){
                 url: url, queryParameters: queryParametersClickupAPI),
             Uri(
                 scheme: "https",
-                host: "",
-                path: url,
+                host: url,
+                path: "",
                 queryParameters: {
                   "keyHere1": "valueHere1",
                   "keyHere2List[]": "valueHereA1&keyHere2List[]=valueHereA2&keyHere2List[]=valueHereA3",
@@ -102,8 +102,8 @@ void main(){
                 url: url),
             Uri(
                 scheme: "https",
-                host: "",
-                path: url,),
+                host: url,
+                path: "",),
           );
         });
         test("uriHttpsClickupAPI test 2b", () {

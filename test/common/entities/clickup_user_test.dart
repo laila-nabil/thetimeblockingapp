@@ -14,6 +14,6 @@ void main() {
     const user =  ClickupUser(timezone: "Africa/Cairo");
     print("user ${user.getTimezone}");
     expect(user.getTimezone,
-        const TimeZone(7200000, isDst: false, abbreviation: "EET"));
+        const TimeZone(10800000, isDst: true, abbreviation: "EEST"));
   });
 }

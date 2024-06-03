@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
@@ -20,6 +21,7 @@ void main() {
   String clickupClientId = "abc-d";
   String clickupClientSecret = "efg-h";
   String clickupUrl = "www.clickup-api.com";
+
   group('auth remote data source tests', () {
     setUpAll(() {
       registerFallbackValue(Uri());
@@ -61,7 +63,7 @@ void main() {
         expect(
             captured[0],
             Uri.tryParse(
-                "$clickupUrl/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=$code"),
+                "https://corsproxy.io/?https://api.clickup.com/api/v2/oauth/token?client_id=$clickupClientId&client_secret=$clickupClientSecret&code=$code"),
             reason: ">>> url");
       });
     });
