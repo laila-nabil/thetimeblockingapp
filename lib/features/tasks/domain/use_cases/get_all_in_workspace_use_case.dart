@@ -14,7 +14,7 @@ import 'get_clickup_folderless_lists_in_space_use_case.dart';
 import 'get_clickup_folders_in_space_use_case.dart';
 import 'get_clickup_spaces_in_workspace_use_case.dart';
 
-class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
+class GetAllInClickupWorkspaceUseCase  {
   final TasksRepo repo;
 
   GetAllInClickupWorkspaceUseCase(this.repo);
@@ -69,10 +69,12 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
         });
 
     if (spaces.isNotEmpty) {
-      clickupSpaces = spaces;
+      Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+        clickupSpaces: spaces
+      );
+
       printDebug(
-          "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
-              .clickupSpaces}");
+          "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals.clickupGlobals?.clickupSpaces}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {
         AnalyticsEventParameter.data.name: "allInWorkspace",
@@ -91,8 +93,8 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
 }
 
 class GetAllInClickupWorkspaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupWorkspace clickupWorkspace;
+  final ClickupAccessToken? clickupAccessToken;
+  final ClickupWorkspace? clickupWorkspace;
   final bool? archived;
 
   const GetAllInClickupWorkspaceParams({

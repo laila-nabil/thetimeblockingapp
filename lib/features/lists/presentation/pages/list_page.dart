@@ -48,7 +48,7 @@ class ListPage extends StatelessWidget {
                         GetClickupListAndItsTasksParams(
                             listId: listId,
                             clickupAccessToken:
-                                Globals.clickupAuthAccessToken)));
+                                Globals.clickupGlobals!.clickupAuthAccessToken)));
               }
               return ResponsiveScaffold(
                 ///TODO Bulk actions on tasks
@@ -147,10 +147,10 @@ class ListPage extends StatelessWidget {
                           GetClickupListAndItsTasksParams(
                               listId: listId,
                               clickupAccessToken:
-                                  Globals.clickupAuthAccessToken)));
+                                  Globals.clickupGlobals!.clickupAuthAccessToken)));
                   startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                      clickupWorkspace: Globals.selectedWorkspace!,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupWorkspace: Globals.clickupGlobals?.selectedWorkspace!,
+                      clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
                 },
               );
             },

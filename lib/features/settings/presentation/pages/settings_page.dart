@@ -133,7 +133,7 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("termsOfUse"),
                       onPressed: () {
-                        launchWithURL(url: Globals.clickupTerms);
+                        launchWithURL(url: Globals.clickupGlobals?.clickupTerms ?? "");
                       },
                       type: CustomButtonType.greyTextLabel,
                     ),
@@ -145,7 +145,7 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("privacyPolicy"),
                       onPressed: () {
-                        launchWithURL(url: Globals.clickupPrivacy);
+                        launchWithURL(url: Globals.clickupGlobals?.clickupPrivacy  ?? "");
                       },
                       type: CustomButtonType.greyTextLabel,
                     ),

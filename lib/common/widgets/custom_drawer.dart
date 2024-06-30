@@ -44,14 +44,14 @@ class CustomDrawer extends StatelessWidget {
               if (selected is ClickupWorkspace && state.isLoading == false) {
                 startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: selected,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                    clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
               }
             },
             selectSpace: (selected) {
               if (selected != null && state.isLoading == false) {
                 startupBloc.add(SelectClickupSpace(
                     clickupSpace: selected,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                    clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
               }
             },
             appLocalization: appLocalization);

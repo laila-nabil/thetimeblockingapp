@@ -21,8 +21,8 @@ class GetClickupFolderlessListsInSpaceUseCase
 }
 
 class GetClickupFolderlessListsInSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final ClickupAccessToken? clickupAccessToken;
+  final ClickupSpace? clickupSpace;
   final bool? archived;
 
   const GetClickupFolderlessListsInSpaceParams({

@@ -177,7 +177,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupFolderModel>> getClickupFolders(
       {required GetClickupFoldersInSpaceParams params}) async {
     List<ClickupFolderModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupSpace.id}/folder";
+    final url = "$clickupUrl/space/${params.clickupSpace?.id}/folder";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
@@ -215,7 +215,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params}) async {
     List<ClickupListModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupSpace.id}/list";
+    final url = "$clickupUrl/space/${params.clickupSpace?.id}/list";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
@@ -234,7 +234,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params}) async {
     List<ClickupSpaceModel> result = [];
-    final url = "$clickupUrl/team/${params.clickupWorkspace.id}/space";
+    final url = "$clickupUrl/team/${params.clickupWorkspace?.id}/space";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};
@@ -253,7 +253,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<List<ClickupTagModel>> getClickupTags(
       {required GetClickupTagsInSpaceParams params}) async {
     List<ClickupTagModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupSpace.id}/tag";
+    final url = "$clickupUrl/space/${params.clickupSpace?.id}/tag";
     Map<String, Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": Right("${params.archived}")};

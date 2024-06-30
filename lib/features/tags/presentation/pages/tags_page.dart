@@ -60,10 +60,10 @@ class TagsPage extends StatelessWidget {
                             onPressed: () {
                               bloc.add(DeleteClickupTagEvent.submit(
                                   params: DeleteClickupTagParams(
-                                      space: Globals.selectedSpace!,
+                                      space: Globals.clickupGlobals!.selectedSpace!,
                                       tag: state.toDeleteTag!,
                                       clickupAccessToken:
-                                          Globals.clickupAuthAccessToken)));
+                                          Globals.clickupGlobals!.clickupAuthAccessToken)));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -95,8 +95,8 @@ class TagsPage extends StatelessWidget {
                       tagsPageBloc.add(GetClickupTagsInSpaceEvent(
                           GetClickupTagsInSpaceParams(
                               clickupAccessToken:
-                                  Globals.clickupAuthAccessToken,
-                              clickupSpace: Globals.selectedSpace!)));
+                                  Globals.clickupGlobals!.clickupAuthAccessToken,
+                              clickupSpace: Globals.clickupGlobals!.selectedSpace!)));
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -140,12 +140,12 @@ class TagsPage extends StatelessWidget {
                                                                               false,
                                                                           params: UpdateClickupTagParams(
                                                                               clickupAccessToken: Globals
-                                                                                  .clickupAuthAccessToken,
+                                                                                  .clickupGlobals!.clickupAuthAccessToken,
                                                                               newTag: tag
                                                                                   .copyWith(name: text)
                                                                                   .getModel,
                                                                               originalTagName: tag.name ?? "",
-                                                                              space: Globals.selectedSpace!),
+                                                                              space: Globals.clickupGlobals!.selectedSpace!),
                                                                         ));
                                                                       },
                                                                       onCancel: () {
@@ -164,7 +164,7 @@ class TagsPage extends StatelessWidget {
                                                               insideTagPage: false,
                                                               params: UpdateClickupTagParams(
                                                                   space: Globals
-                                                                      .selectedSpace!,
+                                                                      .clickupGlobals!.selectedSpace!,
                                                                   newTag:
                                                                       tag.getModel,
                                                                   originalTagName:
@@ -172,7 +172,7 @@ class TagsPage extends StatelessWidget {
                                                                           "",
                                                                   clickupAccessToken:
                                                                       Globals
-                                                                          .clickupAuthAccessToken)));
+                                                                          .clickupGlobals!.clickupAuthAccessToken)));
                                                         }),
                                                     CustomPopupItem(
                                                         title: appLocalization
@@ -181,11 +181,11 @@ class TagsPage extends StatelessWidget {
                                                           tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
                                                               DeleteClickupTagParams(
                                                                   space: Globals
-                                                                      .selectedSpace!,
+                                                                      .clickupGlobals!.selectedSpace!,
                                                                   tag: tag,
                                                                   clickupAccessToken:
                                                                       Globals
-                                                                          .clickupAuthAccessToken)));
+                                                                          .clickupGlobals!.clickupAuthAccessToken)));
                                                         }),
                                                   ],
                                                   tag: tag,
@@ -205,11 +205,11 @@ class TagsPage extends StatelessWidget {
                                                           .submit(
                                                     params: CreateClickupTagInSpaceParams(
                                                         clickupAccessToken: Globals
-                                                            .clickupAuthAccessToken,
+                                                            .clickupGlobals!.clickupAuthAccessToken,
                                                         newTag: ClickupTagModel(
                                                             name: text),
                                                         space:
-                                                            Globals.selectedSpace!),
+                                                            Globals.clickupGlobals!.selectedSpace!),
                                                   ));
                                                 }, onCancel: () {
                                                   tagsPageBloc.add(
@@ -238,11 +238,11 @@ class TagsPage extends StatelessWidget {
               tagsPageBloc.add(GetClickupTagsInSpaceEvent(
                   GetClickupTagsInSpaceParams(
                       clickupAccessToken:
-                      Globals.clickupAuthAccessToken,
-                      clickupSpace: Globals.selectedSpace!)));
+                      Globals.clickupGlobals!.clickupAuthAccessToken,
+                      clickupSpace: Globals.clickupGlobals!.selectedSpace!)));
               startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                  clickupWorkspace: Globals.selectedWorkspace!,
-                  clickupAccessToken: Globals.clickupAuthAccessToken));
+                  clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+                  clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken));
             },);
           },
         );

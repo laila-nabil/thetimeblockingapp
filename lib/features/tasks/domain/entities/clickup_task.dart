@@ -165,7 +165,7 @@ class ClickupTask extends Equatable {
   bool get isUnscheduled => dueDateUtc == null && isCompleted == false;
 
   bool get isCompleted =>
-      status != null && status == Globals.selectedSpace?.statuses?.lastOrNull;
+      status != null && status == Globals.clickupGlobals?.selectedSpace?.statuses?.lastOrNull;
 
   @override
   List<Object?> get props => [

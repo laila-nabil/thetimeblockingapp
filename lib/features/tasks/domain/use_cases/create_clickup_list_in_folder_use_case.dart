@@ -42,7 +42,7 @@ class CreateClickupListInFolderParams extends Equatable {
   final ClickupFolder clickupFolder;
   final String listName;
   final Color? statusColor;
-  final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;
+  final ClickupAssignee? assignee = Globals.clickupGlobals!.clickupUser?.asAssignee;
 
   CreateClickupListInFolderParams({
     required this.clickupAccessToken,

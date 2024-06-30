@@ -69,7 +69,7 @@ class ClickupTaskParams extends Equatable{
 
   factory ClickupTaskParams.fromTask(ClickupTask clickupTask){
     return ClickupTaskParams.createNewTask(
-      clickupAccessToken: Globals.clickupAuthAccessToken,
+      clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
       clickupList: clickupTask.list!,
       title: clickupTask.name ?? "",
       description: clickupTask.description,
@@ -159,7 +159,7 @@ class ClickupTaskParams extends Equatable{
           clickupSpace: space,
           clickupList: list,
           tags: tag == null ? null : [tag],
-          assignees: [Globals.clickupUser!.asAssignee],);
+          assignees: [Globals.clickupGlobals!.clickupUser!.asAssignee],);
   }
 
   factory ClickupTaskParams.createNewTask({
@@ -189,7 +189,7 @@ class ClickupTaskParams extends Equatable{
           folder: folder,
           title: title,
           description: description,
-          assignees: [Globals.clickupUser!.asAssignee],
+          assignees: [Globals.clickupGlobals!.clickupUser!.asAssignee],
           addedAssignees: null,
           removedAssignees: null,
           tags: tags,
@@ -212,7 +212,7 @@ class ClickupTaskParams extends Equatable{
   }) {
     printDebug("ClickupTaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final space = Globals.clickupSpaces
+    final space = Globals.clickupGlobals!.clickupSpaces
         ?.firstWhere((element) => element.id == task.space?.id);
     final folder =  space?.folders
         .where((element) => element.id == task.folder?.id).firstOrNull;

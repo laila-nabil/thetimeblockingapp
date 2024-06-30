@@ -32,15 +32,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 .contains(AuthStateEnum.triedGetSelectedWorkspacesSpace))) {
               startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                   clickupWorkspace:
-                      Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
-                  clickupAccessToken: Globals.clickupAuthAccessToken));
+                      Globals.clickupGlobals?.selectedWorkspace ?? Globals.clickupGlobals?.defaultWorkspace,
+                  clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
             }
             return CustomAppBarWidget(
               selectClickupWorkspace: (selected) {
                 if (selected is ClickupWorkspace && state.isLoading == false) {
                   startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                       clickupWorkspace: selected,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
                 }
               },
               openDrawer: () {
@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (selected != null && state.isLoading == false) {
                   startupBloc.add(SelectClickupSpace(
                       clickupSpace: selected,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
                 }
               },
               pageActions: pageActions,

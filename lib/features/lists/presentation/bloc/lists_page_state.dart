@@ -121,13 +121,13 @@ class ListsPageState extends Equatable {
   GetClickupTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
-      filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
+    if (Globals.isSpaceAppWide && Globals.clickupGlobals?.selectedSpace?.id != null) {
+      filterBySpaceIds = [Globals.clickupGlobals?.selectedSpace?.id  ?? ""];
     }
     return GetClickupTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
-      clickupAccessToken: Globals.clickupAuthAccessToken,
-      filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+      clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken,
+      filterByAssignees: [Globals.clickupGlobals?.clickupUser?.id.toString() ?? ""],
     );
   }
 

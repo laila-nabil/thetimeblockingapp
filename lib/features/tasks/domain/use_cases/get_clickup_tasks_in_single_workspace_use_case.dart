@@ -58,7 +58,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupAccessToken? clickupAccessToken;
 
   const GetClickupTasksInWorkspaceFiltersParams({
     this.page,

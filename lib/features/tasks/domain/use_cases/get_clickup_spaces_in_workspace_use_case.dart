@@ -12,7 +12,7 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/clickup_space.dart';
 
 class GetClickupSpacesInWorkspacesUseCase
-    with GlobalsWriteAccess
+    
     implements UseCase<List<ClickupSpace>, GetClickupSpacesInWorkspacesParams> {
   final TasksRepo repo;
 
@@ -29,9 +29,11 @@ class GetClickupSpacesInWorkspacesUseCase
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
             }), (r) async {
-      clickupSpaces = r;
+          Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+            clickupSpaces: r
+          );
       printDebug(
-          "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.clickupSpaces}");
+          "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.clickupGlobals?.clickupSpaces}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {
         AnalyticsEventParameter.data.name: "spaces",
@@ -43,8 +45,8 @@ class GetClickupSpacesInWorkspacesUseCase
 }
 
 class GetClickupSpacesInWorkspacesParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupWorkspace clickupWorkspace;
+  final ClickupAccessToken? clickupAccessToken;
+  final ClickupWorkspace? clickupWorkspace;
   final bool? archived;
 
   const GetClickupSpacesInWorkspacesParams({

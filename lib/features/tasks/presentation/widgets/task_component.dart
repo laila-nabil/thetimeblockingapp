@@ -54,7 +54,7 @@ class TaskComponent extends StatelessWidget {
                         onDelete(DeleteClickupTaskParams(
                             task: clickupTask,
                             clickupAccessToken:
-                            Globals.clickupAuthAccessToken));
+                            Globals.clickupGlobals!.clickupAuthAccessToken));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -82,7 +82,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(ClickupTaskParams.createNewTask(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
+                      clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
                       clickupList: clickupTask.list!,
                       title: clickupTask.name ?? "",
                       description: clickupTask.description,
@@ -207,7 +207,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       children: [
                         Icon(
                           widget.clickupTask.status ==
-                                  Globals.selectedSpace?.statuses?.last
+                                  Globals.clickupGlobals?.selectedSpace?.statuses?.last
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.clickupTask.status?.getColor ??

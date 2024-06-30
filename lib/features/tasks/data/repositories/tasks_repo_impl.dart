@@ -40,7 +40,7 @@ import '../data_sources/tasks_local_data_source.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
 
-class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
+class TasksRepoImpl  implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
   final TasksLocalDataSource localDataSource;
 
@@ -84,9 +84,11 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getClickupWorkspaces(params: params),
         trySaveResult: (result) async {
-          clickupWorkspaces = result;
+          Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+            clickupWorkspaces: result
+          );
           printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
+              "getClickUpWorkspaces $result ${Globals.clickupGlobals?.clickupWorkspaces}");
           await localDataSource.saveClickupWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>
@@ -187,7 +189,11 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       NoParams params) async {
     var result = await repoHandleLocalGetRequest<ClickupWorkspaceModel>(
         tryGetFromLocalStorage: () => localDataSource.getSelectedWorkspace());
-    result.fold((l) => null, (r) => selectedWorkspace = r);
+    result.fold((l) => null, (r) {
+      Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+        selectedWorkspace: r
+      );
+    });
     return result;
   }
 
@@ -197,7 +203,9 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     final result = await repoHandleLocalGetRequest<ClickupSpace>(
         tryGetFromLocalStorage: () => localDataSource.getSelectedSpace());
     result.fold((l) => null, (r) {
-      setSelectedSpace(r);
+      Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+          selectedSpace: r
+      );
     });
     return result;
   }
@@ -214,7 +222,11 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       NoParams params) async {
     final result = await repoHandleLocalGetRequest<List<ClickupSpace>>(
         tryGetFromLocalStorage: () => localDataSource.getSpaces());
-    result.fold((l) => null, (r) => clickupSpaces = r);
+    result.fold((l) => null, (r) {
+      Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+          clickupSpaces: r
+      );
+    });
     return result;
   }
 

@@ -71,7 +71,7 @@ class SchedulePage extends StatelessWidget {
                     GetClickupTasksInWorkspaceParams(
                         workspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id ??
-                                Globals.clickupWorkspaces?.first.id ??
+                                Globals.clickupGlobals?.clickupWorkspaces?.first.id ??
                                 "",
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams)));
@@ -143,7 +143,7 @@ class SchedulePage extends StatelessWidget {
                   ),
                   context: context, onRefresh: ()async {
                 var selectedWorkspace =
-                    Globals.selectedWorkspace ?? Globals.defaultWorkspace;
+                    Globals.clickupGlobals?.selectedWorkspace ?? Globals.clickupGlobals?.defaultWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetClickupTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? "",
@@ -151,7 +151,7 @@ class SchedulePage extends StatelessWidget {
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
                 startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: selectedWorkspace!,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                    clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
               },);
             },
           );

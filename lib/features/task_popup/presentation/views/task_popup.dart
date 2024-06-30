@@ -221,16 +221,16 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateClickupTaskParamsEvent(
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide
-                              ? Globals.selectedSpace
+                              ? Globals.clickupGlobals!.selectedSpace
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag)
                       : ClickupTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
                           task: task,
                         )));
           },
@@ -249,12 +249,12 @@ class TaskPopup extends StatelessWidget {
               final clickupTaskParams = state.taskParams ??
                   (task == null
                       ? ClickupTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
                       : ClickupTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
                           task: task,
                         ));
               printDebug("clickupTaskParams $clickupTaskParams");
@@ -307,7 +307,7 @@ class TaskPopup extends StatelessWidget {
                                                         task: taskPopupParams
                                                             .task!,
                                                         clickupAccessToken: Globals
-                                                            .clickupAuthAccessToken));
+                                                            .clickupGlobals!.clickupAuthAccessToken));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType
@@ -453,7 +453,7 @@ class TaskPopup extends StatelessWidget {
                                         taskParams:
                                         clickupTaskParams.copyWith(
                                             clickupSpace: space))),
-                                items: (Globals.clickupSpaces)
+                                items: (Globals.clickupGlobals!.clickupSpaces)
                                     ?.map((e) => DropdownMenuItem(
                                     value: e,
                                     child: Text(e.name ?? "")))

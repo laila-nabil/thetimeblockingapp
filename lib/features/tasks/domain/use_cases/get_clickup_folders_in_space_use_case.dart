@@ -21,8 +21,8 @@ class GetClickupFoldersInSpaceUseCase
 }
 
 class GetClickupFoldersInSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final ClickupAccessToken? clickupAccessToken;
+  final ClickupSpace? clickupSpace;
   final bool? archived;
 
   const GetClickupFoldersInSpaceParams({

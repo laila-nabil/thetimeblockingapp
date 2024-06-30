@@ -47,7 +47,7 @@ class AllTasksPage extends StatelessWidget {
                               onSave: (params) {
                                 allTasksBloc.add(CreateClickupTaskEvent(
                                     params: params,
-                                    workspace: Globals.selectedWorkspace!));
+                                    workspace: Globals.clickupGlobals?.selectedWorkspace!));
                                 Navigator.maybePop(context);
                               },
                               isLoading: (state) => state is! AllTasksState
@@ -85,20 +85,20 @@ class AllTasksPage extends StatelessWidget {
                             ),
                           ),
                           if (Globals.isSpaceAppWide == false &&
-                              Globals.clickupSpaces?.isNotEmpty == true)
+                              Globals.clickupGlobals?.clickupSpaces?.isNotEmpty == true)
                             DropdownButton<ClickupSpace?>(
-                              value: Globals.selectedSpace,
+                              value: Globals.clickupGlobals?.selectedSpace,
                               onChanged: (selected) {
                                 if (selected != null &&
                                     state.isLoading == false) {
                                   startupBloc.add(SelectClickupSpace(
                                       clickupSpace: selected,
                                       clickupAccessToken:
-                                          Globals.clickupAuthAccessToken));
+                                          Globals.clickupGlobals?.clickupAuthAccessToken));
                                   getAllTasksInSpace(allTasksBloc);
                                 }
                               },
-                              items: Globals.clickupSpaces
+                              items: Globals.clickupGlobals?.clickupSpaces
                                       ?.map((e) => DropdownMenuItem(
                                             value: e,
                                             child: Text(e.name ?? ""),
@@ -171,8 +171,8 @@ class AllTasksPage extends StatelessWidget {
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc);
                 startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                    clickupWorkspace: Globals.selectedWorkspace!,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                    clickupWorkspace: Globals.clickupGlobals?.selectedWorkspace!,
+                    clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken));
               },);
             },
           );
@@ -188,26 +188,26 @@ class AllTasksPage extends StatelessWidget {
       bloc: allTasksBloc,
       onDelete: (params) {
         allTasksBloc.add(DeleteClickupTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: Globals.clickupGlobals!.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
         allTasksBloc.add(UpdateClickupTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: Globals.clickupGlobals?.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
       onDuplicate: (params) {
         allTasksBloc.add(DuplicateClickupTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: Globals.clickupGlobals?.selectedWorkspace!));
       },
     );
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
     allTasksBloc.add(GetClickupTasksInSpaceEvent(
-        clickupAccessToken: Globals.clickupAuthAccessToken,
-        workspace: Globals.selectedWorkspace!,
-        space: Globals.selectedSpace!));
+        clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken,
+        workspace: Globals.clickupGlobals?.selectedWorkspace!,
+        space: Globals.clickupGlobals?.selectedSpace!));
   }
 }

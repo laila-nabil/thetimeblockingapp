@@ -54,7 +54,7 @@ class TasksCalendar extends StatelessWidget {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      timeZone: Globals.clickupUser?.timezone,
+      timeZone: Globals.clickupGlobals?.clickupUser?.timezone,
       onTap: onTapCalendarElement,
       onLongPress: onTapCalendarElement,
       onAppointmentResizeEnd: (details){
@@ -63,7 +63,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateClickupTaskEvent(
             params: ClickupTaskParams.updateTask(
               task: details.appointment as ClickupTask,
-              clickupAccessToken: Globals.clickupAuthAccessToken,
+              clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
               updatedDueDate: details.endTime,
             )));
       },
@@ -79,7 +79,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateClickupTaskEvent(
             params: ClickupTaskParams.updateTask(
               task: task,
-              clickupAccessToken: Globals.clickupAuthAccessToken,
+              clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
@@ -106,7 +106,7 @@ class TasksCalendar extends StatelessWidget {
                 id: id,
                 GetClickupTasksInWorkspaceParams(
                     workspaceId: selectedClickupWorkspaceId ??
-                        Globals.clickupWorkspaces?.first.id ??
+                        Globals.clickupGlobals?.clickupWorkspaces?.first.id ??
                         "",
                     filtersParams: scheduleBloc
                         .state.defaultTasksInWorkspaceFiltersParams

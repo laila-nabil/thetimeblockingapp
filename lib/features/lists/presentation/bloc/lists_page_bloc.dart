@@ -33,7 +33,7 @@ part 'lists_page_event.dart';
 part 'lists_page_state.dart';
 
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
-    with GlobalsWriteAccess {
+     {
   final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
@@ -100,15 +100,17 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                   listsPageStatus:
                       ListsPageStatus.getSpacesAndListsAndFoldersFailed,
                   getSpacesListsFoldersFailure: l)), (r) async {
-            setSelectedSpace(r);
-            if (Globals.clickupSpaces?.isNotEmpty == true) {
+                Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+                  selectedSpace: r
+                );
+            if (Globals.clickupGlobals?.clickupSpaces?.isNotEmpty == true) {
               await _saveSpacesUseCase(
-                  SaveSpacesParams(Globals.clickupSpaces!));
+                  SaveSpacesParams(Globals.clickupGlobals!.clickupSpaces!));
             }
             emit(state.copyWith(
                 listsPageStatus:
                     ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
-                getSpacesListsFoldersResult: Globals.clickupSpaces));
+                getSpacesListsFoldersResult: Globals.clickupGlobals!.clickupSpaces));
           });
         }
       } else if (event is GetListDetailsAndTasksInListEvent) {

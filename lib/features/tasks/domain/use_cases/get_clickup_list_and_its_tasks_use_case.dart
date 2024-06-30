@@ -20,13 +20,13 @@ class GetClickupListAndItsTasksUseCase {
   GetClickupTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
-      filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
+    if (Globals.isSpaceAppWide && Globals.clickupGlobals?.selectedSpace?.id != null) {
+      filterBySpaceIds = [Globals.clickupGlobals?.selectedSpace?.id ?? ""];
     }
     return GetClickupTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
-      clickupAccessToken: Globals.clickupAuthAccessToken,
-      filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+      clickupAccessToken: Globals.clickupGlobals?.clickupAuthAccessToken,
+      filterByAssignees: [Globals.clickupGlobals?.clickupUser?.id.toString() ?? ""],
     );
   }
 
@@ -48,7 +48,7 @@ class GetClickupListAndItsTasksUseCase {
             }));
     final tasksResult = await repo.getTasksInWorkspace(
         params: GetClickupTasksInWorkspaceParams(
-            workspaceId: Globals.selectedWorkspace?.id ?? "",
+            workspaceId: Globals.clickupGlobals?.selectedWorkspace?.id ?? "",
             filtersParams: defaultTasksInWorkspaceFiltersParams
                 .copyWith(filterByListsIds: [params.listId])));
 

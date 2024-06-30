@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_local_
 import '../../domain/repositories/startup_repo.dart';
 import '../data_sources/startup_remote_data_source.dart';
 
-class StartUpRepoImpl with GlobalsWriteAccess implements StartUpRepo {
+class StartUpRepoImpl  implements StartUpRepo {
   final StartUpRemoteDataSource startUpRemoteDataSource;
   final TasksLocalDataSource tasksLocalDataSource;
 

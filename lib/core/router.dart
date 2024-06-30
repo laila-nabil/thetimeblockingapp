@@ -45,16 +45,16 @@ final router = GoRouter(
     redirect: (context, GoRouterState? state) {
       printDebug("state?.location ${state?.location}");
       printDebug("state?.queryParameters ${state?.queryParameters}");
-      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupAuthAccessToken}");
-      printDebug("Globals.clickupUser ${Globals.clickupUser}");
-      printDebug("Globals.clickupWorkspaces ${Globals.clickupWorkspaces}");
+      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupGlobals?.clickupAuthAccessToken}");
+      printDebug("Globals.clickupUser ${Globals.clickupGlobals?.clickupUser}");
+      printDebug("Globals.clickupWorkspaces ${Globals.clickupGlobals?.clickupWorkspaces}");
       printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.queryParameters != null &&
           state?.queryParameters["code"] != null) {
         return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
-      } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
-          Globals.clickupUser == null ||
-          Globals.clickupWorkspaces?.isNotEmpty == false) {
+      } else if (Globals.clickupGlobals?.clickupAuthAccessToken.accessToken.isEmpty == true||
+          Globals.clickupGlobals?.clickupUser == null ||
+          Globals.clickupGlobals?.clickupWorkspaces?.isNotEmpty == false) {
         if(state?.location != AuthPage.routeName){
           printDebug("state in redirect before authpage name:${state?.name},location:${state?.location},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.queryParametersAll},queryParameters:${state?.queryParameters}");
           Globals.redirectAfterAuthRouteName = state?.location??"";
@@ -76,9 +76,9 @@ final router = GoRouter(
             return AuthPage(code: code,);
           },
           redirect: (context, state) async {
-            if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
-                Globals.clickupUser != null &&
-                Globals.clickupWorkspaces?.isNotEmpty == true) {
+            if (Globals.clickupGlobals?.clickupAuthAccessToken.accessToken.isNotEmpty == true&&
+                Globals.clickupGlobals?.clickupUser != null &&
+                Globals.clickupGlobals?.clickupWorkspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
             }
             return null;
@@ -93,9 +93,9 @@ final router = GoRouter(
           return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
         },
         redirect: (context,state) async{
-          final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
-              Globals.clickupUser != null &&
-              Globals.clickupWorkspaces?.isNotEmpty == true;
+          final userLoggedIn = Globals.clickupGlobals?.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
+              Globals.clickupGlobals?.clickupUser != null &&
+              Globals.clickupGlobals?.clickupWorkspaces?.isNotEmpty == true;
           if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){
             String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;
 

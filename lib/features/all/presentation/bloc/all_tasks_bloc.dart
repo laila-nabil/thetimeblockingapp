@@ -40,10 +40,10 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
             GetClickupTasksInWorkspaceParams(
-                workspaceId: event.workspace.id ?? "",
+                workspaceId: event.workspace?.id ?? "",
                 filtersParams: GetClickupTasksInWorkspaceFiltersParams(
                     clickupAccessToken: event.clickupAccessToken,
-                    filterBySpaceIds: [event.space.id ?? ""])));
+                    filterBySpaceIds: [event.space?.id ?? ""])));
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.getTasksFailure,
@@ -95,7 +95,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetClickupTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace ?? Globals.selectedSpace!,
+              space: event.params.clickupSpace ?? Globals.clickupGlobals?.selectedSpace!,
               workspace: event.workspace));
         });
       } else if (event is DeleteClickupTaskEvent) {

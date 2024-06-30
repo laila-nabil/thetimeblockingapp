@@ -64,10 +64,10 @@ class TagPage extends StatelessWidget {
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetClickupTasksForTagEvent(
-                    clickupAccessToken: Globals.clickupAuthAccessToken,
-                    workspace: Globals.selectedWorkspace!,
+                    clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
+                    workspace: Globals.clickupGlobals!.selectedWorkspace!,
                     tag: state.navigateTag!,
-                    space: Globals.selectedSpace!));
+                    space: Globals.clickupGlobals!.selectedSpace!));
               }
               return ResponsiveScaffold(
                 ///TODO Bulk actions on tasks
@@ -77,11 +77,11 @@ class TagPage extends StatelessWidget {
                         tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
                             insideTagPage: true,
                             params: UpdateClickupTagParams(
-                                space: Globals.selectedSpace!,
+                                space: Globals.clickupGlobals!.selectedSpace!,
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
                                 clickupAccessToken:
-                                    Globals.clickupAuthAccessToken)));
+                                    Globals.clickupGlobals!.clickupAuthAccessToken)));
                       },
                       titleWidget: Row(
                         children: [
@@ -93,10 +93,10 @@ class TagPage extends StatelessWidget {
                       onTap: () {
                         tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
                             DeleteClickupTagParams(
-                                space: Globals.selectedSpace!,
+                                space: Globals.clickupGlobals!.selectedSpace!,
                                 tag: state.navigateTag!,
                                 clickupAccessToken:
-                                    Globals.clickupAuthAccessToken)));
+                                    Globals.clickupGlobals!.clickupAuthAccessToken)));
                       },
                       titleWidget: Row(
                         children: [
@@ -115,7 +115,7 @@ class TagPage extends StatelessWidget {
                             onSave: (params) {
                               tagsPageBloc.add(CreateClickupTaskEvent(
                                   params: params,
-                                  workspace: Globals.selectedWorkspace!));
+                                  workspace: Globals.clickupGlobals!.selectedWorkspace!));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! TagsPageState
@@ -148,13 +148,13 @@ class TagPage extends StatelessWidget {
                                         insideTagPage: true,
                                         params: UpdateClickupTagParams(
                                             clickupAccessToken:
-                                                Globals.clickupAuthAccessToken,
+                                                Globals.clickupGlobals!.clickupAuthAccessToken,
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)
                                                 .getModel,
                                             originalTagName:
                                                 state.navigateTag!.name ?? "",
-                                            space: Globals.selectedSpace!),
+                                            space: Globals.clickupGlobals!.selectedSpace!),
                                       ));
                                     },
                                     onCancel: () {
@@ -224,13 +224,13 @@ class TagPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   tagsPageBloc.add(GetClickupTasksForTagEvent(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
-                      workspace: Globals.selectedWorkspace!,
+                      clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
+                      workspace: Globals.clickupGlobals!.selectedWorkspace!,
                       tag: state.navigateTag!,
-                      space: Globals.selectedSpace!));
+                      space: Globals.clickupGlobals!.selectedSpace!));
                   startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                      clickupWorkspace: Globals.selectedWorkspace!,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+                      clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken));
                 },
               );
             },
@@ -248,16 +248,16 @@ class TagPage extends StatelessWidget {
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {
         tagsPageBloc.add(DeleteClickupTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: Globals.clickupGlobals!.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
         tagsPageBloc.add(UpdateClickupTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: Globals.clickupGlobals!.selectedWorkspace!));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
       tagsPageBloc.add(DuplicateClickupTaskEvent(
-          params: params, workspace: Globals.selectedWorkspace!));
+          params: params, workspace: Globals.clickupGlobals!.selectedWorkspace!));
     },
     );
   }

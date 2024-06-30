@@ -64,9 +64,9 @@ class ListsPage extends StatelessWidget {
                                       DeleteClickupListParams(
                                           list: state.toDeleteList!,
                                           clickupAccessToken:
-                                              Globals.clickupAuthAccessToken),
-                                  clickupWorkspace: Globals.selectedWorkspace!,
-                                  clickupSpace: Globals.selectedSpace!));
+                                              Globals.clickupGlobals!.clickupAuthAccessToken),
+                                  clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+                                  clickupSpace: Globals.clickupGlobals!.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -97,9 +97,9 @@ class ListsPage extends StatelessWidget {
                                       DeleteClickupFolderParams(
                                           folder: state.toDeleteFolder!,
                                           clickupAccessToken:
-                                              Globals.clickupAuthAccessToken),
-                                  clickupWorkspace: Globals.selectedWorkspace!,
-                                  clickupSpace: Globals.selectedSpace!));
+                                              Globals.clickupGlobals!.clickupAuthAccessToken),
+                                  clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+                                  clickupSpace: Globals.clickupGlobals!.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -154,7 +154,7 @@ class ListsPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[] +
-                                    (Globals.selectedSpace?.folders
+                                    (Globals.clickupGlobals!.selectedSpace?.folders
                                             .map<Widget>((folder) =>
                                                 ToggleableSection(
                                                     actions: [
@@ -214,18 +214,17 @@ class ListsPage extends StatelessWidget {
                                                               listsPageBloc.add(CreateListInFolderEvent.submit(
                                                                   createClickupListInFolderParams: CreateClickupListInFolderParams(
                                                                       clickupAccessToken:
-                                                                          Globals
-                                                                              .clickupAuthAccessToken,
+                                                                          Globals.clickupGlobals!.clickupAuthAccessToken,
                                                                       clickupFolder:
                                                                           folder,
                                                                       listName:
                                                                           text),
                                                                   clickupWorkspace:
                                                                       Globals
-                                                                          .selectedWorkspace!,
+                                                                          .clickupGlobals!.selectedWorkspace!,
                                                                   clickupSpace:
                                                                       Globals
-                                                                          .selectedSpace!));
+                                                                          .clickupGlobals!.selectedSpace!));
                                                             }, onCancel: () {
                                                               listsPageBloc.add(
                                                                   CreateListInFolderEvent
@@ -237,7 +236,7 @@ class ListsPage extends StatelessWidget {
                                     [
                                       ToggleableSection(
                                           title: appLocalization.translate("otherLists"),
-                                          children: (Globals.selectedSpace?.lists
+                                          children: (Globals.clickupGlobals!.selectedSpace?.lists
                                               .map<Widget>((e) => ListComponent(
                                             list: e,
                                             actions: [
@@ -270,14 +269,14 @@ class ListsPage extends StatelessWidget {
                                                             CreateClickupFolderInSpaceParams(
                                                                 clickupAccessToken:
                                                                     Globals
-                                                                        .clickupAuthAccessToken,
+                                                                        .clickupGlobals!.clickupAuthAccessToken,
                                                                 folderName: text,
                                                                 clickupSpace: Globals
-                                                                    .selectedSpace!),
+                                                                    .clickupGlobals!.selectedSpace!),
                                                         clickupWorkspace: Globals
-                                                            .selectedWorkspace!,
+                                                            .clickupGlobals!.selectedWorkspace!,
                                                         clickupSpace: Globals
-                                                            .selectedSpace!));
+                                                            .clickupGlobals!.selectedSpace!));
                                                   },
                                                   onCancel: () {
                                                     listsPageBloc.add(
@@ -304,14 +303,13 @@ class ListsPage extends StatelessWidget {
                                                       createFolderlessListClickupParams:
                                                           CreateFolderlessListClickupParams(
                                                               clickupAccessToken:
-                                                                  Globals
-                                                                      .clickupAuthAccessToken,
+                                                                  Globals.clickupGlobals!.clickupAuthAccessToken,
                                                               listName: text,
-                                                              clickupSpace: Globals
+                                                              clickupSpace: Globals.clickupGlobals!
                                                                   .selectedSpace!),
-                                                      clickupWorkspace: Globals
+                                                      clickupWorkspace: Globals.clickupGlobals!
                                                           .selectedWorkspace!,
-                                                      clickupSpace: Globals
+                                                      clickupSpace: Globals.clickupGlobals!
                                                           .selectedSpace!));
                                                 }, onCancel: () {
                                                   listsPageBloc.add(
@@ -340,8 +338,8 @@ class ListsPage extends StatelessWidget {
                 context: context, onRefresh: ()async {
               getListsFolders(listsPageBloc);
               startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                  clickupWorkspace: Globals.selectedWorkspace!,
-                  clickupAccessToken: Globals.clickupAuthAccessToken));
+                  clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+                  clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken));
             },);
           },
         );
@@ -351,9 +349,9 @@ class ListsPage extends StatelessWidget {
 
   void getListsFolders(ListsPageBloc listsPageBloc) {
     listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
-      clickupAccessToken: Globals.clickupAuthAccessToken,
-      clickupWorkspace: Globals.selectedWorkspace!,
-      clickupSpace: Globals.selectedSpace!,
+      clickupAccessToken: Globals.clickupGlobals!.clickupAuthAccessToken,
+      clickupWorkspace: Globals.clickupGlobals!.selectedWorkspace!,
+      clickupSpace: Globals.clickupGlobals!.selectedSpace!,
     ));
   }
 }

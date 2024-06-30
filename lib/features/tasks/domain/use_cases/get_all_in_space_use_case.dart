@@ -12,14 +12,14 @@ import '../entities/clickup_space.dart';
 import 'get_clickup_folderless_lists_in_space_use_case.dart';
 import 'get_clickup_folders_in_space_use_case.dart';
 
-class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
+class GetAllInClickupSpaceUseCase {
   final TasksRepo repo;
 
   GetAllInClickupSpaceUseCase(this.repo);
 
   Future<Either<List<Map<String, Failure>>, ClickupSpace>?> call(
       GetAllInClickupSpaceParams params) async {
-    ClickupSpace space = params.clickupSpace;
+    ClickupSpace? space = params.clickupSpace;
     List<Map<String, Failure>> failures = [];
     final tagsResult = await repo.getClickupTags(
         params: GetClickupTagsInSpaceParams(
@@ -28,7 +28,7 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
     tagsResult.fold(
             (l) => failures.add({"tagS": l}),
             (rTags) {
-          space.tags = rTags;
+          space?.tags = rTags;
         });
     final folderlessLists = await repo.getClickupFolderlessLists(
         params: GetClickupFolderlessListsInSpaceParams(
@@ -40,7 +40,7 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
     folderlessLists.fold(
             (l) => failures.add({"folderlessLists": l}),
             (rFolderlessLists) {
-          space.lists = rFolderlessLists;
+          space?.lists = rFolderlessLists;
         });
     final folders = await repo.getClickupFolders(
         params: GetClickupFoldersInSpaceParams(
@@ -50,17 +50,19 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
     printDebug("GetAllInClickupSpaceUseCase folders $folders");
     folders.fold(
             (lFolder) => failures.add({"folders": lFolder}),
-            (rFolders) => space.folders = rFolders);
-    setSelectedSpace(space);
+            (rFolders) => space?.folders = rFolders);
+    Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+
+    );
     if (failures.isEmpty) {
       printDebug(
-          "GetAllInSpaceUseCase Globals.selectedSpace ${Globals.selectedSpaceId}");
+          "GetAllInSpaceUseCase Globals.selectedSpace ${Globals.clickupGlobals?.selectedSpace?.id}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {
         AnalyticsEventParameter.data.name: "allInSpace",
         AnalyticsEventParameter.status.name: true,
       });
-      return Right(space);
+      return Right(space!);
     }
     await serviceLocator<Analytics>()
         .logEvent(AnalyticsEvents.getData.name, parameters: {
@@ -73,8 +75,8 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
 }
 
 class GetAllInClickupSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final ClickupAccessToken? clickupAccessToken;
+  final ClickupSpace? clickupSpace;
   final bool? archived;
 
   const GetAllInClickupSpaceParams({

@@ -33,8 +33,8 @@ class StartupState extends Equatable {
 
   bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
-          Globals.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
-          Globals.clickupSpaces == null &&
+          Globals.clickupGlobals?.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
+          Globals.clickupGlobals?.clickupSpaces == null &&
           getSpacesFailure == null &&
           clickupSpaces == null && triedGetSelectedWorkspacesSpace;
 

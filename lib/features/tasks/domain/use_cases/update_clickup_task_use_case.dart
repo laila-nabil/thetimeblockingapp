@@ -37,7 +37,7 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
     List<Failure> failures = [];
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&
-        params.taskStatus == Globals.selectedSpace?.statuses?.last;
+        params.taskStatus == Globals.clickupGlobals?.selectedSpace?.statuses?.last;
     final eventName = isCompletingTask
         ? AnalyticsEvents.completeTask.name
         : AnalyticsEvents.updateTask.name;

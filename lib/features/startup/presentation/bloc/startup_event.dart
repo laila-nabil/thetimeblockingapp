@@ -14,8 +14,8 @@ class ControlDrawerLargerScreen extends StartupEvent {
 }
 
 class SelectClickupWorkspaceAndGetSpacesTagsLists extends StartupEvent {
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupWorkspace? clickupWorkspace;
+  final ClickupAccessToken? clickupAccessToken;
   const SelectClickupWorkspaceAndGetSpacesTagsLists(
       {required this.clickupWorkspace, required this.clickupAccessToken});
 
@@ -25,7 +25,7 @@ class SelectClickupWorkspaceAndGetSpacesTagsLists extends StartupEvent {
 
 class SelectClickupSpace extends StartupEvent {
   final ClickupSpace clickupSpace;
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupAccessToken? clickupAccessToken;
   const SelectClickupSpace(
       {required this.clickupSpace, required this.clickupAccessToken});
 

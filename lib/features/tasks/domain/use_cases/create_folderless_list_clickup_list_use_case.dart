@@ -42,7 +42,7 @@ class CreateFolderlessListClickupParams extends Equatable {
   final ClickupSpace clickupSpace;
   final String listName;
   final Color? statusColor;
-  final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;
+  final ClickupAssignee? assignee = Globals.clickupGlobals!.clickupUser?.asAssignee;
 
   CreateFolderlessListClickupParams({
     required this.clickupAccessToken,

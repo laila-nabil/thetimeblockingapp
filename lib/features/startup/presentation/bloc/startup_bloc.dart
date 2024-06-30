@@ -17,7 +17,7 @@ part 'startup_event.dart';
 
 part 'startup_state.dart';
 
-class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
+class StartupBloc extends Bloc<StartupEvent, StartupState>   {
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final GetClickupSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
   final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
@@ -38,13 +38,15 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       }
       else if (event is SelectClickupWorkspaceAndGetSpacesTagsLists) {
-        selectedWorkspace = event.clickupWorkspace;
+        Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+          selectedWorkspace: event.clickupWorkspace
+        );
         if (Globals.isSpaceAppWide == false) {
           emit(state.copyWith(
               selectedClickupWorkspace: event.clickupWorkspace,
               startupStateEnum: StartupStateEnum.loading));
           await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
+              SelectWorkspaceParams(event.clickupWorkspace!));
           final getAllInClickupWorkspaceResult =
               await _getAllInClickupWorkspaceUseCase(
                   GetAllInClickupWorkspaceParams(
@@ -66,7 +68,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
               selectedClickupWorkspace: event.clickupWorkspace,
               startupStateEnum: StartupStateEnum.loading));
           await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
+              SelectWorkspaceParams(event.clickupWorkspace!));
           final getSpacesInClickupWorkspaceResult =
               await _getClickupSpacesInWorkspacesUseCase(
                   GetClickupSpacesInWorkspacesParams(
@@ -84,10 +86,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                 emit(state.copyWith(
                   startupStateEnum: StartupStateEnum.getSpacesSuccess,
                   clickupSpaces: r));
-                printDebug("selectedSpace ${Globals.selectedSpaceId}");
-                printDebug("defaultSpace ${Globals.defaultSpace}");
-                printDebug("clickupSpaces ${Globals.clickupSpaces}");
-                final space = Globals.selectedSpace ?? Globals.defaultSpace;
+                final space = Globals.clickupGlobals?.selectedSpace ?? Globals.clickupGlobals?.defaultSpace;
                 if (space != null) {
                   add(SelectClickupSpace(
                       clickupSpace: space,
@@ -97,7 +96,9 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
         }
       }
       else if (event is SelectClickupSpace && Globals.isSpaceAppWide) {
-        setSelectedSpace(event.clickupSpace);
+        Globals.clickupGlobals = Globals.clickupGlobals?.copyWith(
+          selectedSpace: event.clickupSpace
+        );
         emit(state.copyWith(
             selectedClickupSpace: event.clickupSpace,
             startupStateEnum: StartupStateEnum.loading));
@@ -114,8 +115,8 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                 startupStateEnum: StartupStateEnum.getAllInSpaceSuccess,
                 startGetTasks:true,
                 selectedClickupSpace: r)));
-        if(Globals.selectedSpace!=null){
-          await _selectSpaceUseCase(SelectSpaceParams(Globals.selectedSpace!));
+        if(Globals.clickupGlobals?.selectedSpace!=null){
+          await _selectSpaceUseCase(SelectSpaceParams(Globals.clickupGlobals!.selectedSpace!));
         }
       }
       else if(event is StartGetTasksEvent){
