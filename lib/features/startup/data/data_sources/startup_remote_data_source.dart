@@ -4,13 +4,13 @@ abstract class StartUpRemoteDataSource {
 
 }
 
-class StartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
+class ClickupStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   final Network network;
   final String clickupClientId;
   final String clickupClientSecret;
   final String clickupUrl;
 
-  StartUpRemoteDataSourceImpl({
+  ClickupStartUpRemoteDataSourceImpl({
     required this.network,
     required this.clickupClientId,
     required this.clickupClientSecret,

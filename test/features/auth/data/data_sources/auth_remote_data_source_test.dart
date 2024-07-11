@@ -28,7 +28,7 @@ void main() {
     });
     setUp(() {
       mockNetwork = MockNetwork();
-      dataSource = AuthRemoteDataSourceImpl(
+      dataSource = ClickupAuthRemoteDataSourceImpl(
           network: mockNetwork,
           clickupClientId: clickupClientId,
           clickupClientSecret: clickupClientSecret,

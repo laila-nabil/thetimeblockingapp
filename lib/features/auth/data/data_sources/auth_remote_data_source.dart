@@ -16,13 +16,13 @@ abstract class AuthRemoteDataSource {
       {required GetClickupUserParams params});
 }
 
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Network network;
   final String clickupClientId;
   final String clickupClientSecret;
   final String clickupUrl;
 
-  AuthRemoteDataSourceImpl({
+  ClickupAuthRemoteDataSourceImpl({
     required this.network,
     required this.clickupClientId,
     required this.clickupClientSecret,

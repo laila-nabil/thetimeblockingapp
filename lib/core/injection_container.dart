@@ -328,7 +328,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerLazySingleton<AuthRemoteDataSource>(() => Globals.isDemo
           ? AuthDemoRemoteDataSourceImpl()
-          : AuthRemoteDataSourceImpl(
+          : ClickupAuthRemoteDataSourceImpl(
               network: serviceLocator(),
               clickupClientId: Globals.clickupClientId,
               clickupClientSecret: Globals.clickupClientSecret,
@@ -348,7 +348,7 @@ void _initServiceLocator({required Network network}) {
             ));
 
   serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
-      () => StartUpRemoteDataSourceImpl(
+      () => ClickupStartUpRemoteDataSourceImpl(
             network: serviceLocator(),
             clickupClientId: Globals.clickupClientId,
             clickupClientSecret: Globals.clickupClientSecret,

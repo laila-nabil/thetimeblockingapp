@@ -50,7 +50,7 @@ class WidgetBookApp extends StatelessWidget {
           create: (context) => SettingsBloc(
               ChangeLanguageUseCase(appLocalization),
               SignOutUseCase(AuthRepoImpl(
-                  AuthRemoteDataSourceImpl(
+                  ClickupAuthRemoteDataSourceImpl(
                       clickupClientId: "",
                       clickupClientSecret: "",
                       clickupUrl: "",
