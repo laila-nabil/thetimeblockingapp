@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_folder.dart';
+import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
 class DeleteClickupFolderUseCase
@@ -32,7 +32,7 @@ class DeleteClickupFolderUseCase
 }
 
 class DeleteClickupFolderParams {
-  final ClickupFolder folder;
+  final Folder folder;
   final ClickupAccessToken clickupAccessToken;
 
   DeleteClickupFolderParams({

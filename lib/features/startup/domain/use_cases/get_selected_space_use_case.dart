@@ -5,16 +5,16 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../tasks/domain/entities/space.dart';
 
 class GetSelectedSpaceUseCase
-    implements UseCase<ClickupSpace, NoParams> {
+    implements UseCase<Space, NoParams> {
   final TasksRepo repo;
 
   GetSelectedSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupSpace>?> call(
+  Future<Either<Failure, Space>?> call(
       NoParams params)async {
     final result = await repo.getSelectedSpace(params);
     await result?.fold(

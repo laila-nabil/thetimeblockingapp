@@ -9,17 +9,17 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_space.dart';
+import '../entities/space.dart';
 
 class GetClickupSpacesInWorkspacesUseCase
     with GlobalsWriteAccess
-    implements UseCase<List<ClickupSpace>, GetClickupSpacesInWorkspacesParams> {
+    implements UseCase<List<Space>, GetClickupSpacesInWorkspacesParams> {
   final TasksRepo repo;
 
   GetClickupSpacesInWorkspacesUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupSpace>>?> call(
+  Future<Either<Failure, List<Space>>?> call(
       GetClickupSpacesInWorkspacesParams params) async {
     final result = await repo.getClickupSpacesInWorkspaces(params: params);
     await result.fold(

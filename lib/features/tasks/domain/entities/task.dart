@@ -4,48 +4,9 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/globals.dart';
-import 'clickup_folder.dart';
-import 'clickup_list.dart';
-import 'clickup_space.dart';
-
-/// id : "av1"
-/// custom_id : null
-/// name : "My First Task"
-/// text_content : "Task description"
-/// description : "Task description"
-/// status : {"status":"Open","type":"open","orderindex":1,"color":"#000000"}
-/// orderindex : "1.0000"
-/// date_created : "1508369194377"
-/// date_updated : "1508369194377"
-/// date_closed : "1508369194377"
-/// date_done : "1508369194377"
-/// creator : {"id":123,"username":"John Doe","color":"#000000","email":"johndoe@website.com","profilePicture":"https://clickup.com/avatar.jpg"}
-/// assignees : [{"id":123,"username":"John Doe","color":"#000000","email":"johndoe@website.com","profilePicture":"https://clickup.com/avatar.jpg"}]
-/// watchers : [{"id":123,"username":"John Doe","color":"#000000","email":"johndoe@website.com","profilePicture":"https://clickup.com/avatar.jpg"}]
-/// checklists : [{"id":"d41340bc-2f17-43cc-ae71-86628f45825f","task_id":"3cxv9f","name":"Checklist","date_created":"1618455803730","orderindex":1,"creator":2770032,"resolved":0,"unresolved":1,"items":[{"id":"9398cb3d-55a4-4c45-ab46-2a47a371e375","name":"checklist item 1","orderindex":0,"assignee":null,"resolved":false,"parent":null,"date_created":"1618455810454","children":[]}]}]
-/// tags : [{"name":"tagged","tag_fg":"#000000","tag_bg":"#000000"}]
-/// parent : "av2"
-/// priority : 1
-/// due_date : "1508369194377"
-/// start_date : "1508369194377"
-/// points : 1.3
-/// time_estimate : 1.2
-/// custom_fields : [{"id":"be43f58e-989e-4233-9f25-27584f094b74","name":"Location type Custom Field","type":"location","type_config":{},"date_created":"1617765143523","hide_from_guests":false,"required":false}]
-/// dependencies : []
-/// linked_tasks : []
-/// team_id : "1234"
-/// url : "https://app.clickup.com/t/av1"
-/// permission_level : "create"
-/// list : {"id":"1","name":"List","access":true}
-/// project : {"id":"1","name":"Folder","hidden":false,"access":true}
-/// folder : {"id":"1","name":"Folder","hidden":false,"access":true}
-/// space : {"id":"1"}
-
-///TODO support checklists in task
-///TODO support parent task
-///TODO support linked tasks
-///TODO support time estimate
-
+import 'folder.dart';
+import 'list.dart';
+import 'space.dart';
 
 class ClickupTask extends Equatable {
   const ClickupTask({
@@ -113,8 +74,8 @@ class ClickupTask extends Equatable {
   final String? permissionLevel;
   final ClickupList? list;
   final ClickupProject? project;
-  final ClickupFolder? folder;
-  final ClickupSpace? space;
+  final Folder? folder;
+  final Space? space;
 
   ///How are dates formatted in ClickUp?
   /// ClickUp will always display dates in Unix time in milliseconds. You can use a website like Epoch Converter to convert dates between Unix and human readable date formats.

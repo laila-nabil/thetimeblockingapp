@@ -13,9 +13,9 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
@@ -444,7 +444,7 @@ class TaskPopup extends StatelessWidget {
                             ///TODO create a new Workspace/Space in task view
                             if (Globals.isSpaceAppWide == false)
                               (task == null
-                                  ? DropdownButton<ClickupSpace>(
+                                  ? DropdownButton<Space>(
                                 hint: Text(
                                     appLocalization.translate("space")),
                                 value: state.taskParams?.clickupSpace,

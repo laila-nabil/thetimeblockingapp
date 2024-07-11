@@ -7,10 +7,10 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_list.dart';
+import '../entities/list.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateFolderlessListClickupListUseCase
@@ -39,7 +39,7 @@ class CreateFolderlessListClickupListUseCase
 
 class CreateFolderlessListClickupParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final Space clickupSpace;
   final String listName;
   final Color? statusColor;
   final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;

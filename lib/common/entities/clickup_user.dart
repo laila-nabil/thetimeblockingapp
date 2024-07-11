@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 /// id : 55230798

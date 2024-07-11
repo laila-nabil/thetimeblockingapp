@@ -6,8 +6,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_cli
 import '../../../../common/entities/clickup_workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../../../tasks/domain/entities/clickup_space.dart';
-import '../../../tasks/domain/entities/clickup_task.dart';
+import '../../../tasks/domain/entities/space.dart';
+import '../../../tasks/domain/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_task_use_case.dart';

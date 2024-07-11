@@ -30,7 +30,7 @@ import '../../../../core/usecase.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
-import '../../domain/entities/clickup_space.dart';
+import '../../domain/entities/space.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
@@ -192,9 +192,9 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, ClickupSpace>?> getSelectedSpace(
+  Future<Either<Failure, Space>?> getSelectedSpace(
       NoParams params) async {
-    final result = await repoHandleLocalGetRequest<ClickupSpace>(
+    final result = await repoHandleLocalGetRequest<Space>(
         tryGetFromLocalStorage: () => localDataSource.getSelectedSpace());
     result.fold((l) => null, (r) {
       setSelectedSpace(r);
@@ -210,9 +210,9 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<Either<Failure, List<ClickupSpace>>?> getSpacesOfSelectedWorkspace(
+  Future<Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
       NoParams params) async {
-    final result = await repoHandleLocalGetRequest<List<ClickupSpace>>(
+    final result = await repoHandleLocalGetRequest<List<Space>>(
         tryGetFromLocalStorage: () => localDataSource.getSpaces());
     result.fold((l) => null, (r) => clickupSpaces = r);
     return result;

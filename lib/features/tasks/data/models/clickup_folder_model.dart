@@ -1,6 +1,6 @@
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_list_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
 
 /// id : "457"
 /// name : "Updated Folder Name"
@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder
 /// task_count : "0"
 /// lists : []
 
-class ClickupFolderModel extends ClickupFolder {
+class ClickupFolderModel extends Folder {
   const ClickupFolderModel({
     super.id,
     super.name,

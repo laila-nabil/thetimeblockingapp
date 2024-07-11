@@ -6,7 +6,7 @@ abstract class AllTasksEvent extends Equatable {
 
 class GetClickupTasksInSpaceEvent extends AllTasksEvent {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace space;
+  final Space space;
   final ClickupWorkspace workspace;
 
   const GetClickupTasksInSpaceEvent(

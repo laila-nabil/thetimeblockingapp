@@ -1,27 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
-/*
- id : "90150126979"
- name : "Space b"
- color : null
- private : true
- avatar : null
- admin_can_manage : false
- statuses : [{"id":"p90150126979_lIWCjnSr","status":"Open","type":"open","orderindex":0,"color":"#d3d3d3"},{"id":"p90150126979_QMMAZ5BR","status":"in progress","type":"custom","orderindex":1,"color":"#4194f6"},{"id":"p90150126979_th8SqKCT","status":"review","type":"custom","orderindex":2,"color":"#A875FF"},{"id":"p90150126979_oQ5gCLq8","status":"Closed","type":"closed","orderindex":3,"color":"#6bc950"}]
- multiple_assignees : true
- features : {"due_dates":{"enabled":true,"start_date":true,"remap_due_dates":false,"remap_closed_due_date":false},"sprints":{"enabled":false},"time_tracking":{"enabled":true,"harvest":false,"rollup":false},"points":{"enabled":false},"custom_items":{"enabled":false},"priorities":{"enabled":true,"priorities":[{"color":"#f50000","id":"1","orderindex":"1","priority":"urgent"},{"color":"#ffcc00","id":"2","orderindex":"2","priority":"high"},{"color":"#6fddff","id":"3","orderindex":"3","priority":"normal"},{"color":"#d8d8d8","id":"4","orderindex":"4","priority":"low"}]},"tags":{"enabled":true},"check_unresolved":{"enabled":true,"subtasks":null,"checklists":null,"comments":null},"zoom":{"enabled":false},"milestones":{"enabled":false},"custom_fields":{"enabled":true},"dependency_warning":{"enabled":true},"status_pies":{"enabled":false},"multiple_assignees":{"enabled":true}}
- archived : false
- members : [{"user":{"id":61769378,"username":"laila nabil","color":"","profilePicture":null,"initials":"LN"}}]
-*/
 
 // ignore: must_be_immutable
-class ClickupSpace extends Equatable {
-  ClickupSpace({
+class Space extends Equatable {
+  Space({
     this.id,
     this.name,
     this.color,
@@ -49,7 +36,7 @@ class ClickupSpace extends Equatable {
   final ClickupSpaceFeatures? features;
   final bool? archived;
   final List<ClickupWorkspaceMembers>? members;
-  List<ClickupFolder> folders;
+  List<Folder> folders;
   List<ClickupList> lists;
   List<ClickupTag> tags;
 
@@ -369,13 +356,13 @@ class ClickupSpaceDueDates extends Equatable {
       ];
 }
 
-extension ClickupSpaceListExtensions on List<ClickupSpace>{
+extension ClickupSpaceListExtensions on List<Space>{
 
-  static List<ClickupSpace>? updateItemInList(
-      {required List<ClickupSpace>? list,
-      required ClickupSpace ? updatedSpace}) {
+  static List<Space>? updateItemInList(
+      {required List<Space>? list,
+      required Space ? updatedSpace}) {
     printDebug("updateItemInList $list");
-    List<ClickupSpace>? result;
+    List<Space>? result;
     if (list!=null && updatedSpace!=null) {
       result = List.from(list,growable: true);
       final index = list.indexWhere((element) => element.id == updatedSpace.id);

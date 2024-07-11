@@ -23,7 +23,7 @@ import '../../core/globals.dart';
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
-import '../../features/tasks/domain/entities/clickup_space.dart';
+import '../../features/tasks/domain/entities/space.dart';
 import '../entities/clickup_workspace.dart';
 
 ///TODO in desktop,show folders and list as sub to Lists
@@ -71,7 +71,7 @@ class CustomDrawerWidget extends StatelessWidget {
   });
 
   final void Function(ClickupWorkspace? clickupWorkspace) selectWorkspace;
-  final void Function(ClickupSpace? clickupSpace) selectSpace;
+  final void Function(Space? clickupSpace) selectSpace;
   final Localization appLocalization;
   final GoRouter? router;
   final bool showSmallDesign;

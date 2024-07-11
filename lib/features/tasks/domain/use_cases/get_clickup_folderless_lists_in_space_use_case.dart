@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_list.dart';
+import '../entities/list.dart';
 
 class GetClickupFolderlessListsInSpaceUseCase
     implements UseCase<List<ClickupList>, GetClickupFolderlessListsInSpaceParams> {
@@ -22,7 +22,7 @@ class GetClickupFolderlessListsInSpaceUseCase
 
 class GetClickupFolderlessListsInSpaceParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final Space clickupSpace;
   final bool? archived;
 
   const GetClickupFolderlessListsInSpaceParams({

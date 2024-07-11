@@ -7,7 +7,7 @@ import '../features/auth/data/models/clickup_access_token_model.dart';
 import '../features/tasks/data/models/clickup_folder_model.dart';
 import '../features/tasks/data/models/clickup_list_model.dart';
 import '../features/tasks/data/models/clickup_space_model.dart';
-import '../features/tasks/domain/entities/clickup_task.dart';
+import '../features/tasks/domain/entities/task.dart';
 
 class Demo {
   static ClickupAccessTokenModel accessTokenModel =

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../common/entities/clickup_user.dart';
 import '../common/entities/clickup_workspace.dart';
@@ -24,7 +24,7 @@ Duration _defaultTaskDuration = const Duration(hours: 1);
 
 List<ClickupWorkspace>? _clickupWorkspaces;
 
-List<ClickupSpace>? _clickupSpaces;
+List<Space>? _clickupSpaces;
 
 class Globals {
   static String get appName => _appName;
@@ -52,7 +52,7 @@ class Globals {
 
   static String? get selectedSpaceId => _selectedSpaceId;
 
-  static ClickupSpace? get selectedSpace => clickupSpaces
+  static Space? get selectedSpace => clickupSpaces
       ?.where((element) => element.id == _selectedSpaceId)
       .firstOrNull;
 
@@ -62,12 +62,12 @@ class Globals {
 
   static List<ClickupWorkspace>? get clickupWorkspaces => _clickupWorkspaces;
 
-  static List<ClickupSpace>? get clickupSpaces => _clickupSpaces;
+  static List<Space>? get clickupSpaces => _clickupSpaces;
 
   static ClickupWorkspace? get defaultWorkspace =>
       _clickupWorkspaces?.firstOrNull;
 
-  static ClickupSpace? get defaultSpace => _clickupSpaces?.firstOrNull;
+  static Space? get defaultSpace => _clickupSpaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
 
@@ -113,7 +113,7 @@ mixin class GlobalsWriteAccess {
     _selectedWorkspace = value;
   }
 
-   void setSelectedSpace(ClickupSpace? space) {
+   void setSelectedSpace(Space? space) {
     _selectedSpaceId = space?.id;
     clickupSpaces =  ClickupSpaceListExtensions.updateItemInList(
         list: Globals.clickupSpaces, updatedSpace: space);
@@ -131,7 +131,7 @@ mixin class GlobalsWriteAccess {
     _clickupWorkspaces = value;
   }
 
-  set clickupSpaces(List<ClickupSpace>? value) {
+  set clickupSpaces(List<Space>? value) {
     _clickupSpaces = value;
   }
 

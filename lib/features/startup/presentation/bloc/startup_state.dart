@@ -12,10 +12,10 @@ class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
   final ClickupWorkspace? selectedClickupWorkspace;
-  final ClickupSpace? selectedClickupSpace;
+  final Space? selectedClickupSpace;
   final List<Map<String, Failure>>? getSpacesFailure;
   final List<Map<String, Failure>>? getAllInSpaceFailure;
-  final List<ClickupSpace>? clickupSpaces;
+  final List<Space>? clickupSpaces;
   final bool? startGetTasks;
 
   const StartupState({
@@ -54,10 +54,10 @@ class StartupState extends Equatable {
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
     ClickupWorkspace? selectedClickupWorkspace,
-    ClickupSpace? selectedClickupSpace,
+    Space? selectedClickupSpace,
     List<Map<String, Failure>>? getSpacesFailure,
     List<Map<String, Failure>>? getAllInSpaceFailure,
-    List<ClickupSpace>? clickupSpaces,
+    List<Space>? clickupSpaces,
     bool? startGetTasks,
   }) {
     return StartupState(

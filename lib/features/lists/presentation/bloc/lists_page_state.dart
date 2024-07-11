@@ -46,26 +46,26 @@ class ListsPageState extends Equatable {
   final ListsPageStatus listsPageStatus;
   final ClickupList? navigateList;
   final ClickupList? currentList;
-  final ClickupFolder? navigateFolder;
-  final List<ClickupSpace>? getSpacesListsFoldersResult;
+  final Folder? navigateFolder;
+  final List<Space>? getSpacesListsFoldersResult;
   final List<Map<String, Failure>>? getSpacesListsFoldersFailure;
   final List<ClickupTask>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
   final List<ClickupList>? addListResult;
   final Failure? createListFailure;
-  final List<ClickupFolder>? createFolderResult;
+  final List<Folder>? createFolderResult;
   final Failure? createFolderFailure;
   final List<ClickupTask>? createTaskResult;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
   final List<ClickupTask>? deleteListResult;
   final Failure? deleteListFailure;
-  final List<ClickupFolder>? deleteFolderResult;
+  final List<Folder>? deleteFolderResult;
   final Failure? deleteFolderFailure;
   final List<ClickupTask>? deleteTaskResult;
   final Failure? deleteTaskFailure;
   final ClickupWorkspace? clickupWorkspace;
-  final ClickupSpace? clickupSpace;
+  final Space? clickupSpace;
   final CreateClickupListInFolderParams? createClickupListInFolderParams;
   final CreateFolderlessListClickupParams? createFolderlessListClickupParams;
   final MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
@@ -74,9 +74,9 @@ class ListsPageState extends Equatable {
   final DeleteClickupListParams? deleteClickupListParams;
   final Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
-  final ClickupFolder? folderToCreateListIn;
+  final Folder? folderToCreateListIn;
   final ClickupList? toDeleteList;
-  final ClickupFolder? toDeleteFolder;
+  final Folder? toDeleteFolder;
   const ListsPageState({
     required this.listsPageStatus,
     this.navigateList,
@@ -178,7 +178,7 @@ class ListsPageState extends Equatable {
         toDeleteFolder
       ];
 
-  bool tryCreateListInFolder(ClickupFolder folder) =>
+  bool tryCreateListInFolder(Folder folder) =>
       listsPageStatus == ListsPageStatus.createListInFolderTry &&
       folderToCreateListIn == folder;
 
@@ -192,25 +192,25 @@ class ListsPageState extends Equatable {
     required ListsPageStatus listsPageStatus,
     ClickupList? navigateList,
     ClickupList? currentList,
-    ClickupFolder? navigateFolder,
-    List<ClickupSpace>? getSpacesListsFoldersResult,
+    Folder? navigateFolder,
+    List<Space>? getSpacesListsFoldersResult,
     List<Map<String, Failure>>? getSpacesListsFoldersFailure,
     List<ClickupTask>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
     List<ClickupList>? addListResult,
     Failure? createListFailure,
-    List<ClickupFolder>? createFolderResult,
+    List<Folder>? createFolderResult,
     Failure? createFolderFailure,
     List<ClickupTask>? createTaskResult,
     Failure? createTaskFailure,
     List<ClickupTask>? deleteListResult,
     Failure? deleteListFailure,
-    List<ClickupFolder>? deleteFolderResult,
+    List<Folder>? deleteFolderResult,
     Failure? deleteFolderFailure,
     List<ClickupTask>? deleteTaskResult,
     Failure? deleteTaskFailure,
     ClickupWorkspace? clickupWorkspace,
-    ClickupSpace? clickupSpace,
+    Space? clickupSpace,
     CreateClickupListInFolderParams? createClickupListInFolderParams,
     CreateFolderlessListClickupParams? createFolderlessListClickupParams,
     MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
@@ -220,9 +220,9 @@ class ListsPageState extends Equatable {
     Unit? moveTaskBetweenListsResult,
     Failure? moveTaskBetweenListsFailure,
     Failure? updateTaskFailure,
-    ClickupFolder? folderToCreateListIn,
+    Folder? folderToCreateListIn,
     ClickupList? toDeleteList,
-    ClickupFolder? toDeleteFolder,
+    Folder? toDeleteFolder,
   }) {
     return ListsPageState(
       listsPageStatus: listsPageStatus,

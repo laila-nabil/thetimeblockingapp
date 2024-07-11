@@ -8,9 +8,9 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../../core/globals.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_folder.dart';
-import '../entities/clickup_list.dart';
-import '../entities/clickup_task.dart';
+import '../entities/folder.dart';
+import '../entities/list.dart';
+import '../entities/task.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateClickupListInFolderUseCase
@@ -39,7 +39,7 @@ class CreateClickupListInFolderUseCase
 
 class CreateClickupListInFolderParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupFolder clickupFolder;
+  final Folder clickupFolder;
   final String listName;
   final Color? statusColor;
   final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;

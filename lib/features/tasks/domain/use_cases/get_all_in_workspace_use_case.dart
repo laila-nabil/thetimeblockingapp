@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_space.dart';
+import '../entities/space.dart';
 import 'get_clickup_folderless_lists_in_space_use_case.dart';
 import 'get_clickup_folders_in_space_use_case.dart';
 import 'get_clickup_spaces_in_workspace_use_case.dart';
@@ -19,9 +19,9 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
 
   GetAllInClickupWorkspaceUseCase(this.repo);
 
-  Future<Either<List<Map<String, Failure>>, List<ClickupSpace>>?> call(
+  Future<Either<List<Map<String, Failure>>, List<Space>>?> call(
       GetAllInClickupWorkspaceParams params) async {
-    List<ClickupSpace> spaces = [];
+    List<Space> spaces = [];
     List<Map<String, Failure>> failures = [];
     final spacesResult = await repo.getClickupSpacesInWorkspaces(
         params: GetClickupSpacesInWorkspacesParams(

@@ -24,7 +24,7 @@ class SelectClickupWorkspaceAndGetSpacesTagsLists extends StartupEvent {
 }
 
 class SelectClickupSpace extends StartupEvent {
-  final ClickupSpace clickupSpace;
+  final Space clickupSpace;
   final ClickupAccessToken clickupAccessToken;
   const SelectClickupSpace(
       {required this.clickupSpace, required this.clickupAccessToken});

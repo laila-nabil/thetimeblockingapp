@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -81,7 +81,7 @@ class CustomAppBarWidget extends StatelessWidget {
   }) : super(key: key);
   final bool showSmallDesign;
   final void Function() openDrawer;
-  final void Function(ClickupSpace? clickupSpace) selectClickupSpace;
+  final void Function(Space? clickupSpace) selectClickupSpace;
   final void Function(ClickupWorkspace? clickupWorkspace)
       selectClickupWorkspace;
   final List<CustomPopupItem>? pageActions;

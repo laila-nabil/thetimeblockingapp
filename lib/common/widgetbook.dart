@@ -21,9 +21,9 @@ import 'package:thetimeblockingapp/features/auth/data/repositories/auth_repo_imp
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
@@ -2393,7 +2393,7 @@ class WidgetBookApp extends StatelessWidget {
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
                         list: ClickupList(name: listName),
-                        folder: ClickupFolder(name: folderName),
+                        folder: Folder(name: folderName),
                         tags: tags);
                     return Theme(
                       data: appTheme(context.isDarkMode),
@@ -2460,7 +2460,7 @@ class WidgetBookApp extends StatelessWidget {
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
                         list: ClickupList(name: listName1),
-                        folder: ClickupFolder(name: folderName1),
+                        folder: Folder(name: folderName1),
                         tags: tags);
 
                     final taskName2 = context.knobs.string(
@@ -2507,7 +2507,7 @@ class WidgetBookApp extends StatelessWidget {
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
                         list: ClickupList(name: listName2),
-                        folder: ClickupFolder(name: folderName2),
+                        folder: Folder(name: folderName2),
                         tags: tags2);
                     return ToggleableSection(
                       title: 'Overdue',

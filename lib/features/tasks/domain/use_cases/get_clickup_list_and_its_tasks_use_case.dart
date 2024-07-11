@@ -4,12 +4,12 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 
 import '../../../../core/globals.dart';
-import '../entities/clickup_task.dart';
+import '../entities/task.dart';
 import 'get_clickup_tasks_in_single_workspace_use_case.dart';
 
 class GetClickupListAndItsTasksUseCase {

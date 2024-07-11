@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_list.dart';
+import '../entities/list.dart';
 import '../repositories/tasks_repo.dart';
 
 class DeleteClickupListUseCase

@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../tasks/domain/entities/space.dart';
 
 
 class SaveSpacesUseCase implements UseCase<Unit,SaveSpacesParams>{
@@ -19,7 +19,7 @@ class SaveSpacesUseCase implements UseCase<Unit,SaveSpacesParams>{
 }
 
 class SaveSpacesParams{
-  final List<ClickupSpace> clickupSpaces;
+  final List<Space> clickupSpaces;
 
   SaveSpacesParams(this.clickupSpaces);
 }

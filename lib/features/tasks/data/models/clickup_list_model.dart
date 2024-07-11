@@ -1,4 +1,4 @@
-import '../../domain/entities/clickup_list.dart';
+import '../../domain/entities/list.dart';
 
 /// id : "1"
 /// name : "List"

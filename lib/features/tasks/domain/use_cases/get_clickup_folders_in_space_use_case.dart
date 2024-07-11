@@ -4,17 +4,17 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/clickup_folder.dart';
-import '../entities/clickup_space.dart';
+import '../entities/folder.dart';
+import '../entities/space.dart';
 
 class GetClickupFoldersInSpaceUseCase
-    implements UseCase<List<ClickupFolder>, GetClickupFoldersInSpaceParams> {
+    implements UseCase<List<Folder>, GetClickupFoldersInSpaceParams> {
   final TasksRepo repo;
 
   GetClickupFoldersInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupFolder>>?> call(
+  Future<Either<Failure, List<Folder>>?> call(
       GetClickupFoldersInSpaceParams params) {
     return repo.getClickupFolders(params: params);
   }
@@ -22,7 +22,7 @@ class GetClickupFoldersInSpaceUseCase
 
 class GetClickupFoldersInSpaceParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace clickupSpace;
+  final Space clickupSpace;
   final bool? archived;
 
   const GetClickupFoldersInSpaceParams({

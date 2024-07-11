@@ -1,5 +1,5 @@
 import 'clickup_folder_model.dart';
-import '../../domain/entities/clickup_task.dart';
+import '../../domain/entities/task.dart';
 import 'clickup_list_model.dart';
 import 'clickup_space_model.dart';
 

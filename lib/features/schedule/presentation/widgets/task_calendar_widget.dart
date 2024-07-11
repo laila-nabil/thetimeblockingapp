@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../core/extensions.dart';
-import '../../../tasks/domain/entities/clickup_task.dart';
+import '../../../tasks/domain/entities/task.dart';
 
 class TaskCalendarWidget extends StatelessWidget {
   const TaskCalendarWidget({Key? key, required this.calendarAppointmentDetails})

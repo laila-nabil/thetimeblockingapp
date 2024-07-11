@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import '../../../tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';

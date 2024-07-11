@@ -5,10 +5,10 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../entities/clickup_task.dart';
+import '../entities/task.dart';
 
 class UpdateClickupTagUseCase
     implements UseCase<Unit, UpdateClickupTagParams> {
@@ -48,7 +48,7 @@ class UpdateClickupTagUseCase
 }
 
 class UpdateClickupTagParams {
-  final ClickupSpace space;
+  final Space space;
   final String originalTagName;
   final ClickupTagModel newTag;
   final ClickupAccessToken clickupAccessToken;

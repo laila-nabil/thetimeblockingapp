@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import 'clickup_list.dart';
-import 'clickup_task.dart';
+import 'list.dart';
+import 'task.dart';
 
 enum ClickupTaskParamsEnum { create, update }
 
@@ -32,8 +32,8 @@ class ClickupTaskParams extends Equatable{
   final ClickupTask? task;
   final bool? archived;
 
-  final ClickupSpace? clickupSpace;
-  final ClickupFolder? folder;
+  final Space? clickupSpace;
+  final Folder? folder;
 
   String get getListId => task?.list?.id ?? clickupList?.id ?? "";
 
@@ -146,7 +146,7 @@ class ClickupTaskParams extends Equatable{
     required ClickupAccessToken clickupAccessToken,
     DateTime? startDate,
     DateTime? dueDate,
-    ClickupSpace? space,
+    Space? space,
     ClickupList? list,
     ClickupTag? tag
   }) {
@@ -177,8 +177,8 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? parentTask,
     ClickupTask? linkedTask,
     bool? requiredCustomFields,
-    ClickupFolder? folder,
-    ClickupSpace? space,
+    Folder? folder,
+    Space? space,
   }) {
     printDebug("ClickupTaskParams createNewTask task");
     return ClickupTaskParams._(
@@ -260,7 +260,7 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? updatedLinkedTask,
     bool? updatedArchived,
     ClickupList? list,
-    ClickupFolder? folder,
+    Folder? folder,
   }) =>
       ClickupTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
@@ -366,15 +366,15 @@ class ClickupTaskParams extends Equatable{
     bool? archived,
     List<int>? addedAssigneesId,
     List<int>? removedAssigneesId,
-    ClickupSpace? clickupSpace,
-    ClickupFolder? folder,
+    Space? clickupSpace,
+    Folder? folder,
     bool? clearFolder,
     bool? clearPriority,
   }) {
-    ClickupSpace? selectedSpace = clickupSpace ?? this.clickupSpace;
+    Space? selectedSpace = clickupSpace ?? this.clickupSpace;
     ClickupTaskPriority? selectedPriority =
         clearFolder == true ? null : (taskPriority ?? this.taskPriority);
-    ClickupFolder? selectedFolder =
+    Folder? selectedFolder =
         clearFolder == true ? null : (folder ?? this.folder);
     if (selectedSpace?.folders.contains(selectedFolder) == false) {
       selectedFolder = null;

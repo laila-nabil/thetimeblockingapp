@@ -21,7 +21,7 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 

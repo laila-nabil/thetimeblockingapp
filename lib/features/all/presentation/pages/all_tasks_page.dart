@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
@@ -16,7 +16,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
-import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../tasks/domain/entities/space.dart';
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
 
@@ -86,7 +86,7 @@ class AllTasksPage extends StatelessWidget {
                           ),
                           if (Globals.isSpaceAppWide == false &&
                               Globals.clickupSpaces?.isNotEmpty == true)
-                            DropdownButton<ClickupSpace?>(
+                            DropdownButton<Space?>(
                               value: Globals.selectedSpace,
                               onChanged: (selected) {
                                 if (selected != null &&

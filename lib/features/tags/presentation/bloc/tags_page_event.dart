@@ -27,7 +27,7 @@ class GetClickupTagsInSpaceEvent extends TagsPageEvent {
 class GetClickupTasksForTagEvent extends TagsPageEvent {
   final ClickupAccessToken clickupAccessToken;
   final ClickupTag tag;
-  final ClickupSpace space;
+  final Space space;
   final ClickupWorkspace workspace;
 
   const GetClickupTasksForTagEvent(

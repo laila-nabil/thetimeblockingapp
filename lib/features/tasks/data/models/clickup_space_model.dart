@@ -1,6 +1,6 @@
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import '../../domain/entities/clickup_space.dart';
+import '../../domain/entities/space.dart';
 /*
  id : "90150126979"
  name : "Space b"
@@ -16,7 +16,7 @@ import '../../domain/entities/clickup_space.dart';
 */
 
 // ignore: must_be_immutable
-class ClickupSpaceModel extends ClickupSpace {
+class ClickupSpaceModel extends Space {
   ClickupSpaceModel({
     super.id,
     super.name,
