@@ -20,7 +20,7 @@ class ClickupWorkspaceModel extends Workspace {
     String? name = json['name'];
     String? color = json['color'];
     String? avatar = json['avatar'];
-    List<ClickupWorkspaceMembers>? members;
+    List<WorkspaceMembers>? members;
     if (json['members'] != null) {
       members = [];
       json['members'].forEach((v) {
@@ -47,7 +47,7 @@ class ClickupWorkspaceModel extends Workspace {
 
 /// user : {"id":123,"username":"John Doe","color":"#000000","profilePicture":"https://clickup.com/avatar.jpg"}
 
-class ClickupWorkspaceMembersModel extends ClickupWorkspaceMembers {
+class ClickupWorkspaceMembersModel extends WorkspaceMembers {
   const ClickupWorkspaceMembersModel({
     super.user,
   });
@@ -71,7 +71,7 @@ class ClickupWorkspaceMembersModel extends ClickupWorkspaceMembers {
 /// color : "#000000"
 /// profilePicture : "https://clickup.com/avatar.jpg"
 
-class ClickupWorkspaceUserModel extends ClickupWorkspaceUser {
+class ClickupWorkspaceUserModel extends WorkspaceUser {
   const ClickupWorkspaceUserModel({
     super.id,
     super.username,

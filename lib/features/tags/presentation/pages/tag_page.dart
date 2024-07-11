@@ -63,7 +63,7 @@ class TagPage extends StatelessWidget {
                 tagsPageBloc.add(NavigateToTagPageEvent(
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
-                tagsPageBloc.add(GetClickupTasksForTagEvent(
+                tagsPageBloc.add(GetTasksForTagEvent(
                     clickupAccessToken: Globals.clickupAuthAccessToken,
                     workspace: Globals.selectedWorkspace!,
                     tag: state.navigateTag!,
@@ -74,7 +74,7 @@ class TagPage extends StatelessWidget {
                 pageActions: [
                   CustomPopupItem.custom(
                       onTap: () {
-                        tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
+                        tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                             insideTagPage: true,
                             params: UpdateClickupTagParams(
                                 space: Globals.selectedSpace!,
@@ -91,7 +91,7 @@ class TagPage extends StatelessWidget {
                       )),
                   CustomPopupItem.custom(
                       onTap: () {
-                        tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
+                        tagsPageBloc.add(DeleteTagEvent.tryDelete(
                             DeleteClickupTagParams(
                                 space: Globals.selectedSpace!,
                                 tag: state.navigateTag!,
@@ -113,7 +113,7 @@ class TagPage extends StatelessWidget {
                             tag: state.navigateTag,
                             bloc: tagsPageBloc,
                             onSave: (params) {
-                              tagsPageBloc.add(CreateClickupTaskEvent(
+                              tagsPageBloc.add(CreateTaskEvent(
                                   params: params,
                                   workspace: Globals.selectedWorkspace!));
                               Navigator.maybePop(context);
@@ -144,7 +144,7 @@ class TagPage extends StatelessWidget {
                                     onAdd: (text) {
                                       printDebug("text now $text");
                                       tagsPageBloc
-                                          .add(UpdateClickupTagEvent.submit(
+                                          .add(UpdateTagEvent.submit(
                                         insideTagPage: true,
                                         params: UpdateClickupTagParams(
                                             clickupAccessToken:
@@ -159,7 +159,7 @@ class TagPage extends StatelessWidget {
                                     },
                                     onCancel: () {
                                       tagsPageBloc.add(
-                                          UpdateClickupTagEvent.cancel(
+                                          UpdateTagEvent.cancel(
                                               insideTagPage: true));
                                     }),
                               )
@@ -223,12 +223,12 @@ class TagPage extends StatelessWidget {
                 )),
                 context: context,
                 onRefresh: () async {
-                  tagsPageBloc.add(GetClickupTasksForTagEvent(
+                  tagsPageBloc.add(GetTasksForTagEvent(
                       clickupAccessToken: Globals.clickupAuthAccessToken,
                       workspace: Globals.selectedWorkspace!,
                       tag: state.navigateTag!,
                       space: Globals.selectedSpace!));
-                  startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+                  startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                       clickupWorkspace: Globals.selectedWorkspace!,
                       clickupAccessToken: Globals.clickupAuthAccessToken));
                 },
@@ -247,16 +247,16 @@ class TagPage extends StatelessWidget {
       bloc: tagsPageBloc,
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {
-        tagsPageBloc.add(DeleteClickupTaskEvent(
+        tagsPageBloc.add(DeleteTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        tagsPageBloc.add(UpdateClickupTaskEvent(
+        tagsPageBloc.add(UpdateTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
-      tagsPageBloc.add(DuplicateClickupTaskEvent(
+      tagsPageBloc.add(DuplicateTaskEvent(
           params: params, workspace: Globals.selectedWorkspace!));
     },
     );

@@ -149,7 +149,7 @@ class SchedulePage extends StatelessWidget {
                         workspaceId: selectedWorkspace?.id ?? "",
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
-                startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+                startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: selectedWorkspace!,
                     clickupAccessToken: Globals.clickupAuthAccessToken));
               },);

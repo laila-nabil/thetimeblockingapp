@@ -15,22 +15,22 @@ class NavigateToTagPageEvent extends TagsPageEvent {
   List<Object?> get props => [tag,insideTagPage];
 }
 
-class GetClickupTagsInSpaceEvent extends TagsPageEvent {
+class GetTagsInSpaceEvent extends TagsPageEvent {
   final GetClickupTagsInSpaceParams params;
 
-  const GetClickupTagsInSpaceEvent(this.params);
+  const GetTagsInSpaceEvent(this.params);
 
   @override
   List<Object?> get props => [params];
 }
 
-class GetClickupTasksForTagEvent extends TagsPageEvent {
+class GetTasksForTagEvent extends TagsPageEvent {
   final ClickupAccessToken clickupAccessToken;
   final Tag tag;
   final Space space;
   final Workspace workspace;
 
-  const GetClickupTasksForTagEvent(
+  const GetTasksForTagEvent(
       {required this.clickupAccessToken,
       required this.tag,
       required this.workspace,
@@ -40,16 +40,16 @@ class GetClickupTasksForTagEvent extends TagsPageEvent {
   List<Object?> get props => [clickupAccessToken, tag, space];
 }
 
-class CreateClickupTagInSpaceEvent extends TagsPageEvent {
+class CreateTagInSpaceEvent extends TagsPageEvent {
   CreateClickupTagInSpaceParams? params;
   bool? tryEvent;
-  CreateClickupTagInSpaceEvent.tryCreate(){
+  CreateTagInSpaceEvent.tryCreate(){
     tryEvent = true;
   }
-  CreateClickupTagInSpaceEvent.cancelCreate(){
+  CreateTagInSpaceEvent.cancelCreate(){
     tryEvent = false;
   }
-  CreateClickupTagInSpaceEvent.submit({
+  CreateTagInSpaceEvent.submit({
     required CreateClickupTagInSpaceParams this.params
   }){
     tryEvent = false;
@@ -59,19 +59,19 @@ class CreateClickupTagInSpaceEvent extends TagsPageEvent {
   List<Object?> get props => [params,tryEvent];
 }
 
-class UpdateClickupTagEvent extends TagsPageEvent {
+class UpdateTagEvent extends TagsPageEvent {
   UpdateClickupTagParams? params;
   bool? tryEvent;
   final bool insideTagPage;
-  UpdateClickupTagEvent.tryUpdate({this.params,required this.insideTagPage}) {
+  UpdateTagEvent.tryUpdate({this.params,required this.insideTagPage}) {
     tryEvent = true;
   }
 
-  UpdateClickupTagEvent.cancel({required this.insideTagPage}) {
+  UpdateTagEvent.cancel({required this.insideTagPage}) {
     tryEvent = false;
   }
 
-  UpdateClickupTagEvent.submit({this.params,required this.insideTagPage}) {
+  UpdateTagEvent.submit({this.params,required this.insideTagPage}) {
     tryEvent = false;
   }
 
@@ -79,19 +79,19 @@ class UpdateClickupTagEvent extends TagsPageEvent {
   List<Object?> get props => [params,tryEvent,insideTagPage];
 }
 
-class DeleteClickupTagEvent extends TagsPageEvent {
+class DeleteTagEvent extends TagsPageEvent {
   DeleteClickupTagParams? params;
   bool? tryEvent;
 
-  DeleteClickupTagEvent.tryDelete(this.params) {
+  DeleteTagEvent.tryDelete(this.params) {
     tryEvent = true;
   }
 
-  DeleteClickupTagEvent.cancelDelete() {
+  DeleteTagEvent.cancelDelete() {
     tryEvent = false;
   }
 
-  DeleteClickupTagEvent.submit({this.params}) {
+  DeleteTagEvent.submit({this.params}) {
     tryEvent = false;
   }
 
@@ -99,11 +99,11 @@ class DeleteClickupTagEvent extends TagsPageEvent {
   List<Object?> get props => [params];
 }
 
-class CreateClickupTaskEvent extends TagsPageEvent {
+class CreateTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const CreateClickupTaskEvent({
+  const CreateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -112,11 +112,11 @@ class CreateClickupTaskEvent extends TagsPageEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class DuplicateClickupTaskEvent extends TagsPageEvent {
+class DuplicateTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const DuplicateClickupTaskEvent({
+  const DuplicateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -125,11 +125,11 @@ class DuplicateClickupTaskEvent extends TagsPageEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class UpdateClickupTaskEvent extends TagsPageEvent {
+class UpdateTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const UpdateClickupTaskEvent({
+  const UpdateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -138,11 +138,11 @@ class UpdateClickupTaskEvent extends TagsPageEvent {
   List<Object?> get props => [params,workspace];
 }
 
-class DeleteClickupTaskEvent extends TagsPageEvent {
+class DeleteTaskEvent extends TagsPageEvent {
   final DeleteClickupTaskParams params;
   final Workspace workspace;
 
-  const DeleteClickupTaskEvent({
+  const DeleteTaskEvent({
     required this.params,
     required this.workspace,
   });

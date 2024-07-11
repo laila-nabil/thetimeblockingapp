@@ -218,7 +218,7 @@ class TaskPopup extends StatelessWidget {
         BlocProvider(
           create: (context) {
             return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
-              ..add(UpdateClickupTaskParamsEvent(
+              ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? ClickupTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -378,14 +378,14 @@ class TaskPopup extends StatelessWidget {
 
                                     onChanged: (folder) => folder == null
                                         ? taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
                                             clickupTaskParams
                                                 .copyWith(
                                                 clearFolder:
                                                 true)))
                                         : taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
                                             clickupTaskParams
                                                 .copyWith(
@@ -424,7 +424,7 @@ class TaskPopup extends StatelessWidget {
                                         appLocalization.translate("list")),
                                     value: state.taskParams?.clickupList,
                                     onChanged: (list) => taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
                                             clickupTaskParams.copyWith(
                                                 clickupList: list))),
@@ -449,7 +449,7 @@ class TaskPopup extends StatelessWidget {
                                     appLocalization.translate("space")),
                                 value: state.taskParams?.clickupSpace,
                                 onChanged: (space) => taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
+                                    UpdateTaskParamsEvent(
                                         taskParams:
                                         clickupTaskParams.copyWith(
                                             clickupSpace: space))),
@@ -474,7 +474,7 @@ class TaskPopup extends StatelessWidget {
                                   hint: Text(
                                       appLocalization.translate("status")),
                                   onChanged: (status) => taskPopUpBloc.add(
-                                      UpdateClickupTaskParamsEvent(
+                                      UpdateTaskParamsEvent(
                                           taskParams:
                                           clickupTaskParams.copyWith(
                                               taskStatus: status))),
@@ -540,14 +540,14 @@ class TaskPopup extends StatelessWidget {
                                     onChanged: (priority) => priority ==
                                         null
                                         ? taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
                                             clickupTaskParams
                                                 .copyWith(
                                                 clearPriority:
                                                 true)))
                                         : taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
                                             clickupTaskParams
                                                 .copyWith(
@@ -635,7 +635,7 @@ class TaskPopup extends StatelessWidget {
                               hintText: appLocalization.translate("taskName"),
                               onChanged: (change) {
                                 taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
+                                    UpdateTaskParamsEvent(
                                         taskParams: clickupTaskParams
                                             .copyWith(title: change)));
                               },
@@ -651,7 +651,7 @@ class TaskPopup extends StatelessWidget {
                               maxLines: 3,
                               minLines: 1,
                               onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
+                                taskPopUpBloc.add(UpdateTaskParamsEvent(
                                     taskParams: clickupTaskParams.copyWith(
                                         description: change)));
                               },
@@ -683,7 +683,7 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
+                                          UpdateTaskParamsEvent(
                                               taskParams: clickupTaskParams
                                                   .copyWith(startDate: value))));
                                     },
@@ -716,7 +716,7 @@ class TaskPopup extends StatelessWidget {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) => taskPopUpBloc.add(
-                                              UpdateClickupTaskParamsEvent(
+                                              UpdateTaskParamsEvent(
                                                   taskParams: clickupTaskParams
                                                       .copyWith(
                                                       startDate: value))));
@@ -736,7 +736,7 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
+                                          UpdateTaskParamsEvent(
                                               taskParams: clickupTaskParams
                                                   .copyWith(
                                                   startDate: value))));
@@ -770,7 +770,7 @@ class TaskPopup extends StatelessWidget {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) => taskPopUpBloc.add(
-                                              UpdateClickupTaskParamsEvent(
+                                              UpdateTaskParamsEvent(
                                                   taskParams: clickupTaskParams
                                                       .copyWith(dueDate: value))));
                                         },
@@ -789,7 +789,7 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
+                                          UpdateTaskParamsEvent(
                                               taskParams: clickupTaskParams
                                                   .copyWith(dueDate: value))));
                                     },
@@ -837,7 +837,7 @@ class TaskPopup extends StatelessWidget {
                                                 true);
                                             tags.remove(e);
                                             taskPopUpBloc.add(
-                                                UpdateClickupTaskParamsEvent(
+                                                UpdateTaskParamsEvent(
                                                     taskParams:
                                                     clickupTaskParams.copyWith(tags: tags)));
                                           },
@@ -902,7 +902,7 @@ class TaskPopup extends StatelessWidget {
                                                                         } else {
                                                                           tags.remove(e);
                                                                         }
-                                                                        taskPopUpBloc.add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
+                                                                        taskPopUpBloc.add(UpdateTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
                                                                       }))
                                                                       .toList() ??
                                                                       [],
@@ -972,7 +972,7 @@ class TaskPopup extends StatelessWidget {
                                                                   tags.remove(e);
                                                                 }
                                                                 taskPopUpBloc
-                                                                    .add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
+                                                                    .add(UpdateTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
                                                               }))
                                                           .toList() ??
                                                           [],

@@ -58,7 +58,7 @@ class TagsPage extends StatelessWidget {
                         CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
-                              bloc.add(DeleteClickupTagEvent.submit(
+                              bloc.add(DeleteTagEvent.submit(
                                   params: DeleteClickupTagParams(
                                       space: Globals.selectedSpace!,
                                       tag: state.toDeleteTag!,
@@ -69,7 +69,7 @@ class TagsPage extends StatelessWidget {
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
-                              bloc.add(DeleteClickupTagEvent.cancelDelete());
+                              bloc.add(DeleteTagEvent.cancelDelete());
                               Navigator.pop(context);
                             }),
                       ],
@@ -92,7 +92,7 @@ class TagsPage extends StatelessWidget {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state.isInit && Globals.isSpaceAppWide) {
-                      tagsPageBloc.add(GetClickupTagsInSpaceEvent(
+                      tagsPageBloc.add(GetTagsInSpaceEvent(
                           GetClickupTagsInSpaceParams(
                               clickupAccessToken:
                                   Globals.clickupAuthAccessToken,
@@ -134,7 +134,7 @@ class TagsPage extends StatelessWidget {
                                                                         printDebug(
                                                                             "text now $text");
                                                                         tagsPageBloc.add(
-                                                                            UpdateClickupTagEvent
+                                                                            UpdateTagEvent
                                                                                 .submit(
                                                                           insideTagPage:
                                                                               false,
@@ -149,7 +149,7 @@ class TagsPage extends StatelessWidget {
                                                                         ));
                                                                       },
                                                                       onCancel: () {
-                                                                        tagsPageBloc.add(UpdateClickupTagEvent.cancel(
+                                                                        tagsPageBloc.add(UpdateTagEvent.cancel(
                                                                             insideTagPage:
                                                                                 false));
                                                                       }),
@@ -160,7 +160,7 @@ class TagsPage extends StatelessWidget {
                                                         title: appLocalization
                                                             .translate("edit"),
                                                         onTap: () {
-                                                          tagsPageBloc.add(UpdateClickupTagEvent.tryUpdate(
+                                                          tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                                                               insideTagPage: false,
                                                               params: UpdateClickupTagParams(
                                                                   space: Globals
@@ -178,7 +178,7 @@ class TagsPage extends StatelessWidget {
                                                         title: appLocalization
                                                             .translate("delete"),
                                                         onTap: () {
-                                                          tagsPageBloc.add(DeleteClickupTagEvent.tryDelete(
+                                                          tagsPageBloc.add(DeleteTagEvent.tryDelete(
                                                               DeleteClickupTagParams(
                                                                   space: Globals
                                                                       .selectedSpace!,
@@ -201,7 +201,7 @@ class TagsPage extends StatelessWidget {
                                           state.tryCreateTagInSpace == true
                                               ? _CreateEditField(onAdd: (text) {
                                                   tagsPageBloc.add(
-                                                      CreateClickupTagInSpaceEvent
+                                                      CreateTagInSpaceEvent
                                                           .submit(
                                                     params: CreateClickupTagInSpaceParams(
                                                         clickupAccessToken: Globals
@@ -213,7 +213,7 @@ class TagsPage extends StatelessWidget {
                                                   ));
                                                 }, onCancel: () {
                                                   tagsPageBloc.add(
-                                                      CreateClickupTagInSpaceEvent
+                                                      CreateTagInSpaceEvent
                                                           .cancelCreate());
                                                 })
                                               : CustomButton.noIcon(
@@ -221,7 +221,7 @@ class TagsPage extends StatelessWidget {
                                                       "+ ${appLocalization.translate("createNewTag")}",
                                                   onPressed: () {
                                                     tagsPageBloc.add(
-                                                        CreateClickupTagInSpaceEvent
+                                                        CreateTagInSpaceEvent
                                                             .tryCreate());
                                                   },
                                                   type: CustomButtonType
@@ -235,12 +235,12 @@ class TagsPage extends StatelessWidget {
                   },
                 )),
                 context: context, onRefresh: ()async {
-              tagsPageBloc.add(GetClickupTagsInSpaceEvent(
+              tagsPageBloc.add(GetTagsInSpaceEvent(
                   GetClickupTagsInSpaceParams(
                       clickupAccessToken:
                       Globals.clickupAuthAccessToken,
                       clickupSpace: Globals.selectedSpace!)));
-              startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
+              startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                   clickupWorkspace: Globals.selectedWorkspace!,
                   clickupAccessToken: Globals.clickupAuthAccessToken));
             },);

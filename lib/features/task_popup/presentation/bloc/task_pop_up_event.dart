@@ -4,10 +4,10 @@ abstract class TaskPopUpEvent extends Equatable {
   const TaskPopUpEvent();
 }
 
-class UpdateClickupTaskParamsEvent extends TaskPopUpEvent{
+class UpdateTaskParamsEvent extends TaskPopUpEvent{
   final ClickupTaskParams taskParams;
 
-  const UpdateClickupTaskParamsEvent({required this.taskParams});
+  const UpdateTaskParamsEvent({required this.taskParams});
   @override
   List<Object?> get props => [taskParams];
 

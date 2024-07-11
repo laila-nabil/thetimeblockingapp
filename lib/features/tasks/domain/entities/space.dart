@@ -35,7 +35,7 @@ class Space extends Equatable {
   final bool? multipleAssignees;
   final ClickupSpaceFeatures? features;
   final bool? archived;
-  final List<ClickupWorkspaceMembers>? members;
+  final List<WorkspaceMembers>? members;
   List<Folder> folders;
   List<TasksList> lists;
   List<Tag> tags;

@@ -37,7 +37,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       }
-      else if (event is SelectClickupWorkspaceAndGetSpacesTagsLists) {
+      else if (event is SelectWorkspaceAndGetSpacesTagsLists) {
         selectedWorkspace = event.clickupWorkspace;
         if (Globals.isSpaceAppWide == false) {
           emit(state.copyWith(
@@ -89,14 +89,14 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                 printDebug("clickupSpaces ${Globals.clickupSpaces}");
                 final space = Globals.selectedSpace ?? Globals.defaultSpace;
                 if (space != null) {
-                  add(SelectClickupSpace(
+                  add(SelectSpace(
                       clickupSpace: space,
                       clickupAccessToken: event.clickupAccessToken));
                 }
           });
         }
       }
-      else if (event is SelectClickupSpace && Globals.isSpaceAppWide) {
+      else if (event is SelectSpace && Globals.isSpaceAppWide) {
         setSelectedSpace(event.clickupSpace);
         emit(state.copyWith(
             selectedClickupSpace: event.clickupSpace,

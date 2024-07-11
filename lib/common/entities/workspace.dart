@@ -13,7 +13,7 @@ class Workspace extends Equatable {
   final String? name;
   final String? color;
   final String? avatar;
-  final List<ClickupWorkspaceMembers>? members;
+  final List<WorkspaceMembers>? members;
 
   @override
   List<Object?> get props => [
@@ -27,12 +27,12 @@ class Workspace extends Equatable {
 
 /// user : {"id":123,"username":"John Doe","color":"#000000","profilePicture":"https://clickup.com/avatar.jpg"}
 
-class ClickupWorkspaceMembers extends Equatable {
-  const ClickupWorkspaceMembers({
+class WorkspaceMembers extends Equatable {
+  const WorkspaceMembers({
     this.user,
   });
 
-  final ClickupWorkspaceUser? user;
+  final WorkspaceUser? user;
 
   @override
   List<Object?> get props => [user];
@@ -43,8 +43,8 @@ class ClickupWorkspaceMembers extends Equatable {
 /// color : "#000000"
 /// profilePicture : "https://clickup.com/avatar.jpg"
 
-class ClickupWorkspaceUser extends Equatable {
-  const ClickupWorkspaceUser({
+class WorkspaceUser extends Equatable {
+  const WorkspaceUser({
     this.id,
     this.username,
     this.color,
