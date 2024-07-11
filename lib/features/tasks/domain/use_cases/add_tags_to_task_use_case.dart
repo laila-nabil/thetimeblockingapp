@@ -1,38 +1,39 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/tag.dart';
 
-class AddTagsToTaskUseCase implements UseCase<Unit, AddTagsToTaskParams> {
+class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
   final AddTagToTaskUseCase addTagFromTaskUseCase;
 
   AddTagsToTaskUseCase(this.addTagFromTaskUseCase);
 
   @override
-  Future<Either<Failure, Unit>?> call(AddTagsToTaskParams params) async {
-    List<Either<Failure, Unit>?> result = [];
+  Future<dartz.Either<Failure, dartz.Unit>?> call(AddTagsToTaskParams params) async {
+    List<dartz.Either<Failure, dartz.Unit>?> result = [];
     for (var element in params.tags) {
       final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
           task: params.task,
-          clickupAccessToken: params.clickupAccessToken,
+          accessToken: params.accessToken,
           tag: element));
       result.add(elementResult);
     }
     if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
         false) {
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     }
     return result.firstOrNull;
   }
 }
 
 class AddTagsToTaskParams {
-  final ClickupTask task;
-  final List<ClickupTag> tags;
-  final ClickupAccessToken clickupAccessToken;
+  final Task task;
+  final List<Tag> tags;
+  final AccessToken accessToken;
 
   String get taskId => task.id ?? "";
 
@@ -41,5 +42,5 @@ class AddTagsToTaskParams {
   AddTagsToTaskParams(
       {required this.task,
       required this.tags,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

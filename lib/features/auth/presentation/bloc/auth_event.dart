@@ -4,32 +4,11 @@ abstract class AuthEvent extends Equatable {
   const AuthEvent();
 }
 
-class ShowCodeInputTextField extends AuthEvent{
-  final bool showCodeInputTextField;
+class SignInEvent extends AuthEvent{
+  final SignInParams signInParams;
 
-  const ShowCodeInputTextField(this.showCodeInputTextField);
-
+  const SignInEvent(this.signInParams);
   @override
-  List<Object?> get props => [showCodeInputTextField];
-}
-class GetClickupAccessToken extends AuthEvent{
-  final String clickupCode;
-
-  const GetClickupAccessToken(this.clickupCode);
-
-  @override
-  List<Object?> get props => [clickupCode];
-}
-class GetClickupUserWorkspaces extends AuthEvent{
-  final ClickupAccessToken accessToken;
-
-  const GetClickupUserWorkspaces(this.accessToken);
-
-  @override
-  List<Object?> get props => [accessToken];
-}
-class TryGetSelectedWorkspaceSpaceEvent extends AuthEvent{
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [signInParams];
 }
 

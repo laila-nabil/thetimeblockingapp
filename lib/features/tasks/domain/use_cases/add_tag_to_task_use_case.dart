@@ -1,21 +1,22 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/tag.dart';
 
 class AddTagToTaskUseCase
-    implements UseCase<Unit, AddTagToTaskParams> {
+    implements UseCase<dartz.Unit, AddTagToTaskParams> {
   
   final TasksRepo repo;
 
   AddTagToTaskUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(AddTagToTaskParams params) async {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(AddTagToTaskParams params) async {
     final result = await repo.addTagToTask(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
@@ -32,9 +33,9 @@ class AddTagToTaskUseCase
 }
 
 class AddTagToTaskParams {
-  final ClickupTask task;
-  final ClickupTag tag;
-  final ClickupAccessToken clickupAccessToken;
+  final Task task;
+  final Tag tag;
+  final AccessToken accessToken;
 
   String get taskId => task.id ?? "";
 
@@ -43,5 +44,5 @@ class AddTagToTaskParams {
   AddTagToTaskParams(
       {required this.task,
       required this.tag,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

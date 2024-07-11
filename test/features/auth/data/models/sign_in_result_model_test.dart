@@ -1,0 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/sign_in_result_model.dart';
+
+void main() {
+  test("description", () {
+    final json =
+        """{"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkhzbFJSUXJjOXRqOFhCckIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3hsb2x4YXVidXJ5b3lidWhzdXltLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiIwNGZlNjJhMC05YWUwLTQxMGQtYWM5Zi05NTUzOTQ2OGNlZGQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzIyODkyNDc4LCJpYXQiOjE3MjI4ODg4NzgsImVtYWlsIjoidGVzdHRpbWVibG9ja2luZ2FwcDFAb3V0bG9vay5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoidGVzdHRpbWVibG9ja2luZ2FwcDFAb3V0bG9vay5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiMDRmZTYyYTAtOWFlMC00MTBkLWFjOWYtOTU1Mzk0NjhjZWRkIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3MjI4ODg4Nzh9XSwic2Vzc2lvbl9pZCI6ImFiODljZTE2LTllZGUtNDA2Ni1iNTEyLTNhYzMyMmI4NzlkMyIsImlzX2Fub255bW91cyI6ZmFsc2V9.BY8h8wa9-XbdniAtbOgse_IjnZq55LMnYzRCVp-NDNk","token_type":"bearer","expires_in":3600,"expires_at":1722892478,"refresh_token":"WYWvaZtHBuxStAyk_K3Bew","user":{"id":"04fe62a0-9ae0-410d-ac9f-95539468cedd","aud":"authenticated","role":"authenticated","email":"testtimeblockingapp1@outlook.com","email_confirmed_at":"2024-07-06T18:19:22.510292Z","phone":"","confirmation_sent_at":"2024-07-06T18:18:49.553202Z","confirmed_at":"2024-07-06T18:19:22.510292Z","last_sign_in_at":"2024-08-05T20:14:38.036865355Z","app_metadata":{"provider":"email","providers":["email"]},"user_metadata":{"email":"testtimeblockingapp1@outlook.com","email_verified":false,"phone_verified":false,"sub":"04fe62a0-9ae0-410d-ac9f-95539468cedd"},"identities":[{"identity_id":"a4e581e9-007b-4bff-9b5f-f18ace4c97dd","id":"04fe62a0-9ae0-410d-ac9f-95539468cedd","user_id":"04fe62a0-9ae0-410d-ac9f-95539468cedd","identity_data":{"email":"testtimeblockingapp1@outlook.com","email_verified":false,"phone_verified":false,"sub":"04fe62a0-9ae0-410d-ac9f-95539468cedd"},"provider":"email","last_sign_in_at":"2024-07-06T18:18:49.546538Z","created_at":"2024-07-06T18:18:49.546587Z","updated_at":"2024-07-06T18:18:49.546587Z","email":"testtimeblockingapp1@outlook.com"}],"created_at":"2024-07-06T18:18:49.534403Z","updated_at":"2024-08-05T20:14:38.039596Z","is_anonymous":false}}""";
+    print(SignInResultModel.fromJson(jsonDecode(json)));
+  });
+}

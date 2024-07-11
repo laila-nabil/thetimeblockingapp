@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_auth_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
+import 'package:thetimeblockingapp/features/terms_conditions/terms_conditions_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
 import '../common/widgets/responsive/responsive_scaffold.dart';
 import '../features/all/presentation/pages/all_tasks_page.dart';
 import '../features/archive/presentation/pages/archive_page.dart';
-import '../features/auth/presentation/pages/auth_page.dart';
+
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
+import '../features/privacy_policy/privacy_policy_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/all/presentation/pages/someday_page.dart';
@@ -28,7 +32,7 @@ import 'globals.dart';
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: AuthPage.routeName,
+    initialLocation: SupabaseAuthPage.routeName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
@@ -38,47 +42,23 @@ final router = GoRouter(
               small: Text(errorMessage), large: Text(errorMessage)),
         context: context,
         onRefresh: () async {
-          GoRouter.of(context).go(AuthPage.routeName);
+          GoRouter.of(context).go(SupabaseAuthPage.routeName);
         },
       );
     },
     redirect: (context, GoRouterState? state) {
-      printDebug("state?.location ${state?.location}");
-      printDebug("state?.queryParameters ${state?.queryParameters}");
-      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupAuthAccessToken}");
-      printDebug("Globals.clickupUser ${Globals.clickupUser}");
-      printDebug("Globals.clickupWorkspaces ${Globals.clickupWorkspaces}");
-      printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
-      if (state?.queryParameters != null &&
-          state?.queryParameters["code"] != null) {
-        return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
-      } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
-          Globals.clickupUser == null ||
-          Globals.clickupWorkspaces?.isNotEmpty == false) {
-        if(state?.location != AuthPage.routeName){
-          printDebug("state in redirect before authpage name:${state?.name},location:${state?.location},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.queryParametersAll},queryParameters:${state?.queryParameters}");
-          Globals.redirectAfterAuthRouteName = state?.location??"";
-        }
-        return AuthPage.routeName;
-      }
       return null;
     },
     routes: [
       GoRoute(
-          path: AuthPage.routeName,
+          path: SupabaseAuthPage.routeName,
           builder: (context, state) {
-            String? code;
-            if (state.queryParameters.isNotEmpty &&
-                state.queryParameters.containsKey("code") &&
-                state.queryParameters["code"]?.isNotEmpty == true) {
-              code = state.queryParameters["code"];
-            }
-            return AuthPage(code: code,);
+            return SupabaseAuthPage();
           },
           redirect: (context, state) async {
-            if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
-                Globals.clickupUser != null &&
-                Globals.clickupWorkspaces?.isNotEmpty == true) {
+            if (Globals.accessToken.accessToken.isNotEmpty &&
+                Globals.user != null &&
+                Globals.workspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
             }
             return null;
@@ -93,9 +73,9 @@ final router = GoRouter(
           return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
         },
         redirect: (context,state) async{
-          final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
-              Globals.clickupUser != null &&
-              Globals.clickupWorkspaces?.isNotEmpty == true;
+          final userLoggedIn = Globals.accessToken.accessToken.isNotEmpty &&
+              Globals.user != null &&
+              Globals.workspaces?.isNotEmpty == true;
           if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){
             String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;
 
@@ -126,7 +106,7 @@ final router = GoRouter(
       GoRoute(
         path: ListPage.routeName,
         builder: (context, state) => ListPage(
-            listId: state.queryParameters[ListPage.queryParametersList.first]
+            listId: state.uri.queryParameters[ListPage.queryParametersList.first]
                 as String,listsPageBloc: state.extra as ListsPageBloc),
         redirect: (context,state){
           if(state.extra == null){
@@ -158,7 +138,7 @@ final router = GoRouter(
       GoRoute(
         path: TagPage.routeName,
         builder: (context, state) => TagPage(
-            tagName: state.queryParameters[TagPage.queryParametersList.first]
+            tagName: state.uri.queryParameters[TagPage.queryParametersList.first]
             as String,tagsPageBloc: state.extra as TagsPageBloc),
         redirect: (context,state){
           if(state.extra == null){
@@ -170,6 +150,14 @@ final router = GoRouter(
       GoRoute(
         path: TrashPage.routeName,
         builder: (context, state) => const TrashPage(),
+      ),
+      GoRoute(
+        path: PrivacyPolicyPage.routeName,
+        builder: (context, state) => PrivacyPolicyPage(),
+      ),
+      GoRoute(
+        path: TermsConditionsPage.routeName,
+        builder: (context, state) => TermsConditionsPage(),
       ),
     ]);
 

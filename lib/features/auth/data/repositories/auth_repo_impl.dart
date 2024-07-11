@@ -1,24 +1,17 @@
-import 'package:dartz/dartz.dart';
-
-import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
-
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
-
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
-
-import '../../../../common/models/clickup_user_model.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../../../../core/error/exception_to_failure.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
-import '../../domain/use_cases/get_clickup_user_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
+import '../models/sign_in_result_model.dart';
 
 class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   final AuthRemoteDataSource authRemoteDataSource;
@@ -26,50 +19,35 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
-      {required GetClickupAccessTokenParams params}) async {
-    final result = await repoHandleRemoteRequest<ClickupAccessToken>(
-        remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickupAccessToken(params: params),
-      trySaveResult: (result)async{
-        clickupAuthAccessToken =  result;
-          await authLocalDataSource
-              .saveClickupAccessToken(result as ClickupAccessTokenModel);
-        printDebug(
-            "getClickUpAccessToken $result ${Globals.clickupAuthAccessToken}");
-      },
-        tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickupAccessToken());
-    return result;
-  }
-
-  @override
-  Future<Either<Failure, ClickupUser>> getClickupUser(
-      {required GetClickupUserParams params}) {
-    return repoHandleRemoteRequest(
-        remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickupUser(params: params),
-        trySaveResult: (result)async{
-          clickupUser =  result;
-          printDebug(
-              "getClickUpUser $result ${Globals.clickupUser}");
-          await authLocalDataSource
-              .saveClickupUser(result as ClickupUserModel);
-        },
-        tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickupUser());
-  }
-
-  @override
-  Future<Either<Failure, Unit>> signOut() async {
+  Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
     try {
       await authLocalDataSource.signOut();
       clearGlobals();
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     } catch (e) {
       printDebug(e);
-      return Left(exceptionToFailure(e as Exception));
+      return dartz.Left(exceptionToFailure(e as Exception));
     }
   }
 
+  @override
+  Future<dartz.Either<Failure, SignInResultModel>> signIn({required SignInParams params}) async {
+    final result = await repoHandleRemoteRequest<SignInResultModel>(
+        remoteDataSourceRequest: () async =>
+        await authRemoteDataSource.signInSupabase(params: params),
+        trySaveResult: (result) async {
+          accessToken = result.accessToken;
+          user = result.user;
+          await authLocalDataSource
+              .saveAccessToken(result.accessToken as AccessTokenModel);
+          printDebug(
+              "getAccessToken $result ${Globals.accessToken}");
+        },
+        tryGetFromLocalStorage: () async {
+          final access =  await authLocalDataSource.getAccessToken();
+          final user =  await authLocalDataSource.getSupabaseUser();
+          return SignInResultModel(accessToken: access, user: user);
+        });
+    return result;
+  }
 }

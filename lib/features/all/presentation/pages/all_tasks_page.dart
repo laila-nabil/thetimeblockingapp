@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
@@ -16,7 +16,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
-import '../../../tasks/domain/entities/clickup_space.dart';
+import '../../../../common/entities/space.dart';
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
 
@@ -45,7 +45,7 @@ class AllTasksPage extends StatelessWidget {
                           taskPopupParams: TaskPopupParams.notAllDayTask(
                               bloc: allTasksBloc,
                               onSave: (params) {
-                                allTasksBloc.add(CreateClickupTaskEvent(
+                                allTasksBloc.add(CreateTaskEvent(
                                     params: params,
                                     workspace: Globals.selectedWorkspace!));
                                 Navigator.maybePop(context);
@@ -63,7 +63,7 @@ class AllTasksPage extends StatelessWidget {
                       small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state.isInit && Globals.isSpaceAppWide) {
+                      if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
                         getAllTasksInSpace(allTasksBloc);
                       }
                       return Padding(
@@ -84,26 +84,29 @@ class AllTasksPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          if (Globals.isSpaceAppWide == false &&
-                              Globals.clickupSpaces?.isNotEmpty == true)
-                            DropdownButton<ClickupSpace?>(
+                          if (Globals.isWorkspaceAndSpaceAppWide == false
+                              // &&
+                              // Globals.spaces?.isNotEmpty == true
+                          )
+                            DropdownButton<Space?>(
                               value: Globals.selectedSpace,
                               onChanged: (selected) {
                                 if (selected != null &&
                                     state.isLoading == false) {
-                                  startupBloc.add(SelectClickupSpace(
-                                      clickupSpace: selected,
-                                      clickupAccessToken:
-                                          Globals.clickupAuthAccessToken));
+                                  startupBloc.add(SelectSpace(
+                                      space: selected,
+                                      accessToken:
+                                          Globals.accessToken));
                                   getAllTasksInSpace(allTasksBloc);
                                 }
                               },
-                              items: Globals.clickupSpaces
-                                      ?.map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e.name ?? ""),
-                                          ))
-                                      .toList() ??
+                              items:
+                              // Globals.spaces
+                              //         ?.map((e) => DropdownMenuItem(
+                              //               value: e,
+                              //               child: Text(e.name ?? ""),
+                              //             ))
+                              //         .toList() ??
                                   [],
                               hint: Text(appLocalization.translate("spaces")),
                             ),
@@ -170,9 +173,9 @@ class AllTasksPage extends StatelessWidget {
                   )),
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc);
-                startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                    clickupWorkspace: Globals.selectedWorkspace!,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                startupBloc.add(GetAllInWorkspaceEvent(
+                    workspace: Globals.selectedWorkspace!,
+                    accessToken: Globals.accessToken));
               },);
             },
           );
@@ -181,32 +184,32 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  StatelessWidget buildTaskWidget(ClickupTask e, BuildContext context,
+  StatelessWidget buildTaskWidget(Task e, BuildContext context,
       AllTasksBloc allTasksBloc) {
     return TaskComponent(
-      clickupTask: e,
+      task: e,
       bloc: allTasksBloc,
       onDelete: (params) {
-        allTasksBloc.add(DeleteClickupTaskEvent(
+        allTasksBloc.add(DeleteTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        allTasksBloc.add(UpdateClickupTaskEvent(
+        allTasksBloc.add(UpdateTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
       onDuplicate: (params) {
-        allTasksBloc.add(DuplicateClickupTaskEvent(
+        allTasksBloc.add(DuplicateTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
       },
     );
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
-    allTasksBloc.add(GetClickupTasksInSpaceEvent(
-        clickupAccessToken: Globals.clickupAuthAccessToken,
+    allTasksBloc.add(GetTasksInSpaceEvent(
+        accessToken: Globals.accessToken,
         workspace: Globals.selectedWorkspace!,
         space: Globals.selectedSpace!));
   }

@@ -16,7 +16,7 @@ enum AllTasksStatus {
 
 class AllTasksState extends Equatable {
   final AllTasksStatus allTasksStatus;
-  final List<ClickupTask>? allTasksResult;
+  final List<Task>? allTasksResult;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
   final Failure? deleteTaskFailure;
@@ -37,7 +37,7 @@ class AllTasksState extends Equatable {
         deleteTaskFailure
       ];
 
-  List<ClickupTask> get getAllTasksResultOverdue =>
+  List<Task> get getAllTasksResultOverdue =>
       allTasksResult
           ?.where((element) =>
               element.isOverdue &&
@@ -45,16 +45,16 @@ class AllTasksState extends Equatable {
           .toList() ??
       [];
 
-  List<ClickupTask> get getAllTasksResultCompleted =>
+  List<Task> get getAllTasksResultCompleted =>
       allTasksResult
           ?.where((element) => element.isCompleted)
           .toList() ??
           [];
 
-  List<ClickupTask> get getAllTasksResultUpcoming =>
+  List<Task> get getAllTasksResultUpcoming =>
       allTasksResult?.where((element) => element.isUpcoming).toList() ?? [];
 
-  List<ClickupTask> get getAllTasksResultUnscheduled =>
+  List<Task> get getAllTasksResultUnscheduled =>
       allTasksResult?.where((element) => element.isUnscheduled).toList() ?? [];
 
   bool get isLoading => allTasksStatus == AllTasksStatus.loading;
@@ -63,7 +63,7 @@ class AllTasksState extends Equatable {
 
   AllTasksState copyWith({
     AllTasksStatus? allTasksStatus,
-    List<ClickupTask>? allTasksResult,
+    List<Task>? allTasksResult,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
     Failure? deleteTaskFailure,

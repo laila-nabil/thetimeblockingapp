@@ -4,8 +4,8 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
@@ -44,14 +44,14 @@ class ListPage extends StatelessWidget {
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
                 listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                    getClickupListAndItsTasksParams:
-                        GetClickupListAndItsTasksParams(
+                    getListAndItsTasksParams:
+                        GetListAndItsTasksParams(
                             listId: listId,
-                            clickupAccessToken:
-                                Globals.clickupAuthAccessToken)));
+                            accessToken:
+                                Globals.accessToken)));
               }
               return ResponsiveScaffold(
-                ///TODO Bulk actions on tasks
+                ///TODO D Bulk actions on tasks
                 // pageActions: null,
                 floatingActionButton: AddItemFloatingActionButton(
                   onPressed: () {
@@ -62,7 +62,7 @@ class ListPage extends StatelessWidget {
                             bloc: listsPageBloc,
                             onSave: (params) {
                               listsPageBloc
-                                  .add(CreateClickupTaskEvent(params: params));
+                                  .add(CreateTaskEvent(params: params));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! ListsPageState
@@ -143,14 +143,14 @@ class ListPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                      getClickupListAndItsTasksParams:
-                          GetClickupListAndItsTasksParams(
+                      getListAndItsTasksParams:
+                          GetListAndItsTasksParams(
                               listId: listId,
-                              clickupAccessToken:
-                                  Globals.clickupAuthAccessToken)));
-                  startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                      clickupWorkspace: Globals.selectedWorkspace!,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                              accessToken:
+                                  Globals.accessToken)));
+                  startupBloc.add(GetAllInWorkspaceEvent(
+                      workspace: Globals.selectedWorkspace!,
+                      accessToken: Globals.accessToken));
                 },
               );
             },
@@ -161,22 +161,22 @@ class ListPage extends StatelessWidget {
   }
 
   Widget buildTaskWidget(
-      ClickupTask e, BuildContext context, ListsPageBloc listsPageBloc) {
+      Task e, BuildContext context, ListsPageBloc listsPageBloc) {
     // return Container();
     return TaskComponent(
-      clickupTask: e,
+      task: e,
       bloc: listsPageBloc,
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
       onDelete: (params) {
-        listsPageBloc.add(DeleteClickupTaskEvent(params: params));
+        listsPageBloc.add(DeleteTaskEvent(params: params));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        listsPageBloc.add(UpdateClickupTaskEvent(params: params));
+        listsPageBloc.add(UpdateTaskEvent(params: params));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
-        listsPageBloc.add(DuplicateClickupTaskEvent(
+        listsPageBloc.add(DuplicateTaskEvent(
           params: params,));
     },
     );

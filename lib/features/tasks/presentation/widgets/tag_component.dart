@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 
+import '../../../../common/entities/tag.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/resources/text_styles.dart';
 
@@ -15,7 +16,7 @@ class TagComponent extends StatefulWidget {
       this.actions,
       this.updateTagInline});
 
-  final ClickupTag tag;
+  final Tag tag;
   final void Function()? onTap;
   final List<CustomPopupItem>? actions;
   final Widget? updateTagInline;
@@ -52,7 +53,7 @@ class _TagComponentState extends State<TagComponent> {
               children: [
                 Icon(
                   Icons.tag,
-                  color: widget.tag.getTagFgColor,
+                  color: widget.tag.getColor,
                   size: 16,
                 ),
                 const SizedBox(width: 2.5,),

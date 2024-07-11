@@ -4,25 +4,25 @@ abstract class AllTasksEvent extends Equatable {
   const AllTasksEvent();
 }
 
-class GetClickupTasksInSpaceEvent extends AllTasksEvent {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupSpace space;
-  final ClickupWorkspace workspace;
+class GetTasksInSpaceEvent extends AllTasksEvent {
+  final AccessToken accessToken;
+  final Space space;
+  final Workspace workspace;
 
-  const GetClickupTasksInSpaceEvent(
-      {required this.clickupAccessToken,
+  const GetTasksInSpaceEvent(
+      {required this.accessToken,
         required this.workspace,
         required this.space});
 
   @override
-  List<Object?> get props => [clickupAccessToken, space];
+  List<Object?> get props => [accessToken, space];
 }
 
-class CreateClickupTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+class CreateTaskEvent extends AllTasksEvent {
+  final CreateTaskParams params;
+  final Workspace workspace;
 
-  const CreateClickupTaskEvent({
+  const CreateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -31,11 +31,11 @@ class CreateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class DuplicateClickupTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+class DuplicateTaskEvent extends AllTasksEvent {
+  final CreateTaskParams params;
+  final Workspace workspace;
 
-  const DuplicateClickupTaskEvent({
+  const DuplicateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -44,11 +44,11 @@ class DuplicateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class UpdateClickupTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+class UpdateTaskEvent extends AllTasksEvent {
+  final CreateTaskParams params;
+  final Workspace workspace;
 
-  const UpdateClickupTaskEvent({
+  const UpdateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -57,11 +57,11 @@ class UpdateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params,workspace];
 }
 
-class DeleteClickupTaskEvent extends AllTasksEvent {
-  final DeleteClickupTaskParams params;
-  final ClickupWorkspace workspace;
+class DeleteTaskEvent extends AllTasksEvent {
+  final DeleteTaskParams params;
+  final Workspace workspace;
 
-  const DeleteClickupTaskEvent({
+  const DeleteTaskEvent({
     required this.params,
     required this.workspace,
   });

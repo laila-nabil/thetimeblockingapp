@@ -1,63 +1,54 @@
 part of 'task_pop_up_bloc.dart';
 
 class TaskPopUpState extends Equatable {
-  final ClickupTaskParams? taskParams;
+  final CreateTaskParams? taskParams;
 
   const TaskPopUpState({
     this.taskParams,
   });
 
-  bool get readyToSubmit => taskParams?.clickupList != null && changesAvailable;
+  bool get readyToSubmit => taskParams?.list != null && changesAvailable;
 
   bool get changesAvailable {
     if (taskParams?.task == null) {
       return taskParams?.title != null &&
-          taskParams?.clickupList != null &&
+          taskParams?.list != null &&
           (taskParams?.description != null ||
               taskParams?.tags?.isNotEmpty == true ||
-              taskParams?.assignees?.isNotEmpty == true ||
               taskParams?.taskPriority != null ||
               taskParams?.taskStatus != null ||
               taskParams?.dueDate != null ||
               taskParams?.startDate != null ||
-              taskParams?.timeEstimate != null ||
-              taskParams?.notifyAll != null ||
               taskParams?.parentTask != null ||
               taskParams?.linkedTask != null);
     } else {
-      return (taskParams?.title != taskParams?.task?.name ||
+      return (taskParams?.title != taskParams?.task?.title ||
           taskParams?.description != taskParams?.task?.description ||
-          taskParams?.clickupList != taskParams?.task?.list ||
+          taskParams?.list != taskParams?.task?.list ||
           taskParams?.tags != taskParams?.task?.tags ||
-          taskParams?.assignees != taskParams?.task?.assignees ||
           taskParams?.taskPriority != taskParams?.task?.priority ||
           taskParams?.taskStatus != taskParams?.task?.status ||
           taskParams?.dueDate != taskParams?.task?.dueDateUtc ||
           taskParams?.startDate != taskParams?.task?.startDateUtc ||
-          taskParams?.timeEstimate != taskParams?.task?.timeEstimate ||
-          taskParams?.notifyAll != null ||
           taskParams?.parentTask != null ||
           taskParams?.linkedTask != null);
     }
   }
 
-  bool get isPrioritiesEnabled =>
-      taskParams?.clickupSpace?.isPrioritiesEnabled ?? false;
-
-  bool get isFoldersListAvailable => taskParams?.clickupSpace?.folders
-      .isNotEmpty ==
+  bool get isFoldersListAvailable => taskParams?.space?.folders
+      ?.isNotEmpty ==
       true || taskParams?.folder !=null;
 
   bool get viewTagsButton =>
-      taskParams?.task != null || taskParams?.clickupSpace != null;
+      taskParams?.task != null || taskParams?.space != null;
 
-  ClickupTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
-    ClickupTaskParams params;
+  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
+    CreateTaskParams params;
     final task = taskParams?.task;
     if (task != null) {
-      params = ClickupTaskParams.updateTask(
+      params = CreateTaskParams.updateTask(
         task: taskParams!.task!,
-        clickupAccessToken: Globals.clickupAuthAccessToken,
+        accessToken: Globals.accessToken,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
@@ -72,27 +63,26 @@ class TaskPopUpState extends Equatable {
         updatedTaskStatus: taskParams?.taskStatus == task.status
             ? null
             : taskParams?.taskStatus,
-        updatedTimeEstimate: taskParams?.timeEstimate == task.timeEstimate
-            ? null
-            : taskParams?.timeEstimate,
         updatedParentTask: taskParams?.parentTask == task.list
             ? null
             : taskParams?.parentTask,
         folder: taskParams?.folder == task.folder
             ? null
             : taskParams?.folder,
-        list: taskParams?.clickupList == task.list
+        list: taskParams?.list == task.list
             ? null
-            : taskParams?.clickupList,
+            : taskParams?.list,
+          backendMode: Globals.backendMode
       );
     } else {
-      params = taskParams ?? ClickupTaskParams.createNewTask(
+      params = taskParams ?? CreateTaskParams.createNewTask(
         dueDate: newTaskDueDate,
-        clickupList: taskParams!.clickupList!,
-        clickupAccessToken:
-        Globals.clickupAuthAccessToken,
+        list: taskParams!.list!,
+        accessToken:
+        Globals.accessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,
+        backendMode: Globals.backendMode
       );
     }
     return params;

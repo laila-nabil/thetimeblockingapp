@@ -7,29 +7,29 @@ abstract class ListsPageEvent extends Equatable {
 }
 
 class GetListAndFoldersInListsPageEvent extends ListsPageEvent {
-  final ClickupAccessToken clickupAccessToken;
-  final ClickupWorkspace clickupWorkspace;
-  ClickupSpace? clickupSpace;
+  final AccessToken accessToken;
+  final Workspace workspace;
+  Space? space;
 
   GetListAndFoldersInListsPageEvent.inSpace(
-      {required this.clickupAccessToken,
-      required this.clickupWorkspace,
-      required this.clickupSpace});
+      {required this.accessToken,
+      required this.workspace,
+      required this.space});
 
   GetListAndFoldersInListsPageEvent.inWorkSpace({
-    required this.clickupAccessToken,
-    required this.clickupWorkspace,
+    required this.accessToken,
+    required this.workspace,
   }) {
-    clickupSpace = null;
+    space = null;
   }
 
   @override
   List<Object?> get props =>
-      [clickupAccessToken, clickupWorkspace, clickupSpace];
+      [accessToken, workspace, space];
 }
 
 class NavigateToListPageEvent extends ListsPageEvent {
-  final ClickupList list;
+  final TasksList list;
 
   const NavigateToListPageEvent(this.list);
 
@@ -38,70 +38,70 @@ class NavigateToListPageEvent extends ListsPageEvent {
 }
 
 class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
-  final GetClickupListAndItsTasksParams getClickupListAndItsTasksParams;
+  final GetListAndItsTasksParams getListAndItsTasksParams;
 
   const GetListDetailsAndTasksInListEvent(
-      {required this.getClickupListAndItsTasksParams});
+      {required this.getListAndItsTasksParams});
 
   @override
   List<Object?> get props => [
-        getClickupListAndItsTasksParams,
+        getListAndItsTasksParams,
       ];
 }
 
 class StartCreateListInFolderEvent extends ListsPageEvent {
-  final CreateClickupListInFolderParams createClickupListInFolderParams;
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupSpace? clickupSpace;
+  final CreateListInFolderParams createListInFolderParams;
+  final Workspace workspace;
+  final Space? space;
   final bool tryEvent;
 
   const StartCreateListInFolderEvent({
-    required this.createClickupListInFolderParams,
-    required this.clickupWorkspace,
-    this.clickupSpace,
+    required this.createListInFolderParams,
+    required this.workspace,
+    this.space,
     this.tryEvent = false,
   });
 
   @override
   List<Object?> get props => [
-    createClickupListInFolderParams,
+    createListInFolderParams,
   ];
 }
 
 class CreateListInFolderEvent extends ListsPageEvent {
-  CreateClickupListInFolderParams? createClickupListInFolderParams;
-  ClickupWorkspace? clickupWorkspace;
-  ClickupSpace? clickupSpace;
-  ClickupFolder? folderToCreateListIn;
+  CreateListInFolderParams? createListInFolderParams;
+  Workspace? workspace;
+  Space? space;
+  Folder? folderToCreateListIn;
   bool? tryEvent;
 
-  CreateListInFolderEvent.tryCreate({required ClickupFolder this.folderToCreateListIn}){
+  CreateListInFolderEvent.tryCreate({required Folder this.folderToCreateListIn}){
     tryEvent = true;
   }
   CreateListInFolderEvent.cancelCreate(){
     tryEvent = false;
   }
   CreateListInFolderEvent.submit({
-    required CreateClickupListInFolderParams this.createClickupListInFolderParams,
-    required ClickupWorkspace this.clickupWorkspace,
-    required ClickupSpace this.clickupSpace,
+    required CreateListInFolderParams this.createListInFolderParams,
+    required Workspace this.workspace,
+    required Space this.space,
   }){
     tryEvent = false;
   }
 
   @override
   List<Object?> get props => [
-        createClickupListInFolderParams,
-        clickupWorkspace,
-        clickupSpace,
+        createListInFolderParams,
+        workspace,
+        space,
         tryEvent,
       ];
 }
 
 class CreateFolderlessListEvent extends ListsPageEvent {
-  CreateFolderlessListClickupParams? createFolderlessListClickupParams;
-  ClickupWorkspace? clickupWorkspace;
-  ClickupSpace? clickupSpace;
+  CreateFolderlessListParams? createFolderlessListParams;
+  Workspace? workspace;
+  Space? space;
   bool? tryEvent;
 
   CreateFolderlessListEvent.tryCreate(){
@@ -111,151 +111,151 @@ class CreateFolderlessListEvent extends ListsPageEvent {
     tryEvent = false;
   }
   CreateFolderlessListEvent.submit({
-    required CreateFolderlessListClickupParams this.createFolderlessListClickupParams,
-    required ClickupWorkspace this.clickupWorkspace,
-    required ClickupSpace this.clickupSpace,
+    required CreateFolderlessListParams this.createFolderlessListParams,
+    required Workspace this.workspace,
+    required Space this.space,
   }){
     tryEvent = false;
   }
   @override
   List<Object?> get props =>
-      [createFolderlessListClickupParams, clickupWorkspace, clickupSpace, tryEvent];
+      [createFolderlessListParams, workspace, space, tryEvent];
 }
 
-class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
-  final MoveClickupTaskBetweenListsParams moveClickupTaskBetweenListsParams;
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupSpace? clickupSpace;
+class MoveTaskBetweenListsEvent extends ListsPageEvent {
+  final MoveTaskBetweenListsParams moveTaskBetweenListsParams;
+  final Workspace workspace;
+  final Space? space;
   final bool tryEvent;
 
-  const MoveClickupTaskBetweenListsEvent({
-    required this.moveClickupTaskBetweenListsParams,
-    required this.clickupWorkspace,
-    this.clickupSpace,
+  const MoveTaskBetweenListsEvent({
+    required this.moveTaskBetweenListsParams,
+    required this.workspace,
+    this.space,
     this.tryEvent = false,
   });
 
   @override
   List<Object?> get props => [
-        moveClickupTaskBetweenListsParams,
-        clickupWorkspace,
-        clickupSpace,
+        moveTaskBetweenListsParams,
+        workspace,
+        space,
         tryEvent
       ];
 }
 
-class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
-  CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
-  ClickupWorkspace? clickupWorkspace;
-  ClickupSpace? clickupSpace;
+class CreateFolderInSpaceEvent extends ListsPageEvent {
+  CreateFolderInSpaceParams? createFolderInSpaceParams;
+  Workspace? workspace;
+  Space? space;
   bool? tryEvent;
 
-  CreateClickupFolderInSpaceEvent.tryCreate(){
+  CreateFolderInSpaceEvent.tryCreate(){
     tryEvent = true;
   }
-  CreateClickupFolderInSpaceEvent.cancelCreate(){
+  CreateFolderInSpaceEvent.cancelCreate(){
     tryEvent = false;
   }
-  CreateClickupFolderInSpaceEvent.submit({
-    required CreateClickupFolderInSpaceParams this.createClickupFolderInSpaceParams,
-    required ClickupWorkspace this.clickupWorkspace,
-    required ClickupSpace this.clickupSpace,
+  CreateFolderInSpaceEvent.submit({
+    required CreateFolderInSpaceParams this.createFolderInSpaceParams,
+    required Workspace this.workspace,
+    required Space this.space,
   }){
     tryEvent = false;
   }
 
   @override
   List<Object?> get props => [
-        createClickupFolderInSpaceParams,
-        clickupWorkspace,
-        clickupSpace,
+        createFolderInSpaceParams,
+        workspace,
+        space,
         tryEvent
       ];
 }
 
-class DeleteClickupFolderEvent extends ListsPageEvent {
-  DeleteClickupFolderParams? deleteClickupFolderParams;
-  ClickupWorkspace? clickupWorkspace;
-  ClickupSpace? clickupSpace;
-  ClickupFolder? toDeleteFolder;
+class DeleteFolderEvent extends ListsPageEvent {
+  DeleteFolderParams? deleteFolderParams;
+  Workspace? workspace;
+  Space? space;
+  Folder? toDeleteFolder;
   bool? tryEvent;
 
-  DeleteClickupFolderEvent.tryDelete(ClickupFolder this.toDeleteFolder){
+  DeleteFolderEvent.tryDelete(Folder this.toDeleteFolder){
     tryEvent = true;
   }
-  DeleteClickupFolderEvent.cancelDelete(){
+  DeleteFolderEvent.cancelDelete(){
     tryEvent = false;
   }
-  DeleteClickupFolderEvent.submit({
-    required DeleteClickupFolderParams this.deleteClickupFolderParams,
-    required ClickupWorkspace this.clickupWorkspace,
-    required ClickupSpace this.clickupSpace,
+  DeleteFolderEvent.submit({
+    required DeleteFolderParams this.deleteFolderParams,
+    required Workspace this.workspace,
+    required Space this.space,
   }){
     tryEvent = false;
   }
 
   @override
   List<Object?> get props => [
-        deleteClickupFolderParams,
+        deleteFolderParams,
       ];
 }
 
-class DeleteClickupListEvent extends ListsPageEvent {
-  DeleteClickupListParams? deleteClickupListParams;
-  ClickupWorkspace? clickupWorkspace;
-  ClickupSpace? clickupSpace;
-  ClickupList? toDeleteList;
+class DeleteListEvent extends ListsPageEvent {
+  DeleteListParams? deleteListParams;
+  Workspace? workspace;
+  Space? space;
+  TasksList? toDeleteList;
   bool? tryEvent;
 
-  DeleteClickupListEvent.tryDelete(ClickupList this.toDeleteList){
+  DeleteListEvent.tryDelete(TasksList this.toDeleteList){
     tryEvent = true;
   }
-  DeleteClickupListEvent.cancelDelete(){
+  DeleteListEvent.cancelDelete(){
     tryEvent = false;
   }
-  DeleteClickupListEvent.submit({
-    required DeleteClickupListParams this.deleteClickupListParams,
-    required ClickupWorkspace this.clickupWorkspace,
-    required ClickupSpace this.clickupSpace,
+  DeleteListEvent.submit({
+    required DeleteListParams this.deleteListParams,
+    required Workspace this.workspace,
+    required Space this.space,
   }){
     tryEvent = false;
   }
 
   @override
   List<Object?> get props =>
-      [deleteClickupListParams, clickupWorkspace, clickupSpace, tryEvent];
+      [deleteListParams, workspace, space, tryEvent];
 }
 
-class CreateClickupTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
+class CreateTaskEvent extends ListsPageEvent {
+  final CreateTaskParams params;
 
-  const CreateClickupTaskEvent({required this.params});
+  const CreateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
-class DuplicateClickupTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
+class DuplicateTaskEvent extends ListsPageEvent {
+  final CreateTaskParams params;
 
-  const DuplicateClickupTaskEvent({required this.params});
-
-  @override
-  List<Object?> get props => [params];
-}
-
-class UpdateClickupTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
-
-  const UpdateClickupTaskEvent({required this.params});
+  const DuplicateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
 
-class DeleteClickupTaskEvent extends ListsPageEvent {
-  final DeleteClickupTaskParams params;
+class UpdateTaskEvent extends ListsPageEvent {
+  final CreateTaskParams params;
 
-  const DeleteClickupTaskEvent({required this.params});
+  const UpdateTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class DeleteTaskEvent extends ListsPageEvent {
+  final DeleteTaskParams params;
+
+  const DeleteTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];

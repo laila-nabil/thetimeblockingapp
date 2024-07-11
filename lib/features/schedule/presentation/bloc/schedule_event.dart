@@ -4,21 +4,10 @@ abstract class ScheduleEvent extends Equatable {
   const ScheduleEvent();
 }
 
-class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
-  final GetClickupTasksInAllWorkspacesParams
-      getClickupTasksInAllWorkspacesParams;
-
-  const GetTasksForAllWorkspacesScheduleEvent(
-      this.getClickupTasksInAllWorkspacesParams);
-
-  @override
-  List<Object?> get props => [getClickupTasksInAllWorkspacesParams];
-}
-
 
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   final String? id;
-  final GetClickupTasksInWorkspaceParams params;
+  final GetTasksInWorkspaceParams params;
 
   const GetTasksForSingleWorkspaceScheduleEvent(this.params, {this.id});
 
@@ -26,37 +15,37 @@ class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   List<Object?> get props => [params,id];
 }
 
-class CreateClickupTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
+class CreateTaskEvent extends ScheduleEvent {
+  final CreateTaskParams params;
 
-  const CreateClickupTaskEvent({required this.params});
-
-  @override
-  List<Object?> get props => [params];
-}
-
-class DuplicateClickupTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
-
-  const DuplicateClickupTaskEvent({required this.params});
+  const CreateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
 
-class UpdateClickupTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
+class DuplicateTaskEvent extends ScheduleEvent {
+  final CreateTaskParams params;
 
-  const UpdateClickupTaskEvent({required this.params});
+  const DuplicateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
 
-class DeleteClickupTaskEvent extends ScheduleEvent {
-  final DeleteClickupTaskParams params;
+class UpdateTaskEvent extends ScheduleEvent {
+  final CreateTaskParams params;
 
-  const DeleteClickupTaskEvent({required this.params});
+  const UpdateTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class DeleteTaskEvent extends ScheduleEvent {
+  final DeleteTaskParams params;
+
+  const DeleteTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];

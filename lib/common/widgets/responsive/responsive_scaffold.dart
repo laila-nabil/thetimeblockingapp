@@ -99,6 +99,19 @@ class ResponsiveScaffold extends Scaffold {
   Widget? get body {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+      var authStates = state.authState;
+      if (state.isLoading == false &&
+          (authStates == AuthStateEnum.signInSuccess ||
+              authStates == AuthStateEnum.signUpSuccess) &&
+          state.accessToken != null) {
+        final startupBloc = BlocProvider.of<StartupBloc>(context);
+        if (Globals.priorities.isEmpty) {
+              startupBloc.add(GetPrioritiesEvent(accessToken: state.accessToken!));
+            }
+            if (Globals.statuses.isEmpty) {
+              startupBloc.add(GetStatusesEvent(accessToken: state.accessToken!));
+            }
+          }
           final authBloc = BlocProvider.of<AuthBloc>(context);
           if (context.showSmallDesign == false) {
             return BlocBuilder<StartupBloc, StartupState>(
@@ -113,7 +126,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                continueWithClickupToUse(authBloc),
+                                if(Globals.isDemo)signInToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -135,7 +148,7 @@ class ResponsiveScaffold extends Scaffold {
                       builder: (context, state) {
                         return Column(
                           children: [
-                            continueWithClickupToUse(authBloc),
+                            if(Globals.isDemo)signInToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -154,7 +167,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              continueWithClickupToUse(authBloc),
+              if(Globals.isDemo)signInToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,
@@ -183,71 +196,17 @@ class ResponsiveScaffold extends Scaffold {
           isDarkMode: context.isDarkMode,
         );
 
-  Widget continueWithClickupToUse(AuthBloc authBloc){
-     if(Globals.isDemo) {
-      return true
-          ? Padding(
-            padding: EdgeInsets.all(AppSpacing.small12.value),
-            child: CustomAlertWidget(
-                customAlertType: CustomAlertType.warning,
-                customAlertThemeType: CustomAlertThemeType.accent,
-                title: "${appLocalization.translate("continueWithClickupToUse")} ${appLocalization.translate("connectWithClickup")}",
-                primaryCta: appLocalization.translate("connectWithClickup"),
-                primaryCtaOnPressed: (){
-                  final url = Globals.clickupAuthUrl;
-                  if (kIsWeb) {
-                    launchWithURL(url: url);
-                  } else if (Platform.isAndroid || Platform.isIOS) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                          return AuthPageWebView(
-                            url: url,
-                            getAccessToken: (String code) {
-                              authBloc
-                                  .add(GetClickupAccessToken(code));
-                            },
-                          );
-                        }));
-                  }
-                },
-      ),
-          )
-          : Row(
-              children: [
-           Text(appLocalization.translate("continueWithClickupToUse")),
-           CustomButton.noIcon(
-               type: CustomButtonType.greyTextLabel,
-               label: appLocalization.translate("connectWithClickup"), onPressed: (){
-             final url = Globals.clickupAuthUrl;
-             if (kIsWeb) {
-               launchWithURL(url: url);
-             } else if (Platform.isAndroid || Platform.isIOS) {
-               Navigator.push(context,
-                   MaterialPageRoute(builder: (context) {
-                     return AuthPageWebView(
-                       url: url,
-                       getAccessToken: (String code) {
-                         authBloc
-                             .add(GetClickupAccessToken(code));
-                       },
-                     );
-                   }));
-             }
-           })
-         ],
-       );
-     }
-     return Container();
+  ///TODO B
+  Widget signInToUse(AuthBloc authBloc){
+    return Container();
   }
 }
 
 class _ResponsiveBody extends StatelessWidget {
   const _ResponsiveBody(
-      {Key? key,
-      this.responsiveScaffoldLoading,
+      {this.responsiveScaffoldLoading,
       required this.responsiveTParams,
-      required this.onRefresh})
-      : super(key: key);
+      required this.onRefresh});
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final ResponsiveTParams<Widget> responsiveTParams;
   final Future<void> Function() onRefresh;

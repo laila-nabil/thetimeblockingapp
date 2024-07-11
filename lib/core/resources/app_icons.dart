@@ -13,6 +13,7 @@
 ///
 /// 
 ///
+library;
 import 'package:flutter/widgets.dart';
 
 class AppIcons {
@@ -550,21 +551,21 @@ class AppIcons {
   static const IconData globe = IconData(0xea0e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData globealt = IconData(0xea0f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData globealtbold = IconData(0xea10, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData globebold = IconData(0xea11, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData globeBold = IconData(0xea11, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gps = IconData(0xea12, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData gpsbold = IconData(0xea13, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData graduating_cap = IconData(0xea14, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData graduating_capbold = IconData(0xea15, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData gpsBold = IconData(0xea13, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData graduatingCap = IconData(0xea14, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData graduatingCapBold = IconData(0xea15, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData grid = IconData(0xea16, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData grid_2 = IconData(0xea17, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData grid_2bold = IconData(0xea18, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData gridbold = IconData(0xea19, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData gridBold = IconData(0xea19, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hashtag = IconData(0xea1a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData hashtagbold = IconData(0xea1b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData hashtagBold = IconData(0xea1b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heading = IconData(0xea1c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData headingbold = IconData(0xea1d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData headingBold = IconData(0xea1d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData headphones = IconData(0xea1e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData headphonesbold = IconData(0xea1f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData headphonesBold = IconData(0xea1f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData headset = IconData(0xea20, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData headsetbold = IconData(0xea21, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData healthplus = IconData(0xea22, fontFamily: _kFontFam, fontPackage: _kFontPkg);

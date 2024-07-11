@@ -23,12 +23,12 @@ class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
       : super(const TaskPopUpState()) {
     final task = taskPopupParams.task;
     printDebug("task from bloc $task");
-    titleController.text = task?.name ?? "";
+    titleController.text = task?.title ?? "";
     descriptionController.text = task?.description ?? "";
     on<TaskPopUpEvent>((event, emit) {
-      if(event is UpdateClickupTaskParamsEvent){
+      if(event is UpdateTaskParamsEvent){
         emit(TaskPopUpState(taskParams: event.taskParams));
-        printDebug("state after UpdateClickupTaskParamsEvent $state");
+        printDebug("state after UpdateTaskParamsEvent $state");
       }
     });
   }

@@ -1,31 +1,29 @@
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
+
+import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import 'dart:convert';
 
-import '../models/clickup_space_model.dart';
+import '../../../../common/models/supabase_workspace_model.dart';
+
 
 abstract class TasksLocalDataSource {
+  Future<List<WorkspaceModel>> getWorkspaces();
 
-  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces();
-
-  Future<void> saveClickupWorkspaces(
-      List<ClickupWorkspaceModel> clickupWorkspacesModel);
-
+  Future<void> saveWorkspaces(
+      List<WorkspaceModel> workspaceModels);
 
   Future<void> saveSelectedWorkspace(
-      ClickupWorkspaceModel clickupWorkspacesModel);
+      WorkspaceModel workspacesModel);
 
-  Future<ClickupWorkspaceModel> getSelectedWorkspace();
+  Future<WorkspaceModel> getSelectedWorkspace();
 
-  Future<void> saveSelectedSpace(
-      ClickupSpaceModel clickupSpaceModel);
+  Future<void> saveSelectedSpace(SpaceModel spaceModel);
 
-  Future<ClickupSpaceModel> getSelectedSpace();
+  Future<SpaceModel> getSelectedSpace();
 
-  Future<void> saveSpaces(
-      List<ClickupSpaceModel> spaces);
+  Future<void> saveSpaces(List<SpaceModel> spaces);
 
-  Future<List<ClickupSpaceModel>> getSpaces();
+  Future<List<SpaceModel>> getSpaces();
 }
 
 class TasksLocalDataSourceImpl implements TasksLocalDataSource {
@@ -33,87 +31,82 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
 
   TasksLocalDataSourceImpl(this.localDataSource);
 
-
   @override
-  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces() async {
-    List<ClickupWorkspaceModel> result = [];
-    final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupWorkspaces.name);
+  Future<List<WorkspaceModel>> getWorkspaces() async {
+    List<WorkspaceModel> result = [];
+    final response =
+        await localDataSource.getData(key: LocalDataSourceKeys.workspaces.name);
     final responseList = json.decode(response ?? "");
     if (responseList is List) {
       for (var element in responseList) {
-        result.add(ClickupWorkspaceModel.fromJson(element));
+        result.add(WorkspaceModel.fromJson(element));
       }
     }
     return result;
-  }
-
-
-  @override
-  Future<void> saveClickupWorkspaces(
-      List<ClickupWorkspaceModel> clickupWorkspacesModel) {
-    List<Map<String, dynamic>> result = [];
-    for (var element in clickupWorkspacesModel) {
-      result.add(element.toJson());
-    }
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupWorkspaces.name,
-        value: result);
   }
 
 
   @override
   Future<void> saveSelectedWorkspace(
-      ClickupWorkspaceModel clickupWorkspacesModel) {
+      WorkspaceModel workspacesModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.selectedWorkspace.name,
-        value: clickupWorkspacesModel.toJson());
+        value: workspacesModel.toJson());
   }
 
   @override
-  Future<ClickupWorkspaceModel> getSelectedWorkspace() async {
+  Future<WorkspaceModel> getSelectedWorkspace() async {
     final response = await localDataSource.getData(
         key: LocalDataSourceKeys.selectedWorkspace.name);
-    return ClickupWorkspaceModel.fromJson(json.decode(response ?? ""));
+    return WorkspaceModel.fromJson(json.decode(response ?? ""));
   }
 
   @override
-  Future<ClickupSpaceModel> getSelectedSpace() async {
+  Future<SpaceModel> getSelectedSpace() async {
     final response = await localDataSource.getData(
         key: LocalDataSourceKeys.selectedSpace.name);
-    return ClickupSpaceModel.fromJson(json.decode(response ?? ""));
+    return SpaceModel.fromJson(json.decode(response ?? ""));
   }
 
-
   @override
-  Future<void> saveSelectedSpace(ClickupSpaceModel clickupSpaceModel)  {
+  Future<void> saveSelectedSpace(SpaceModel spaceModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.selectedSpace.name,
-        value: clickupSpaceModel.toJson());
+        value: spaceModel.toJson());
   }
 
   @override
-  Future<List<ClickupSpaceModel>> getSpaces() async {
-    List<ClickupSpaceModel> result = [];
-    final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupSpaces.name);
+  Future<List<SpaceModel>> getSpaces() async {
+    List<SpaceModel> result = [];
+    final response =
+        await localDataSource.getData(key: LocalDataSourceKeys.spaces.name);
     final responseList = json.decode(response ?? "");
     if (responseList is List) {
       for (var element in responseList) {
-        result.add(ClickupSpaceModel.fromJson(element));
+        result.add(SpaceModel.fromJson(element));
       }
     }
     return result;
   }
 
   @override
-  Future<void> saveSpaces(List<ClickupSpaceModel> spaces) {
+  Future<void> saveSpaces(List<SpaceModel> spaces) {
     List<Map<String, dynamic>> result = [];
     for (var element in spaces) {
       result.add(element.toJson());
     }
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupSpaces.name,
-        value: result);
+        key: LocalDataSourceKeys.spaces.name, value: result);
+  }
+
+  @override
+  Future<void> saveWorkspaces(
+      List<WorkspaceModel> supabaseWorkspaceModels) {
+    List<Map<String, dynamic>> result = [];
+    for (var element in supabaseWorkspaceModels) {
+      result.add(element.toJson());
+    }
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.workspaces.name, value: result);
   }
 }

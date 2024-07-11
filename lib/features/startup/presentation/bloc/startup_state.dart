@@ -2,8 +2,12 @@ part of 'startup_bloc.dart';
 
 enum StartupStateEnum {
   loading,
-  getSpacesSuccess,
-  getSpacesFailed,
+  getAllInWorkspaceSuccess,
+  getAllInWorkspaceFailed,
+  getStatusesSuccess,
+  getStatusesFailed,
+  getPrioritiesSuccess,
+  getPrioritiesFailed,
   getAllInSpaceSuccess,
   getAllInSpaceFailed,
 }
@@ -11,66 +15,62 @@ enum StartupStateEnum {
 class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
-  final ClickupWorkspace? selectedClickupWorkspace;
-  final ClickupSpace? selectedClickupSpace;
-  final List<Map<String, Failure>>? getSpacesFailure;
-  final List<Map<String, Failure>>? getAllInSpaceFailure;
-  final List<ClickupSpace>? clickupSpaces;
-  final bool? startGetTasks;
+  final Workspace? selectedWorkspace;
+  final Failure? getAllInWorkspaceFailure;
+  final List<TaskStatus>? statuses;
+  final Failure? getStatusesFailure;
+  final List<TaskPriority>? priorities;
+  final Failure? getPrioritiesFailure;
 
   const StartupState({
     required this.drawerLargerScreenOpen,
-    this.selectedClickupWorkspace,
-    this.selectedClickupSpace,
+    this.selectedWorkspace,
     this.startupStateEnum,
-    this.getSpacesFailure,
-    this.getAllInSpaceFailure,
-    this.clickupSpaces,
-    this.startGetTasks,
+    this.getAllInWorkspaceFailure,
+    this.statuses, this.getStatusesFailure, this.priorities, this.getPrioritiesFailure,
   });
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
 
   bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
-          Globals.clickupAuthAccessToken.accessToken.isNotEmpty == true &&
-          Globals.clickupSpaces == null &&
-          getSpacesFailure == null &&
-          clickupSpaces == null && triedGetSelectedWorkspacesSpace;
+          Globals.accessToken.accessToken.isNotEmpty == true &&
+          getAllInWorkspaceFailure == null && triedGetSelectedWorkspacesSpace;
+
+  @override
+  String toString() {
+    return 'StartupState{startupStateEnum: $startupStateEnum, drawerLargerScreenOpen: $drawerLargerScreenOpen, selectedWorkspace: $selectedWorkspace, getAllInWorkspaceFailure: $getAllInWorkspaceFailure}';
+  }
 
   @override
   List<Object?> get props => [
     startupStateEnum,
     drawerLargerScreenOpen,
-    selectedClickupWorkspace,
-    selectedClickupSpace,
-    getSpacesFailure,
-    clickupSpaces,
-    reSelectWorkspace,
-    startGetTasks,
+    selectedWorkspace,
+    getAllInWorkspaceFailure,this.statuses, this.getStatusesFailure, this.priorities, this.getPrioritiesFailure,
   ];
 
   StartupState copyWith({
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
-    ClickupWorkspace? selectedClickupWorkspace,
-    ClickupSpace? selectedClickupSpace,
-    List<Map<String, Failure>>? getSpacesFailure,
-    List<Map<String, Failure>>? getAllInSpaceFailure,
-    List<ClickupSpace>? clickupSpaces,
-    bool? startGetTasks,
+    Workspace? selectedWorkspace,
+    Failure? getAllInWorkspaceFailure,
+    List<TaskStatus>? statuses,
+    Failure? getStatusesFailure,
+    List<TaskPriority>? priorities,
+    Failure? getPrioritiesFailure,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
       drawerLargerScreenOpen:
-      drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
-      selectedClickupWorkspace:
-      selectedClickupWorkspace ?? this.selectedClickupWorkspace,
-      getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
-      clickupSpaces: clickupSpaces ?? this.clickupSpaces,
-      selectedClickupSpace: selectedClickupSpace ?? this.selectedClickupSpace,
-      getAllInSpaceFailure: getAllInSpaceFailure ?? this.getAllInSpaceFailure,
-      startGetTasks: startGetTasks,
+          drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
+      selectedWorkspace: selectedWorkspace ?? this.selectedWorkspace,
+      getAllInWorkspaceFailure:
+          getAllInWorkspaceFailure ?? this.getAllInWorkspaceFailure,
+      statuses: statuses ?? this.statuses,
+      getStatusesFailure: getStatusesFailure ?? this.getStatusesFailure,
+      priorities: priorities ?? this.priorities,
+      getPrioritiesFailure: getPrioritiesFailure ?? this.getPrioritiesFailure,
     );
   }
 }

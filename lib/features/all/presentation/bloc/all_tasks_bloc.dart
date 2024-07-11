@@ -1,49 +1,51 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 
-import '../../../../common/entities/clickup_workspace.dart';
+import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../../../tasks/domain/entities/clickup_space.dart';
-import '../../../tasks/domain/entities/clickup_task.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/space.dart';
+import '../../../../common/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/create_clickup_task_use_case.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/create_task_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
+import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../../../tasks/domain/use_cases/update_task_use_case.dart';
 
 part 'all_tasks_event.dart';
 
 part 'all_tasks_state.dart';
 
-///TODO have upcoming section with any dated, soon section that has tb_soon tag and later section with tb_later tag and auto add to it
+///TODO C have upcoming section with any dated, soon section that has tb_soon tag and later section with tb_later tag and auto add to it
 
 class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
-  final GetClickupTasksInSingleWorkspaceUseCase
-      _getClickupTasksInSingleWorkspaceUseCase;
-  final CreateClickupTaskUseCase _createClickupTaskUseCase;
-  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
-  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
+  final GetTasksInSingleWorkspaceUseCase
+      _getTasksInSingleWorkspaceUseCase;
+  final CreateTaskUseCase _createTaskUseCase;
+  final DuplicateTaskUseCase _duplicateTaskUseCase;
+  final UpdateTaskUseCase _updateTaskUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   AllTasksBloc(
-      this._getClickupTasksInSingleWorkspaceUseCase,
-      this._createClickupTaskUseCase,
-      this._duplicateClickupTaskUseCase,
-      this._updateClickupTaskUseCase,
-      this._deleteClickupTaskUseCase)
+      this._getTasksInSingleWorkspaceUseCase,
+      this._createTaskUseCase,
+      this._duplicateTaskUseCase,
+      this._updateTaskUseCase,
+      this._deleteTaskUseCase)
       : super(const AllTasksState(allTasksStatus: AllTasksStatus.initial)) {
     on<AllTasksEvent>((event, emit) async {
-      if (event is GetClickupTasksInSpaceEvent) {
+      if (event is GetTasksInSpaceEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _getClickupTasksInSingleWorkspaceUseCase(
-            GetClickupTasksInWorkspaceParams(
-                workspaceId: event.workspace.id ?? "",
-                filtersParams: GetClickupTasksInWorkspaceFiltersParams(
-                    clickupAccessToken: event.clickupAccessToken,
-                    filterBySpaceIds: [event.space.id ?? ""])));
+        final result = await _getTasksInSingleWorkspaceUseCase(
+            GetTasksInWorkspaceParams(
+                workspaceId: event.workspace.id ?? 0,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                    accessToken: event.accessToken,
+                    filterBySpaceIds: [event.space.id ?? ""]),
+                backendMode: Globals.backendMode
+            ));
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.getTasksFailure,
@@ -53,9 +55,9 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                   allTasksResult: r
 
                 )));
-      } else if (event is CreateClickupTaskEvent) {
+      } else if (event is CreateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
@@ -63,14 +65,14 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+          add(GetTasksInSpaceEvent(
+              accessToken: event.params.accessToken,
+              space: event.params.space!,
               workspace: event.workspace));
         });
-      } else if (event is DuplicateClickupTaskEvent) {
+      } else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _duplicateClickupTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params);
         result?.fold(
                 (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
@@ -78,14 +80,14 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+          add(GetTasksInSpaceEvent(
+              accessToken: event.params.accessToken,
+              space: event.params.space!,
               workspace: event.workspace));
         });
-      } else if (event is UpdateClickupTaskEvent) {
+      } else if (event is UpdateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _updateClickupTaskUseCase(event.params);
+        final result = await _updateTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.updateTaskFailed,
@@ -93,14 +95,14 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace ?? Globals.selectedSpace!,
+          add(GetTasksInSpaceEvent(
+              accessToken: event.params.accessToken,
+              space: event.params.space ?? Globals.selectedSpace!,
               workspace: event.workspace));
         });
-      } else if (event is DeleteClickupTaskEvent) {
+      } else if (event is DeleteTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _deleteClickupTaskUseCase(event.params);
+        final result = await _deleteTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.deleteTaskFailed,
@@ -108,9 +110,9 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.task.space!,
+          add(GetTasksInSpaceEvent(
+              accessToken: event.params.accessToken,
+              space: Globals.selectedSpace!,
               workspace: event.workspace));
         });
       }

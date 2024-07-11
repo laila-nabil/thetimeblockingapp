@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../core/extensions.dart';
-import '../../../tasks/domain/entities/clickup_task.dart';
+import '../../../../common/entities/task.dart';
 
 class TaskCalendarWidget extends StatelessWidget {
-  const TaskCalendarWidget({Key? key, required this.calendarAppointmentDetails})
-      : super(key: key);
+  const TaskCalendarWidget({super.key, required this.calendarAppointmentDetails});
   final CalendarAppointmentDetails calendarAppointmentDetails;
 
   @override
   Widget build(BuildContext context) {
-    final task = calendarAppointmentDetails.appointments.first as ClickupTask;
+    final task = calendarAppointmentDetails.appointments.first as Task;
     final viewExtraDetails =
         calendarAppointmentDetails.bounds.height > 20 && task.isAllDay == false;
     const divider = SizedBox(
@@ -27,12 +26,12 @@ class TaskCalendarWidget extends StatelessWidget {
                 text: TextSpan(children: [
                 if (task.priority != null)
                   TextSpan(
-                      text: "${task.priority?.getPriorityExclamation} ",
+                      text: "${task.priority?.name} ",
                       style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
-                          color: task.priority?.getPriorityColor)),
+                          color: task.priority?.getColor)),
                 TextSpan(
-                  text: "${(task).name}\n${(task).description}",
+                  text: "${(task).title}\n${(task).description}",
                 )
               ]))
             : SingleChildScrollView(
@@ -51,13 +50,13 @@ class TaskCalendarWidget extends StatelessWidget {
                         text: TextSpan(children: [
                       if (task.priority != null)
                         TextSpan(
-                            text: "${task.priority?.getPriorityExclamation} ",
+                            text: "${task.priority?.name} ",
                             style: TextStyle(
                                 textBaseline: TextBaseline.alphabetic,
                                 color: task
-                                    .priority?.getPriorityColor)),
+                                    .priority?.getColor)),
                       TextSpan(
-                        text: "${(task).name}\n${(task).description}",
+                        text: "${(task).title}\n${(task).description}",
                       )
                     ])),
                     if (viewExtraDetails)
@@ -69,34 +68,6 @@ class TaskCalendarWidget extends StatelessWidget {
                               ""),
                         ],
                       ),
-                    if (viewExtraDetails)
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          divider,
-                          Wrap(
-                            children: task.assignees
-                                    ?.map((e) => CircleAvatar(
-                                          backgroundColor:
-                                              HexColor.fromHex(e.color ?? ""),
-                                          backgroundImage:
-                                              e.profilePicture?.isNotEmpty ==
-                                                      true
-                                                  ? NetworkImage(
-                                                      e.profilePicture ?? "")
-                                                  : null,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: AutoSizeText(e.initials ??
-                                                e.getInitialsFromUserName ??
-                                                ""),
-                                          ),
-                                        ))
-                                    .toList() ??
-                                [],
-                          ),
-                        ],
-                      )
                   ],
                 ),
               ));

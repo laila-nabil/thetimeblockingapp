@@ -13,31 +13,40 @@ class ControlDrawerLargerScreen extends StartupEvent {
   List<Object?> get props => [drawerLargerScreenOpen];
 }
 
-class SelectClickupWorkspaceAndGetSpacesTagsLists extends StartupEvent {
-  final ClickupWorkspace clickupWorkspace;
-  final ClickupAccessToken clickupAccessToken;
-  const SelectClickupWorkspaceAndGetSpacesTagsLists(
-      {required this.clickupWorkspace, required this.clickupAccessToken});
+class GetAllInWorkspaceEvent extends StartupEvent {
+  final Workspace workspace;
+  final AccessToken accessToken;
+  const GetAllInWorkspaceEvent(
+      {required this.workspace, required this.accessToken});
 
   @override
-  List<Object?> get props => [clickupWorkspace,clickupAccessToken];
+  List<Object?> get props => [workspace,accessToken];
 }
 
-class SelectClickupSpace extends StartupEvent {
-  final ClickupSpace clickupSpace;
-  final ClickupAccessToken clickupAccessToken;
-  const SelectClickupSpace(
-      {required this.clickupSpace, required this.clickupAccessToken});
+class SelectSpace extends StartupEvent {
+  final Space space;
+  final AccessToken accessToken;
+  const SelectSpace(
+      {required this.space, required this.accessToken});
 
   @override
-  List<Object?> get props => [clickupSpace,clickupAccessToken];
+  List<Object?> get props => [space,accessToken];
 }
 
-class StartGetTasksEvent extends StartupEvent {
-  final bool startGetTasks;
-  const StartGetTasksEvent(
-      {required this.startGetTasks,});
+class GetStatusesEvent extends StartupEvent {
+  final AccessToken accessToken;
+  const GetStatusesEvent(
+      { required this.accessToken});
 
   @override
-  List<Object?> get props => [startGetTasks];
+  List<Object?> get props => [accessToken];
+}
+
+class GetPrioritiesEvent extends StartupEvent {
+  final AccessToken accessToken;
+  const GetPrioritiesEvent(
+      { required this.accessToken});
+
+  @override
+  List<Object?> get props => [accessToken];
 }

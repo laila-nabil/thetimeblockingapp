@@ -15,7 +15,7 @@ enum ScheduleStateEnum {
 class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> persistingScheduleStates;
   final ScheduleStateEnum? nonPersistingScheduleState;
-  final List<ClickupTask>? clickupTasks;
+  final List<Task>? tasks;
   final Failure? getTasksSingleWorkspaceFailure;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
@@ -28,7 +28,7 @@ class ScheduleState extends Equatable {
   const ScheduleState._({
     required this.persistingScheduleStates,
     this.nonPersistingScheduleState,
-    this.clickupTasks,
+    this.tasks,
     this.getTasksForSingleWorkspaceScheduleEventId,
     this.getTasksSingleWorkspaceFailure,
     this.createTaskFailure,
@@ -40,21 +40,21 @@ class ScheduleState extends Equatable {
     required this.tasksDueDateLatestDate,
   });
 
+  @override
+  String toString() {
+    return 'ScheduleState{persistingScheduleStates: $persistingScheduleStates, nonPersistingScheduleState: $nonPersistingScheduleState, tasks: $tasks, getTasksSingleWorkspaceFailure: $getTasksSingleWorkspaceFailure, createTaskFailure: $createTaskFailure, updateTaskFailure: $updateTaskFailure, deleteTaskFailure: $deleteTaskFailure, tasksDueDateEarliestDate: $tasksDueDateEarliestDate, tasksDueDateLatestDate: $tasksDueDateLatestDate, getTasksForSingleWorkspaceScheduleEventId: $getTasksForSingleWorkspaceScheduleEventId, showTaskPopup: $showTaskPopup, taskPopupParams: $taskPopupParams}';
+  }
+
   static DateTime defaultTasksEarliestDate =
       DateTime.now().subtract(const Duration(days: 15));
   static DateTime defaultTasksLatestDate =
       DateTime.now().add(const Duration(days: 15));
 
-  bool startGetTasks(
-          {required bool? startGetTasks, required bool waitForStartGetTasks}) =>
-      waitForStartGetTasks
-          ? (startGetTasks ?? false)
-          : (clickupTasks == null || clickupTasks == []);
   @override
   List<Object?> get props => [
         persistingScheduleStates,
         nonPersistingScheduleState,
-        clickupTasks,
+        tasks,
         getTasksSingleWorkspaceFailure,
         tasksDueDateEarliestDate,
         tasksDueDateLatestDate,
@@ -70,9 +70,9 @@ class ScheduleState extends Equatable {
   ///setting [persistingScheduleStateAddRemove] to left in stateAddRemove removes a state
   ///[forceGetTasksForSingleWorkspaceScheduleEvent] does not persist
   ScheduleState copyWith({
-    Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
+    dartz.Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
     ScheduleStateEnum? nonPersistingScheduleState,
-    List<ClickupTask>? clickupTasks,
+    List<Task>? tasks,
     Failure? getTasksSingleWorkspaceFailure,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
@@ -88,7 +88,7 @@ class ScheduleState extends Equatable {
           updateEnumStates(persistingScheduleStateAddRemove) :
               persistingScheduleStates,
       nonPersistingScheduleState: nonPersistingScheduleState,
-      clickupTasks: clickupTasks ?? this.clickupTasks,
+      tasks: tasks ?? this.tasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
       tasksDueDateEarliestDate: tasksDueDateEarliestDate ??
@@ -109,16 +109,16 @@ class ScheduleState extends Equatable {
   bool get isInitial => persistingScheduleStates.isEmpty;
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
-  GetClickupTasksInWorkspaceFiltersParams
+  GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if(Globals.isSpaceAppWide && Globals.selectedSpaceId!=null){
+    if(Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id !=null){
       filterBySpaceIds = [Globals.selectedSpace?.id??""];
     }
-    return GetClickupTasksInWorkspaceFiltersParams(
+    return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
-            clickupAccessToken: Globals.clickupAuthAccessToken,
-            filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+            accessToken: Globals.accessToken,
+            filterByAssignees: [Globals.user?.id.toString() ?? ""],
             filterByDueDateGreaterThanUnixTimeMilliseconds:
                 tasksDueDateEarliestDate.millisecondsSinceEpoch,
             filterByDueDateLessThanUnixTimeMilliseconds:
@@ -134,7 +134,7 @@ class ScheduleState extends Equatable {
           ScheduleStateEnum.deleteTaskSuccess;
 
   Set<ScheduleStateEnum> updateEnumStates(
-      Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
+      dartz.Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
     Set<ScheduleStateEnum> updatedStates = Set.from(persistingScheduleStates);
     ScheduleStateEnum? toRemoveState;
     ScheduleStateEnum? toAddState;
@@ -148,9 +148,5 @@ class ScheduleState extends Equatable {
   }
 
   bool canShowTaskPopup({required StartupStateEnum? startupStateEnum}) =>
-      showTaskPopup == true &&
-      ((startupStateEnum == StartupStateEnum.getSpacesSuccess &&
-              Globals.isSpaceAppWide == false) ||
-          (startupStateEnum == StartupStateEnum.getAllInSpaceSuccess &&
-              Globals.isSpaceAppWide == true));
+      showTaskPopup == true;
 }

@@ -1,5 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/src/widgets/navigator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';
@@ -38,7 +38,7 @@ class FirebaseAnalyticsImpl implements Analytics {
 
   @override
   Future<void> logEvent(String eventName,
-      {Map<String, Object?>? parameters}) async {
+      {Map<String, Object>? parameters}) async {
     try {
       await _instance.logEvent(
           name: eventName, parameters: parameters);

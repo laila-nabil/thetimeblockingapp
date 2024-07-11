@@ -89,5 +89,5 @@ class CustomDropDownMenu extends DropdownMenu {
   @override
   MenuStyle? get menuStyle => MenuStyle(
       surfaceTintColor:
-          MaterialStateColor.resolveWith((states) => AppColors.background(isDarkMode)));
+          WidgetStateColor.resolveWith((states) => AppColors.background(isDarkMode)));
 }

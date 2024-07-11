@@ -1,11 +1,11 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
 
-Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
+Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
@@ -24,13 +24,13 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
     }
   } on ServerException {
     printDebug("repo ServerException", printLevel: PrintLevel.error);
-    return const Left(ServerFailure(message: ''));
+    return const dartz.Left(ServerFailure(message: ''));
   } catch (error) {
     printDebug(error, printLevel: PrintLevel.error);
     if (error is Exception) {
-      return Left(exceptionToFailure(error));
+      return dartz.Left(exceptionToFailure(error));
     }
-    return Left(UnknownFailure(message: error.toString()));
+    return dartz.Left(UnknownFailure(message: error.toString()));
   }
   if (trySaveResult != null) {
     try {
@@ -39,10 +39,10 @@ Future<Either<Failure, T>> repoHandleRemoteRequest<T>({
       printDebug("repo $error", printLevel: PrintLevel.error);
     }
   }
-  return Right(result);
+  return dartz.Right(result);
 }
 
-Future<Either<Failure, T>> repoHandleLocalGetRequest<T>({
+Future<dartz.Either<Failure, T>> repoHandleLocalGetRequest<T>({
   required Future<T> Function() tryGetFromLocalStorage,
 }) async {
   late T result;
@@ -51,28 +51,28 @@ Future<Either<Failure, T>> repoHandleLocalGetRequest<T>({
   } catch (error) {
     printDebug("repo $error", printLevel: PrintLevel.error);
     if (error is Exception) {
-      return Left(exceptionToFailure(error));
+      return dartz.Left(exceptionToFailure(error));
     }
-    return Left(UnknownFailure(message: error.toString()));
+    return dartz.Left(UnknownFailure(message: error.toString()));
   }
-  return Right(result);
+  return dartz.Right(result);
 
 }
 
-Future<Either<Failure, Unit>> repoHandleLocalSaveRequest<T>({
+Future<dartz.Either<Failure, dartz.Unit>> repoHandleLocalSaveRequest<T>({
   required Future<void> Function() trySaveResult,
 }) async {
     try {
       await trySaveResult();
     }  on ServerException {
       printDebug("repo ServerException", printLevel: PrintLevel.error);
-      return const Left(ServerFailure(message: ''));
+      return const dartz.Left(ServerFailure(message: ''));
     } catch (error) {
       printDebug("repo $error", printLevel: PrintLevel.error);
       if (error is Exception) {
-        return Left(exceptionToFailure(error));
+        return dartz.Left(exceptionToFailure(error));
       }
-      return Left(UnknownFailure(message: error.toString()));
+      return dartz.Left(UnknownFailure(message: error.toString()));
     }
-    return const Right(unit);
+    return const dartz.Right(dartz.unit);
 }

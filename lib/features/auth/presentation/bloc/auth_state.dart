@@ -4,89 +4,81 @@ enum AuthStateEnum {
   initial,
   loading,
   showCodeInputTextField,
-  getClickupAccessTokenSuccess,
-  getClickupAccessTokenFailed,
-  getClickupUserSuccess,
-  getClickupAUserFailed,
-  getClickupWorkspacesSuccess,
-  getClickupWorkspacesFailed,
+  signInSuccess,
+  signInFailed,
+  signUpSuccess,
+  signUpFailed,
+  getAccessTokenSuccess,
+  getAccessTokenFailed,
+  getAUserFailed,
+  getWorkspacesSuccess,
+  getWorkspacesFailed,
   triedGetSelectedWorkspacesSpace,
 }
 
 class AuthState extends Equatable {
-  final Set<AuthStateEnum> authStates;
-  final Failure? getClickupAccessTokenFailure;
-  final ClickupAccessToken? clickupAccessToken;
-  final ClickupUser? clickupUser;
-  final Failure? getClickupUserFailure;
-  final List<ClickupWorkspace>? clickupWorkspaces;
-  final Failure? getClickupWorkspacesFailure;
+  final AuthStateEnum authState;
+  final Failure? getAccessTokenFailure;
+  final AccessToken? accessToken;
+  final Failure? getUserFailure;
+  final List<Workspace>? workspaces;
+  final Failure? getWorkspacesFailure;
+  final User? user;
+  final Failure? signInFailure;
 
   const AuthState({
-    required this.authStates,
-    this.getClickupAccessTokenFailure,
-    this.clickupAccessToken,
-    this.clickupUser,
-    this.getClickupUserFailure,
-    this.clickupWorkspaces,
-    this.getClickupWorkspacesFailure,
+    required this.authState,
+    this.getAccessTokenFailure,
+    this.accessToken,
+    this.getUserFailure,
+    this.workspaces,
+    this.getWorkspacesFailure,
+    this.user,
+    this.signInFailure,
   });
 
-  bool get isLoading {
-    printDebug("authStates $authStates");
-    printDebug("authStates.contains(AuthStateEnum.loading) ${authStates.contains(AuthStateEnum.loading)}");
-    return authStates.contains(AuthStateEnum.loading);
-  }
+  bool get isLoading => authState == AuthStateEnum.loading;
 
   bool get canGoSchedulePage {
-    return !(isLoading == false && clickupAccessToken?.isEmpty == true ||
-        clickupUser == null ||
-        clickupWorkspaces?.isNotEmpty == false ||
-        authStates.contains(AuthStateEnum.triedGetSelectedWorkspacesSpace) == false);
-  }
-
-  Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
-    Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);
-    if (updatedAuthStates.contains(state)) {
-      updatedAuthStates.remove(state);
-    } else {
-      updatedAuthStates.add(state);
-    }
-
-    return updatedAuthStates;
+    return user != null &&
+        accessToken != null &&
+        workspaces?.isNotEmpty == true;
   }
 
   @override
   List<Object?> get props => [
-        authStates,
-        getClickupAccessTokenFailure,
-        clickupAccessToken,
-        clickupUser,
-        getClickupUserFailure,
-        clickupWorkspaces,
-        getClickupWorkspacesFailure,
+        authState,
+        getAccessTokenFailure,
+        accessToken,
+        getUserFailure,
+        workspaces,
+        getWorkspacesFailure,
+        user,
+        signInFailure,
       ];
 
   AuthState copyWith({
-    Set<AuthStateEnum>? authStates,
-    Failure? getClickupAccessTokenFailure,
-    ClickupAccessToken? clickupAccessToken,
-    ClickupUser? clickupUser,
-    Failure? getClickupUserFailure,
-    List<ClickupWorkspace>? clickupWorkspaces,
-    Failure? getClickupWorkspacesFailure,
+    AuthStateEnum? authState,
+    Failure? getAccessTokenFailure,
+    AccessToken? accessToken,
+    Failure? getUserFailure,
+    List<Workspace>? workspaces,
+    Failure? getWorkspacesFailure,
+    User? user,
+    Failure? signInFailure
   }) {
     return AuthState(
-      authStates: authStates ?? this.authStates,
-      getClickupAccessTokenFailure:
-          getClickupAccessTokenFailure ?? this.getClickupAccessTokenFailure,
-      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
-      clickupUser: clickupUser ?? this.clickupUser,
-      getClickupUserFailure:
-          getClickupUserFailure ?? this.getClickupUserFailure,
-      clickupWorkspaces: clickupWorkspaces ?? this.clickupWorkspaces,
-      getClickupWorkspacesFailure:
-          getClickupWorkspacesFailure ?? this.getClickupWorkspacesFailure,
+      authState: authState ?? this.authState,
+      getAccessTokenFailure:
+          getAccessTokenFailure ?? this.getAccessTokenFailure,
+      accessToken: accessToken ??this.accessToken,
+      getUserFailure:
+          getUserFailure ?? this.getUserFailure,
+      workspaces: workspaces ?? this.workspaces,
+      getWorkspacesFailure:
+          getWorkspacesFailure ?? this.getWorkspacesFailure,
+      signInFailure: signInFailure ?? this.signInFailure,
+      user: user ?? this.user
     );
   }
 }

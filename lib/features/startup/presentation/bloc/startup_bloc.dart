@@ -1,125 +1,80 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
-import '../../../tasks/domain/use_cases/get_all_in_space_use_case.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_statuses_use_case.dart';
+import '../../../../common/entities/priority.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import '../../domain/use_cases/save_spaces_use_case.dart';
-import '../../domain/use_cases/select_space_use_case.dart';
-import '../../domain/use_cases/select_workspace_use_case.dart';
 
 part 'startup_event.dart';
 
 part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
-  final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
-  final GetClickupSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
-  final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
-  final SelectWorkspaceUseCase _selectWorkspaceUseCase;
-  final SelectSpaceUseCase _selectSpaceUseCase;
-  final SaveSpacesUseCase _saveSpacesUseCase;
+  final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
+  final GetStatusesUseCase _getStatusesUseCase;
+  final GetPrioritiesUseCase _getPrioritiesUseCase;
   StartupBloc(
-    this._getAllInClickupWorkspaceUseCase,
-    this._getClickupSpacesInWorkspacesUseCase,
-    this._getAllInClickupSpaceUseCase,
-    this._selectSpaceUseCase,
-    this._saveSpacesUseCase,
-    this._selectWorkspaceUseCase,
+    this._getAllInWorkspaceUseCase, this._getStatusesUseCase, this._getPrioritiesUseCase,
   ) : super(const StartupState(drawerLargerScreenOpen: false)) {
     on<StartupEvent>((event, emit) async {
       if (event is ControlDrawerLargerScreen) {
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       }
-      else if (event is SelectClickupWorkspaceAndGetSpacesTagsLists) {
-        selectedWorkspace = event.clickupWorkspace;
-        if (Globals.isSpaceAppWide == false) {
+      else if (event is GetAllInWorkspaceEvent) {
+        if (Globals.isWorkspaceAndSpaceAppWide ) {
           emit(state.copyWith(
-              selectedClickupWorkspace: event.clickupWorkspace,
+              selectedWorkspace: event.workspace,
               startupStateEnum: StartupStateEnum.loading));
-          await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
-          final getAllInClickupWorkspaceResult =
-              await _getAllInClickupWorkspaceUseCase(
-                  GetAllInClickupWorkspaceParams(
-                      clickupAccessToken: event.clickupAccessToken,
-                      clickupWorkspace: event.clickupWorkspace));
-          await getAllInClickupWorkspaceResult?.fold(
-              (l) async => emit(state.copyWith(
-                  startupStateEnum: StartupStateEnum.getSpacesFailed,
-                  getSpacesFailure: l)),
-              (r) async {
-                await _saveSpacesUseCase(
-                    SaveSpacesParams(r));
-                emit(state.copyWith(
-                  startupStateEnum: StartupStateEnum.getSpacesSuccess,
-                  clickupSpaces: r));
-              });
-        } else {
-          emit(state.copyWith(
-              selectedClickupWorkspace: event.clickupWorkspace,
-              startupStateEnum: StartupStateEnum.loading));
-          await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
-          final getSpacesInClickupWorkspaceResult =
-              await _getClickupSpacesInWorkspacesUseCase(
-                  GetClickupSpacesInWorkspacesParams(
-                      clickupAccessToken: event.clickupAccessToken,
-                      clickupWorkspace: event.clickupWorkspace));
-          await getSpacesInClickupWorkspaceResult?.fold(
-              (l) async=> emit(state.copyWith(
-                  startupStateEnum: StartupStateEnum.getSpacesFailed,
-                  getSpacesFailure: [
-                        {"spaces": l}
-                      ])),
-              (r) async {
-                await _saveSpacesUseCase(
-                    SaveSpacesParams(r));
-                emit(state.copyWith(
-                  startupStateEnum: StartupStateEnum.getSpacesSuccess,
-                  clickupSpaces: r));
-                printDebug("selectedSpace ${Globals.selectedSpaceId}");
-                printDebug("defaultSpace ${Globals.defaultSpace}");
-                printDebug("clickupSpaces ${Globals.clickupSpaces}");
-                final space = Globals.selectedSpace ?? Globals.defaultSpace;
-                if (space != null) {
-                  add(SelectClickupSpace(
-                      clickupSpace: space,
-                      clickupAccessToken: event.clickupAccessToken));
-                }
-          });
+          final getAllInWorkspaceResult =
+              await _getAllInWorkspaceUseCase(
+                  GetAllInWorkspaceParams(
+                      accessToken: event.accessToken,
+                      workspace: event.workspace));
+          getAllInWorkspaceResult.fold(
+              (l) => emit(state.copyWith(
+                  startupStateEnum: StartupStateEnum.getAllInWorkspaceFailed,
+                  getAllInWorkspaceFailure: l)),
+              (r) => emit(state.copyWith(
+                  startupStateEnum: StartupStateEnum.getAllInWorkspaceSuccess,
+                  selectedWorkspace: r)));
         }
-      }
-      else if (event is SelectClickupSpace && Globals.isSpaceAppWide) {
-        setSelectedSpace(event.clickupSpace);
+      } else if (event is GetPrioritiesEvent) {
         emit(state.copyWith(
-            selectedClickupSpace: event.clickupSpace,
             startupStateEnum: StartupStateEnum.loading));
-        final getAllInClickupSpaceResult =
-            await _getAllInClickupSpaceUseCase(GetAllInClickupSpaceParams(
-                clickupAccessToken: event.clickupAccessToken,
-                clickupSpace: event.clickupSpace));
-        getAllInClickupSpaceResult?.fold(
-            (l) => emit(state.copyWith(
-                startupStateEnum: StartupStateEnum.getAllInSpaceFailed,
-                startGetTasks:false,
-                getAllInSpaceFailure: l)),
-            (r) => emit(state.copyWith(
-                startupStateEnum: StartupStateEnum.getAllInSpaceSuccess,
-                startGetTasks:true,
-                selectedClickupSpace: r)));
-        if(Globals.selectedSpace!=null){
-          await _selectSpaceUseCase(SelectSpaceParams(Globals.selectedSpace!));
-        }
-      }
-      else if(event is StartGetTasksEvent){
-        emit(state.copyWith(startGetTasks: event.startGetTasks));
+        final result =
+        await _getPrioritiesUseCase(
+            GetPrioritiesParams(
+                event.accessToken,));
+        result.fold(
+                (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getPrioritiesFailed,
+                getPrioritiesFailure: l)),
+                (r) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getPrioritiesSuccess,
+                priorities: r)));
+      } else if (event is GetStatusesEvent) {
+        emit(state.copyWith(
+            startupStateEnum: StartupStateEnum.loading));
+        final result =
+        await _getStatusesUseCase(
+            GetStatusesParams(
+              event.accessToken,));
+        result.fold(
+                (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getStatusesFailed,
+                getStatusesFailure: l)),
+                (r) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getStatusesSuccess,
+                statuses: r)));
       }
     });
   }

@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/common/entities/priority.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
-import '../common/entities/clickup_user.dart';
-import '../common/entities/clickup_workspace.dart';
-import '../features/auth/domain/entities/clickup_access_token.dart';
+import '../common/entities/user.dart';
+import '../common/entities/workspace.dart';
+import '../common/entities/access_token.dart';
 import 'environment.dart';
 
 String _appName = "Time blocking app";
 
 
-ClickupAccessToken _clickupAuthAccessToken =
-    const ClickupAccessToken(accessToken: "", tokenType: "");
-ClickupUser? _clickupUser;
+AccessToken _accessToken =
+    const AccessToken(accessToken: "", tokenType: "");
+User? _user;
 
-ClickupWorkspace? _selectedWorkspace;
+Workspace? _selectedWorkspace;
 
-String? _selectedSpaceId;
-
-///[isSpaceAppWide] space is selected from appbar/drawer only and is global to app or not
-bool _isSpaceAppWide = true;
+///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+bool _isWorkspaceAndSpaceAppWide = true;
 
 Duration _defaultTaskDuration = const Duration(hours: 1);
 
-List<ClickupWorkspace>? _clickupWorkspaces;
+List<Workspace>? _workspaces;
 
-List<ClickupSpace>? _clickupSpaces;
 
 class Globals {
+  static BackendMode backendMode = BackendMode.supabase;
+
   static String get appName => _appName;
 
-  static String clickupUrl = "";
+  static List<TaskStatus> statuses = [];
 
-  static String clickupClientId = "";
+  static List<TaskPriority> priorities = [];
 
-  static String clickupClientSecret = "";
-
-  static String clickupRedirectUrl = "";
+  static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
 
   static const Env defaultEnv  = Env.debugLocally;
 
@@ -43,45 +44,35 @@ class Globals {
 
   static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
-  static ClickupAccessToken get clickupAuthAccessToken =>
-      _clickupAuthAccessToken;
+  static AccessToken get accessToken =>
+      _accessToken;
 
-  static ClickupUser? get clickupUser => _clickupUser;
+  static User? get user => _user;
 
-  static ClickupWorkspace? get selectedWorkspace => _selectedWorkspace;
+  static Workspace? get selectedWorkspace =>
+      _selectedWorkspace ?? workspaces?.firstOrNull;
 
-  static String? get selectedSpaceId => _selectedSpaceId;
+  static Space? get selectedSpace => selectedWorkspace?.spaces?.firstOrNull;
 
-  static ClickupSpace? get selectedSpace => clickupSpaces
-      ?.where((element) => element.id == _selectedSpaceId)
-      .firstOrNull;
-
-  static bool get isSpaceAppWide => _isSpaceAppWide;
+  static bool get isWorkspaceAndSpaceAppWide => _isWorkspaceAndSpaceAppWide;
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
 
-  static List<ClickupWorkspace>? get clickupWorkspaces => _clickupWorkspaces;
+  static List<Workspace>? get workspaces => _workspaces;
 
-  static List<ClickupSpace>? get clickupSpaces => _clickupSpaces;
-
-  static ClickupWorkspace? get defaultWorkspace =>
-      _clickupWorkspaces?.firstOrNull;
-
-  static ClickupSpace? get defaultSpace => _clickupSpaces?.firstOrNull;
+  static Workspace? get defaultWorkspace =>
+      _workspaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
 
   static const ThemeMode defaultThemeMode = ThemeMode.light;
 
   static const bool isDemo = false;
-  static String clickupAuthUrl =
-      "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
 
   static String demoUrl =
       "https://demoo-timeblocking.web.app";
 
-  static String clickupTerms = "https://clickup.com/terms";
-  static String clickupPrivacy = "https://clickup.com/terms/privacy";
+
 }
 
 ///just to make it harder to write global variable
@@ -91,48 +82,54 @@ mixin class GlobalsWriteAccess {
     _appName = value;
   }
 
-  set clickupAuthAccessToken(ClickupAccessToken value) {
-    _clickupAuthAccessToken = value;
+  set accessToken(AccessToken value) {
+    _accessToken = value;
   }
 
   void clearGlobals() {
-    _clickupAuthAccessToken =
-        const ClickupAccessToken(accessToken: "", tokenType: "");
-    _clickupUser = null;
+    _accessToken =
+        const AccessToken(accessToken: "", tokenType: "");
+    _user = null;
     _selectedWorkspace = null;
-    _selectedSpaceId = null;
-    _clickupWorkspaces = null;
-    _clickupSpaces = null;
+    _workspaces = null;
   }
 
-  set clickupUser(ClickupUser value) {
-    _clickupUser = value;
+  set user(User value) {
+    _user = value;
   }
 
-  set selectedWorkspace(ClickupWorkspace value) {
+  set selectedWorkspace(Workspace value) {
+    printDebug("set workspace $value");
     _selectedWorkspace = value;
   }
 
-   void setSelectedSpace(ClickupSpace? space) {
-    _selectedSpaceId = space?.id;
-    clickupSpaces =  ClickupSpaceListExtensions.updateItemInList(
-        list: Globals.clickupSpaces, updatedSpace: space);
-  }
-
   set isSpaceAppWide(bool value) {
-    _isSpaceAppWide = value;
+    _isWorkspaceAndSpaceAppWide = value;
   }
 
   set defaultTaskDuration(Duration value) {
     _defaultTaskDuration = value;
   }
 
-  set clickupWorkspaces(List<ClickupWorkspace> value) {
-    _clickupWorkspaces = value;
+  set workspaces(List<Workspace> value) {
+    _workspaces = value;
   }
 
-  set clickupSpaces(List<ClickupSpace>? value) {
-    _clickupSpaces = value;
-  }
+}
 
+class SupabaseGlobals {
+  final String url;
+  final String key;
+
+  SupabaseGlobals({this.url = "", this.key = ""});
+
+  SupabaseGlobals copyWith({
+    String? url,
+    String? key,
+  }) {
+    return SupabaseGlobals(
+      url: url ?? this.url,
+      key: key ?? this.key,
+    );
+  }
 }

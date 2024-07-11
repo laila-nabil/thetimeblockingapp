@@ -30,19 +30,19 @@ enum TagsPageStatus {
 
 class TagsPageState extends Equatable {
   final TagsPageStatus tagsPageStatus;
-  final ClickupTag? navigateTag;
-  final List<ClickupTag>? getTagsInSpaceResult;
+  final Tag? navigateTag;
+  final List<Tag>? getTagsInSpaceResult;
   final Failure? getTagsInSpaceFailure;
   final Failure? getTasksForTagFailure;
   final Failure? createTagFailure;
-  final ClickupTag? updateTagResult;
+  final Tag? updateTagResult;
   final Failure? updateTagFailure;
   final Failure? deleteTagFailure;
-  final List<ClickupTask>? currentTagTasksResult;
+  final List<Task>? currentTagTasksResult;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
-  final ClickupTag? toDeleteTag;
-  final ClickupTag? toUpdateTag;
+  final Tag? toDeleteTag;
+  final Tag? toUpdateTag;
 
   const TagsPageState(
       {required this.tagsPageStatus,
@@ -85,36 +85,36 @@ class TagsPageState extends Equatable {
 
   bool get tryCreateTagInSpace => tagsPageStatus == TagsPageStatus.createTagTry;
 
-  bool updateTagTry(ClickupTag tag) => toUpdateTag == tag && tagsPageStatus == TagsPageStatus.updateTagTry;
+  bool updateTagTry(Tag tag) => toUpdateTag == tag && tagsPageStatus == TagsPageStatus.updateTagTry;
 
-  List<ClickupTask> get getCurrentTagTasksResultOverdue =>
+  List<Task> get getCurrentTagTasksResultOverdue =>
       currentTagTasksResult?.where((element) => element.isOverdue).toList() ?? [];
 
-  List<ClickupTask> get getCurrentTagTasksResultUpcoming =>
+  List<Task> get getCurrentTagTasksResultUpcoming =>
       currentTagTasksResult?.where((element) => element.isUpcoming).toList() ?? [];
 
 
-  List<ClickupTask> get getCurrentTagTasksResultUnscheduled =>
+  List<Task> get getCurrentTagTasksResultUnscheduled =>
       currentTagTasksResult?.where((element) => element.isUnscheduled).toList() ?? [];
 
-  List<ClickupTask> get getCurrentTagTasksResultCompleted =>
+  List<Task> get getCurrentTagTasksResultCompleted =>
       currentTagTasksResult?.where((element) => element.isCompleted).toList() ?? [];
 
   TagsPageState copyWith({
     required TagsPageStatus tagsPageStatus,
-    ClickupTag? navigateTag,
-    List<ClickupTag>? getTagsInSpaceResult,
+    Tag? navigateTag,
+    List<Tag>? getTagsInSpaceResult,
     Failure? getTagsInSpaceFailure,
     Failure? getTasksForTagFailure,
     Failure? createTagFailure,
-    ClickupTag? updateTagResult,
+    Tag? updateTagResult,
     Failure? updateTagFailure,
     Failure? deleteTagFailure,
-    List<ClickupTask>? currentTagTasksResult,
+    List<Task>? currentTagTasksResult,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
-    ClickupTag? toDeleteTag,
-    ClickupTag? toUpdateTag,
+    Tag? toDeleteTag,
+    Tag? toUpdateTag,
   }) {
     return TagsPageState(
       tagsPageStatus: tagsPageStatus,

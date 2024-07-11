@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AuthPageWebView extends StatefulWidget {
-  const AuthPageWebView({Key? key, required this.url, required this.getAccessToken}) : super(key: key);
+  const AuthPageWebView({super.key, required this.url, required this.getAccessToken});
   final String url;
   final void Function(String code) getAccessToken;
   @override

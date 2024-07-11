@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 enum AnalyticsEvents {
-  onBoardingStep1ConnectClickup,
+  onBoardingStep1SignInSupabase,
   onBoardingStep1Start,
   onBoardingStep1Demo,
   onBoardingStep2Back,
@@ -32,11 +32,11 @@ enum AnalyticsEvents {
   deleteTag,
   changeLanguage,
   launchUrl,
-  connectClickup,
   openDemo,
   getData, signOut,
   addTagToTask,
   removeTagToTask,
+  signIn
 }
 
 enum AnalyticsEventParameter { language, link, status, error ,data}

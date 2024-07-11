@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -13,10 +15,10 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
@@ -24,26 +26,26 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
 
-///TODO task view as full page instead of popup
+///TODO B task view as full page instead of popup
 
-///TODO smart auto complete like Notion's / to select a list,tags,due date and start date
-///TODO once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
-///TODO input task duration
+///TODO Z smart auto complete like Notion's / to select a list,tags,due date and start date
+///TODO D once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
+///TODO Z input task duration
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
-  ClickupTask? task;
-  final void Function(ClickupTaskParams params)? onSave;
+  Task? task;
+  final void Function(CreateTaskParams params)? onSave;
   void Function()? onDuplicate;
-  final void Function(DeleteClickupTaskParams params)? onDelete;
+  final void Function(DeleteTaskParams params)? onDelete;
   final Bloc bloc;
   final bool Function(Object? state) isLoading;
   DateTime? cellDate;
   DateTime? startDate;
   DateTime? dueDate;
   late bool isAllDay;
-  ClickupList? list;
-  ClickupTag? tag;
+  TasksList? list;
+  Tag? tag;
 
   TaskPopupParams.openNotAllDayTask({
     required this.task,
@@ -154,14 +156,14 @@ class TaskPopupParams extends Equatable {
       this.dueDate});
 
   TaskPopupParams copyWith({
-    ClickupTask? task,
-    void Function(ClickupTaskParams params)? onSave,
-    void Function(DeleteClickupTaskParams params)? onDelete,
+    Task? task,
+    void Function(CreateTaskParams params)? onSave,
+    void Function(DeleteTaskParams params)? onDelete,
     Bloc? bloc,
     DateTime? cellDate,
     DateTime? startDate,
     DateTime? dueDate,
-    ClickupList? list,
+    TasksList? list,
   }) {
     return TaskPopupParams._(
       task: task ?? this.task,
@@ -218,20 +220,22 @@ class TaskPopup extends StatelessWidget {
         BlocProvider(
           create: (context) {
             return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
-              ..add(UpdateClickupTaskParamsEvent(
+              ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
-                      ? ClickupTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                      ? CreateTaskParams.startCreateNewTask(
+                          accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isSpaceAppWide
+                          space: Globals.isWorkspaceAndSpaceAppWide
                               ? Globals.selectedSpace
                               : null,
                           list: taskPopupParams.list,
-                          tag: taskPopupParams.tag)
-                      : ClickupTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          tag: taskPopupParams.tag,
+                      backendMode: Globals.backendMode)
+                      : CreateTaskParams.startUpdateTask(
+                          accessToken: Globals.accessToken,
                           task: task,
+                      backendMode: Globals.backendMode
                         )));
           },
         ),
@@ -246,18 +250,20 @@ class TaskPopup extends StatelessWidget {
             builder: (context, state) {
               final taskPopUpBloc = BlocProvider.of<TaskPopUpBloc>(context);
               printDebug("state.taskParams ${state.taskParams}");
-              final clickupTaskParams = state.taskParams ??
+              final taskParams = state.taskParams ??
                   (task == null
-                      ? ClickupTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                      ? CreateTaskParams.startCreateNewTask(
+                          accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
-                          startDate: taskPopupParams.startDate)
-                      : ClickupTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          startDate: taskPopupParams.startDate,
+                      backendMode: Globals.backendMode)
+                      : CreateTaskParams.startUpdateTask(
+                          accessToken: Globals.accessToken,
                           task: task,
+                      backendMode: Globals.backendMode
                         ));
-              printDebug("clickupTaskParams $clickupTaskParams");
+              printDebug("taskParams $taskParams");
               final firstDate =
                   DateTime.now().subtract(const Duration(days: 1000));
               final lastDate = DateTime.now().add(const Duration(days: 1000));
@@ -303,11 +309,11 @@ class TaskPopup extends StatelessWidget {
                                                   .translate("delete"),
                                               onPressed: () {
                                                 taskPopupParams.onDelete!(
-                                                    DeleteClickupTaskParams(
+                                                    DeleteTaskParams(
                                                         task: taskPopupParams
                                                             .task!,
-                                                        clickupAccessToken: Globals
-                                                            .clickupAuthAccessToken));
+                                                        accessToken: Globals
+                                                            .accessToken));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType
@@ -320,7 +326,7 @@ class TaskPopup extends StatelessWidget {
                                               }),
                                         ],
                                         content: Text(
-                                            "${appLocalization.translate("areYouSureDelete")} ${taskPopupParams.task?.name}?"),
+                                            "${appLocalization.translate("areYouSureDelete")} ${taskPopupParams.task?.title}?"),
                                       );
                                     });
                               },
@@ -362,7 +368,7 @@ class TaskPopup extends StatelessWidget {
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                ///TODO create a new Folder in task view
+                                ///TODO D create a new Folder in task view
                                 ///Folder
                                 if (state.isFoldersListAvailable)
                                   CustomDropDown(
@@ -378,22 +384,22 @@ class TaskPopup extends StatelessWidget {
 
                                     onChanged: (folder) => folder == null
                                         ? taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
-                                            clickupTaskParams
+                                            taskParams
                                                 .copyWith(
                                                 clearFolder:
                                                 true)))
                                         : taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
-                                            clickupTaskParams
+                                            taskParams
                                                 .copyWith(
                                                 folder:
                                                 folder))),
-                                    items: (state.taskParams?.clickupSpace
+                                    items: (state.taskParams?.space
                                         ?.folders
-                                        .map((e) =>
+                                        ?.map((e) =>
                                         DropdownMenuItem(
                                             value: e,
                                             child: Text(
@@ -412,7 +418,7 @@ class TaskPopup extends StatelessWidget {
                                   style: taskLocationTextStyle,
                                 ),
 
-                                ///TODO create a new list in task view
+                                ///TODO D create a new list in task view
                                 ///List
                                 if ((state.taskParams?.getAvailableLists
                                     .isNotEmpty ==
@@ -422,12 +428,12 @@ class TaskPopup extends StatelessWidget {
                                     style: taskLocationTextStyle,
                                     hint: Text(
                                         appLocalization.translate("list")),
-                                    value: state.taskParams?.clickupList,
+                                    value: state.taskParams?.list,
                                     onChanged: (list) => taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
-                                            clickupTaskParams.copyWith(
-                                                clickupList: list))),
+                                            taskParams.copyWith(
+                                                list: list))),
                                     items: state
                                         .taskParams?.getAvailableLists
                                         .map((e) => DropdownMenuItem(
@@ -441,23 +447,24 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Space
-                            ///TODO create a new Workspace/Space in task view
-                            if (Globals.isSpaceAppWide == false)
+                            ///TODO D create a new Workspace/Space in task view
+                            if (Globals.isWorkspaceAndSpaceAppWide == false)
                               (task == null
-                                  ? DropdownButton<ClickupSpace>(
+                                  ? DropdownButton<Space>(
                                 hint: Text(
                                     appLocalization.translate("space")),
-                                value: state.taskParams?.clickupSpace,
+                                value: state.taskParams?.space,
                                 onChanged: (space) => taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
+                                    UpdateTaskParamsEvent(
                                         taskParams:
-                                        clickupTaskParams.copyWith(
-                                            clickupSpace: space))),
-                                items: (Globals.clickupSpaces)
-                                    ?.map((e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e.name ?? "")))
-                                    .toList() ??
+                                        taskParams.copyWith(
+                                            space: space))),
+                                items:
+                                // (Globals.spaces)
+                                //     ?.map((e) => DropdownMenuItem(
+                                //     value: e,
+                                //     child: Text(e.name ?? "")))
+                                //     .toList() ??
                                     [],
                               )
                                   : Text(" ${task.space?.name ?? ""} ")),
@@ -467,26 +474,26 @@ class TaskPopup extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                               CustomDropDown(
+                               if(Globals.statuses.isNotEmpty)
+                                 CustomDropDown(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDown
                                       .textStyle(context.isDarkMode),
                                   hint: Text(
                                       appLocalization.translate("status")),
                                   onChanged: (status) => taskPopUpBloc.add(
-                                      UpdateClickupTaskParamsEvent(
+                                      UpdateTaskParamsEvent(
                                           taskParams:
-                                          clickupTaskParams.copyWith(
+                                          taskParams.copyWith(
                                               taskStatus: status))),
-                                  items: state.taskParams?.clickupSpace
-                                      ?.statuses
-                                      ?.map<
+                                  items: Globals.statuses
+                                      .map<
                                       DropdownMenuItem<
-                                          ClickupStatus>>((e) =>
+                                          TaskStatus>>((e) =>
                                       DropdownMenuItem(
                                           value: e,
                                           child: false ? Text(
-                                              e.status ?? "",
+                                              e.name ?? "",
                                               style: CustomDropDown
                                                   .textStyle(context.isDarkMode)
                                                   .copyWith(
@@ -503,15 +510,14 @@ class TaskPopup extends StatelessWidget {
                                             children: [
                                               Icon(
                                                   e ==
-                                                      state.taskParams?.clickupSpace
-                                                          ?.statuses?.last
+                                                      Globals.statuses.firstWhere((s)=>s.isDone == true)
                                                       ? AppIcons.checkboxchecked
                                                       : AppIcons.checkbox,
                                                   color: e.getColor ??
                                                       AppColors.text(context.isDarkMode)),
                                               const SizedBox(width: 2,),
                                               Text(
-                                                  e.status ?? "",
+                                                  e.name ?? "",
                                                   style: CustomDropDown
                                                       .textStyle(context.isDarkMode)
                                                       .copyWith(
@@ -532,7 +538,7 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                                 ///Priority
-                                if (state.isPrioritiesEnabled)
+                                if(Globals.priorities.isNotEmpty)
                                   CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
@@ -540,59 +546,30 @@ class TaskPopup extends StatelessWidget {
                                     onChanged: (priority) => priority ==
                                         null
                                         ? taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
-                                            clickupTaskParams
+                                            taskParams
                                                 .copyWith(
                                                 clearPriority:
                                                 true)))
                                         : taskPopUpBloc.add(
-                                        UpdateClickupTaskParamsEvent(
+                                        UpdateTaskParamsEvent(
                                             taskParams:
-                                            clickupTaskParams
+                                            taskParams
                                                 .copyWith(
                                                 taskPriority:
                                                 priority))),
-                                    items: (state
-                                        .taskParams
-                                        ?.clickupSpace
-                                        ?.features
-                                        ?.priorities
-                                        ?.priorities
-                                        ?.map((e) => e.isNum
-                                        ? DropdownMenuItem(
+                                    items: (Globals.priorities.map((e) =>
+                                      DropdownMenuItem(
                                       value: e,
                                       child: Row(
                                         children: [
-                                          Icon(
-                                              e.priorityNum ==
-                                                  null
-                                                  ? AppIcons.flag
-                                                  : AppIcons.flagbold,
-                                              color: e.getPriorityColor ??
+                                          Icon(AppIcons.flagbold,
+                                              color: e.getColor ??
                                                   AppColors.text(context.isDarkMode)),
                                           const SizedBox(width: 2,),
                                           Text(
-                                            e.priorityNum
-                                                .toString(),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                        : DropdownMenuItem(
-                                      value: e,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                              e.priority ==
-                                                  null
-                                                  ? AppIcons.flag
-                                                  : AppIcons.flagbold,
-                                              color: e.getPriorityColor ??
-                                                  AppColors.text(context.isDarkMode)),
-                                          const SizedBox(width: 2,),
-                                          Text(
-                                            e.priority ??
+                                            e.name ??
                                                 e.id?.toStringOrNull() ??
                                                 "",
                                             style: TextStyle(
@@ -600,7 +577,7 @@ class TaskPopup extends StatelessWidget {
                                                 TextBaseline
                                                     .alphabetic,
                                                 color: e
-                                                    .getPriorityColor),
+                                                    .getColor),
                                           ),
                                         ],
                                       ),
@@ -635,8 +612,8 @@ class TaskPopup extends StatelessWidget {
                               hintText: appLocalization.translate("taskName"),
                               onChanged: (change) {
                                 taskPopUpBloc.add(
-                                    UpdateClickupTaskParamsEvent(
-                                        taskParams: clickupTaskParams
+                                    UpdateTaskParamsEvent(
+                                        taskParams: taskParams
                                             .copyWith(title: change)));
                               },
                             ),
@@ -651,8 +628,8 @@ class TaskPopup extends StatelessWidget {
                               maxLines: 3,
                               minLines: 1,
                               onChanged: (change) {
-                                taskPopUpBloc.add(UpdateClickupTaskParamsEvent(
-                                    taskParams: clickupTaskParams.copyWith(
+                                taskPopUpBloc.add(UpdateTaskParamsEvent(
+                                    taskParams: taskParams.copyWith(
                                         description: change)));
                               },
                             ),
@@ -661,7 +638,7 @@ class TaskPopup extends StatelessWidget {
                             Wrap(
                               spacing: AppSpacing.xSmall8.value,
                               children: [
-                                ///TODO is all day checkbox
+                                ///TODO D is all day checkbox
                                 ///isAllDay
                                 if(false)Checkbox(
                                     value: taskPopupParams.isAllDay,
@@ -683,8 +660,8 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams: clickupTaskParams
+                                          UpdateTaskParamsEvent(
+                                              taskParams: taskParams
                                                   .copyWith(startDate: value))));
                                     },
                                     type: CustomButtonType.secondaryLabel,
@@ -716,8 +693,8 @@ class TaskPopup extends StatelessWidget {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) => taskPopUpBloc.add(
-                                              UpdateClickupTaskParamsEvent(
-                                                  taskParams: clickupTaskParams
+                                              UpdateTaskParamsEvent(
+                                                  taskParams: taskParams
                                                       .copyWith(
                                                       startDate: value))));
                                         },
@@ -736,8 +713,8 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams: clickupTaskParams
+                                          UpdateTaskParamsEvent(
+                                              taskParams: taskParams
                                                   .copyWith(
                                                   startDate: value))));
                                     },
@@ -770,8 +747,8 @@ class TaskPopup extends StatelessWidget {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) => taskPopUpBloc.add(
-                                              UpdateClickupTaskParamsEvent(
-                                                  taskParams: clickupTaskParams
+                                              UpdateTaskParamsEvent(
+                                                  taskParams: taskParams
                                                       .copyWith(dueDate: value))));
                                         },
                                         type: CustomButtonType.greyOutlinedLabel,
@@ -789,8 +766,8 @@ class TaskPopup extends StatelessWidget {
                                         firstDate: firstDate,
                                         lastDate: lastDate,
                                       ).then((value) => taskPopUpBloc.add(
-                                          UpdateClickupTaskParamsEvent(
-                                              taskParams: clickupTaskParams
+                                          UpdateTaskParamsEvent(
+                                              taskParams: taskParams
                                                   .copyWith(dueDate: value))));
                                     },
                                     type: CustomButtonType.secondaryLabel,
@@ -803,7 +780,7 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Tags
-                            ///TODO create new tags in task view
+                            ///TODO D create new tags in task view
                             if (state.viewTagsButton)
                               true
                                   ? Column(
@@ -826,9 +803,9 @@ class TaskPopup extends StatelessWidget {
                                           tagName:
                                           e.name ?? '',
                                           color: e
-                                              .getTagFgColor,
+                                              ?.getColor,
                                           onDelete: () {
-                                            List<ClickupTag>?
+                                            List<Tag>?
                                             tags =
                                             List.from(
                                                 state.taskParams?.tags ??
@@ -837,9 +814,9 @@ class TaskPopup extends StatelessWidget {
                                                 true);
                                             tags.remove(e);
                                             taskPopUpBloc.add(
-                                                UpdateClickupTaskParamsEvent(
+                                                UpdateTaskParamsEvent(
                                                     taskParams:
-                                                    clickupTaskParams.copyWith(tags: tags)));
+                                                    taskParams.copyWith(tags: tags)));
                                           },
                                         ))
                                         .toList() ??
@@ -879,14 +856,14 @@ class TaskPopup extends StatelessWidget {
                                                                 ListView(
                                                                   children: state
                                                                       .taskParams
-                                                                      ?.clickupSpace
+                                                                      ?.space
                                                                       ?.tags
-                                                                      .map((e) => CheckboxListTile(
+                                                                      ?.map((e) => CheckboxListTile(
                                                                       title: Row(
                                                                         children: [
                                                                           Icon(
                                                                             AppIcons.hashtag,
-                                                                            color: e.getTagFgColor,
+                                                                            color: e.getColor,
                                                                           ),
                                                                           Text(
                                                                             e.name ?? "",
@@ -896,13 +873,13 @@ class TaskPopup extends StatelessWidget {
                                                                       ),
                                                                       value: state.taskParams?.tags?.contains(e) == true,
                                                                       onChanged: (value) {
-                                                                        List<ClickupTag>? tags = List.from(state.taskParams?.tags ?? [], growable: true);
+                                                                        List<Tag>? tags = List.from(state.taskParams?.tags ?? [], growable: true);
                                                                         if (value == true) {
                                                                           tags.add(e);
                                                                         } else {
                                                                           tags.remove(e);
                                                                         }
-                                                                        taskPopUpBloc.add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
+                                                                        taskPopUpBloc.add(UpdateTaskParamsEvent(taskParams: taskParams.copyWith(tags: tags)));
                                                                       }))
                                                                       .toList() ??
                                                                       [],
@@ -942,16 +919,16 @@ class TaskPopup extends StatelessWidget {
                                                     child: ListView(
                                                       children: state
                                                           .taskParams
-                                                          ?.clickupSpace
+                                                          ?.space
                                                           ?.tags
-                                                          .map((e) =>
+                                                          ?.map((e) =>
                                                           CheckboxListTile(
                                                               title:
                                                               Row(
                                                                 children: [
                                                                   Icon(
                                                                     Icons.tag,
-                                                                    color: e.getTagFgColor,
+                                                                    color: e.getColor,
                                                                   ),
                                                                   Text(
                                                                     e.name ?? "",
@@ -962,7 +939,7 @@ class TaskPopup extends StatelessWidget {
                                                                   true,
                                                               onChanged:
                                                                   (value) {
-                                                                List<ClickupTag>?
+                                                                List<Tag>?
                                                                 tags =
                                                                 List.from(state.taskParams?.tags ?? [], growable: true);
                                                                 if (value ==
@@ -972,7 +949,7 @@ class TaskPopup extends StatelessWidget {
                                                                   tags.remove(e);
                                                                 }
                                                                 taskPopUpBloc
-                                                                    .add(UpdateClickupTaskParamsEvent(taskParams: clickupTaskParams.copyWith(tags: tags)));
+                                                                    .add(UpdateTaskParamsEvent(taskParams: taskParams.copyWith(tags: tags)));
                                                               }))
                                                           .toList() ??
                                                           [],

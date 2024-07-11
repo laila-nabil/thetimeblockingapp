@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/clickup_space.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -15,8 +15,7 @@ import 'custom_pop_up_menu.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {Key? key, this.pageActions, required this.showSmallDesign, required this.isDarkMode})
-      : super(key: key);
+      {super.key, this.pageActions, required this.showSmallDesign, required this.isDarkMode});
   final List<CustomPopupItem>? pageActions;
   final bool showSmallDesign;
   final bool isDarkMode;
@@ -28,19 +27,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       builder: (context, authState) {
         return BlocBuilder<StartupBloc, StartupState>(
           builder: (context, state) {
-            if (state.reSelectWorkspace(authState.authStates
-                .contains(AuthStateEnum.triedGetSelectedWorkspacesSpace))) {
-              startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                  clickupWorkspace:
+            if (state.reSelectWorkspace(authState.authState ==
+                AuthStateEnum.triedGetSelectedWorkspacesSpace)) {
+              startupBloc.add(GetAllInWorkspaceEvent(
+                  workspace:
                       Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
-                  clickupAccessToken: Globals.clickupAuthAccessToken));
+                  accessToken: Globals.accessToken));
             }
             return CustomAppBarWidget(
-              selectClickupWorkspace: (selected) {
-                if (selected is ClickupWorkspace && state.isLoading == false) {
-                  startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
-                      clickupWorkspace: selected,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+              selectWorkspace: (selected) {
+                if (selected is Workspace && state.isLoading == false) {
+                  startupBloc.add(GetAllInWorkspaceEvent(
+                      workspace: selected,
+                      accessToken: Globals.accessToken));
                 }
               },
               openDrawer: () {
@@ -48,11 +47,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     !startupBloc.state.drawerLargerScreenOpen));
               },
               showSmallDesign: showSmallDesign,
-              selectClickupSpace: (selected) {
+              selectSpace: (selected) {
                 if (selected != null && state.isLoading == false) {
-                  startupBloc.add(SelectClickupSpace(
-                      clickupSpace: selected,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                  startupBloc.add(SelectSpace(
+                      space: selected,
+                      accessToken: Globals.accessToken));
                 }
               },
               pageActions: pageActions,
@@ -71,22 +70,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class CustomAppBarWidget extends StatelessWidget {
   const CustomAppBarWidget({
-    Key? key,
+    super.key,
     this.pageActions,
     required this.showSmallDesign,
     required this.openDrawer,
-    required this.selectClickupSpace,
-    required this.selectClickupWorkspace,
+    required this.selectSpace,
+    required this.selectWorkspace,
     required this.isDarkMode,
-  }) : super(key: key);
+  });
   final bool showSmallDesign;
   final void Function() openDrawer;
-  final void Function(ClickupSpace? clickupSpace) selectClickupSpace;
-  final void Function(ClickupWorkspace? clickupWorkspace)
-      selectClickupWorkspace;
+  final void Function(Space? space) selectSpace;
+  final void Function(Workspace? workspace)
+      selectWorkspace;
   final List<CustomPopupItem>? pageActions;
   final bool isDarkMode;
-  ///TODO app bar different height based on size as design
+  ///TODO D app bar different height based on size as design
   static double height(bool showSmallDesign) => 52;
   // static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
 
@@ -105,43 +104,8 @@ class CustomAppBarWidget extends StatelessWidget {
                 color: Colors.deepPurpleAccent,
               )),
       actions: [
-        /*if (showSmallDesign == false &&
-            Globals.clickupWorkspaces?.isNotEmpty == true)
-          DropdownButton(
-            value: Globals.selectedWorkspace,
-            onChanged: (selected) {
-              if (selected is ClickupWorkspace) {
-                selectClickupWorkspace(selected);
-              }
-            },
-            items: Globals.clickupWorkspaces
-                    ?.map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name ?? ""),
-                        ))
-                    .toList() ??
-                [],
-            hint: Text(appLocalization.translate("workspaces")),
-          ),
-        if (showSmallDesign == false &&
-            Globals.isSpaceAppWide &&
-            Globals.clickupSpaces?.isNotEmpty == true)
-          DropdownButton<ClickupSpace?>(
-            value: Globals.selectedSpace,
-            onChanged: (selected) {
-              return selectClickupSpace(selected);
-            },
-            items: Globals.clickupSpaces
-                    ?.map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name ?? ""),
-                        ))
-                    .toList() ??
-                [],
-            hint: Text(appLocalization.translate("spaces")),
-          ),*/
 
-        ///TODO search tasks,tags, lists and folders
+        ///TODO D search tasks,tags, lists and folders
         // ignore: dead_code
         if (false)
           IconButton(

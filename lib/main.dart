@@ -25,7 +25,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await appLocalization.ensureInitialized();
   di.initServiceLocator();
-  di.reRegisterClickupVariables();
+  di.updateFromEnv();
   await di.serviceLocator<Analytics>().initialize();
   await di.serviceLocator<Analytics>().logAppOpen();
   if (kIsWeb && Globals.isDemo == false) {
