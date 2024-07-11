@@ -8,7 +8,7 @@ abstract class ListsPageEvent extends Equatable {
 
 class GetListAndFoldersInListsPageEvent extends ListsPageEvent {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupWorkspace clickupWorkspace;
+  final Workspace clickupWorkspace;
   Space? clickupSpace;
 
   GetListAndFoldersInListsPageEvent.inSpace(
@@ -51,7 +51,7 @@ class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
 
 class StartCreateListInFolderEvent extends ListsPageEvent {
   final CreateClickupListInFolderParams createClickupListInFolderParams;
-  final ClickupWorkspace clickupWorkspace;
+  final Workspace clickupWorkspace;
   final Space? clickupSpace;
   final bool tryEvent;
 
@@ -70,7 +70,7 @@ class StartCreateListInFolderEvent extends ListsPageEvent {
 
 class CreateListInFolderEvent extends ListsPageEvent {
   CreateClickupListInFolderParams? createClickupListInFolderParams;
-  ClickupWorkspace? clickupWorkspace;
+  Workspace? clickupWorkspace;
   Space? clickupSpace;
   Folder? folderToCreateListIn;
   bool? tryEvent;
@@ -83,7 +83,7 @@ class CreateListInFolderEvent extends ListsPageEvent {
   }
   CreateListInFolderEvent.submit({
     required CreateClickupListInFolderParams this.createClickupListInFolderParams,
-    required ClickupWorkspace this.clickupWorkspace,
+    required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
     tryEvent = false;
@@ -100,7 +100,7 @@ class CreateListInFolderEvent extends ListsPageEvent {
 
 class CreateFolderlessListEvent extends ListsPageEvent {
   CreateFolderlessListClickupParams? createFolderlessListClickupParams;
-  ClickupWorkspace? clickupWorkspace;
+  Workspace? clickupWorkspace;
   Space? clickupSpace;
   bool? tryEvent;
 
@@ -112,7 +112,7 @@ class CreateFolderlessListEvent extends ListsPageEvent {
   }
   CreateFolderlessListEvent.submit({
     required CreateFolderlessListClickupParams this.createFolderlessListClickupParams,
-    required ClickupWorkspace this.clickupWorkspace,
+    required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
     tryEvent = false;
@@ -124,7 +124,7 @@ class CreateFolderlessListEvent extends ListsPageEvent {
 
 class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
   final MoveClickupTaskBetweenListsParams moveClickupTaskBetweenListsParams;
-  final ClickupWorkspace clickupWorkspace;
+  final Workspace clickupWorkspace;
   final Space? clickupSpace;
   final bool tryEvent;
 
@@ -146,7 +146,7 @@ class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
 
 class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
   CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
-  ClickupWorkspace? clickupWorkspace;
+  Workspace? clickupWorkspace;
   Space? clickupSpace;
   bool? tryEvent;
 
@@ -158,7 +158,7 @@ class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
   }
   CreateClickupFolderInSpaceEvent.submit({
     required CreateClickupFolderInSpaceParams this.createClickupFolderInSpaceParams,
-    required ClickupWorkspace this.clickupWorkspace,
+    required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
     tryEvent = false;
@@ -175,7 +175,7 @@ class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
 
 class DeleteClickupFolderEvent extends ListsPageEvent {
   DeleteClickupFolderParams? deleteClickupFolderParams;
-  ClickupWorkspace? clickupWorkspace;
+  Workspace? clickupWorkspace;
   Space? clickupSpace;
   Folder? toDeleteFolder;
   bool? tryEvent;
@@ -188,7 +188,7 @@ class DeleteClickupFolderEvent extends ListsPageEvent {
   }
   DeleteClickupFolderEvent.submit({
     required DeleteClickupFolderParams this.deleteClickupFolderParams,
-    required ClickupWorkspace this.clickupWorkspace,
+    required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
     tryEvent = false;
@@ -202,7 +202,7 @@ class DeleteClickupFolderEvent extends ListsPageEvent {
 
 class DeleteClickupListEvent extends ListsPageEvent {
   DeleteClickupListParams? deleteClickupListParams;
-  ClickupWorkspace? clickupWorkspace;
+  Workspace? clickupWorkspace;
   Space? clickupSpace;
   TasksList? toDeleteList;
   bool? tryEvent;
@@ -215,7 +215,7 @@ class DeleteClickupListEvent extends ListsPageEvent {
   }
   DeleteClickupListEvent.submit({
     required DeleteClickupListParams this.deleteClickupListParams,
-    required ClickupWorkspace this.clickupWorkspace,
+    required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
     tryEvent = false;

@@ -3,18 +3,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-/// id : 55230798
-/// username : "Laila Nabil"
-/// email : "laila.nabil.mustafa1@gmail.com"
-/// color : "#7b68ee"
-/// profilePicture : null
-/// initials : "LN"
-/// week_start_day : 0
-/// global_font_support : true
-/// timezone : "Africa/Cairo"
-
-class ClickupUser extends Equatable {
-  const ClickupUser({
+class User extends Equatable {
+  const User({
     this.id,
     this.username,
     this.email,

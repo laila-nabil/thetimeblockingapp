@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             }
             return CustomAppBarWidget(
               selectClickupWorkspace: (selected) {
-                if (selected is ClickupWorkspace && state.isLoading == false) {
+                if (selected is Workspace && state.isLoading == false) {
                   startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                       clickupWorkspace: selected,
                       clickupAccessToken: Globals.clickupAuthAccessToken));
@@ -82,7 +82,7 @@ class CustomAppBarWidget extends StatelessWidget {
   final bool showSmallDesign;
   final void Function() openDrawer;
   final void Function(Space? clickupSpace) selectClickupSpace;
-  final void Function(ClickupWorkspace? clickupWorkspace)
+  final void Function(Workspace? clickupWorkspace)
       selectClickupWorkspace;
   final List<CustomPopupItem>? pageActions;
   final bool isDarkMode;

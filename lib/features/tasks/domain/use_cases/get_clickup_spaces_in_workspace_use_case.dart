@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -44,7 +44,7 @@ class GetClickupSpacesInWorkspacesUseCase
 
 class GetClickupSpacesInWorkspacesParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupWorkspace clickupWorkspace;
+  final Workspace clickupWorkspace;
   final bool? archived;
 
   const GetClickupSpacesInWorkspacesParams({

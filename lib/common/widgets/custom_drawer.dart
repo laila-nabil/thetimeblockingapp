@@ -24,7 +24,7 @@ import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
 import '../../features/tasks/domain/entities/space.dart';
-import '../entities/clickup_workspace.dart';
+import '../entities/workspace.dart';
 
 ///TODO in desktop,show folders and list as sub to Lists
 
@@ -41,7 +41,7 @@ class CustomDrawer extends StatelessWidget {
             showSmallDesign: showSmallDesign,
             router: GoRouter.of(context),
             selectWorkspace: (selected) {
-              if (selected is ClickupWorkspace && state.isLoading == false) {
+              if (selected is Workspace && state.isLoading == false) {
                 startupBloc.add(SelectClickupWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: selected,
                     clickupAccessToken: Globals.clickupAuthAccessToken));
@@ -70,7 +70,7 @@ class CustomDrawerWidget extends StatelessWidget {
     required this.showSmallDesign,
   });
 
-  final void Function(ClickupWorkspace? clickupWorkspace) selectWorkspace;
+  final void Function(Workspace? clickupWorkspace) selectWorkspace;
   final void Function(Space? clickupSpace) selectSpace;
   final Localization appLocalization;
   final GoRouter? router;

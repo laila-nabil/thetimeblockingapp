@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
-import '../../../../common/entities/clickup_user.dart';
+import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
 import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';

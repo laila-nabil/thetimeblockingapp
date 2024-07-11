@@ -7,7 +7,7 @@ abstract class AllTasksEvent extends Equatable {
 class GetClickupTasksInSpaceEvent extends AllTasksEvent {
   final ClickupAccessToken clickupAccessToken;
   final Space space;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const GetClickupTasksInSpaceEvent(
       {required this.clickupAccessToken,
@@ -20,7 +20,7 @@ class GetClickupTasksInSpaceEvent extends AllTasksEvent {
 
 class CreateClickupTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const CreateClickupTaskEvent({
     required this.params,
@@ -33,7 +33,7 @@ class CreateClickupTaskEvent extends AllTasksEvent {
 
 class DuplicateClickupTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const DuplicateClickupTaskEvent({
     required this.params,
@@ -46,7 +46,7 @@ class DuplicateClickupTaskEvent extends AllTasksEvent {
 
 class UpdateClickupTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const UpdateClickupTaskEvent({
     required this.params,
@@ -59,7 +59,7 @@ class UpdateClickupTaskEvent extends AllTasksEvent {
 
 class DeleteClickupTaskEvent extends AllTasksEvent {
   final DeleteClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const DeleteClickupTaskEvent({
     required this.params,

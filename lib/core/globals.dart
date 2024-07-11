@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
-import '../common/entities/clickup_user.dart';
-import '../common/entities/clickup_workspace.dart';
+import '../common/entities/user.dart';
+import '../common/entities/workspace.dart';
 import '../features/auth/domain/entities/clickup_access_token.dart';
 import 'environment.dart';
 
@@ -11,9 +11,9 @@ String _appName = "Time blocking app";
 
 ClickupAccessToken _clickupAuthAccessToken =
     const ClickupAccessToken(accessToken: "", tokenType: "");
-ClickupUser? _clickupUser;
+User? _clickupUser;
 
-ClickupWorkspace? _selectedWorkspace;
+Workspace? _selectedWorkspace;
 
 String? _selectedSpaceId;
 
@@ -22,7 +22,7 @@ bool _isSpaceAppWide = true;
 
 Duration _defaultTaskDuration = const Duration(hours: 1);
 
-List<ClickupWorkspace>? _clickupWorkspaces;
+List<Workspace>? _clickupWorkspaces;
 
 List<Space>? _clickupSpaces;
 
@@ -46,9 +46,9 @@ class Globals {
   static ClickupAccessToken get clickupAuthAccessToken =>
       _clickupAuthAccessToken;
 
-  static ClickupUser? get clickupUser => _clickupUser;
+  static User? get clickupUser => _clickupUser;
 
-  static ClickupWorkspace? get selectedWorkspace => _selectedWorkspace;
+  static Workspace? get selectedWorkspace => _selectedWorkspace;
 
   static String? get selectedSpaceId => _selectedSpaceId;
 
@@ -60,11 +60,11 @@ class Globals {
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
 
-  static List<ClickupWorkspace>? get clickupWorkspaces => _clickupWorkspaces;
+  static List<Workspace>? get clickupWorkspaces => _clickupWorkspaces;
 
   static List<Space>? get clickupSpaces => _clickupSpaces;
 
-  static ClickupWorkspace? get defaultWorkspace =>
+  static Workspace? get defaultWorkspace =>
       _clickupWorkspaces?.firstOrNull;
 
   static Space? get defaultSpace => _clickupSpaces?.firstOrNull;
@@ -105,11 +105,11 @@ mixin class GlobalsWriteAccess {
     _clickupSpaces = null;
   }
 
-  set clickupUser(ClickupUser value) {
+  set clickupUser(User value) {
     _clickupUser = value;
   }
 
-  set selectedWorkspace(ClickupWorkspace value) {
+  set selectedWorkspace(Workspace value) {
     _selectedWorkspace = value;
   }
 
@@ -127,7 +127,7 @@ mixin class GlobalsWriteAccess {
     _defaultTaskDuration = value;
   }
 
-  set clickupWorkspaces(List<ClickupWorkspace> value) {
+  set clickupWorkspaces(List<Workspace> value) {
     _clickupWorkspaces = value;
   }
 

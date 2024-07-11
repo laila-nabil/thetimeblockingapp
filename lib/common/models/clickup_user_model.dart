@@ -1,4 +1,4 @@
-import '../entities/clickup_user.dart';
+import '../entities/user.dart';
 
 /// id : 55230798
 /// username : "Laila Nabil"
@@ -10,7 +10,7 @@ import '../entities/clickup_user.dart';
 /// global_font_support : true
 /// timezone : "Africa/Cairo"
 
-class ClickupUserModel extends ClickupUser {
+class ClickupUserModel extends User {
   const ClickupUserModel({
     super.id,
     super.username,

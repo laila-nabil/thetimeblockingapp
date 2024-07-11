@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
-import '../../../../common/entities/clickup_workspace.dart';
+import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
@@ -46,7 +46,7 @@ abstract class TasksRepo{
   Future<Either<Failure, Unit>?> deleteTask(
       DeleteClickupTaskParams params);
 
-  Future<Either<Failure, List<ClickupWorkspace>>> getClickupWorkspaces(
+  Future<Either<Failure, List<Workspace>>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
 
   Future<Either<Failure, List<Space>>> getClickupSpacesInWorkspaces(
@@ -79,7 +79,7 @@ abstract class TasksRepo{
   Future<Either<Failure, Unit>?> selectWorkspace(
       SelectWorkspaceParams params);
 
-  Future<Either<Failure, ClickupWorkspace>?> getSelectedWorkspace(
+  Future<Either<Failure, Workspace>?> getSelectedWorkspace(
       NoParams params);
 
   Future<Either<Failure, Unit>?> selectSpace(

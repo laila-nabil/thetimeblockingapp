@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
@@ -10,13 +10,13 @@ import '../../../../core/injection_container.dart';
 import '../entities/clickup_access_token.dart';
 
 class GetClickupUserUseCase
-    implements UseCase<ClickupUser, GetClickupUserParams> {
+    implements UseCase<User, GetClickupUserParams> {
   final AuthRepo repo;
 
   GetClickupUserUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupUser>?> call(
+  Future<Either<Failure, User>?> call(
       GetClickupUserParams params) async {
     final result = await repo.getClickupUser(params: params);
     await result.fold(

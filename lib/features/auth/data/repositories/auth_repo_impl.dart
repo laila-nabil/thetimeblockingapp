@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import 'package:thetimeblockingapp/common/entities/clickup_user.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -44,7 +44,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<Either<Failure, ClickupUser>> getClickupUser(
+  Future<Either<Failure, User>> getClickupUser(
       {required GetClickupUserParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>

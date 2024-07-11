@@ -1,13 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-/// id : "1234"
-/// name : "My ClickUp Workspace"
-/// color : "#000000"
-/// avatar : "https://clickup.com/avatar.jpg"
-/// members : [{"user":{"id":123,"username":"John Doe","color":"#000000","profilePicture":"https://clickup.com/avatar.jpg"}}]
-
-class ClickupWorkspace extends Equatable {
-  const ClickupWorkspace({
+class Workspace extends Equatable {
+  const Workspace({
     this.id,
     this.name,
     this.color,

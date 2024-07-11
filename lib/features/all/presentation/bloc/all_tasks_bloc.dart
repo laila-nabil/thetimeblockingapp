@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 
-import '../../../../common/entities/clickup_workspace.dart';
+import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../tasks/domain/entities/space.dart';

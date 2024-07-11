@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -18,7 +18,7 @@ class SelectWorkspaceUseCase implements UseCase<Unit,SelectWorkspaceParams>{
 }
 
 class SelectWorkspaceParams{
-  final ClickupWorkspace clickupWorkspace;
+  final Workspace clickupWorkspace;
 
   SelectWorkspaceParams(this.clickupWorkspace);
 }

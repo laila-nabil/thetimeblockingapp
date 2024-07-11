@@ -17,9 +17,9 @@ class AuthState extends Equatable {
   final Set<AuthStateEnum> authStates;
   final Failure? getClickupAccessTokenFailure;
   final ClickupAccessToken? clickupAccessToken;
-  final ClickupUser? clickupUser;
+  final User? clickupUser;
   final Failure? getClickupUserFailure;
-  final List<ClickupWorkspace>? clickupWorkspaces;
+  final List<Workspace>? clickupWorkspaces;
   final Failure? getClickupWorkspacesFailure;
 
   const AuthState({
@@ -71,9 +71,9 @@ class AuthState extends Equatable {
     Set<AuthStateEnum>? authStates,
     Failure? getClickupAccessTokenFailure,
     ClickupAccessToken? clickupAccessToken,
-    ClickupUser? clickupUser,
+    User? clickupUser,
     Failure? getClickupUserFailure,
-    List<ClickupWorkspace>? clickupWorkspaces,
+    List<Workspace>? clickupWorkspaces,
     Failure? getClickupWorkspacesFailure,
   }) {
     return AuthState(

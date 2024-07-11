@@ -11,7 +11,7 @@ enum StartupStateEnum {
 class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
-  final ClickupWorkspace? selectedClickupWorkspace;
+  final Workspace? selectedClickupWorkspace;
   final Space? selectedClickupSpace;
   final List<Map<String, Failure>>? getSpacesFailure;
   final List<Map<String, Failure>>? getAllInSpaceFailure;
@@ -53,7 +53,7 @@ class StartupState extends Equatable {
   StartupState copyWith({
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
-    ClickupWorkspace? selectedClickupWorkspace,
+    Workspace? selectedClickupWorkspace,
     Space? selectedClickupSpace,
     List<Map<String, Failure>>? getSpacesFailure,
     List<Map<String, Failure>>? getAllInSpaceFailure,

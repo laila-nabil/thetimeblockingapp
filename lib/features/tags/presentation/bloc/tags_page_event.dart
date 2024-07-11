@@ -28,7 +28,7 @@ class GetClickupTasksForTagEvent extends TagsPageEvent {
   final ClickupAccessToken clickupAccessToken;
   final ClickupTag tag;
   final Space space;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const GetClickupTasksForTagEvent(
       {required this.clickupAccessToken,
@@ -101,7 +101,7 @@ class DeleteClickupTagEvent extends TagsPageEvent {
 
 class CreateClickupTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const CreateClickupTaskEvent({
     required this.params,
@@ -114,7 +114,7 @@ class CreateClickupTaskEvent extends TagsPageEvent {
 
 class DuplicateClickupTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const DuplicateClickupTaskEvent({
     required this.params,
@@ -127,7 +127,7 @@ class DuplicateClickupTaskEvent extends TagsPageEvent {
 
 class UpdateClickupTaskEvent extends TagsPageEvent {
   final ClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const UpdateClickupTaskEvent({
     required this.params,
@@ -140,7 +140,7 @@ class UpdateClickupTaskEvent extends TagsPageEvent {
 
 class DeleteClickupTaskEvent extends TagsPageEvent {
   final DeleteClickupTaskParams params;
-  final ClickupWorkspace workspace;
+  final Workspace workspace;
 
   const DeleteClickupTaskEvent({
     required this.params,

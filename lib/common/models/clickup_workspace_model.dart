@@ -1,4 +1,4 @@
-import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 
 /// id : "1234"
 /// name : "My ClickUp Workspace"
@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 /// avatar : "https://clickup.com/avatar.jpg"
 /// members : [{"user":{"id":123,"username":"John Doe","color":"#000000","profilePicture":"https://clickup.com/avatar.jpg"}}]
 
-class ClickupWorkspaceModel extends ClickupWorkspace {
+class ClickupWorkspaceModel extends Workspace {
   const ClickupWorkspaceModel({
     super.id,
     super.name,
