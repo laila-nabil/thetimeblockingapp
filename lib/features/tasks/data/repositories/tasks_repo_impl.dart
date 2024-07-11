@@ -19,7 +19,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_s
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
@@ -165,14 +164,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     );
   }
 
-  @override
-  Future<dartz.Either<Failure, dartz.Unit>> removeTaskFromAdditionalList(
-      {required RemoveTaskFromListParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.removeTaskFromAdditionalList(params: params),
-    );
-  }
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> selectWorkspace(

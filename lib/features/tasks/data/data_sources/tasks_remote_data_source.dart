@@ -28,7 +28,6 @@ import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
-import '../../domain/use_cases/remove_task_from_list_task_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_clickup_tag_use_case.dart';
 import '../models/clickup_folder_model.dart';
@@ -69,9 +68,6 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params});
 
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params});
-
-  Future<dartz.Unit> removeTaskFromAdditionalList(
-      {required RemoveTaskFromListParams params});
 
   Future<dartz.Unit> addTaskToList({required AddTaskToListParams params});
 
@@ -306,17 +302,6 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     return dartz.unit;
   }
 
-  @override
-  Future<dartz.Unit> removeTaskFromAdditionalList(
-      {required RemoveTaskFromListParams params}) async {
-    Uri uri =
-        Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
-    await network.delete(
-      uri: uri,
-      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
-    );
-    return dartz.unit;
-  }
 
   @override
   Future<ClickupListModel> getClickupList(

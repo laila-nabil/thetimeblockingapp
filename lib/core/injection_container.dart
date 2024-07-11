@@ -30,7 +30,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_sp
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_task_from_list_task_use_case.dart';
 import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -275,10 +274,6 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => AddTaskToListUseCase(
         serviceLocator(),
       ));
-  serviceLocator
-      .registerLazySingleton(() => RemoveTaskFromAdditionalListUseCase(
-            serviceLocator(),
-          ));
   serviceLocator.registerLazySingleton(() => GetSelectedSpaceUseCase(
         serviceLocator(),
       ));

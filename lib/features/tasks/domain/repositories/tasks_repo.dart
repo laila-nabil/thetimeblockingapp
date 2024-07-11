@@ -31,7 +31,6 @@ import '../use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../use_cases/get_clickup_workspaces_use_case.dart';
 import '../use_cases/remove_tag_from_task_use_case.dart';
-import '../use_cases/remove_task_from_list_task_use_case.dart';
 
 abstract class TasksRepo{
   Future<dartz.Either<Failure,List<Task>>> getTasksInWorkspace(
@@ -70,8 +69,6 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, dartz.Unit>> addTagToTask(
       {required AddTagToTaskParams params});
 
-  Future<dartz.Either<Failure, dartz.Unit>> removeTaskFromAdditionalList(
-      {required RemoveTaskFromListParams params});
 
   Future<dartz.Either<Failure, dartz.Unit>> addTaskToList(
       {required AddTaskToListParams params});
