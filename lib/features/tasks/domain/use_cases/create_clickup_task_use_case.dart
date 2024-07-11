@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -13,13 +13,13 @@ import '../repositories/tasks_repo.dart';
 ///TODO have brain dump/ inbox or default list
 
 class CreateClickupTaskUseCase
-    implements UseCase<ClickupTask, ClickupTaskParams> {
+    implements UseCase<Task, ClickupTaskParams> {
   final TasksRepo repo;
 
   CreateClickupTaskUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupTask>?> call(ClickupTaskParams params) async {
+  Future<dartz.Either<Failure, Task>?> call(ClickupTaskParams params) async {
     final result = await repo.createTaskInList(params);
     await result?.fold(
         (l) async =>await  serviceLocator<Analytics>()

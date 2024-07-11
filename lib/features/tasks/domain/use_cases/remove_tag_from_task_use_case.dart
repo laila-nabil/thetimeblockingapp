@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -9,13 +9,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
 class RemoveTagFromTaskUseCase
-    implements UseCase<Unit, RemoveTagFromTaskParams> {
+    implements UseCase<dartz.Unit, RemoveTagFromTaskParams> {
   
   final TasksRepo repo;
 
   RemoveTagFromTaskUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(RemoveTagFromTaskParams params) async {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(RemoveTagFromTaskParams params) async {
     var result = await repo.removeTagFromTask(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
@@ -32,8 +32,8 @@ class RemoveTagFromTaskUseCase
 }
 
 class RemoveTagFromTaskParams {
-  final ClickupTask task;
-  final ClickupTag tag;
+  final Task task;
+  final Tag tag;
   final ClickupAccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";

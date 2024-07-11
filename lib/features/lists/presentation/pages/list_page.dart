@@ -62,7 +62,7 @@ class ListPage extends StatelessWidget {
                             bloc: listsPageBloc,
                             onSave: (params) {
                               listsPageBloc
-                                  .add(CreateClickupTaskEvent(params: params));
+                                  .add(CreateTaskEvent(params: params));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! ListsPageState
@@ -161,7 +161,7 @@ class ListPage extends StatelessWidget {
   }
 
   Widget buildTaskWidget(
-      ClickupTask e, BuildContext context, ListsPageBloc listsPageBloc) {
+      Task e, BuildContext context, ListsPageBloc listsPageBloc) {
     // return Container();
     return TaskComponent(
       clickupTask: e,
@@ -169,14 +169,14 @@ class ListPage extends StatelessWidget {
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
       onDelete: (params) {
-        listsPageBloc.add(DeleteClickupTaskEvent(params: params));
+        listsPageBloc.add(DeleteTaskEvent(params: params));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        listsPageBloc.add(UpdateClickupTaskEvent(params: params));
+        listsPageBloc.add(UpdateTaskEvent(params: params));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
-        listsPageBloc.add(DuplicateClickupTaskEvent(
+        listsPageBloc.add(DuplicateTaskEvent(
           params: params,));
     },
     );

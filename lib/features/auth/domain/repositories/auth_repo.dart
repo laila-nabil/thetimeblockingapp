@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
@@ -7,12 +7,12 @@ import '../use_cases/get_clickup_access_token_use_case.dart';
 import '../use_cases/get_clickup_user_use_case.dart';
 
 abstract class AuthRepo {
-  Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
+  Future<dartz.Either<Failure, ClickupAccessToken>> getClickupAccessToken(
       {required GetClickupAccessTokenParams params});
 
-  Future<Either<Failure, User>> getClickupUser(
+  Future<dartz.Either<Failure, User>> getClickupUser(
       {required GetClickupUserParams params});
 
-  Future<Either<Failure, Unit>> signOut();
+  Future<dartz.Either<Failure, dartz.Unit>> signOut();
 
 }

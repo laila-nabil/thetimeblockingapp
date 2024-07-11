@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -11,25 +11,25 @@ import '../../data/models/clickup_task_model.dart';
 import '../entities/task.dart';
 
 class CreateClickupTagInSpaceUseCase
-    implements UseCase<Unit, CreateClickupTagInSpaceParams> {
+    implements UseCase<dartz.Unit, CreateClickupTagInSpaceParams> {
   final TasksRepo repo;
 
   CreateClickupTagInSpaceUseCase(this.repo);
 
-  static bool readyToSubmit(ClickupTag tag) =>
+  static bool readyToSubmit(Tag tag) =>
       tag.name?.isNotEmpty == true &&
           tag.name?.endsWith("?") == false &&
           tag.name?.endsWith("؟") == false;
 
   @override
-  Future<Either<Failure, Unit>?> call(CreateClickupTagInSpaceParams params) async{
+  Future<dartz.Either<Failure, dartz.Unit>?> call(CreateClickupTagInSpaceParams params) async{
     if(readyToSubmit(params.newTag) == false){
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.createTag.name, parameters: {
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: "must not contain ? at the end",
       });
-      return const Left(InputFailure(message: "must not contain ? at the end"));
+      return const dartz.Left(InputFailure(message: "must not contain ? at the end"));
     }
     final result = await repo.createClickupTagInSpace(params);
     await result?.fold(

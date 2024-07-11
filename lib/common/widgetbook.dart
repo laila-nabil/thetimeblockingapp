@@ -2373,18 +2373,18 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'include Tag 2',
                       initialValue: true,
                     );
-                    List<ClickupTag> tags = [
-                      const ClickupTag(name: "Milestone 1"),
-                      const ClickupTag(name: "Personal projects"),
+                    List<Tag> tags = [
+                      const Tag(name: "Milestone 1"),
+                      const Tag(name: "Personal projects"),
                     ];
                     if (includeTag1) {
-                      tags.add(const ClickupTag(name: "UI dev"));
+                      tags.add(const Tag(name: "UI dev"));
                     }
                     if (includeTag2) {
-                      tags.add(const ClickupTag(
+                      tags.add(const Tag(
                           name: "Setup project", tagFg: "0xffe3effc"));
                     }
-                    final task = ClickupTask(
+                    final task = Task(
                         name: taskName,
                         startDateUtcTimestamp: DateTime.now()
                             .subtract(const Duration(hours: 1))
@@ -2440,18 +2440,18 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'include Tag 2 for task 1',
                       initialValue: true,
                     );
-                    List<ClickupTag> tags = [
-                      const ClickupTag(name: "Milestone 1"),
-                      const ClickupTag(name: "Personal projects"),
+                    List<Tag> tags = [
+                      const Tag(name: "Milestone 1"),
+                      const Tag(name: "Personal projects"),
                     ];
                     if (includeTag1_1) {
-                      tags.add(const ClickupTag(name: "UI dev"));
+                      tags.add(const Tag(name: "UI dev"));
                     }
                     if (includeTag1_2) {
-                      tags.add(const ClickupTag(
+                      tags.add(const Tag(
                           name: "Setup project", tagFg: "0xffe3effc"));
                     }
-                    final task1 = ClickupTask(
+                    final task1 = Task(
                         name: taskName1,
                         startDateUtcTimestamp: DateTime.now()
                             .subtract(const Duration(hours: 1))
@@ -2487,18 +2487,18 @@ class WidgetBookApp extends StatelessWidget {
                       label: 'include Tag 2 for task 2',
                       initialValue: true,
                     );
-                    List<ClickupTag> tags2 = [
-                      const ClickupTag(name: "Milestone 1"),
-                      const ClickupTag(name: "Personal projects"),
+                    List<Tag> tags2 = [
+                      const Tag(name: "Milestone 1"),
+                      const Tag(name: "Personal projects"),
                     ];
                     if (includeTag2_1) {
-                      tags2.add(const ClickupTag(name: "UI dev"));
+                      tags2.add(const Tag(name: "UI dev"));
                     }
                     if (includeTag2_2) {
-                      tags2.add(const ClickupTag(
+                      tags2.add(const Tag(
                           name: "Setup project", tagFg: "0xffe3effc"));
                     }
-                    final task2 = ClickupTask(
+                    final task2 = Task(
                         name: taskName2,
                         startDateUtcTimestamp: DateTime.now()
                             .subtract(const Duration(hours: 1))
@@ -2564,7 +2564,7 @@ class WidgetBookApp extends StatelessWidget {
                       initialValue: 'tag',
                     );
 
-                    ClickupTag tag = ClickupTag(name: name, tagFg: "");
+                    Tag tag = Tag(name: name, tagFg: "");
 
                     return TagChip(
                       tagName: tag.name ?? "",
@@ -2584,7 +2584,7 @@ class WidgetBookApp extends StatelessWidget {
                       initialValue: 'tag',
                     );
 
-                    ClickupTag tag = ClickupTag(name: name, tagFg: "");
+                    Tag tag = Tag(name: name, tagFg: "");
 
                     return TagComponent(tag: tag);
                   }),

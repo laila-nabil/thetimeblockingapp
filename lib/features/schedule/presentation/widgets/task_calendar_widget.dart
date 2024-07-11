@@ -12,7 +12,7 @@ class TaskCalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final task = calendarAppointmentDetails.appointments.first as ClickupTask;
+    final task = calendarAppointmentDetails.appointments.first as Task;
     final viewExtraDetails =
         calendarAppointmentDetails.bounds.height > 20 && task.isAllDay == false;
     const divider = SizedBox(

@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -15,7 +15,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_f
 import '../../../../core/print_debug.dart';
 import '../repositories/tasks_repo.dart';
 
-class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
+class UpdateClickupTaskUseCase implements UseCase<dartz.Unit, ClickupTaskParams> {
   final TasksRepo repo;
   final AddTagsToTaskUseCase addTagsToTaskUseCase;
   final RemoveTagsFromTaskUseCase removeTagsFromTaskUseCase;
@@ -32,8 +32,8 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       this.deleteClickupTaskUseCase);
 
   @override
-  Future<Either<Failure, Unit>?> call(ClickupTaskParams params) async {
-    Either<Failure, ClickupTask>? updateTaskResult;
+  Future<dartz.Either<Failure, dartz.Unit>?> call(ClickupTaskParams params) async {
+    dartz.Either<Failure, Task>? updateTaskResult;
     List<Failure> failures = [];
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&
@@ -48,11 +48,11 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
       final taskTags = task?.tags;
       final newTags = params.tags;
       if (newTags != taskTags) {
-        List<ClickupTag> addTags = newTags
+        List<Tag> addTags = newTags
                 ?.where((element) => taskTags?.contains(element) == false)
                 .toList() ??
             [];
-        List<ClickupTag> removeTags = taskTags
+        List<Tag> removeTags = taskTags
                 ?.where((element) => newTags?.contains(element) == false)
                 .toList() ??
             [];
@@ -79,18 +79,18 @@ class UpdateClickupTaskUseCase implements UseCase<Unit, ClickupTaskParams> {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: failures.toString(),
         });
-        return Left(FailuresList(failures: failures));
+        return dartz.Left(FailuresList(failures: failures));
       }
       await serviceLocator<Analytics>().logEvent(eventName, parameters: {
         AnalyticsEventParameter.status.name: true,
       });
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     } else {
       await serviceLocator<Analytics>().logEvent(eventName, parameters: {
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name:'list problem',
       });
-      return Left(FailuresList(
+      return dartz.Left(FailuresList(
           failures: const [UnknownFailure(message: 'list problem')]));
     }
   }

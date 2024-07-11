@@ -122,13 +122,13 @@ class CreateFolderlessListEvent extends ListsPageEvent {
       [createFolderlessListClickupParams, clickupWorkspace, clickupSpace, tryEvent];
 }
 
-class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
+class MoveTaskBetweenListsEvent extends ListsPageEvent {
   final MoveClickupTaskBetweenListsParams moveClickupTaskBetweenListsParams;
   final Workspace clickupWorkspace;
   final Space? clickupSpace;
   final bool tryEvent;
 
-  const MoveClickupTaskBetweenListsEvent({
+  const MoveTaskBetweenListsEvent({
     required this.moveClickupTaskBetweenListsParams,
     required this.clickupWorkspace,
     this.clickupSpace,
@@ -144,19 +144,19 @@ class MoveClickupTaskBetweenListsEvent extends ListsPageEvent {
       ];
 }
 
-class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
+class CreateFolderInSpaceEvent extends ListsPageEvent {
   CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   bool? tryEvent;
 
-  CreateClickupFolderInSpaceEvent.tryCreate(){
+  CreateFolderInSpaceEvent.tryCreate(){
     tryEvent = true;
   }
-  CreateClickupFolderInSpaceEvent.cancelCreate(){
+  CreateFolderInSpaceEvent.cancelCreate(){
     tryEvent = false;
   }
-  CreateClickupFolderInSpaceEvent.submit({
+  CreateFolderInSpaceEvent.submit({
     required CreateClickupFolderInSpaceParams this.createClickupFolderInSpaceParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
@@ -173,20 +173,20 @@ class CreateClickupFolderInSpaceEvent extends ListsPageEvent {
       ];
 }
 
-class DeleteClickupFolderEvent extends ListsPageEvent {
+class DeleteFolderEvent extends ListsPageEvent {
   DeleteClickupFolderParams? deleteClickupFolderParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   Folder? toDeleteFolder;
   bool? tryEvent;
 
-  DeleteClickupFolderEvent.tryDelete(Folder this.toDeleteFolder){
+  DeleteFolderEvent.tryDelete(Folder this.toDeleteFolder){
     tryEvent = true;
   }
-  DeleteClickupFolderEvent.cancelDelete(){
+  DeleteFolderEvent.cancelDelete(){
     tryEvent = false;
   }
-  DeleteClickupFolderEvent.submit({
+  DeleteFolderEvent.submit({
     required DeleteClickupFolderParams this.deleteClickupFolderParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
@@ -200,20 +200,20 @@ class DeleteClickupFolderEvent extends ListsPageEvent {
       ];
 }
 
-class DeleteClickupListEvent extends ListsPageEvent {
+class DeleteListEvent extends ListsPageEvent {
   DeleteClickupListParams? deleteClickupListParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   TasksList? toDeleteList;
   bool? tryEvent;
 
-  DeleteClickupListEvent.tryDelete(TasksList this.toDeleteList){
+  DeleteListEvent.tryDelete(TasksList this.toDeleteList){
     tryEvent = true;
   }
-  DeleteClickupListEvent.cancelDelete(){
+  DeleteListEvent.cancelDelete(){
     tryEvent = false;
   }
-  DeleteClickupListEvent.submit({
+  DeleteListEvent.submit({
     required DeleteClickupListParams this.deleteClickupListParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
@@ -226,36 +226,36 @@ class DeleteClickupListEvent extends ListsPageEvent {
       [deleteClickupListParams, clickupWorkspace, clickupSpace, tryEvent];
 }
 
-class CreateClickupTaskEvent extends ListsPageEvent {
+class CreateTaskEvent extends ListsPageEvent {
   final ClickupTaskParams params;
 
-  const CreateClickupTaskEvent({required this.params});
+  const CreateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
-class DuplicateClickupTaskEvent extends ListsPageEvent {
+class DuplicateTaskEvent extends ListsPageEvent {
   final ClickupTaskParams params;
 
-  const DuplicateClickupTaskEvent({required this.params});
-
-  @override
-  List<Object?> get props => [params];
-}
-
-class UpdateClickupTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
-
-  const UpdateClickupTaskEvent({required this.params});
+  const DuplicateTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];
 }
 
-class DeleteClickupTaskEvent extends ListsPageEvent {
+class UpdateTaskEvent extends ListsPageEvent {
+  final ClickupTaskParams params;
+
+  const UpdateTaskEvent({required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class DeleteTaskEvent extends ListsPageEvent {
   final DeleteClickupTaskParams params;
 
-  const DeleteClickupTaskEvent({required this.params});
+  const DeleteTaskEvent({required this.params});
 
   @override
   List<Object?> get props => [params];

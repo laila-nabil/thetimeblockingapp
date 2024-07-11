@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
@@ -17,7 +17,7 @@ class GetClickupAllListsInFoldersUseCase
   GetClickupAllListsInFoldersUseCase(this.getClickupListsInFolderUseCase);
 
   @override
-  Future<Either<Failure, Map<Folder, List<TasksList>>>?> call(
+  Future<dartz.Either<Failure, Map<Folder, List<TasksList>>>?> call(
       GetClickupAllListsInFoldersParams params) async {
     Map<Folder, List<TasksList>> resultRight = {};
     Map<Folder, Failure> resultLeft = {};
@@ -30,9 +30,9 @@ class GetClickupAllListsInFoldersUseCase
               (l) => resultLeft[folder] = l, (r) => resultRight[folder] = r);
     }
     if (resultRight.isEmpty && resultLeft.isNotEmpty) {
-      return Left(resultLeft.entries.first.value);
+      return dartz.Left(resultLeft.entries.first.value);
     }
-    return Right(resultRight);
+    return dartz.Right(resultRight);
   }
 }
 

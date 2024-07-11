@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -82,8 +82,8 @@ class GetClickupListAndItsTasksParams extends Equatable {
 }
 
 class GetClickupListAndItsTasksResult extends Equatable {
-  final Either<Failure, TasksList>? listResult;
-  final Either<Failure, List<ClickupTask>> tasksResult;
+  final dartz.Either<Failure, TasksList>? listResult;
+  final dartz.Either<Failure, List<Task>> tasksResult;
 
   const GetClickupListAndItsTasksResult(
       {required this.listResult, required this.tasksResult});

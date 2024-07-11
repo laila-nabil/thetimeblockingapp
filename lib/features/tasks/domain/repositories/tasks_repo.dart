@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
@@ -34,89 +34,89 @@ import '../use_cases/remove_tag_from_task_use_case.dart';
 import '../use_cases/remove_task_from_list_task_use_case.dart';
 
 abstract class TasksRepo{
-  Future<Either<Failure,List<ClickupTask>>> getTasksInWorkspace(
+  Future<dartz.Either<Failure,List<Task>>> getTasksInWorkspace(
       {required GetClickupTasksInWorkspaceParams params});
 
-  Future<Either<Failure, ClickupTask>?> createTaskInList(
+  Future<dartz.Either<Failure, Task>?> createTaskInList(
       ClickupTaskParams params);
 
-  Future<Either<Failure, ClickupTask>?> updateTask(
+  Future<dartz.Either<Failure, Task>?> updateTask(
       ClickupTaskParams params);
 
-  Future<Either<Failure, Unit>?> deleteTask(
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(
       DeleteClickupTaskParams params);
 
-  Future<Either<Failure, List<Workspace>>> getClickupWorkspaces(
+  Future<dartz.Either<Failure, List<Workspace>>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
 
-  Future<Either<Failure, List<Space>>> getClickupSpacesInWorkspaces(
+  Future<dartz.Either<Failure, List<Space>>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params});
 
-  Future<Either<Failure, List<Folder>>> getClickupFolders(
+  Future<dartz.Either<Failure, List<Folder>>> getClickupFolders(
       {required GetClickupFoldersInSpaceParams params});
 
-  Future<Either<Failure, List<TasksList>>> getClickupListsInFolder(
+  Future<dartz.Either<Failure, List<TasksList>>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
-  Future<Either<Failure, List<TasksList>>> getClickupFolderlessLists(
+  Future<dartz.Either<Failure, List<TasksList>>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
 
-  Future<Either<Failure, List<ClickupTag>>> getClickupTags(
+  Future<dartz.Either<Failure, List<Tag>>> getClickupTags(
       {required GetClickupTagsInSpaceParams params});
 
-  Future<Either<Failure, Unit>> removeTagFromTask(
+  Future<dartz.Either<Failure, dartz.Unit>> removeTagFromTask(
       {required RemoveTagFromTaskParams params});
 
-  Future<Either<Failure, Unit>> addTagToTask(
+  Future<dartz.Either<Failure, dartz.Unit>> addTagToTask(
       {required AddTagToTaskParams params});
 
-  Future<Either<Failure, Unit>> removeTaskFromAdditionalList(
+  Future<dartz.Either<Failure, dartz.Unit>> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params});
 
-  Future<Either<Failure, Unit>> addTaskToList(
+  Future<dartz.Either<Failure, dartz.Unit>> addTaskToList(
       {required AddTaskToListParams params});
 
-  Future<Either<Failure, Unit>?> selectWorkspace(
+  Future<dartz.Either<Failure, dartz.Unit>?> selectWorkspace(
       SelectWorkspaceParams params);
 
-  Future<Either<Failure, Workspace>?> getSelectedWorkspace(
+  Future<dartz.Either<Failure, Workspace>?> getSelectedWorkspace(
       NoParams params);
 
-  Future<Either<Failure, Unit>?> selectSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> selectSpace(
       SelectSpaceParams params);
 
-  Future<Either<Failure, Space>?> getSelectedSpace(
+  Future<dartz.Either<Failure, Space>?> getSelectedSpace(
       NoParams params);
 
-  Future<Either<Failure, Unit>?> saveSpacesOfSelectedWorkspace(
+  Future<dartz.Either<Failure, dartz.Unit>?> saveSpacesOfSelectedWorkspace(
       SaveSpacesParams params);
 
-  Future<Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
+  Future<dartz.Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
       NoParams params);
 
-  Future<Either<Failure, TasksList>?> getClickupList(
+  Future<dartz.Either<Failure, TasksList>?> getClickupList(
       GetClickupListParams params);
 
-  Future<Either<Failure, TasksList>?> createClickupListInFolder(
+  Future<dartz.Either<Failure, TasksList>?> createClickupListInFolder(
       CreateClickupListInFolderParams params);
 
-  Future<Either<Failure, TasksList>?> createFolderlessClickupList(
+  Future<dartz.Either<Failure, TasksList>?> createFolderlessClickupList(
       CreateFolderlessListClickupParams params);
 
-  Future<Either<Failure, Folder>?> createClickupFolderInSpace(
+  Future<dartz.Either<Failure, Folder>?> createClickupFolderInSpace(
       CreateClickupFolderInSpaceParams params);
 
-  Future<Either<Failure, Unit>?> deleteList(DeleteClickupListParams params);
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteClickupListParams params);
 
-  Future<Either<Failure, Unit>?> deleteFolder(
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteFolder(
       DeleteClickupFolderParams params);
 
-  Future<Either<Failure, Unit>?> deleteClickupTag(
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteClickupTag(
       DeleteClickupTagParams params);
 
-  Future<Either<Failure, Unit>?> createClickupTagInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createClickupTagInSpace(
       CreateClickupTagInSpaceParams params);
 
-  Future<Either<Failure, Unit>?> updateClickupTag(
+  Future<dartz.Either<Failure, dartz.Unit>?> updateClickupTag(
       UpdateClickupTagParams params);
 }

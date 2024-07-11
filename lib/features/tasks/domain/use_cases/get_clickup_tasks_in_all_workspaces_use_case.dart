@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
@@ -10,9 +10,9 @@ class GetClickupTasksInAllWorkspacesUseCase {
   final GetClickupTasksInSingleWorkspaceUseCase getClickupTasksInSingleWorkspaceUseCase;
   GetClickupTasksInAllWorkspacesUseCase(this.getClickupTasksInSingleWorkspaceUseCase);
 
-  Future<Map<String, Either<Failure, List<ClickupTask>>?>> call(
+  Future<Map<String, dartz.Either<Failure, List<Task>>?>> call(
       GetClickupTasksInAllWorkspacesParams params) async {
-    Map<String,Either<Failure,List<ClickupTask>>?> result = {};
+    Map<String,dartz.Either<Failure,List<Task>>?> result = {};
     for (var element in params.workspacesIds) {
       result[element] = await getClickupTasksInSingleWorkspaceUseCase(
           GetClickupTasksInWorkspaceParams(

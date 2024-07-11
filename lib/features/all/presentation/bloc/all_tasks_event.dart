@@ -4,12 +4,12 @@ abstract class AllTasksEvent extends Equatable {
   const AllTasksEvent();
 }
 
-class GetClickupTasksInSpaceEvent extends AllTasksEvent {
+class GetTasksInSpaceEvent extends AllTasksEvent {
   final ClickupAccessToken clickupAccessToken;
   final Space space;
   final Workspace workspace;
 
-  const GetClickupTasksInSpaceEvent(
+  const GetTasksInSpaceEvent(
       {required this.clickupAccessToken,
         required this.workspace,
         required this.space});
@@ -18,11 +18,11 @@ class GetClickupTasksInSpaceEvent extends AllTasksEvent {
   List<Object?> get props => [clickupAccessToken, space];
 }
 
-class CreateClickupTaskEvent extends AllTasksEvent {
+class CreateTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const CreateClickupTaskEvent({
+  const CreateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -31,11 +31,11 @@ class CreateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class DuplicateClickupTaskEvent extends AllTasksEvent {
+class DuplicateTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const DuplicateClickupTaskEvent({
+  const DuplicateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -44,11 +44,11 @@ class DuplicateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params, workspace];
 }
 
-class UpdateClickupTaskEvent extends AllTasksEvent {
+class UpdateTaskEvent extends AllTasksEvent {
   final ClickupTaskParams params;
   final Workspace workspace;
 
-  const UpdateClickupTaskEvent({
+  const UpdateTaskEvent({
     required this.params,
     required this.workspace,
   });
@@ -57,11 +57,11 @@ class UpdateClickupTaskEvent extends AllTasksEvent {
   List<Object?> get props => [params,workspace];
 }
 
-class DeleteClickupTaskEvent extends AllTasksEvent {
+class DeleteTaskEvent extends AllTasksEvent {
   final DeleteClickupTaskParams params;
   final Workspace workspace;
 
-  const DeleteClickupTaskEvent({
+  const DeleteTaskEvent({
     required this.params,
     required this.workspace,
   });

@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 extension ElementAtNullableOrEmpty<T> on List<T>? {
@@ -166,7 +166,7 @@ extension UriExtension on Uri {
 
   static Uri uriHttpsClickupAPI(
       {required String url,
-      Map<String, Either<List, String>>? queryParameters}) {
+      Map<String, dartz.Either<List, String>>? queryParameters}) {
     Map<String, String>? query;
     if(queryParameters?.isNotEmpty == true){
       query = {};

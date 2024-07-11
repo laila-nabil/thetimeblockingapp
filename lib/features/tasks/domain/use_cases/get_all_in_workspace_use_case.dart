@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -19,7 +19,7 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
 
   GetAllInClickupWorkspaceUseCase(this.repo);
 
-  Future<Either<List<Map<String, Failure>>, List<Space>>?> call(
+  Future<dartz.Either<List<Map<String, Failure>>, List<Space>>?> call(
       GetAllInClickupWorkspaceParams params) async {
     List<Space> spaces = [];
     List<Map<String, Failure>> failures = [];
@@ -78,7 +78,7 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
         AnalyticsEventParameter.data.name: "allInWorkspace",
         AnalyticsEventParameter.status.name: true,
       });
-      return Right(spaces);
+      return dartz.Right(spaces);
     }
     await serviceLocator<Analytics>()
         .logEvent(AnalyticsEvents.getData.name, parameters: {
@@ -86,7 +86,7 @@ class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
       AnalyticsEventParameter.status.name: false,
       AnalyticsEventParameter.error.name: failures.toString(),
     });
-    return Left(failures);
+    return dartz.Left(failures);
   }
 }
 

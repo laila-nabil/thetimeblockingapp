@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -15,7 +15,7 @@ class GetClickupAccessTokenUseCase
   GetClickupAccessTokenUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupAccessToken>?> call(
+  Future<dartz.Either<Failure, ClickupAccessToken>?> call(
       GetClickupAccessTokenParams params) async {
     final result = await repo.getClickupAccessToken(params: params);
     await result.fold(

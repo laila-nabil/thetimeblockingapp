@@ -241,7 +241,7 @@ class TagPage extends StatelessWidget {
   }
 
   StatelessWidget buildTaskWidget(
-      ClickupTask e, BuildContext context, TagsPageBloc tagsPageBloc) {
+      Task e, BuildContext context, TagsPageBloc tagsPageBloc) {
     return TaskComponent(
       clickupTask: e,
       bloc: tagsPageBloc,

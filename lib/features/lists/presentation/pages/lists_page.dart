@@ -59,7 +59,7 @@ class ListsPage extends StatelessWidget {
                         CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
-                              listsPageBloc.add(DeleteClickupListEvent.submit(
+                              listsPageBloc.add(DeleteListEvent.submit(
                                   deleteClickupListParams:
                                       DeleteClickupListParams(
                                           list: state.toDeleteList!,
@@ -73,7 +73,7 @@ class ListsPage extends StatelessWidget {
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
                               listsPageBloc
-                                  .add(DeleteClickupListEvent.cancelDelete());
+                                  .add(DeleteListEvent.cancelDelete());
                               Navigator.pop(context);
                             }),
                       ],
@@ -92,7 +92,7 @@ class ListsPage extends StatelessWidget {
                         CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
-                              listsPageBloc.add(DeleteClickupFolderEvent.submit(
+                              listsPageBloc.add(DeleteFolderEvent.submit(
                                   deleteClickupFolderParams:
                                       DeleteClickupFolderParams(
                                           folder: state.toDeleteFolder!,
@@ -106,7 +106,7 @@ class ListsPage extends StatelessWidget {
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
                               listsPageBloc
-                                  .add(DeleteClickupFolderEvent.cancelDelete());
+                                  .add(DeleteFolderEvent.cancelDelete());
                               Navigator.pop(context);
                             }),
                       ],
@@ -164,7 +164,7 @@ class ListsPage extends StatelessWidget {
                                                                   "delete"),
                                                           onTap: () {
                                                             listsPageBloc.add(
-                                                                DeleteClickupFolderEvent
+                                                                DeleteFolderEvent
                                                                     .tryDelete(
                                                                         folder));
                                                           })
@@ -199,7 +199,7 @@ class ListsPage extends StatelessWidget {
                                                                         CustomPopupItem(
                                                                             title: appLocalization.translate("delete"),
                                                                             onTap: () {
-                                                                              listsPageBloc.add(DeleteClickupListEvent.tryDelete(e));
+                                                                              listsPageBloc.add(DeleteListEvent.tryDelete(e));
                                                                             })
                                                                       ],
                                                                     ))
@@ -247,7 +247,7 @@ class ListsPage extends StatelessWidget {
                                                       "delete"),
                                                   onTap: () {
                                                     listsPageBloc.add(
-                                                        DeleteClickupListEvent
+                                                        DeleteListEvent
                                                             .tryDelete(
                                                             e));
                                                   })
@@ -265,7 +265,7 @@ class ListsPage extends StatelessWidget {
                                           state.tryCreateFolderInSpace
                                               ? _CreateField(
                                                   onAdd: (text) {
-                                                    listsPageBloc.add(CreateClickupFolderInSpaceEvent.submit(
+                                                    listsPageBloc.add(CreateFolderInSpaceEvent.submit(
                                                         createClickupFolderInSpaceParams:
                                                             CreateClickupFolderInSpaceParams(
                                                                 clickupAccessToken:
@@ -281,7 +281,7 @@ class ListsPage extends StatelessWidget {
                                                   },
                                                   onCancel: () {
                                                     listsPageBloc.add(
-                                                        CreateClickupFolderInSpaceEvent
+                                                        CreateFolderInSpaceEvent
                                                             .cancelCreate());
                                                   },
                                                 )
@@ -290,7 +290,7 @@ class ListsPage extends StatelessWidget {
                                                       "+ ${appLocalization.translate("createNewFolder")}",
                                                   onPressed: () {
                                                     listsPageBloc.add(
-                                                        CreateClickupFolderInSpaceEvent
+                                                        CreateFolderInSpaceEvent
                                                             .tryCreate());
                                                   },
                                                   type: CustomButtonType

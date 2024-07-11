@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
@@ -6,13 +6,13 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
 
-class SignOutUseCase implements UseCase<Unit, NoParams> {
+class SignOutUseCase implements UseCase<dartz.Unit, NoParams> {
   final AuthRepo authRepo;
 
   SignOutUseCase(this.authRepo);
 
   @override
-  Future<Either<Failure, Unit>?> call(NoParams params) async {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(NoParams params) async {
     final result = await authRepo.signOut();
     await result.fold(
         (l) async => await serviceLocator<Analytics>()

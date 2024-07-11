@@ -16,20 +16,20 @@ class ClickupTaskParams extends Equatable{
   final TasksList? clickupList;
   final String? title;
   final String? description;
-  final List<ClickupAssignee>? assignees;
-  final List<ClickupAssignee>? addedAssignees;
-  final List<ClickupAssignee>? removedAssignees;
-  final List<ClickupTag>? tags;
-  final ClickupStatus? taskStatus;
-  final ClickupTaskPriority? taskPriority;
+  final List<Assignee>? assignees;
+  final List<Assignee>? addedAssignees;
+  final List<Assignee>? removedAssignees;
+  final List<Tag>? tags;
+  final Status? taskStatus;
+  final TaskPriority? taskPriority;
   final DateTime? dueDate;
   final Duration? timeEstimate;
   final DateTime? startDate;
   final bool? notifyAll;
-  final ClickupTask? parentTask;
-  final ClickupTask? linkedTask;
+  final Task? parentTask;
+  final Task? linkedTask;
   final bool? requiredCustomFields;
-  final ClickupTask? task;
+  final Task? task;
   final bool? archived;
 
   final Space? clickupSpace;
@@ -67,7 +67,7 @@ class ClickupTaskParams extends Equatable{
     return <TasksList>[];
   }
 
-  factory ClickupTaskParams.fromTask(ClickupTask clickupTask){
+  factory ClickupTaskParams.fromTask(Task clickupTask){
     return ClickupTaskParams.createNewTask(
       clickupAccessToken: Globals.clickupAuthAccessToken,
       clickupList: clickupTask.list!,
@@ -106,7 +106,7 @@ class ClickupTaskParams extends Equatable{
       this.folder,
       this.archived});
 
-  static _isNewTask(ClickupTask? task) =>
+  static _isNewTask(Task? task) =>
       task?.id == null || task?.id?.isEmpty == true;
 
   ///[dueDateTime] is a true/false value that determines whether you
@@ -134,7 +134,7 @@ class ClickupTaskParams extends Equatable{
       task?.startDateUtc != null &&
       startDate?.isAtSameMomentAs(task!.startDateUtc!) == false;
 
-  static ClickupTaskParamsEnum getClickupTaskParamsEnum(ClickupTask? task) {
+  static ClickupTaskParamsEnum getClickupTaskParamsEnum(Task? task) {
     printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
         ? ClickupTaskParamsEnum.create
         : ClickupTaskParamsEnum.update}");
@@ -148,7 +148,7 @@ class ClickupTaskParams extends Equatable{
     DateTime? dueDate,
     Space? space,
     TasksList? list,
-    ClickupTag? tag
+    Tag? tag
   }) {
     printDebug("ClickupTaskParams startCreateNewTask task");
     return ClickupTaskParams._(
@@ -167,15 +167,15 @@ class ClickupTaskParams extends Equatable{
     required TasksList clickupList,
     required String title,
     String? description,
-    List<ClickupTag>? tags,
-    ClickupStatus? taskStatus,
-    ClickupTaskPriority? taskPriority,
+    List<Tag>? tags,
+    Status? taskStatus,
+    TaskPriority? taskPriority,
     DateTime? dueDate,
     Duration? timeEstimate,
     DateTime? startDate,
     bool? notifyAll,
-    ClickupTask? parentTask,
-    ClickupTask? linkedTask,
+    Task? parentTask,
+    Task? linkedTask,
     bool? requiredCustomFields,
     Folder? folder,
     Space? space,
@@ -208,7 +208,7 @@ class ClickupTaskParams extends Equatable{
 
   factory ClickupTaskParams.startUpdateTask({
     required ClickupAccessToken clickupAccessToken,
-    required ClickupTask task,
+    required Task task,
   }) {
     printDebug("ClickupTaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
@@ -243,21 +243,21 @@ class ClickupTaskParams extends Equatable{
 
   factory ClickupTaskParams.updateTask({
     required ClickupAccessToken clickupAccessToken,
-    required ClickupTask task,
+    required Task task,
     String? updatedTitle,
     String? updatedDescription,
-    List<ClickupAssignee>? updatedAssignees,
-    List<ClickupAssignee>? addedAssignees,
-    List<ClickupAssignee>? removedAssignees,
-    List<ClickupTag>? updatedTags,
-    ClickupStatus? updatedTaskStatus,
-    ClickupTaskPriority? updatedTaskPriority,
+    List<Assignee>? updatedAssignees,
+    List<Assignee>? addedAssignees,
+    List<Assignee>? removedAssignees,
+    List<Tag>? updatedTags,
+    Status? updatedTaskStatus,
+    TaskPriority? updatedTaskPriority,
     DateTime? updatedDueDate,
     bool? updatedDueDateTime,
     Duration? updatedTimeEstimate,
     DateTime? updatedStartDate,
-    ClickupTask? updatedParentTask,
-    ClickupTask? updatedLinkedTask,
+    Task? updatedParentTask,
+    Task? updatedLinkedTask,
     bool? updatedArchived,
     TasksList? list,
     Folder? folder,
@@ -349,20 +349,20 @@ class ClickupTaskParams extends Equatable{
     TasksList? clickupList,
     String? title,
     String? description,
-    List<ClickupAssignee>? assignees,
-    List<ClickupAssignee>? addedAssignees,
-    List<ClickupAssignee>? removedAssignees,
-    List<ClickupTag>? tags,
-    ClickupStatus? taskStatus,
-    ClickupTaskPriority? taskPriority,
+    List<Assignee>? assignees,
+    List<Assignee>? addedAssignees,
+    List<Assignee>? removedAssignees,
+    List<Tag>? tags,
+    Status? taskStatus,
+    TaskPriority? taskPriority,
     DateTime? dueDate,
     Duration? timeEstimate,
     DateTime? startDate,
     bool? notifyAll,
-    ClickupTask? parentTask,
-    ClickupTask? linkedTask,
+    Task? parentTask,
+    Task? linkedTask,
     bool? requiredCustomFields,
-    ClickupTask? task,
+    Task? task,
     bool? archived,
     List<int>? addedAssigneesId,
     List<int>? removedAssigneesId,
@@ -372,7 +372,7 @@ class ClickupTaskParams extends Equatable{
     bool? clearPriority,
   }) {
     Space? selectedSpace = clickupSpace ?? this.clickupSpace;
-    ClickupTaskPriority? selectedPriority =
+    TaskPriority? selectedPriority =
         clearFolder == true ? null : (taskPriority ?? this.taskPriority);
     Folder? selectedFolder =
         clearFolder == true ? null : (folder ?? this.folder);

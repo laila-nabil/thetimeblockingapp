@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -136,7 +136,7 @@ class CustomButton extends StatelessWidget {
   }) : this(
             key: key,
             label: label,
-            icon: Right(icon),
+            icon: dartz.Right(icon),
             onPressed: onPressed,
             size: size,
             type: type,
@@ -157,7 +157,7 @@ class CustomButton extends StatelessWidget {
   }) : this(
             key: key,
             label: label,
-            icon: Left(imagePath),
+            icon: dartz.Left(imagePath),
             onPressed: onPressed,
             size: size,
             type: type,
@@ -178,7 +178,7 @@ class CustomButton extends StatelessWidget {
   }) : this(
             key: key,
             label: label,
-            icon: Right(icon),
+            icon: dartz.Right(icon),
             onPressed: onPressed,
             size: size,
             type: type,
@@ -199,7 +199,7 @@ class CustomButton extends StatelessWidget {
   }) : this(
             key: key,
             label: label,
-            icon: Left(imagePath),
+            icon: dartz.Left(imagePath),
             onPressed: onPressed,
             size: size,
             type: type,
@@ -219,7 +219,7 @@ class CustomButton extends StatelessWidget {
   }) : this(
             key: key,
             label: null,
-            icon: Right(icon),
+            icon: dartz.Right(icon),
             onPressed: onPressed,
             size: size,
             type: type,
@@ -228,7 +228,7 @@ class CustomButton extends StatelessWidget {
             tooltip: tooltip);
   final String? label;
   final Widget? child;
-  final Either<String, IconData>? icon;
+  final dartz.Either<String, IconData>? icon;
   final void Function()? onPressed;
   final CustomButtonType type;
   final CustomButtonSize size;
@@ -396,7 +396,7 @@ class CustomButton extends StatelessWidget {
                   size: isSmall ? 15 : 18,
                 )) ??
         Container();
-    Widget filledLabelButton(Either<Widget, String> child) => CustomToolTip(
+    Widget filledLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
           message: tooltip,
           child: FilledButton(
             onPressed: onPressedWithAnalytics,
@@ -501,7 +501,7 @@ class CustomButton extends StatelessWidget {
         ),
       ),
     );
-    Widget outlinedLabelButton(Either<Widget, String> child) => CustomToolTip(
+    Widget outlinedLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
           message: tooltip,
           child: OutlinedButton(
             onPressed: onPressedWithAnalytics,
@@ -566,7 +566,7 @@ class CustomButton extends StatelessWidget {
             : EdgeInsets.zero;
       }),
     );
-    Widget textLabelButton(Either<Widget, String> child) => CustomToolTip(
+    Widget textLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
         message: tooltip,
         child: TextButton(
           onPressed: onPressedWithAnalytics,
@@ -632,7 +632,7 @@ class CustomButton extends StatelessWidget {
     switch (type) {
       case (CustomButtonType.primaryLabel):
         return filledLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.primaryTrailingIcon):
         return filledTrailingIconButton;
       case (CustomButtonType.primaryLeadingIcon):
@@ -641,7 +641,7 @@ class CustomButton extends StatelessWidget {
         return filledIconButton;
       case (CustomButtonType.secondaryLabel):
         return outlinedLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.secondaryTrailingIcon):
         return outlinedTrailingIconButton;
       case (CustomButtonType.secondaryLeadingIcon):
@@ -650,7 +650,7 @@ class CustomButton extends StatelessWidget {
         return outlinedIconButton;
       case (CustomButtonType.greyFilledLabel):
         return filledLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.greyFilledTrailingIcon):
         return filledTrailingIconButton;
       case (CustomButtonType.greyFilledLeadingIcon):
@@ -659,7 +659,7 @@ class CustomButton extends StatelessWidget {
         return filledIconButton;
       case (CustomButtonType.destructiveFilledLabel):
         return filledLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.destructiveFilledTrailingIcon):
         return filledTrailingIconButton;
       case (CustomButtonType.destructiveFilledLeadingIcon):
@@ -669,7 +669,7 @@ class CustomButton extends StatelessWidget {
 
       case (CustomButtonType.greyOutlinedLabel):
         return outlinedLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.greyOutlinedTrailingIcon):
         return outlinedTrailingIconButton;
       case (CustomButtonType.greyOutlinedLeadingIcon):
@@ -678,7 +678,7 @@ class CustomButton extends StatelessWidget {
         return outlinedIconButton;
       case (CustomButtonType.destructiveOutlinedLabel):
         return outlinedLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.destructiveOutlinedTrailingIcon):
         return outlinedTrailingIconButton;
       case (CustomButtonType.destructiveOutlinedLeadingIcon):
@@ -688,7 +688,7 @@ class CustomButton extends StatelessWidget {
 
       case (CustomButtonType.primaryTextLabel):
         return textLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.primaryTextTrailingIcon):
         return textTrailingIconButton;
       case (CustomButtonType.primaryTextLeadingIcon):
@@ -700,7 +700,7 @@ class CustomButton extends StatelessWidget {
 
       case (CustomButtonType.greyTextLabel):
         return textLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.greyTextTrailingIcon):
         return textTrailingIconButton;
       case (CustomButtonType.greyTextLeadingIcon):
@@ -712,7 +712,7 @@ class CustomButton extends StatelessWidget {
 
       case (CustomButtonType.destructiveTextLabel):
         return textLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
       case (CustomButtonType.destructiveTextTrailingIcon):
         return textTrailingIconButton;
       case (CustomButtonType.destructiveTextLeadingIcon):
@@ -723,7 +723,7 @@ class CustomButton extends StatelessWidget {
         return iconMinPaddingButton;
       default:
         return filledLabelButton(
-            child == null ? Right(label ?? "") : Left(child ?? Container()));
+            child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
     }
   }
 }

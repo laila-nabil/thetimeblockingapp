@@ -60,9 +60,9 @@ class TasksCalendar extends StatelessWidget {
       onAppointmentResizeEnd: (details){
         printDebug("details.startTime ${details.startTime}");
         printDebug("details.endTime ${details.endTime}");
-        scheduleBloc.add(UpdateClickupTaskEvent(
+        scheduleBloc.add(UpdateTaskEvent(
             params: ClickupTaskParams.updateTask(
-              task: details.appointment as ClickupTask,
+              task: details.appointment as Task,
               clickupAccessToken: Globals.clickupAuthAccessToken,
               updatedDueDate: details.endTime,
             )));
@@ -75,8 +75,8 @@ class TasksCalendar extends StatelessWidget {
         allowNavigation: false
       ),
       onDragEnd: (details){
-        final task = details.appointment as ClickupTask;
-        scheduleBloc.add(UpdateClickupTaskEvent(
+        final task = details.appointment as Task;
+        scheduleBloc.add(UpdateTaskEvent(
             params: ClickupTaskParams.updateTask(
               task: task,
               clickupAccessToken: Globals.clickupAuthAccessToken,
@@ -133,22 +133,22 @@ class TasksCalendar extends StatelessWidget {
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
       printDebug("calendarTapDetails resource ${calendarTapDetails.resource}");
       if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-        final task = calendarTapDetails.appointments?.first as ClickupTask;
+        final task = calendarTapDetails.appointments?.first as Task;
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
             taskPopupParams: TaskPopupParams.openNotAllDayTask(
                 task: task,
                 onSave: (params) {
-                  scheduleBloc.add(UpdateClickupTaskEvent(params: params));
+                  scheduleBloc.add(UpdateTaskEvent(params: params));
                 },
                 onDelete: (params) =>
-                    scheduleBloc.add(DeleteClickupTaskEvent(params: params)),
+                    scheduleBloc.add(DeleteTaskEvent(params: params)),
                 bloc: scheduleBloc,
                 isLoading: (state)=> state is! ScheduleState
                     ? false
                     : state.isLoading,
                 onDuplicate: () {
-              scheduleBloc.add(DuplicateClickupTaskEvent(
+              scheduleBloc.add(DuplicateTaskEvent(
                   params: ClickupTaskParams.fromTask(task)));
             },)));
       } else if (calendarTapDetails.targetElement ==
@@ -159,7 +159,7 @@ class TasksCalendar extends StatelessWidget {
             taskPopupParams: TaskPopupParams.notAllDayTask(
                 cellDate: calendarTapDetails.date,
                 onSave: (params) {
-                  scheduleBloc.add(CreateClickupTaskEvent(
+                  scheduleBloc.add(CreateTaskEvent(
                       params:
                           params));
                 },
@@ -174,7 +174,7 @@ class TasksCalendar extends StatelessWidget {
             taskPopupParams: TaskPopupParams.allDayTask(
                 cellDate: calendarTapDetails.date,
                 onSave: (params) {
-                  scheduleBloc.add(CreateClickupTaskEvent(
+                  scheduleBloc.add(CreateTaskEvent(
                       params:
                       params));
                 },
@@ -187,7 +187,7 @@ class TasksCalendar extends StatelessWidget {
 }
 
 class ClickupTasksDataSource extends CalendarDataSource {
-  final List<ClickupTask> clickupTasks;
+  final List<Task> clickupTasks;
 
   ClickupTasksDataSource({required this.clickupTasks});
 

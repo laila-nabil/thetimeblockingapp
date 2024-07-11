@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -14,7 +14,7 @@ class GetSelectedSpaceUseCase
   GetSelectedSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, Space>?> call(
+  Future<dartz.Either<Failure, Space>?> call(
       NoParams params)async {
     final result = await repo.getSelectedSpace(params);
     await result?.fold(

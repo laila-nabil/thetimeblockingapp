@@ -22,7 +22,7 @@ class Space extends Equatable {
     this.members,
     this.folders = const[],
     this.lists = const[],
-    this.tags = const<ClickupTag>[],
+    this.tags = const<Tag>[],
   });
 
   final String? id;
@@ -31,14 +31,14 @@ class Space extends Equatable {
   final bool? private;
   final dynamic avatar;
   final bool? adminCanManage;
-  final List<ClickupStatus>? statuses;
+  final List<Status>? statuses;
   final bool? multipleAssignees;
   final ClickupSpaceFeatures? features;
   final bool? archived;
   final List<ClickupWorkspaceMembers>? members;
   List<Folder> folders;
   List<TasksList> lists;
-  List<ClickupTag> tags;
+  List<Tag> tags;
 
   bool get isPrioritiesEnabled => features
       ?.priorities?.enabled ==
@@ -263,7 +263,7 @@ class ClickupSpacePriorities extends Equatable {
   });
 
   final bool? enabled;
-  final List<ClickupTaskPriority>? priorities;
+  final List<TaskPriority>? priorities;
 
   @override
   List<Object?> get props => [enabled, priorities];

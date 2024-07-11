@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -11,18 +11,18 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../entities/task.dart';
 
 class UpdateClickupTagUseCase
-    implements UseCase<Unit, UpdateClickupTagParams> {
+    implements UseCase<dartz.Unit, UpdateClickupTagParams> {
 
   final TasksRepo repo;
 
-  static bool readyToSubmit(ClickupTag tag) =>
+  static bool readyToSubmit(Tag tag) =>
       tag.name?.isNotEmpty == true &&
           tag.name?.endsWith("?") == false &&
           tag.name?.endsWith("؟") == false;
 
   UpdateClickupTagUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(
+  Future<dartz.Either<Failure, dartz.Unit>?> call(
       UpdateClickupTagParams params) async{
     if(readyToSubmit(params.newTag) == false){
       await serviceLocator<Analytics>()
@@ -30,7 +30,7 @@ class UpdateClickupTagUseCase
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: "must not contain ? at the end",
       });
-      return const Left(InputFailure(message: "must not contain ? at the end"));
+      return const dartz.Left(InputFailure(message: "must not contain ? at the end"));
     }
     final result = await repo.updateClickupTag(params);
     await result?.fold(

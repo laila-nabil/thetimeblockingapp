@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -47,40 +47,40 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
               false) {
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Right(ScheduleStateEnum.loading),
+                const dartz.Right(ScheduleStateEnum.loading),
             getTasksForSingleWorkspaceScheduleEventId: event.id));
         final result =
             await _getClickupTasksInSingleWorkspaceUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Left(ScheduleStateEnum.loading)));
+                const dartz.Left(ScheduleStateEnum.loading)));
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-            const Left(ScheduleStateEnum.getTasksSingleWorkspaceFailed),));
+            const dartz.Left(ScheduleStateEnum.getTasksSingleWorkspaceFailed),));
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
-          const Left(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),));
+          const dartz.Left(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),));
         result?.fold((l) {
           emit(state.copyWith(
               persistingScheduleStateAddRemove:
-                  const Right(ScheduleStateEnum.getTasksSingleWorkspaceFailed),
+                  const dartz.Right(ScheduleStateEnum.getTasksSingleWorkspaceFailed),
               getTasksSingleWorkspaceFailure: l));
         }, (r) {
           emit(state.copyWith(
               persistingScheduleStateAddRemove:
-                  const Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
+                  const dartz.Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
               clickupTasks: r));
         });
       }
-      else if (event is CreateClickupTaskEvent) {
+      else if (event is CreateTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
-              const Right(ScheduleStateEnum.loading),
+              const dartz.Right(ScheduleStateEnum.loading),
         ));
         final result = await _createClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Left(ScheduleStateEnum.loading)));
+                const dartz.Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
               nonPersistingScheduleState: ScheduleStateEnum.createTaskFailed,
@@ -91,15 +91,15 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           ));
         });
       }
-      else if (event is DuplicateClickupTaskEvent) {
+      else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
-              const Right(ScheduleStateEnum.loading),
+              const dartz.Right(ScheduleStateEnum.loading),
         ));
         final result = await _duplicateClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Left(ScheduleStateEnum.loading)));
+                const dartz.Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
               nonPersistingScheduleState: ScheduleStateEnum.createTaskFailed,
@@ -110,15 +110,15 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           ));
         });
       }
-      else if (event is UpdateClickupTaskEvent) {
+      else if (event is UpdateTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
-              const Right(ScheduleStateEnum.loading),
+              const dartz.Right(ScheduleStateEnum.loading),
         ));
         final result = await _updateClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-            const Left(ScheduleStateEnum.loading)));
+            const dartz.Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
               nonPersistingScheduleState: ScheduleStateEnum.updateTaskFailed,
@@ -129,15 +129,15 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           ));
         });
       }
-      else if (event is DeleteClickupTaskEvent) {
+      else if (event is DeleteTaskEvent) {
         emit(state.copyWith(
           persistingScheduleStateAddRemove:
-              const Right(ScheduleStateEnum.loading),
+              const dartz.Right(ScheduleStateEnum.loading),
         ));
         final result = await _deleteClickupTaskUseCase(event.params);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
-                const Left(ScheduleStateEnum.loading)));
+                const dartz.Left(ScheduleStateEnum.loading)));
         result?.fold((l) {
           emit(state.copyWith(
               nonPersistingScheduleState: ScheduleStateEnum.deleteTaskFailed,

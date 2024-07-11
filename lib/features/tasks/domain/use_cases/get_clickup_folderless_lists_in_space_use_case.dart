@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
@@ -14,7 +14,7 @@ class GetClickupFolderlessListsInSpaceUseCase
   GetClickupFolderlessListsInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<TasksList>>?> call(
+  Future<dartz.Either<Failure, List<TasksList>>?> call(
       GetClickupFolderlessListsInSpaceParams params) {
     return repo.getClickupFolderlessLists(params: params);
   }

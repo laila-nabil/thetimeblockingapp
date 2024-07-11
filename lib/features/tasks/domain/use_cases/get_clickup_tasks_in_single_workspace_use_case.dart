@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -10,13 +10,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../entities/tasks_order_by.dart';
 
 class GetClickupTasksInSingleWorkspaceUseCase
-    implements UseCase<List<ClickupTask>, GetClickupTasksInWorkspaceParams> {
+    implements UseCase<List<Task>, GetClickupTasksInWorkspaceParams> {
   final TasksRepo repo;
 
   GetClickupTasksInSingleWorkspaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupTask>>?> call(
+  Future<dartz.Either<Failure, List<Task>>?> call(
       GetClickupTasksInWorkspaceParams params) {
     return repo.getTasksInWorkspace(params: params);
   }
@@ -221,73 +221,73 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     return result;
   }*/
 
-  Map<String, Either<List<dynamic>, String>> get query {
-    Map<String, Either<List<dynamic>, String>> result = {};
+  Map<String, dartz.Either<List<dynamic>, String>> get query {
+    Map<String, dartz.Either<List<dynamic>, String>> result = {};
     if (page != null) {
-      result["page"] = Right(page.toString());
+      result["page"] = dartz.Right(page.toString());
     }
     if (tasksOrderBy?.name != null) {
-      result["order_by"] = Right(tasksOrderBy?.name ?? "");
+      result["order_by"] = dartz.Right(tasksOrderBy?.name ?? "");
     }
     if (reverse != null) {
-      result["reverse"] = Right(reverse.toString());
+      result["reverse"] = dartz.Right(reverse.toString());
     }
     if (includeSubtasks != null) {
-      result["subtasks"] = Right(includeSubtasks.toString());
+      result["subtasks"] = dartz.Right(includeSubtasks.toString());
     }
     if (filterBySpaceIds != null) {
-      result["space_ids"] = Left(filterBySpaceIds ?? []);
+      result["space_ids"] = dartz.Left(filterBySpaceIds ?? []);
     }
     if (filterByProjectIds != null) {
-      result["project_ids"] = Left(filterByProjectIds ?? []);
+      result["project_ids"] = dartz.Left(filterByProjectIds ?? []);
     }
     if (filterByListsIds != null) {
-      result["list_ids"] = Left(filterByListsIds ?? []);
+      result["list_ids"] = dartz.Left(filterByListsIds ?? []);
     }
     if (filterByStatuses != null) {
-      result["statuses"] = Left(filterByStatuses ?? []);
+      result["statuses"] = dartz.Left(filterByStatuses ?? []);
     }
     if (includeClosed != null) {
-      result["include_closed"] = Right((includeClosed ?? false).toString());
+      result["include_closed"] = dartz.Right((includeClosed ?? false).toString());
     }
     if (filterByAssignees != null) {
-      result["assignees"] = Left(filterByAssignees ?? []);
+      result["assignees"] = dartz.Left(filterByAssignees ?? []);
     }
     if (filterByTags != null) {
-      result["tags"] = Left(filterByTags ?? []);
+      result["tags"] = dartz.Left(filterByTags ?? []);
     }
     if (filterByDueDateGreaterThanUnixTimeMilliseconds != null) {
-      result["due_date_gt"] = Right(filterByDueDateGreaterThanUnixTimeMilliseconds.toString());
+      result["due_date_gt"] = dartz.Right(filterByDueDateGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDueDateLessThanUnixTimeMilliseconds != null) {
-      result["due_date_lt"] = Right(filterByDueDateLessThanUnixTimeMilliseconds.toString());
+      result["due_date_lt"] = dartz.Right(filterByDueDateLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByCreatedDateGreaterThanUnixTimeMilliseconds != null) {
       result["date_created_gt"] =
-          Right(filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString());
+          dartz.Right(filterByCreatedDateGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByCreatedDateLessThanUnixTimeMilliseconds != null) {
       result["date_created_lt"] =
-          Right(filterByCreatedDateLessThanUnixTimeMilliseconds.toString());
+          dartz.Right(filterByCreatedDateLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateUpdatedGreaterThanUnixTimeMilliseconds != null) {
       result["date_updated_gt"] =
-          Right(filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString());
+          dartz.Right(filterByDateUpdatedGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateUpdatedLessThanUnixTimeMilliseconds != null) {
       result["date_updated_lt"] =
-          Right(filterByDateUpdatedLessThanUnixTimeMilliseconds.toString());
+          dartz.Right(filterByDateUpdatedLessThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateDoneGreaterThanUnixTimeMilliseconds != null) {
-      result["date_done_gt"] =Right( filterByDateDoneGreaterThanUnixTimeMilliseconds.toString());
+      result["date_done_gt"] =dartz.Right( filterByDateDoneGreaterThanUnixTimeMilliseconds.toString());
     }
     if (filterByDateDoneLessThanUnixTimeMilliseconds != null) {
-      result["date_done_lt"] = Right(filterByDateDoneLessThanUnixTimeMilliseconds.toString());
+      result["date_done_lt"] = dartz.Right(filterByDateDoneLessThanUnixTimeMilliseconds.toString());
     }
 
 
     if (customTaskIds != null) {
-      result["custom_task_ids"] = Right(customTaskIds.toString());
+      result["custom_task_ids"] = dartz.Right(customTaskIds.toString());
     }
     printDebug("query $result");
     return result;

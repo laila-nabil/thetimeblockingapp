@@ -45,7 +45,7 @@ class AllTasksPage extends StatelessWidget {
                           taskPopupParams: TaskPopupParams.notAllDayTask(
                               bloc: allTasksBloc,
                               onSave: (params) {
-                                allTasksBloc.add(CreateClickupTaskEvent(
+                                allTasksBloc.add(CreateTaskEvent(
                                     params: params,
                                     workspace: Globals.selectedWorkspace!));
                                 Navigator.maybePop(context);
@@ -181,31 +181,31 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  StatelessWidget buildTaskWidget(ClickupTask e, BuildContext context,
+  StatelessWidget buildTaskWidget(Task e, BuildContext context,
       AllTasksBloc allTasksBloc) {
     return TaskComponent(
       clickupTask: e,
       bloc: allTasksBloc,
       onDelete: (params) {
-        allTasksBloc.add(DeleteClickupTaskEvent(
+        allTasksBloc.add(DeleteTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        allTasksBloc.add(UpdateClickupTaskEvent(
+        allTasksBloc.add(UpdateTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
       onDuplicate: (params) {
-        allTasksBloc.add(DuplicateClickupTaskEvent(
+        allTasksBloc.add(DuplicateTaskEvent(
             params: params, workspace: Globals.selectedWorkspace!));
       },
     );
   }
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
-    allTasksBloc.add(GetClickupTasksInSpaceEvent(
+    allTasksBloc.add(GetTasksInSpaceEvent(
         clickupAccessToken: Globals.clickupAuthAccessToken,
         workspace: Globals.selectedWorkspace!,
         space: Globals.selectedSpace!));

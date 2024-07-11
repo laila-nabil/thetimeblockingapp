@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -13,7 +13,7 @@ class GetSpacesOfSelectedWorkspaceUseCase
   GetSpacesOfSelectedWorkspaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, Workspace>?> call(NoParams params) async {
+  Future<dartz.Either<Failure, Workspace>?> call(NoParams params) async {
     final result = await repo.getSelectedWorkspace(params);
     await result?.fold(
         (l) async => await serviceLocator<Analytics>()

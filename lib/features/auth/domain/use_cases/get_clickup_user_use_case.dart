@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -16,7 +16,7 @@ class GetClickupUserUseCase
   GetClickupUserUseCase(this.repo);
 
   @override
-  Future<Either<Failure, User>?> call(
+  Future<dartz.Either<Failure, User>?> call(
       GetClickupUserParams params) async {
     final result = await repo.getClickupUser(params: params);
     await result.fold(

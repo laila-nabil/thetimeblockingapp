@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -15,7 +15,7 @@ class GetClickupWorkspacesUseCase
   GetClickupWorkspacesUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<Workspace>>?> call(
+  Future<dartz.Either<Failure, List<Workspace>>?> call(
       GetClickupWorkspacesParams params) async {
     final result = await repo.getClickupWorkspaces(params: params);
     await result.fold(

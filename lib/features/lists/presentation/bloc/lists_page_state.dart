@@ -49,20 +49,20 @@ class ListsPageState extends Equatable {
   final Folder? navigateFolder;
   final List<Space>? getSpacesListsFoldersResult;
   final List<Map<String, Failure>>? getSpacesListsFoldersFailure;
-  final List<ClickupTask>? currentListTasks;
+  final List<Task>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
   final List<TasksList>? addListResult;
   final Failure? createListFailure;
   final List<Folder>? createFolderResult;
   final Failure? createFolderFailure;
-  final List<ClickupTask>? createTaskResult;
+  final List<Task>? createTaskResult;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
-  final List<ClickupTask>? deleteListResult;
+  final List<Task>? deleteListResult;
   final Failure? deleteListFailure;
   final List<Folder>? deleteFolderResult;
   final Failure? deleteFolderFailure;
-  final List<ClickupTask>? deleteTaskResult;
+  final List<Task>? deleteTaskResult;
   final Failure? deleteTaskFailure;
   final Workspace? clickupWorkspace;
   final Space? clickupSpace;
@@ -72,7 +72,7 @@ class ListsPageState extends Equatable {
   final CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
   final DeleteClickupFolderParams? deleteClickupFolderParams;
   final DeleteClickupListParams? deleteClickupListParams;
-  final Unit? moveTaskBetweenListsResult;
+  final dartz.Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
   final Folder? folderToCreateListIn;
   final TasksList? toDeleteList;
@@ -131,14 +131,14 @@ class ListsPageState extends Equatable {
     );
   }
 
-  List<ClickupTask> get getCurrentListTasksOverdue =>
+  List<Task> get getCurrentListTasksOverdue =>
       currentListTasks?.where((element) => element.isOverdue).toList() ?? [];
-  List<ClickupTask> get getCurrentListTasksUpcoming =>
+  List<Task> get getCurrentListTasksUpcoming =>
       currentListTasks?.where((element) => element.isUpcoming).toList() ?? [];
-  List<ClickupTask> get getCurrentListTasksUnscheduled =>
+  List<Task> get getCurrentListTasksUnscheduled =>
       currentListTasks?.where((element) => element.isUnscheduled).toList() ?? [];
 
-  List<ClickupTask> get getCurrentListTasksCompleted =>
+  List<Task> get getCurrentListTasksCompleted =>
       currentListTasks?.where((element) => element.isCompleted).toList() ?? [];
   @override
   List<Object?> get props => [
@@ -195,19 +195,19 @@ class ListsPageState extends Equatable {
     Folder? navigateFolder,
     List<Space>? getSpacesListsFoldersResult,
     List<Map<String, Failure>>? getSpacesListsFoldersFailure,
-    List<ClickupTask>? currentListTasks,
+    List<Task>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
     List<TasksList>? addListResult,
     Failure? createListFailure,
     List<Folder>? createFolderResult,
     Failure? createFolderFailure,
-    List<ClickupTask>? createTaskResult,
+    List<Task>? createTaskResult,
     Failure? createTaskFailure,
-    List<ClickupTask>? deleteListResult,
+    List<Task>? deleteListResult,
     Failure? deleteListFailure,
     List<Folder>? deleteFolderResult,
     Failure? deleteFolderFailure,
-    List<ClickupTask>? deleteTaskResult,
+    List<Task>? deleteTaskResult,
     Failure? deleteTaskFailure,
     Workspace? clickupWorkspace,
     Space? clickupSpace,
@@ -217,7 +217,7 @@ class ListsPageState extends Equatable {
     CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams,
     DeleteClickupFolderParams? deleteClickupFolderParams,
     DeleteClickupListParams? deleteClickupListParams,
-    Unit? moveTaskBetweenListsResult,
+    dartz.Unit? moveTaskBetweenListsResult,
     Failure? moveTaskBetweenListsFailure,
     Failure? updateTaskFailure,
     Folder? folderToCreateListIn,

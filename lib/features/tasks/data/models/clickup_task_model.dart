@@ -36,7 +36,7 @@ import 'clickup_space_model.dart';
 /// folder : {"id":"1","name":"Folder","hidden":false,"access":true}
 /// space : {"id":"1"}
 
-class ClickupTaskModel extends ClickupTask {
+class ClickupTaskModel extends Task {
   const ClickupTaskModel({
     super.id,
     super.customId,
@@ -346,7 +346,7 @@ class ClickupCustomFieldsModel extends ClickupCustomFields {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTagModel extends ClickupTag {
+class ClickupTagModel extends Tag {
   const ClickupTagModel({
     super.name,
     super.tagFg,
@@ -388,7 +388,7 @@ class ClickupTagModel extends ClickupTag {
 /// unresolved : 1
 /// items : [{"id":"9398cb3d-55a4-4c45-ab46-2a47a371e375","name":"checklist item 1","orderindex":0,"assignee":null,"resolved":false,"parent":null,"date_created":"1618455810454","children":[]}]
 
-class ClickupChecklistsModel extends ClickupChecklists {
+class ClickupChecklistsModel extends Checklists {
   const ClickupChecklistsModel({
     super.id,
     super.taskId,
@@ -537,7 +537,7 @@ class ClickupWatchersModel extends ClickupWatchers {
 /// email : "johndoe@website.com"
 /// profilePicture : "https://clickup.com/avatar.jpg"
 
-class ClickupAssigneeModel extends ClickupAssignee {
+class ClickupAssigneeModel extends Assignee {
   const ClickupAssigneeModel({
     super.id,
     super.username,
@@ -611,7 +611,7 @@ class ClickupCreatorModel extends ClickupCreator {
 /// orderindex : 1
 /// color : "#000000"
 
-class ClickupStatusModel extends ClickupStatus {
+class ClickupStatusModel extends Status {
   const ClickupStatusModel({
     super.status,
     super.type,
@@ -648,7 +648,7 @@ class ClickupStatusModel extends ClickupStatus {
 ///                 "orderindex": "2",
 ///                 "priority": "high"
 ///             },
-class ClickupTaskPriorityModel extends ClickupTaskPriority {
+class ClickupTaskPriorityModel extends TaskPriority {
   const ClickupTaskPriorityModel(
       {super.color,
       super.id,

@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
@@ -8,19 +8,19 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/tasks_list.dart';
 
 class RemoveTaskFromAdditionalListUseCase
-    implements UseCase<Unit, RemoveTaskFromListParams> {
+    implements UseCase<dartz.Unit, RemoveTaskFromListParams> {
   
   final TasksRepo repo;
 
   RemoveTaskFromAdditionalListUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(RemoveTaskFromListParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(RemoveTaskFromListParams params) {
     return repo.removeTaskFromAdditionalList(params: params);
   }
 }
 
 class RemoveTaskFromListParams {
-  final ClickupTask task;
+  final Task task;
   final TasksList list;
   final ClickupAccessToken clickupAccessToken;
 

@@ -36,7 +36,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
       this._deleteClickupTaskUseCase)
       : super(const AllTasksState(allTasksStatus: AllTasksStatus.initial)) {
     on<AllTasksEvent>((event, emit) async {
-      if (event is GetClickupTasksInSpaceEvent) {
+      if (event is GetTasksInSpaceEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
             GetClickupTasksInWorkspaceParams(
@@ -53,7 +53,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                   allTasksResult: r
 
                 )));
-      } else if (event is CreateClickupTaskEvent) {
+      } else if (event is CreateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _createClickupTaskUseCase(event.params);
         result?.fold(
@@ -63,12 +63,12 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
+          add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
               space: event.params.clickupSpace!,
               workspace: event.workspace));
         });
-      } else if (event is DuplicateClickupTaskEvent) {
+      } else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _duplicateClickupTaskUseCase(event.params);
         result?.fold(
@@ -78,12 +78,12 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
+          add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
               space: event.params.clickupSpace!,
               workspace: event.workspace));
         });
-      } else if (event is UpdateClickupTaskEvent) {
+      } else if (event is UpdateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _updateClickupTaskUseCase(event.params);
         result?.fold(
@@ -93,12 +93,12 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
+          add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
               space: event.params.clickupSpace ?? Globals.selectedSpace!,
               workspace: event.workspace));
         });
-      } else if (event is DeleteClickupTaskEvent) {
+      } else if (event is DeleteTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _deleteClickupTaskUseCase(event.params);
         result?.fold(
@@ -108,7 +108,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetClickupTasksInSpaceEvent(
+          add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
               space: event.params.task.space!,
               workspace: event.workspace));

@@ -15,7 +15,7 @@ enum ScheduleStateEnum {
 class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> persistingScheduleStates;
   final ScheduleStateEnum? nonPersistingScheduleState;
-  final List<ClickupTask>? clickupTasks;
+  final List<Task>? clickupTasks;
   final Failure? getTasksSingleWorkspaceFailure;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
@@ -70,9 +70,9 @@ class ScheduleState extends Equatable {
   ///setting [persistingScheduleStateAddRemove] to left in stateAddRemove removes a state
   ///[forceGetTasksForSingleWorkspaceScheduleEvent] does not persist
   ScheduleState copyWith({
-    Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
+    dartz.Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
     ScheduleStateEnum? nonPersistingScheduleState,
-    List<ClickupTask>? clickupTasks,
+    List<Task>? clickupTasks,
     Failure? getTasksSingleWorkspaceFailure,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
@@ -134,7 +134,7 @@ class ScheduleState extends Equatable {
           ScheduleStateEnum.deleteTaskSuccess;
 
   Set<ScheduleStateEnum> updateEnumStates(
-      Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
+      dartz.Either<ScheduleStateEnum, ScheduleStateEnum> stateAddRemove) {
     Set<ScheduleStateEnum> updatedStates = Set.from(persistingScheduleStates);
     ScheduleStateEnum? toRemoveState;
     ScheduleStateEnum? toAddState;

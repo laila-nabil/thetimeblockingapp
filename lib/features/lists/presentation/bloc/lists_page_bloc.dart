@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -117,7 +117,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             await _getClickupListAndItsTasksUseCase(
                 event.getClickupListAndItsTasksParams);
         TasksList? list;
-        List<ClickupTask>? tasks;
+        List<Task>? tasks;
         List<Failure>? failures = [];
         getClickupListAndItsTasks?.listResult
             ?.fold((l) => failures.add(l), (r) => list = r);
@@ -197,7 +197,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                 clickupSpace: event.clickupSpace));
           });
         }
-      } else if (event is MoveClickupTaskBetweenListsEvent) {
+      } else if (event is MoveTaskBetweenListsEvent) {
         if (event.tryEvent) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.moveListTry,
@@ -223,7 +223,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                 clickupSpace: event.clickupSpace));
           });
         }
-      } else if (event is CreateClickupFolderInSpaceEvent) {
+      } else if (event is CreateFolderInSpaceEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createFolderTry,
@@ -252,7 +252,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                 clickupSpace: event.clickupSpace));
           });
         }
-      } else if (event is DeleteClickupFolderEvent) {
+      } else if (event is DeleteFolderEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteFolderTry,
@@ -279,7 +279,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                 clickupSpace: event.clickupSpace));
           });
         }
-      } else if (event is DeleteClickupListEvent) {
+      } else if (event is DeleteListEvent) {
         if (event.tryEvent== true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteListTry,
@@ -307,7 +307,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           });
         }
       }
-      else if (event is CreateClickupTaskEvent) {
+      else if (event is CreateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _createClickupTaskUseCase(event.params);
         result?.fold(
@@ -323,7 +323,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }
-      else if (event is DuplicateClickupTaskEvent) {
+      else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _duplicateClickupTaskUseCase(event.params);
         result?.fold(
@@ -339,7 +339,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }
-      else if (event is UpdateClickupTaskEvent) {
+      else if (event is UpdateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _updateClickupTaskUseCase(event.params);
         result?.fold(
@@ -355,7 +355,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                   clickupAccessToken: event.params.clickupAccessToken)));
         });
       }
-      else if (event is DeleteClickupTaskEvent) {
+      else if (event is DeleteTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _deleteClickupTaskUseCase(event.params);
         result?.fold(

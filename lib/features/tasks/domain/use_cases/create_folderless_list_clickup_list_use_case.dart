@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -20,7 +20,7 @@ class CreateFolderlessListClickupListUseCase
   CreateFolderlessListClickupListUseCase(this.repo);
 
   @override
-  Future<Either<Failure, TasksList>?> call(
+  Future<dartz.Either<Failure, TasksList>?> call(
       CreateFolderlessListClickupParams params) async {
     final result = await repo.createFolderlessClickupList(params);
     await result?.fold(
@@ -42,7 +42,7 @@ class CreateFolderlessListClickupParams extends Equatable {
   final Space clickupSpace;
   final String listName;
   final Color? statusColor;
-  final ClickupAssignee? assignee = Globals.clickupUser?.asAssignee;
+  final Assignee? assignee = Globals.clickupUser?.asAssignee;
 
   CreateFolderlessListClickupParams({
     required this.clickupAccessToken,

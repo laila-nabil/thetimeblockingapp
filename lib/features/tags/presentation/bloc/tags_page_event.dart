@@ -7,7 +7,7 @@ abstract class TagsPageEvent extends Equatable {
 }
 
 class NavigateToTagPageEvent extends TagsPageEvent {
-  final ClickupTag tag;
+  final Tag tag;
   final bool insideTagPage;
   const NavigateToTagPageEvent({required this.tag,required this.insideTagPage});
 
@@ -26,7 +26,7 @@ class GetClickupTagsInSpaceEvent extends TagsPageEvent {
 
 class GetClickupTasksForTagEvent extends TagsPageEvent {
   final ClickupAccessToken clickupAccessToken;
-  final ClickupTag tag;
+  final Tag tag;
   final Space space;
   final Workspace workspace;
 

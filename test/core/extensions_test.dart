@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -75,11 +75,11 @@ void main(){
       group("uriHttpsClickupAPI tests", () {
         test("uriHttpsClickupAPI test 1", () {
           const url = "www.website.com";
-          Map<String, Either<List<dynamic>, String>> queryParametersClickupAPI =
+          Map<String, dartz.Either<List<dynamic>, String>> queryParametersClickupAPI =
               {
-            "keyHere1": const Right("valueHere1"),
-            "keyHere2List": const Left(["valueHereA1", "valueHereA2", "valueHereA3"]),
-            "keyHere3List": const Left(["valueHereB1",]),
+            "keyHere1": const dartz.Right("valueHere1"),
+            "keyHere2List": const dartz.Left(["valueHereA1", "valueHereA2", "valueHereA3"]),
+            "keyHere3List": const dartz.Left(["valueHereB1",]),
           };
           expect(
             UriExtension.uriHttpsClickupAPI(

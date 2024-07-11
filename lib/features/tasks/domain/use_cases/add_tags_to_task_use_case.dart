@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
@@ -6,14 +6,14 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_ta
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
-class AddTagsToTaskUseCase implements UseCase<Unit, AddTagsToTaskParams> {
+class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
   final AddTagToTaskUseCase addTagFromTaskUseCase;
 
   AddTagsToTaskUseCase(this.addTagFromTaskUseCase);
 
   @override
-  Future<Either<Failure, Unit>?> call(AddTagsToTaskParams params) async {
-    List<Either<Failure, Unit>?> result = [];
+  Future<dartz.Either<Failure, dartz.Unit>?> call(AddTagsToTaskParams params) async {
+    List<dartz.Either<Failure, dartz.Unit>?> result = [];
     for (var element in params.tags) {
       final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
           task: params.task,
@@ -23,15 +23,15 @@ class AddTagsToTaskUseCase implements UseCase<Unit, AddTagsToTaskParams> {
     }
     if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
         false) {
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     }
     return result.firstOrNull;
   }
 }
 
 class AddTagsToTaskParams {
-  final ClickupTask task;
-  final List<ClickupTag> tags;
+  final Task task;
+  final List<Tag> tags;
   final ClickupAccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";

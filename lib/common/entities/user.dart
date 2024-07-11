@@ -26,7 +26,7 @@ class User extends Equatable {
   final bool? globalFontSupport;
   final String? timezone;
 
-  ClickupAssignee get asAssignee => ClickupAssignee(
+  Assignee get asAssignee => Assignee(
       id: id,
       email: email,
       color: color,

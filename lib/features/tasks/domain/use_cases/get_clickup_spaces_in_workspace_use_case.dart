@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -19,7 +19,7 @@ class GetClickupSpacesInWorkspacesUseCase
   GetClickupSpacesInWorkspacesUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<Space>>?> call(
+  Future<dartz.Either<Failure, List<Space>>?> call(
       GetClickupSpacesInWorkspacesParams params) async {
     final result = await repo.getClickupSpacesInWorkspaces(params: params);
     await result.fold(

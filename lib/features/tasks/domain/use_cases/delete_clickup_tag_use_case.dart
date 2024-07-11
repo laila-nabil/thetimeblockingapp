@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -10,13 +10,13 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
 
 class DeleteClickupTagUseCase
-    implements UseCase<Unit, DeleteClickupTagParams> {
+    implements UseCase<dartz.Unit, DeleteClickupTagParams> {
 
   final TasksRepo repo;
 
   DeleteClickupTagUseCase(this.repo);
   @override
-  Future<Either<Failure, Unit>?> call(
+  Future<dartz.Either<Failure, dartz.Unit>?> call(
       DeleteClickupTagParams params) async {
     final result = await repo.deleteClickupTag(params);
     await result?.fold(
@@ -35,7 +35,7 @@ class DeleteClickupTagUseCase
 
 class DeleteClickupTagParams {
   final Space space;
-  final ClickupTag tag;
+  final Tag tag;
   final ClickupAccessToken clickupAccessToken;
 
   DeleteClickupTagParams(

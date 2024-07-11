@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -10,13 +10,13 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
 
 class GetClickupTagsInSpaceUseCase
-    implements UseCase<List<ClickupTag>, GetClickupTagsInSpaceParams> {
+    implements UseCase<List<Tag>, GetClickupTagsInSpaceParams> {
   final TasksRepo repo;
 
   GetClickupTagsInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupTag>>?> call(
+  Future<dartz.Either<Failure, List<Tag>>?> call(
       GetClickupTagsInSpaceParams params) async {
     final result = await repo.getClickupTags(params: params);
     await result.fold(

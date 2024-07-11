@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
@@ -12,7 +12,7 @@ class GetClickupListUseCase
   GetClickupListUseCase(this.repo);
 
   @override
-  Future<Either<Failure, TasksList>?> call(GetClickupListParams params) {
+  Future<dartz.Either<Failure, TasksList>?> call(GetClickupListParams params) {
     return repo.getClickupList(params);
   }
 }

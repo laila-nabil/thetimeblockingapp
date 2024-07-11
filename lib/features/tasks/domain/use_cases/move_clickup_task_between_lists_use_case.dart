@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -12,17 +12,17 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
 class MoveClickupTaskBetweenListsUseCase
-    implements UseCase<Unit, MoveClickupTaskBetweenListsParams> {
+    implements UseCase<dartz.Unit, MoveClickupTaskBetweenListsParams> {
   final TasksRepo repo;
 
   MoveClickupTaskBetweenListsUseCase(this.repo);
 
   @override
-  Future<Either<Failure, Unit>?> call(
+  Future<dartz.Either<Failure, dartz.Unit>?> call(
       MoveClickupTaskBetweenListsParams params) async {
-    ClickupTask task = params.task;
-    Either<Failure, ClickupTask>? createResult;
-    Either<Failure, Unit>? deleteResult;
+    Task task = params.task;
+    dartz.Either<Failure, Task>? createResult;
+    dartz.Either<Failure, dartz.Unit>? deleteResult;
     createResult = await repo.createTaskInList(ClickupTaskParams.createNewTask(
         clickupAccessToken: params.clickupAccessToken,
         clickupList: params.newList,
@@ -44,7 +44,7 @@ class MoveClickupTaskBetweenListsUseCase
           .logEvent(AnalyticsEvents.moveTaskBetweenLists.name, parameters: {
         AnalyticsEventParameter.status.name: true,
       });
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     } else {
       List<Failure> failures = [];
       createResult?.fold((l) => failures.add(l), (r) => null);
@@ -54,13 +54,13 @@ class MoveClickupTaskBetweenListsUseCase
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: failures.toString(),
       });
-      return Left(FailuresList(failures: failures));
+      return dartz.Left(FailuresList(failures: failures));
     }
   }
 }
 
 class MoveClickupTaskBetweenListsParams {
-  final ClickupTask task;
+  final Task task;
   final TasksList newList;
   final ClickupAccessToken clickupAccessToken;
 

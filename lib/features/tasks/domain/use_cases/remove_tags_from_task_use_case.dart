@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
@@ -6,14 +6,14 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_fr
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
-class RemoveTagsFromTaskUseCase implements UseCase<Unit, RemoveTagsFromTaskParams> {
+class RemoveTagsFromTaskUseCase implements UseCase<dartz.Unit, RemoveTagsFromTaskParams> {
   final RemoveTagFromTaskUseCase removeTagFromTaskUseCase;
 
   RemoveTagsFromTaskUseCase(this.removeTagFromTaskUseCase);
 
   @override
-  Future<Either<Failure, Unit>?> call(RemoveTagsFromTaskParams params) async {
-    List<Either<Failure, Unit>?> result = [];
+  Future<dartz.Either<Failure, dartz.Unit>?> call(RemoveTagsFromTaskParams params) async {
+    List<dartz.Either<Failure, dartz.Unit>?> result = [];
     for (var element in params.tags) {
       final elementResult = await removeTagFromTaskUseCase(RemoveTagFromTaskParams(
           task: params.task,
@@ -23,15 +23,15 @@ class RemoveTagsFromTaskUseCase implements UseCase<Unit, RemoveTagsFromTaskParam
     }
     if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
         false) {
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     }
     return result.firstOrNull;
   }
 }
 
 class RemoveTagsFromTaskParams {
-  final ClickupTask task;
-  final List<ClickupTag> tags;
+  final Task task;
+  final List<Tag> tags;
   final ClickupAccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";

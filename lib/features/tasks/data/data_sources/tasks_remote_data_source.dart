@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
@@ -43,7 +43,7 @@ abstract class TasksRemoteDataSource {
 
   Future<ClickupTaskModel> updateTask({required ClickupTaskParams params});
 
-  Future<Unit> deleteTask({required DeleteClickupTaskParams params});
+  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params});
 
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
@@ -66,14 +66,14 @@ abstract class TasksRemoteDataSource {
   Future<List<ClickupTagModel>> getClickupTags(
       {required GetClickupTagsInSpaceParams params});
 
-  Future<Unit> removeTagFromTask({required RemoveTagFromTaskParams params});
+  Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params});
 
-  Future<Unit> addTagToTask({required AddTagToTaskParams params});
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<Unit> removeTaskFromAdditionalList(
+  Future<dartz.Unit> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params});
 
-  Future<Unit> addTaskToList({required AddTaskToListParams params});
+  Future<dartz.Unit> addTaskToList({required AddTaskToListParams params});
 
   Future<ClickupListModel> getClickupList(
       {required GetClickupListParams params});
@@ -84,17 +84,17 @@ abstract class TasksRemoteDataSource {
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateClickupFolderInSpaceParams params});
 
-  Future<Unit> deleteList({required DeleteClickupListParams params});
+  Future<dartz.Unit> deleteList({required DeleteClickupListParams params});
 
-  Future<Unit> deleteFolder({required DeleteClickupFolderParams params});
+  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params});
 
-  Future<Unit> createClickupTagInSpace(
+  Future<dartz.Unit> createClickupTagInSpace(
       {required CreateClickupTagInSpaceParams params});
 
-  Future<Unit> updateClickupTag(
+  Future<dartz.Unit> updateClickupTag(
       {required UpdateClickupTagParams params});
 
-  Future<Unit> deleteClickupTag({required DeleteClickupTagParams params});
+  Future<dartz.Unit> deleteClickupTag({required DeleteClickupTagParams params});
 }
 
 class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -151,13 +151,13 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteTask({required DeleteClickupTaskParams params}) async {
+  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
@@ -178,9 +178,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickupFoldersInSpaceParams params}) async {
     List<ClickupFolderModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/folder";
-    Map<String, Either<List, String>>? queryParameters = params.archived == null
+    Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
-        : {"archived": Right("${params.archived}")};
+        : {"archived": dartz.Right("${params.archived}")};
     final Uri uri = UriExtension.uriHttpsClickupAPI(
         url: url, queryParameters: queryParameters);
     final response = await network.get(
@@ -197,9 +197,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickupListsInFolderParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/folder/${params.clickupFolder.id}/list";
-    Map<String, Either<List, String>>? queryParameters = params.archived == null
+    Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
-        : {"archived": Right("${params.archived}")};
+        : {"archived": dartz.Right("${params.archived}")};
     final Uri uri = UriExtension.uriHttpsClickupAPI(
         url: url, queryParameters: queryParameters);
     final response = await network.get(
@@ -216,9 +216,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickupFolderlessListsInSpaceParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/list";
-    Map<String, Either<List, String>>? queryParameters = params.archived == null
+    Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
-        : {"archived": Right("${params.archived}")};
+        : {"archived": dartz.Right("${params.archived}")};
     final Uri uri = UriExtension.uriHttpsClickupAPI(
         url: url, queryParameters: queryParameters);
     final response = await network.get(
@@ -235,9 +235,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickupSpacesInWorkspacesParams params}) async {
     List<ClickupSpaceModel> result = [];
     final url = "$clickupUrl/team/${params.clickupWorkspace.id}/space";
-    Map<String, Either<List, String>>? queryParameters = params.archived == null
+    Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
-        : {"archived": Right("${params.archived}")};
+        : {"archived": dartz.Right("${params.archived}")};
     final Uri uri = UriExtension.uriHttpsClickupAPI(
         url: url, queryParameters: queryParameters);
     final response = await network.get(
@@ -254,9 +254,9 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetClickupTagsInSpaceParams params}) async {
     List<ClickupTagModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/tag";
-    Map<String, Either<List, String>>? queryParameters = params.archived == null
+    Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
-        : {"archived": Right("${params.archived}")};
+        : {"archived": dartz.Right("${params.archived}")};
     final Uri uri = UriExtension.uriHttpsClickupAPI(
         url: url, queryParameters: queryParameters);
     final response = await network.get(
@@ -269,7 +269,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> removeTagFromTask(
+  Future<dartz.Unit> removeTagFromTask(
       {required RemoveTagFromTaskParams params}) async {
     Uri uri =
         Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
@@ -277,11 +277,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> addTagToTask({required AddTagToTaskParams params}) async {
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) async {
     Uri uri =
         Uri.parse("$clickupUrl/task/${params.taskId}/tag/${params.tagName}");
     await network.post(
@@ -290,11 +290,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> addTaskToList({required AddTaskToListParams params}) async {
+  Future<dartz.Unit> addTaskToList({required AddTaskToListParams params}) async {
     Uri uri =
         Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
     await network.post(
@@ -303,11 +303,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> removeTaskFromAdditionalList(
+  Future<dartz.Unit> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params}) async {
     Uri uri =
         Uri.parse("$clickupUrl/list/${params.taskId}/task/${params.listId}");
@@ -315,7 +315,7 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
@@ -358,27 +358,27 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteList({required DeleteClickupListParams params}) async {
+  Future<dartz.Unit> deleteList({required DeleteClickupListParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
+  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
     await network.delete(
       uri: uri,
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> createClickupTagInSpace(
+  Future<dartz.Unit> createClickupTagInSpace(
       {required CreateClickupTagInSpaceParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/space/${params.space.id}/tag");
     await network.post(
@@ -386,11 +386,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
       body: {"tag" : (params.newTag).toJson()}
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> deleteClickupTag({required DeleteClickupTagParams params}) async{
+  Future<dartz.Unit> deleteClickupTag({required DeleteClickupTagParams params}) async{
     Uri uri = Uri.parse(
         "$clickupUrl/space/${params.space.id}/tag/${params.tag.name}");
     await network.delete(
@@ -398,11 +398,11 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
       body: json.encode((params.tag as ClickupTagModel).toJson())
     );
-    return unit;
+    return dartz.unit;
   }
 
   @override
-  Future<Unit> updateClickupTag(
+  Future<dartz.Unit> updateClickupTag(
       {required UpdateClickupTagParams params}) async {
     Uri uri = Uri.parse(
         "$clickupUrl/space/${params.space.id}/tag/${params.originalTagName}");
@@ -411,6 +411,6 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken,),
         body: {"tag" : (params.newTag).toJsonUpdate()}
     );
-    return unit;
+    return dartz.unit;
   }
 }

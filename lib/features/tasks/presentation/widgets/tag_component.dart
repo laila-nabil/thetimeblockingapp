@@ -15,7 +15,7 @@ class TagComponent extends StatefulWidget {
       this.actions,
       this.updateTagInline});
 
-  final ClickupTag tag;
+  final Tag tag;
   final void Function()? onTap;
   final List<CustomPopupItem>? actions;
   final Widget? updateTagInline;

@@ -30,7 +30,7 @@ class TaskComponent extends StatelessWidget {
     this.showListChip = true,
   });
 
-  final ClickupTask clickupTask;
+  final Task clickupTask;
   final Bloc<dynamic, dynamic> bloc;
   final bool Function(Object?) isLoading;
   final void Function(DeleteClickupTaskParams) onDelete;
@@ -111,7 +111,7 @@ class TaskWidget extends StatefulWidget {
       this.actions});
 
   final void Function() onTap;
-  final ClickupTask clickupTask;
+  final Task clickupTask;
   final bool showList;
   final List<CustomPopupItem>? actions;
 

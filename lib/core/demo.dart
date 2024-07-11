@@ -45,17 +45,17 @@ class Demo {
                   profilePicture: null))
         ])
   ];
-  static ClickupStatus todo = const ClickupStatus(
+  static Status todo = const Status(
     id: "324312",
     status: "todo",
     color: "#d3d3d3",
   );
-  static ClickupStatus workingOn = const ClickupStatus(
+  static Status workingOn = const Status(
     id: "324312",
     status: "working on",
     color: "#00d3d3",
   );
-  static ClickupStatus done = const ClickupStatus(
+  static Status done = const Status(
     id: "324312",
     status: "done",
     color: "#d3d300",

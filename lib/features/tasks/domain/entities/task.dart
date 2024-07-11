@@ -8,8 +8,8 @@ import 'folder.dart';
 import 'tasks_list.dart';
 import 'space.dart';
 
-class ClickupTask extends Equatable {
-  const ClickupTask({
+class Task extends Equatable {
+  const Task({
     this.id,
     this.customId,
     this.name,
@@ -49,19 +49,19 @@ class ClickupTask extends Equatable {
   final String? name;
   final String? textContent;
   final String? description;
-  final ClickupStatus? status;
+  final Status? status;
   final String? orderIndex;
   final String? dateCreatedUtcTimestamp;
   final String? dateUpdatedUtcTimestamp;
   final String? dateClosedUtcTimestamp;
   final String? dateDoneUtcTimestamp;
   final ClickupCreator? creator;
-  final List<ClickupAssignee>? assignees;
+  final List<Assignee>? assignees;
   final List<ClickupWatchers>? watchers;
-  final List<ClickupChecklists>? checklists;
-  final List<ClickupTag>? tags;
+  final List<Checklists>? checklists;
+  final List<Tag>? tags;
   final String? parent;
-  final ClickupTaskPriority? priority;
+  final TaskPriority? priority;
   final String? dueDateUtcTimestamp;
   final String? startDateUtcTimestamp;
   final num? points;
@@ -236,8 +236,8 @@ class ClickupCustomFields extends Equatable {
 /// tag_fg : "#000000"
 /// tag_bg : "#000000"
 
-class ClickupTag extends Equatable {
-  const ClickupTag({
+class Tag extends Equatable {
+  const Tag({
     this.name,
     this.tagFg,
     this.tagBg,
@@ -261,12 +261,12 @@ class ClickupTag extends Equatable {
   ClickupTagModel get getModel =>
       ClickupTagModel(name: name, tagBg: tagBg, tagFg: tagFg);
 
-  ClickupTag copyWith({
+  Tag copyWith({
     String? name,
     String? tagFg,
     String? tagBg,
   }) {
-    return ClickupTag(
+    return Tag(
       name: name ?? this.name,
       tagFg: tagFg ?? this.tagFg,
       tagBg: tagBg ?? this.tagBg,
@@ -284,8 +284,8 @@ class ClickupTag extends Equatable {
 /// unresolved : 1
 /// items : [{"id":"9398cb3d-55a4-4c45-ab46-2a47a371e375","name":"checklist item 1","orderindex":0,"assignee":null,"resolved":false,"parent":null,"date_created":"1618455810454","children":[]}]
 
-class ClickupChecklists extends Equatable {
-  const ClickupChecklists({
+class Checklists extends Equatable {
+  const Checklists({
     this.id,
     this.taskId,
     this.name,
@@ -402,8 +402,8 @@ class ClickupWatchers extends Equatable {
 /// profilePicture : "https://clickup.com/avatar.jpg"
 /// initials : LN
 
-class ClickupAssignee extends Equatable {
-  const ClickupAssignee({
+class Assignee extends Equatable {
+  const Assignee({
     this.id,
     this.username,
     this.color,
@@ -443,12 +443,6 @@ class ClickupAssignee extends Equatable {
       ];
 }
 
-/// id : 123
-/// username : "John Doe"
-/// color : "#000000"
-/// email : "johndoe@website.com"
-/// profilePicture : "https://clickup.com/avatar.jpg"
-
 class ClickupCreator extends Equatable {
   const ClickupCreator({
     this.id,
@@ -474,20 +468,8 @@ class ClickupCreator extends Equatable {
       ];
 }
 
-//from task
-/// status : "Open"
-/// type : "open"
-/// orderindex : 1
-/// color : "#000000"
-
-//from space
-/* id : "p90150126979_lIWCjnSr"
- status : "Open"
- type : "open"
- orderindex : 0
- color : "#d3d3d3"*/
-class ClickupStatus extends Equatable {
-  const ClickupStatus({
+class Status extends Equatable {
+  const Status({
     this.id,
     this.status,
     this.type,
@@ -518,18 +500,7 @@ class ClickupStatus extends Equatable {
       ];
 }
 
-///ex 1 :
-///priorityNum : 1
-///isNum: true
-///
-///ex 2 :
-///isNum: false
-///"color": "#ffcc00",
-///"id": "2",
-///"orderindex": "2",
-///"priority": "high"
-///
-class ClickupTaskPriority extends Equatable {
+class TaskPriority extends Equatable {
   final bool isNum;
   final num? priorityNum;
   final String? color;
@@ -537,7 +508,7 @@ class ClickupTaskPriority extends Equatable {
   final String? orderIndex;
   final String? priority;
 
-  const ClickupTaskPriority(
+  const TaskPriority(
       {required this.isNum,
       this.priorityNum,
       this.color,
@@ -564,12 +535,12 @@ class ClickupTaskPriority extends Equatable {
   return "";
  }
 
- List<ClickupTaskPriority>? get getPriorityExclamationListOrNull {
+ List<TaskPriority>? get getPriorityExclamationListOrNull {
     if(isNum == false){
       return null;
     }
     return List.generate(
-        4, (index) => ClickupTaskPriority(isNum: true, priorityNum: index));
+        4, (index) => TaskPriority(isNum: true, priorityNum: index));
   }
 
   Color? get getPriorityColor {

@@ -32,7 +32,7 @@ import '../../../tasks/presentation/widgets/tag_chip.dart';
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
-  ClickupTask? task;
+  Task? task;
   final void Function(ClickupTaskParams params)? onSave;
   void Function()? onDuplicate;
   final void Function(DeleteClickupTaskParams params)? onDelete;
@@ -43,7 +43,7 @@ class TaskPopupParams extends Equatable {
   DateTime? dueDate;
   late bool isAllDay;
   TasksList? list;
-  ClickupTag? tag;
+  Tag? tag;
 
   TaskPopupParams.openNotAllDayTask({
     required this.task,
@@ -154,7 +154,7 @@ class TaskPopupParams extends Equatable {
       this.dueDate});
 
   TaskPopupParams copyWith({
-    ClickupTask? task,
+    Task? task,
     void Function(ClickupTaskParams params)? onSave,
     void Function(DeleteClickupTaskParams params)? onDelete,
     Bloc? bloc,
@@ -482,7 +482,7 @@ class TaskPopup extends StatelessWidget {
                                       ?.statuses
                                       ?.map<
                                       DropdownMenuItem<
-                                          ClickupStatus>>((e) =>
+                                          Status>>((e) =>
                                       DropdownMenuItem(
                                           value: e,
                                           child: false ? Text(
@@ -828,7 +828,7 @@ class TaskPopup extends StatelessWidget {
                                           color: e
                                               .getTagFgColor,
                                           onDelete: () {
-                                            List<ClickupTag>?
+                                            List<Tag>?
                                             tags =
                                             List.from(
                                                 state.taskParams?.tags ??
@@ -896,7 +896,7 @@ class TaskPopup extends StatelessWidget {
                                                                       ),
                                                                       value: state.taskParams?.tags?.contains(e) == true,
                                                                       onChanged: (value) {
-                                                                        List<ClickupTag>? tags = List.from(state.taskParams?.tags ?? [], growable: true);
+                                                                        List<Tag>? tags = List.from(state.taskParams?.tags ?? [], growable: true);
                                                                         if (value == true) {
                                                                           tags.add(e);
                                                                         } else {
@@ -962,7 +962,7 @@ class TaskPopup extends StatelessWidget {
                                                                   true,
                                                               onChanged:
                                                                   (value) {
-                                                                List<ClickupTag>?
+                                                                List<Tag>?
                                                                 tags =
                                                                 List.from(state.taskParams?.tags ?? [], growable: true);
                                                                 if (value ==

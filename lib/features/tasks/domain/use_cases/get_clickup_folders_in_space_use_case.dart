@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
@@ -14,7 +14,7 @@ class GetClickupFoldersInSpaceUseCase
   GetClickupFoldersInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<Folder>>?> call(
+  Future<dartz.Either<Failure, List<Folder>>?> call(
       GetClickupFoldersInSpaceParams params) {
     return repo.getClickupFolders(params: params);
   }

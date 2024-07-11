@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -9,13 +9,13 @@ import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
 class DeleteClickupFolderUseCase
-    implements UseCase<Unit, DeleteClickupFolderParams> {
+    implements UseCase<dartz.Unit, DeleteClickupFolderParams> {
   final TasksRepo repo;
 
   DeleteClickupFolderUseCase(this.repo);
 
   @override
-  Future<Either<Failure, Unit>?> call(DeleteClickupFolderParams params) async {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteClickupFolderParams params) async {
     final result = await repo.deleteFolder(params);
     await result?.fold(
         (l) async => await serviceLocator<Analytics>()

@@ -1,5 +1,5 @@
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/demo.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
@@ -60,7 +60,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteTask({required DeleteClickupTaskParams params}) async {
+  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
@@ -101,23 +101,23 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> removeTagFromTask(
+  Future<dartz.Unit> removeTagFromTask(
       {required RemoveTagFromTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> addTagToTask({required AddTagToTaskParams params}) async {
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> addTaskToList({required AddTaskToListParams params}) async {
+  Future<dartz.Unit> addTaskToList({required AddTaskToListParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> removeTaskFromAdditionalList(
+  Future<dartz.Unit> removeTaskFromAdditionalList(
       {required RemoveTaskFromListParams params}) async {
     throw const DemoFailure(message: "");
   }
@@ -149,29 +149,29 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<Unit> deleteList({required DeleteClickupListParams params}) async {
+  Future<dartz.Unit> deleteList({required DeleteClickupListParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
+  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> createClickupTagInSpace(
+  Future<dartz.Unit> createClickupTagInSpace(
       {required CreateClickupTagInSpaceParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> deleteClickupTag(
+  Future<dartz.Unit> deleteClickupTag(
       {required DeleteClickupTagParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<Unit> updateClickupTag(
+  Future<dartz.Unit> updateClickupTag(
       {required UpdateClickupTagParams params}) async {
     throw const DemoFailure(message: "");
   }

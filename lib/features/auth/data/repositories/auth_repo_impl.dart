@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 
 import 'package:thetimeblockingapp/common/entities/user.dart';
 
@@ -26,7 +26,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<Either<Failure, ClickupAccessToken>> getClickupAccessToken(
+  Future<dartz.Either<Failure, ClickupAccessToken>> getClickupAccessToken(
       {required GetClickupAccessTokenParams params}) async {
     final result = await repoHandleRemoteRequest<ClickupAccessToken>(
         remoteDataSourceRequest: () async =>
@@ -44,7 +44,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<Either<Failure, User>> getClickupUser(
+  Future<dartz.Either<Failure, User>> getClickupUser(
       {required GetClickupUserParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
@@ -61,14 +61,14 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<Either<Failure, Unit>> signOut() async {
+  Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
     try {
       await authLocalDataSource.signOut();
       clearGlobals();
-      return const Right(unit);
+      return const dartz.Right(dartz.unit);
     } catch (e) {
       printDebug(e);
-      return Left(exceptionToFailure(e as Exception));
+      return dartz.Left(exceptionToFailure(e as Exception));
     }
   }
 

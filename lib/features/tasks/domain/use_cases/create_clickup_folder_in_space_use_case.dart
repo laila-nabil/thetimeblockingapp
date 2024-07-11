@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -16,7 +16,7 @@ class CreateClickupFolderInSpaceUseCase
   CreateClickupFolderInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, Folder>?> call(
+  Future<dartz.Either<Failure, Folder>?> call(
       CreateClickupFolderInSpaceParams params) async{
     final result = await repo.createClickupFolderInSpace(params);
     await result?.fold(
