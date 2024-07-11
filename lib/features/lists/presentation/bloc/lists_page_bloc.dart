@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/clickup_workspace.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
@@ -116,7 +116,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
         final getClickupListAndItsTasks =
             await _getClickupListAndItsTasksUseCase(
                 event.getClickupListAndItsTasksParams);
-        ClickupList? list;
+        TasksList? list;
         List<ClickupTask>? tasks;
         List<Failure>? failures = [];
         getClickupListAndItsTasks?.listResult

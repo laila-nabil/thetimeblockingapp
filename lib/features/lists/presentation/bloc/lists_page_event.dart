@@ -29,7 +29,7 @@ class GetListAndFoldersInListsPageEvent extends ListsPageEvent {
 }
 
 class NavigateToListPageEvent extends ListsPageEvent {
-  final ClickupList list;
+  final TasksList list;
 
   const NavigateToListPageEvent(this.list);
 
@@ -204,10 +204,10 @@ class DeleteClickupListEvent extends ListsPageEvent {
   DeleteClickupListParams? deleteClickupListParams;
   ClickupWorkspace? clickupWorkspace;
   Space? clickupSpace;
-  ClickupList? toDeleteList;
+  TasksList? toDeleteList;
   bool? tryEvent;
 
-  DeleteClickupListEvent.tryDelete(ClickupList this.toDeleteList){
+  DeleteClickupListEvent.tryDelete(TasksList this.toDeleteList){
     tryEvent = true;
   }
   DeleteClickupListEvent.cancelDelete(){

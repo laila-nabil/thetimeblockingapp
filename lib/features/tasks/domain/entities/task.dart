@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model
 import '../../../../core/extensions.dart';
 import '../../../../core/globals.dart';
 import 'folder.dart';
-import 'list.dart';
+import 'tasks_list.dart';
 import 'space.dart';
 
 class ClickupTask extends Equatable {
@@ -72,7 +72,7 @@ class ClickupTask extends Equatable {
   final String? teamId;
   final String? url;
   final String? permissionLevel;
-  final ClickupList? list;
+  final TasksList? list;
   final ClickupProject? project;
   final Folder? folder;
   final Space? space;

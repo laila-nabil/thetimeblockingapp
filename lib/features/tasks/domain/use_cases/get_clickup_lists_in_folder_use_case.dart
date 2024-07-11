@@ -5,17 +5,17 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/folder.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
 class GetClickupListsInFolderUseCase
-    implements UseCase<List<ClickupList>, GetClickupListsInFolderParams> {
+    implements UseCase<List<TasksList>, GetClickupListsInFolderParams> {
   final TasksRepo repo;
 
   GetClickupListsInFolderUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupList>>?> call(
+  Future<Either<Failure, List<TasksList>>?> call(
       GetClickupListsInFolderParams params) {
     return repo.getClickupListsInFolder(params: params);
   }

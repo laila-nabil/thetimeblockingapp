@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
 import '../../../../common/entities/clickup_workspace.dart';
@@ -37,7 +37,7 @@ class Space extends Equatable {
   final bool? archived;
   final List<ClickupWorkspaceMembers>? members;
   List<Folder> folders;
-  List<ClickupList> lists;
+  List<TasksList> lists;
   List<ClickupTag> tags;
 
   bool get isPrioritiesEnabled => features

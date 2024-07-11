@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 class Folder extends Equatable{
@@ -20,7 +20,7 @@ class Folder extends Equatable{
   final bool? access;
   final Space? space;
   final String? taskCount;
-  final List<ClickupList>? lists;
+  final List<TasksList>? lists;
 
 
   @override
@@ -41,7 +41,7 @@ class Folder extends Equatable{
     bool? access,
     Space? space,
     String? taskCount,
-    List<ClickupList>? lists,
+    List<TasksList>? lists,
   }) {
     return Folder(
       id: id ?? this.id,

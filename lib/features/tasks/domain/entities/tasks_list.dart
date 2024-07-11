@@ -1,8 +1,8 @@
 
 import 'package:equatable/equatable.dart';
 
-class ClickupList extends Equatable {
-  const ClickupList({
+class TasksList extends Equatable {
+  const TasksList({
     this.id,
     this.name,
     this.access,

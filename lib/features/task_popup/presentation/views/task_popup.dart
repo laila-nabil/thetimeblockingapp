@@ -13,7 +13,7 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
@@ -42,7 +42,7 @@ class TaskPopupParams extends Equatable {
   DateTime? startDate;
   DateTime? dueDate;
   late bool isAllDay;
-  ClickupList? list;
+  TasksList? list;
   ClickupTag? tag;
 
   TaskPopupParams.openNotAllDayTask({
@@ -161,7 +161,7 @@ class TaskPopupParams extends Equatable {
     DateTime? cellDate,
     DateTime? startDate,
     DateTime? dueDate,
-    ClickupList? list,
+    TasksList? list,
   }) {
     return TaskPopupParams._(
       task: task ?? this.task,

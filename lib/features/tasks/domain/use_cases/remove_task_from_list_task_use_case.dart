@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 
 class RemoveTaskFromAdditionalListUseCase
     implements UseCase<Unit, RemoveTaskFromListParams> {
@@ -21,7 +21,7 @@ class RemoveTaskFromAdditionalListUseCase
 
 class RemoveTaskFromListParams {
   final ClickupTask task;
-  final ClickupList list;
+  final TasksList list;
   final ClickupAccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";

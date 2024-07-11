@@ -15,7 +15,7 @@ import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
 import '../entities/folder.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import '../entities/space.dart';
 import '../entities/task.dart';
 import '../entities/task_parameters.dart';
@@ -55,10 +55,10 @@ abstract class TasksRepo{
   Future<Either<Failure, List<Folder>>> getClickupFolders(
       {required GetClickupFoldersInSpaceParams params});
 
-  Future<Either<Failure, List<ClickupList>>> getClickupListsInFolder(
+  Future<Either<Failure, List<TasksList>>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
-  Future<Either<Failure, List<ClickupList>>> getClickupFolderlessLists(
+  Future<Either<Failure, List<TasksList>>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
 
   Future<Either<Failure, List<ClickupTag>>> getClickupTags(
@@ -94,13 +94,13 @@ abstract class TasksRepo{
   Future<Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
       NoParams params);
 
-  Future<Either<Failure, ClickupList>?> getClickupList(
+  Future<Either<Failure, TasksList>?> getClickupList(
       GetClickupListParams params);
 
-  Future<Either<Failure, ClickupList>?> createClickupListInFolder(
+  Future<Either<Failure, TasksList>?> createClickupListInFolder(
       CreateClickupListInFolderParams params);
 
-  Future<Either<Failure, ClickupList>?> createFolderlessClickupList(
+  Future<Either<Failure, TasksList>?> createFolderlessClickupList(
       CreateFolderlessListClickupParams params);
 
   Future<Either<Failure, Folder>?> createClickupFolderInSpace(

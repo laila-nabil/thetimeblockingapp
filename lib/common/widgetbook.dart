@@ -22,7 +22,7 @@ import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_lan
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
@@ -2392,7 +2392,7 @@ class WidgetBookApp extends StatelessWidget {
                             .toString(),
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
-                        list: ClickupList(name: listName),
+                        list: TasksList(name: listName),
                         folder: Folder(name: folderName),
                         tags: tags);
                     return Theme(
@@ -2459,7 +2459,7 @@ class WidgetBookApp extends StatelessWidget {
                             .toString(),
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
-                        list: ClickupList(name: listName1),
+                        list: TasksList(name: listName1),
                         folder: Folder(name: folderName1),
                         tags: tags);
 
@@ -2506,7 +2506,7 @@ class WidgetBookApp extends StatelessWidget {
                             .toString(),
                         dueDateUtcTimestamp:
                             DateTime.now().millisecondsSinceEpoch.toString(),
-                        list: ClickupList(name: listName2),
+                        list: TasksList(name: listName2),
                         folder: Folder(name: folderName2),
                         tags: tags2);
                     return ToggleableSection(
@@ -2535,8 +2535,8 @@ class WidgetBookApp extends StatelessWidget {
                         label: "List 1 name", initialValue: "Development");
                     final list2Name = context.knobs
                         .string(label: "List 1 name", initialValue: "UI/UX");
-                    final list1 = ClickupList(name: list1Name);
-                    final list2 = ClickupList(name: list2Name);
+                    final list1 = TasksList(name: list1Name);
+                    final list2 = TasksList(name: list2Name);
                     return ToggleableSection(
                       title: folderName,
                       buttons: [

@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import 'list.dart';
+import 'tasks_list.dart';
 import 'task.dart';
 
 enum ClickupTaskParamsEnum { create, update }
@@ -13,7 +13,7 @@ enum ClickupTaskParamsEnum { create, update }
 class ClickupTaskParams extends Equatable{
   final ClickupTaskParamsEnum clickupTaskParamsEnum;
   final ClickupAccessToken clickupAccessToken;
-  final ClickupList? clickupList;
+  final TasksList? clickupList;
   final String? title;
   final String? description;
   final List<ClickupAssignee>? assignees;
@@ -58,13 +58,13 @@ class ClickupTaskParams extends Equatable{
 
   String? get getLinkedTaskId => linkedTask?.id;
 
-  List<ClickupList> get getAvailableLists {
+  List<TasksList> get getAvailableLists {
     if (clickupSpace != null && folder != null) {
-      return List.of(folder?.lists ?? <ClickupList>[]);
+      return List.of(folder?.lists ?? <TasksList>[]);
     } else if (clickupSpace != null && folder == null) {
       return List.of(clickupSpace?.lists ?? []);
     }
-    return <ClickupList>[];
+    return <TasksList>[];
   }
 
   factory ClickupTaskParams.fromTask(ClickupTask clickupTask){
@@ -147,7 +147,7 @@ class ClickupTaskParams extends Equatable{
     DateTime? startDate,
     DateTime? dueDate,
     Space? space,
-    ClickupList? list,
+    TasksList? list,
     ClickupTag? tag
   }) {
     printDebug("ClickupTaskParams startCreateNewTask task");
@@ -164,7 +164,7 @@ class ClickupTaskParams extends Equatable{
 
   factory ClickupTaskParams.createNewTask({
     required ClickupAccessToken clickupAccessToken,
-    required ClickupList clickupList,
+    required TasksList clickupList,
     required String title,
     String? description,
     List<ClickupTag>? tags,
@@ -259,7 +259,7 @@ class ClickupTaskParams extends Equatable{
     ClickupTask? updatedParentTask,
     ClickupTask? updatedLinkedTask,
     bool? updatedArchived,
-    ClickupList? list,
+    TasksList? list,
     Folder? folder,
   }) =>
       ClickupTaskParams._(
@@ -346,7 +346,7 @@ class ClickupTaskParams extends Equatable{
   ClickupTaskParams copyWith({
     ClickupTaskParamsEnum? clickupTaskParamsEnum,
     ClickupAccessToken? clickupAccessToken,
-    ClickupList? clickupList,
+    TasksList? clickupList,
     String? title,
     String? description,
     List<ClickupAssignee>? assignees,
@@ -380,7 +380,7 @@ class ClickupTaskParams extends Equatable{
       selectedFolder = null;
     }
 
-    ClickupList? selectedList = clickupList ?? this.clickupList;
+    TasksList? selectedList = clickupList ?? this.clickupList;
     if ((selectedFolder != null &&
             selectedFolder.lists?.contains(selectedList) == false) ||
         (selectedSpace != null &&

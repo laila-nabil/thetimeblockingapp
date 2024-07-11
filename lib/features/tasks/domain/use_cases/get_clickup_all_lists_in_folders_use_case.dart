@@ -5,21 +5,21 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/folder.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import 'get_clickup_lists_in_folder_use_case.dart';
 
 class GetClickupAllListsInFoldersUseCase
     implements
-        UseCase<Map<Folder, List<ClickupList>>,
+        UseCase<Map<Folder, List<TasksList>>,
             GetClickupAllListsInFoldersParams> {
   final GetClickupListsInFolderUseCase getClickupListsInFolderUseCase;
 
   GetClickupAllListsInFoldersUseCase(this.getClickupListsInFolderUseCase);
 
   @override
-  Future<Either<Failure, Map<Folder, List<ClickupList>>>?> call(
+  Future<Either<Failure, Map<Folder, List<TasksList>>>?> call(
       GetClickupAllListsInFoldersParams params) async {
-    Map<Folder, List<ClickupList>> resultRight = {};
+    Map<Folder, List<TasksList>> resultRight = {};
     Map<Folder, Failure> resultLeft = {};
     for (var folder in params.clickupFolders) {
       final lists = await getClickupListsInFolderUseCase(

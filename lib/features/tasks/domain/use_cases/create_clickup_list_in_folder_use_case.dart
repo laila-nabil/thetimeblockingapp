@@ -9,18 +9,18 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../../core/globals.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/folder.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import '../entities/task.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateClickupListInFolderUseCase
-    implements UseCase<ClickupList, CreateClickupListInFolderParams> {
+    implements UseCase<TasksList, CreateClickupListInFolderParams> {
   final TasksRepo repo;
 
   CreateClickupListInFolderUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupList>?> call(
+  Future<Either<Failure, TasksList>?> call(
       CreateClickupListInFolderParams params) async {
     final result = await repo.createClickupListInFolder(params);
     await result?.fold(

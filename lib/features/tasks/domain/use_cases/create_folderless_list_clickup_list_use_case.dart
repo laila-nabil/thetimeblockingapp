@@ -10,17 +10,17 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateFolderlessListClickupListUseCase
-    implements UseCase<ClickupList, CreateFolderlessListClickupParams> {
+    implements UseCase<TasksList, CreateFolderlessListClickupParams> {
   final TasksRepo repo;
 
   CreateFolderlessListClickupListUseCase(this.repo);
 
   @override
-  Future<Either<Failure, ClickupList>?> call(
+  Future<Either<Failure, TasksList>?> call(
       CreateFolderlessListClickupParams params) async {
     final result = await repo.createFolderlessClickupList(params);
     await result?.fold(

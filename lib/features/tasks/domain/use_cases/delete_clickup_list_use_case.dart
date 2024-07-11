@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
 class DeleteClickupListUseCase
@@ -31,7 +31,7 @@ class DeleteClickupListUseCase
 }
 
 class DeleteClickupListParams {
-  final ClickupList list;
+  final TasksList list;
   final ClickupAccessToken clickupAccessToken;
   DeleteClickupListParams({required this.list,required this.clickupAccessToken, });
 

@@ -5,16 +5,16 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/list.dart';
+import '../entities/tasks_list.dart';
 
 class GetClickupFolderlessListsInSpaceUseCase
-    implements UseCase<List<ClickupList>, GetClickupFolderlessListsInSpaceParams> {
+    implements UseCase<List<TasksList>, GetClickupFolderlessListsInSpaceParams> {
   final TasksRepo repo;
 
   GetClickupFolderlessListsInSpaceUseCase(this.repo);
 
   @override
-  Future<Either<Failure, List<ClickupList>>?> call(
+  Future<Either<Failure, List<TasksList>>?> call(
       GetClickupFolderlessListsInSpaceParams params) {
     return repo.getClickupFolderlessLists(params: params);
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/resources/text_styles.dart';
@@ -11,7 +11,7 @@ class ListComponent extends StatefulWidget {
   const ListComponent(
       {super.key, required this.list, this.onTap, this.actions});
 
-  final ClickupList list;
+  final TasksList list;
   final void Function()? onTap;
   final List<CustomPopupItem>? actions;
 

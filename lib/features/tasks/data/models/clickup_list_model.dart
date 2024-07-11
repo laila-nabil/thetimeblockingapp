@@ -1,10 +1,10 @@
-import '../../domain/entities/list.dart';
+import '../../domain/entities/tasks_list.dart';
 
 /// id : "1"
 /// name : "List"
 /// access : true
 
-class ClickupListModel extends ClickupList {
+class ClickupListModel extends TasksList {
   const ClickupListModel({
     super.id,
     super.name,

@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -61,7 +61,7 @@ class MoveClickupTaskBetweenListsUseCase
 
 class MoveClickupTaskBetweenListsParams {
   final ClickupTask task;
-  final ClickupList newList;
+  final TasksList newList;
   final ClickupAccessToken clickupAccessToken;
 
   MoveClickupTaskBetweenListsParams(

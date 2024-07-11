@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/list.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 
@@ -82,7 +82,7 @@ class GetClickupListAndItsTasksParams extends Equatable {
 }
 
 class GetClickupListAndItsTasksResult extends Equatable {
-  final Either<Failure, ClickupList>? listResult;
+  final Either<Failure, TasksList>? listResult;
   final Either<Failure, List<ClickupTask>> tasksResult;
 
   const GetClickupListAndItsTasksResult(

@@ -44,14 +44,14 @@ enum ListsPageStatus {
 
 class ListsPageState extends Equatable {
   final ListsPageStatus listsPageStatus;
-  final ClickupList? navigateList;
-  final ClickupList? currentList;
+  final TasksList? navigateList;
+  final TasksList? currentList;
   final Folder? navigateFolder;
   final List<Space>? getSpacesListsFoldersResult;
   final List<Map<String, Failure>>? getSpacesListsFoldersFailure;
   final List<ClickupTask>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
-  final List<ClickupList>? addListResult;
+  final List<TasksList>? addListResult;
   final Failure? createListFailure;
   final List<Folder>? createFolderResult;
   final Failure? createFolderFailure;
@@ -75,7 +75,7 @@ class ListsPageState extends Equatable {
   final Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
   final Folder? folderToCreateListIn;
-  final ClickupList? toDeleteList;
+  final TasksList? toDeleteList;
   final Folder? toDeleteFolder;
   const ListsPageState({
     required this.listsPageStatus,
@@ -190,14 +190,14 @@ class ListsPageState extends Equatable {
 
   ListsPageState copyWith({
     required ListsPageStatus listsPageStatus,
-    ClickupList? navigateList,
-    ClickupList? currentList,
+    TasksList? navigateList,
+    TasksList? currentList,
     Folder? navigateFolder,
     List<Space>? getSpacesListsFoldersResult,
     List<Map<String, Failure>>? getSpacesListsFoldersFailure,
     List<ClickupTask>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
-    List<ClickupList>? addListResult,
+    List<TasksList>? addListResult,
     Failure? createListFailure,
     List<Folder>? createFolderResult,
     Failure? createFolderFailure,
@@ -221,7 +221,7 @@ class ListsPageState extends Equatable {
     Failure? moveTaskBetweenListsFailure,
     Failure? updateTaskFailure,
     Folder? folderToCreateListIn,
-    ClickupList? toDeleteList,
+    TasksList? toDeleteList,
     Folder? toDeleteFolder,
   }) {
     return ListsPageState(
