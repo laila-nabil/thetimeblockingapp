@@ -215,9 +215,6 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupAllListsInFoldersUseCase(
-        serviceLocator(),
-      ));
 
   serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
         serviceLocator(),
