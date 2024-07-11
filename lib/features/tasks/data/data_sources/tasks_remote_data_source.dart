@@ -97,13 +97,13 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteClickupTag({required DeleteClickupTagParams params});
 }
 
-class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
+class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   final Network network;
   final String clickupClientId;
   final String clickupClientSecret;
   final String clickupUrl;
 
-  TasksRemoteDataSourceImpl({
+  ClickupTasksRemoteDataSourceImpl({
     required this.network,
     required this.clickupClientId,
     required this.clickupClientSecret,

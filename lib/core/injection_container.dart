@@ -340,7 +340,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerLazySingleton<TasksRemoteDataSource>(() => Globals.isDemo
           ? TasksDemoRemoteDataSourceImpl()
-          : TasksRemoteDataSourceImpl(
+          : ClickupTasksRemoteDataSourceImpl(
               network: serviceLocator(),
               clickupClientId: Globals.clickupClientId,
               clickupClientSecret: Globals.clickupClientSecret,
