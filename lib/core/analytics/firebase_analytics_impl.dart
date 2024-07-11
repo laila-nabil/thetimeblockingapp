@@ -1,5 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/src/widgets/navigator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';

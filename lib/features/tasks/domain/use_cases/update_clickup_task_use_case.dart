@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';

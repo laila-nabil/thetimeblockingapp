@@ -126,7 +126,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
                 iconPath:(isSelected) =>
-                isSelected ? AppIcons.hashtagbold : AppIcons.hashtag,
+                isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },

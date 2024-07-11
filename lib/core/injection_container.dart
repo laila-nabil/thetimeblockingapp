@@ -52,7 +52,6 @@ import '../features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_all_lists_in_folders_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';

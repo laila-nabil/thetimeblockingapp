@@ -40,8 +40,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
               .where((element) =>
                   element.list?.id ==
                   params.filtersParams.filterByListsIds?.first)
-              .toList() ??
-          [];
+              .toList();
     }
     return Demo.tasks;
   }

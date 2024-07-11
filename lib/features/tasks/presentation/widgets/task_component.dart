@@ -121,7 +121,6 @@ class TaskWidget extends StatefulWidget {
 
 class _TaskWidgetState extends State<TaskWidget> {
   bool onHover = false;
-  static const iconSize = 12.0;
 
   @override
   Widget build(BuildContext context) {

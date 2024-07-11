@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';

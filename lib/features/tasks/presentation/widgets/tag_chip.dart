@@ -31,7 +31,7 @@ class TagChip extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 3.0),
                 child: Icon(
                   AppIcons.hashtag,
-                  color: color ?? color,
+                  color: color,
                   size: 12,
                 ),
               ),

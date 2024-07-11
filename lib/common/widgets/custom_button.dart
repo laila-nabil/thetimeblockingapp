@@ -405,7 +405,7 @@ class CustomButton extends StatelessWidget {
             child: child.fold(
                 (l) => l,
                 (r) => Text(
-                      r ?? "",
+                      r,
                     )),
           ),
         );
@@ -507,7 +507,7 @@ class CustomButton extends StatelessWidget {
             onPressed: onPressedWithAnalytics,
             focusNode: focusNode,
             style: outlinedButtonStyle,
-            child: child.fold((l) => l, (r) => Text(r ?? "")),
+            child: child.fold((l) => l, (r) => Text(r )),
           ),
         );
     final outlinedIconButton = SizedBox(
@@ -571,7 +571,7 @@ class CustomButton extends StatelessWidget {
         child: TextButton(
           onPressed: onPressedWithAnalytics,
           style: textButtonStyle,
-          child: child.fold((l) => l, (r) => Text(r ?? "")),
+          child: child.fold((l) => l, (r) => Text(r )),
         ));
     final textTrailingIconButton = CustomToolTip(
         message: tooltip,

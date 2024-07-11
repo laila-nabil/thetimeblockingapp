@@ -100,8 +100,7 @@ class Demo {
   static List<ClickupListModel> allLists = folderlessLists +
           [
             cartList,
-          ] ??
-      [];
+          ] ;
 
   static ClickupTagModel designTag =
       const ClickupTagModel(name: "design", tagBg: "#6A85FF");
