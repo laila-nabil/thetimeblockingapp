@@ -26,7 +26,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<dartz.Either<Failure, AccessToken>> getClickupAccessToken(
+  Future<dartz.Either<Failure, AccessToken>> getAccessToken(
       {required GetAccessTokenParams params}) async {
     final result = await repoHandleRemoteRequest<AccessToken>(
         remoteDataSourceRequest: () async =>
@@ -44,7 +44,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<dartz.Either<Failure, User>> getClickupUser(
+  Future<dartz.Either<Failure, User>> getUser(
       {required GetClickupUserParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>

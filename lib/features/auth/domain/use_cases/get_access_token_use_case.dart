@@ -17,7 +17,7 @@ class GetAccessTokenUseCase
   @override
   Future<dartz.Either<Failure, AccessToken>?> call(
       GetAccessTokenParams params) async {
-    final result = await repo.getClickupAccessToken(params: params);
+    final result = await repo.getAccessToken(params: params);
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {

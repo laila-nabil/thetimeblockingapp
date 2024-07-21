@@ -18,7 +18,7 @@ class GetUserUseCase
   @override
   Future<dartz.Either<Failure, User>?> call(
       GetClickupUserParams params) async {
-    final result = await repo.getClickupUser(params: params);
+    final result = await repo.getUser(params: params);
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {

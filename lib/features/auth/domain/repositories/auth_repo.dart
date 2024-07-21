@@ -7,10 +7,10 @@ import '../use_cases/get_access_token_use_case.dart';
 import '../use_cases/get_user_use_case.dart';
 
 abstract class AuthRepo {
-  Future<dartz.Either<Failure, AccessToken>> getClickupAccessToken(
+  Future<dartz.Either<Failure, AccessToken>> getAccessToken(
       {required GetAccessTokenParams params});
 
-  Future<dartz.Either<Failure, User>> getClickupUser(
+  Future<dartz.Either<Failure, User>> getUser(
       {required GetClickupUserParams params});
 
   Future<dartz.Either<Failure, dartz.Unit>> signOut();
