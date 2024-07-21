@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
@@ -25,7 +25,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
   final GetClickupTagsInSpaceUseCase _getClickupTagsInSpaceUseCase;
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
-  final CreateClickupTagInSpaceUseCase _createClickupTagInSpaceUseCase;
+  final CreateTagInSpaceUseCase _createClickupTagInSpaceUseCase;
   final UpdateClickupTagUseCase _updateClickupTagUseCase;
   final DeleteClickupTagUseCase _deleteClickupTagUseCase;
   final CreateClickupTaskUseCase _createClickupTaskUseCase;

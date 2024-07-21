@@ -21,7 +21,7 @@ import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/data/models/clickup_task_model.dart';
-import '../../../tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import '../../../tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
@@ -203,7 +203,7 @@ class TagsPage extends StatelessWidget {
                                                   tagsPageBloc.add(
                                                       CreateTagInSpaceEvent
                                                           .submit(
-                                                    params: CreateClickupTagInSpaceParams(
+                                                    params: CreateTagInSpaceParams(
                                                         clickupAccessToken: Globals
                                                             .clickupAuthAccessToken,
                                                         newTag: ClickupTagModel(

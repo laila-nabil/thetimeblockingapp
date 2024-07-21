@@ -18,7 +18,7 @@ import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
-import '../../domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_clickup_tag_use_case.dart';
 import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
@@ -85,7 +85,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params});
 
   Future<dartz.Unit> createClickupTagInSpace(
-      {required CreateClickupTagInSpaceParams params});
+      {required CreateTagInSpaceParams params});
 
   Future<dartz.Unit> updateClickupTag(
       {required UpdateClickupTagParams params});
@@ -364,7 +364,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> createClickupTagInSpace(
-      {required CreateClickupTagInSpaceParams params}) async {
+      {required CreateTagInSpaceParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/space/${params.space.id}/tag");
     await network.post(
       uri: uri,

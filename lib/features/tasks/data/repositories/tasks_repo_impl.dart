@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
@@ -272,7 +272,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> createClickupTagInSpace(
-      CreateClickupTagInSpaceParams params) {
+      CreateTagInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupTagInSpace(params: params));

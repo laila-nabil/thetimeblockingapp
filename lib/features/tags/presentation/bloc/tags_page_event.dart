@@ -41,7 +41,7 @@ class GetTasksForTagEvent extends TagsPageEvent {
 }
 
 class CreateTagInSpaceEvent extends TagsPageEvent {
-  CreateClickupTagInSpaceParams? params;
+  CreateTagInSpaceParams? params;
   bool? tryEvent;
   CreateTagInSpaceEvent.tryCreate(){
     tryEvent = true;
@@ -50,7 +50,7 @@ class CreateTagInSpaceEvent extends TagsPageEvent {
     tryEvent = false;
   }
   CreateTagInSpaceEvent.submit({
-    required CreateClickupTagInSpaceParams this.params
+    required CreateTagInSpaceParams this.params
   }){
     tryEvent = false;
   }

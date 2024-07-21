@@ -10,11 +10,11 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../data/models/clickup_task_model.dart';
 import '../entities/task.dart';
 
-class CreateClickupTagInSpaceUseCase
-    implements UseCase<dartz.Unit, CreateClickupTagInSpaceParams> {
+class CreateTagInSpaceUseCase
+    implements UseCase<dartz.Unit, CreateTagInSpaceParams> {
   final TasksRepo repo;
 
-  CreateClickupTagInSpaceUseCase(this.repo);
+  CreateTagInSpaceUseCase(this.repo);
 
   static bool readyToSubmit(Tag tag) =>
       tag.name?.isNotEmpty == true &&
@@ -22,7 +22,7 @@ class CreateClickupTagInSpaceUseCase
           tag.name?.endsWith("؟") == false;
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> call(CreateClickupTagInSpaceParams params) async{
+  Future<dartz.Either<Failure, dartz.Unit>?> call(CreateTagInSpaceParams params) async{
     if(readyToSubmit(params.newTag) == false){
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.createTag.name, parameters: {
@@ -46,12 +46,12 @@ class CreateClickupTagInSpaceUseCase
   }
 }
 
-class CreateClickupTagInSpaceParams {
+class CreateTagInSpaceParams {
   final Space space;
   final ClickupAccessToken clickupAccessToken;
   final ClickupTagModel newTag;
 
-  CreateClickupTagInSpaceParams(
+  CreateTagInSpaceParams(
       {required this.space,
       required this.clickupAccessToken,
       required this.newTag});
