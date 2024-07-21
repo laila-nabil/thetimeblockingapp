@@ -16,7 +16,7 @@ class GetFoldersInSpaceUseCase
   @override
   Future<dartz.Either<Failure, List<Folder>>?> call(
       GetFoldersInSpaceParams params) {
-    return repo.getClickupFolders(params: params);
+    return repo.getFolders(params: params);
   }
 }
 

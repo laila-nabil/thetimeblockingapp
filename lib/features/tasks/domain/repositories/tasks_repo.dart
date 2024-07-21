@@ -44,22 +44,22 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(
       DeleteTaskParams params);
 
-  Future<dartz.Either<Failure, List<Workspace>>> getClickupWorkspaces(
+  Future<dartz.Either<Failure, List<Workspace>>> getWorkspaces(
       {required GetWorkspacesParams params});
 
-  Future<dartz.Either<Failure, List<Space>>> getClickupSpacesInWorkspaces(
+  Future<dartz.Either<Failure, List<Space>>> getSpacesInWorkspaces(
       {required GetSpacesInWorkspacesParams params});
 
-  Future<dartz.Either<Failure, List<Folder>>> getClickupFolders(
+  Future<dartz.Either<Failure, List<Folder>>> getFolders(
       {required GetFoldersInSpaceParams params});
 
-  Future<dartz.Either<Failure, List<TasksList>>> getClickupListsInFolder(
+  Future<dartz.Either<Failure, List<TasksList>>> getListsInFolder(
       {required GetListsInFolderParams params});
 
-  Future<dartz.Either<Failure, List<TasksList>>> getClickupFolderlessLists(
+  Future<dartz.Either<Failure, List<TasksList>>> getFolderlessLists(
       {required GetFolderlessListsInSpaceParams params});
 
-  Future<dartz.Either<Failure, List<Tag>>> getClickupTags(
+  Future<dartz.Either<Failure, List<Tag>>> getTags(
       {required GetTagsInSpaceParams params});
 
   Future<dartz.Either<Failure, dartz.Unit>> removeTagFromTask(
@@ -91,13 +91,13 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, TasksList>?> getClickupList(
       GetListParams params);
 
-  Future<dartz.Either<Failure, TasksList>?> createClickupListInFolder(
+  Future<dartz.Either<Failure, TasksList>?> createListInFolder(
       CreateListInFolderParams params);
 
-  Future<dartz.Either<Failure, TasksList>?> createFolderlessClickupList(
+  Future<dartz.Either<Failure, TasksList>?> createFolderlessList(
       CreateFolderlessListParams params);
 
-  Future<dartz.Either<Failure, Folder>?> createClickupFolderInSpace(
+  Future<dartz.Either<Failure, Folder>?> createFolderInSpace(
       CreateFolderInSpaceParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteListParams params);
@@ -105,12 +105,12 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, dartz.Unit>?> deleteFolder(
       DeleteFolderParams params);
 
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteClickupTag(
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteTag(
       DeleteTagParams params);
 
-  Future<dartz.Either<Failure, dartz.Unit>?> createClickupTagInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createTagInSpace(
       CreateTagInSpaceParams params);
 
-  Future<dartz.Either<Failure, dartz.Unit>?> updateClickupTag(
+  Future<dartz.Either<Failure, dartz.Unit>?> updateTag(
       UpdateTagParams params);
 }

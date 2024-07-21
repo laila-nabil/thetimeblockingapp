@@ -32,7 +32,7 @@ class UpdateTagUseCase
       });
       return const dartz.Left(InputFailure(message: "must not contain ? at the end"));
     }
-    final result = await repo.updateClickupTag(params);
+    final result = await repo.updateTag(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.updateTag.name, parameters: {

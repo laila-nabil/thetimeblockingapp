@@ -18,7 +18,7 @@ class GetTagsInSpaceUseCase
   @override
   Future<dartz.Either<Failure, List<Tag>>?> call(
       GetTagsInSpaceParams params) async {
-    final result = await repo.getClickupTags(params: params);
+    final result = await repo.getTags(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.getData.name, parameters: {

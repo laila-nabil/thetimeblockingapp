@@ -16,7 +16,7 @@ class GetFolderlessListsInSpaceUseCase
   @override
   Future<dartz.Either<Failure, List<TasksList>>?> call(
       GetFolderlessListsInSpaceParams params) {
-    return repo.getClickupFolderlessLists(params: params);
+    return repo.getFolderlessLists(params: params);
   }
 }
 

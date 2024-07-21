@@ -31,7 +31,7 @@ class CreateTagInSpaceUseCase
       });
       return const dartz.Left(InputFailure(message: "must not contain ? at the end"));
     }
-    final result = await repo.createClickupTagInSpace(params);
+    final result = await repo.createTagInSpace(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.createTag.name, parameters: {

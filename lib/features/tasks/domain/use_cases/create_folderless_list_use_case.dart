@@ -22,7 +22,7 @@ class CreateFolderlessListUseCase
   @override
   Future<dartz.Either<Failure, TasksList>?> call(
       CreateFolderlessListParams params) async {
-    final result = await repo.createFolderlessClickupList(params);
+    final result = await repo.createFolderlessList(params);
     await result?.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.createList.name, parameters: {

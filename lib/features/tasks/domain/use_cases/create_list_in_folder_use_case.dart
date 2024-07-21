@@ -22,7 +22,7 @@ class CreateListInFolderUseCase
   @override
   Future<dartz.Either<Failure, TasksList>?> call(
       CreateListInFolderParams params) async {
-    final result = await repo.createClickupListInFolder(params);
+    final result = await repo.createListInFolder(params);
     await result?.fold(
         (l) async =>await  serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.createList.name, parameters: {

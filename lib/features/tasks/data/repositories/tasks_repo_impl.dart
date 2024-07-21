@@ -76,7 +76,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupWorkspaceModel>>> getClickupWorkspaces(
+  Future<dartz.Either<Failure, List<ClickupWorkspaceModel>>> getWorkspaces(
       {required GetWorkspacesParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
@@ -92,7 +92,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupFolderModel>>> getClickupFolders(
+  Future<dartz.Either<Failure, List<ClickupFolderModel>>> getFolders(
       {required GetFoldersInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
@@ -101,7 +101,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupListModel>>> getClickupListsInFolder(
+  Future<dartz.Either<Failure, List<ClickupListModel>>> getListsInFolder(
       {required GetListsInFolderParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
@@ -110,7 +110,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupListModel>>> getClickupFolderlessLists(
+  Future<dartz.Either<Failure, List<ClickupListModel>>> getFolderlessLists(
       {required GetFolderlessListsInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
@@ -119,7 +119,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupSpaceModel>>> getClickupSpacesInWorkspaces(
+  Future<dartz.Either<Failure, List<ClickupSpaceModel>>> getSpacesInWorkspaces(
       {required GetSpacesInWorkspacesParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
@@ -128,7 +128,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupTagModel>>> getClickupTags(
+  Future<dartz.Either<Failure, List<ClickupTagModel>>> getTags(
       {required GetTagsInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
@@ -216,7 +216,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> createClickupListInFolder(
+  Future<dartz.Either<Failure, ClickupListModel>?> createListInFolder(
       CreateListInFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
@@ -224,7 +224,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> createFolderlessClickupList(
+  Future<dartz.Either<Failure, ClickupListModel>?> createFolderlessList(
       CreateFolderlessListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
@@ -232,7 +232,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupFolderModel>?> createClickupFolderInSpace(
+  Future<dartz.Either<Failure, ClickupFolderModel>?> createFolderInSpace(
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
@@ -254,14 +254,14 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteClickupTag(DeleteTagParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteTag(DeleteTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.deleteClickupTag(params: params));
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> createClickupTagInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createTagInSpace(
       CreateTagInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
@@ -269,7 +269,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> updateClickupTag(
+  Future<dartz.Either<Failure, dartz.Unit>?> updateTag(
       UpdateTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>

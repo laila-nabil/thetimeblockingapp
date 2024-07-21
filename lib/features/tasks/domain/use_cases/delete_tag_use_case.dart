@@ -18,7 +18,7 @@ class DeleteTagUseCase
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(
       DeleteTagParams params) async {
-    final result = await repo.deleteClickupTag(params);
+    final result = await repo.deleteTag(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.deleteTag.name, parameters: {

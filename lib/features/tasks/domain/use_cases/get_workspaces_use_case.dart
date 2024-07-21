@@ -17,7 +17,7 @@ class GetWorkspacesUseCase
   @override
   Future<dartz.Either<Failure, List<Workspace>>?> call(
       GetWorkspacesParams params) async {
-    final result = await repo.getClickupWorkspaces(params: params);
+    final result = await repo.getWorkspaces(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.getData.name, parameters: {

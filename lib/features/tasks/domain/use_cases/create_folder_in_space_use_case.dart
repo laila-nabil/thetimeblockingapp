@@ -18,7 +18,7 @@ class CreateFolderInSpaceUseCase
   @override
   Future<dartz.Either<Failure, Folder>?> call(
       CreateFolderInSpaceParams params) async{
-    final result = await repo.createClickupFolderInSpace(params);
+    final result = await repo.createFolderInSpace(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.createFolder.name, parameters: {

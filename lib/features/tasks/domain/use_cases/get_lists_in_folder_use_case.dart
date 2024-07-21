@@ -17,7 +17,7 @@ class GetListsInFolderUseCase
   @override
   Future<dartz.Either<Failure, List<TasksList>>?> call(
       GetListsInFolderParams params) {
-    return repo.getClickupListsInFolder(params: params);
+    return repo.getListsInFolder(params: params);
   }
 }
 

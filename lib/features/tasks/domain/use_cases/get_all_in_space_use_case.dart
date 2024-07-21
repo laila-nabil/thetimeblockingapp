@@ -21,7 +21,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
       GetAllInSpaceParams params) async {
     Space space = params.space;
     List<Map<String, Failure>> failures = [];
-    final tagsResult = await repo.getClickupTags(
+    final tagsResult = await repo.getTags(
         params: GetTagsInSpaceParams(
             accessToken: params.accessToken,
             space: space));
@@ -30,7 +30,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
             (rTags) {
           space.tags = rTags;
         });
-    final folderlessLists = await repo.getClickupFolderlessLists(
+    final folderlessLists = await repo.getFolderlessLists(
         params: GetFolderlessListsInSpaceParams(
             clickupAccessToken: params.accessToken,
             clickupSpace: space,
@@ -42,7 +42,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
             (rFolderlessLists) {
           space.lists = rFolderlessLists;
         });
-    final folders = await repo.getClickupFolders(
+    final folders = await repo.getFolders(
         params: GetFoldersInSpaceParams(
             clickupAccessToken: params.accessToken,
             clickupSpace: space,
