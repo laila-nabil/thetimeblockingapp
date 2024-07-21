@@ -23,7 +23,7 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccessTokenModel> signIn({required SignInParams params}) async{
+  Future<AccessTokenModel> signInSupabase({required SignInParams params}) async{
     return Demo.accessTokenModel;
   }
 

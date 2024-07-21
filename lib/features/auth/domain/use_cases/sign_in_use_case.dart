@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -8,13 +9,13 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.da
 
 import '../repositories/auth_repo.dart';
 
-class SignInUseCase implements UseCase<AccessToken, SignInParams> {
+class SignInUseCase implements UseCase<SignInResult, SignInParams> {
   final AuthRepo repo;
 
   SignInUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, AccessToken>?> call(SignInParams params) async {
+  Future<dartz.Either<Failure, SignInResult>?> call(SignInParams params) async {
     final result = await repo.signIn(params: params);
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
@@ -33,12 +34,21 @@ class SignInUseCase implements UseCase<AccessToken, SignInParams> {
 class SignInParams extends Equatable {
   final String email;
   final String password;
+  final AccessToken accessToken;
 
   const SignInParams({
     required this.email,
     required this.password,
+    required this.accessToken,
   });
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password,accessToken];
+}
+
+class SignInResult{
+  final AccessToken accessToken;
+  final User user;
+
+  SignInResult(this.accessToken, this.user);
 }

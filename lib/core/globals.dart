@@ -34,6 +34,8 @@ class Globals {
 
   static ClickupGlobals clickupGlobals = ClickupGlobals();
 
+  static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
+
   static const Env defaultEnv  = Env.debugLocally;
 
   static Env env = defaultEnv;
@@ -163,6 +165,23 @@ class ClickupGlobals {
       clickupClientId: clickupClientId ?? this.clickupClientId,
       clickupClientSecret: clickupClientSecret ?? this.clickupClientSecret,
       clickupRedirectUrl: clickupRedirectUrl ?? this.clickupRedirectUrl,
+    );
+  }
+}
+
+class SupabaseGlobals {
+  final String url;
+  final String key;
+
+  SupabaseGlobals({this.url = "", this.key = ""});
+
+  SupabaseGlobals copyWith({
+    String? url,
+    String? key,
+  }) {
+    return SupabaseGlobals(
+      url: url ?? this.url,
+      key: key ?? this.key,
     );
   }
 }

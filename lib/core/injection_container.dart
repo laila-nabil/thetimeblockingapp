@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/analytics/posthog_impl.dart';
 import 'package:thetimeblockingapp/core/environment.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
+import 'package:thetimeblockingapp/core/network/supabase_exception_handler.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
@@ -163,18 +165,15 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator
-      .registerLazySingleton(() => GetTasksInSingleWorkspaceUseCase(
-            serviceLocator(),
-          ));
-  serviceLocator
-      .registerLazySingleton(() => GetTasksInAllWorkspacesUseCase(
-            serviceLocator(),
-          ));
-  serviceLocator
-      .registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
-            serviceLocator(),
-          ));
+  serviceLocator.registerLazySingleton(() => GetTasksInSingleWorkspaceUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => GetTasksInAllWorkspacesUseCase(
+        serviceLocator(),
+      ));
+  serviceLocator.registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
+        serviceLocator(),
+      ));
   serviceLocator.registerLazySingleton(() => GetTagsInSpaceUseCase(
         serviceLocator(),
       ));
@@ -213,7 +212,6 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-
   serviceLocator.registerLazySingleton(() => GetListsInFolderUseCase(
         serviceLocator(),
       ));
@@ -222,10 +220,9 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator
-      .registerLazySingleton(() => CreateFolderlessListUseCase(
-            serviceLocator(),
-          ));
+  serviceLocator.registerLazySingleton(() => CreateFolderlessListUseCase(
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => MoveTaskBetweenListsUseCase(
         serviceLocator(),
@@ -235,10 +232,9 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator
-      .registerLazySingleton(() => GetFolderlessListsInSpaceUseCase(
-            serviceLocator(),
-          ));
+  serviceLocator.registerLazySingleton(() => GetFolderlessListsInSpaceUseCase(
+        serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(() => SelectWorkspaceUseCase(
         serviceLocator(),
@@ -278,10 +274,9 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetAllInSpaceUseCase(
         serviceLocator(),
       ));
-  serviceLocator
-      .registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
-            serviceLocator(),
-          ));
+  serviceLocator.registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
+        serviceLocator(),
+      ));
   serviceLocator.registerLazySingleton(() => GetListAndItsTasksUseCase(
         serviceLocator(),
       ));
@@ -313,15 +308,8 @@ void _initServiceLocator({required Network network}) {
       () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
 
   /// DataSources
-  serviceLocator
-      .registerLazySingleton<AuthRemoteDataSource>(() => Globals.isDemo
-          ? AuthDemoRemoteDataSourceImpl()
-          : ClickupAuthRemoteDataSourceImpl(
-              network: serviceLocator(),
-              clickupClientId: Globals.clickupGlobals.clickupClientId,
-              clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
-              clickupUrl: Globals.clickupGlobals.clickupUrl,
-            ));
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
+      () => authRemoteDataSource());
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
@@ -356,24 +344,50 @@ void _initServiceLocator({required Network network}) {
 
   serviceLocator.registerLazySingleton<Network>(() => network);
 
-  serviceLocator
-      .registerLazySingleton<Analytics>(() => PostHogImpl());
+  serviceLocator.registerLazySingleton<Analytics>(() => PostHogImpl());
 }
 
-void reRegisterClickupVariables() async {
+AuthRemoteDataSource authRemoteDataSource() {
+  if (Globals.isDemo) {
+    return AuthDemoRemoteDataSourceImpl();
+  }
+  switch (Globals.backendMode) {
+    case BackendMode.clickupOnly:
+      return ClickupAuthRemoteDataSourceImpl(
+        network: serviceLocator(),
+        clickupClientId: Globals.clickupGlobals.clickupClientId,
+        clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
+        clickupUrl: Globals.clickupGlobals.clickupUrl,
+      );
+    case BackendMode.supabase:
+      return SupabaseAuthRemoteDataSourceImpl(
+        network: serviceLocator(),
+        key: Globals.supabaseGlobals.key,
+        url: Globals.supabaseGlobals.url
+      );
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError();
+  }
+}
+
+void updateFromEnv() async {
   const overrideClickupUrl =
-  String.fromEnvironment("clickupUrl", defaultValue: "");
+      String.fromEnvironment("clickupUrl", defaultValue: "");
   Globals.clickupGlobals = Globals.clickupGlobals.copyWith(
-      clickupClientId :
-      const String.fromEnvironment("clickUpClientId", defaultValue: ""),
-      clickupClientSecret :
-      const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
-      clickupRedirectUrl :
-      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
-      clickupUrl : overrideClickupUrl.isNotEmpty
+      clickupClientId:
+          const String.fromEnvironment("clickUpClientId", defaultValue: ""),
+      clickupClientSecret:
+          const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
+      clickupRedirectUrl:
+          const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
+      clickupUrl: overrideClickupUrl.isNotEmpty
           ? overrideClickupUrl
-          : 'https://timeblockingrender.onrender.com/clickup'
-  );
+          : 'https://timeblockingrender.onrender.com/clickup');
+  Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
+      url:
+      const String.fromEnvironment("supabaseUrl", defaultValue: ""),
+      key:
+      const String.fromEnvironment("supabaseKey", defaultValue: ""),);
   Globals.env = Env.getEnv(
       const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }
@@ -381,7 +395,20 @@ void reRegisterClickupVariables() async {
 void initServiceLocator() {
   _initServiceLocator(
       network: NetworkHttp(
-          httpClient: Client(), responseHandler: clickupResponseHandler));
+          httpClient: Client(),
+          responseHandler: responseHandler));
+}
+
+Future<NetworkResponse> responseHandler(
+                {required Future<Response> Function() httpResponse}) {
+  switch (Globals.backendMode) {
+    case BackendMode.clickupOnly:
+      return clickupResponseHandler(httpResponse: httpResponse);
+    case BackendMode.supabase:
+      return supabaseResponseHandler(httpResponse: httpResponse);
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError();
+  }
 }
 
 @visibleForTesting

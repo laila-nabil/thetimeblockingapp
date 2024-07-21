@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
+import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../../../../core/network/clickup_header.dart';
@@ -16,7 +17,7 @@ abstract class AuthRemoteDataSource {
   Future<ClickupUserModel> getClickupUser(
       {required GetClickupUserParams params});
 
-  Future<AccessTokenModel> signIn({required SignInParams params});
+  Future<AccessTokenModel> signInSupabase({required SignInParams params});
 }
 
 class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -52,8 +53,8 @@ class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccessTokenModel> signIn({required SignInParams params}) {
-    throw UnimplementedError();
+  Future<AccessTokenModel> signInSupabase({required SignInParams params}) {
+    throw UnsupportedError('Sign in Supabase not supported for Clickup');
   }
 }
 
@@ -68,20 +69,19 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AccessTokenModel> getAccessToken(
       {required GetAccessTokenParams params}) {
-    // TODO: implement getClickupAccessToken
-    throw UnimplementedError();
+    throw UnsupportedError('Get access token is replaced with sign in for Supabase');
   }
 
   @override
   Future<ClickupUserModel> getClickupUser(
       {required GetClickupUserParams params}) {
-    // TODO: implement getClickupUser
-    throw UnimplementedError();
+    throw UnsupportedError('Get Clickup user is not supported for Supabase');
   }
 
   @override
-  Future<AccessTokenModel> signIn({required SignInParams params}) async {
+  Future<AccessTokenModel> signInSupabase({required SignInParams params}) async {
     final result = await network.post(
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key),
         uri: Uri.parse("$url/auth/v1/token?grant_type=password"),
         body: {"email": params.email, "password": params.password});
     return AccessTokenModel.fromJson(json.decode(result.body));

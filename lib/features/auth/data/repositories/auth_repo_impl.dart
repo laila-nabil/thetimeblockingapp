@@ -74,10 +74,10 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<dartz.Either<Failure, AccessToken>> signIn({required SignInParams params}) async {
+  Future<dartz.Either<Failure, SignInResult>> signIn({required SignInParams params}) async {
     final result = await repoHandleRemoteRequest<AccessToken>(
         remoteDataSourceRequest: () async =>
-        await authRemoteDataSource.signIn(params: params),
+        await authRemoteDataSource.signInSupabase(params: params),
         trySaveResult: (result) async {
           accessToken = result;
           await authLocalDataSource

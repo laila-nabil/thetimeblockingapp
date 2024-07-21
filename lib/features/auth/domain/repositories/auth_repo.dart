@@ -16,6 +16,6 @@ abstract class AuthRepo {
 
   Future<dartz.Either<Failure, dartz.Unit>> signOut();
 
-  Future<dartz.Either<Failure, AccessToken>> signIn(
+  Future<dartz.Either<Failure, SignInResult>> signIn(
       {required SignInParams params});
 }
