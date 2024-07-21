@@ -9,11 +9,11 @@ import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
 import '../entities/access_token.dart';
 
-class GetClickupUserUseCase
+class GetUserUseCase
     implements UseCase<User, GetClickupUserParams> {
   final AuthRepo repo;
 
-  GetClickupUserUseCase(this.repo);
+  GetUserUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, User>?> call(

@@ -8,15 +8,15 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.da
 
 import '../repositories/auth_repo.dart';
 
-class GetClickupAccessTokenUseCase
-    implements UseCase<AccessToken, GetClickupAccessTokenParams> {
+class GetAccessTokenUseCase
+    implements UseCase<AccessToken, GetAccessTokenParams> {
   final AuthRepo repo;
 
-  GetClickupAccessTokenUseCase(this.repo);
+  GetAccessTokenUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, AccessToken>?> call(
-      GetClickupAccessTokenParams params) async {
+      GetAccessTokenParams params) async {
     final result = await repo.getClickupAccessToken(params: params);
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
@@ -34,10 +34,10 @@ class GetClickupAccessTokenUseCase
   }
 }
 
-class GetClickupAccessTokenParams extends Equatable {
+class GetAccessTokenParams extends Equatable {
   final String code;
 
-  const GetClickupAccessTokenParams(this.code);
+  const GetAccessTokenParams(this.code);
 
   @override
   List<Object?> get props => [code];

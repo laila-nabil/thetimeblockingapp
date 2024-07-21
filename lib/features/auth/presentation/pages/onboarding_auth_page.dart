@@ -162,7 +162,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                           url: url,
                                           getAccessToken: (String code) {
                                             widget.authBloc
-                                                .add(GetClickupAccessToken(code));
+                                                .add(GetAccessToken(code));
                                           },
                                         );
                                       }));
@@ -277,7 +277,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                           url: url,
                                           getAccessToken: (String code) {
                                             widget.authBloc
-                                                .add(GetClickupAccessToken(code));
+                                                .add(GetAccessToken(code));
                                           },
                                         );
                                       }));
@@ -827,7 +827,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                       url: url,
                                       getAccessToken: (String code) {
                                         widget.authBloc
-                                            .add(GetClickupAccessToken(code));
+                                            .add(GetAccessToken(code));
                                       },
                                     );
                                   }));
@@ -943,7 +943,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                                       url: url,
                                       getAccessToken: (String code) {
                                         widget.authBloc
-                                            .add(GetClickupAccessToken(code));
+                                            .add(GetAccessToken(code));
                                       },
                                     );
                                   }));

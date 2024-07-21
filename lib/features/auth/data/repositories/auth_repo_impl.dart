@@ -10,14 +10,14 @@ import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_toke
 
 import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
 
 import '../../../../common/models/clickup_user_model.dart';
 import '../../../../core/error/exception_to_failure.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
-import '../../domain/use_cases/get_clickup_user_use_case.dart';
+import '../../domain/use_cases/get_user_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
 
 class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
@@ -27,7 +27,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
 
   @override
   Future<dartz.Either<Failure, AccessToken>> getClickupAccessToken(
-      {required GetClickupAccessTokenParams params}) async {
+      {required GetAccessTokenParams params}) async {
     final result = await repoHandleRemoteRequest<AccessToken>(
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupAccessToken(params: params),

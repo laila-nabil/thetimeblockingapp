@@ -34,8 +34,8 @@ import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
-import '../features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
-import '../features/auth/domain/use_cases/get_clickup_user_use_case.dart';
+import '../features/auth/domain/use_cases/get_access_token_use_case.dart';
+import '../features/auth/domain/use_cases/get_user_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/startup/data/repositories/startup_repo_impl.dart';
@@ -154,10 +154,10 @@ void _initServiceLocator({required Network network}) {
 
   /// UseCases
 
-  serviceLocator.registerLazySingleton(() => GetClickupAccessTokenUseCase(
+  serviceLocator.registerLazySingleton(() => GetAccessTokenUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickupUserUseCase(
+  serviceLocator.registerLazySingleton(() => GetUserUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => GetWorkspacesUseCase(

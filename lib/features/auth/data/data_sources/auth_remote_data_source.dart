@@ -4,13 +4,13 @@ import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import '../../../../core/network/clickup_header.dart';
-import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
-import '../../domain/use_cases/get_clickup_user_use_case.dart';
+import '../../domain/use_cases/get_access_token_use_case.dart';
+import '../../domain/use_cases/get_user_use_case.dart';
 import '../models/clickup_access_token_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<ClickupAccessTokenModel> getClickupAccessToken(
-      {required GetClickupAccessTokenParams params});
+      {required GetAccessTokenParams params});
 
   Future<ClickupUserModel> getClickupUser(
       {required GetClickupUserParams params});
@@ -31,7 +31,7 @@ class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<ClickupAccessTokenModel> getClickupAccessToken(
-      {required GetClickupAccessTokenParams params}) async {
+      {required GetAccessTokenParams params}) async {
     printDebug("params.code ${params.code}");
     final result = await network.post(
         uri: Uri.parse(

@@ -12,16 +12,16 @@ import '../../../../core/error/failures.dart';
 import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/entities/access_token.dart';
-import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
-import '../../domain/use_cases/get_clickup_user_use_case.dart';
+import '../../domain/use_cases/get_access_token_use_case.dart';
+import '../../domain/use_cases/get_user_use_case.dart';
 
 part 'auth_event.dart';
 
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final GetClickupAccessTokenUseCase _getClickupAccessTokenUseCase;
-  final GetClickupUserUseCase _getUserUseCase;
+  final GetAccessTokenUseCase _getClickupAccessTokenUseCase;
+  final GetUserUseCase _getUserUseCase;
   final GetWorkspacesUseCase _getWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
   final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
@@ -42,11 +42,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             authStates:
                 state.updatedAuthStates(AuthStateEnum.showCodeInputTextField)));
       }
-      else if (event is GetClickupAccessToken) {
+      else if (event is GetAccessToken) {
         emit(const AuthState(
             authStates: {AuthStateEnum.loading}));
         final result = await _getClickupAccessTokenUseCase(
-            GetClickupAccessTokenParams(event.clickupCode));
+            GetAccessTokenParams(event.clickupCode));
         emit(state.copyWith(
             authStates:
                 state.updatedAuthStates(AuthStateEnum.loading)));

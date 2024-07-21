@@ -9,8 +9,8 @@ import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_user_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_user_use_case.dart';
 
 class MockNetwork extends Mock implements Network {}
 
@@ -50,7 +50,7 @@ void main() {
             .thenAnswer((_) => Future.value(
                 const NetworkResponse(body: jsonString, statusCode: 200)));
         final result = await dataSource.getClickupAccessToken(
-            params: const GetClickupAccessTokenParams(code));
+            params: const GetAccessTokenParams(code));
         print("result $result");
         expect(result, model, reason: ">>> result");
         final captured = verify(() => mockNetwork.post(

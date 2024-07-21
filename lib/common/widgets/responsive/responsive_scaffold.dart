@@ -204,7 +204,7 @@ class ResponsiveScaffold extends Scaffold {
                             url: url,
                             getAccessToken: (String code) {
                               authBloc
-                                  .add(GetClickupAccessToken(code));
+                                  .add(GetAccessToken(code));
                             },
                           );
                         }));
@@ -228,7 +228,7 @@ class ResponsiveScaffold extends Scaffold {
                        url: url,
                        getAccessToken: (String code) {
                          authBloc
-                             .add(GetClickupAccessToken(code));
+                             .add(GetAccessToken(code));
                        },
                      );
                    }));

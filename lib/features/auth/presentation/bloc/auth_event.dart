@@ -12,10 +12,10 @@ class ShowCodeInputTextField extends AuthEvent{
   @override
   List<Object?> get props => [showCodeInputTextField];
 }
-class GetClickupAccessToken extends AuthEvent{
+class GetAccessToken extends AuthEvent{
   final String clickupCode;
 
-  const GetClickupAccessToken(this.clickupCode);
+  const GetAccessToken(this.clickupCode);
 
   @override
   List<Object?> get props => [clickupCode];
