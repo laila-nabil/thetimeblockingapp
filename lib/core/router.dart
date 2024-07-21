@@ -45,9 +45,9 @@ final router = GoRouter(
     redirect: (context, GoRouterState? state) {
       printDebug("state?.location ${state?.location}");
       printDebug("state?.queryParameters ${state?.queryParameters}");
-      printDebug("Globals.clickupAuthAccessToken ${Globals.accessToken}");
-      printDebug("Globals.clickupUser ${Globals.user}");
-      printDebug("Globals.clickupWorkspaces ${Globals.workspaces}");
+      printDebug("Globals.accessToken ${Globals.accessToken}");
+      printDebug("Globals.user ${Globals.user}");
+      printDebug("Globals.workspaces ${Globals.workspaces}");
       printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.queryParameters != null &&
           state?.queryParameters["code"] != null) {
