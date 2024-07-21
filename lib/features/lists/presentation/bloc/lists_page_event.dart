@@ -50,7 +50,7 @@ class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
 }
 
 class StartCreateListInFolderEvent extends ListsPageEvent {
-  final CreateClickupListInFolderParams createClickupListInFolderParams;
+  final CreateListInFolderParams createClickupListInFolderParams;
   final Workspace clickupWorkspace;
   final Space? clickupSpace;
   final bool tryEvent;
@@ -69,7 +69,7 @@ class StartCreateListInFolderEvent extends ListsPageEvent {
 }
 
 class CreateListInFolderEvent extends ListsPageEvent {
-  CreateClickupListInFolderParams? createClickupListInFolderParams;
+  CreateListInFolderParams? createClickupListInFolderParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   Folder? folderToCreateListIn;
@@ -82,7 +82,7 @@ class CreateListInFolderEvent extends ListsPageEvent {
     tryEvent = false;
   }
   CreateListInFolderEvent.submit({
-    required CreateClickupListInFolderParams this.createClickupListInFolderParams,
+    required CreateListInFolderParams this.createClickupListInFolderParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){

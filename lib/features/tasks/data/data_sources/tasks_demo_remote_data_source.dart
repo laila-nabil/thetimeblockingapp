@@ -13,7 +13,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clicku
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
+import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_clickup_tag_in_space_use_case.dart';
@@ -125,7 +125,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> createClickupListInFolder(
-      {required CreateClickupListInFolderParams params}) async {
+      {required CreateListInFolderParams params}) async {
     throw const DemoFailure(message: "");
   }
 

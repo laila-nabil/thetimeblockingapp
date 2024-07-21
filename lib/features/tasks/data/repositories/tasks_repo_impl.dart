@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_mode
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
@@ -227,7 +227,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, ClickupListModel>?> createClickupListInFolder(
-      CreateClickupListInFolderParams params) {
+      CreateListInFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.createClickupListInFolder(params: params));

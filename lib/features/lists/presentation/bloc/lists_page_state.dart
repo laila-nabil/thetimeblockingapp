@@ -66,7 +66,7 @@ class ListsPageState extends Equatable {
   final Failure? deleteTaskFailure;
   final Workspace? clickupWorkspace;
   final Space? clickupSpace;
-  final CreateClickupListInFolderParams? createClickupListInFolderParams;
+  final CreateListInFolderParams? createClickupListInFolderParams;
   final CreateFolderlessListClickupParams? createFolderlessListClickupParams;
   final MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
   final CreateFolderInSpaceParams? createClickupFolderInSpaceParams;
@@ -211,7 +211,7 @@ class ListsPageState extends Equatable {
     Failure? deleteTaskFailure,
     Workspace? clickupWorkspace,
     Space? clickupSpace,
-    CreateClickupListInFolderParams? createClickupListInFolderParams,
+    CreateListInFolderParams? createClickupListInFolderParams,
     CreateFolderlessListClickupParams? createFolderlessListClickupParams,
     MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
     CreateFolderInSpaceParams? createClickupFolderInSpaceParams,

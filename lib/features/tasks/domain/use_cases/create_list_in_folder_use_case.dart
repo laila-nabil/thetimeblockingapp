@@ -13,15 +13,15 @@ import '../entities/tasks_list.dart';
 import '../entities/task.dart';
 import '../repositories/tasks_repo.dart';
 
-class CreateClickupListInFolderUseCase
-    implements UseCase<TasksList, CreateClickupListInFolderParams> {
+class CreateListInFolderUseCase
+    implements UseCase<TasksList, CreateListInFolderParams> {
   final TasksRepo repo;
 
-  CreateClickupListInFolderUseCase(this.repo);
+  CreateListInFolderUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, TasksList>?> call(
-      CreateClickupListInFolderParams params) async {
+      CreateListInFolderParams params) async {
     final result = await repo.createClickupListInFolder(params);
     await result?.fold(
         (l) async =>await  serviceLocator<Analytics>()
@@ -37,14 +37,14 @@ class CreateClickupListInFolderUseCase
   }
 }
 
-class CreateClickupListInFolderParams extends Equatable {
+class CreateListInFolderParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Folder clickupFolder;
   final String listName;
   final Color? statusColor;
   final Assignee? assignee = Globals.clickupUser?.asAssignee;
 
-  CreateClickupListInFolderParams({
+  CreateListInFolderParams({
     required this.clickupAccessToken,
     required this.clickupFolder,
     required this.listName,

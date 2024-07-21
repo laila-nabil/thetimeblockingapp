@@ -15,7 +15,7 @@ import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/create_clickup_list_in_folder_use_case.dart';
+import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_clickup_tag_in_space_use_case.dart';
@@ -54,7 +54,7 @@ abstract class TasksRemoteDataSource {
       {required GetClickupListsInFolderParams params});
 
   Future<ClickupListModel> createClickupListInFolder(
-      {required CreateClickupListInFolderParams params});
+      {required CreateListInFolderParams params});
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
       {required GetClickupFolderlessListsInSpaceParams params});
@@ -314,7 +314,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> createClickupListInFolder(
-      {required CreateClickupListInFolderParams params}) async {
+      {required CreateListInFolderParams params}) async {
     final response = await network.post(
         uri: Uri.parse("$clickupUrl/folder/${params.clickupFolder.id}/list"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),

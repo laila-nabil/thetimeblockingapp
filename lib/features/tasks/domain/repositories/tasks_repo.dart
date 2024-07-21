@@ -19,7 +19,7 @@ import '../entities/tasks_list.dart';
 import '../entities/space.dart';
 import '../entities/task.dart';
 import '../entities/task_parameters.dart';
-import '../use_cases/create_clickup_list_in_folder_use_case.dart';
+import '../use_cases/create_list_in_folder_use_case.dart';
 import '../use_cases/add_tag_to_task_use_case.dart';
 import '../use_cases/add_task_to_list_use_case.dart';
 import '../use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
@@ -95,7 +95,7 @@ abstract class TasksRepo{
       GetClickupListParams params);
 
   Future<dartz.Either<Failure, TasksList>?> createClickupListInFolder(
-      CreateClickupListInFolderParams params);
+      CreateListInFolderParams params);
 
   Future<dartz.Either<Failure, TasksList>?> createFolderlessClickupList(
       CreateFolderlessListClickupParams params);
