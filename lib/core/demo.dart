@@ -3,15 +3,15 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 
 import '../common/models/clickup_workspace_model.dart';
-import '../features/auth/data/models/clickup_access_token_model.dart';
+import '../features/auth/data/models/access_token_model.dart';
 import '../features/tasks/data/models/clickup_folder_model.dart';
 import '../features/tasks/data/models/clickup_list_model.dart';
 import '../features/tasks/data/models/clickup_space_model.dart';
 import '../features/tasks/domain/entities/task.dart';
 
 class Demo {
-  static ClickupAccessTokenModel accessTokenModel =
-      const ClickupAccessTokenModel(
+  static AccessTokenModel accessTokenModel =
+      const AccessTokenModel(
           accessToken: "fake_accessToken", tokenType: "Bearer");
 
   static const int userId = 24332434;

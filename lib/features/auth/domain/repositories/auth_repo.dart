@@ -1,4 +1,5 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
@@ -15,4 +16,6 @@ abstract class AuthRepo {
 
   Future<dartz.Either<Failure, dartz.Unit>> signOut();
 
+  Future<dartz.Either<Failure, AccessToken>> signIn(
+      {required SignInParams params});
 }

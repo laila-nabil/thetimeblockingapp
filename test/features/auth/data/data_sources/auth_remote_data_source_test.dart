@@ -7,7 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_user_use_case.dart';
@@ -37,7 +37,7 @@ void main() {
       test('getClickupAccessToken test', () async {
         const jsonString =
             """{"access_token":"55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152","token_type":"Bearer"} """;
-        const model = ClickupAccessTokenModel(
+        const model = AccessTokenModel(
             accessToken:
                 "55230798_5be9b2e9cd55c9b7e4352ba0c2a743bf6a3fbe047313ae451a8cd6276c7ea152",
             tokenType: "Bearer");
@@ -49,7 +49,7 @@ void main() {
                 headers: any(named: "headers")))
             .thenAnswer((_) => Future.value(
                 const NetworkResponse(body: jsonString, statusCode: 200)));
-        final result = await dataSource.getClickupAccessToken(
+        final result = await dataSource.getAccessToken(
             params: const GetAccessTokenParams(code));
         print("result $result");
         expect(result, model, reason: ">>> result");

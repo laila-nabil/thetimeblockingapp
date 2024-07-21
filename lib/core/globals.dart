@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../common/entities/user.dart';
@@ -27,6 +28,8 @@ List<Workspace>? _workspaces;
 List<Space>? _spaces;
 
 class Globals {
+  static BackendMode backendMode = BackendMode.supabase;
+
   static String get appName => _appName;
 
   static ClickupGlobals clickupGlobals = ClickupGlobals();

@@ -6,11 +6,12 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/access_token_model.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 
 import '../../../../common/models/clickup_user_model.dart';
 import '../../../../core/error/exception_to_failure.dart';
@@ -30,11 +31,11 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
       {required GetAccessTokenParams params}) async {
     final result = await repoHandleRemoteRequest<AccessToken>(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickupAccessToken(params: params),
+            await authRemoteDataSource.getAccessToken(params: params),
       trySaveResult: (result)async{
         accessToken =  result;
           await authLocalDataSource
-              .saveClickupAccessToken(result as ClickupAccessTokenModel);
+              .saveClickupAccessToken(result as AccessTokenModel);
         printDebug(
             "getClickUpAccessToken $result ${Globals.accessToken}");
       },
@@ -72,4 +73,20 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
     }
   }
 
+  @override
+  Future<dartz.Either<Failure, AccessToken>> signIn({required SignInParams params}) async {
+    final result = await repoHandleRemoteRequest<AccessToken>(
+        remoteDataSourceRequest: () async =>
+        await authRemoteDataSource.signIn(params: params),
+        trySaveResult: (result) async {
+          accessToken = result;
+          await authLocalDataSource
+              .saveClickupAccessToken(result as AccessTokenModel);
+          printDebug(
+              "getClickUpAccessToken $result ${Globals.accessToken}");
+        },
+        tryGetFromLocalStorage: () async =>
+        await authLocalDataSource.getClickupAccessToken());
+    return result;
+  }
 }
