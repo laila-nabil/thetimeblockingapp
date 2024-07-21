@@ -65,7 +65,7 @@ class StartupState extends Equatable {
       drawerLargerScreenOpen:
       drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
       selectedWorkspace:
-      selectedClickupWorkspace ?? this.selectedWorkspace,
+      selectedClickupWorkspace ?? selectedWorkspace,
       getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
       selectedClickupSpace: selectedClickupSpace ?? this.selectedClickupSpace,

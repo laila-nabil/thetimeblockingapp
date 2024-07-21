@@ -413,7 +413,7 @@ class CreateTaskParams extends Equatable{
     return CreateTaskParams._(
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
-      accessToken: clickupAccessToken ?? this.accessToken,
+      accessToken: clickupAccessToken ?? accessToken,
       list: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,

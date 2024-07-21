@@ -3,7 +3,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../common/entities/user.dart';
 import '../common/entities/workspace.dart';
-import '../common/enums/backend_mode.dart';
 import '../features/auth/domain/entities/access_token.dart';
 import 'environment.dart';
 
