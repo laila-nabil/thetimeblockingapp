@@ -208,7 +208,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> getClickupList(
+  Future<dartz.Either<Failure, ClickupListModel>?> getList(
       GetListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>

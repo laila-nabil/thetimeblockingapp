@@ -13,7 +13,7 @@ class GetListUseCase
 
   @override
   Future<dartz.Either<Failure, TasksList>?> call(GetListParams params) {
-    return repo.getClickupList(params);
+    return repo.getList(params);
   }
 }
 

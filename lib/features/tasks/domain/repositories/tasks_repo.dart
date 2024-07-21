@@ -88,7 +88,7 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
       NoParams params);
 
-  Future<dartz.Either<Failure, TasksList>?> getClickupList(
+  Future<dartz.Either<Failure, TasksList>?> getList(
       GetListParams params);
 
   Future<dartz.Either<Failure, TasksList>?> createListInFolder(

@@ -32,7 +32,7 @@ class GetListAndItsTasksUseCase {
 
   Future<GetClickupListAndItsTasksResult?> call(
       GetListAndItsTasksParams params) async {
-    final listResult = await repo.getClickupList(GetListParams(
+    final listResult = await repo.getList(GetListParams(
         listId: params.listId, clickupAccessToken: params.accessToken));
     await listResult?.fold(
         (l) async => await serviceLocator<Analytics>()
