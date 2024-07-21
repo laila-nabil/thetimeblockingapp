@@ -18,16 +18,16 @@ part 'startup_event.dart';
 part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
-  final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
-  final GetSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
-  final GetAllInSpaceUseCase _getAllInClickupSpaceUseCase;
+  final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
+  final GetSpacesInWorkspacesUseCase _getSpacesInWorkspacesUseCase;
+  final GetAllInSpaceUseCase _getAllInSpaceUseCase;
   final SelectWorkspaceUseCase _selectWorkspaceUseCase;
   final SelectSpaceUseCase _selectSpaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
   StartupBloc(
-    this._getAllInClickupWorkspaceUseCase,
-    this._getClickupSpacesInWorkspacesUseCase,
-    this._getAllInClickupSpaceUseCase,
+    this._getAllInWorkspaceUseCase,
+    this._getSpacesInWorkspacesUseCase,
+    this._getAllInSpaceUseCase,
     this._selectSpaceUseCase,
     this._saveSpacesUseCase,
     this._selectWorkspaceUseCase,
@@ -46,7 +46,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
           await _selectWorkspaceUseCase(
               SelectWorkspaceParams(event.clickupWorkspace));
           final getAllInClickupWorkspaceResult =
-              await _getAllInClickupWorkspaceUseCase(
+              await _getAllInWorkspaceUseCase(
                   GetAllInClickupWorkspaceParams(
                       clickupAccessToken: event.clickupAccessToken,
                       clickupWorkspace: event.clickupWorkspace));
@@ -68,7 +68,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
           await _selectWorkspaceUseCase(
               SelectWorkspaceParams(event.clickupWorkspace));
           final getSpacesInClickupWorkspaceResult =
-              await _getClickupSpacesInWorkspacesUseCase(
+              await _getSpacesInWorkspacesUseCase(
                   GetSpacesInWorkspacesParams(
                       clickupAccessToken: event.clickupAccessToken,
                       clickupWorkspace: event.clickupWorkspace));
@@ -102,7 +102,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
             selectedClickupSpace: event.clickupSpace,
             startupStateEnum: StartupStateEnum.loading));
         final getAllInClickupSpaceResult =
-            await _getAllInClickupSpaceUseCase(GetAllInSpaceParams(
+            await _getAllInSpaceUseCase(GetAllInSpaceParams(
                 clickupAccessToken: event.clickupAccessToken,
                 clickupSpace: event.clickupSpace));
         getAllInClickupSpaceResult?.fold(

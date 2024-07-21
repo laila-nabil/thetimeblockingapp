@@ -14,10 +14,10 @@ import 'get_folderless_lists_in_space_use_case.dart';
 import 'get_folders_in_space_use_case.dart';
 import 'get_spaces_in_workspace_use_case.dart';
 
-class GetAllInClickupWorkspaceUseCase with GlobalsWriteAccess {
+class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
   final TasksRepo repo;
 
-  GetAllInClickupWorkspaceUseCase(this.repo);
+  GetAllInWorkspaceUseCase(this.repo);
 
   Future<dartz.Either<List<Map<String, Failure>>, List<Space>>?> call(
       GetAllInClickupWorkspaceParams params) async {

@@ -180,7 +180,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetAllInClickupWorkspaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetAllInWorkspaceUseCase(
         serviceLocator(),
       ));
 

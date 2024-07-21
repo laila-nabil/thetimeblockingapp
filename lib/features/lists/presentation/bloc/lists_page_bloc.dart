@@ -34,37 +34,37 @@ part 'lists_page_state.dart';
 
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
-  final GetAllInSpaceUseCase _getAllInClickupSpaceUseCase;
-  final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
+  final GetAllInSpaceUseCase _getAllInSpaceUseCase;
+  final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
-  final GetListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
-  final CreateListInFolderUseCase _createClickupListInFolderUseCase;
-  final CreateFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
+  final GetListAndItsTasksUseCase _getListAndItsTasksUseCase;
+  final CreateListInFolderUseCase _createListInFolderUseCase;
+  final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;
   final CreateFolderlessListUseCase
-      _createFolderlessClickupListUseCase;
-  final MoveTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
-  final DeleteFolderUseCase _deleteClickupFolderUseCase;
-  final DeleteListUseCase _deleteClickupListUseCase;
-  final CreateTaskUseCase _createClickupTaskUseCase;
-  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateTaskUseCase _updateClickupTaskUseCase;
-  final DeleteTaskUseCase _deleteClickupTaskUseCase;
+      _createFolderlessListUseCase;
+  final MoveTaskBetweenListsUseCase _moveTaskBetweenListsUseCase;
+  final DeleteFolderUseCase _deleteFolderUseCase;
+  final DeleteListUseCase _deleteListUseCase;
+  final CreateTaskUseCase _createTaskUseCase;
+  final DuplicateTaskUseCase _duplicateTaskUseCase;
+  final UpdateTaskUseCase _updateTaskUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   ListsPageBloc(
-    this._getAllInClickupSpaceUseCase,
-    this._getClickupListAndItsTasksUseCase,
-    this._getAllInClickupWorkspaceUseCase,
+    this._getAllInSpaceUseCase,
+    this._getListAndItsTasksUseCase,
+    this._getAllInWorkspaceUseCase,
     this._saveSpacesUseCase,
-    this._createClickupListInFolderUseCase,
-    this._createClickupFolderInSpaceUseCase,
-    this._createFolderlessClickupListUseCase,
-    this._moveClickupTaskBetweenListsUseCase,
-    this._deleteClickupFolderUseCase,
-    this._deleteClickupListUseCase,
-    this._createClickupTaskUseCase,
-    this._duplicateClickupTaskUseCase,
-    this._updateClickupTaskUseCase,
-    this._deleteClickupTaskUseCase,
+    this._createListInFolderUseCase,
+    this._createFolderInSpaceUseCase,
+    this._createFolderlessListUseCase,
+    this._moveTaskBetweenListsUseCase,
+    this._deleteFolderUseCase,
+    this._deleteListUseCase,
+    this._createTaskUseCase,
+    this._duplicateTaskUseCase,
+    this._updateTaskUseCase,
+    this._deleteTaskUseCase,
   ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
     on<ListsPageEvent>((event, emit) async {
       if (event is NavigateToListPageEvent) {
@@ -74,7 +74,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       } else if (event is GetListAndFoldersInListsPageEvent) {
         if (Globals.isSpaceAppWide == false) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _getAllInClickupWorkspaceUseCase(
+          final result = await _getAllInWorkspaceUseCase(
               GetAllInClickupWorkspaceParams(
                   clickupAccessToken: event.clickupAccessToken,
                   clickupWorkspace: event.clickupWorkspace));
@@ -91,7 +91,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           });
         } else if (event.clickupSpace != null) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _getAllInClickupSpaceUseCase(
+          final result = await _getAllInSpaceUseCase(
               GetAllInSpaceParams(
                   clickupAccessToken: event.clickupAccessToken,
                   clickupSpace: event.clickupSpace!));
@@ -114,7 +114,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       } else if (event is GetListDetailsAndTasksInListEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final getClickupListAndItsTasks =
-            await _getClickupListAndItsTasksUseCase(
+            await _getListAndItsTasksUseCase(
                 event.getClickupListAndItsTasksParams);
         TasksList? list;
         List<Task>? tasks;
@@ -152,7 +152,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             listsPageStatus: ListsPageStatus.createListInFolderCanceled,));
         } else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _createClickupListInFolderUseCase(
+          final result = await _createListInFolderUseCase(
               event.createClickupListInFolderParams!);
           result?.fold(
               (l) => emit(state.copyWith(
@@ -181,7 +181,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             listsPageStatus: ListsPageStatus.createListInSpaceCanceled,));
         }else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _createFolderlessClickupListUseCase(
+          final result = await _createFolderlessListUseCase(
               event.createFolderlessListClickupParams!);
           result?.fold(
               (l) => emit(state.copyWith(
@@ -207,7 +207,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
               clickupSpace: event.clickupSpace));
         } else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _moveClickupTaskBetweenListsUseCase(
+          final result = await _moveTaskBetweenListsUseCase(
               event.moveClickupTaskBetweenListsParams);
           result?.fold(
               (l) => emit(state.copyWith(
@@ -236,7 +236,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             listsPageStatus: ListsPageStatus.createFolderCanceled,));
         }else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _createClickupFolderInSpaceUseCase(
+          final result = await _createFolderInSpaceUseCase(
               event.createClickupFolderInSpaceParams!);
           result?.fold(
               (l) => emit(state.copyWith(
@@ -263,7 +263,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             listsPageStatus: ListsPageStatus.deleteListCanceled,));
         }  else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _deleteClickupFolderUseCase(
+          final result = await _deleteFolderUseCase(
               event.deleteClickupFolderParams!);
           result?.fold(
               (l) => emit(state.copyWith(
@@ -291,7 +291,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
         } else {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result =
-              await _deleteClickupListUseCase(event.deleteClickupListParams!);
+              await _deleteListUseCase(event.deleteClickupListParams!);
           result?.fold(
               (l) => emit(state.copyWith(
                   listsPageStatus: ListsPageStatus.deleteListFailed,
@@ -309,7 +309,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       }
       else if (event is CreateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.createTaskFailed,
@@ -325,7 +325,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       }
       else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _duplicateClickupTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.createTaskFailed,
@@ -341,7 +341,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       }
       else if (event is UpdateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _updateClickupTaskUseCase(event.params);
+        final result = await _updateTaskUseCase(event.params);
         result?.fold(
                 (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.updateTaskFailed,
@@ -357,7 +357,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
       }
       else if (event is DeleteTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _deleteClickupTaskUseCase(event.params);
+        final result = await _deleteTaskUseCase(event.params);
         result?.fold(
                 (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.deleteTaskFailed,

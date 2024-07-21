@@ -22,23 +22,23 @@ part 'all_tasks_state.dart';
 
 class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
   final GetTasksInSingleWorkspaceUseCase
-      _getClickupTasksInSingleWorkspaceUseCase;
-  final CreateTaskUseCase _createClickupTaskUseCase;
-  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateTaskUseCase _updateClickupTaskUseCase;
-  final DeleteTaskUseCase _deleteClickupTaskUseCase;
+      _getTasksInSingleWorkspaceUseCase;
+  final CreateTaskUseCase _createTaskUseCase;
+  final DuplicateTaskUseCase _duplicateTaskUseCase;
+  final UpdateTaskUseCase _updateTaskUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   AllTasksBloc(
-      this._getClickupTasksInSingleWorkspaceUseCase,
-      this._createClickupTaskUseCase,
-      this._duplicateClickupTaskUseCase,
-      this._updateClickupTaskUseCase,
-      this._deleteClickupTaskUseCase)
+      this._getTasksInSingleWorkspaceUseCase,
+      this._createTaskUseCase,
+      this._duplicateTaskUseCase,
+      this._updateTaskUseCase,
+      this._deleteTaskUseCase)
       : super(const AllTasksState(allTasksStatus: AllTasksStatus.initial)) {
     on<AllTasksEvent>((event, emit) async {
       if (event is GetTasksInSpaceEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _getClickupTasksInSingleWorkspaceUseCase(
+        final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
@@ -55,7 +55,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 )));
       } else if (event is CreateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
@@ -70,7 +70,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         });
       } else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _duplicateClickupTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params);
         result?.fold(
                 (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
@@ -85,7 +85,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         });
       } else if (event is UpdateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _updateClickupTaskUseCase(event.params);
+        final result = await _updateTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.updateTaskFailed,
@@ -100,7 +100,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         });
       } else if (event is DeleteTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _deleteClickupTaskUseCase(event.params);
+        final result = await _deleteTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.deleteTaskFailed,
