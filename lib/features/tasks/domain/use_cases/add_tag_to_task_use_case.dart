@@ -34,7 +34,7 @@ class AddTagToTaskUseCase
 class AddTagToTaskParams {
   final Task task;
   final Tag tag;
-  final AccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   String get taskId => task.id ?? "";
 
@@ -43,5 +43,5 @@ class AddTagToTaskParams {
   AddTagToTaskParams(
       {required this.task,
       required this.tag,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

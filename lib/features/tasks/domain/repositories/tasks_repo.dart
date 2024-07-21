@@ -70,8 +70,6 @@ abstract class TasksRepo{
       {required AddTagToTaskParams params});
 
 
-  Future<dartz.Either<Failure, dartz.Unit>> addTaskToList(
-      {required AddTaskToListParams params});
 
   Future<dartz.Either<Failure, dartz.Unit>?> selectWorkspace(
       SelectWorkspaceParams params);

@@ -17,7 +17,7 @@ class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
     for (var element in params.tags) {
       final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
           task: params.task,
-          clickupAccessToken: params.clickupAccessToken,
+          accessToken: params.accessToken,
           tag: element));
       result.add(elementResult);
     }
@@ -32,7 +32,7 @@ class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
 class AddTagsToTaskParams {
   final Task task;
   final List<Tag> tags;
-  final AccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   String get taskId => task.id ?? "";
 
@@ -41,5 +41,5 @@ class AddTagsToTaskParams {
   AddTagsToTaskParams(
       {required this.task,
       required this.tags,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

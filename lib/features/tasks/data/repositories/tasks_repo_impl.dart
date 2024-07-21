@@ -147,15 +147,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>> addTaskToList(
-      {required AddTaskToListParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.addTaskToList(params: params),
-    );
-  }
-
-  @override
   Future<dartz.Either<Failure, dartz.Unit>> removeTagFromTask(
       {required RemoveTagFromTaskParams params}) {
     return repoHandleRemoteRequest(

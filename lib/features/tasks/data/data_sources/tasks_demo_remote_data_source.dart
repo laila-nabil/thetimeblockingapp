@@ -109,11 +109,6 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
     throw const DemoFailure(message: "");
   }
 
-  @override
-  Future<dartz.Unit> addTaskToList({required AddTaskToListParams params}) async {
-    throw const DemoFailure(message: "");
-  }
-
 
   @override
   Future<ClickupListModel> getClickupList(

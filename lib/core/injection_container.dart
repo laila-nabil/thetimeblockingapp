@@ -267,9 +267,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => RemoveTagsFromTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => AddTaskToListUseCase(
-        serviceLocator(),
-      ));
+
   serviceLocator.registerLazySingleton(() => GetSelectedSpaceUseCase(
         serviceLocator(),
       ));
