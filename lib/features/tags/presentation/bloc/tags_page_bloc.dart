@@ -22,32 +22,32 @@ part 'tags_page_event.dart';
 part 'tags_page_state.dart';
 
 class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
-  final GetClickupTagsInSpaceUseCase _getClickupTagsInSpaceUseCase;
+  final GetClickupTagsInSpaceUseCase _getTagsInSpaceUseCase;
   final GetTasksInSingleWorkspaceUseCase
-      _getClickupTasksInSingleWorkspaceUseCase;
-  final CreateTagInSpaceUseCase _createClickupTagInSpaceUseCase;
-  final UpdateTagUseCase _updateClickupTagUseCase;
-  final DeleteTagUseCase _deleteClickupTagUseCase;
-  final CreateTaskUseCase _createClickupTaskUseCase;
-  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateTaskUseCase _updateClickupTaskUseCase;
-  final DeleteTaskUseCase _deleteClickupTaskUseCase;
+      _getTasksInSingleWorkspaceUseCase;
+  final CreateTagInSpaceUseCase _createTagInSpaceUseCase;
+  final UpdateTagUseCase _updateTagUseCase;
+  final DeleteTagUseCase _deleteTagUseCase;
+  final CreateTaskUseCase _createTaskUseCase;
+  final DuplicateTaskUseCase _duplicateTaskUseCase;
+  final UpdateTaskUseCase _updateTaskUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   TagsPageBloc(
-      this._getClickupTagsInSpaceUseCase,
-      this._getClickupTasksInSingleWorkspaceUseCase,
-      this._createClickupTagInSpaceUseCase,
-      this._duplicateClickupTaskUseCase,
-      this._updateClickupTagUseCase,
-      this._deleteClickupTagUseCase,
-      this._createClickupTaskUseCase,
-      this._updateClickupTaskUseCase,
-      this._deleteClickupTaskUseCase)
+      this._getTagsInSpaceUseCase,
+      this._getTasksInSingleWorkspaceUseCase,
+      this._createTagInSpaceUseCase,
+      this._duplicateTaskUseCase,
+      this._updateTagUseCase,
+      this._deleteTagUseCase,
+      this._createTaskUseCase,
+      this._updateTaskUseCase,
+      this._deleteTaskUseCase)
       : super(const TagsPageState(tagsPageStatus: TagsPageStatus.initial)) {
     on<TagsPageEvent>((event, emit) async {
       if (event is GetTagsInSpaceEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _getClickupTagsInSpaceUseCase(event.params);
+        final result = await _getTagsInSpaceUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.getTagsFailure,
@@ -57,7 +57,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 getTagsInSpaceResult: r)));
       } else if (event is GetTasksForTagEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _getClickupTasksInSingleWorkspaceUseCase(
+        final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
@@ -81,7 +81,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
         } else {
           emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-          final result = await _createClickupTagInSpaceUseCase(event.params!);
+          final result = await _createTagInSpaceUseCase(event.params!);
           result?.fold(
                   (l) => emit(state.copyWith(
                   tagsPageStatus: TagsPageStatus.createTagFailure,
@@ -106,7 +106,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         }
         else {
           emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-          final result = await _updateClickupTagUseCase(event.params!);
+          final result = await _updateTagUseCase(event.params!);
           result?.fold(
               (l) => emit(state.copyWith(
                   tagsPageStatus: TagsPageStatus.updateTagFailure,
@@ -133,7 +133,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
         } else {
           emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-          final result = await _deleteClickupTagUseCase(event.params!);
+          final result = await _deleteTagUseCase(event.params!);
           result?.fold(
               (l) => emit(state.copyWith(
                   tagsPageStatus: TagsPageStatus.deleteTagFailure,
@@ -148,7 +148,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         }
       } else if (event is CreateTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _createClickupTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.createTaskFailed,
@@ -165,7 +165,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       }
         else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _duplicateClickupTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.createTaskFailed,
@@ -181,7 +181,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         });
       } else if (event is UpdateTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _updateClickupTaskUseCase(event.params);
+        final result = await _updateTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.updateTaskFailed,
@@ -197,7 +197,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         });
       } else if (event is DeleteTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _deleteClickupTaskUseCase(event.params);
+        final result = await _deleteTaskUseCase(event.params);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.updateTagFailure,
