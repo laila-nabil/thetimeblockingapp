@@ -70,8 +70,8 @@ class CustomDrawerWidget extends StatelessWidget {
     required this.showSmallDesign,
   });
 
-  final void Function(Workspace? clickupWorkspace) selectWorkspace;
-  final void Function(Space? clickupSpace) selectSpace;
+  final void Function(Workspace? workspace) selectWorkspace;
+  final void Function(Space? space) selectSpace;
   final Localization appLocalization;
   final GoRouter? router;
   final bool showSmallDesign;

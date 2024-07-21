@@ -2685,8 +2685,8 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return CustomAppBarWidget(
       showSmallDesign: showSmallDesign,
       openDrawer: () => print("open drawer"),
-      selectClickupSpace: (s) => print("select s"),
-      selectClickupWorkspace: (s) => print("select s"),
+      selectSpace: (s) => print("select s"),
+      selectWorkspace: (s) => print("select s"),
       pageActions: pageActions,
       isDarkMode: context.isDarkMode,
     );

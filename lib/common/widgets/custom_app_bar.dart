@@ -36,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   accessToken: Globals.accessToken));
             }
             return CustomAppBarWidget(
-              selectClickupWorkspace: (selected) {
+              selectWorkspace: (selected) {
                 if (selected is Workspace && state.isLoading == false) {
                   startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                       workspace: selected,
@@ -48,7 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     !startupBloc.state.drawerLargerScreenOpen));
               },
               showSmallDesign: showSmallDesign,
-              selectClickupSpace: (selected) {
+              selectSpace: (selected) {
                 if (selected != null && state.isLoading == false) {
                   startupBloc.add(SelectSpace(
                       space: selected,
@@ -75,15 +75,15 @@ class CustomAppBarWidget extends StatelessWidget {
     this.pageActions,
     required this.showSmallDesign,
     required this.openDrawer,
-    required this.selectClickupSpace,
-    required this.selectClickupWorkspace,
+    required this.selectSpace,
+    required this.selectWorkspace,
     required this.isDarkMode,
   }) : super(key: key);
   final bool showSmallDesign;
   final void Function() openDrawer;
-  final void Function(Space? clickupSpace) selectClickupSpace;
-  final void Function(Workspace? clickupWorkspace)
-      selectClickupWorkspace;
+  final void Function(Space? space) selectSpace;
+  final void Function(Workspace? workspace)
+      selectWorkspace;
   final List<CustomPopupItem>? pageActions;
   final bool isDarkMode;
   ///TODO app bar different height based on size as design
