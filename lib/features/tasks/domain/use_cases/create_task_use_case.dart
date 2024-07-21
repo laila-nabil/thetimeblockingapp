@@ -12,14 +12,14 @@ import '../repositories/tasks_repo.dart';
 ///TODO enable navigation to specific task with task id
 ///TODO have brain dump/ inbox or default list
 
-class CreateClickupTaskUseCase
-    implements UseCase<Task, ClickupTaskParams> {
+class CreateTaskUseCase
+    implements UseCase<Task, CreateTaskParams> {
   final TasksRepo repo;
 
-  CreateClickupTaskUseCase(this.repo);
+  CreateTaskUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, Task>?> call(ClickupTaskParams params) async {
+  Future<dartz.Either<Failure, Task>?> call(CreateTaskParams params) async {
     final result = await repo.createTaskInList(params);
     await result?.fold(
         (l) async =>await  serviceLocator<Analytics>()

@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dar
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
@@ -23,7 +23,7 @@ class MoveClickupTaskBetweenListsUseCase
     Task task = params.task;
     dartz.Either<Failure, Task>? createResult;
     dartz.Either<Failure, dartz.Unit>? deleteResult;
-    createResult = await repo.createTaskInList(ClickupTaskParams.createNewTask(
+    createResult = await repo.createTaskInList(CreateTaskParams.createNewTask(
         clickupAccessToken: params.clickupAccessToken,
         clickupList: params.newList,
         title: task.name ?? "",
@@ -36,7 +36,7 @@ class MoveClickupTaskBetweenListsUseCase
         description: task.description,
         tags: task.tags));
     if (createResult?.isRight() == true) {
-      deleteResult = await repo.deleteTask(DeleteClickupTaskParams(
+      deleteResult = await repo.deleteTask(DeleteTaskParams(
           task: task, clickupAccessToken: params.clickupAccessToken));
     }
     if (createResult?.isRight() == true && deleteResult?.isRight() == true) {

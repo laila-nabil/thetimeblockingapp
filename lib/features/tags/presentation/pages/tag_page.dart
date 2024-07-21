@@ -19,7 +19,7 @@ import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
@@ -92,7 +92,7 @@ class TagPage extends StatelessWidget {
                   CustomPopupItem.custom(
                       onTap: () {
                         tagsPageBloc.add(DeleteTagEvent.tryDelete(
-                            DeleteClickupTagParams(
+                            DeleteTagParams(
                                 space: Globals.selectedSpace!,
                                 tag: state.navigateTag!,
                                 clickupAccessToken:

@@ -4,8 +4,8 @@ import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
@@ -13,8 +13,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clicku
 import '../../../../core/error/failures.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/create_clickup_task_use_case.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/create_task_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 part 'tags_page_event.dart';
@@ -27,11 +27,11 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       _getClickupTasksInSingleWorkspaceUseCase;
   final CreateTagInSpaceUseCase _createClickupTagInSpaceUseCase;
   final UpdateClickupTagUseCase _updateClickupTagUseCase;
-  final DeleteClickupTagUseCase _deleteClickupTagUseCase;
-  final CreateClickupTaskUseCase _createClickupTaskUseCase;
-  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
+  final DeleteTagUseCase _deleteClickupTagUseCase;
+  final CreateTaskUseCase _createClickupTaskUseCase;
+  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
-  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
+  final DeleteTaskUseCase _deleteClickupTaskUseCase;
 
   TagsPageBloc(
       this._getClickupTagsInSpaceUseCase,
@@ -60,7 +60,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
-                filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                filtersParams: GetTasksInWorkspaceFiltersParams(
                     clickupAccessToken: event.clickupAccessToken,
                     filterBySpaceIds: [event.space.id ?? ""],
                     filterByTags: [event.tag.name ?? ""])));

@@ -9,14 +9,14 @@ import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
 
-class DuplicateClickupTaskUseCase
-    implements UseCase<Task, ClickupTaskParams> {
+class DuplicateTaskUseCase
+    implements UseCase<Task, CreateTaskParams> {
   final TasksRepo repo;
 
-  DuplicateClickupTaskUseCase(this.repo);
+  DuplicateTaskUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, Task>?> call(ClickupTaskParams params) async {
+  Future<dartz.Either<Failure, Task>?> call(CreateTaskParams params) async {
     final result = await repo.createTaskInList(params);
     await result?.fold(
         (l) async =>await  serviceLocator<Analytics>()

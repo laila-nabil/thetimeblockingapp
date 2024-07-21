@@ -3,42 +3,42 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
-class DeleteClickupTaskUseCase
-    implements UseCase<dartz.Unit, DeleteClickupTaskParams> {
+class DeleteFolderUseCase
+    implements UseCase<dartz.Unit, DeleteFolderParams> {
   final TasksRepo repo;
 
-  DeleteClickupTaskUseCase(this.repo);
+  DeleteFolderUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteClickupTaskParams params) async {
-    final result = await repo.deleteTask(params);
+  Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteFolderParams params) async {
+    final result = await repo.deleteFolder(params);
     await result?.fold(
-        (l) async =>await  serviceLocator<Analytics>()
-                .logEvent(AnalyticsEvents.deleteTask.name, parameters: {
+        (l) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.deleteFolder.name, parameters: {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
             }),
-        (r) async =>await  serviceLocator<Analytics>()
-                .logEvent(AnalyticsEvents.deleteTask.name, parameters: {
+        (r) async => await serviceLocator<Analytics>()
+                .logEvent(AnalyticsEvents.deleteFolder.name, parameters: {
               AnalyticsEventParameter.status.name: true,
             }));
     return result;
   }
 }
 
-class DeleteClickupTaskParams {
-  final Task task;
+class DeleteFolderParams {
+  final Folder folder;
   final ClickupAccessToken clickupAccessToken;
 
-  DeleteClickupTaskParams({
-    required this.task,
+  DeleteFolderParams({
+    required this.folder,
     required this.clickupAccessToken,
   });
 
-  String get taskId => task.id ?? "";
+  String get folderId => folder.id ?? "";
 }

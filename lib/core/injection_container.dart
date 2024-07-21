@@ -25,7 +25,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_t
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
@@ -48,21 +48,21 @@ import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import '../features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
-import '../features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_list_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_folders_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
+import '../features/tasks/domain/use_cases/get_folderless_lists_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_folders_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
-import '../features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
-import '../features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../features/tasks/domain/use_cases/create_task_use_case.dart';
+import '../features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
@@ -184,10 +184,10 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => CreateClickupTaskUseCase(
+  serviceLocator.registerLazySingleton(() => CreateTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => DuplicateClickupTaskUseCase(
+  serviceLocator.registerLazySingleton(() => DuplicateTaskUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => UpdateClickupTaskUseCase(
@@ -198,19 +198,19 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => DeleteClickupTaskUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteTaskUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => DeleteClickupListUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteListUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => DeleteClickupFolderUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteFolderUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetClickupFoldersInSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetFoldersInSpaceUseCase(
         serviceLocator(),
       ));
 
@@ -237,7 +237,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator
-      .registerLazySingleton(() => GetClickupFolderlessListsInSpaceUseCase(
+      .registerLazySingleton(() => GetFolderlessListsInSpaceUseCase(
             serviceLocator(),
           ));
 
@@ -285,7 +285,7 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
-  serviceLocator.registerLazySingleton(() => GetClickupListAndItsTasksUseCase(
+  serviceLocator.registerLazySingleton(() => GetListAndItsTasksUseCase(
         serviceLocator(),
       ));
 
@@ -297,7 +297,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => DeleteClickupTagUseCase(
+  serviceLocator.registerLazySingleton(() => DeleteTagUseCase(
         serviceLocator(),
       ));
 

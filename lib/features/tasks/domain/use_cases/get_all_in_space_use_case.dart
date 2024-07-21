@@ -9,8 +9,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
-import 'get_clickup_folderless_lists_in_space_use_case.dart';
-import 'get_clickup_folders_in_space_use_case.dart';
+import 'get_folderless_lists_in_space_use_case.dart';
+import 'get_folders_in_space_use_case.dart';
 
 class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
   final TasksRepo repo;
@@ -31,7 +31,7 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
           space.tags = rTags;
         });
     final folderlessLists = await repo.getClickupFolderlessLists(
-        params: GetClickupFolderlessListsInSpaceParams(
+        params: GetFolderlessListsInSpaceParams(
             clickupAccessToken: params.clickupAccessToken,
             clickupSpace: space,
             archived: params.archived));
@@ -43,7 +43,7 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
           space.lists = rFolderlessLists;
         });
     final folders = await repo.getClickupFolders(
-        params: GetClickupFoldersInSpaceParams(
+        params: GetFoldersInSpaceParams(
             clickupAccessToken: params.clickupAccessToken,
             clickupSpace: space,
             archived: params.archived));

@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_tag_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
 
 import '../../../../common/entities/workspace.dart';
@@ -22,8 +22,8 @@ import '../entities/task_parameters.dart';
 import '../use_cases/create_list_in_folder_use_case.dart';
 import '../use_cases/add_tag_to_task_use_case.dart';
 import '../use_cases/add_task_to_list_use_case.dart';
-import '../use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
-import '../use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../use_cases/get_folderless_lists_in_space_use_case.dart';
+import '../use_cases/get_folders_in_space_use_case.dart';
 import '../use_cases/get_clickup_list_use_case.dart';
 import '../use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -37,13 +37,13 @@ abstract class TasksRepo{
       {required GetClickupTasksInWorkspaceParams params});
 
   Future<dartz.Either<Failure, Task>?> createTaskInList(
-      ClickupTaskParams params);
+      CreateTaskParams params);
 
   Future<dartz.Either<Failure, Task>?> updateTask(
-      ClickupTaskParams params);
+      CreateTaskParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(
-      DeleteClickupTaskParams params);
+      DeleteTaskParams params);
 
   Future<dartz.Either<Failure, List<Workspace>>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
@@ -52,13 +52,13 @@ abstract class TasksRepo{
       {required GetClickupSpacesInWorkspacesParams params});
 
   Future<dartz.Either<Failure, List<Folder>>> getClickupFolders(
-      {required GetClickupFoldersInSpaceParams params});
+      {required GetFoldersInSpaceParams params});
 
   Future<dartz.Either<Failure, List<TasksList>>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
 
   Future<dartz.Either<Failure, List<TasksList>>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params});
+      {required GetFolderlessListsInSpaceParams params});
 
   Future<dartz.Either<Failure, List<Tag>>> getClickupTags(
       {required GetClickupTagsInSpaceParams params});
@@ -103,13 +103,13 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, Folder>?> createClickupFolderInSpace(
       CreateFolderInSpaceParams params);
 
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteClickupListParams params);
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteListParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteFolder(
-      DeleteClickupFolderParams params);
+      DeleteFolderParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteClickupTag(
-      DeleteClickupTagParams params);
+      DeleteTagParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> createClickupTagInSpace(
       CreateTagInSpaceParams params);

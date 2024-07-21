@@ -9,15 +9,15 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
 
-class DeleteClickupTagUseCase
-    implements UseCase<dartz.Unit, DeleteClickupTagParams> {
+class DeleteTagUseCase
+    implements UseCase<dartz.Unit, DeleteTagParams> {
 
   final TasksRepo repo;
 
-  DeleteClickupTagUseCase(this.repo);
+  DeleteTagUseCase(this.repo);
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(
-      DeleteClickupTagParams params) async {
+      DeleteTagParams params) async {
     final result = await repo.deleteClickupTag(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
@@ -33,12 +33,12 @@ class DeleteClickupTagUseCase
   }
 }
 
-class DeleteClickupTagParams {
+class DeleteTagParams {
   final Space space;
   final Tag tag;
   final ClickupAccessToken clickupAccessToken;
 
-  DeleteClickupTagParams(
+  DeleteTagParams(
       {required this.space,
         required this.tag,
         required this.clickupAccessToken});

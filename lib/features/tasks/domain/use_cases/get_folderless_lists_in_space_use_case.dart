@@ -2,30 +2,30 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
-import '../entities/folder.dart';
-import '../entities/space.dart';
+import '../entities/tasks_list.dart';
 
-class GetClickupFoldersInSpaceUseCase
-    implements UseCase<List<Folder>, GetClickupFoldersInSpaceParams> {
+class GetFolderlessListsInSpaceUseCase
+    implements UseCase<List<TasksList>, GetFolderlessListsInSpaceParams> {
   final TasksRepo repo;
 
-  GetClickupFoldersInSpaceUseCase(this.repo);
+  GetFolderlessListsInSpaceUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, List<Folder>>?> call(
-      GetClickupFoldersInSpaceParams params) {
-    return repo.getClickupFolders(params: params);
+  Future<dartz.Either<Failure, List<TasksList>>?> call(
+      GetFolderlessListsInSpaceParams params) {
+    return repo.getClickupFolderlessLists(params: params);
   }
 }
 
-class GetClickupFoldersInSpaceParams extends Equatable {
+class GetFolderlessListsInSpaceParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Space clickupSpace;
   final bool? archived;
 
-  const GetClickupFoldersInSpaceParams({
+  const GetFolderlessListsInSpaceParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     this.archived,

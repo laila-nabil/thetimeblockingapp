@@ -4,9 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 import '../../../../core/globals.dart';
@@ -25,10 +25,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
 
-  final CreateClickupTaskUseCase _createClickupTaskUseCase;
-  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
+  final CreateTaskUseCase _createClickupTaskUseCase;
+  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
-  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
+  final DeleteTaskUseCase _deleteClickupTaskUseCase;
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(

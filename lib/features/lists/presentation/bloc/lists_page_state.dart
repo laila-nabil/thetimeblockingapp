@@ -70,8 +70,8 @@ class ListsPageState extends Equatable {
   final CreateFolderlessListClickupParams? createFolderlessListClickupParams;
   final MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
   final CreateFolderInSpaceParams? createClickupFolderInSpaceParams;
-  final DeleteClickupFolderParams? deleteClickupFolderParams;
-  final DeleteClickupListParams? deleteClickupListParams;
+  final DeleteFolderParams? deleteClickupFolderParams;
+  final DeleteListParams? deleteClickupListParams;
   final dartz.Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
   final Folder? folderToCreateListIn;
@@ -118,13 +118,13 @@ class ListsPageState extends Equatable {
 
   bool get isLoading => listsPageStatus == ListsPageStatus.isLoading;
 
-  GetClickupTasksInWorkspaceFiltersParams
+  GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
     if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
       filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
     }
-    return GetClickupTasksInWorkspaceFiltersParams(
+    return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
       clickupAccessToken: Globals.clickupAuthAccessToken,
       filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
@@ -215,8 +215,8 @@ class ListsPageState extends Equatable {
     CreateFolderlessListClickupParams? createFolderlessListClickupParams,
     MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
     CreateFolderInSpaceParams? createClickupFolderInSpaceParams,
-    DeleteClickupFolderParams? deleteClickupFolderParams,
-    DeleteClickupListParams? deleteClickupListParams,
+    DeleteFolderParams? deleteClickupFolderParams,
+    DeleteListParams? deleteClickupListParams,
     dartz.Unit? moveTaskBetweenListsResult,
     Failure? moveTaskBetweenListsFailure,
     Failure? updateTaskFailure,

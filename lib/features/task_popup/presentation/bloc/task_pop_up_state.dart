@@ -1,7 +1,7 @@
 part of 'task_pop_up_bloc.dart';
 
 class TaskPopUpState extends Equatable {
-  final ClickupTaskParams? taskParams;
+  final CreateTaskParams? taskParams;
 
   const TaskPopUpState({
     this.taskParams,
@@ -51,11 +51,11 @@ class TaskPopUpState extends Equatable {
   bool get viewTagsButton =>
       taskParams?.task != null || taskParams?.clickupSpace != null;
 
-  ClickupTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
-    ClickupTaskParams params;
+  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
+    CreateTaskParams params;
     final task = taskParams?.task;
     if (task != null) {
-      params = ClickupTaskParams.updateTask(
+      params = CreateTaskParams.updateTask(
         task: taskParams!.task!,
         clickupAccessToken: Globals.clickupAuthAccessToken,
         updatedTitle: taskParams?.title,
@@ -86,7 +86,7 @@ class TaskPopUpState extends Equatable {
             : taskParams?.clickupList,
       );
     } else {
-      params = taskParams ?? ClickupTaskParams.createNewTask(
+      params = taskParams ?? CreateTaskParams.createNewTask(
         dueDate: newTaskDueDate,
         clickupList: taskParams!.clickupList!,
         clickupAccessToken:

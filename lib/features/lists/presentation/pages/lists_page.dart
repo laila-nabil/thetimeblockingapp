@@ -13,8 +13,8 @@ import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.d
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
@@ -61,7 +61,7 @@ class ListsPage extends StatelessWidget {
                             onPressed: () {
                               listsPageBloc.add(DeleteListEvent.submit(
                                   deleteClickupListParams:
-                                      DeleteClickupListParams(
+                                      DeleteListParams(
                                           list: state.toDeleteList!,
                                           clickupAccessToken:
                                               Globals.clickupAuthAccessToken),
@@ -94,7 +94,7 @@ class ListsPage extends StatelessWidget {
                             onPressed: () {
                               listsPageBloc.add(DeleteFolderEvent.submit(
                                   deleteClickupFolderParams:
-                                      DeleteClickupFolderParams(
+                                      DeleteFolderParams(
                                           folder: state.toDeleteFolder!,
                                           clickupAccessToken:
                                               Globals.clickupAuthAccessToken),

@@ -80,7 +80,7 @@ class UpdateTagEvent extends TagsPageEvent {
 }
 
 class DeleteTagEvent extends TagsPageEvent {
-  DeleteClickupTagParams? params;
+  DeleteTagParams? params;
   bool? tryEvent;
 
   DeleteTagEvent.tryDelete(this.params) {
@@ -100,7 +100,7 @@ class DeleteTagEvent extends TagsPageEvent {
 }
 
 class CreateTaskEvent extends TagsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const CreateTaskEvent({
@@ -113,7 +113,7 @@ class CreateTaskEvent extends TagsPageEvent {
 }
 
 class DuplicateTaskEvent extends TagsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const DuplicateTaskEvent({
@@ -126,7 +126,7 @@ class DuplicateTaskEvent extends TagsPageEvent {
 }
 
 class UpdateTaskEvent extends TagsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const UpdateTaskEvent({
@@ -139,7 +139,7 @@ class UpdateTaskEvent extends TagsPageEvent {
 }
 
 class DeleteTaskEvent extends TagsPageEvent {
-  final DeleteClickupTaskParams params;
+  final DeleteTaskParams params;
   final Workspace workspace;
 
   const DeleteTaskEvent({

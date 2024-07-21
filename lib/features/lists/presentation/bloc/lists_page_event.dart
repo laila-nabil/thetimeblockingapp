@@ -174,7 +174,7 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
 }
 
 class DeleteFolderEvent extends ListsPageEvent {
-  DeleteClickupFolderParams? deleteClickupFolderParams;
+  DeleteFolderParams? deleteClickupFolderParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   Folder? toDeleteFolder;
@@ -187,7 +187,7 @@ class DeleteFolderEvent extends ListsPageEvent {
     tryEvent = false;
   }
   DeleteFolderEvent.submit({
-    required DeleteClickupFolderParams this.deleteClickupFolderParams,
+    required DeleteFolderParams this.deleteClickupFolderParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
@@ -201,7 +201,7 @@ class DeleteFolderEvent extends ListsPageEvent {
 }
 
 class DeleteListEvent extends ListsPageEvent {
-  DeleteClickupListParams? deleteClickupListParams;
+  DeleteListParams? deleteClickupListParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   TasksList? toDeleteList;
@@ -214,7 +214,7 @@ class DeleteListEvent extends ListsPageEvent {
     tryEvent = false;
   }
   DeleteListEvent.submit({
-    required DeleteClickupListParams this.deleteClickupListParams,
+    required DeleteListParams this.deleteClickupListParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
@@ -227,7 +227,7 @@ class DeleteListEvent extends ListsPageEvent {
 }
 
 class CreateTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const CreateTaskEvent({required this.params});
 
@@ -235,7 +235,7 @@ class CreateTaskEvent extends ListsPageEvent {
   List<Object?> get props => [params];
 }
 class DuplicateTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const DuplicateTaskEvent({required this.params});
 
@@ -244,7 +244,7 @@ class DuplicateTaskEvent extends ListsPageEvent {
 }
 
 class UpdateTaskEvent extends ListsPageEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const UpdateTaskEvent({required this.params});
 
@@ -253,7 +253,7 @@ class UpdateTaskEvent extends ListsPageEvent {
 }
 
 class DeleteTaskEvent extends ListsPageEvent {
-  final DeleteClickupTaskParams params;
+  final DeleteTaskParams params;
 
   const DeleteTaskEvent({required this.params});
 

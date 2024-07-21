@@ -10,7 +10,7 @@ import 'task.dart';
 
 enum ClickupTaskParamsEnum { create, update }
 
-class ClickupTaskParams extends Equatable{
+class CreateTaskParams extends Equatable{
   final ClickupTaskParamsEnum clickupTaskParamsEnum;
   final ClickupAccessToken clickupAccessToken;
   final TasksList? clickupList;
@@ -67,8 +67,8 @@ class ClickupTaskParams extends Equatable{
     return <TasksList>[];
   }
 
-  factory ClickupTaskParams.fromTask(Task clickupTask){
-    return ClickupTaskParams.createNewTask(
+  factory CreateTaskParams.fromTask(Task clickupTask){
+    return CreateTaskParams.createNewTask(
       clickupAccessToken: Globals.clickupAuthAccessToken,
       clickupList: clickupTask.list!,
       title: clickupTask.name ?? "",
@@ -82,7 +82,7 @@ class ClickupTaskParams extends Equatable{
       timeEstimate: clickupTask.timeEstimate,
     );
   }
-  const ClickupTaskParams._(
+  const CreateTaskParams._(
       {this.clickupList,
       this.title,
       this.description,
@@ -142,7 +142,7 @@ class ClickupTaskParams extends Equatable{
       ? ClickupTaskParamsEnum.create
       : ClickupTaskParamsEnum.update;
   }
-  factory ClickupTaskParams.startCreateNewTask({
+  factory CreateTaskParams.startCreateNewTask({
     required ClickupAccessToken clickupAccessToken,
     DateTime? startDate,
     DateTime? dueDate,
@@ -151,7 +151,7 @@ class ClickupTaskParams extends Equatable{
     Tag? tag
   }) {
     printDebug("ClickupTaskParams startCreateNewTask task");
-    return ClickupTaskParams._(
+    return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
           startDate: startDate,
@@ -162,7 +162,7 @@ class ClickupTaskParams extends Equatable{
           assignees: [Globals.clickupUser!.asAssignee],);
   }
 
-  factory ClickupTaskParams.createNewTask({
+  factory CreateTaskParams.createNewTask({
     required ClickupAccessToken clickupAccessToken,
     required TasksList clickupList,
     required String title,
@@ -181,7 +181,7 @@ class ClickupTaskParams extends Equatable{
     Space? space,
   }) {
     printDebug("ClickupTaskParams createNewTask task");
-    return ClickupTaskParams._(
+    return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
           clickupAccessToken: clickupAccessToken,
           clickupSpace: space,
@@ -206,7 +206,7 @@ class ClickupTaskParams extends Equatable{
           timeEstimate: timeEstimate);
   }
 
-  factory ClickupTaskParams.startUpdateTask({
+  factory CreateTaskParams.startUpdateTask({
     required ClickupAccessToken clickupAccessToken,
     required Task task,
   }) {
@@ -221,7 +221,7 @@ class ClickupTaskParams extends Equatable{
         .firstOrNull ??  folder?.lists
         ?.where((element) => element.id == task.list?.id)
             .firstOrNull;
-    return ClickupTaskParams._(
+    return CreateTaskParams._(
         clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
         clickupAccessToken: clickupAccessToken,
         task: task,
@@ -241,7 +241,7 @@ class ClickupTaskParams extends Equatable{
         );
   }
 
-  factory ClickupTaskParams.updateTask({
+  factory CreateTaskParams.updateTask({
     required ClickupAccessToken clickupAccessToken,
     required Task task,
     String? updatedTitle,
@@ -262,7 +262,7 @@ class ClickupTaskParams extends Equatable{
     TasksList? list,
     Folder? folder,
   }) =>
-      ClickupTaskParams._(
+      CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
           clickupAccessToken: clickupAccessToken,
           clickupSpace: null,
@@ -343,7 +343,7 @@ class ClickupTaskParams extends Equatable{
     }
   }
 
-  ClickupTaskParams copyWith({
+  CreateTaskParams copyWith({
     ClickupTaskParamsEnum? clickupTaskParamsEnum,
     ClickupAccessToken? clickupAccessToken,
     TasksList? clickupList,
@@ -410,7 +410,7 @@ class ClickupTaskParams extends Equatable{
         selectedStartDate = null;
       }
     }*/
-    return ClickupTaskParams._(
+    return CreateTaskParams._(
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
       clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,

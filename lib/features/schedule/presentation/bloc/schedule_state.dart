@@ -109,13 +109,13 @@ class ScheduleState extends Equatable {
   bool get isInitial => persistingScheduleStates.isEmpty;
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
-  GetClickupTasksInWorkspaceFiltersParams
+  GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
     if(Globals.isSpaceAppWide && Globals.selectedSpaceId!=null){
       filterBySpaceIds = [Globals.selectedSpace?.id??""];
     }
-    return GetClickupTasksInWorkspaceFiltersParams(
+    return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
             clickupAccessToken: Globals.clickupAuthAccessToken,
             filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],

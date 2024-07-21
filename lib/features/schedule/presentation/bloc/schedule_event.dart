@@ -27,7 +27,7 @@ class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
 }
 
 class CreateTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const CreateTaskEvent({required this.params});
 
@@ -36,7 +36,7 @@ class CreateTaskEvent extends ScheduleEvent {
 }
 
 class DuplicateTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const DuplicateTaskEvent({required this.params});
 
@@ -45,7 +45,7 @@ class DuplicateTaskEvent extends ScheduleEvent {
 }
 
 class UpdateTaskEvent extends ScheduleEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
 
   const UpdateTaskEvent({required this.params});
 
@@ -54,7 +54,7 @@ class UpdateTaskEvent extends ScheduleEvent {
 }
 
 class DeleteTaskEvent extends ScheduleEvent {
-  final DeleteClickupTaskParams params;
+  final DeleteTaskParams params;
 
   const DeleteTaskEvent({required this.params});
 

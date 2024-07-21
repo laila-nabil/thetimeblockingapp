@@ -8,13 +8,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dar
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_and_its_tasks_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
 
@@ -24,8 +24,8 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../tasks/domain/entities/space.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_folder_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
 part 'lists_page_event.dart';
@@ -37,18 +37,18 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
-  final GetClickupListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
+  final GetListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
   final CreateListInFolderUseCase _createClickupListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
   final CreateFolderlessListClickupListUseCase
       _createFolderlessClickupListUseCase;
   final MoveClickupTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
-  final DeleteClickupFolderUseCase _deleteClickupFolderUseCase;
-  final DeleteClickupListUseCase _deleteClickupListUseCase;
-  final CreateClickupTaskUseCase _createClickupTaskUseCase;
-  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
+  final DeleteFolderUseCase _deleteClickupFolderUseCase;
+  final DeleteListUseCase _deleteClickupListUseCase;
+  final CreateTaskUseCase _createClickupTaskUseCase;
+  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
-  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
+  final DeleteTaskUseCase _deleteClickupTaskUseCase;
 
   ListsPageBloc(
     this._getAllInClickupSpaceUseCase,

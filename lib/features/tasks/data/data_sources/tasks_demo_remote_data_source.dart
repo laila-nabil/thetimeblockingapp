@@ -7,9 +7,9 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_mode
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../domain/entities/task_parameters.dart';
@@ -17,9 +17,9 @@ import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_tag_in_space_use_case.dart';
-import '../../domain/use_cases/delete_clickup_tag_use_case.dart';
-import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../../domain/use_cases/delete_tag_use_case.dart';
+import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
+import '../../domain/use_cases/get_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_list_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -47,18 +47,18 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> createTaskInList(
-      {required ClickupTaskParams params}) async {
+      {required CreateTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
   Future<ClickupTaskModel> updateTask(
-      {required ClickupTaskParams params}) async {
+      {required CreateTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params}) async {
+  Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) async {
     throw const DemoFailure(message: "");
   }
 
@@ -70,7 +70,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetClickupFoldersInSpaceParams params}) async {
+      {required GetFoldersInSpaceParams params}) async {
     return Demo.folders;
   }
 
@@ -82,7 +82,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params}) async {
+      {required GetFolderlessListsInSpaceParams params}) async {
     return Demo.folderlessLists;
   }
 
@@ -142,12 +142,12 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteList({required DeleteClickupListParams params}) async {
+  Future<dartz.Unit> deleteList({required DeleteListParams params}) async {
     throw const DemoFailure(message: "");
   }
 
   @override
-  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) async {
     throw const DemoFailure(message: "");
   }
 
@@ -159,7 +159,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> deleteClickupTag(
-      {required DeleteClickupTagParams params}) async {
+      {required DeleteTagParams params}) async {
     throw const DemoFailure(message: "");
   }
 

@@ -61,7 +61,7 @@ class TasksCalendar extends StatelessWidget {
         printDebug("details.startTime ${details.startTime}");
         printDebug("details.endTime ${details.endTime}");
         scheduleBloc.add(UpdateTaskEvent(
-            params: ClickupTaskParams.updateTask(
+            params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
               clickupAccessToken: Globals.clickupAuthAccessToken,
               updatedDueDate: details.endTime,
@@ -77,7 +77,7 @@ class TasksCalendar extends StatelessWidget {
       onDragEnd: (details){
         final task = details.appointment as Task;
         scheduleBloc.add(UpdateTaskEvent(
-            params: ClickupTaskParams.updateTask(
+            params: CreateTaskParams.updateTask(
               task: task,
               clickupAccessToken: Globals.clickupAuthAccessToken,
           updatedDueDate: details.droppingTime
@@ -149,7 +149,7 @@ class TasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: ClickupTaskParams.fromTask(task)));
+                  params: CreateTaskParams.fromTask(task)));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&

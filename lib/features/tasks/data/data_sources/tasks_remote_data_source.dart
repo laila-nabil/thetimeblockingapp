@@ -6,9 +6,9 @@ import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_mode
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/extensions.dart';
@@ -19,9 +19,9 @@ import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_tag_in_space_use_case.dart';
-import '../../domain/use_cases/delete_clickup_tag_use_case.dart';
-import '../../domain/use_cases/get_clickup_folderless_lists_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_folders_in_space_use_case.dart';
+import '../../domain/use_cases/delete_tag_use_case.dart';
+import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
+import '../../domain/use_cases/get_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_clickup_list_use_case.dart';
 import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
@@ -38,17 +38,17 @@ abstract class TasksRemoteDataSource {
       {required GetClickupTasksInWorkspaceParams params});
 
   Future<ClickupTaskModel> createTaskInList(
-      {required ClickupTaskParams params});
+      {required CreateTaskParams params});
 
-  Future<ClickupTaskModel> updateTask({required ClickupTaskParams params});
+  Future<ClickupTaskModel> updateTask({required CreateTaskParams params});
 
-  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params});
+  Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
 
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
       {required GetClickupWorkspacesParams params});
 
   Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetClickupFoldersInSpaceParams params});
+      {required GetFoldersInSpaceParams params});
 
   Future<List<ClickupListModel>> getClickupListsInFolder(
       {required GetClickupListsInFolderParams params});
@@ -57,7 +57,7 @@ abstract class TasksRemoteDataSource {
       {required CreateListInFolderParams params});
 
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params});
+      {required GetFolderlessListsInSpaceParams params});
 
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
       {required GetClickupSpacesInWorkspacesParams params});
@@ -80,9 +80,9 @@ abstract class TasksRemoteDataSource {
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateFolderInSpaceParams params});
 
-  Future<dartz.Unit> deleteList({required DeleteClickupListParams params});
+  Future<dartz.Unit> deleteList({required DeleteListParams params});
 
-  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params});
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params});
 
   Future<dartz.Unit> createClickupTagInSpace(
       {required CreateTagInSpaceParams params});
@@ -90,7 +90,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> updateClickupTag(
       {required UpdateClickupTagParams params});
 
-  Future<dartz.Unit> deleteClickupTag({required DeleteClickupTagParams params});
+  Future<dartz.Unit> deleteClickupTag({required DeleteTagParams params});
 }
 
 class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -126,7 +126,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> createTaskInList(
-      {required ClickupTaskParams params}) async {
+      {required CreateTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.getListId}/task");
     final response = await network.post(
         uri: uri,
@@ -137,7 +137,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupTaskModel> updateTask(
-      {required ClickupTaskParams params}) async {
+      {required CreateTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     final response = await network.put(
         uri: uri,
@@ -147,7 +147,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteTask({required DeleteClickupTaskParams params}) async {
+  Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     await network.delete(
       uri: uri,
@@ -171,7 +171,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetClickupFoldersInSpaceParams params}) async {
+      {required GetFoldersInSpaceParams params}) async {
     List<ClickupFolderModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/folder";
     Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
@@ -209,7 +209,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetClickupFolderlessListsInSpaceParams params}) async {
+      {required GetFolderlessListsInSpaceParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/space/${params.clickupSpace.id}/list";
     Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
@@ -343,7 +343,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteList({required DeleteClickupListParams params}) async {
+  Future<dartz.Unit> deleteList({required DeleteListParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
     await network.delete(
       uri: uri,
@@ -353,7 +353,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteFolder({required DeleteClickupFolderParams params}) async {
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) async {
     Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
     await network.delete(
       uri: uri,
@@ -375,7 +375,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteClickupTag({required DeleteClickupTagParams params}) async{
+  Future<dartz.Unit> deleteClickupTag({required DeleteTagParams params}) async{
     Uri uri = Uri.parse(
         "$clickupUrl/space/${params.space.id}/tag/${params.tag.name}");
     await network.delete(

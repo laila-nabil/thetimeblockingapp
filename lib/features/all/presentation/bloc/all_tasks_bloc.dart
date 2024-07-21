@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
@@ -9,8 +9,8 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../../../tasks/domain/entities/space.dart';
 import '../../../tasks/domain/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/create_clickup_task_use_case.dart';
-import '../../../tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/create_task_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
 
@@ -23,10 +23,10 @@ part 'all_tasks_state.dart';
 class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
   final GetClickupTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
-  final CreateClickupTaskUseCase _createClickupTaskUseCase;
-  final DuplicateClickupTaskUseCase _duplicateClickupTaskUseCase;
+  final CreateTaskUseCase _createClickupTaskUseCase;
+  final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
   final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
-  final DeleteClickupTaskUseCase _deleteClickupTaskUseCase;
+  final DeleteTaskUseCase _deleteClickupTaskUseCase;
 
   AllTasksBloc(
       this._getClickupTasksInSingleWorkspaceUseCase,
@@ -41,7 +41,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
             GetClickupTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
-                filtersParams: GetClickupTasksInWorkspaceFiltersParams(
+                filtersParams: GetTasksInWorkspaceFiltersParams(
                     clickupAccessToken: event.clickupAccessToken,
                     filterBySpaceIds: [event.space.id ?? ""])));
         result?.fold(

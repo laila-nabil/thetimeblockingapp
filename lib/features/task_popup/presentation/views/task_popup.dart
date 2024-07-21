@@ -16,7 +16,7 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_po
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
@@ -33,9 +33,9 @@ import '../../../tasks/presentation/widgets/tag_chip.dart';
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   Task? task;
-  final void Function(ClickupTaskParams params)? onSave;
+  final void Function(CreateTaskParams params)? onSave;
   void Function()? onDuplicate;
-  final void Function(DeleteClickupTaskParams params)? onDelete;
+  final void Function(DeleteTaskParams params)? onDelete;
   final Bloc bloc;
   final bool Function(Object? state) isLoading;
   DateTime? cellDate;
@@ -155,8 +155,8 @@ class TaskPopupParams extends Equatable {
 
   TaskPopupParams copyWith({
     Task? task,
-    void Function(ClickupTaskParams params)? onSave,
-    void Function(DeleteClickupTaskParams params)? onDelete,
+    void Function(CreateTaskParams params)? onSave,
+    void Function(DeleteTaskParams params)? onDelete,
     Bloc? bloc,
     DateTime? cellDate,
     DateTime? startDate,
@@ -220,7 +220,7 @@ class TaskPopup extends StatelessWidget {
             return serviceLocator<TaskPopUpBloc>(param1: taskPopupParams)
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
-                      ? ClickupTaskParams.startCreateNewTask(
+                      ? CreateTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
@@ -229,7 +229,7 @@ class TaskPopup extends StatelessWidget {
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag)
-                      : ClickupTaskParams.startUpdateTask(
+                      : CreateTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           task: task,
                         )));
@@ -248,12 +248,12 @@ class TaskPopup extends StatelessWidget {
               printDebug("state.taskParams ${state.taskParams}");
               final clickupTaskParams = state.taskParams ??
                   (task == null
-                      ? ClickupTaskParams.startCreateNewTask(
+                      ? CreateTaskParams.startCreateNewTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
-                      : ClickupTaskParams.startUpdateTask(
+                      : CreateTaskParams.startUpdateTask(
                           clickupAccessToken: Globals.clickupAuthAccessToken,
                           task: task,
                         ));
@@ -303,7 +303,7 @@ class TaskPopup extends StatelessWidget {
                                                   .translate("delete"),
                                               onPressed: () {
                                                 taskPopupParams.onDelete!(
-                                                    DeleteClickupTaskParams(
+                                                    DeleteTaskParams(
                                                         task: taskPopupParams
                                                             .task!,
                                                         clickupAccessToken: Globals

@@ -24,7 +24,7 @@ class GetClickupTasksInSingleWorkspaceUseCase
 
 class GetClickupTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
-  final GetClickupTasksInWorkspaceFiltersParams filtersParams;
+  final GetTasksInWorkspaceFiltersParams filtersParams;
 
   const GetClickupTasksInWorkspaceParams({
     required this.workspaceId,
@@ -35,7 +35,7 @@ class GetClickupTasksInWorkspaceParams extends Equatable {
   List<Object?> get props => [workspaceId, filtersParams];
 }
 
-class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
+class GetTasksInWorkspaceFiltersParams extends Equatable {
   final int? page;
   final TasksOrderBy? tasksOrderBy;
   final bool? reverse;
@@ -60,7 +60,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
   final bool? includeParentTaskId;
   final ClickupAccessToken clickupAccessToken;
 
-  const GetClickupTasksInWorkspaceFiltersParams({
+  const GetTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
     this.reverse,
@@ -328,7 +328,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
         clickupAccessToken,
       ];
 
-  GetClickupTasksInWorkspaceFiltersParams copyWith({
+  GetTasksInWorkspaceFiltersParams copyWith({
     int? page,
     TasksOrderBy? tasksOrderBy,
     bool? reverse,
@@ -353,7 +353,7 @@ class GetClickupTasksInWorkspaceFiltersParams extends Equatable {
     bool? includeParentTaskId,
     ClickupAccessToken? clickupAccessToken,
   }) {
-    return GetClickupTasksInWorkspaceFiltersParams(
+    return GetTasksInWorkspaceFiltersParams(
       page: page ?? this.page,
       tasksOrderBy: tasksOrderBy ?? this.tasksOrderBy,
       reverse: reverse ?? this.reverse,

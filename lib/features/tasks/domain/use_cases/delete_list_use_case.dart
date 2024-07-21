@@ -8,13 +8,13 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
-class DeleteClickupListUseCase
-    implements UseCase<dartz.Unit, DeleteClickupListParams> {
+class DeleteListUseCase
+    implements UseCase<dartz.Unit, DeleteListParams> {
   final TasksRepo repo;
 
-  DeleteClickupListUseCase(this.repo);
+  DeleteListUseCase(this.repo);
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteClickupListParams params) async {
+  Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteListParams params) async {
     final result = await repo.deleteList(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
@@ -30,10 +30,10 @@ class DeleteClickupListUseCase
   }
 }
 
-class DeleteClickupListParams {
+class DeleteListParams {
   final TasksList list;
   final ClickupAccessToken clickupAccessToken;
-  DeleteClickupListParams({required this.list,required this.clickupAccessToken, });
+  DeleteListParams({required this.list,required this.clickupAccessToken, });
 
   String get listId => list.id ?? "";
 }

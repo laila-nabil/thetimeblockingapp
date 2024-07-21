@@ -16,7 +16,7 @@ import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/delete_clickup_task_use_case.dart';
+import '../../domain/use_cases/delete_task_use_case.dart';
 
 class TaskComponent extends StatelessWidget {
   const TaskComponent({
@@ -33,9 +33,9 @@ class TaskComponent extends StatelessWidget {
   final Task clickupTask;
   final Bloc<dynamic, dynamic> bloc;
   final bool Function(Object?) isLoading;
-  final void Function(DeleteClickupTaskParams) onDelete;
-  final void Function(ClickupTaskParams) onSave;
-  final void Function(ClickupTaskParams) onDuplicate;
+  final void Function(DeleteTaskParams) onDelete;
+  final void Function(CreateTaskParams) onSave;
+  final void Function(CreateTaskParams) onDuplicate;
   final bool showListChip;
 
   @override
@@ -51,7 +51,7 @@ class TaskComponent extends StatelessWidget {
                   CustomButton.noIcon(
                       label: appLocalization.translate("delete"),
                       onPressed: () {
-                        onDelete(DeleteClickupTaskParams(
+                        onDelete(DeleteTaskParams(
                             task: clickupTask,
                             clickupAccessToken:
                             Globals.clickupAuthAccessToken));
@@ -69,7 +69,7 @@ class TaskComponent extends StatelessWidget {
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(ClickupTaskParams.fromTask(clickupTask)))
+              onTap: () => onDuplicate(CreateTaskParams.fromTask(clickupTask)))
         ],
         showList: showListChip,
         onTap: () {
@@ -81,7 +81,7 @@ class TaskComponent extends StatelessWidget {
                   onDelete: onDelete,
                   onSave: onSave,
                   onDuplicate: () {
-                    onDuplicate(ClickupTaskParams.createNewTask(
+                    onDuplicate(CreateTaskParams.createNewTask(
                       clickupAccessToken: Globals.clickupAuthAccessToken,
                       clickupList: clickupTask.list!,
                       title: clickupTask.name ?? "",

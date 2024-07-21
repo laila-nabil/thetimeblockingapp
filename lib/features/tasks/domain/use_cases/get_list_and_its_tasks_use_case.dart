@@ -12,18 +12,18 @@ import '../../../../core/globals.dart';
 import '../entities/task.dart';
 import 'get_clickup_tasks_in_single_workspace_use_case.dart';
 
-class GetClickupListAndItsTasksUseCase {
+class GetListAndItsTasksUseCase {
   final TasksRepo repo;
 
-  GetClickupListAndItsTasksUseCase(this.repo);
+  GetListAndItsTasksUseCase(this.repo);
 
-  GetClickupTasksInWorkspaceFiltersParams
+  GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
     if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
       filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
     }
-    return GetClickupTasksInWorkspaceFiltersParams(
+    return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
       clickupAccessToken: Globals.clickupAuthAccessToken,
       filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],

@@ -5,7 +5,7 @@ abstract class TaskPopUpEvent extends Equatable {
 }
 
 class UpdateTaskParamsEvent extends TaskPopUpEvent{
-  final ClickupTaskParams taskParams;
+  final CreateTaskParams taskParams;
 
   const UpdateTaskParamsEvent({required this.taskParams});
   @override

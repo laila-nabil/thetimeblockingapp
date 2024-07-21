@@ -25,7 +25,7 @@ class GetClickupTasksInAllWorkspacesUseCase {
 
 class GetClickupTasksInAllWorkspacesParams extends Equatable {
   final List<String> workspacesIds;
-  final GetClickupTasksInWorkspaceFiltersParams filtersParams;
+  final GetTasksInWorkspaceFiltersParams filtersParams;
 
   const GetClickupTasksInAllWorkspacesParams({
     required this.workspacesIds,

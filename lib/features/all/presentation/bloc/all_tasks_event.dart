@@ -19,7 +19,7 @@ class GetTasksInSpaceEvent extends AllTasksEvent {
 }
 
 class CreateTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const CreateTaskEvent({
@@ -32,7 +32,7 @@ class CreateTaskEvent extends AllTasksEvent {
 }
 
 class DuplicateTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const DuplicateTaskEvent({
@@ -45,7 +45,7 @@ class DuplicateTaskEvent extends AllTasksEvent {
 }
 
 class UpdateTaskEvent extends AllTasksEvent {
-  final ClickupTaskParams params;
+  final CreateTaskParams params;
   final Workspace workspace;
 
   const UpdateTaskEvent({
@@ -58,7 +58,7 @@ class UpdateTaskEvent extends AllTasksEvent {
 }
 
 class DeleteTaskEvent extends AllTasksEvent {
-  final DeleteClickupTaskParams params;
+  final DeleteTaskParams params;
   final Workspace workspace;
 
   const DeleteTaskEvent({
