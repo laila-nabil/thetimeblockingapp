@@ -63,7 +63,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
-              clickupAccessToken: Globals.clickupAuthAccessToken,
+              clickupAccessToken: Globals.AccessToken,
               updatedDueDate: details.endTime,
             )));
       },
@@ -79,7 +79,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: task,
-              clickupAccessToken: Globals.clickupAuthAccessToken,
+              clickupAccessToken: Globals.AccessToken,
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,

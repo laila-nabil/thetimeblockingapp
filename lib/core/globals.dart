@@ -43,7 +43,7 @@ class Globals {
 
   static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
-  static ClickupAccessToken get clickupAuthAccessToken =>
+  static ClickupAccessToken get AccessToken =>
       _clickupAuthAccessToken;
 
   static User? get clickupUser => _clickupUser;

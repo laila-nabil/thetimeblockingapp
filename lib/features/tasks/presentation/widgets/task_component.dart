@@ -21,7 +21,7 @@ import '../../domain/use_cases/delete_task_use_case.dart';
 class TaskComponent extends StatelessWidget {
   const TaskComponent({
     super.key,
-    required this.clickupTask,
+    required this.task,
     required this.bloc,
     required this.isLoading,
     required this.onDelete,
@@ -30,7 +30,7 @@ class TaskComponent extends StatelessWidget {
     this.showListChip = true,
   });
 
-  final Task clickupTask;
+  final Task task;
   final Bloc<dynamic, dynamic> bloc;
   final bool Function(Object?) isLoading;
   final void Function(DeleteTaskParams) onDelete;
@@ -52,9 +52,9 @@ class TaskComponent extends StatelessWidget {
                       label: appLocalization.translate("delete"),
                       onPressed: () {
                         onDelete(DeleteTaskParams(
-                            task: clickupTask,
-                            clickupAccessToken:
-                            Globals.clickupAuthAccessToken));
+                            task: task,
+                            accessToken:
+                            Globals.AccessToken));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -64,41 +64,41 @@ class TaskComponent extends StatelessWidget {
                       }),
                 ],
                 content: Text(
-                    "${appLocalization.translate("areYouSureDelete")} ${clickupTask.name}?"),
+                    "${appLocalization.translate("areYouSureDelete")} ${task.name}?"),
               )),
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(CreateTaskParams.fromTask(clickupTask)))
+              onTap: () => onDuplicate(CreateTaskParams.fromTask(task)))
         ],
         showList: showListChip,
         onTap: () {
           showTaskPopup(
               context: context,
               taskPopupParams: TaskPopupParams.open(
-                  task: clickupTask,
+                  task: task,
                   bloc: bloc,
                   onDelete: onDelete,
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
-                      clickupList: clickupTask.list!,
-                      title: clickupTask.name ?? "",
-                      description: clickupTask.description,
-                      dueDate: clickupTask.dueDateUtc,
-                      folder: clickupTask.folder,
-                      space: clickupTask.space,
-                      tags: clickupTask.tags,
-                      taskPriority: clickupTask.priority,
-                      startDate: clickupTask.startDateUtc,
-                      timeEstimate: clickupTask.timeEstimate,
+                      AccessToken: Globals.AccessToken,
+                      list: task.list!,
+                      title: task.name ?? "",
+                      description: task.description,
+                      dueDate: task.dueDateUtc,
+                      folder: task.folder,
+                      space: task.space,
+                      tags: task.tags,
+                      taskPriority: task.priority,
+                      startDate: task.startDateUtc,
+                      timeEstimate: task.timeEstimate,
                     ));
                     Navigator.pop(context);
                   },
                   isLoading: (state) => isLoading(state)));
         },
-        clickupTask: clickupTask);
+        task: task);
   }
 }
 
@@ -106,12 +106,12 @@ class TaskWidget extends StatefulWidget {
   const TaskWidget(
       {super.key,
       required this.onTap,
-      required this.clickupTask,
+      required this.task,
       required this.showList,
       this.actions});
 
   final void Function() onTap;
-  final Task clickupTask;
+  final Task task;
   final bool showList;
   final List<CustomPopupItem>? actions;
 
@@ -129,8 +129,8 @@ class _TaskWidgetState extends State<TaskWidget> {
         appFontSize: AppFontSize.paragraphX2Small,
         color: AppColors.grey(context.isDarkMode).shade400,
         appFontWeight: AppFontWeight.semiBold));
-    final folderName = widget.clickupTask.folder?.name;
-    final listName = widget.clickupTask.list?.name;
+    final folderName = widget.task.folder?.name;
+    final listName = widget.task.list?.name;
     final isListInsideFolder =
         folderName?.isNotEmpty == true;
     return InkWell(
@@ -205,11 +205,11 @@ class _TaskWidgetState extends State<TaskWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          widget.clickupTask.status ==
+                          widget.task.status ==
                                   Globals.selectedSpace?.statuses?.last
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
-                          color: widget.clickupTask.status?.getColor ??
+                          color: widget.task.status?.getColor ??
                               AppColors.text(context.isDarkMode),
                           size: 20,
                         ),
@@ -218,13 +218,13 @@ class _TaskWidgetState extends State<TaskWidget> {
                         ),
                         Expanded(
                           child: Text(
-                            widget.clickupTask.name ?? "",
+                            widget.task.name ?? "",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                     appFontSize: AppFontSize.paragraphSmall,
                                     color: AppColors.grey(context.isDarkMode).shade900,
                                     appFontWeight: AppFontWeight.semiBold))
                                 .copyWith(
-                                    decoration: widget.clickupTask.isCompleted
+                                    decoration: widget.task.isCompleted
                                         ? TextDecoration.lineThrough
                                         : null),
                           ),
@@ -239,10 +239,10 @@ class _TaskWidgetState extends State<TaskWidget> {
                   ),
               ],
             ),
-            if (widget.clickupTask.startDateUtc != null &&
-                widget.clickupTask.dueDateUtc != null)
+            if (widget.task.startDateUtc != null &&
+                widget.task.dueDateUtc != null)
               Text(
-                  "🕑 ${DateTimeExtensions.customToString(widget.clickupTask.startDateUtc)} => ${DateTimeExtensions.customToString(widget.clickupTask.dueDateUtc)}",
+                  "🕑 ${DateTimeExtensions.customToString(widget.task.startDateUtc)} => ${DateTimeExtensions.customToString(widget.task.dueDateUtc)}",
                   style: dateTextStyle)
             else
               Text("", style: dateTextStyle),
@@ -254,7 +254,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                 runSpacing: AppSpacing.x2Small4.value,
                 direction: Axis.horizontal,
                 verticalDirection: VerticalDirection.down,
-                children: widget.clickupTask.tags
+                children: widget.task.tags
                         ?.map((e) => TagChip(
                             tagName: e.name ?? "", color: e.getTagFgColor))
                         .toList() ??

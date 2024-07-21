@@ -109,7 +109,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
           add(GetTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              clickupAccessToken: event.params.accessToken,
               space: event.params.task.space!,
               workspace: event.workspace));
         });

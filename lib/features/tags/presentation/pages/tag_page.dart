@@ -64,7 +64,7 @@ class TagPage extends StatelessWidget {
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetTasksForTagEvent(
-                    clickupAccessToken: Globals.clickupAuthAccessToken,
+                    clickupAccessToken: Globals.AccessToken,
                     workspace: Globals.selectedWorkspace!,
                     tag: state.navigateTag!,
                     space: Globals.selectedSpace!));
@@ -81,7 +81,7 @@ class TagPage extends StatelessWidget {
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
                                 clickupAccessToken:
-                                    Globals.clickupAuthAccessToken)));
+                                    Globals.AccessToken)));
                       },
                       titleWidget: Row(
                         children: [
@@ -96,7 +96,7 @@ class TagPage extends StatelessWidget {
                                 space: Globals.selectedSpace!,
                                 tag: state.navigateTag!,
                                 clickupAccessToken:
-                                    Globals.clickupAuthAccessToken)));
+                                    Globals.AccessToken)));
                       },
                       titleWidget: Row(
                         children: [
@@ -148,7 +148,7 @@ class TagPage extends StatelessWidget {
                                         insideTagPage: true,
                                         params: UpdateTagParams(
                                             clickupAccessToken:
-                                                Globals.clickupAuthAccessToken,
+                                                Globals.AccessToken,
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)
                                                 .getModel,
@@ -224,13 +224,13 @@ class TagPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   tagsPageBloc.add(GetTasksForTagEvent(
-                      clickupAccessToken: Globals.clickupAuthAccessToken,
+                      clickupAccessToken: Globals.AccessToken,
                       workspace: Globals.selectedWorkspace!,
                       tag: state.navigateTag!,
                       space: Globals.selectedSpace!));
                   startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                       clickupWorkspace: Globals.selectedWorkspace!,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupAccessToken: Globals.AccessToken));
                 },
               );
             },
@@ -243,7 +243,7 @@ class TagPage extends StatelessWidget {
   StatelessWidget buildTaskWidget(
       Task e, BuildContext context, TagsPageBloc tagsPageBloc) {
     return TaskComponent(
-      clickupTask: e,
+      task: e,
       bloc: tagsPageBloc,
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {

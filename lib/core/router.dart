@@ -45,14 +45,14 @@ final router = GoRouter(
     redirect: (context, GoRouterState? state) {
       printDebug("state?.location ${state?.location}");
       printDebug("state?.queryParameters ${state?.queryParameters}");
-      printDebug("Globals.clickupAuthAccessToken ${Globals.clickupAuthAccessToken}");
+      printDebug("Globals.clickupAuthAccessToken ${Globals.AccessToken}");
       printDebug("Globals.clickupUser ${Globals.clickupUser}");
       printDebug("Globals.clickupWorkspaces ${Globals.clickupWorkspaces}");
       printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.queryParameters != null &&
           state?.queryParameters["code"] != null) {
         return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
-      } else if (Globals.clickupAuthAccessToken.accessToken.isEmpty ||
+      } else if (Globals.AccessToken.accessToken.isEmpty ||
           Globals.clickupUser == null ||
           Globals.clickupWorkspaces?.isNotEmpty == false) {
         if(state?.location != AuthPage.routeName){
@@ -76,7 +76,7 @@ final router = GoRouter(
             return AuthPage(code: code,);
           },
           redirect: (context, state) async {
-            if (Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
+            if (Globals.AccessToken.accessToken.isNotEmpty &&
                 Globals.clickupUser != null &&
                 Globals.clickupWorkspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
@@ -93,7 +93,7 @@ final router = GoRouter(
           return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
         },
         redirect: (context,state) async{
-          final userLoggedIn = Globals.clickupAuthAccessToken.accessToken.isNotEmpty &&
+          final userLoggedIn = Globals.AccessToken.accessToken.isNotEmpty &&
               Globals.clickupUser != null &&
               Globals.clickupWorkspaces?.isNotEmpty == true;
           if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){

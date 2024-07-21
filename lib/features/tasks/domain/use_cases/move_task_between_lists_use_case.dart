@@ -24,8 +24,8 @@ class MoveTaskBetweenListsUseCase
     dartz.Either<Failure, Task>? createResult;
     dartz.Either<Failure, dartz.Unit>? deleteResult;
     createResult = await repo.createTaskInList(CreateTaskParams.createNewTask(
-        clickupAccessToken: params.clickupAccessToken,
-        clickupList: params.newList,
+        AccessToken: params.clickupAccessToken,
+        list: params.newList,
         title: task.name ?? "",
         startDate: task.startDateUtc,
         taskPriority: task.priority,
@@ -37,7 +37,7 @@ class MoveTaskBetweenListsUseCase
         tags: task.tags));
     if (createResult?.isRight() == true) {
       deleteResult = await repo.deleteTask(DeleteTaskParams(
-          task: task, clickupAccessToken: params.clickupAccessToken));
+          task: task, accessToken: params.clickupAccessToken));
     }
     if (createResult?.isRight() == true && deleteResult?.isRight() == true) {
       await serviceLocator<Analytics>()

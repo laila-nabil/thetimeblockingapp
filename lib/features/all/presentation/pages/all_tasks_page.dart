@@ -94,7 +94,7 @@ class AllTasksPage extends StatelessWidget {
                                   startupBloc.add(SelectSpace(
                                       clickupSpace: selected,
                                       clickupAccessToken:
-                                          Globals.clickupAuthAccessToken));
+                                          Globals.AccessToken));
                                   getAllTasksInSpace(allTasksBloc);
                                 }
                               },
@@ -172,7 +172,7 @@ class AllTasksPage extends StatelessWidget {
                 getAllTasksInSpace(allTasksBloc);
                 startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                     clickupWorkspace: Globals.selectedWorkspace!,
-                    clickupAccessToken: Globals.clickupAuthAccessToken));
+                    clickupAccessToken: Globals.AccessToken));
               },);
             },
           );
@@ -184,7 +184,7 @@ class AllTasksPage extends StatelessWidget {
   StatelessWidget buildTaskWidget(Task e, BuildContext context,
       AllTasksBloc allTasksBloc) {
     return TaskComponent(
-      clickupTask: e,
+      task: e,
       bloc: allTasksBloc,
       onDelete: (params) {
         allTasksBloc.add(DeleteTaskEvent(
@@ -206,7 +206,7 @@ class AllTasksPage extends StatelessWidget {
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
     allTasksBloc.add(GetTasksInSpaceEvent(
-        clickupAccessToken: Globals.clickupAuthAccessToken,
+        clickupAccessToken: Globals.AccessToken,
         workspace: Globals.selectedWorkspace!,
         space: Globals.selectedSpace!));
   }

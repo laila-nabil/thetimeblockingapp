@@ -48,7 +48,7 @@ class ListPage extends StatelessWidget {
                         GetClickupListAndItsTasksParams(
                             listId: listId,
                             clickupAccessToken:
-                                Globals.clickupAuthAccessToken)));
+                                Globals.AccessToken)));
               }
               return ResponsiveScaffold(
                 ///TODO Bulk actions on tasks
@@ -147,10 +147,10 @@ class ListPage extends StatelessWidget {
                           GetClickupListAndItsTasksParams(
                               listId: listId,
                               clickupAccessToken:
-                                  Globals.clickupAuthAccessToken)));
+                                  Globals.AccessToken)));
                   startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                       clickupWorkspace: Globals.selectedWorkspace!,
-                      clickupAccessToken: Globals.clickupAuthAccessToken));
+                      clickupAccessToken: Globals.AccessToken));
                 },
               );
             },
@@ -164,7 +164,7 @@ class ListPage extends StatelessWidget {
       Task e, BuildContext context, ListsPageBloc listsPageBloc) {
     // return Container();
     return TaskComponent(
-      clickupTask: e,
+      task: e,
       bloc: listsPageBloc,
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,

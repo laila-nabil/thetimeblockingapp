@@ -368,7 +368,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           add(GetListDetailsAndTasksInListEvent(
               getClickupListAndItsTasksParams: GetClickupListAndItsTasksParams(
                   listId: event.params.task.list?.id??"",
-                  clickupAccessToken: event.params.clickupAccessToken)));
+                  clickupAccessToken: event.params.accessToken)));
         });
       }
     });

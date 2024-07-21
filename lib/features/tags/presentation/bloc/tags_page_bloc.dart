@@ -206,7 +206,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              clickupAccessToken: event.params.accessToken,
               space: event.params.task.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));

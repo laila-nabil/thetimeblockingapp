@@ -25,7 +25,7 @@ class GetListAndItsTasksUseCase {
     }
     return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
-      clickupAccessToken: Globals.clickupAuthAccessToken,
+      clickupAccessToken: Globals.AccessToken,
       filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
     );
   }

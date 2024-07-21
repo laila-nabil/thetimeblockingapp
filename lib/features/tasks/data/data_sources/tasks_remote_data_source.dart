@@ -151,7 +151,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     await network.delete(
       uri: uri,
-      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+      headers: clickupHeader(clickupAccessToken: params.accessToken),
     );
     return dartz.unit;
   }

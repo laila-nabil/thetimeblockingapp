@@ -64,7 +64,7 @@ class ListsPage extends StatelessWidget {
                                       DeleteListParams(
                                           list: state.toDeleteList!,
                                           clickupAccessToken:
-                                              Globals.clickupAuthAccessToken),
+                                              Globals.AccessToken),
                                   clickupWorkspace: Globals.selectedWorkspace!,
                                   clickupSpace: Globals.selectedSpace!));
                               Navigator.pop(context);
@@ -97,7 +97,7 @@ class ListsPage extends StatelessWidget {
                                       DeleteFolderParams(
                                           folder: state.toDeleteFolder!,
                                           clickupAccessToken:
-                                              Globals.clickupAuthAccessToken),
+                                              Globals.AccessToken),
                                   clickupWorkspace: Globals.selectedWorkspace!,
                                   clickupSpace: Globals.selectedSpace!));
                               Navigator.pop(context);
@@ -215,7 +215,7 @@ class ListsPage extends StatelessWidget {
                                                                   createClickupListInFolderParams: CreateListInFolderParams(
                                                                       clickupAccessToken:
                                                                           Globals
-                                                                              .clickupAuthAccessToken,
+                                                                              .AccessToken,
                                                                       clickupFolder:
                                                                           folder,
                                                                       listName:
@@ -270,7 +270,7 @@ class ListsPage extends StatelessWidget {
                                                             CreateFolderInSpaceParams(
                                                                 clickupAccessToken:
                                                                     Globals
-                                                                        .clickupAuthAccessToken,
+                                                                        .AccessToken,
                                                                 folderName: text,
                                                                 clickupSpace: Globals
                                                                     .selectedSpace!),
@@ -305,7 +305,7 @@ class ListsPage extends StatelessWidget {
                                                           CreateFolderlessListParams(
                                                               clickupAccessToken:
                                                                   Globals
-                                                                      .clickupAuthAccessToken,
+                                                                      .AccessToken,
                                                               listName: text,
                                                               clickupSpace: Globals
                                                                   .selectedSpace!),
@@ -341,7 +341,7 @@ class ListsPage extends StatelessWidget {
               getListsFolders(listsPageBloc);
               startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                   clickupWorkspace: Globals.selectedWorkspace!,
-                  clickupAccessToken: Globals.clickupAuthAccessToken));
+                  clickupAccessToken: Globals.AccessToken));
             },);
           },
         );
@@ -351,7 +351,7 @@ class ListsPage extends StatelessWidget {
 
   void getListsFolders(ListsPageBloc listsPageBloc) {
     listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
-      clickupAccessToken: Globals.clickupAuthAccessToken,
+      clickupAccessToken: Globals.AccessToken,
       clickupWorkspace: Globals.selectedWorkspace!,
       clickupSpace: Globals.selectedSpace!,
     ));

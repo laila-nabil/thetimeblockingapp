@@ -69,8 +69,8 @@ class CreateTaskParams extends Equatable{
 
   factory CreateTaskParams.fromTask(Task clickupTask){
     return CreateTaskParams.createNewTask(
-      clickupAccessToken: Globals.clickupAuthAccessToken,
-      clickupList: clickupTask.list!,
+      AccessToken: Globals.AccessToken,
+      list: clickupTask.list!,
       title: clickupTask.name ?? "",
       description: clickupTask.description,
       dueDate: clickupTask.dueDateUtc,
@@ -163,8 +163,8 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.createNewTask({
-    required ClickupAccessToken clickupAccessToken,
-    required TasksList clickupList,
+    required ClickupAccessToken AccessToken,
+    required TasksList list,
     required String title,
     String? description,
     List<Tag>? tags,
@@ -183,9 +183,9 @@ class CreateTaskParams extends Equatable{
     printDebug("ClickupTaskParams createNewTask task");
     return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
-          clickupAccessToken: clickupAccessToken,
+          clickupAccessToken: AccessToken,
           clickupSpace: space,
-          clickupList: clickupList,
+          clickupList: list,
           folder: folder,
           title: title,
           description: description,

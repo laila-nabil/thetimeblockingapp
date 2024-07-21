@@ -221,7 +221,7 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.AccessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide
@@ -230,7 +230,7 @@ class TaskPopup extends StatelessWidget {
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag)
                       : CreateTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.AccessToken,
                           task: task,
                         )));
           },
@@ -249,12 +249,12 @@ class TaskPopup extends StatelessWidget {
               final clickupTaskParams = state.taskParams ??
                   (task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.AccessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
                       : CreateTaskParams.startUpdateTask(
-                          clickupAccessToken: Globals.clickupAuthAccessToken,
+                          clickupAccessToken: Globals.AccessToken,
                           task: task,
                         ));
               printDebug("clickupTaskParams $clickupTaskParams");
@@ -306,8 +306,8 @@ class TaskPopup extends StatelessWidget {
                                                     DeleteTaskParams(
                                                         task: taskPopupParams
                                                             .task!,
-                                                        clickupAccessToken: Globals
-                                                            .clickupAuthAccessToken));
+                                                        accessToken: Globals
+                                                            .AccessToken));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType

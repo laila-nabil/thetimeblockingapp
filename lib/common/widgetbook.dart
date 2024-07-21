@@ -2401,7 +2401,7 @@ class WidgetBookApp extends StatelessWidget {
                         children: [
                           TaskWidget(
                             showList: showList,
-                            clickupTask: task,
+                            task: task,
                             onTap: () {},
                           )
                         ],
@@ -2514,12 +2514,12 @@ class WidgetBookApp extends StatelessWidget {
                       children: [
                         TaskWidget(
                           showList: showList1,
-                          clickupTask: task1,
+                          task: task1,
                           onTap: () {},
                         ),
                         TaskWidget(
                           showList: showList2,
-                          clickupTask: task2,
+                          task: task2,
                           onTap: () {},
                         )
                       ],
