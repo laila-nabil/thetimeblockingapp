@@ -7,14 +7,14 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_task_use_case.dart';
 
 import '../../../../core/globals.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import '../../../tasks/domain/use_cases/get_tasks_in_all_workspaces_use_case.dart';
+import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 part 'schedule_event.dart';
 
@@ -22,12 +22,12 @@ part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
-  final GetClickupTasksInSingleWorkspaceUseCase
+  final GetTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
 
   final CreateTaskUseCase _createClickupTaskUseCase;
   final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
+  final UpdateTaskUseCase _updateClickupTaskUseCase;
   final DeleteTaskUseCase _deleteClickupTaskUseCase;
   final CalendarController controller = CalendarController();
 

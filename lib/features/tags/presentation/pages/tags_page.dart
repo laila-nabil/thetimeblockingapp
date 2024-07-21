@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
@@ -22,7 +22,7 @@ import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../tasks/data/models/clickup_task_model.dart';
 import '../../../tasks/domain/use_cases/create_tag_in_space_use_case.dart';
-import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
+import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
 
@@ -138,7 +138,7 @@ class TagsPage extends StatelessWidget {
                                                                                 .submit(
                                                                           insideTagPage:
                                                                               false,
-                                                                          params: UpdateClickupTagParams(
+                                                                          params: UpdateTagParams(
                                                                               clickupAccessToken: Globals
                                                                                   .clickupAuthAccessToken,
                                                                               newTag: tag
@@ -162,7 +162,7 @@ class TagsPage extends StatelessWidget {
                                                         onTap: () {
                                                           tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                                                               insideTagPage: false,
-                                                              params: UpdateClickupTagParams(
+                                                              params: UpdateTagParams(
                                                                   space: Globals
                                                                       .selectedSpace!,
                                                                   newTag:

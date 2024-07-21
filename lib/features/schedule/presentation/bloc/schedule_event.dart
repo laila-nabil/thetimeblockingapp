@@ -5,7 +5,7 @@ abstract class ScheduleEvent extends Equatable {
 }
 
 class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
-  final GetClickupTasksInAllWorkspacesParams
+  final GetTasksInAllWorkspacesParams
       getClickupTasksInAllWorkspacesParams;
 
   const GetTasksForAllWorkspacesScheduleEvent(
@@ -18,7 +18,7 @@ class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
 
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   final String? id;
-  final GetClickupTasksInWorkspaceParams params;
+  final GetTasksInWorkspaceParams params;
 
   const GetTasksForSingleWorkspaceScheduleEvent(this.params, {this.id});
 

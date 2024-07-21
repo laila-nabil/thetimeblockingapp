@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
@@ -68,7 +68,7 @@ class SchedulePage extends StatelessWidget {
                   Navigator.maybePop(context);
                 }
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                    GetClickupTasksInWorkspaceParams(
+                    GetTasksInWorkspaceParams(
                         workspaceId:
                             startUpCurrentState.selectedClickupWorkspace?.id ??
                                 Globals.clickupWorkspaces?.first.id ??
@@ -145,7 +145,7 @@ class SchedulePage extends StatelessWidget {
                 var selectedWorkspace =
                     Globals.selectedWorkspace ?? Globals.defaultWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
-                    GetClickupTasksInWorkspaceParams(
+                    GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? "",
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));

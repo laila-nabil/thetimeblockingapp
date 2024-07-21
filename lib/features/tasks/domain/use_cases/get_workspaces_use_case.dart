@@ -8,15 +8,15 @@ import '../../../../common/entities/workspace.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../repositories/tasks_repo.dart';
 
-class GetClickupWorkspacesUseCase
-    implements UseCase<List<Workspace>, GetClickupWorkspacesParams> {
+class GetWorkspacesUseCase
+    implements UseCase<List<Workspace>, GetWorkspacesParams> {
   final TasksRepo repo;
 
-  GetClickupWorkspacesUseCase(this.repo);
+  GetWorkspacesUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, List<Workspace>>?> call(
-      GetClickupWorkspacesParams params) async {
+      GetWorkspacesParams params) async {
     final result = await repo.getClickupWorkspaces(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
@@ -33,10 +33,10 @@ class GetClickupWorkspacesUseCase
   }
 }
 
-class GetClickupWorkspacesParams extends Equatable {
+class GetWorkspacesParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
 
-  const GetClickupWorkspacesParams(this.clickupAccessToken);
+  const GetWorkspacesParams(this.clickupAccessToken);
 
   @override
   List<Object?> get props => [clickupAccessToken];

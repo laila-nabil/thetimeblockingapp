@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
 import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../../tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/entities/clickup_access_token.dart';
 import '../../domain/use_cases/get_clickup_access_token_use_case.dart';
 import '../../domain/use_cases/get_clickup_user_use_case.dart';
@@ -22,7 +22,7 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetClickupAccessTokenUseCase _getClickupAccessTokenUseCase;
   final GetClickupUserUseCase _getClickupUserUseCase;
-  final GetClickupWorkspacesUseCase _getClickupWorkspacesUseCase;
+  final GetWorkspacesUseCase _getClickupWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
   final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
 
@@ -79,7 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   .updatedAuthStates(AuthStateEnum.getClickupUserSuccess)));
         });
         final getClickupWorkspaces = await _getClickupWorkspacesUseCase(
-            GetClickupWorkspacesParams(event.accessToken));
+            GetWorkspacesParams(event.accessToken));
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));

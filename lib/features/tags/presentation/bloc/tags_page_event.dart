@@ -60,7 +60,7 @@ class CreateTagInSpaceEvent extends TagsPageEvent {
 }
 
 class UpdateTagEvent extends TagsPageEvent {
-  UpdateClickupTagParams? params;
+  UpdateTagParams? params;
   bool? tryEvent;
   final bool insideTagPage;
   UpdateTagEvent.tryUpdate({this.params,required this.insideTagPage}) {

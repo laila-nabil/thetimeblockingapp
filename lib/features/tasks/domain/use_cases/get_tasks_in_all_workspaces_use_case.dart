@@ -3,19 +3,19 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import '../../../../core/print_debug.dart';
-import 'get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'get_tasks_in_single_workspace_use_case.dart';
 
 
-class GetClickupTasksInAllWorkspacesUseCase {
-  final GetClickupTasksInSingleWorkspaceUseCase getClickupTasksInSingleWorkspaceUseCase;
-  GetClickupTasksInAllWorkspacesUseCase(this.getClickupTasksInSingleWorkspaceUseCase);
+class GetTasksInAllWorkspacesUseCase {
+  final GetTasksInSingleWorkspaceUseCase getClickupTasksInSingleWorkspaceUseCase;
+  GetTasksInAllWorkspacesUseCase(this.getClickupTasksInSingleWorkspaceUseCase);
 
   Future<Map<String, dartz.Either<Failure, List<Task>>?>> call(
-      GetClickupTasksInAllWorkspacesParams params) async {
+      GetTasksInAllWorkspacesParams params) async {
     Map<String,dartz.Either<Failure,List<Task>>?> result = {};
     for (var element in params.workspacesIds) {
       result[element] = await getClickupTasksInSingleWorkspaceUseCase(
-          GetClickupTasksInWorkspaceParams(
+          GetTasksInWorkspaceParams(
               workspaceId: element, filtersParams: params.filtersParams));
     }
     printDebug("result $result");
@@ -23,11 +23,11 @@ class GetClickupTasksInAllWorkspacesUseCase {
   }
 }
 
-class GetClickupTasksInAllWorkspacesParams extends Equatable {
+class GetTasksInAllWorkspacesParams extends Equatable {
   final List<String> workspacesIds;
   final GetTasksInWorkspaceFiltersParams filtersParams;
 
-  const GetClickupTasksInAllWorkspacesParams({
+  const GetTasksInAllWorkspacesParams({
     required this.workspacesIds,
     required this.filtersParams,
   });

@@ -11,16 +11,16 @@ import '../../../../core/print_debug.dart';
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
 
-class GetClickupSpacesInWorkspacesUseCase
+class GetSpacesInWorkspacesUseCase
     with GlobalsWriteAccess
-    implements UseCase<List<Space>, GetClickupSpacesInWorkspacesParams> {
+    implements UseCase<List<Space>, GetSpacesInWorkspacesParams> {
   final TasksRepo repo;
 
-  GetClickupSpacesInWorkspacesUseCase(this.repo);
+  GetSpacesInWorkspacesUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, List<Space>>?> call(
-      GetClickupSpacesInWorkspacesParams params) async {
+      GetSpacesInWorkspacesParams params) async {
     final result = await repo.getClickupSpacesInWorkspaces(params: params);
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
@@ -42,12 +42,12 @@ class GetClickupSpacesInWorkspacesUseCase
   }
 }
 
-class GetClickupSpacesInWorkspacesParams extends Equatable {
+class GetSpacesInWorkspacesParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Workspace clickupWorkspace;
   final bool? archived;
 
-  const GetClickupSpacesInWorkspacesParams({
+  const GetSpacesInWorkspacesParams({
     required this.clickupAccessToken,
     required this.clickupWorkspace,
     this.archived,

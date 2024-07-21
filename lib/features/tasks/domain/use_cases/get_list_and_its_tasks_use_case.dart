@@ -6,11 +6,11 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 
 import '../../../../core/globals.dart';
 import '../entities/task.dart';
-import 'get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'get_tasks_in_single_workspace_use_case.dart';
 
 class GetListAndItsTasksUseCase {
   final TasksRepo repo;
@@ -32,7 +32,7 @@ class GetListAndItsTasksUseCase {
 
   Future<GetClickupListAndItsTasksResult?> call(
       GetClickupListAndItsTasksParams params) async {
-    final listResult = await repo.getClickupList(GetClickupListParams(
+    final listResult = await repo.getClickupList(GetListParams(
         listId: params.listId, clickupAccessToken: params.clickupAccessToken));
     await listResult?.fold(
         (l) async => await serviceLocator<Analytics>()
@@ -47,7 +47,7 @@ class GetListAndItsTasksUseCase {
               AnalyticsEventParameter.status.name: true,
             }));
     final tasksResult = await repo.getTasksInWorkspace(
-        params: GetClickupTasksInWorkspaceParams(
+        params: GetTasksInWorkspaceParams(
             workspaceId: Globals.selectedWorkspace?.id ?? "",
             filtersParams: defaultTasksInWorkspaceFiltersParams
                 .copyWith(filterByListsIds: [params.listId])));

@@ -11,15 +11,15 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_u
 
 import '../../../auth/domain/entities/clickup_access_token.dart';
 
-class MoveClickupTaskBetweenListsUseCase
-    implements UseCase<dartz.Unit, MoveClickupTaskBetweenListsParams> {
+class MoveTaskBetweenListsUseCase
+    implements UseCase<dartz.Unit, MoveTaskBetweenListsParams> {
   final TasksRepo repo;
 
-  MoveClickupTaskBetweenListsUseCase(this.repo);
+  MoveTaskBetweenListsUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(
-      MoveClickupTaskBetweenListsParams params) async {
+      MoveTaskBetweenListsParams params) async {
     Task task = params.task;
     dartz.Either<Failure, Task>? createResult;
     dartz.Either<Failure, dartz.Unit>? deleteResult;
@@ -59,12 +59,12 @@ class MoveClickupTaskBetweenListsUseCase
   }
 }
 
-class MoveClickupTaskBetweenListsParams {
+class MoveTaskBetweenListsParams {
   final Task task;
   final TasksList newList;
   final ClickupAccessToken clickupAccessToken;
 
-  MoveClickupTaskBetweenListsParams(
+  MoveTaskBetweenListsParams(
       {required this.task,
       required this.newList,
       required this.clickupAccessToken});

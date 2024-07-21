@@ -9,24 +9,24 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 
 import '../entities/tasks_order_by.dart';
 
-class GetClickupTasksInSingleWorkspaceUseCase
-    implements UseCase<List<Task>, GetClickupTasksInWorkspaceParams> {
+class GetTasksInSingleWorkspaceUseCase
+    implements UseCase<List<Task>, GetTasksInWorkspaceParams> {
   final TasksRepo repo;
 
-  GetClickupTasksInSingleWorkspaceUseCase(this.repo);
+  GetTasksInSingleWorkspaceUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, List<Task>>?> call(
-      GetClickupTasksInWorkspaceParams params) {
+      GetTasksInWorkspaceParams params) {
     return repo.getTasksInWorkspace(params: params);
   }
 }
 
-class GetClickupTasksInWorkspaceParams extends Equatable {
+class GetTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
   final GetTasksInWorkspaceFiltersParams filtersParams;
 
-  const GetClickupTasksInWorkspaceParams({
+  const GetTasksInWorkspaceParams({
     required this.workspaceId,
     required this.filtersParams,
   });

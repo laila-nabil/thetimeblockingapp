@@ -8,26 +8,26 @@ import '../entities/folder.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
-class GetClickupListsInFolderUseCase
-    implements UseCase<List<TasksList>, GetClickupListsInFolderParams> {
+class GetListsInFolderUseCase
+    implements UseCase<List<TasksList>, GetListsInFolderParams> {
   final TasksRepo repo;
 
-  GetClickupListsInFolderUseCase(this.repo);
+  GetListsInFolderUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, List<TasksList>>?> call(
-      GetClickupListsInFolderParams params) {
+      GetListsInFolderParams params) {
     return repo.getClickupListsInFolder(params: params);
   }
 }
 
-class GetClickupListsInFolderParams extends Equatable {
+class GetListsInFolderParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Space clickupSpace;
   final Folder clickupFolder;
   final bool? archived;
 
-  const GetClickupListsInFolderParams({
+  const GetListsInFolderParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     required this.clickupFolder,

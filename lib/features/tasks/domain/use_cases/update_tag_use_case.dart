@@ -10,8 +10,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 
 import '../entities/task.dart';
 
-class UpdateClickupTagUseCase
-    implements UseCase<dartz.Unit, UpdateClickupTagParams> {
+class UpdateTagUseCase
+    implements UseCase<dartz.Unit, UpdateTagParams> {
 
   final TasksRepo repo;
 
@@ -20,10 +20,10 @@ class UpdateClickupTagUseCase
           tag.name?.endsWith("?") == false &&
           tag.name?.endsWith("؟") == false;
 
-  UpdateClickupTagUseCase(this.repo);
+  UpdateTagUseCase(this.repo);
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(
-      UpdateClickupTagParams params) async{
+      UpdateTagParams params) async{
     if(readyToSubmit(params.newTag) == false){
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.updateTag.name, parameters: {
@@ -47,13 +47,13 @@ class UpdateClickupTagUseCase
   }
 }
 
-class UpdateClickupTagParams {
+class UpdateTagParams {
   final Space space;
   final String originalTagName;
   final ClickupTagModel newTag;
   final ClickupAccessToken clickupAccessToken;
 
-  UpdateClickupTagParams(
+  UpdateTagParams(
       {required this.space,
       required this.newTag,
       required this.originalTagName,

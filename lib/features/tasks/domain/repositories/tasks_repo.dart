@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
@@ -24,17 +24,17 @@ import '../use_cases/add_tag_to_task_use_case.dart';
 import '../use_cases/add_task_to_list_use_case.dart';
 import '../use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_folders_in_space_use_case.dart';
-import '../use_cases/get_clickup_list_use_case.dart';
-import '../use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import '../use_cases/get_clickup_tags_in_space_use_case.dart';
-import '../use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../use_cases/get_clickup_workspaces_use_case.dart';
+import '../use_cases/get_list_use_case.dart';
+import '../use_cases/get_lists_in_folder_use_case.dart';
+import '../use_cases/get_spaces_in_workspace_use_case.dart';
+import '../use_cases/get_tags_in_space_use_case.dart';
+import '../use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../use_cases/get_workspaces_use_case.dart';
 import '../use_cases/remove_tag_from_task_use_case.dart';
 
 abstract class TasksRepo{
   Future<dartz.Either<Failure,List<Task>>> getTasksInWorkspace(
-      {required GetClickupTasksInWorkspaceParams params});
+      {required GetTasksInWorkspaceParams params});
 
   Future<dartz.Either<Failure, Task>?> createTaskInList(
       CreateTaskParams params);
@@ -46,16 +46,16 @@ abstract class TasksRepo{
       DeleteTaskParams params);
 
   Future<dartz.Either<Failure, List<Workspace>>> getClickupWorkspaces(
-      {required GetClickupWorkspacesParams params});
+      {required GetWorkspacesParams params});
 
   Future<dartz.Either<Failure, List<Space>>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params});
+      {required GetSpacesInWorkspacesParams params});
 
   Future<dartz.Either<Failure, List<Folder>>> getClickupFolders(
       {required GetFoldersInSpaceParams params});
 
   Future<dartz.Either<Failure, List<TasksList>>> getClickupListsInFolder(
-      {required GetClickupListsInFolderParams params});
+      {required GetListsInFolderParams params});
 
   Future<dartz.Either<Failure, List<TasksList>>> getClickupFolderlessLists(
       {required GetFolderlessListsInSpaceParams params});
@@ -92,7 +92,7 @@ abstract class TasksRepo{
       NoParams params);
 
   Future<dartz.Either<Failure, TasksList>?> getClickupList(
-      GetClickupListParams params);
+      GetListParams params);
 
   Future<dartz.Either<Failure, TasksList>?> createClickupListInFolder(
       CreateListInFolderParams params);
@@ -115,5 +115,5 @@ abstract class TasksRepo{
       CreateTagInSpaceParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> updateClickupTag(
-      UpdateClickupTagParams params);
+      UpdateTagParams params);
 }

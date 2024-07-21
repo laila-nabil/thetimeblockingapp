@@ -20,7 +20,7 @@ import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
-import '../../../tasks/domain/use_cases/update_clickup_tag_use_case.dart';
+import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
@@ -76,7 +76,7 @@ class TagPage extends StatelessWidget {
                       onTap: () {
                         tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                             insideTagPage: true,
-                            params: UpdateClickupTagParams(
+                            params: UpdateTagParams(
                                 space: Globals.selectedSpace!,
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
@@ -146,7 +146,7 @@ class TagPage extends StatelessWidget {
                                       tagsPageBloc
                                           .add(UpdateTagEvent.submit(
                                         insideTagPage: true,
-                                        params: UpdateClickupTagParams(
+                                        params: UpdateTagParams(
                                             clickupAccessToken:
                                                 Globals.clickupAuthAccessToken,
                                             newTag: state.navigateTag!

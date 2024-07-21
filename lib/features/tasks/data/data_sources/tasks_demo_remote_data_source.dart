@@ -20,21 +20,21 @@ import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
 import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_list_use_case.dart';
-import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../domain/use_cases/get_list_use_case.dart';
+import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
+import '../../domain/use_cases/get_spaces_in_workspace_use_case.dart';
+import '../../domain/use_cases/get_tags_in_space_use_case.dart';
+import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
-import '../../domain/use_cases/update_clickup_tag_use_case.dart';
+import '../../domain/use_cases/update_tag_use_case.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
 
 class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetClickupTasksInWorkspaceParams params}) async {
+      {required GetTasksInWorkspaceParams params}) async {
     if (params.filtersParams.filterByListsIds?.isNotEmpty == true) {
       return Demo.tasks
               .where((element) =>
@@ -64,7 +64,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
-      {required GetClickupWorkspacesParams params}) async {
+      {required GetWorkspacesParams params}) async {
     return Demo.workspaces;
   }
 
@@ -76,7 +76,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupListsInFolder(
-      {required GetClickupListsInFolderParams params}) async {
+      {required GetListsInFolderParams params}) async {
     return Demo.folderlessLists;
   }
 
@@ -88,7 +88,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params}) async {
+      {required GetSpacesInWorkspacesParams params}) async {
     return Demo.spaces;
   }
 
@@ -117,7 +117,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> getClickupList(
-      {required GetClickupListParams params}) async {
+      {required GetListParams params}) async {
     return Demo.folderlessLists
         .where((element) => params.listId == element.id)
         .first;
@@ -165,7 +165,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> updateClickupTag(
-      {required UpdateClickupTagParams params}) async {
+      {required UpdateTagParams params}) async {
     throw const DemoFailure(message: "");
   }
 }

@@ -14,12 +14,12 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/globals.dart';
@@ -33,8 +33,8 @@ import '../../domain/entities/space.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
+import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
@@ -47,7 +47,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<ClickupTaskModel>>> getTasksInWorkspace(
-      {required GetClickupTasksInWorkspaceParams params}) {
+      {required GetTasksInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getTasksInWorkspace(params: params));
@@ -78,7 +78,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<ClickupWorkspaceModel>>> getClickupWorkspaces(
-      {required GetClickupWorkspacesParams params}) {
+      {required GetWorkspacesParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getClickupWorkspaces(params: params),
@@ -103,7 +103,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<ClickupListModel>>> getClickupListsInFolder(
-      {required GetClickupListsInFolderParams params}) {
+      {required GetListsInFolderParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupListsInFolder(params: params),
@@ -121,7 +121,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<ClickupSpaceModel>>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params}) {
+      {required GetSpacesInWorkspacesParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupSpacesInWorkspaces(params: params),
@@ -219,7 +219,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, ClickupListModel>?> getClickupList(
-      GetClickupListParams params) {
+      GetListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.getClickupList(params: params));
@@ -280,7 +280,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> updateClickupTag(
-      UpdateClickupTagParams params) {
+      UpdateTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.updateClickupTag(params: params));

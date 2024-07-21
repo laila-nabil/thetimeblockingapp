@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import '../../../tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
+import '../../../tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/save_spaces_use_case.dart';
 import '../../domain/use_cases/select_space_use_case.dart';
 import '../../domain/use_cases/select_workspace_use_case.dart';
@@ -19,7 +19,7 @@ part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
-  final GetClickupSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
+  final GetSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
   final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
   final SelectWorkspaceUseCase _selectWorkspaceUseCase;
   final SelectSpaceUseCase _selectSpaceUseCase;
@@ -69,7 +69,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
               SelectWorkspaceParams(event.clickupWorkspace));
           final getSpacesInClickupWorkspaceResult =
               await _getClickupSpacesInWorkspacesUseCase(
-                  GetClickupSpacesInWorkspacesParams(
+                  GetSpacesInWorkspacesParams(
                       clickupAccessToken: event.clickupAccessToken,
                       clickupWorkspace: event.clickupWorkspace));
           await getSpacesInClickupWorkspaceResult?.fold(

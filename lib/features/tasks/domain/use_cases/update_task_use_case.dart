@@ -9,20 +9,20 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import '../../../../core/print_debug.dart';
 import '../repositories/tasks_repo.dart';
 
-class UpdateClickupTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
+class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
   final TasksRepo repo;
   final AddTagsToTaskUseCase addTagsToTaskUseCase;
   final RemoveTagsFromTaskUseCase removeTagsFromTaskUseCase;
-  final MoveClickupTaskBetweenListsUseCase moveClickupTaskBetweenListsUseCase;
+  final MoveTaskBetweenListsUseCase moveClickupTaskBetweenListsUseCase;
   final CreateTaskUseCase createClickupTaskUseCase;
   final DeleteTaskUseCase deleteClickupTaskUseCase;
 
-  UpdateClickupTaskUseCase(
+  UpdateTaskUseCase(
       this.repo,
       this.addTagsToTaskUseCase,
       this.removeTagsFromTaskUseCase,

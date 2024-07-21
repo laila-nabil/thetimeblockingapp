@@ -11,8 +11,8 @@ import '../../../tasks/domain/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_task_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
-import '../../../tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../../../tasks/domain/use_cases/update_task_use_case.dart';
 
 part 'all_tasks_event.dart';
 
@@ -21,11 +21,11 @@ part 'all_tasks_state.dart';
 ///TODO have upcoming section with any dated, soon section that has tb_soon tag and later section with tb_later tag and auto add to it
 
 class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
-  final GetClickupTasksInSingleWorkspaceUseCase
+  final GetTasksInSingleWorkspaceUseCase
       _getClickupTasksInSingleWorkspaceUseCase;
   final CreateTaskUseCase _createClickupTaskUseCase;
   final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
+  final UpdateTaskUseCase _updateClickupTaskUseCase;
   final DeleteTaskUseCase _deleteClickupTaskUseCase;
 
   AllTasksBloc(
@@ -39,7 +39,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
       if (event is GetTasksInSpaceEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _getClickupTasksInSingleWorkspaceUseCase(
-            GetClickupTasksInWorkspaceParams(
+            GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     clickupAccessToken: event.clickupAccessToken,

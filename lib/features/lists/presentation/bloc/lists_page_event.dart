@@ -123,7 +123,7 @@ class CreateFolderlessListEvent extends ListsPageEvent {
 }
 
 class MoveTaskBetweenListsEvent extends ListsPageEvent {
-  final MoveClickupTaskBetweenListsParams moveClickupTaskBetweenListsParams;
+  final MoveTaskBetweenListsParams moveClickupTaskBetweenListsParams;
   final Workspace clickupWorkspace;
   final Space? clickupSpace;
   final bool tryEvent;

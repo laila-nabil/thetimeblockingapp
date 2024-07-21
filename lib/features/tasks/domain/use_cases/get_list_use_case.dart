@@ -5,22 +5,22 @@ import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-class GetClickupListUseCase
-    implements UseCase<TasksList, GetClickupListParams> {
+class GetListUseCase
+    implements UseCase<TasksList, GetListParams> {
   final TasksRepo repo;
 
-  GetClickupListUseCase(this.repo);
+  GetListUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, TasksList>?> call(GetClickupListParams params) {
+  Future<dartz.Either<Failure, TasksList>?> call(GetListParams params) {
     return repo.getClickupList(params);
   }
 }
 
-class GetClickupListParams {
+class GetListParams {
   final String listId;
   final ClickupAccessToken clickupAccessToken;
 
-  GetClickupListParams(
+  GetListParams(
       {required this.listId, required this.clickupAccessToken});
 }

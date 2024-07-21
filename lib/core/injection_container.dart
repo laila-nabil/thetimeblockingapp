@@ -27,7 +27,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
@@ -55,19 +55,19 @@ import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_folders_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_tags_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../features/tasks/domain/use_cases/get_lists_in_folder_use_case.dart';
+import '../features/tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/create_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_task_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_tasks_in_all_workspaces_use_case.dart';
-import '../features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
-import '../features/tasks/domain/use_cases/update_clickup_tag_use_case.dart';
-import '../features/tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import '../features/tasks/domain/use_cases/get_tasks_in_all_workspaces_use_case.dart';
+import '../features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
+import '../features/tasks/domain/use_cases/update_tag_use_case.dart';
+import '../features/tasks/domain/use_cases/update_task_use_case.dart';
 import 'analytics/analytics.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
@@ -160,20 +160,20 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetClickupUserUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickupWorkspacesUseCase(
+  serviceLocator.registerLazySingleton(() => GetWorkspacesUseCase(
         serviceLocator(),
       ));
 
   serviceLocator
-      .registerLazySingleton(() => GetClickupTasksInSingleWorkspaceUseCase(
+      .registerLazySingleton(() => GetTasksInSingleWorkspaceUseCase(
             serviceLocator(),
           ));
   serviceLocator
-      .registerLazySingleton(() => GetClickupTasksInAllWorkspacesUseCase(
+      .registerLazySingleton(() => GetTasksInAllWorkspacesUseCase(
             serviceLocator(),
           ));
   serviceLocator
-      .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
+      .registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
   serviceLocator.registerLazySingleton(() => GetClickupTagsInSpaceUseCase(
@@ -190,7 +190,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => DuplicateTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => UpdateClickupTaskUseCase(
+  serviceLocator.registerLazySingleton(() => UpdateTaskUseCase(
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
@@ -215,7 +215,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
 
-  serviceLocator.registerLazySingleton(() => GetClickupListsInFolderUseCase(
+  serviceLocator.registerLazySingleton(() => GetListsInFolderUseCase(
         serviceLocator(),
       ));
 
@@ -228,7 +228,7 @@ void _initServiceLocator({required Network network}) {
             serviceLocator(),
           ));
 
-  serviceLocator.registerLazySingleton(() => MoveClickupTaskBetweenListsUseCase(
+  serviceLocator.registerLazySingleton(() => MoveTaskBetweenListsUseCase(
         serviceLocator(),
       ));
 
@@ -255,7 +255,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => AddTagToTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetClickupListUseCase(
+  serviceLocator.registerLazySingleton(() => GetListUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => AddTagsToTaskUseCase(
@@ -282,7 +282,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
   serviceLocator
-      .registerLazySingleton(() => GetClickupSpacesInWorkspacesUseCase(
+      .registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
   serviceLocator.registerLazySingleton(() => GetListAndItsTasksUseCase(
@@ -293,7 +293,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => UpdateClickupTagUseCase(
+  serviceLocator.registerLazySingleton(() => UpdateTagUseCase(
         serviceLocator(),
       ));
 

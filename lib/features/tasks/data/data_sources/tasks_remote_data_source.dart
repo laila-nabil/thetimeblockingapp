@@ -22,20 +22,20 @@ import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
 import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_list_use_case.dart';
-import '../../domain/use_cases/get_clickup_lists_in_folder_use_case.dart';
-import '../../domain/use_cases/get_clickup_spaces_in_workspace_use_case.dart';
-import '../../domain/use_cases/get_clickup_tags_in_space_use_case.dart';
-import '../../domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import '../../domain/use_cases/get_clickup_workspaces_use_case.dart';
+import '../../domain/use_cases/get_list_use_case.dart';
+import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
+import '../../domain/use_cases/get_spaces_in_workspace_use_case.dart';
+import '../../domain/use_cases/get_tags_in_space_use_case.dart';
+import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
-import '../../domain/use_cases/update_clickup_tag_use_case.dart';
+import '../../domain/use_cases/update_tag_use_case.dart';
 import '../models/clickup_folder_model.dart';
 import '../models/clickup_list_model.dart';
 
 abstract class TasksRemoteDataSource {
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetClickupTasksInWorkspaceParams params});
+      {required GetTasksInWorkspaceParams params});
 
   Future<ClickupTaskModel> createTaskInList(
       {required CreateTaskParams params});
@@ -45,13 +45,13 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
 
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
-      {required GetClickupWorkspacesParams params});
+      {required GetWorkspacesParams params});
 
   Future<List<ClickupFolderModel>> getClickupFolders(
       {required GetFoldersInSpaceParams params});
 
   Future<List<ClickupListModel>> getClickupListsInFolder(
-      {required GetClickupListsInFolderParams params});
+      {required GetListsInFolderParams params});
 
   Future<ClickupListModel> createClickupListInFolder(
       {required CreateListInFolderParams params});
@@ -60,7 +60,7 @@ abstract class TasksRemoteDataSource {
       {required GetFolderlessListsInSpaceParams params});
 
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params});
+      {required GetSpacesInWorkspacesParams params});
 
   Future<List<ClickupTagModel>> getClickupTags(
       {required GetClickupTagsInSpaceParams params});
@@ -72,7 +72,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> addTaskToList({required AddTaskToListParams params});
 
   Future<ClickupListModel> getClickupList(
-      {required GetClickupListParams params});
+      {required GetListParams params});
 
   Future<ClickupListModel> createFolderlessClickupList(
       {required CreateFolderlessListClickupParams params});
@@ -88,7 +88,7 @@ abstract class TasksRemoteDataSource {
       {required CreateTagInSpaceParams params});
 
   Future<dartz.Unit> updateClickupTag(
-      {required UpdateClickupTagParams params});
+      {required UpdateTagParams params});
 
   Future<dartz.Unit> deleteClickupTag({required DeleteTagParams params});
 }
@@ -108,7 +108,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetClickupTasksInWorkspaceParams params}) async {
+      {required GetTasksInWorkspaceParams params}) async {
     List<ClickupTaskModel> result = [];
     String url = "$clickupUrl/team/${params.workspaceId}/task";
     final uri = UriExtension.uriHttpsClickupAPI(
@@ -158,7 +158,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
-      {required GetClickupWorkspacesParams params}) async {
+      {required GetWorkspacesParams params}) async {
     List<ClickupWorkspaceModel> result = [];
     final response = await network.get(
         uri: Uri.parse("$clickupUrl/team"),
@@ -190,7 +190,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupListModel>> getClickupListsInFolder(
-      {required GetClickupListsInFolderParams params}) async {
+      {required GetListsInFolderParams params}) async {
     List<ClickupListModel> result = [];
     final url = "$clickupUrl/folder/${params.clickupFolder.id}/list";
     Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
@@ -228,7 +228,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
-      {required GetClickupSpacesInWorkspacesParams params}) async {
+      {required GetSpacesInWorkspacesParams params}) async {
     List<ClickupSpaceModel> result = [];
     final url = "$clickupUrl/team/${params.clickupWorkspace.id}/space";
     Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
@@ -305,7 +305,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> getClickupList(
-      {required GetClickupListParams params}) async {
+      {required GetListParams params}) async {
     final response = await network.get(
         uri: Uri.parse("$clickupUrl/list/${params.listId}"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
@@ -388,7 +388,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> updateClickupTag(
-      {required UpdateClickupTagParams params}) async {
+      {required UpdateTagParams params}) async {
     Uri uri = Uri.parse(
         "$clickupUrl/space/${params.space.id}/tag/${params.originalTagName}");
     await network.put(

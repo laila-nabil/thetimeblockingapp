@@ -15,8 +15,8 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_tas
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_clickup_tasks_in_single_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_clickup_task_between_lists_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/globals.dart';
@@ -26,7 +26,7 @@ import '../../../tasks/domain/entities/space.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
-import '../../../tasks/domain/use_cases/update_clickup_task_use_case.dart';
+import '../../../tasks/domain/use_cases/update_task_use_case.dart';
 
 part 'lists_page_event.dart';
 
@@ -42,12 +42,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final CreateFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
   final CreateFolderlessListClickupListUseCase
       _createFolderlessClickupListUseCase;
-  final MoveClickupTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
+  final MoveTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
   final DeleteFolderUseCase _deleteClickupFolderUseCase;
   final DeleteListUseCase _deleteClickupListUseCase;
   final CreateTaskUseCase _createClickupTaskUseCase;
   final DuplicateTaskUseCase _duplicateClickupTaskUseCase;
-  final UpdateClickupTaskUseCase _updateClickupTaskUseCase;
+  final UpdateTaskUseCase _updateClickupTaskUseCase;
   final DeleteTaskUseCase _deleteClickupTaskUseCase;
 
   ListsPageBloc(
