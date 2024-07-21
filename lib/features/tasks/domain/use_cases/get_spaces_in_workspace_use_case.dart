@@ -29,7 +29,7 @@ class GetSpacesInWorkspacesUseCase
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
             }), (r) async {
-      clickupSpaces = r;
+      setSpaces = r;
       printDebug(
           "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.spaces}");
       await serviceLocator<Analytics>()

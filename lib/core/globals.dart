@@ -9,9 +9,9 @@ import 'environment.dart';
 String _appName = "Time blocking app";
 
 
-AccessToken _clickupAuthAccessToken =
+AccessToken _accessToken =
     const AccessToken(accessToken: "", tokenType: "");
-User? _clickupUser;
+User? _user;
 
 Workspace? _selectedWorkspace;
 
@@ -22,9 +22,9 @@ bool _isSpaceAppWide = true;
 
 Duration _defaultTaskDuration = const Duration(hours: 1);
 
-List<Workspace>? _clickupWorkspaces;
+List<Workspace>? _workspaces;
 
-List<Space>? _clickupSpaces;
+List<Space>? _spaces;
 
 class Globals {
   static String get appName => _appName;
@@ -44,9 +44,9 @@ class Globals {
   static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
   static AccessToken get accessToken =>
-      _clickupAuthAccessToken;
+      _accessToken;
 
-  static User? get user => _clickupUser;
+  static User? get user => _user;
 
   static Workspace? get selectedWorkspace => _selectedWorkspace;
 
@@ -60,14 +60,14 @@ class Globals {
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
 
-  static List<Workspace>? get workspaces => _clickupWorkspaces;
+  static List<Workspace>? get workspaces => _workspaces;
 
-  static List<Space>? get spaces => _clickupSpaces;
+  static List<Space>? get spaces => _spaces;
 
   static Workspace? get defaultWorkspace =>
-      _clickupWorkspaces?.firstOrNull;
+      _workspaces?.firstOrNull;
 
-  static Space? get defaultSpace => _clickupSpaces?.firstOrNull;
+  static Space? get defaultSpace => _spaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
 
@@ -91,22 +91,22 @@ mixin class GlobalsWriteAccess {
     _appName = value;
   }
 
-  set clickupAuthAccessToken(AccessToken value) {
-    _clickupAuthAccessToken = value;
+  set accessToken(AccessToken value) {
+    _accessToken = value;
   }
 
   void clearGlobals() {
-    _clickupAuthAccessToken =
+    _accessToken =
         const AccessToken(accessToken: "", tokenType: "");
-    _clickupUser = null;
+    _user = null;
     _selectedWorkspace = null;
     _selectedSpaceId = null;
-    _clickupWorkspaces = null;
-    _clickupSpaces = null;
+    _workspaces = null;
+    _spaces = null;
   }
 
-  set clickupUser(User value) {
-    _clickupUser = value;
+  set user(User value) {
+    _user = value;
   }
 
   set selectedWorkspace(Workspace value) {
@@ -115,7 +115,7 @@ mixin class GlobalsWriteAccess {
 
    void setSelectedSpace(Space? space) {
     _selectedSpaceId = space?.id;
-    clickupSpaces =  ClickupSpaceListExtensions.updateItemInList(
+    setSpaces =  ClickupSpaceListExtensions.updateItemInList(
         list: Globals.spaces, updatedSpace: space);
   }
 
@@ -127,12 +127,12 @@ mixin class GlobalsWriteAccess {
     _defaultTaskDuration = value;
   }
 
-  set clickupWorkspaces(List<Workspace> value) {
-    _clickupWorkspaces = value;
+  set workspaces(List<Workspace> value) {
+    _workspaces = value;
   }
 
-  set clickupSpaces(List<Space>? value) {
-    _clickupSpaces = value;
+  set setSpaces(List<Space>? value) {
+    _spaces = value;
   }
 
 }

@@ -69,7 +69,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
         });
 
     if (spaces.isNotEmpty) {
-      clickupSpaces = spaces;
+      setSpaces = spaces;
       printDebug(
           "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
               .spaces}");

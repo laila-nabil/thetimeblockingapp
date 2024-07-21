@@ -82,7 +82,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getClickupWorkspaces(params: params),
         trySaveResult: (result) async {
-          clickupWorkspaces = result;
+          workspaces = result;
           printDebug(
               "getClickUpWorkspaces $result ${Globals.workspaces}");
           await localDataSource.saveClickupWorkspaces(result);
@@ -195,7 +195,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       NoParams params) async {
     final result = await repoHandleLocalGetRequest<List<Space>>(
         tryGetFromLocalStorage: () => localDataSource.getSpaces());
-    result.fold((l) => null, (r) => clickupSpaces = r);
+    result.fold((l) => null, (r) => setSpaces = r);
     return result;
   }
 
