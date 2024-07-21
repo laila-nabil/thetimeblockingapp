@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../common/entities/user.dart';
 import '../common/entities/workspace.dart';
+import '../common/enums/backend_mode.dart';
 import '../features/auth/domain/entities/access_token.dart';
 import 'environment.dart';
 
@@ -29,13 +30,7 @@ List<Space>? _spaces;
 class Globals {
   static String get appName => _appName;
 
-  static String clickupUrl = "";
-
-  static String clickupClientId = "";
-
-  static String clickupClientSecret = "";
-
-  static String clickupRedirectUrl = "";
+  static ClickupGlobals clickupGlobals = ClickupGlobals();
 
   static const Env defaultEnv  = Env.debugLocally;
 
@@ -74,14 +69,11 @@ class Globals {
   static const ThemeMode defaultThemeMode = ThemeMode.light;
 
   static const bool isDemo = false;
-  static String clickupAuthUrl =
-      "https://app.clickup.com/api?client_id=${Globals.clickupClientId}&redirect_uri=${Globals.clickupRedirectUrl}";
 
   static String demoUrl =
       "https://demoo-timeblocking.web.app";
 
-  static String clickupTerms = "https://clickup.com/terms";
-  static String clickupPrivacy = "https://clickup.com/terms/privacy";
+
 }
 
 ///just to make it harder to write global variable

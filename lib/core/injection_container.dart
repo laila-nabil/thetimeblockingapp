@@ -318,9 +318,9 @@ void _initServiceLocator({required Network network}) {
           ? AuthDemoRemoteDataSourceImpl()
           : ClickupAuthRemoteDataSourceImpl(
               network: serviceLocator(),
-              clickupClientId: Globals.clickupClientId,
-              clickupClientSecret: Globals.clickupClientSecret,
-              clickupUrl: Globals.clickupUrl,
+              clickupClientId: Globals.clickupGlobals.clickupClientId,
+              clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
+              clickupUrl: Globals.clickupGlobals.clickupUrl,
             ));
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
@@ -330,17 +330,17 @@ void _initServiceLocator({required Network network}) {
           ? TasksDemoRemoteDataSourceImpl()
           : ClickupTasksRemoteDataSourceImpl(
               network: serviceLocator(),
-              clickupClientId: Globals.clickupClientId,
-              clickupClientSecret: Globals.clickupClientSecret,
-              clickupUrl: Globals.clickupUrl,
+              clickupClientId: Globals.clickupGlobals.clickupClientId,
+              clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
+              clickupUrl: Globals.clickupGlobals.clickupUrl,
             ));
 
   serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
       () => ClickupStartUpRemoteDataSourceImpl(
             network: serviceLocator(),
-            clickupClientId: Globals.clickupClientId,
-            clickupClientSecret: Globals.clickupClientSecret,
-            clickupUrl: Globals.clickupUrl,
+            clickupClientId: Globals.clickupGlobals.clickupClientId,
+            clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
+            clickupUrl: Globals.clickupGlobals.clickupUrl,
           ));
 
   serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
@@ -361,18 +361,19 @@ void _initServiceLocator({required Network network}) {
 }
 
 void reRegisterClickupVariables() async {
-  Globals.clickupClientId =
-      const String.fromEnvironment("clickUpClientId", defaultValue: "");
-  Globals.clickupClientSecret =
-      const String.fromEnvironment("clickUpClientSecret", defaultValue: "");
-  Globals.clickupRedirectUrl =
-      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: "");
   const overrideClickupUrl =
-      String.fromEnvironment("clickupUrl", defaultValue: "");
-  Globals.clickupUrl = overrideClickupUrl.isNotEmpty
-      ? overrideClickupUrl
-      : 'https://timeblockingrender.onrender.com/clickup';
-
+  String.fromEnvironment("clickupUrl", defaultValue: "");
+  Globals.clickupGlobals = Globals.clickupGlobals.copyWith(
+      clickupClientId :
+      const String.fromEnvironment("clickUpClientId", defaultValue: ""),
+      clickupClientSecret :
+      const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
+      clickupRedirectUrl :
+      const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
+      clickupUrl : overrideClickupUrl.isNotEmpty
+          ? overrideClickupUrl
+          : 'https://timeblockingrender.onrender.com/clickup'
+  );
   Globals.env = Env.getEnv(
       const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }

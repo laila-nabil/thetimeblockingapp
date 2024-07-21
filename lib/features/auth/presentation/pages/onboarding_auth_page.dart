@@ -148,7 +148,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                           children: [
                             CustomButton.custom(
                               onPressed: () {
-                                final url = Globals.clickupAuthUrl;
+                                final url = Globals.clickupGlobals.clickupAuthUrl;
                                 if (kIsWeb) {
                                   launchWithURL(url: url);
                                   if (true) {
@@ -263,7 +263,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               analyticsEvent:AnalyticsEvents.onBoardingStep1ConnectClickup,
                               size: CustomButtonSize.large,
                               onPressed: () {
-                                final url = Globals.clickupAuthUrl;
+                                final url = Globals.clickupGlobals.clickupAuthUrl;
                                 if (kIsWeb) {
                                   launchWithURL(url: url);
                                   if (true) {
@@ -813,7 +813,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                               size: CustomButtonSize.small,
                               onPressed: () {
-                                final url = Globals.clickupAuthUrl;
+                                final url = Globals.clickupGlobals.clickupAuthUrl;
                                 if (kIsWeb) {
                                   launchWithURL(url: url);
                                   if (true) {
@@ -858,7 +858,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               label: appLocalization.translate("copyLink"),
                               onPressed: () async {
                                 await Clipboard.setData(
-                                        ClipboardData(text: Globals.clickupAuthUrl))
+                                        ClipboardData(text: Globals.clickupGlobals.clickupAuthUrl))
                                     .then((value) =>
                                         ScaffoldMessenger.maybeOf(context)
                                             ?.showSnackBar(SnackBar(
@@ -929,7 +929,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                               size: CustomButtonSize.large,
                               onPressed: () {
-                                final url = Globals.clickupAuthUrl;
+                                final url = Globals.clickupGlobals.clickupAuthUrl;
                                 if (kIsWeb) {
                                   launchWithURL(url: url);
                                   if (true) {
@@ -978,7 +978,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
                               label: appLocalization.translate("copyLink"),
                               onPressed: () async {
                                 await Clipboard.setData(
-                                        ClipboardData(text: Globals.clickupAuthUrl))
+                                        ClipboardData(text: Globals.clickupGlobals.clickupAuthUrl))
                                     .then((value) =>
                                         ScaffoldMessenger.maybeOf(context)
                                             ?.showSnackBar(SnackBar(
@@ -1118,7 +1118,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
           text: appLocalization.translate("termsOfUse"),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
-              launchWithURL(url: Globals.clickupTerms);
+              launchWithURL(url: Globals.clickupGlobals.clickupTerms);
             },
         ),
         TextSpan(text: " ${appLocalization.translate("and")} "),
@@ -1127,7 +1127,7 @@ class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
           text: appLocalization.translate("privacyPolicy"),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
-              launchWithURL(url: Globals.clickupPrivacy);
+              launchWithURL(url: Globals.clickupGlobals.clickupPrivacy);
             },
         ),
         TextSpan(text: " ${appLocalization.translate("andAutoOptInUsingAnalyticsForImproving")} "),

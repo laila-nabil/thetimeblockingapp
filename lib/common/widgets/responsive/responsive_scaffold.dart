@@ -193,7 +193,7 @@ class ResponsiveScaffold extends Scaffold {
         title: "${appLocalization.translate("continueWithClickupToUse")} ${appLocalization.translate("connectWithClickup")}",
         primaryCta: appLocalization.translate("connectWithClickup"),
         primaryCtaOnPressed: (){
-          final url = Globals.clickupAuthUrl;
+          final url = Globals.clickupGlobals.clickupAuthUrl;
           if (kIsWeb) {
             launchWithURL(url: url);
           } else if (Platform.isAndroid || Platform.isIOS) {
@@ -217,7 +217,7 @@ class ResponsiveScaffold extends Scaffold {
         CustomButton.noIcon(
             type: CustomButtonType.greyTextLabel,
             label: appLocalization.translate("connectWithClickup"), onPressed: (){
-          final url = Globals.clickupAuthUrl;
+          final url = Globals.clickupGlobals.clickupAuthUrl;
           if (kIsWeb) {
             launchWithURL(url: url);
           } else if (Platform.isAndroid || Platform.isIOS) {
