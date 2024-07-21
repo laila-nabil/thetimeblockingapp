@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
@@ -34,13 +34,13 @@ part 'lists_page_state.dart';
 
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
-  final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
+  final GetAllInSpaceUseCase _getAllInClickupSpaceUseCase;
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
   final GetListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
   final CreateListInFolderUseCase _createClickupListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
-  final CreateFolderlessListClickupListUseCase
+  final CreateFolderlessListUseCase
       _createFolderlessClickupListUseCase;
   final MoveTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;
   final DeleteFolderUseCase _deleteClickupFolderUseCase;
@@ -92,7 +92,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
         } else if (event.clickupSpace != null) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _getAllInClickupSpaceUseCase(
-              GetAllInClickupSpaceParams(
+              GetAllInSpaceParams(
                   clickupAccessToken: event.clickupAccessToken,
                   clickupSpace: event.clickupSpace!));
           await result?.fold(

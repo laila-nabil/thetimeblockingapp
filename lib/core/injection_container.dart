@@ -24,7 +24,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_task_to_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
@@ -224,7 +224,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator
-      .registerLazySingleton(() => CreateFolderlessListClickupListUseCase(
+      .registerLazySingleton(() => CreateFolderlessListUseCase(
             serviceLocator(),
           ));
 
@@ -278,7 +278,7 @@ void _initServiceLocator({required Network network}) {
       ));
   serviceLocator
       .registerLazySingleton(() => SaveSpacesUseCase(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetAllInClickupSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetAllInSpaceUseCase(
         serviceLocator(),
       ));
   serviceLocator

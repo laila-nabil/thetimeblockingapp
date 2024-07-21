@@ -20,7 +20,7 @@ part 'startup_state.dart';
 class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
   final GetAllInClickupWorkspaceUseCase _getAllInClickupWorkspaceUseCase;
   final GetSpacesInWorkspacesUseCase _getClickupSpacesInWorkspacesUseCase;
-  final GetAllInClickupSpaceUseCase _getAllInClickupSpaceUseCase;
+  final GetAllInSpaceUseCase _getAllInClickupSpaceUseCase;
   final SelectWorkspaceUseCase _selectWorkspaceUseCase;
   final SelectSpaceUseCase _selectSpaceUseCase;
   final SaveSpacesUseCase _saveSpacesUseCase;
@@ -102,7 +102,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
             selectedClickupSpace: event.clickupSpace,
             startupStateEnum: StartupStateEnum.loading));
         final getAllInClickupSpaceResult =
-            await _getAllInClickupSpaceUseCase(GetAllInClickupSpaceParams(
+            await _getAllInClickupSpaceUseCase(GetAllInSpaceParams(
                 clickupAccessToken: event.clickupAccessToken,
                 clickupSpace: event.clickupSpace));
         getAllInClickupSpaceResult?.fold(

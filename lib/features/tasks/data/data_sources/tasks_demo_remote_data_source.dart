@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
@@ -131,7 +131,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> createFolderlessClickupList(
-      {required CreateFolderlessListClickupParams params}) async {
+      {required CreateFolderlessListParams params}) async {
     throw const DemoFailure(message: "");
   }
 

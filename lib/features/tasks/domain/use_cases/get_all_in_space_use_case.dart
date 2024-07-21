@@ -12,13 +12,13 @@ import '../entities/space.dart';
 import 'get_folderless_lists_in_space_use_case.dart';
 import 'get_folders_in_space_use_case.dart';
 
-class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
+class GetAllInSpaceUseCase with GlobalsWriteAccess{
   final TasksRepo repo;
 
-  GetAllInClickupSpaceUseCase(this.repo);
+  GetAllInSpaceUseCase(this.repo);
 
   Future<dartz.Either<List<Map<String, Failure>>, Space>?> call(
-      GetAllInClickupSpaceParams params) async {
+      GetAllInSpaceParams params) async {
     Space space = params.clickupSpace;
     List<Map<String, Failure>> failures = [];
     final tagsResult = await repo.getClickupTags(
@@ -72,12 +72,12 @@ class GetAllInClickupSpaceUseCase with GlobalsWriteAccess{
   }
 }
 
-class GetAllInClickupSpaceParams extends Equatable {
+class GetAllInSpaceParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Space clickupSpace;
   final bool? archived;
 
-  const GetAllInClickupSpaceParams({
+  const GetAllInSpaceParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     this.archived,

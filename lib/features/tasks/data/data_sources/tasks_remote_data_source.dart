@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
@@ -75,7 +75,7 @@ abstract class TasksRemoteDataSource {
       {required GetListParams params});
 
   Future<ClickupListModel> createFolderlessClickupList(
-      {required CreateFolderlessListClickupParams params});
+      {required CreateFolderlessListParams params});
 
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateFolderInSpaceParams params});
@@ -324,7 +324,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupListModel> createFolderlessClickupList(
-      {required CreateFolderlessListClickupParams params}) async {
+      {required CreateFolderlessListParams params}) async {
     final response = await network.post(
         uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),

@@ -12,7 +12,7 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/list_component.dart';
@@ -302,7 +302,7 @@ class ListsPage extends StatelessWidget {
                                               ? _CreateField(onAdd: (text) {
                                                   listsPageBloc.add(CreateFolderlessListEvent.submit(
                                                       createFolderlessListClickupParams:
-                                                          CreateFolderlessListClickupParams(
+                                                          CreateFolderlessListParams(
                                                               clickupAccessToken:
                                                                   Globals
                                                                       .clickupAuthAccessToken,

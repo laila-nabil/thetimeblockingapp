@@ -13,15 +13,15 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
-class CreateFolderlessListClickupListUseCase
-    implements UseCase<TasksList, CreateFolderlessListClickupParams> {
+class CreateFolderlessListUseCase
+    implements UseCase<TasksList, CreateFolderlessListParams> {
   final TasksRepo repo;
 
-  CreateFolderlessListClickupListUseCase(this.repo);
+  CreateFolderlessListUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, TasksList>?> call(
-      CreateFolderlessListClickupParams params) async {
+      CreateFolderlessListParams params) async {
     final result = await repo.createFolderlessClickupList(params);
     await result?.fold(
         (l) async => await serviceLocator<Analytics>()
@@ -37,14 +37,14 @@ class CreateFolderlessListClickupListUseCase
   }
 }
 
-class CreateFolderlessListClickupParams extends Equatable {
+class CreateFolderlessListParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Space clickupSpace;
   final String listName;
   final Color? statusColor;
   final Assignee? assignee = Globals.clickupUser?.asAssignee;
 
-  CreateFolderlessListClickupParams({
+  CreateFolderlessListParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     required this.listName,

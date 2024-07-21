@@ -99,7 +99,7 @@ class CreateListInFolderEvent extends ListsPageEvent {
 }
 
 class CreateFolderlessListEvent extends ListsPageEvent {
-  CreateFolderlessListClickupParams? createFolderlessListClickupParams;
+  CreateFolderlessListParams? createFolderlessListClickupParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   bool? tryEvent;
@@ -111,7 +111,7 @@ class CreateFolderlessListEvent extends ListsPageEvent {
     tryEvent = false;
   }
   CreateFolderlessListEvent.submit({
-    required CreateFolderlessListClickupParams this.createFolderlessListClickupParams,
+    required CreateFolderlessListParams this.createFolderlessListClickupParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
