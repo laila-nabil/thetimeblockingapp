@@ -221,7 +221,7 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.AccessToken,
+                          accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
                           space: Globals.isSpaceAppWide
@@ -230,7 +230,7 @@ class TaskPopup extends StatelessWidget {
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.AccessToken,
+                          accessToken: Globals.accessToken,
                           task: task,
                         )));
           },
@@ -249,12 +249,12 @@ class TaskPopup extends StatelessWidget {
               final taskParams = state.taskParams ??
                   (task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.AccessToken,
+                          accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.AccessToken,
+                          accessToken: Globals.accessToken,
                           task: task,
                         ));
               printDebug("taskParams $taskParams");
@@ -307,7 +307,7 @@ class TaskPopup extends StatelessWidget {
                                                         task: taskPopupParams
                                                             .task!,
                                                         accessToken: Globals
-                                                            .AccessToken));
+                                                            .accessToken));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType

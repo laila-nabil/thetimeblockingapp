@@ -57,7 +57,7 @@ class TaskPopUpState extends Equatable {
     if (task != null) {
       params = CreateTaskParams.updateTask(
         task: taskParams!.task!,
-        accessToken: Globals.AccessToken,
+        accessToken: Globals.accessToken,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
@@ -90,7 +90,7 @@ class TaskPopUpState extends Equatable {
         dueDate: newTaskDueDate,
         list: taskParams!.list!,
         accessToken:
-        Globals.AccessToken,
+        Globals.accessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,
       );

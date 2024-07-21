@@ -15,7 +15,7 @@ enum ScheduleStateEnum {
 class ScheduleState extends Equatable {
   final Set<ScheduleStateEnum> persistingScheduleStates;
   final ScheduleStateEnum? nonPersistingScheduleState;
-  final List<Task>? clickupTasks;
+  final List<Task>? tasks;
   final Failure? getTasksSingleWorkspaceFailure;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
@@ -28,7 +28,7 @@ class ScheduleState extends Equatable {
   const ScheduleState._({
     required this.persistingScheduleStates,
     this.nonPersistingScheduleState,
-    this.clickupTasks,
+    this.tasks,
     this.getTasksForSingleWorkspaceScheduleEventId,
     this.getTasksSingleWorkspaceFailure,
     this.createTaskFailure,
@@ -49,12 +49,12 @@ class ScheduleState extends Equatable {
           {required bool? startGetTasks, required bool waitForStartGetTasks}) =>
       waitForStartGetTasks
           ? (startGetTasks ?? false)
-          : (clickupTasks == null || clickupTasks == []);
+          : (tasks == null || tasks == []);
   @override
   List<Object?> get props => [
         persistingScheduleStates,
         nonPersistingScheduleState,
-        clickupTasks,
+        tasks,
         getTasksSingleWorkspaceFailure,
         tasksDueDateEarliestDate,
         tasksDueDateLatestDate,
@@ -72,7 +72,7 @@ class ScheduleState extends Equatable {
   ScheduleState copyWith({
     dartz.Either<ScheduleStateEnum, ScheduleStateEnum>? persistingScheduleStateAddRemove,
     ScheduleStateEnum? nonPersistingScheduleState,
-    List<Task>? clickupTasks,
+    List<Task>? tasks,
     Failure? getTasksSingleWorkspaceFailure,
     Failure? createTaskFailure,
     Failure? updateTaskFailure,
@@ -88,7 +88,7 @@ class ScheduleState extends Equatable {
           updateEnumStates(persistingScheduleStateAddRemove) :
               persistingScheduleStates,
       nonPersistingScheduleState: nonPersistingScheduleState,
-      clickupTasks: clickupTasks ?? this.clickupTasks,
+      tasks: tasks ?? this.tasks,
       getTasksSingleWorkspaceFailure:
           getTasksSingleWorkspaceFailure ?? this.getTasksSingleWorkspaceFailure,
       tasksDueDateEarliestDate: tasksDueDateEarliestDate ??
@@ -117,8 +117,8 @@ class ScheduleState extends Equatable {
     }
     return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
-            accessToken: Globals.AccessToken,
-            filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+            accessToken: Globals.accessToken,
+            filterByAssignees: [Globals.user?.id.toString() ?? ""],
             filterByDueDateGreaterThanUnixTimeMilliseconds:
                 tasksDueDateEarliestDate.millisecondsSinceEpoch,
             filterByDueDateLessThanUnixTimeMilliseconds:

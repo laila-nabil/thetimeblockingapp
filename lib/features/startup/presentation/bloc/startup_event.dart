@@ -14,13 +14,13 @@ class ControlDrawerLargerScreen extends StartupEvent {
 }
 
 class SelectWorkspaceAndGetSpacesTagsLists extends StartupEvent {
-  final Workspace clickupWorkspace;
-  final ClickupAccessToken clickupAccessToken;
+  final Workspace workspace;
+  final ClickupAccessToken accessToken;
   const SelectWorkspaceAndGetSpacesTagsLists(
-      {required this.clickupWorkspace, required this.clickupAccessToken});
+      {required this.workspace, required this.accessToken});
 
   @override
-  List<Object?> get props => [clickupWorkspace,clickupAccessToken];
+  List<Object?> get props => [workspace,accessToken];
 }
 
 class SelectSpace extends StartupEvent {

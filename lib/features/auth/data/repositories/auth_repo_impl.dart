@@ -36,7 +36,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
           await authLocalDataSource
               .saveClickupAccessToken(result as ClickupAccessTokenModel);
         printDebug(
-            "getClickUpAccessToken $result ${Globals.AccessToken}");
+            "getClickUpAccessToken $result ${Globals.accessToken}");
       },
         tryGetFromLocalStorage: () async =>
             await authLocalDataSource.getClickupAccessToken());
@@ -52,7 +52,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
         trySaveResult: (result)async{
           clickupUser =  result;
           printDebug(
-              "getClickUpUser $result ${Globals.clickupUser}");
+              "getClickUpUser $result ${Globals.user}");
           await authLocalDataSource
               .saveClickupUser(result as ClickupUserModel);
         },

@@ -54,7 +54,7 @@ class TaskComponent extends StatelessWidget {
                         onDelete(DeleteTaskParams(
                             task: task,
                             accessToken:
-                            Globals.AccessToken));
+                            Globals.accessToken));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -82,7 +82,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      accessToken: Globals.AccessToken,
+                      accessToken: Globals.accessToken,
                       list: task.list!,
                       title: task.name ?? "",
                       description: task.description,

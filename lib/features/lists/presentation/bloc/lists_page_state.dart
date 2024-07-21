@@ -126,8 +126,8 @@ class ListsPageState extends Equatable {
     }
     return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
-      accessToken: Globals.AccessToken,
-      filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
+      accessToken: Globals.accessToken,
+      filterByAssignees: [Globals.user?.id.toString() ?? ""],
     );
   }
 

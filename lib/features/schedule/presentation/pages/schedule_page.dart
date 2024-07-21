@@ -70,8 +70,8 @@ class SchedulePage extends StatelessWidget {
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId:
-                            startUpCurrentState.selectedClickupWorkspace?.id ??
-                                Globals.clickupWorkspaces?.first.id ??
+                            startUpCurrentState.selectedWorkspace?.id ??
+                                Globals.workspaces?.first.id ??
                                 "",
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams)));
@@ -134,12 +134,12 @@ class SchedulePage extends StatelessWidget {
                   responsiveBody: ResponsiveTParams(
                     small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
-                        selectedClickupWorkspaceId:
-                            startUpCurrentState.selectedClickupWorkspace?.id),
+                        selectedWorkspaceId:
+                            startUpCurrentState.selectedWorkspace?.id),
                     large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
-                        selectedClickupWorkspaceId:
-                            startUpCurrentState.selectedClickupWorkspace?.id),
+                        selectedWorkspaceId:
+                            startUpCurrentState.selectedWorkspace?.id),
                   ),
                   context: context, onRefresh: ()async {
                 var selectedWorkspace =
@@ -150,8 +150,8 @@ class SchedulePage extends StatelessWidget {
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
                 startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
-                    clickupWorkspace: selectedWorkspace!,
-                    clickupAccessToken: Globals.AccessToken));
+                    workspace: selectedWorkspace!,
+                    accessToken: Globals.accessToken));
               },);
             },
           );
@@ -163,22 +163,22 @@ class SchedulePage extends StatelessWidget {
 
 class _SchedulePageContent extends StatelessWidget {
   const _SchedulePageContent(
-      {Key? key, required this.scheduleBloc, this.selectedClickupWorkspaceId})
+      {Key? key, required this.scheduleBloc, this.selectedWorkspaceId})
       : super(key: key);
   final ScheduleBloc scheduleBloc;
-  final String? selectedClickupWorkspaceId;
+  final String? selectedWorkspaceId;
 
   @override
   Widget build(BuildContext context) {
     return TasksCalendar(
       tasksDataSource: ClickupTasksDataSource(
-          clickupTasks: scheduleBloc.state.clickupTasks
+          clickupTasks: scheduleBloc.state.tasks
                   ?.where((element) => element.dueDateUtcTimestamp != null)
                   .toList() ??
               []),
       controller: scheduleBloc.controller,
       scheduleBloc: scheduleBloc,
-      selectedClickupWorkspaceId: selectedClickupWorkspaceId,
+      selectedWorkspaceId: selectedWorkspaceId,
     );
   }
 }

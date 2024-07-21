@@ -85,7 +85,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
         trySaveResult: (result) async {
           clickupWorkspaces = result;
           printDebug(
-              "getClickUpWorkspaces $result ${Globals.clickupWorkspaces}");
+              "getClickUpWorkspaces $result ${Globals.workspaces}");
           await localDataSource.saveClickupWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>

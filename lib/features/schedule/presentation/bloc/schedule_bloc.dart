@@ -69,7 +69,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
               persistingScheduleStateAddRemove:
                   const dartz.Right(ScheduleStateEnum.getTasksSingleWorkspaceSuccess),
-              clickupTasks: r));
+              tasks: r));
         });
       }
       else if (event is CreateTaskEvent) {

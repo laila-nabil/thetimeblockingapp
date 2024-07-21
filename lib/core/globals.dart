@@ -43,10 +43,10 @@ class Globals {
 
   static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
-  static ClickupAccessToken get AccessToken =>
+  static ClickupAccessToken get accessToken =>
       _clickupAuthAccessToken;
 
-  static User? get clickupUser => _clickupUser;
+  static User? get user => _clickupUser;
 
   static Workspace? get selectedWorkspace => _selectedWorkspace;
 
@@ -60,7 +60,7 @@ class Globals {
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
 
-  static List<Workspace>? get clickupWorkspaces => _clickupWorkspaces;
+  static List<Workspace>? get workspaces => _clickupWorkspaces;
 
   static List<Space>? get spaces => _clickupSpaces;
 

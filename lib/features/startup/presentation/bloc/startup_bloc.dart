@@ -38,18 +38,18 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       }
       else if (event is SelectWorkspaceAndGetSpacesTagsLists) {
-        selectedWorkspace = event.clickupWorkspace;
+        selectedWorkspace = event.workspace;
         if (Globals.isSpaceAppWide == false) {
           emit(state.copyWith(
-              selectedClickupWorkspace: event.clickupWorkspace,
+              selectedClickupWorkspace: event.workspace,
               startupStateEnum: StartupStateEnum.loading));
           await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
+              SelectWorkspaceParams(event.workspace));
           final getAllInClickupWorkspaceResult =
               await _getAllInWorkspaceUseCase(
                   GetAllInClickupWorkspaceParams(
-                      clickupAccessToken: event.clickupAccessToken,
-                      clickupWorkspace: event.clickupWorkspace));
+                      clickupAccessToken: event.accessToken,
+                      clickupWorkspace: event.workspace));
           await getAllInClickupWorkspaceResult?.fold(
               (l) async => emit(state.copyWith(
                   startupStateEnum: StartupStateEnum.getSpacesFailed,
@@ -63,15 +63,15 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
               });
         } else {
           emit(state.copyWith(
-              selectedClickupWorkspace: event.clickupWorkspace,
+              selectedClickupWorkspace: event.workspace,
               startupStateEnum: StartupStateEnum.loading));
           await _selectWorkspaceUseCase(
-              SelectWorkspaceParams(event.clickupWorkspace));
+              SelectWorkspaceParams(event.workspace));
           final getSpacesInClickupWorkspaceResult =
               await _getSpacesInWorkspacesUseCase(
                   GetSpacesInWorkspacesParams(
-                      clickupAccessToken: event.clickupAccessToken,
-                      clickupWorkspace: event.clickupWorkspace));
+                      clickupAccessToken: event.accessToken,
+                      clickupWorkspace: event.workspace));
           await getSpacesInClickupWorkspaceResult?.fold(
               (l) async=> emit(state.copyWith(
                   startupStateEnum: StartupStateEnum.getSpacesFailed,
@@ -91,7 +91,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                 if (space != null) {
                   add(SelectSpace(
                       clickupSpace: space,
-                      clickupAccessToken: event.clickupAccessToken));
+                      clickupAccessToken: event.accessToken));
                 }
           });
         }

@@ -11,7 +11,7 @@ enum StartupStateEnum {
 class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
-  final Workspace? selectedClickupWorkspace;
+  final Workspace? selectedWorkspace;
   final Space? selectedClickupSpace;
   final List<Map<String, Failure>>? getSpacesFailure;
   final List<Map<String, Failure>>? getAllInSpaceFailure;
@@ -20,7 +20,7 @@ class StartupState extends Equatable {
 
   const StartupState({
     required this.drawerLargerScreenOpen,
-    this.selectedClickupWorkspace,
+    this.selectedWorkspace,
     this.selectedClickupSpace,
     this.startupStateEnum,
     this.getSpacesFailure,
@@ -33,7 +33,7 @@ class StartupState extends Equatable {
 
   bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
-          Globals.AccessToken.accessToken.isNotEmpty == true &&
+          Globals.accessToken.accessToken.isNotEmpty == true &&
           Globals.spaces == null &&
           getSpacesFailure == null &&
           clickupSpaces == null && triedGetSelectedWorkspacesSpace;
@@ -42,7 +42,7 @@ class StartupState extends Equatable {
   List<Object?> get props => [
     startupStateEnum,
     drawerLargerScreenOpen,
-    selectedClickupWorkspace,
+    selectedWorkspace,
     selectedClickupSpace,
     getSpacesFailure,
     clickupSpaces,
@@ -64,8 +64,8 @@ class StartupState extends Equatable {
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
       drawerLargerScreenOpen:
       drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
-      selectedClickupWorkspace:
-      selectedClickupWorkspace ?? this.selectedClickupWorkspace,
+      selectedWorkspace:
+      selectedClickupWorkspace ?? this.selectedWorkspace,
       getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
       clickupSpaces: clickupSpaces ?? this.clickupSpaces,
       selectedClickupSpace: selectedClickupSpace ?? this.selectedClickupSpace,

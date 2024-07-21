@@ -16,7 +16,7 @@ class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
     super.key,
     this.onTap,
-    this.selectedClickupWorkspaceId,
+    this.selectedWorkspaceId,
     required this.tasksDataSource,
     required this.controller,
     required this.scheduleBloc,
@@ -26,7 +26,7 @@ class TasksCalendar extends StatelessWidget {
   final CalendarController controller;
   final ScheduleBloc scheduleBloc;
   final void Function(CalendarTapDetails)? onTap;
-  final String? selectedClickupWorkspaceId;
+  final String? selectedWorkspaceId;
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
@@ -54,7 +54,7 @@ class TasksCalendar extends StatelessWidget {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      timeZone: Globals.clickupUser?.timezone,
+      timeZone: Globals.user?.timezone,
       onTap: onTapCalendarElement,
       onLongPress: onTapCalendarElement,
       onAppointmentResizeEnd: (details){
@@ -63,7 +63,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
-              accessToken: Globals.AccessToken,
+              accessToken: Globals.accessToken,
               updatedDueDate: details.endTime,
             )));
       },
@@ -79,7 +79,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: task,
-              accessToken: Globals.AccessToken,
+              accessToken: Globals.accessToken,
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
@@ -105,8 +105,8 @@ class TasksCalendar extends StatelessWidget {
             scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                 id: id,
                 GetTasksInWorkspaceParams(
-                    workspaceId: selectedClickupWorkspaceId ??
-                        Globals.clickupWorkspaces?.first.id ??
+                    workspaceId: selectedWorkspaceId ??
+                        Globals.workspaces?.first.id ??
                         "",
                     filtersParams: scheduleBloc
                         .state.defaultTasksInWorkspaceFiltersParams
