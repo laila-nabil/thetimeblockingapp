@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
@@ -51,7 +51,7 @@ class UpdateTagParams {
   final Space space;
   final String originalTagName;
   final ClickupTagModel newTag;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
 
   UpdateTagParams(
       {required this.space,

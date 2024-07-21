@@ -21,7 +21,7 @@ class GetClickupAccessToken extends AuthEvent{
   List<Object?> get props => [clickupCode];
 }
 class GetClickupUserWorkspaces extends AuthEvent{
-  final ClickupAccessToken accessToken;
+  final AccessToken accessToken;
 
   const GetClickupUserWorkspaces(this.accessToken);
 

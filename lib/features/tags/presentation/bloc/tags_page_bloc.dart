@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_task_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
@@ -157,7 +157,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
@@ -174,7 +174,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
@@ -190,7 +190,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.task!.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));

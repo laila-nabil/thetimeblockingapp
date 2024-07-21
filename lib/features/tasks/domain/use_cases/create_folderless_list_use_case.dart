@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -38,20 +38,20 @@ class CreateFolderlessListUseCase
 }
 
 class CreateFolderlessListParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Space clickupSpace;
+  final AccessToken accessToken;
+  final Space space;
   final String listName;
   final Color? statusColor;
   final Assignee? assignee = Globals.user?.asAssignee;
 
   CreateFolderlessListParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
+    required this.accessToken,
+    required this.space,
     required this.listName,
     this.statusColor,
   });
 
   @override
   List<Object?> get props =>
-      [clickupAccessToken, clickupSpace, listName, statusColor];
+      [accessToken, space, listName, statusColor];
 }

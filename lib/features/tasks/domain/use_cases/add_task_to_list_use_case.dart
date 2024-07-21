@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -21,7 +21,7 @@ class AddTaskToListUseCase
 class AddTaskToListParams {
   final Task task;
   final TasksList list;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";
 

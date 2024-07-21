@@ -60,13 +60,13 @@ class ListsPage extends StatelessWidget {
                             label: appLocalization.translate("delete"),
                             onPressed: () {
                               listsPageBloc.add(DeleteListEvent.submit(
-                                  deleteClickupListParams:
+                                  deleteListParams:
                                       DeleteListParams(
                                           list: state.toDeleteList!,
-                                          clickupAccessToken:
+                                          accessToken:
                                               Globals.accessToken),
-                                  clickupWorkspace: Globals.selectedWorkspace!,
-                                  clickupSpace: Globals.selectedSpace!));
+                                  workspace: Globals.selectedWorkspace!,
+                                  space: Globals.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -93,13 +93,13 @@ class ListsPage extends StatelessWidget {
                             label: appLocalization.translate("delete"),
                             onPressed: () {
                               listsPageBloc.add(DeleteFolderEvent.submit(
-                                  deleteClickupFolderParams:
+                                  deleteFolderParams:
                                       DeleteFolderParams(
                                           folder: state.toDeleteFolder!,
-                                          clickupAccessToken:
+                                          accessToken:
                                               Globals.accessToken),
-                                  clickupWorkspace: Globals.selectedWorkspace!,
-                                  clickupSpace: Globals.selectedSpace!));
+                                  workspace: Globals.selectedWorkspace!,
+                                  space: Globals.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -212,18 +212,18 @@ class ListsPage extends StatelessWidget {
                                                             _CreateField(
                                                                 onAdd: (text) {
                                                               listsPageBloc.add(CreateListInFolderEvent.submit(
-                                                                  createClickupListInFolderParams: CreateListInFolderParams(
-                                                                      clickupAccessToken:
+                                                                  createListInFolderParams: CreateListInFolderParams(
+                                                                      accessToken:
                                                                           Globals
                                                                               .accessToken,
-                                                                      clickupFolder:
+                                                                      folder:
                                                                           folder,
                                                                       listName:
                                                                           text),
-                                                                  clickupWorkspace:
+                                                                  workspace:
                                                                       Globals
                                                                           .selectedWorkspace!,
-                                                                  clickupSpace:
+                                                                  space:
                                                                       Globals
                                                                           .selectedSpace!));
                                                             }, onCancel: () {
@@ -266,17 +266,17 @@ class ListsPage extends StatelessWidget {
                                               ? _CreateField(
                                                   onAdd: (text) {
                                                     listsPageBloc.add(CreateFolderInSpaceEvent.submit(
-                                                        createClickupFolderInSpaceParams:
+                                                        createFolderInSpaceParams:
                                                             CreateFolderInSpaceParams(
-                                                                clickupAccessToken:
+                                                                accessToken:
                                                                     Globals
                                                                         .accessToken,
                                                                 folderName: text,
-                                                                clickupSpace: Globals
+                                                                space: Globals
                                                                     .selectedSpace!),
-                                                        clickupWorkspace: Globals
+                                                        workspace: Globals
                                                             .selectedWorkspace!,
-                                                        clickupSpace: Globals
+                                                        space: Globals
                                                             .selectedSpace!));
                                                   },
                                                   onCancel: () {
@@ -301,17 +301,17 @@ class ListsPage extends StatelessWidget {
                                           state.tryCreateListInSpace
                                               ? _CreateField(onAdd: (text) {
                                                   listsPageBloc.add(CreateFolderlessListEvent.submit(
-                                                      createFolderlessListClickupParams:
+                                                      createFolderlessListParams:
                                                           CreateFolderlessListParams(
-                                                              clickupAccessToken:
+                                                              accessToken:
                                                                   Globals
                                                                       .accessToken,
                                                               listName: text,
-                                                              clickupSpace: Globals
+                                                              space: Globals
                                                                   .selectedSpace!),
-                                                      clickupWorkspace: Globals
+                                                      workspace: Globals
                                                           .selectedWorkspace!,
-                                                      clickupSpace: Globals
+                                                      space: Globals
                                                           .selectedSpace!));
                                                 }, onCancel: () {
                                                   listsPageBloc.add(
@@ -351,9 +351,9 @@ class ListsPage extends StatelessWidget {
 
   void getListsFolders(ListsPageBloc listsPageBloc) {
     listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
-      clickupAccessToken: Globals.accessToken,
-      clickupWorkspace: Globals.selectedWorkspace!,
-      clickupSpace: Globals.selectedSpace!,
+      accessToken: Globals.accessToken,
+      workspace: Globals.selectedWorkspace!,
+      space: Globals.selectedSpace!,
     ));
   }
 }

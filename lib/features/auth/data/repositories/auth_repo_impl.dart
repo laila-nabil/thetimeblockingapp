@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/clickup_access_token_model.dart';
 
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_clickup_access_token_use_case.dart';
 
@@ -26,9 +26,9 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
   @override
-  Future<dartz.Either<Failure, ClickupAccessToken>> getClickupAccessToken(
+  Future<dartz.Either<Failure, AccessToken>> getClickupAccessToken(
       {required GetClickupAccessTokenParams params}) async {
-    final result = await repoHandleRemoteRequest<ClickupAccessToken>(
+    final result = await repoHandleRemoteRequest<AccessToken>(
         remoteDataSourceRequest: () async =>
             await authRemoteDataSource.getClickupAccessToken(params: params),
       trySaveResult: (result)async{

@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -33,11 +33,11 @@ class DeleteFolderUseCase
 
 class DeleteFolderParams {
   final Folder folder;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   DeleteFolderParams({
     required this.folder,
-    required this.clickupAccessToken,
+    required this.accessToken,
   });
 
   String get folderId => folder.id ?? "";

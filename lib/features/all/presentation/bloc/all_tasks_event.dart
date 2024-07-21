@@ -5,17 +5,17 @@ abstract class AllTasksEvent extends Equatable {
 }
 
 class GetTasksInSpaceEvent extends AllTasksEvent {
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken accessToken;
   final Space space;
   final Workspace workspace;
 
   const GetTasksInSpaceEvent(
-      {required this.clickupAccessToken,
+      {required this.accessToken,
         required this.workspace,
         required this.space});
 
   @override
-  List<Object?> get props => [clickupAccessToken, space];
+  List<Object?> get props => [accessToken, space];
 }
 
 class CreateTaskEvent extends AllTasksEvent {

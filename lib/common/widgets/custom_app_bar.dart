@@ -51,8 +51,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               selectClickupSpace: (selected) {
                 if (selected != null && state.isLoading == false) {
                   startupBloc.add(SelectSpace(
-                      clickupSpace: selected,
-                      clickupAccessToken: Globals.accessToken));
+                      space: selected,
+                      accessToken: Globals.accessToken));
                 }
               },
               pageActions: pageActions,

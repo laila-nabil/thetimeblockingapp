@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/space.dart';
 
 class GetSpacesInWorkspacesUseCase
@@ -43,7 +43,7 @@ class GetSpacesInWorkspacesUseCase
 }
 
 class GetSpacesInWorkspacesParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
   final Workspace clickupWorkspace;
   final bool? archived;
 

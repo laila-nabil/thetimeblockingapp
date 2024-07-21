@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/space.dart';
 import 'get_folderless_lists_in_space_use_case.dart';
 import 'get_folders_in_space_use_case.dart';
@@ -20,13 +20,13 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
   GetAllInWorkspaceUseCase(this.repo);
 
   Future<dartz.Either<List<Map<String, Failure>>, List<Space>>?> call(
-      GetAllInClickupWorkspaceParams params) async {
+      GetAllInWorkspaceParams params) async {
     List<Space> spaces = [];
     List<Map<String, Failure>> failures = [];
     final spacesResult = await repo.getClickupSpacesInWorkspaces(
         params: GetSpacesInWorkspacesParams(
-            clickupAccessToken: params.clickupAccessToken,
-            clickupWorkspace: params.clickupWorkspace,
+            clickupAccessToken: params.accessToken,
+            clickupWorkspace: params.workspace,
             archived: params.archived));
     printDebug("GetAllInClickupWorkspaceUseCase spacesResult $spacesResult");
     await spacesResult.fold((l) async => failures.add({"spaces": l}),
@@ -36,7 +36,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
           for (var eSpace in rSpace){
             final tagsResult = await repo.getClickupTags(
                 params: GetTagsInSpaceParams(
-                    accessToken: params.clickupAccessToken,
+                    accessToken: params.accessToken,
                     space: eSpace));
             tagsResult.fold(
                     (l) => failures.add({"tagS$indexSpace": l}),
@@ -45,7 +45,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
                 });
             final folderlessLists = await repo.getClickupFolderlessLists(
                 params: GetFolderlessListsInSpaceParams(
-                    clickupAccessToken: params.clickupAccessToken,
+                    clickupAccessToken: params.accessToken,
                     clickupSpace: eSpace,
                     archived: params.archived));
             printDebug(
@@ -57,7 +57,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
                 });
             final folders = await repo.getClickupFolders(
                 params: GetFoldersInSpaceParams(
-                    clickupAccessToken: params.clickupAccessToken,
+                    clickupAccessToken: params.accessToken,
                     clickupSpace: eSpace,
                     archived: params.archived));
             printDebug("GetAllInClickupWorkspaceUseCase folders $folders");
@@ -90,17 +90,17 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
   }
 }
 
-class GetAllInClickupWorkspaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Workspace clickupWorkspace;
+class GetAllInWorkspaceParams extends Equatable {
+  final AccessToken accessToken;
+  final Workspace workspace;
   final bool? archived;
 
-  const GetAllInClickupWorkspaceParams({
-    required this.clickupAccessToken,
-    required this.clickupWorkspace,
+  const GetAllInWorkspaceParams({
+    required this.accessToken,
+    required this.workspace,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupWorkspace, archived];
+  List<Object?> get props => [accessToken, workspace, archived];
 }

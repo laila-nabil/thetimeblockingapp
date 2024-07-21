@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_tas
 
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../../../tasks/domain/entities/space.dart';
 import '../../../tasks/domain/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
@@ -42,7 +42,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
-                    accessToken: event.clickupAccessToken,
+                    accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""])));
         result?.fold(
             (l) => emit(state.copyWith(
@@ -64,7 +64,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
           add(GetTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.space!,
               workspace: event.workspace));
         });
@@ -79,7 +79,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
           add(GetTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.space!,
               workspace: event.workspace));
         });
@@ -94,7 +94,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
           add(GetTasksInSpaceEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              accessToken: event.params.accessToken,
               space: event.params.space ?? Globals.selectedSpace!,
               workspace: event.workspace));
         });
@@ -109,7 +109,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
           add(GetTasksInSpaceEvent(
-              clickupAccessToken: event.params.accessToken,
+              accessToken: event.params.accessToken,
               space: event.params.task.space!,
               workspace: event.workspace));
         });

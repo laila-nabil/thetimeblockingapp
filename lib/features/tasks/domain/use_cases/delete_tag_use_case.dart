@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/space.dart';
 
 class DeleteTagUseCase
@@ -36,7 +36,7 @@ class DeleteTagUseCase
 class DeleteTagParams {
   final Space space;
   final Tag tag;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
 
   DeleteTagParams(
       {required this.space,

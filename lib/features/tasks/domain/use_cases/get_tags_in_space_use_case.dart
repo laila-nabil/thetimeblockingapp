@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/space.dart';
 
 class GetTagsInSpaceUseCase
@@ -36,7 +36,7 @@ class GetTagsInSpaceUseCase
 }
 
 class GetTagsInSpaceParams extends Equatable {
-  final ClickupAccessToken accessToken;
+  final AccessToken accessToken;
   final Space space;
   final bool? archived;
 

@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -34,16 +34,16 @@ class CreateFolderInSpaceUseCase
 }
 
 class CreateFolderInSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Space clickupSpace;
+  final AccessToken accessToken;
+  final Space space;
   final String folderName;
   const CreateFolderInSpaceParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
+    required this.accessToken,
+    required this.space,
     required this.folderName,
   });
 
   @override
   List<Object?> get props =>
-      [clickupAccessToken, clickupSpace,folderName,];
+      [accessToken, space,folderName,];
 }

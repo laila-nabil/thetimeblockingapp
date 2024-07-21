@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import 'tasks_list.dart';
 import 'task.dart';
 
@@ -12,7 +12,7 @@ enum ClickupTaskParamsEnum { create, update }
 
 class CreateTaskParams extends Equatable{
   final ClickupTaskParamsEnum clickupTaskParamsEnum;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken accessToken;
   final TasksList? list;
   final String? title;
   final String? description;
@@ -99,7 +99,7 @@ class CreateTaskParams extends Equatable{
       this.parentTask,
       this.linkedTask,
       this.requiredCustomFields,
-      required this.clickupAccessToken,
+      required this.accessToken,
       required this.clickupTaskParamsEnum,
       this.task,
       this.space,
@@ -143,7 +143,7 @@ class CreateTaskParams extends Equatable{
       : ClickupTaskParamsEnum.update;
   }
   factory CreateTaskParams.startCreateNewTask({
-    required ClickupAccessToken accessToken,
+    required AccessToken accessToken,
     DateTime? startDate,
     DateTime? dueDate,
     Space? space,
@@ -153,7 +153,7 @@ class CreateTaskParams extends Equatable{
     printDebug("ClickupTaskParams startCreateNewTask task");
     return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
-          clickupAccessToken: accessToken,
+          accessToken: accessToken,
           startDate: startDate,
           dueDate: dueDate,
           space: space,
@@ -163,7 +163,7 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.createNewTask({
-    required ClickupAccessToken accessToken,
+    required AccessToken accessToken,
     required TasksList list,
     required String title,
     String? description,
@@ -183,7 +183,7 @@ class CreateTaskParams extends Equatable{
     printDebug("ClickupTaskParams createNewTask task");
     return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
-          clickupAccessToken: accessToken,
+          accessToken: accessToken,
           space: space,
           list: list,
           folder: folder,
@@ -207,7 +207,7 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.startUpdateTask({
-    required ClickupAccessToken accessToken,
+    required AccessToken accessToken,
     required Task task,
   }) {
     printDebug("ClickupTaskParams startUpdateTask task $task");
@@ -223,7 +223,7 @@ class CreateTaskParams extends Equatable{
             .firstOrNull;
     return CreateTaskParams._(
         clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
-        clickupAccessToken: accessToken,
+        accessToken: accessToken,
         task: task,
         description: null,//description controlled by text controller
         title: null,//title controlled by text controller
@@ -242,7 +242,7 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.updateTask({
-    required ClickupAccessToken accessToken,
+    required AccessToken accessToken,
     required Task task,
     String? updatedTitle,
     String? updatedDescription,
@@ -264,7 +264,7 @@ class CreateTaskParams extends Equatable{
   }) =>
       CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
-          clickupAccessToken: accessToken,
+          accessToken: accessToken,
           space: null,
           list: list,
           folder: folder,
@@ -345,7 +345,7 @@ class CreateTaskParams extends Equatable{
 
   CreateTaskParams copyWith({
     ClickupTaskParamsEnum? clickupTaskParamsEnum,
-    ClickupAccessToken? clickupAccessToken,
+    AccessToken? clickupAccessToken,
     TasksList? list,
     String? title,
     String? description,
@@ -413,7 +413,7 @@ class CreateTaskParams extends Equatable{
     return CreateTaskParams._(
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
-      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+      accessToken: clickupAccessToken ?? this.accessToken,
       list: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,
@@ -456,7 +456,7 @@ class CreateTaskParams extends Equatable{
     parentTask,
     linkedTask,
     requiredCustomFields,
-    clickupAccessToken,
+    accessToken,
     clickupTaskParamsEnum,
     task,
     folder,
@@ -466,6 +466,6 @@ class CreateTaskParams extends Equatable{
 
   @override
   String toString() {
-    return 'ClickupTaskParams{clickupTaskParamsEnum: $clickupTaskParamsEnum, clickupAccessToken: $clickupAccessToken, clickupList: $list, title: $title, description: $description, assignees: $assignees, addedAssignees: $addedAssignees, removedAssignees: $removedAssignees, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, timeEstimate: $timeEstimate, startDate: $startDate, notifyAll: $notifyAll, parentTask: $parentTask, linkedTask: $linkedTask, requiredCustomFields: $requiredCustomFields, task: $task, archived: $archived, clickupSpace: $space, folder: $folder}';
+    return 'ClickupTaskParams{clickupTaskParamsEnum: $clickupTaskParamsEnum, clickupAccessToken: $accessToken, clickupList: $list, title: $title, description: $description, assignees: $assignees, addedAssignees: $addedAssignees, removedAssignees: $removedAssignees, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, timeEstimate: $timeEstimate, startDate: $startDate, notifyAll: $notifyAll, parentTask: $parentTask, linkedTask: $linkedTask, requiredCustomFields: $requiredCustomFields, task: $task, archived: $archived, clickupSpace: $space, folder: $folder}';
   }
 }

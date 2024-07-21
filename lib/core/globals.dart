@@ -3,14 +3,14 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 
 import '../common/entities/user.dart';
 import '../common/entities/workspace.dart';
-import '../features/auth/domain/entities/clickup_access_token.dart';
+import '../features/auth/domain/entities/access_token.dart';
 import 'environment.dart';
 
 String _appName = "Time blocking app";
 
 
-ClickupAccessToken _clickupAuthAccessToken =
-    const ClickupAccessToken(accessToken: "", tokenType: "");
+AccessToken _clickupAuthAccessToken =
+    const AccessToken(accessToken: "", tokenType: "");
 User? _clickupUser;
 
 Workspace? _selectedWorkspace;
@@ -43,7 +43,7 @@ class Globals {
 
   static get isAnalyticsEnabled => env.isAnalyticsEnabled;
 
-  static ClickupAccessToken get accessToken =>
+  static AccessToken get accessToken =>
       _clickupAuthAccessToken;
 
   static User? get user => _clickupUser;
@@ -91,13 +91,13 @@ mixin class GlobalsWriteAccess {
     _appName = value;
   }
 
-  set clickupAuthAccessToken(ClickupAccessToken value) {
+  set clickupAuthAccessToken(AccessToken value) {
     _clickupAuthAccessToken = value;
   }
 
   void clearGlobals() {
     _clickupAuthAccessToken =
-        const ClickupAccessToken(accessToken: "", tokenType: "");
+        const AccessToken(accessToken: "", tokenType: "");
     _clickupUser = null;
     _selectedWorkspace = null;
     _selectedSpaceId = null;

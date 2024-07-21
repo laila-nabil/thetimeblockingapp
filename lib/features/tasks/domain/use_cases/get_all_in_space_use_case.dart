@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/space.dart';
 import 'get_folderless_lists_in_space_use_case.dart';
 import 'get_folders_in_space_use_case.dart';
@@ -19,11 +19,11 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
 
   Future<dartz.Either<List<Map<String, Failure>>, Space>?> call(
       GetAllInSpaceParams params) async {
-    Space space = params.clickupSpace;
+    Space space = params.space;
     List<Map<String, Failure>> failures = [];
     final tagsResult = await repo.getClickupTags(
         params: GetTagsInSpaceParams(
-            accessToken: params.clickupAccessToken,
+            accessToken: params.accessToken,
             space: space));
     tagsResult.fold(
             (l) => failures.add({"tagS": l}),
@@ -32,7 +32,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
         });
     final folderlessLists = await repo.getClickupFolderlessLists(
         params: GetFolderlessListsInSpaceParams(
-            clickupAccessToken: params.clickupAccessToken,
+            clickupAccessToken: params.accessToken,
             clickupSpace: space,
             archived: params.archived));
     printDebug(
@@ -44,7 +44,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
         });
     final folders = await repo.getClickupFolders(
         params: GetFoldersInSpaceParams(
-            clickupAccessToken: params.clickupAccessToken,
+            clickupAccessToken: params.accessToken,
             clickupSpace: space,
             archived: params.archived));
     printDebug("GetAllInClickupSpaceUseCase folders $folders");
@@ -73,16 +73,16 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
 }
 
 class GetAllInSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Space clickupSpace;
+  final AccessToken accessToken;
+  final Space space;
   final bool? archived;
 
   const GetAllInSpaceParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
+    required this.accessToken,
+    required this.space,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupSpace, archived];
+  List<Object?> get props => [accessToken, space, archived];
 }

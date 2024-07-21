@@ -4,18 +4,18 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 
 import '../repositories/auth_repo.dart';
 
 class GetClickupAccessTokenUseCase
-    implements UseCase<ClickupAccessToken, GetClickupAccessTokenParams> {
+    implements UseCase<AccessToken, GetClickupAccessTokenParams> {
   final AuthRepo repo;
 
   GetClickupAccessTokenUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, ClickupAccessToken>?> call(
+  Future<dartz.Either<Failure, AccessToken>?> call(
       GetClickupAccessTokenParams params) async {
     final result = await repo.getClickupAccessToken(params: params);
     await result.fold(

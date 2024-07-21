@@ -16,7 +16,7 @@ enum AuthStateEnum {
 class AuthState extends Equatable {
   final Set<AuthStateEnum> authStates;
   final Failure? getClickupAccessTokenFailure;
-  final ClickupAccessToken? clickupAccessToken;
+  final AccessToken? clickupAccessToken;
   final User? clickupUser;
   final Failure? getClickupUserFailure;
   final List<Workspace>? clickupWorkspaces;
@@ -70,7 +70,7 @@ class AuthState extends Equatable {
   AuthState copyWith({
     Set<AuthStateEnum>? authStates,
     Failure? getClickupAccessTokenFailure,
-    ClickupAccessToken? clickupAccessToken,
+    AccessToken? clickupAccessToken,
     User? clickupUser,
     Failure? getClickupUserFailure,
     List<Workspace>? clickupWorkspaces,

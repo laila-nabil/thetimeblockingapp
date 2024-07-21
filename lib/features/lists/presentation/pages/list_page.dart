@@ -44,10 +44,10 @@ class ListPage extends StatelessWidget {
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
                 listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                    getClickupListAndItsTasksParams:
-                        GetClickupListAndItsTasksParams(
+                    getListAndItsTasksParams:
+                        GetListAndItsTasksParams(
                             listId: listId,
-                            clickupAccessToken:
+                            accessToken:
                                 Globals.accessToken)));
               }
               return ResponsiveScaffold(
@@ -143,10 +143,10 @@ class ListPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                      getClickupListAndItsTasksParams:
-                          GetClickupListAndItsTasksParams(
+                      getListAndItsTasksParams:
+                          GetListAndItsTasksParams(
                               listId: listId,
-                              clickupAccessToken:
+                              accessToken:
                                   Globals.accessToken)));
                   startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                       workspace: Globals.selectedWorkspace!,

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
@@ -58,7 +58,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-  final ClickupAccessToken accessToken;
+  final AccessToken accessToken;
 
   const GetTasksInWorkspaceFiltersParams({
     this.page,
@@ -351,7 +351,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
     List<String>? customFields,
     bool? customTaskIds,
     bool? includeParentTaskId,
-    ClickupAccessToken? clickupAccessToken,
+    AccessToken? clickupAccessToken,
   }) {
     return GetTasksInWorkspaceFiltersParams(
       page: page ?? this.page,

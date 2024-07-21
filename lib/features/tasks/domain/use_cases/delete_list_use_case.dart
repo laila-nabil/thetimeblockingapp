@@ -4,7 +4,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -32,8 +32,8 @@ class DeleteListUseCase
 
 class DeleteListParams {
   final TasksList list;
-  final ClickupAccessToken clickupAccessToken;
-  DeleteListParams({required this.list,required this.clickupAccessToken, });
+  final AccessToken accessToken;
+  DeleteListParams({required this.list,required this.accessToken, });
 
   String get listId => list.id ?? "";
 }

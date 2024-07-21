@@ -50,8 +50,8 @@ class CustomDrawer extends StatelessWidget {
             selectSpace: (selected) {
               if (selected != null && state.isLoading == false) {
                 startupBloc.add(SelectSpace(
-                    clickupSpace: selected,
-                    clickupAccessToken: Globals.accessToken));
+                    space: selected,
+                    accessToken: Globals.accessToken));
               }
             },
             appLocalization: appLocalization);

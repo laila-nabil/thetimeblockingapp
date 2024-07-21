@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/folder.dart';
 import '../entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
@@ -22,7 +22,7 @@ class GetListsInFolderUseCase
 }
 
 class GetListsInFolderParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
   final Space clickupSpace;
   final Folder clickupFolder;
   final bool? archived;

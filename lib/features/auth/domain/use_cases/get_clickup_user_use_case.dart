@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 
 import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
-import '../entities/clickup_access_token.dart';
+import '../entities/access_token.dart';
 
 class GetClickupUserUseCase
     implements UseCase<User, GetClickupUserParams> {
@@ -38,7 +38,7 @@ class GetClickupUserUseCase
 }
 
 class GetClickupUserParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
 
   const GetClickupUserParams(this.clickupAccessToken);
 

@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 
 class MoveTaskBetweenListsUseCase
     implements UseCase<dartz.Unit, MoveTaskBetweenListsParams> {
@@ -24,7 +24,7 @@ class MoveTaskBetweenListsUseCase
     dartz.Either<Failure, Task>? createResult;
     dartz.Either<Failure, dartz.Unit>? deleteResult;
     createResult = await repo.createTaskInList(CreateTaskParams.createNewTask(
-        accessToken: params.clickupAccessToken,
+        accessToken: params.accessToken,
         list: params.newList,
         title: task.name ?? "",
         startDate: task.startDateUtc,
@@ -37,7 +37,7 @@ class MoveTaskBetweenListsUseCase
         tags: task.tags));
     if (createResult?.isRight() == true) {
       deleteResult = await repo.deleteTask(DeleteTaskParams(
-          task: task, accessToken: params.clickupAccessToken));
+          task: task, accessToken: params.accessToken));
     }
     if (createResult?.isRight() == true && deleteResult?.isRight() == true) {
       await serviceLocator<Analytics>()
@@ -62,10 +62,10 @@ class MoveTaskBetweenListsUseCase
 class MoveTaskBetweenListsParams {
   final Task task;
   final TasksList newList;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   MoveTaskBetweenListsParams(
       {required this.task,
       required this.newList,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

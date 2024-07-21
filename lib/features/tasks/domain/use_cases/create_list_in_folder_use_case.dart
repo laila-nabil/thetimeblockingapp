@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import '../../../../core/globals.dart';
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 import '../entities/folder.dart';
 import '../entities/tasks_list.dart';
 import '../entities/task.dart';
@@ -38,23 +38,23 @@ class CreateListInFolderUseCase
 }
 
 class CreateListInFolderParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Folder clickupFolder;
+  final AccessToken accessToken;
+  final Folder folder;
   final String listName;
   final Color? statusColor;
   final Assignee? assignee = Globals.user?.asAssignee;
 
   CreateListInFolderParams({
-    required this.clickupAccessToken,
-    required this.clickupFolder,
+    required this.accessToken,
+    required this.folder,
     required this.listName,
     this.statusColor,
   });
 
   @override
   List<Object?> get props => [
-        clickupAccessToken,
-        clickupFolder,
+        accessToken,
+        folder,
         listName,
         statusColor,
       ];

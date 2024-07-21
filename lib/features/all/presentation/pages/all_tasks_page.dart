@@ -92,8 +92,8 @@ class AllTasksPage extends StatelessWidget {
                                 if (selected != null &&
                                     state.isLoading == false) {
                                   startupBloc.add(SelectSpace(
-                                      clickupSpace: selected,
-                                      clickupAccessToken:
+                                      space: selected,
+                                      accessToken:
                                           Globals.accessToken));
                                   getAllTasksInSpace(allTasksBloc);
                                 }
@@ -206,7 +206,7 @@ class AllTasksPage extends StatelessWidget {
 
   void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
     allTasksBloc.add(GetTasksInSpaceEvent(
-        clickupAccessToken: Globals.accessToken,
+        accessToken: Globals.accessToken,
         workspace: Globals.selectedWorkspace!,
         space: Globals.selectedSpace!));
   }

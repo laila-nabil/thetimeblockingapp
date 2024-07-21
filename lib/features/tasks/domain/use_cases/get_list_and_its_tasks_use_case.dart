@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/clickup_access_token.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
@@ -31,9 +31,9 @@ class GetListAndItsTasksUseCase {
   }
 
   Future<GetClickupListAndItsTasksResult?> call(
-      GetClickupListAndItsTasksParams params) async {
+      GetListAndItsTasksParams params) async {
     final listResult = await repo.getClickupList(GetListParams(
-        listId: params.listId, clickupAccessToken: params.clickupAccessToken));
+        listId: params.listId, clickupAccessToken: params.accessToken));
     await listResult?.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
@@ -70,15 +70,15 @@ class GetListAndItsTasksUseCase {
   }
 }
 
-class GetClickupListAndItsTasksParams extends Equatable {
+class GetListAndItsTasksParams extends Equatable {
   final String listId;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
-  const GetClickupListAndItsTasksParams(
-      {required this.listId, required this.clickupAccessToken});
+  const GetListAndItsTasksParams(
+      {required this.listId, required this.accessToken});
 
   @override
-  List<Object?> get props => [listId, clickupAccessToken];
+  List<Object?> get props => [listId, accessToken];
 }
 
 class GetClickupListAndItsTasksResult extends Equatable {

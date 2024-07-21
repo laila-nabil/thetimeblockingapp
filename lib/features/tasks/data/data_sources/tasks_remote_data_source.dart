@@ -130,7 +130,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/list/${params.getListId}/task");
     final response = await network.post(
         uri: uri,
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        headers: clickupHeader(clickupAccessToken: params.accessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
   }
@@ -141,7 +141,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/task/${params.taskId}");
     final response = await network.put(
         uri: uri,
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        headers: clickupHeader(clickupAccessToken: params.accessToken),
         body: params.toJson());
     return ClickupTaskModel.fromJson(json.decode(response.body));
   }
@@ -316,8 +316,8 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupListModel> createClickupListInFolder(
       {required CreateListInFolderParams params}) async {
     final response = await network.post(
-        uri: Uri.parse("$clickupUrl/folder/${params.clickupFolder.id}/list"),
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        uri: Uri.parse("$clickupUrl/folder/${params.folder.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.accessToken),
         body: {"name": params.listName, "assignee": params.assignee?.id});
     return ClickupListModel.fromJson(json.decode(response.body));
   }
@@ -326,8 +326,8 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupListModel> createFolderlessClickupList(
       {required CreateFolderlessListParams params}) async {
     final response = await network.post(
-        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/list"),
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        uri: Uri.parse("$clickupUrl/space/${params.space.id}/list"),
+        headers: clickupHeader(clickupAccessToken: params.accessToken),
         body: {"name": params.listName, "assignee": params.assignee?.id});
     return ClickupListModel.fromJson(json.decode(response.body));
   }
@@ -336,8 +336,8 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<ClickupFolderModel> createClickupFolderInSpace(
       {required CreateFolderInSpaceParams params}) async {
     final response = await network.post(
-        uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/folder"),
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+        uri: Uri.parse("$clickupUrl/space/${params.space.id}/folder"),
+        headers: clickupHeader(clickupAccessToken: params.accessToken),
         body: {"name": params.folderName});
     return ClickupFolderModel.fromJson(json.decode(response.body));
   }
@@ -347,7 +347,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/list/${params.listId}");
     await network.delete(
       uri: uri,
-      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+      headers: clickupHeader(clickupAccessToken: params.accessToken),
     );
     return dartz.unit;
   }
@@ -357,7 +357,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/folder/${params.folderId}");
     await network.delete(
       uri: uri,
-      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+      headers: clickupHeader(clickupAccessToken: params.accessToken),
     );
     return dartz.unit;
   }

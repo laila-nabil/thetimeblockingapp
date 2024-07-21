@@ -64,14 +64,14 @@ class ListsPageState extends Equatable {
   final Failure? deleteFolderFailure;
   final List<Task>? deleteTaskResult;
   final Failure? deleteTaskFailure;
-  final Workspace? clickupWorkspace;
-  final Space? clickupSpace;
-  final CreateListInFolderParams? createClickupListInFolderParams;
-  final CreateFolderlessListParams? createFolderlessListClickupParams;
-  final MoveTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
-  final CreateFolderInSpaceParams? createClickupFolderInSpaceParams;
-  final DeleteFolderParams? deleteClickupFolderParams;
-  final DeleteListParams? deleteClickupListParams;
+  final Workspace? workspace;
+  final Space? space;
+  final CreateListInFolderParams? createListInFolderParams;
+  final CreateFolderlessListParams? createFolderlessListParams;
+  final MoveTaskBetweenListsParams? moveTaskBetweenListsParams;
+  final CreateFolderInSpaceParams? createFolderInSpaceParams;
+  final DeleteFolderParams? deleteFolderParams;
+  final DeleteListParams? deleteListParams;
   final dartz.Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
   final Folder? folderToCreateListIn;
@@ -99,14 +99,14 @@ class ListsPageState extends Equatable {
     this.deleteFolderFailure,
     this.deleteTaskResult,
     this.deleteTaskFailure,
-    this.clickupWorkspace,
-    this.clickupSpace,
-    this.createClickupListInFolderParams,
-    this.createFolderlessListClickupParams,
-    this.moveClickupTaskBetweenListsParams,
-    this.createClickupFolderInSpaceParams,
-    this.deleteClickupFolderParams,
-    this.deleteClickupListParams,
+    this.workspace,
+    this.space,
+    this.createListInFolderParams,
+    this.createFolderlessListParams,
+    this.moveTaskBetweenListsParams,
+    this.createFolderInSpaceParams,
+    this.deleteFolderParams,
+    this.deleteListParams,
     this.moveTaskBetweenListsResult,
     this.moveTaskBetweenListsFailure,
     this.folderToCreateListIn,
@@ -163,14 +163,14 @@ class ListsPageState extends Equatable {
         deleteFolderFailure,
         deleteTaskResult,
         deleteTaskFailure,
-        clickupWorkspace,
-        clickupSpace,
-        createClickupListInFolderParams,
-        createFolderlessListClickupParams,
-        moveClickupTaskBetweenListsParams,
-        createClickupFolderInSpaceParams,
-        deleteClickupFolderParams,
-        deleteClickupListParams,
+        workspace,
+        space,
+        createListInFolderParams,
+        createFolderlessListParams,
+        moveTaskBetweenListsParams,
+        createFolderInSpaceParams,
+        deleteFolderParams,
+        deleteListParams,
         moveTaskBetweenListsResult,
         moveTaskBetweenListsFailure,
         folderToCreateListIn,
@@ -209,14 +209,14 @@ class ListsPageState extends Equatable {
     Failure? deleteFolderFailure,
     List<Task>? deleteTaskResult,
     Failure? deleteTaskFailure,
-    Workspace? clickupWorkspace,
-    Space? clickupSpace,
-    CreateListInFolderParams? createClickupListInFolderParams,
-    CreateFolderlessListParams? createFolderlessListClickupParams,
-    MoveTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
-    CreateFolderInSpaceParams? createClickupFolderInSpaceParams,
-    DeleteFolderParams? deleteClickupFolderParams,
-    DeleteListParams? deleteClickupListParams,
+    Workspace? workspace,
+    Space? space,
+    CreateListInFolderParams? createListInFolderParams,
+    CreateFolderlessListParams? createFolderlessListParams,
+    MoveTaskBetweenListsParams? moveTaskBetweenListsParams,
+    CreateFolderInSpaceParams? createFolderInSpaceParams,
+    DeleteFolderParams? deleteFolderParams,
+    DeleteListParams? deleteListParams,
     dartz.Unit? moveTaskBetweenListsResult,
     Failure? moveTaskBetweenListsFailure,
     Failure? updateTaskFailure,
@@ -248,19 +248,19 @@ class ListsPageState extends Equatable {
       deleteFolderFailure: deleteFolderFailure ?? this.deleteFolderFailure,
       deleteTaskResult: deleteTaskResult ?? this.deleteTaskResult,
       deleteTaskFailure: deleteTaskFailure ?? this.deleteTaskFailure,
-      clickupWorkspace: clickupWorkspace ?? this.clickupWorkspace,
-      clickupSpace: clickupSpace ?? this.clickupSpace,
+      workspace: workspace ?? this.workspace,
+      space: space ?? this.space,
       moveTaskBetweenListsResult:
           moveTaskBetweenListsResult ?? this.moveTaskBetweenListsResult,
       moveTaskBetweenListsFailure:
           moveTaskBetweenListsFailure ?? this.moveTaskBetweenListsFailure,
       updateTaskFailure: updateTaskFailure??this.updateTaskFailure,
-      createClickupListInFolderParams: createClickupListInFolderParams,
-      createFolderlessListClickupParams: createFolderlessListClickupParams,
-      moveClickupTaskBetweenListsParams: moveClickupTaskBetweenListsParams,
-      createClickupFolderInSpaceParams: createClickupFolderInSpaceParams,
-      deleteClickupFolderParams: deleteClickupFolderParams,
-      deleteClickupListParams: deleteClickupListParams,
+      createListInFolderParams: createListInFolderParams,
+      createFolderlessListParams: createFolderlessListParams,
+      moveTaskBetweenListsParams: moveTaskBetweenListsParams,
+      createFolderInSpaceParams: createFolderInSpaceParams,
+      deleteFolderParams: deleteFolderParams,
+      deleteListParams: deleteListParams,
       folderToCreateListIn: folderToCreateListIn,
       toDeleteList: toDeleteList,
       toDeleteFolder: toDeleteFolder

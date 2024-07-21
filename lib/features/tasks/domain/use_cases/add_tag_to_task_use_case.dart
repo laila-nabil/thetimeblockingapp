@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../auth/domain/entities/clickup_access_token.dart';
+import '../../../auth/domain/entities/access_token.dart';
 
 class AddTagToTaskUseCase
     implements UseCase<dartz.Unit, AddTagToTaskParams> {
@@ -34,7 +34,7 @@ class AddTagToTaskUseCase
 class AddTagToTaskParams {
   final Task task;
   final Tag tag;
-  final ClickupAccessToken clickupAccessToken;
+  final AccessToken clickupAccessToken;
 
   String get taskId => task.id ?? "";
 
