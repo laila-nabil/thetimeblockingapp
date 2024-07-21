@@ -20,7 +20,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final GetAccessTokenUseCase _getClickupAccessTokenUseCase;
+  final GetAccessTokenUseCase _getAccessTokenUseCase;
   final GetUserUseCase _getUserUseCase;
   final GetWorkspacesUseCase _getWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
@@ -29,7 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetSpacesOfSelectedWorkspaceUseCase _getSpacesOfSelectedWorkspaceUseCase;
 
   AuthBloc(
-      this._getClickupAccessTokenUseCase,
+      this._getAccessTokenUseCase,
       this._getUserUseCase,
       this._getWorkspacesUseCase,
       this._getSelectedWorkspaceUseCase,
@@ -45,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       else if (event is GetAccessToken) {
         emit(const AuthState(
             authStates: {AuthStateEnum.loading}));
-        final result = await _getClickupAccessTokenUseCase(
+        final result = await _getAccessTokenUseCase(
             GetAccessTokenParams(event.clickupCode));
         emit(state.copyWith(
             authStates:
