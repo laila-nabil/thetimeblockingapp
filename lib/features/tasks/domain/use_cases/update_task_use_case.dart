@@ -42,8 +42,8 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
         : AnalyticsEvents.updateTask.name;
     final task = params.task;
     printDebug("task?.list ${task?.list}");
-    printDebug("params.clickupList ${params.clickupList}");
-    if (params.clickupList?.id == task?.list?.id || params.clickupList == null) {
+    printDebug("params.clickupList ${params.list}");
+    if (params.list?.id == task?.list?.id || params.list == null) {
       final taskTags = task?.tags;
       final newTags = params.tags;
       if (newTags != taskTags) {

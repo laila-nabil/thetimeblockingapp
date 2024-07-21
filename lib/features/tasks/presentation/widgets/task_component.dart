@@ -82,7 +82,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      AccessToken: Globals.AccessToken,
+                      accessToken: Globals.AccessToken,
                       list: task.list!,
                       title: task.name ?? "",
                       description: task.description,

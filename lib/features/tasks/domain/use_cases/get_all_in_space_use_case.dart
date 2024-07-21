@@ -22,9 +22,9 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
     Space space = params.clickupSpace;
     List<Map<String, Failure>> failures = [];
     final tagsResult = await repo.getClickupTags(
-        params: GetClickupTagsInSpaceParams(
-            clickupAccessToken: params.clickupAccessToken,
-            clickupSpace: space));
+        params: GetTagsInSpaceParams(
+            accessToken: params.clickupAccessToken,
+            space: space));
     tagsResult.fold(
             (l) => failures.add({"tagS": l}),
             (rTags) {

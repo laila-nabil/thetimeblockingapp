@@ -22,7 +22,7 @@ part 'tags_page_event.dart';
 part 'tags_page_state.dart';
 
 class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
-  final GetClickupTagsInSpaceUseCase _getTagsInSpaceUseCase;
+  final GetTagsInSpaceUseCase _getTagsInSpaceUseCase;
   final GetTasksInSingleWorkspaceUseCase
       _getTasksInSingleWorkspaceUseCase;
   final CreateTagInSpaceUseCase _createTagInSpaceUseCase;
@@ -61,7 +61,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
-                    clickupAccessToken: event.clickupAccessToken,
+                    accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""],
                     filterByTags: [event.tag.name ?? ""])));
         result?.fold(
@@ -89,9 +89,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.createTagSuccess,
             ));
-            add(GetTagsInSpaceEvent(GetClickupTagsInSpaceParams(
-                clickupAccessToken: event.params!.clickupAccessToken,
-                clickupSpace: event.params!.space)));
+            add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+                accessToken: event.params!.accessToken,
+                space: event.params!.space)));
           });
         }
       } else if (event is UpdateTagEvent) {
@@ -116,9 +116,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               updateTagResult: event.params?.newTag
             ));
             if(event.insideTagPage==false){
-              add(GetTagsInSpaceEvent(GetClickupTagsInSpaceParams(
-                  clickupAccessToken: event.params!.clickupAccessToken,
-                  clickupSpace: event.params!.space)));
+              add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+                  accessToken: event.params!.clickupAccessToken,
+                  space: event.params!.space)));
             }
           });
         }
@@ -141,9 +141,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.updateTaskSuccess,
             ));
-            add(GetTagsInSpaceEvent(GetClickupTagsInSpaceParams(
-                clickupAccessToken: event.params!.clickupAccessToken,
-                clickupSpace: event.params!.space)));
+            add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+                accessToken: event.params!.clickupAccessToken,
+                space: event.params!.space)));
           });
         }
       } else if (event is CreateTaskEvent) {
@@ -157,8 +157,8 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              accessToken: event.params.clickupAccessToken,
+              space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -174,8 +174,8 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              accessToken: event.params.clickupAccessToken,
+              space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -190,7 +190,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              clickupAccessToken: event.params.clickupAccessToken,
+              accessToken: event.params.clickupAccessToken,
               space: event.params.task!.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
@@ -206,7 +206,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              clickupAccessToken: event.params.accessToken,
+              accessToken: event.params.accessToken,
               space: event.params.task.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));

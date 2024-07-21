@@ -28,7 +28,7 @@ class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
     on<TaskPopUpEvent>((event, emit) {
       if(event is UpdateTaskParamsEvent){
         emit(TaskPopUpState(taskParams: event.taskParams));
-        printDebug("state after UpdateClickupTaskParamsEvent $state");
+        printDebug("state after UpdateTaskParamsEvent $state");
       }
     });
   }

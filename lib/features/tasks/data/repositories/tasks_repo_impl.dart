@@ -130,7 +130,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<ClickupTagModel>>> getClickupTags(
-      {required GetClickupTagsInSpaceParams params}) {
+      {required GetTagsInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getClickupTags(params: params),

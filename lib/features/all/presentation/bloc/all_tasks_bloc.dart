@@ -42,7 +42,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
-                    clickupAccessToken: event.clickupAccessToken,
+                    accessToken: event.clickupAccessToken,
                     filterBySpaceIds: [event.space.id ?? ""])));
         result?.fold(
             (l) => emit(state.copyWith(
@@ -65,7 +65,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is DuplicateTaskEvent) {
@@ -80,7 +80,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace!,
+              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is UpdateTaskEvent) {
@@ -95,7 +95,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetTasksInSpaceEvent(
               clickupAccessToken: event.params.clickupAccessToken,
-              space: event.params.clickupSpace ?? Globals.selectedSpace!,
+              space: event.params.space ?? Globals.selectedSpace!,
               workspace: event.workspace));
         });
       } else if (event is DeleteTaskEvent) {

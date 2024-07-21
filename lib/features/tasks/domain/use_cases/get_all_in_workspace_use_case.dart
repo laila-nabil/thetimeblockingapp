@@ -35,9 +35,9 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
           int indexSpace = 0;
           for (var eSpace in rSpace){
             final tagsResult = await repo.getClickupTags(
-                params: GetClickupTagsInSpaceParams(
-                    clickupAccessToken: params.clickupAccessToken,
-                    clickupSpace: eSpace));
+                params: GetTagsInSpaceParams(
+                    accessToken: params.clickupAccessToken,
+                    space: eSpace));
             tagsResult.fold(
                     (l) => failures.add({"tagS$indexSpace": l}),
                     (rTags) {
@@ -72,7 +72,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
       clickupSpaces = spaces;
       printDebug(
           "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
-              .clickupSpaces}");
+              .spaces}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {
         AnalyticsEventParameter.data.name: "allInWorkspace",

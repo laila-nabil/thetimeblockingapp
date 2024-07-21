@@ -58,7 +58,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   final List<String>? customFields;
   final bool? customTaskIds;
   final bool? includeParentTaskId;
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupAccessToken accessToken;
 
   const GetTasksInWorkspaceFiltersParams({
     this.page,
@@ -83,7 +83,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
     this.customFields,
     this.customTaskIds,
     this.includeParentTaskId,
-    required this.clickupAccessToken,
+    required this.accessToken,
   });
 
   /*String get toUrlString {
@@ -325,7 +325,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
         customFields,
         customTaskIds,
         includeParentTaskId,
-        clickupAccessToken,
+        accessToken,
       ];
 
   GetTasksInWorkspaceFiltersParams copyWith({
@@ -392,7 +392,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
       customFields: customFields ?? this.customFields,
       customTaskIds: customTaskIds ?? this.customTaskIds,
       includeParentTaskId: includeParentTaskId ?? this.includeParentTaskId,
-      clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
+      accessToken: clickupAccessToken ?? this.accessToken,
     );
   }
 }

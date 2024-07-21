@@ -48,11 +48,11 @@ class CreateTagInSpaceUseCase
 
 class CreateTagInSpaceParams {
   final Space space;
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupAccessToken accessToken;
   final ClickupTagModel newTag;
 
   CreateTagInSpaceParams(
       {required this.space,
-      required this.clickupAccessToken,
+      required this.accessToken,
       required this.newTag});
 }

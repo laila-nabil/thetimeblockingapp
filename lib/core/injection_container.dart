@@ -176,7 +176,7 @@ void _initServiceLocator({required Network network}) {
       .registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
             serviceLocator(),
           ));
-  serviceLocator.registerLazySingleton(() => GetClickupTagsInSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetTagsInSpaceUseCase(
         serviceLocator(),
       ));
 

@@ -85,7 +85,7 @@ class AllTasksPage extends StatelessWidget {
                             ),
                           ),
                           if (Globals.isSpaceAppWide == false &&
-                              Globals.clickupSpaces?.isNotEmpty == true)
+                              Globals.spaces?.isNotEmpty == true)
                             DropdownButton<Space?>(
                               value: Globals.selectedSpace,
                               onChanged: (selected) {
@@ -98,7 +98,7 @@ class AllTasksPage extends StatelessWidget {
                                   getAllTasksInSpace(allTasksBloc);
                                 }
                               },
-                              items: Globals.clickupSpaces
+                              items: Globals.spaces
                                       ?.map((e) => DropdownMenuItem(
                                             value: e,
                                             child: Text(e.name ?? ""),

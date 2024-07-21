@@ -9,15 +9,15 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/space.dart';
 
-class GetClickupTagsInSpaceUseCase
-    implements UseCase<List<Tag>, GetClickupTagsInSpaceParams> {
+class GetTagsInSpaceUseCase
+    implements UseCase<List<Tag>, GetTagsInSpaceParams> {
   final TasksRepo repo;
 
-  GetClickupTagsInSpaceUseCase(this.repo);
+  GetTagsInSpaceUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, List<Tag>>?> call(
-      GetClickupTagsInSpaceParams params) async {
+      GetTagsInSpaceParams params) async {
     final result = await repo.getClickupTags(params: params);
     await result.fold(
             (l) async => await serviceLocator<Analytics>()
@@ -35,17 +35,17 @@ class GetClickupTagsInSpaceUseCase
   }
 }
 
-class GetClickupTagsInSpaceParams extends Equatable {
-  final ClickupAccessToken clickupAccessToken;
-  final Space clickupSpace;
+class GetTagsInSpaceParams extends Equatable {
+  final ClickupAccessToken accessToken;
+  final Space space;
   final bool? archived;
 
-  const GetClickupTagsInSpaceParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
+  const GetTagsInSpaceParams({
+    required this.accessToken,
+    required this.space,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupSpace,archived];
+  List<Object?> get props => [accessToken, space,archived];
 }

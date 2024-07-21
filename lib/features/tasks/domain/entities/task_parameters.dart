@@ -13,7 +13,7 @@ enum ClickupTaskParamsEnum { create, update }
 class CreateTaskParams extends Equatable{
   final ClickupTaskParamsEnum clickupTaskParamsEnum;
   final ClickupAccessToken clickupAccessToken;
-  final TasksList? clickupList;
+  final TasksList? list;
   final String? title;
   final String? description;
   final List<Assignee>? assignees;
@@ -32,10 +32,10 @@ class CreateTaskParams extends Equatable{
   final Task? task;
   final bool? archived;
 
-  final Space? clickupSpace;
+  final Space? space;
   final Folder? folder;
 
-  String get getListId => task?.list?.id ?? clickupList?.id ?? "";
+  String get getListId => task?.list?.id ?? list?.id ?? "";
 
   String get taskId => task?.id ?? "";
 
@@ -59,17 +59,17 @@ class CreateTaskParams extends Equatable{
   String? get getLinkedTaskId => linkedTask?.id;
 
   List<TasksList> get getAvailableLists {
-    if (clickupSpace != null && folder != null) {
+    if (space != null && folder != null) {
       return List.of(folder?.lists ?? <TasksList>[]);
-    } else if (clickupSpace != null && folder == null) {
-      return List.of(clickupSpace?.lists ?? []);
+    } else if (space != null && folder == null) {
+      return List.of(space?.lists ?? []);
     }
     return <TasksList>[];
   }
 
   factory CreateTaskParams.fromTask(Task clickupTask){
     return CreateTaskParams.createNewTask(
-      AccessToken: Globals.AccessToken,
+      accessToken: Globals.AccessToken,
       list: clickupTask.list!,
       title: clickupTask.name ?? "",
       description: clickupTask.description,
@@ -83,7 +83,7 @@ class CreateTaskParams extends Equatable{
     );
   }
   const CreateTaskParams._(
-      {this.clickupList,
+      {this.list,
       this.title,
       this.description,
       this.assignees,
@@ -102,7 +102,7 @@ class CreateTaskParams extends Equatable{
       required this.clickupAccessToken,
       required this.clickupTaskParamsEnum,
       this.task,
-      this.clickupSpace,
+      this.space,
       this.folder,
       this.archived});
 
@@ -143,7 +143,7 @@ class CreateTaskParams extends Equatable{
       : ClickupTaskParamsEnum.update;
   }
   factory CreateTaskParams.startCreateNewTask({
-    required ClickupAccessToken clickupAccessToken,
+    required ClickupAccessToken accessToken,
     DateTime? startDate,
     DateTime? dueDate,
     Space? space,
@@ -153,17 +153,17 @@ class CreateTaskParams extends Equatable{
     printDebug("ClickupTaskParams startCreateNewTask task");
     return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
-          clickupAccessToken: clickupAccessToken,
+          clickupAccessToken: accessToken,
           startDate: startDate,
           dueDate: dueDate,
-          clickupSpace: space,
-          clickupList: list,
+          space: space,
+          list: list,
           tags: tag == null ? null : [tag],
           assignees: [Globals.clickupUser!.asAssignee],);
   }
 
   factory CreateTaskParams.createNewTask({
-    required ClickupAccessToken AccessToken,
+    required ClickupAccessToken accessToken,
     required TasksList list,
     required String title,
     String? description,
@@ -183,9 +183,9 @@ class CreateTaskParams extends Equatable{
     printDebug("ClickupTaskParams createNewTask task");
     return CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.create,
-          clickupAccessToken: AccessToken,
-          clickupSpace: space,
-          clickupList: list,
+          clickupAccessToken: accessToken,
+          space: space,
+          list: list,
           folder: folder,
           title: title,
           description: description,
@@ -207,12 +207,12 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.startUpdateTask({
-    required ClickupAccessToken clickupAccessToken,
+    required ClickupAccessToken accessToken,
     required Task task,
   }) {
     printDebug("ClickupTaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final space = Globals.clickupSpaces
+    final space = Globals.spaces
         ?.firstWhere((element) => element.id == task.space?.id);
     final folder =  space?.folders
         .where((element) => element.id == task.folder?.id).firstOrNull;
@@ -223,13 +223,13 @@ class CreateTaskParams extends Equatable{
             .firstOrNull;
     return CreateTaskParams._(
         clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
-        clickupAccessToken: clickupAccessToken,
+        clickupAccessToken: accessToken,
         task: task,
         description: null,//description controlled by text controller
         title: null,//title controlled by text controller
-        clickupSpace: space,
+        space: space,
         folder: folder,
-        clickupList: list,
+        list: list,
         taskPriority: task.priority,
         tags: task.tags,
         taskStatus: task.status,
@@ -242,7 +242,7 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.updateTask({
-    required ClickupAccessToken clickupAccessToken,
+    required ClickupAccessToken accessToken,
     required Task task,
     String? updatedTitle,
     String? updatedDescription,
@@ -264,9 +264,9 @@ class CreateTaskParams extends Equatable{
   }) =>
       CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
-          clickupAccessToken: clickupAccessToken,
-          clickupSpace: null,
-          clickupList: list,
+          clickupAccessToken: accessToken,
+          space: null,
+          list: list,
           folder: folder,
           title: updatedTitle,
           description: updatedDescription,
@@ -346,7 +346,7 @@ class CreateTaskParams extends Equatable{
   CreateTaskParams copyWith({
     ClickupTaskParamsEnum? clickupTaskParamsEnum,
     ClickupAccessToken? clickupAccessToken,
-    TasksList? clickupList,
+    TasksList? list,
     String? title,
     String? description,
     List<Assignee>? assignees,
@@ -366,12 +366,12 @@ class CreateTaskParams extends Equatable{
     bool? archived,
     List<int>? addedAssigneesId,
     List<int>? removedAssigneesId,
-    Space? clickupSpace,
+    Space? space,
     Folder? folder,
     bool? clearFolder,
     bool? clearPriority,
   }) {
-    Space? selectedSpace = clickupSpace ?? this.clickupSpace;
+    Space? selectedSpace = space ?? this.space;
     TaskPriority? selectedPriority =
         clearFolder == true ? null : (taskPriority ?? this.taskPriority);
     Folder? selectedFolder =
@@ -380,7 +380,7 @@ class CreateTaskParams extends Equatable{
       selectedFolder = null;
     }
 
-    TasksList? selectedList = clickupList ?? this.clickupList;
+    TasksList? selectedList = list ?? this.list;
     if ((selectedFolder != null &&
             selectedFolder.lists?.contains(selectedList) == false) ||
         (selectedSpace != null &&
@@ -414,7 +414,7 @@ class CreateTaskParams extends Equatable{
       clickupTaskParamsEnum:
           clickupTaskParamsEnum ?? this.clickupTaskParamsEnum,
       clickupAccessToken: clickupAccessToken ?? this.clickupAccessToken,
-      clickupList: selectedList,
+      list: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,
       assignees: assignees ?? this.assignees,
@@ -433,12 +433,12 @@ class CreateTaskParams extends Equatable{
       task: task ?? this.task,
       archived: archived ?? this.archived,
       folder: selectedFolder,
-      clickupSpace: selectedSpace,
+      space: selectedSpace,
     );
   }
 
   @override
-  List<Object?> get props => [clickupList,
+  List<Object?> get props => [list,
     title,
     description,
     assignees,
@@ -460,12 +460,12 @@ class CreateTaskParams extends Equatable{
     clickupTaskParamsEnum,
     task,
     folder,
-    clickupSpace,
+    space,
     getAvailableLists,
     archived];
 
   @override
   String toString() {
-    return 'ClickupTaskParams{clickupTaskParamsEnum: $clickupTaskParamsEnum, clickupAccessToken: $clickupAccessToken, clickupList: $clickupList, title: $title, description: $description, assignees: $assignees, addedAssignees: $addedAssignees, removedAssignees: $removedAssignees, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, timeEstimate: $timeEstimate, startDate: $startDate, notifyAll: $notifyAll, parentTask: $parentTask, linkedTask: $linkedTask, requiredCustomFields: $requiredCustomFields, task: $task, archived: $archived, clickupSpace: $clickupSpace, folder: $folder}';
+    return 'ClickupTaskParams{clickupTaskParamsEnum: $clickupTaskParamsEnum, clickupAccessToken: $clickupAccessToken, clickupList: $list, title: $title, description: $description, assignees: $assignees, addedAssignees: $addedAssignees, removedAssignees: $removedAssignees, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, timeEstimate: $timeEstimate, startDate: $startDate, notifyAll: $notifyAll, parentTask: $parentTask, linkedTask: $linkedTask, requiredCustomFields: $requiredCustomFields, task: $task, archived: $archived, clickupSpace: $space, folder: $folder}';
   }
 }

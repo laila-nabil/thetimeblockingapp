@@ -117,7 +117,7 @@ class ScheduleState extends Equatable {
     }
     return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
-            clickupAccessToken: Globals.AccessToken,
+            accessToken: Globals.AccessToken,
             filterByAssignees: [Globals.clickupUser?.id.toString() ?? ""],
             filterByDueDateGreaterThanUnixTimeMilliseconds:
                 tasksDueDateEarliestDate.millisecondsSinceEpoch,

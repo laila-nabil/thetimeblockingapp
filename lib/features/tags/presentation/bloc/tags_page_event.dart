@@ -16,7 +16,7 @@ class NavigateToTagPageEvent extends TagsPageEvent {
 }
 
 class GetTagsInSpaceEvent extends TagsPageEvent {
-  final GetClickupTagsInSpaceParams params;
+  final GetTagsInSpaceParams params;
 
   const GetTagsInSpaceEvent(this.params);
 
@@ -25,19 +25,19 @@ class GetTagsInSpaceEvent extends TagsPageEvent {
 }
 
 class GetTasksForTagEvent extends TagsPageEvent {
-  final ClickupAccessToken clickupAccessToken;
+  final ClickupAccessToken accessToken;
   final Tag tag;
   final Space space;
   final Workspace workspace;
 
   const GetTasksForTagEvent(
-      {required this.clickupAccessToken,
+      {required this.accessToken,
       required this.tag,
       required this.workspace,
       required this.space});
 
   @override
-  List<Object?> get props => [clickupAccessToken, tag, space];
+  List<Object?> get props => [accessToken, tag, space];
 }
 
 class CreateTagInSpaceEvent extends TagsPageEvent {

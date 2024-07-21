@@ -63,7 +63,7 @@ abstract class TasksRemoteDataSource {
       {required GetSpacesInWorkspacesParams params});
 
   Future<List<ClickupTagModel>> getClickupTags(
-      {required GetClickupTagsInSpaceParams params});
+      {required GetTagsInSpaceParams params});
 
   Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params});
 
@@ -117,7 +117,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final response = await network.get(
         uri: uri,
         headers: clickupHeader(
-            clickupAccessToken: params.filtersParams.clickupAccessToken));
+            clickupAccessToken: params.filtersParams.accessToken));
     for (var element in (json.decode(response.body)["tasks"] as List)) {
       result.add(ClickupTaskModel.fromJson(element));
     }
@@ -247,9 +247,9 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupTagModel>> getClickupTags(
-      {required GetClickupTagsInSpaceParams params}) async {
+      {required GetTagsInSpaceParams params}) async {
     List<ClickupTagModel> result = [];
-    final url = "$clickupUrl/space/${params.clickupSpace.id}/tag";
+    final url = "$clickupUrl/space/${params.space.id}/tag";
     Map<String, dartz.Either<List, String>>? queryParameters = params.archived == null
         ? null
         : {"archived": dartz.Right("${params.archived}")};
@@ -257,7 +257,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         url: url, queryParameters: queryParameters);
     final response = await network.get(
         uri: uri,
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+        headers: clickupHeader(clickupAccessToken: params.accessToken));
     for (var element in (json.decode(response.body)["tags"] as List)) {
       result.add(ClickupTagModel.fromJson(element));
     }
@@ -368,7 +368,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     Uri uri = Uri.parse("$clickupUrl/space/${params.space.id}/tag");
     await network.post(
       uri: uri,
-      headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),
+      headers: clickupHeader(clickupAccessToken: params.accessToken),
       body: {"tag" : (params.newTag).toJson()}
     );
     return dartz.unit;

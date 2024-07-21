@@ -86,7 +86,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                   clickupSpaces: r));
                 printDebug("selectedSpace ${Globals.selectedSpaceId}");
                 printDebug("defaultSpace ${Globals.defaultSpace}");
-                printDebug("clickupSpaces ${Globals.clickupSpaces}");
+                printDebug("clickupSpaces ${Globals.spaces}");
                 final space = Globals.selectedSpace ?? Globals.defaultSpace;
                 if (space != null) {
                   add(SelectSpace(

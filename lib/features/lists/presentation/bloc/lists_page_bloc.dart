@@ -101,14 +101,14 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                       ListsPageStatus.getSpacesAndListsAndFoldersFailed,
                   getSpacesListsFoldersFailure: l)), (r) async {
             setSelectedSpace(r);
-            if (Globals.clickupSpaces?.isNotEmpty == true) {
+            if (Globals.spaces?.isNotEmpty == true) {
               await _saveSpacesUseCase(
-                  SaveSpacesParams(Globals.clickupSpaces!));
+                  SaveSpacesParams(Globals.spaces!));
             }
             emit(state.copyWith(
                 listsPageStatus:
                     ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
-                getSpacesListsFoldersResult: Globals.clickupSpaces));
+                getSpacesListsFoldersResult: Globals.spaces));
           });
         }
       } else if (event is GetListDetailsAndTasksInListEvent) {

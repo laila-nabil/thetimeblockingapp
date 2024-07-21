@@ -64,7 +64,7 @@ class TagPage extends StatelessWidget {
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetTasksForTagEvent(
-                    clickupAccessToken: Globals.AccessToken,
+                    accessToken: Globals.AccessToken,
                     workspace: Globals.selectedWorkspace!,
                     tag: state.navigateTag!,
                     space: Globals.selectedSpace!));
@@ -224,7 +224,7 @@ class TagPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   tagsPageBloc.add(GetTasksForTagEvent(
-                      clickupAccessToken: Globals.AccessToken,
+                      accessToken: Globals.AccessToken,
                       workspace: Globals.selectedWorkspace!,
                       tag: state.navigateTag!,
                       space: Globals.selectedSpace!));

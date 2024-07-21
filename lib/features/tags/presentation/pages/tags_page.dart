@@ -93,10 +93,10 @@ class TagsPage extends StatelessWidget {
                   builder: (context, state) {
                     if (state.isInit && Globals.isSpaceAppWide) {
                       tagsPageBloc.add(GetTagsInSpaceEvent(
-                          GetClickupTagsInSpaceParams(
-                              clickupAccessToken:
+                          GetTagsInSpaceParams(
+                              accessToken:
                                   Globals.AccessToken,
-                              clickupSpace: Globals.selectedSpace!)));
+                              space: Globals.selectedSpace!)));
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -204,7 +204,7 @@ class TagsPage extends StatelessWidget {
                                                       CreateTagInSpaceEvent
                                                           .submit(
                                                     params: CreateTagInSpaceParams(
-                                                        clickupAccessToken: Globals
+                                                        accessToken: Globals
                                                             .AccessToken,
                                                         newTag: ClickupTagModel(
                                                             name: text),
@@ -236,10 +236,10 @@ class TagsPage extends StatelessWidget {
                 )),
                 context: context, onRefresh: ()async {
               tagsPageBloc.add(GetTagsInSpaceEvent(
-                  GetClickupTagsInSpaceParams(
-                      clickupAccessToken:
+                  GetTagsInSpaceParams(
+                      accessToken:
                       Globals.AccessToken,
-                      clickupSpace: Globals.selectedSpace!)));
+                      space: Globals.selectedSpace!)));
               startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                   clickupWorkspace: Globals.selectedWorkspace!,
                   clickupAccessToken: Globals.AccessToken));

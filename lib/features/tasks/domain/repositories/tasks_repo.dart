@@ -61,7 +61,7 @@ abstract class TasksRepo{
       {required GetFolderlessListsInSpaceParams params});
 
   Future<dartz.Either<Failure, List<Tag>>> getClickupTags(
-      {required GetClickupTagsInSpaceParams params});
+      {required GetTagsInSpaceParams params});
 
   Future<dartz.Either<Failure, dartz.Unit>> removeTagFromTask(
       {required RemoveTagFromTaskParams params});

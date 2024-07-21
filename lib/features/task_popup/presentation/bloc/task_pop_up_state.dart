@@ -7,12 +7,12 @@ class TaskPopUpState extends Equatable {
     this.taskParams,
   });
 
-  bool get readyToSubmit => taskParams?.clickupList != null && changesAvailable;
+  bool get readyToSubmit => taskParams?.list != null && changesAvailable;
 
   bool get changesAvailable {
     if (taskParams?.task == null) {
       return taskParams?.title != null &&
-          taskParams?.clickupList != null &&
+          taskParams?.list != null &&
           (taskParams?.description != null ||
               taskParams?.tags?.isNotEmpty == true ||
               taskParams?.assignees?.isNotEmpty == true ||
@@ -27,7 +27,7 @@ class TaskPopUpState extends Equatable {
     } else {
       return (taskParams?.title != taskParams?.task?.name ||
           taskParams?.description != taskParams?.task?.description ||
-          taskParams?.clickupList != taskParams?.task?.list ||
+          taskParams?.list != taskParams?.task?.list ||
           taskParams?.tags != taskParams?.task?.tags ||
           taskParams?.assignees != taskParams?.task?.assignees ||
           taskParams?.taskPriority != taskParams?.task?.priority ||
@@ -42,14 +42,14 @@ class TaskPopUpState extends Equatable {
   }
 
   bool get isPrioritiesEnabled =>
-      taskParams?.clickupSpace?.isPrioritiesEnabled ?? false;
+      taskParams?.space?.isPrioritiesEnabled ?? false;
 
-  bool get isFoldersListAvailable => taskParams?.clickupSpace?.folders
+  bool get isFoldersListAvailable => taskParams?.space?.folders
       .isNotEmpty ==
       true || taskParams?.folder !=null;
 
   bool get viewTagsButton =>
-      taskParams?.task != null || taskParams?.clickupSpace != null;
+      taskParams?.task != null || taskParams?.space != null;
 
   CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
     CreateTaskParams params;
@@ -57,7 +57,7 @@ class TaskPopUpState extends Equatable {
     if (task != null) {
       params = CreateTaskParams.updateTask(
         task: taskParams!.task!,
-        clickupAccessToken: Globals.AccessToken,
+        accessToken: Globals.AccessToken,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
@@ -81,15 +81,15 @@ class TaskPopUpState extends Equatable {
         folder: taskParams?.folder == task.folder
             ? null
             : taskParams?.folder,
-        list: taskParams?.clickupList == task.list
+        list: taskParams?.list == task.list
             ? null
-            : taskParams?.clickupList,
+            : taskParams?.list,
       );
     } else {
       params = taskParams ?? CreateTaskParams.createNewTask(
         dueDate: newTaskDueDate,
-        list: taskParams!.clickupList!,
-        AccessToken:
+        list: taskParams!.list!,
+        accessToken:
         Globals.AccessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,

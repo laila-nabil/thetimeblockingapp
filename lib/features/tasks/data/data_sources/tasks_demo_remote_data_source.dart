@@ -94,7 +94,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<ClickupTagModel>> getClickupTags(
-      {required GetClickupTagsInSpaceParams params}) async {
+      {required GetTagsInSpaceParams params}) async {
     return Demo.tags;
   }
 

@@ -52,7 +52,7 @@ class Globals {
 
   static String? get selectedSpaceId => _selectedSpaceId;
 
-  static Space? get selectedSpace => clickupSpaces
+  static Space? get selectedSpace => spaces
       ?.where((element) => element.id == _selectedSpaceId)
       .firstOrNull;
 
@@ -62,7 +62,7 @@ class Globals {
 
   static List<Workspace>? get clickupWorkspaces => _clickupWorkspaces;
 
-  static List<Space>? get clickupSpaces => _clickupSpaces;
+  static List<Space>? get spaces => _clickupSpaces;
 
   static Workspace? get defaultWorkspace =>
       _clickupWorkspaces?.firstOrNull;
@@ -116,7 +116,7 @@ mixin class GlobalsWriteAccess {
    void setSelectedSpace(Space? space) {
     _selectedSpaceId = space?.id;
     clickupSpaces =  ClickupSpaceListExtensions.updateItemInList(
-        list: Globals.clickupSpaces, updatedSpace: space);
+        list: Globals.spaces, updatedSpace: space);
   }
 
   set isSpaceAppWide(bool value) {
