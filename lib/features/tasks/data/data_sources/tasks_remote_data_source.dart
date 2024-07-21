@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_list_use_case.dart';
@@ -78,7 +78,7 @@ abstract class TasksRemoteDataSource {
       {required CreateFolderlessListClickupParams params});
 
   Future<ClickupFolderModel> createClickupFolderInSpace(
-      {required CreateClickupFolderInSpaceParams params});
+      {required CreateFolderInSpaceParams params});
 
   Future<dartz.Unit> deleteList({required DeleteClickupListParams params});
 
@@ -334,7 +334,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<ClickupFolderModel> createClickupFolderInSpace(
-      {required CreateClickupFolderInSpaceParams params}) async {
+      {required CreateFolderInSpaceParams params}) async {
     final response = await network.post(
         uri: Uri.parse("$clickupUrl/space/${params.clickupSpace.id}/folder"),
         headers: clickupHeader(clickupAccessToken: params.clickupAccessToken),

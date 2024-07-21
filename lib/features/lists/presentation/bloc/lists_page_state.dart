@@ -69,7 +69,7 @@ class ListsPageState extends Equatable {
   final CreateClickupListInFolderParams? createClickupListInFolderParams;
   final CreateFolderlessListClickupParams? createFolderlessListClickupParams;
   final MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams;
-  final CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
+  final CreateFolderInSpaceParams? createClickupFolderInSpaceParams;
   final DeleteClickupFolderParams? deleteClickupFolderParams;
   final DeleteClickupListParams? deleteClickupListParams;
   final dartz.Unit? moveTaskBetweenListsResult;
@@ -214,7 +214,7 @@ class ListsPageState extends Equatable {
     CreateClickupListInFolderParams? createClickupListInFolderParams,
     CreateFolderlessListClickupParams? createFolderlessListClickupParams,
     MoveClickupTaskBetweenListsParams? moveClickupTaskBetweenListsParams,
-    CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams,
+    CreateFolderInSpaceParams? createClickupFolderInSpaceParams,
     DeleteClickupFolderParams? deleteClickupFolderParams,
     DeleteClickupListParams? deleteClickupListParams,
     dartz.Unit? moveTaskBetweenListsResult,

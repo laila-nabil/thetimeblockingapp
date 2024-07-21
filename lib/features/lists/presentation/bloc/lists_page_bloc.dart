@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
@@ -39,7 +39,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final SaveSpacesUseCase _saveSpacesUseCase;
   final GetClickupListAndItsTasksUseCase _getClickupListAndItsTasksUseCase;
   final CreateClickupListInFolderUseCase _createClickupListInFolderUseCase;
-  final CreateClickupFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
+  final CreateFolderInSpaceUseCase _createClickupFolderInSpaceUseCase;
   final CreateFolderlessListClickupListUseCase
       _createFolderlessClickupListUseCase;
   final MoveClickupTaskBetweenListsUseCase _moveClickupTaskBetweenListsUseCase;

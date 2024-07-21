@@ -9,15 +9,15 @@ import '../../../auth/domain/entities/clickup_access_token.dart';
 import '../entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
-class CreateClickupFolderInSpaceUseCase
-    implements UseCase<Folder, CreateClickupFolderInSpaceParams> {
+class CreateFolderInSpaceUseCase
+    implements UseCase<Folder, CreateFolderInSpaceParams> {
   final TasksRepo repo;
 
-  CreateClickupFolderInSpaceUseCase(this.repo);
+  CreateFolderInSpaceUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, Folder>?> call(
-      CreateClickupFolderInSpaceParams params) async{
+      CreateFolderInSpaceParams params) async{
     final result = await repo.createClickupFolderInSpace(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
@@ -33,11 +33,11 @@ class CreateClickupFolderInSpaceUseCase
   }
 }
 
-class CreateClickupFolderInSpaceParams extends Equatable {
+class CreateFolderInSpaceParams extends Equatable {
   final ClickupAccessToken clickupAccessToken;
   final Space clickupSpace;
   final String folderName;
-  const CreateClickupFolderInSpaceParams({
+  const CreateFolderInSpaceParams({
     required this.clickupAccessToken,
     required this.clickupSpace,
     required this.folderName,

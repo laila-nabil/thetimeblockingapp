@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz; 
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_clickup_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_clickup_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_clickup_folder_use_case.dart';
@@ -101,7 +101,7 @@ abstract class TasksRepo{
       CreateFolderlessListClickupParams params);
 
   Future<dartz.Either<Failure, Folder>?> createClickupFolderInSpace(
-      CreateClickupFolderInSpaceParams params);
+      CreateFolderInSpaceParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteClickupListParams params);
 

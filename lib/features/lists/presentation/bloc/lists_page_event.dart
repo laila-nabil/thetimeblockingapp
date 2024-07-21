@@ -145,7 +145,7 @@ class MoveTaskBetweenListsEvent extends ListsPageEvent {
 }
 
 class CreateFolderInSpaceEvent extends ListsPageEvent {
-  CreateClickupFolderInSpaceParams? createClickupFolderInSpaceParams;
+  CreateFolderInSpaceParams? createClickupFolderInSpaceParams;
   Workspace? clickupWorkspace;
   Space? clickupSpace;
   bool? tryEvent;
@@ -157,7 +157,7 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
     tryEvent = false;
   }
   CreateFolderInSpaceEvent.submit({
-    required CreateClickupFolderInSpaceParams this.createClickupFolderInSpaceParams,
+    required CreateFolderInSpaceParams this.createClickupFolderInSpaceParams,
     required Workspace this.clickupWorkspace,
     required Space this.clickupSpace,
   }){
