@@ -16,7 +16,6 @@ import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
-import '../../domain/use_cases/add_task_to_list_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';

@@ -21,7 +21,6 @@ import '../entities/task.dart';
 import '../entities/task_parameters.dart';
 import '../use_cases/create_list_in_folder_use_case.dart';
 import '../use_cases/add_tag_to_task_use_case.dart';
-import '../use_cases/add_task_to_list_use_case.dart';
 import '../use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_folders_in_space_use_case.dart';
 import '../use_cases/get_list_use_case.dart';
