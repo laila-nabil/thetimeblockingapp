@@ -19,7 +19,6 @@ class ClickupUserModel extends User {
     super.profilePicture,
     super.initials,
     super.weekStartDay,
-    super.globalFontSupport,
     super.timezone,
   });
 
@@ -32,7 +31,6 @@ class ClickupUserModel extends User {
         profilePicture: json['profilePicture'],
         initials: json['initials'],
         weekStartDay: json['week_start_day'],
-        globalFontSupport: json['global_font_support'],
         timezone: json['timezone']);
   }
 
@@ -45,7 +43,6 @@ class ClickupUserModel extends User {
     map['profilePicture'] = profilePicture;
     map['initials'] = initials;
     map['week_start_day'] = weekStartDay;
-    map['global_font_support'] = globalFontSupport;
     map['timezone'] = timezone;
     return map;
   }

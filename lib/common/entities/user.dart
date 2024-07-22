@@ -12,7 +12,6 @@ class User extends Equatable {
     this.profilePicture,
     this.initials,
     this.weekStartDay,
-    this.globalFontSupport,
     this.timezone,
   });
 
@@ -23,7 +22,6 @@ class User extends Equatable {
   final dynamic profilePicture;
   final String? initials;
   final num? weekStartDay;
-  final bool? globalFontSupport;
   final String? timezone;
 
   Assignee get asAssignee => Assignee(
@@ -54,7 +52,6 @@ class User extends Equatable {
         profilePicture,
         initials,
         weekStartDay,
-        globalFontSupport,
         timezone,
       ];
 }

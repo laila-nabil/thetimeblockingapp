@@ -89,7 +89,6 @@ void main() {
            profilePicture : null,
            initials : "LN",
            weekStartDay : 0,
-           globalFontSupport : true,
            timezone : "Africa/Cairo",
         );
         const clickupAccessToken = "obmeroikneikn";

@@ -27,19 +27,11 @@ class Demo {
     profilePicture: null,
     initials: "D",
     weekStartDay: 0,
-    globalFontSupport: true,
     timezone: "Africa/Cairo",
   );
   static SupabaseUserModel supabaseUser = const SupabaseUserModel(
     id: userId,
-    username: userName,
     email: userEmail,
-    color: userColor,
-    profilePicture: null,
-    initials: "D",
-    weekStartDay: 0,
-    globalFontSupport: true,
-    timezone: "Africa/Cairo",
   );
 
   static List<ClickupWorkspaceModel> workspaces = [
