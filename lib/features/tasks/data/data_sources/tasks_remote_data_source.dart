@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
@@ -44,6 +46,9 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
 
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
+      {required GetWorkspacesParams params});
+
+  Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces(
       {required GetWorkspacesParams params});
 
   Future<List<ClickupFolderModel>> getClickupFolders(
@@ -160,7 +165,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     List<ClickupWorkspaceModel> result = [];
     final response = await network.get(
         uri: Uri.parse("$clickupUrl/team"),
-        headers: clickupHeader(clickupAccessToken: params.clickupAccessToken));
+        headers: clickupHeader(clickupAccessToken: params.accessToken));
     for (var element in (json.decode(response.body)["teams"] as List)) {
       result.add(ClickupWorkspaceModel.fromJson(element));
     }
@@ -382,5 +387,134 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         body: {"tag" : (params.newTag).toJsonUpdate()}
     );
     return dartz.unit;
+  }
+
+  @override
+  Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces({required GetWorkspacesParams params}) {
+    throw UnsupportedError("supabase API");
+  }
+}
+
+class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource{
+  final String url;
+  final String key;
+  final Network network;
+
+  SupabaseTasksRemoteDataSourceImpl({required this.url, required this.key, required this.network});
+  @override
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupFolderModel> createClickupFolderInSpace({required CreateFolderInSpaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupListModel> createClickupListInFolder({required CreateListInFolderParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> createClickupTagInSpace({required CreateTagInSpaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupListModel> createFolderlessClickupList({required CreateFolderlessListParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupTaskModel> createTaskInList({required CreateTaskParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> deleteClickupTag({required DeleteTagParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> deleteList({required DeleteListParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupListModel>> getClickupFolderlessLists({required GetFolderlessListsInSpaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupFolderModel>> getClickupFolders({required GetFoldersInSpaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupListModel> getClickupList({required GetListParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupListModel>> getClickupListsInFolder({required GetListsInFolderParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces({required GetSpacesInWorkspacesParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupTagModel>> getClickupTags({required GetTagsInSpaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces({required GetWorkspacesParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces({required GetWorkspacesParams params}) async {
+    List<SupabaseWorkspaceModel> result = [];
+    final response = await network.get(
+        uri: Uri.parse("$url/rest/v1/workspace?user_id=${params.userId}"),
+        headers: clickupHeader(clickupAccessToken: params.accessToken));
+    for (var element in (json.decode(response.body) as List)) {
+      result.add(SupabaseWorkspaceModel.fromJson(element));
+    }
+    return result;
+  }
+
+  @override
+  Future<List<ClickupTaskModel>> getTasksInWorkspace({required GetTasksInWorkspaceParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<dartz.Unit> updateClickupTag({required UpdateTagParams params}) {
+    throw UnsupportedError("clickup API");
+  }
+
+  @override
+  Future<ClickupTaskModel> updateTask({required CreateTaskParams params}) {
+    throw UnsupportedError("clickup API");
   }
 }

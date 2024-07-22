@@ -20,13 +20,13 @@ class GetAccessToken extends AuthEvent{
   @override
   List<Object?> get props => [clickupCode];
 }
-class GetClickupUserWorkspaces extends AuthEvent{
+class GetUserWorkspaces extends AuthEvent{
   final AccessToken accessToken;
-
-  const GetClickupUserWorkspaces(this.accessToken);
+  final String userId;
+  const GetUserWorkspaces(this.accessToken, this.userId);
 
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [accessToken,userId];
 }
 class TryGetSelectedWorkspaceSpaceEvent extends AuthEvent{
   @override

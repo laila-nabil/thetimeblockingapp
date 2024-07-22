@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
@@ -59,10 +60,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               clickupAccessToken: r,
               authStates: state.updatedAuthStates(
                   AuthStateEnum.getClickupAccessTokenSuccess)));
-          add(GetClickupUserWorkspaces(r));
+          add(GetUserWorkspaces(r,Globals.user?.id.toStringOrNull()??""));
         });
       }
-      else if (event is GetClickupUserWorkspaces) {
+      else if (event is GetUserWorkspaces) {
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));
@@ -79,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   .updatedAuthStates(AuthStateEnum.getClickupUserSuccess)));
         });
         final getClickupWorkspaces = await _getWorkspacesUseCase(
-            GetWorkspacesParams(event.accessToken));
+            GetWorkspacesParams(accessToken: event.accessToken,userId: event.userId));
         emit(state.copyWith(
             authStates:
             state.updatedAuthStates(AuthStateEnum.loading)));

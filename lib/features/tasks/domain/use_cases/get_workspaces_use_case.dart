@@ -34,10 +34,10 @@ class GetWorkspacesUseCase
 }
 
 class GetWorkspacesParams extends Equatable {
-  final AccessToken clickupAccessToken;
-
-  const GetWorkspacesParams(this.clickupAccessToken);
+  final AccessToken accessToken;
+  final String userId;
+  const GetWorkspacesParams({required this.accessToken, required this.userId});
 
   @override
-  List<Object?> get props => [clickupAccessToken];
+  List<Object?> get props => [accessToken,userId];
 }

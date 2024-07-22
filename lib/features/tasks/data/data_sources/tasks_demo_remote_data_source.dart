@@ -1,5 +1,6 @@
 
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/demo.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
@@ -161,5 +162,11 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<dartz.Unit> updateClickupTag(
       {required UpdateTagParams params}) async {
     throw const DemoFailure(message: "");
+  }
+
+  @override
+  Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces({required GetWorkspacesParams params}) {
+    // TODO: implement getSupabaseWorkspaces
+    throw UnimplementedError();
   }
 }
