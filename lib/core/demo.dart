@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
 
 import '../common/models/clickup_workspace_model.dart';
+import '../common/models/supabase_user_model.dart';
 import '../features/auth/data/models/access_token_model.dart';
 import '../features/tasks/data/models/clickup_folder_model.dart';
 import '../features/tasks/data/models/clickup_list_model.dart';
@@ -18,7 +19,18 @@ class Demo {
   static const String userEmail = "demoEmail@gmail.com";
   static const String userName = "Demo Account";
   static const String userColor = "#7b68ee";
-  static ClickupUserModel user = const ClickupUserModel(
+  static ClickupUserModel clickUpUser = const ClickupUserModel(
+    id: userId,
+    username: userName,
+    email: userEmail,
+    color: userColor,
+    profilePicture: null,
+    initials: "D",
+    weekStartDay: 0,
+    globalFontSupport: true,
+    timezone: "Africa/Cairo",
+  );
+  static SupabaseUserModel supabaseUser = const SupabaseUserModel(
     id: userId,
     username: userName,
     email: userEmail,
@@ -119,7 +131,7 @@ class Demo {
         id: "42432",
         name: "create design in figma",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [designTag],
         status: done,
         list: timeBlockingList,
@@ -143,7 +155,7 @@ class Demo {
         id: "5433rtw",
         name: "Buy new mobile cover",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: const [],
         status: done,
         list: cartList,
@@ -167,7 +179,7 @@ class Demo {
         id: "45436256",
         name: "main widgets",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [developmentTag],
         status: workingOn,
         list: timeBlockingList,
@@ -191,7 +203,7 @@ class Demo {
         id: "45436256",
         name: "create demo version",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [developmentTag],
         status: todo,
         list: timeBlockingList,
@@ -206,7 +218,7 @@ class Demo {
         id: "45436256",
         name: "plan the app",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [developmentTag, designTag, documentationTag],
         status: done,
         list: timeBlockingList,
@@ -230,7 +242,7 @@ class Demo {
         id: "6545346763",
         name: "create task popup",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [designTag],
         status: todo,
         list: timeBlockingList,
@@ -254,7 +266,7 @@ class Demo {
         id: "65435344",
         name: "schedule",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [developmentTag],
         status: todo,
         list: timeBlockingList,
@@ -278,7 +290,7 @@ class Demo {
         id: "54456234",
         name: "onboarding",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [developmentTag],
         list: timeBlockingList,
         status: todo,
@@ -298,7 +310,7 @@ class Demo {
         id: "343243545",
         name: "update readme file",
         space: spaces.first,
-        assignees: [user.asAssignee],
+        assignees: [clickUpUser.asAssignee],
         tags: [documentationTag],
         status: todo,
         startDateUtcTimestamp: DateTime.now()

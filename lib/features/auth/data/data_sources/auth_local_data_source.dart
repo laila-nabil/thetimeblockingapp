@@ -1,18 +1,23 @@
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import '../models/access_token_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {
-  Future<AccessTokenModel> getClickupAccessToken();
+  Future<AccessTokenModel> getAccessToken();
 
   Future<ClickupUserModel> getClickupUser();
 
+  Future<SupabaseUserModel> getSupabaseUser();
 
-  Future<void> saveClickupAccessToken(
+
+  Future<void> saveAccessToken(
       AccessTokenModel clickupAccessTokenModel);
 
   Future<void> saveClickupUser(ClickupUserModel clickupUserModel);
+
+  Future<void> saveSupabaseUser(SupabaseUserModel user);
 
   Future<void> signOut();
 
@@ -24,9 +29,9 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl(this.localDataSource);
 
   @override
-  Future<AccessTokenModel> getClickupAccessToken() async {
+  Future<AccessTokenModel> getAccessToken() async {
     var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupAccessToken.name);
+        key: LocalDataSourceKeys.accessToken.name);
     return AccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
@@ -39,10 +44,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
 
   @override
-  Future<void> saveClickupAccessToken(
+  Future<void> saveAccessToken(
       AccessTokenModel clickupAccessTokenModel) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupAccessToken.name,
+        key: LocalDataSourceKeys.accessToken.name,
         value: clickupAccessTokenModel.toJson());
   }
 
@@ -56,6 +61,20 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> signOut() async {
     await localDataSource.clear();
+  }
+
+  @override
+  Future<SupabaseUserModel> getSupabaseUser() async {
+    var data = await localDataSource.getData(
+        key: LocalDataSourceKeys.supabaseUser.name);
+    return SupabaseUserModel.fromJson(json.decode(data.toString()));
+  }
+
+  @override
+  Future<void> saveSupabaseUser(SupabaseUserModel user) {
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.supabaseUser.name,
+        value: user.toJson());
   }
 
 }

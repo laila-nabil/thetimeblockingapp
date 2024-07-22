@@ -38,7 +38,7 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces() async {
     List<ClickupWorkspaceModel> result = [];
     final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupWorkspaces.name);
+        key: LocalDataSourceKeys.workspaces.name);
     final responseList = json.decode(response ?? "");
     if (responseList is List) {
       for (var element in responseList) {
@@ -57,7 +57,7 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
       result.add(element.toJson());
     }
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupWorkspaces.name,
+        key: LocalDataSourceKeys.workspaces.name,
         value: result);
   }
 
@@ -96,7 +96,7 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
   Future<List<ClickupSpaceModel>> getSpaces() async {
     List<ClickupSpaceModel> result = [];
     final response = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupSpaces.name);
+        key: LocalDataSourceKeys.spaces.name);
     final responseList = json.decode(response ?? "");
     if (responseList is List) {
       for (var element in responseList) {
@@ -113,7 +113,7 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
       result.add(element.toJson());
     }
     return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupSpaces.name,
+        key: LocalDataSourceKeys.spaces.name,
         value: result);
   }
 }

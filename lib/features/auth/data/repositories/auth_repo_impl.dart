@@ -20,6 +20,7 @@ import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
 import '../../domain/use_cases/get_user_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
+import '../models/sign_in_result_model.dart';
 
 class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   final AuthRemoteDataSource authRemoteDataSource;
@@ -35,12 +36,12 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
       trySaveResult: (result)async{
         accessToken =  result;
           await authLocalDataSource
-              .saveClickupAccessToken(result as AccessTokenModel);
+              .saveAccessToken(result as AccessTokenModel);
         printDebug(
             "getClickUpAccessToken $result ${Globals.accessToken}");
       },
         tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickupAccessToken());
+            await authLocalDataSource.getAccessToken());
     return result;
   }
 
@@ -74,19 +75,23 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   }
 
   @override
-  Future<dartz.Either<Failure, SignInResult>> signIn({required SignInParams params}) async {
-    final result = await repoHandleRemoteRequest<AccessToken>(
+  Future<dartz.Either<Failure, SignInResultModel>> signIn({required SignInParams params}) async {
+    final result = await repoHandleRemoteRequest<SignInResultModel>(
         remoteDataSourceRequest: () async =>
         await authRemoteDataSource.signInSupabase(params: params),
         trySaveResult: (result) async {
-          accessToken = result;
+          accessToken = result.accessToken;
+          user = result.user;
           await authLocalDataSource
-              .saveClickupAccessToken(result as AccessTokenModel);
+              .saveAccessToken(result as AccessTokenModel);
           printDebug(
               "getClickUpAccessToken $result ${Globals.accessToken}");
         },
-        tryGetFromLocalStorage: () async =>
-        await authLocalDataSource.getClickupAccessToken());
+        tryGetFromLocalStorage: () async {
+          final access =  await authLocalDataSource.getAccessToken();
+          final user =  await authLocalDataSource.getSupabaseUser();
+          return SignInResultModel(accessToken: access, user: user);
+        });
     return result;
   }
 }

@@ -9,6 +9,7 @@ import '../../../../core/network/clickup_header.dart';
 import '../../domain/use_cases/get_access_token_use_case.dart';
 import '../../domain/use_cases/get_user_use_case.dart';
 import '../models/access_token_model.dart';
+import '../models/sign_in_result_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AccessTokenModel> getAccessToken(
@@ -17,7 +18,7 @@ abstract class AuthRemoteDataSource {
   Future<ClickupUserModel> getClickupUser(
       {required GetClickupUserParams params});
 
-  Future<AccessTokenModel> signInSupabase({required SignInParams params});
+  Future<SignInResultModel> signInSupabase({required SignInParams params});
 }
 
 class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -53,7 +54,7 @@ class ClickupAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccessTokenModel> signInSupabase({required SignInParams params}) {
+  Future<SignInResultModel> signInSupabase({required SignInParams params}) {
     throw UnsupportedError('Sign in Supabase not supported for Clickup');
   }
 }
@@ -79,11 +80,11 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccessTokenModel> signInSupabase({required SignInParams params}) async {
+  Future<SignInResultModel> signInSupabase({required SignInParams params}) async {
     final result = await network.post(
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key),
         uri: Uri.parse("$url/auth/v1/token?grant_type=password"),
         body: {"email": params.email, "password": params.password});
-    return AccessTokenModel.fromJson(json.decode(result.body));
+    return SignInResultModel.fromJson(json.decode(result.body));
   }
 }
