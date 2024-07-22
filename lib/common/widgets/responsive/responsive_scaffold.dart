@@ -240,11 +240,9 @@ class ResponsiveScaffold extends Scaffold {
 
 class _ResponsiveBody extends StatelessWidget {
   const _ResponsiveBody(
-      {Key? key,
-      this.responsiveScaffoldLoading,
+      {this.responsiveScaffoldLoading,
       required this.responsiveTParams,
-      required this.onRefresh})
-      : super(key: key);
+      required this.onRefresh});
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final ResponsiveTParams<Widget> responsiveTParams;
   final Future<void> Function() onRefresh;

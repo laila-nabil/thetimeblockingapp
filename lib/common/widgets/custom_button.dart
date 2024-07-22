@@ -69,7 +69,7 @@ enum CustomButtonSize { small, large, xlarge }
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.icon,
       required this.onPressed,
@@ -78,8 +78,7 @@ class CustomButton extends StatelessWidget {
       this.focusNode,
       this.child,
       this.tooltip,
-      this.analyticsEvent})
-      : super(key: key);
+      this.analyticsEvent});
 
   const CustomButton.custom({
     Key? key,
@@ -258,21 +257,21 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade500
             : AppColors.error(context.isDarkMode).shade500;
     final filledButtonStyle = ButtonStyle(
-        fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeight)),
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.focused) ||
-              states.contains(MaterialState.pressed)) {
+        fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.focused) ||
+              states.contains(WidgetState.pressed)) {
             return filledButtonBackgroundColor;
           }
-          if (states.contains(MaterialState.hovered)) {
+          if (states.contains(WidgetState.hovered)) {
             return type.isPrimary
                 ? AppColors.primary(context.isDarkMode).shade400
                 : type.isGrey
                     ? AppColors.grey(context.isDarkMode).shade700
                     : AppColors.error(context.isDarkMode).shade300;
           }
-          if (states.contains(MaterialState.disabled)) {
+          if (states.contains(WidgetState.disabled)) {
             return AppColors.grey(context.isDarkMode).shade300;
           }
           return type.isPrimary
@@ -281,16 +280,16 @@ class CustomButton extends StatelessWidget {
                   ? AppColors.grey(context.isDarkMode).shade500
                   : AppColors.error(context.isDarkMode).shade500;
         }),
-        foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+        foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
           return AppColors.white(context.isDarkMode);
         }),
-        shape: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+        shape: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           );
         }),
-        padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+        padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return EdgeInsets.symmetric(
               vertical: verticalFilledOutlinedVerticalPadding,
               horizontal: isSmall
@@ -298,7 +297,7 @@ class CustomButton extends StatelessWidget {
                   : (notOnlyLabel ? 16 : 24));
         }),
         textStyle:
-            MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+            WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return AppTextStyle.getTextStyle(AppTextStyleParams(
               color: AppColors.white(context.isDarkMode),
               appFontWeight: AppFontWeight.semiBold,
@@ -307,21 +306,21 @@ class CustomButton extends StatelessWidget {
                   : AppFontSize.paragraphMedium,));
         }));
 
-    Color outlinedButtonBorderColor(Set<MaterialState> states) =>
-        states.contains(MaterialState.disabled)
+    Color outlinedButtonBorderColor(Set<WidgetState> states) =>
+        states.contains(WidgetState.disabled)
             ? AppColors.grey(context.isDarkMode).shade100
             : type.isSecondary
-                ? (states.contains(MaterialState.hovered)
+                ? (states.contains(WidgetState.hovered)
                     ? AppColors.primary(context.isDarkMode).shade700
                     : AppColors.primary(context.isDarkMode).shade600)
                 : type.isGrey
-                    ? (states.contains(MaterialState.focused)
+                    ? (states.contains(WidgetState.focused)
                         ? AppColors.grey(context.isDarkMode).shade100
                         : AppColors.grey(context.isDarkMode).shade300)
                     : AppColors.error(context.isDarkMode).shade400;
-    double outlinedButtonBorderWidth(Set<MaterialState> states) =>
-        states.contains(MaterialState.disabled) ||
-                states.contains(MaterialState.focused)
+    double outlinedButtonBorderWidth(Set<WidgetState> states) =>
+        states.contains(WidgetState.disabled) ||
+                states.contains(WidgetState.focused)
             ? 2.0
             : (type.isGrey ? 1.0 : 1.5);
     final outlinedButtonDisabledForegroundColor =
@@ -332,20 +331,20 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade700
             : AppColors.error(context.isDarkMode).shade400;
     final outlinedButtonStyle = ButtonStyle(
-      fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeight)),
-      side: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
+      side: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return BorderSide(
             color: outlinedButtonBorderColor(states),
             width: outlinedButtonBorderWidth(states),
             style: BorderStyle.solid);
       }),
       backgroundColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return AppColors.white(context.isDarkMode);
         }
-        if (states.contains(MaterialState.hovered) ||
-            states.contains(MaterialState.focused)) {
+        if (states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.focused)) {
           return type.isSecondary
               ? AppColors.primary(context.isDarkMode).shade50
               : type.isGrey
@@ -356,24 +355,24 @@ class CustomButton extends StatelessWidget {
         return AppColors.white(context.isDarkMode);
       }),
       foregroundColor:
-          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return outlinedButtonDisabledForegroundColor;
         }
         return outlinedButtonForegroundColor;
       }),
-      shape: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      shape: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         );
       }),
-      padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return EdgeInsets.symmetric(
             vertical: verticalFilledOutlinedVerticalPadding,
             horizontal:
                 isSmall ? (notOnlyLabel ? 12 : 16) : (notOnlyLabel ? 16 : 24));
       }),
-      textStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      textStyle: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
             color: AppColors.white(context.isDarkMode),
             appFontWeight: AppFontWeight.semiBold,
@@ -520,28 +519,28 @@ class CustomButton extends StatelessWidget {
           focusNode: focusNode,
           style: outlinedButtonStyle.copyWith(
               alignment: Alignment.center,
-              padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+              padding: const WidgetStatePropertyAll(EdgeInsets.zero),
               fixedSize:
-                  MaterialStatePropertyAll(Size(buttonHeight, buttonHeight))),
+                  WidgetStatePropertyAll(Size(buttonHeight, buttonHeight))),
           child: iconWidget,
         ),
       ),
     );
-    Color textForegroundColor(Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
+    Color textForegroundColor(Set<WidgetState> states) {
+      if (states.contains(WidgetState.disabled)) {
         return AppColors.grey(context.isDarkMode).shade300;
       }
       if (type.isPrimary) {
-        return states.contains(MaterialState.focused)
+        return states.contains(WidgetState.focused)
             ? AppColors.primary(context.isDarkMode).shade700
-            : states.contains(MaterialState.hovered)
+            : states.contains(WidgetState.hovered)
                 ? AppColors.primary(context.isDarkMode).shade600
                 : AppColors.primary(context.isDarkMode).shade500;
       }
       if (type.isGrey) {
-        return states.contains(MaterialState.focused)
+        return states.contains(WidgetState.focused)
             ? AppColors.grey(context.isDarkMode).shade700
-            : states.contains(MaterialState.hovered)
+            : states.contains(WidgetState.hovered)
                 ? AppColors.grey(context.isDarkMode).shade400
                 : AppColors.grey(context.isDarkMode).shade500;
       }
@@ -549,7 +548,7 @@ class CustomButton extends StatelessWidget {
     }
 
     final textButtonStyle = ButtonStyle(
-      textStyle: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      textStyle: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
             appFontSize: isSmall
                 ? AppFontSize.paragraphSmall
@@ -557,9 +556,9 @@ class CustomButton extends StatelessWidget {
             color: textForegroundColor(states),
             appFontWeight: AppFontWeight.semiBold,));
       }),
-      foregroundColor: MaterialStateProperty.resolveWith(
-          (Set<MaterialState> states) => textForegroundColor(states)),
-      padding: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      foregroundColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> states) => textForegroundColor(states)),
+      padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return isSmall
             ? EdgeInsets.symmetric(
                 vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16))
@@ -605,7 +604,7 @@ class CustomButton extends StatelessWidget {
           focusNode: focusNode,
           style: textButtonStyle.copyWith(
             alignment: Alignment.center,
-            padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+            padding: const WidgetStatePropertyAll(EdgeInsets.zero),
           ),
           child: iconWidget,
         ),
@@ -622,7 +621,7 @@ class CustomButton extends StatelessWidget {
           focusNode: focusNode,
           style: textButtonStyle.copyWith(
             alignment: Alignment.center,
-            padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+            padding: const WidgetStatePropertyAll(EdgeInsets.zero),
           ),
           iconSize: isSmall ? 15 : 18,
           icon: iconWidget,

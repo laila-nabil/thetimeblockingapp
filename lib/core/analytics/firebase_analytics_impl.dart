@@ -38,7 +38,7 @@ class FirebaseAnalyticsImpl implements Analytics {
 
   @override
   Future<void> logEvent(String eventName,
-      {Map<String, Object?>? parameters}) async {
+      {Map<String, Object>? parameters}) async {
     try {
       await _instance.logEvent(
           name: eventName, parameters: parameters);

@@ -6,8 +6,7 @@ import '../../../../core/extensions.dart';
 import '../../../tasks/domain/entities/task.dart';
 
 class TaskCalendarWidget extends StatelessWidget {
-  const TaskCalendarWidget({Key? key, required this.calendarAppointmentDetails})
-      : super(key: key);
+  const TaskCalendarWidget({super.key, required this.calendarAppointmentDetails});
   final CalendarAppointmentDetails calendarAppointmentDetails;
 
   @override

@@ -29,7 +29,7 @@ import '../entities/workspace.dart';
 ///TODO in desktop,show folders and list as sub to Lists
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +78,7 @@ class CustomDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri.toString();
     return Drawer(
       width: 272,
       // width: showSmallDesign ? 272 : 392,
@@ -99,7 +100,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   context.go(SchedulePage.routeName);
                 },
                 isSelected:
-                    router?.location.contains(SchedulePage.routeName) ==
+                    location.contains(SchedulePage.routeName) ==
                         true),
           
             _DrawerItem(
@@ -110,7 +111,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   context.go(AllTasksPage.routeName);
                 },
                 isSelected:
-                    router?.location.contains(AllTasksPage.routeName) ==
+                    location.contains(AllTasksPage.routeName) ==
                         true),
             _DrawerItem(
                 title: appLocalization.translate("Lists"),
@@ -119,10 +120,10 @@ class CustomDrawerWidget extends StatelessWidget {
                 onPressed: () {
                   context.go(ListsPage.routeName);
                 },
-                isSelected: router?.location
+                isSelected: location
                             .contains(ListsPage.routeName) ==
                         true ||
-                    router?.location.contains(ListPage.routeName) == true),
+                    location.contains(ListPage.routeName) == true),
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
                 iconPath:(isSelected) =>
@@ -130,9 +131,9 @@ class CustomDrawerWidget extends StatelessWidget {
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },
-                isSelected: router?.location.contains(TagsPage.routeName) ==
+                isSelected: location.contains(TagsPage.routeName) ==
                         true ||
-                    router?.location.contains(TagPage.routeName) == true),
+                    location.contains(TagPage.routeName) == true),
             // ignore: dead_code
             if (false)
               _DrawerItem(
@@ -143,7 +144,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     context.go(MapsPage.routeName);
                   },
                   isSelected:
-                      router?.location.contains(MapsPage.routeName) ==
+                      location.contains(MapsPage.routeName) ==
                           true),
             Divider(height: 1,color: AppColors.grey(context.isDarkMode).shade100,),
             const Spacer(),
@@ -167,7 +168,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     context.go(TrashPage.routeName);
                   },
                   isSelected:
-                      router?.location.contains(TrashPage.routeName) ==
+                      location.contains(TrashPage.routeName) ==
                           true),
 
             _DrawerItem(
@@ -178,7 +179,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   context.go(SettingsPage.routeName);
                 },
                 isSelected:
-                    router?.location.contains(SettingsPage.routeName) ==
+                    location.contains(SettingsPage.routeName) ==
                         true),
             // ignore: dead_code
             if (false)
@@ -190,7 +191,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     context.go(HelpPage.routeName);
                   },
                   isSelected:
-                  router?.location.contains(HelpPage.routeName) ==
+                  location.contains(HelpPage.routeName) ==
                       true),
             Container(
               margin: const EdgeInsets.only(top: 22,right: 24,left: 24,bottom: 20),
@@ -239,25 +240,25 @@ class _DrawerItem extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.focused) ||
-                  states.contains(MaterialState.pressed)) {
+            backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.focused) ||
+                  states.contains(WidgetState.pressed)) {
                 return AppColors.primary(context.isDarkMode).shade50;
               }
-              if (states.contains(MaterialState.hovered)) {
+              if (states.contains(WidgetState.hovered)) {
                 return AppColors.grey(context.isDarkMode).shade50;
               }
               return AppColors.background(context.isDarkMode);
             }),
-            foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
+            foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
               return AppColors.white(context.isDarkMode);
             }),
-            padding: MaterialStateProperty.all(
+            padding: WidgetStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
             shape:
-                MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+                WidgetStateProperty.resolveWith((Set<WidgetState> states) {
               return RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               );

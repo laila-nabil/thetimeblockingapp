@@ -15,8 +15,7 @@ import 'custom_pop_up_menu.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {Key? key, this.pageActions, required this.showSmallDesign, required this.isDarkMode})
-      : super(key: key);
+      {super.key, this.pageActions, required this.showSmallDesign, required this.isDarkMode});
   final List<CustomPopupItem>? pageActions;
   final bool showSmallDesign;
   final bool isDarkMode;
@@ -71,14 +70,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class CustomAppBarWidget extends StatelessWidget {
   const CustomAppBarWidget({
-    Key? key,
+    super.key,
     this.pageActions,
     required this.showSmallDesign,
     required this.openDrawer,
     required this.selectSpace,
     required this.selectWorkspace,
     required this.isDarkMode,
-  }) : super(key: key);
+  });
   final bool showSmallDesign;
   final void Function() openDrawer;
   final void Function(Space? space) selectSpace;

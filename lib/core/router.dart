@@ -43,21 +43,21 @@ final router = GoRouter(
       );
     },
     redirect: (context, GoRouterState? state) {
-      printDebug("state?.location ${state?.location}");
-      printDebug("state?.queryParameters ${state?.queryParameters}");
+      printDebug("state?.location ${state?.uri.toString()}");
+      printDebug("state?.queryParameters ${state?.uri.queryParameters}");
       printDebug("Globals.accessToken ${Globals.accessToken}");
       printDebug("Globals.user ${Globals.user}");
       printDebug("Globals.workspaces ${Globals.workspaces}");
       printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
-      if (state?.queryParameters != null &&
-          state?.queryParameters["code"] != null) {
-        return "${AuthPage.routeName}?code=${state?.queryParameters["code"]}";
+      if (state?.uri.queryParameters != null &&
+          state?.uri.queryParameters["code"] != null) {
+        return "${AuthPage.routeName}?code=${state?.uri.queryParameters["code"]}";
       } else if (Globals.accessToken.accessToken.isEmpty ||
           Globals.user == null ||
           Globals.workspaces?.isNotEmpty == false) {
-        if(state?.location != AuthPage.routeName){
-          printDebug("state in redirect before authpage name:${state?.name},location:${state?.location},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.queryParametersAll},queryParameters:${state?.queryParameters}");
-          Globals.redirectAfterAuthRouteName = state?.location??"";
+        if(state?.uri.toString() != AuthPage.routeName){
+          printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri.toString()},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.uri.queryParametersAll},queryParameters:${state?.uri.queryParameters}");
+          Globals.redirectAfterAuthRouteName = state?.uri.toString()??"";
         }
         return AuthPage.routeName;
       }
@@ -68,10 +68,10 @@ final router = GoRouter(
           path: AuthPage.routeName,
           builder: (context, state) {
             String? code;
-            if (state.queryParameters.isNotEmpty &&
-                state.queryParameters.containsKey("code") &&
-                state.queryParameters["code"]?.isNotEmpty == true) {
-              code = state.queryParameters["code"];
+            if (state.uri.queryParameters.isNotEmpty &&
+                state.uri.queryParameters.containsKey("code") &&
+                state.uri.queryParameters["code"]?.isNotEmpty == true) {
+              code = state.uri.queryParameters["code"];
             }
             return AuthPage(code: code,);
           },
@@ -126,7 +126,7 @@ final router = GoRouter(
       GoRoute(
         path: ListPage.routeName,
         builder: (context, state) => ListPage(
-            listId: state.queryParameters[ListPage.queryParametersList.first]
+            listId: state.uri.queryParameters[ListPage.queryParametersList.first]
                 as String,listsPageBloc: state.extra as ListsPageBloc),
         redirect: (context,state){
           if(state.extra == null){
@@ -158,7 +158,7 @@ final router = GoRouter(
       GoRoute(
         path: TagPage.routeName,
         builder: (context, state) => TagPage(
-            tagName: state.queryParameters[TagPage.queryParametersList.first]
+            tagName: state.uri.queryParameters[TagPage.queryParametersList.first]
             as String,tagsPageBloc: state.extra as TagsPageBloc),
         redirect: (context,state){
           if(state.extra == null){

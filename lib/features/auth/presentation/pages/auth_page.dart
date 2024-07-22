@@ -10,7 +10,7 @@ import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key, this.code}) : super(key: key);
+  const AuthPage({super.key, this.code});
 
   static const routeName = "/Auth";
 

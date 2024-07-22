@@ -18,8 +18,7 @@ import '../../../startup/presentation/bloc/startup_bloc.dart';
 ///TODO in desktop, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
-  const SchedulePage({Key? key, this.waitForStartGetTasks = false})
-      : super(key: key);
+  const SchedulePage({super.key, this.waitForStartGetTasks = false});
   static const routeName = "/Schedule";
   final bool waitForStartGetTasks;
 
@@ -163,8 +162,7 @@ class SchedulePage extends StatelessWidget {
 
 class _SchedulePageContent extends StatelessWidget {
   const _SchedulePageContent(
-      {Key? key, required this.scheduleBloc, this.selectedWorkspaceId})
-      : super(key: key);
+      {required this.scheduleBloc, this.selectedWorkspaceId});
   final ScheduleBloc scheduleBloc;
   final String? selectedWorkspaceId;
 

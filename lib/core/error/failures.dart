@@ -10,11 +10,11 @@ abstract class Failure extends Equatable {
 }
 
 class UnknownFailure extends Failure {
-  const UnknownFailure({required String message}) : super(message: message);
+  const UnknownFailure({required super.message});
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure({required String message}) : super(message: message);
+  const ServerFailure({required super.message});
 }
 
 class EmptyCacheFailure extends Failure {
@@ -32,10 +32,10 @@ class CacheFailure extends Failure {
 }
 
 class LocationFailure extends Failure {
-  const LocationFailure({required String message}) : super(message: message);
+  const LocationFailure({required super.message});
 }
 class InputFailure extends Failure {
-  const InputFailure({required String message}) : super(message: message);
+  const InputFailure({required super.message});
 }
 
 class FailuresList extends Failure {
