@@ -73,7 +73,8 @@ class SchedulePage extends StatelessWidget {
                                 Globals.workspaces?.first.id ??
                                 "",
                         filtersParams: scheduleBloc
-                            .state.defaultTasksInWorkspaceFiltersParams)));
+                            .state.defaultTasksInWorkspaceFiltersParams,
+                        backendMode: Globals.backendMode)));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -147,7 +148,8 @@ class SchedulePage extends StatelessWidget {
                     GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? "",
                         filtersParams:
-                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams)));
+                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
+                        backendMode: Globals.backendMode)));
                 startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
                     workspace: selectedWorkspace!,
                     accessToken: Globals.accessToken));

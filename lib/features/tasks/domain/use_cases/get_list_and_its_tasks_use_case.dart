@@ -50,7 +50,8 @@ class GetListAndItsTasksUseCase {
         params: GetTasksInWorkspaceParams(
             workspaceId: Globals.selectedWorkspace?.id ?? "",
             filtersParams: defaultTasksInWorkspaceFiltersParams
-                .copyWith(filterByListsIds: [params.listId])));
+                .copyWith(filterByListsIds: [params.listId]),
+            backendMode: Globals.backendMode));
 
     await tasksResult.fold(
             (l) async => await serviceLocator<Analytics>()

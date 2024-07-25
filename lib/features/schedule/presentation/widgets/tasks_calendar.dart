@@ -65,6 +65,7 @@ class TasksCalendar extends StatelessWidget {
               task: details.appointment as Task,
               accessToken: Globals.accessToken,
               updatedDueDate: details.endTime,
+              backendMode: Globals.backendMode
             )));
       },
 
@@ -83,6 +84,7 @@ class TasksCalendar extends StatelessWidget {
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
+          backendMode: Globals.backendMode
         )));
       },
       onViewChanged: (viewChangedDetails){
@@ -118,7 +120,8 @@ class TasksCalendar extends StatelessWidget {
                             filterByDueDateLessThanUnixTimeMilliseconds:
                                 viewChangedDetails.visibleDates.last
                                     .add(const Duration(days: 1))
-                                    .millisecondsSinceEpoch))));
+                                    .millisecondsSinceEpoch),
+                    backendMode: Globals.backendMode)));
           } else {
             printDebug("onViewChange Not");
           }
@@ -149,7 +152,7 @@ class TasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: CreateTaskParams.fromTask(task)));
+                  params: CreateTaskParams.fromTask(task,Globals.backendMode)));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&

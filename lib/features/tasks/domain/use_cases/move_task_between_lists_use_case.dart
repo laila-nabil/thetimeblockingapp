@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
@@ -34,7 +35,8 @@ class MoveTaskBetweenListsUseCase
         folder: task.folder,
         dueDate: task.dueDateUtc,
         description: task.description,
-        tags: task.tags));
+        tags: task.tags,
+        backendMode: Globals.backendMode));
     if (createResult?.isRight() == true) {
       deleteResult = await repo.deleteTask(DeleteTaskParams(
           task: task, accessToken: params.accessToken));

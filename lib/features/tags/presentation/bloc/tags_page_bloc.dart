@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
@@ -63,7 +64,8 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""],
-                    filterByTags: [event.tag.name ?? ""])));
+                    filterByTags: [event.tag.name ?? ""]),
+                backendMode: Globals.backendMode));
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.getTasksForTagFailure,

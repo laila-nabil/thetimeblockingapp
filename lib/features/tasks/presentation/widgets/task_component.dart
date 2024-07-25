@@ -69,7 +69,7 @@ class TaskComponent extends StatelessWidget {
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(CreateTaskParams.fromTask(task)))
+              onTap: () => onDuplicate(CreateTaskParams.fromTask(task,Globals.backendMode)))
         ],
         showList: showListChip,
         onTap: () {
@@ -93,6 +93,7 @@ class TaskComponent extends StatelessWidget {
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,
                       timeEstimate: task.timeEstimate,
+                      backendMode: Globals.backendMode
                     ));
                     Navigator.pop(context);
                   },

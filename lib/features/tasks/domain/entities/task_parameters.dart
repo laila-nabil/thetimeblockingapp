@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
@@ -11,6 +12,7 @@ import 'task.dart';
 enum ClickupTaskParamsEnum { create, update }
 
 class CreateTaskParams extends Equatable{
+  final BackendMode backendMode;
   final ClickupTaskParamsEnum clickupTaskParamsEnum;
   final AccessToken accessToken;
   final TasksList? list;
@@ -67,7 +69,7 @@ class CreateTaskParams extends Equatable{
     return <TasksList>[];
   }
 
-  factory CreateTaskParams.fromTask(Task clickupTask){
+  factory CreateTaskParams.fromTask(Task clickupTask,BackendMode backendMode){
     return CreateTaskParams.createNewTask(
       accessToken: Globals.accessToken,
       list: clickupTask.list!,
@@ -80,6 +82,7 @@ class CreateTaskParams extends Equatable{
       taskPriority: clickupTask.priority,
       startDate: clickupTask.startDateUtc,
       timeEstimate: clickupTask.timeEstimate,
+      backendMode: backendMode
     );
   }
   const CreateTaskParams._(
@@ -104,7 +107,7 @@ class CreateTaskParams extends Equatable{
       this.task,
       this.space,
       this.folder,
-      this.archived});
+      this.archived,required this.backendMode, });
 
   static _isNewTask(Task? task) =>
       task?.id == null || task?.id?.isEmpty == true;
@@ -148,7 +151,8 @@ class CreateTaskParams extends Equatable{
     DateTime? dueDate,
     Space? space,
     TasksList? list,
-    Tag? tag
+    Tag? tag,
+    required BackendMode backendMode
   }) {
     printDebug("ClickupTaskParams startCreateNewTask task");
     return CreateTaskParams._(
@@ -159,7 +163,9 @@ class CreateTaskParams extends Equatable{
           space: space,
           list: list,
           tags: tag == null ? null : [tag],
-          assignees: [Globals.user!.asAssignee],);
+          assignees: [Globals.user!.asAssignee],
+          backendMode: backendMode
+    );
   }
 
   factory CreateTaskParams.createNewTask({
@@ -179,6 +185,7 @@ class CreateTaskParams extends Equatable{
     bool? requiredCustomFields,
     Folder? folder,
     Space? space,
+    required BackendMode backendMode
   }) {
     printDebug("ClickupTaskParams createNewTask task");
     return CreateTaskParams._(
@@ -203,12 +210,15 @@ class CreateTaskParams extends Equatable{
           requiredCustomFields: requiredCustomFields,
           startDate: startDate,
           taskPriority: taskPriority,
-          timeEstimate: timeEstimate);
+          timeEstimate: timeEstimate,
+          backendMode: backendMode
+    );
   }
 
   factory CreateTaskParams.startUpdateTask({
     required AccessToken accessToken,
     required Task task,
+    required BackendMode backendMode
   }) {
     printDebug("ClickupTaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
@@ -238,6 +248,7 @@ class CreateTaskParams extends Equatable{
         parentTask: null,
         dueDate: task.dueDateUtc,
         startDate: task.startDateUtc,
+        backendMode: backendMode
         );
   }
 
@@ -261,6 +272,7 @@ class CreateTaskParams extends Equatable{
     bool? updatedArchived,
     TasksList? list,
     Folder? folder,
+    required BackendMode backendMode
   }) =>
       CreateTaskParams._(
           clickupTaskParamsEnum: ClickupTaskParamsEnum.update,
@@ -284,7 +296,9 @@ class CreateTaskParams extends Equatable{
           requiredCustomFields: null,
           startDate: updatedStartDate,
           taskPriority: updatedTaskPriority,
-          timeEstimate: updatedTimeEstimate);
+          timeEstimate: updatedTimeEstimate,
+          backendMode: backendMode
+      );
 
   Map<String, dynamic> toJson() {
     if (clickupTaskParamsEnum == ClickupTaskParamsEnum.create) {
@@ -434,6 +448,7 @@ class CreateTaskParams extends Equatable{
       archived: archived ?? this.archived,
       folder: selectedFolder,
       space: selectedSpace,
+      backendMode: backendMode
     );
   }
 
@@ -462,7 +477,7 @@ class CreateTaskParams extends Equatable{
     folder,
     space,
     getAvailableLists,
-    archived];
+    archived,backendMode];
 
   @override
   String toString() {

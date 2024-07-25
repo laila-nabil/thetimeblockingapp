@@ -228,10 +228,12 @@ class TaskPopup extends StatelessWidget {
                               ? Globals.selectedSpace
                               : null,
                           list: taskPopupParams.list,
-                          tag: taskPopupParams.tag)
+                          tag: taskPopupParams.tag,
+                      backendMode: Globals.backendMode)
                       : CreateTaskParams.startUpdateTask(
                           accessToken: Globals.accessToken,
                           task: task,
+                      backendMode: Globals.backendMode
                         )));
           },
         ),
@@ -252,10 +254,12 @@ class TaskPopup extends StatelessWidget {
                           accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
-                          startDate: taskPopupParams.startDate)
+                          startDate: taskPopupParams.startDate,
+                      backendMode: Globals.backendMode)
                       : CreateTaskParams.startUpdateTask(
                           accessToken: Globals.accessToken,
                           task: task,
+                      backendMode: Globals.backendMode
                         ));
               printDebug("taskParams $taskParams");
               final firstDate =

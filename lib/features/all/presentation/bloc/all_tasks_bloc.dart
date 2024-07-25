@@ -43,7 +43,9 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 workspaceId: event.workspace.id ?? "",
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
-                    filterBySpaceIds: [event.space.id ?? ""])));
+                    filterBySpaceIds: [event.space.id ?? ""]),
+                backendMode: Globals.backendMode
+            ));
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.getTasksFailure,

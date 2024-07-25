@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
 import '../../../../core/print_debug.dart';
 import 'get_tasks_in_single_workspace_use_case.dart';
@@ -16,7 +17,8 @@ class GetTasksInAllWorkspacesUseCase {
     for (var element in params.workspacesIds) {
       result[element] = await getClickupTasksInSingleWorkspaceUseCase(
           GetTasksInWorkspaceParams(
-              workspaceId: element, filtersParams: params.filtersParams));
+              workspaceId: element, filtersParams: params.filtersParams,
+              backendMode: Globals.backendMode));
     }
     printDebug("result $result");
     return result;

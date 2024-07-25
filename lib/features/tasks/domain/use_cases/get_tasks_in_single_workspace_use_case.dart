@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
@@ -25,14 +26,15 @@ class GetTasksInSingleWorkspaceUseCase
 class GetTasksInWorkspaceParams extends Equatable {
   final String workspaceId;
   final GetTasksInWorkspaceFiltersParams filtersParams;
-
-  const GetTasksInWorkspaceParams({
+  final BackendMode backendMode;
+  const GetTasksInWorkspaceParams( {
     required this.workspaceId,
     required this.filtersParams,
+    required this.backendMode,
   });
 
   @override
-  List<Object?> get props => [workspaceId, filtersParams];
+  List<Object?> get props => [workspaceId, filtersParams,backendMode];
 }
 
 class GetTasksInWorkspaceFiltersParams extends Equatable {
