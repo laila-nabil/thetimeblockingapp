@@ -4,8 +4,8 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_space_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
@@ -31,8 +31,8 @@ import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_tag_use_case.dart';
-import '../models/clickup_folder_model.dart';
-import '../models/clickup_list_model.dart';
+import '../../../../common/models/clickup_folder_model.dart';
+import '../../../../common/models/clickup_list_model.dart';
 
 abstract class TasksRemoteDataSource {
   Future<List<ClickupTaskModel>> getTasksInWorkspace(

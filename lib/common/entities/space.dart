@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 
-import '../../../../common/entities/workspace.dart';
+import 'workspace.dart';
 
 // ignore: must_be_immutable
 class Space extends Equatable {

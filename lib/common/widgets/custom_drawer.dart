@@ -23,7 +23,7 @@ import '../../core/globals.dart';
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/startup/presentation/bloc/startup_bloc.dart';
-import '../../features/tasks/domain/entities/space.dart';
+import '../entities/space.dart';
 import '../entities/workspace.dart';
 
 ///TODO in desktop,show folders and list as sub to Lists

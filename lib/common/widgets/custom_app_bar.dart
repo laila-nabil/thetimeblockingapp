@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';

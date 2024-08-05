@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import '../../../../core/extensions.dart';
-import '../../../../core/globals.dart';
+import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
+import '../../core/extensions.dart';
+import '../../core/globals.dart';
 import 'folder.dart';
 import 'tasks_list.dart';
 import 'space.dart';

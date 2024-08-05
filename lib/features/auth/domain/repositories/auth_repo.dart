@@ -3,7 +3,7 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_ca
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
-import '../entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 import '../entities/sign_in_result.dart';
 import '../use_cases/get_access_token_use_case.dart';
 import '../use_cases/get_user_use_case.dart';

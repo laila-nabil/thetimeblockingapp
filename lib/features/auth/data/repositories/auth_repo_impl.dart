@@ -6,9 +6,9 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/auth/data/models/access_token_model.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 
-import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';

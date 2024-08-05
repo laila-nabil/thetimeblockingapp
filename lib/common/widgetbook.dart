@@ -21,9 +21,9 @@ import 'package:thetimeblockingapp/features/auth/data/repositories/auth_repo_imp
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';

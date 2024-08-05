@@ -1,4 +1,4 @@
-import '../../domain/entities/access_token.dart';
+import '../entities/access_token.dart';
 
 class AccessTokenModel extends AccessToken {
   const AccessTokenModel({required super.accessToken, required super.tokenType});

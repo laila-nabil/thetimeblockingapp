@@ -3,9 +3,9 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
@@ -20,9 +20,9 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_bet
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/globals.dart';
-import '../../../auth/domain/entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
-import '../../../tasks/domain/entities/space.dart';
+import '../../../../common/entities/space.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';

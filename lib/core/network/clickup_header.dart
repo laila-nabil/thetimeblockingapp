@@ -1,4 +1,4 @@
-import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 
 Map<String, String>? clickupHeader({required AccessToken clickupAccessToken}) {
   return {

@@ -12,7 +12,7 @@ import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
 import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_workspaces_use_case.dart';
-import '../../domain/entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 import '../../domain/use_cases/get_access_token_use_case.dart';
 import '../../domain/use_cases/get_user_use_case.dart';
 

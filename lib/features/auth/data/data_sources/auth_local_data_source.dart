@@ -1,7 +1,7 @@
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
-import '../models/access_token_model.dart';
+import '../../../../common/models/access_token_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {

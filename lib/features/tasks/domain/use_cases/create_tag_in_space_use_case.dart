@@ -3,12 +3,12 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../data/models/clickup_task_model.dart';
-import '../entities/task.dart';
+import '../../../../common/models/clickup_task_model.dart';
+import '../../../../common/entities/task.dart';
 
 class CreateTagInSpaceUseCase
     implements UseCase<dartz.Unit, CreateTagInSpaceParams> {

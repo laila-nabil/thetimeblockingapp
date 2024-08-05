@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 
-import '../../../auth/domain/entities/access_token.dart';
-import 'tasks_list.dart';
-import 'task.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/tasks_list.dart';
+import '../../../../common/entities/task.dart';
 
 enum ClickupTaskParamsEnum { create, update }
 

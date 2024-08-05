@@ -1,4 +1,4 @@
-import '../../domain/entities/tasks_list.dart';
+import '../entities/tasks_list.dart';
 
 /// id : "1"
 /// name : "List"

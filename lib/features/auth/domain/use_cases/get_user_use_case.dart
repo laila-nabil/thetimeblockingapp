@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 
 import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
-import '../entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 
 class GetUserUseCase
     implements UseCase<User, GetClickupUserParams> {

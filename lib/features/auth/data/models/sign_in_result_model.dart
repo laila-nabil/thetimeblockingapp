@@ -1,5 +1,5 @@
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
-import 'package:thetimeblockingapp/features/auth/data/models/access_token_model.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/sign_in_result.dart';
 
 class SignInResultModel extends SignInResult {

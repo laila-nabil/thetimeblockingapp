@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/network/clickup_header.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 
 void main() {
   test('clickup header test', () {

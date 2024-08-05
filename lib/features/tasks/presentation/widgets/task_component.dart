@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';

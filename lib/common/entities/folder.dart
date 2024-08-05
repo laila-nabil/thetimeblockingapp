@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 
 class Folder extends Equatable{
   const Folder({

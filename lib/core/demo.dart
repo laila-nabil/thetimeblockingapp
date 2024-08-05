@@ -1,14 +1,14 @@
 import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
 
 import '../common/models/clickup_workspace_model.dart';
 import '../common/models/supabase_user_model.dart';
-import '../features/auth/data/models/access_token_model.dart';
-import '../features/tasks/data/models/clickup_folder_model.dart';
-import '../features/tasks/data/models/clickup_list_model.dart';
-import '../features/tasks/data/models/clickup_space_model.dart';
-import '../features/tasks/domain/entities/task.dart';
+import '../common/models/access_token_model.dart';
+import '../common/models/clickup_folder_model.dart';
+import '../common/models/clickup_list_model.dart';
+import '../common/models/clickup_space_model.dart';
+import '../common/entities/task.dart';
 
 class Demo {
   static AccessTokenModel accessTokenModel =

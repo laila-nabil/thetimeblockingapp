@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import '../../../auth/domain/entities/access_token.dart';
-import '../entities/folder.dart';
-import '../entities/space.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/folder.dart';
+import '../../../../common/entities/space.dart';
 
 class GetFoldersInSpaceUseCase
     implements UseCase<List<Folder>, GetFoldersInSpaceParams> {

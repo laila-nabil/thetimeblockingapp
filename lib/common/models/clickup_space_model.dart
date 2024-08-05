@@ -1,6 +1,6 @@
 import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
-import '../../domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
+import '../entities/space.dart';
 /*
  id : "90150126979"
  name : "Space b"

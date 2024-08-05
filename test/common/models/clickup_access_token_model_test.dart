@@ -1,4 +1,4 @@
-import 'package:thetimeblockingapp/features/auth/data/models/access_token_model.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 

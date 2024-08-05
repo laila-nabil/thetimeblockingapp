@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../tasks/domain/entities/space.dart';
+import '../../../../common/entities/space.dart';
 
 class GetSelectedSpaceUseCase
     implements UseCase<Space, NoParams> {

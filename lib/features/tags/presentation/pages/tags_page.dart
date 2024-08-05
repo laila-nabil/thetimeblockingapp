@@ -20,7 +20,7 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
-import '../../../tasks/data/models/clickup_task_model.dart';
+import '../../../../common/models/clickup_task_model.dart';
 import '../../../tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';

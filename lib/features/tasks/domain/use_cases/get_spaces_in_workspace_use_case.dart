@@ -8,8 +8,8 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
-import '../../../auth/domain/entities/access_token.dart';
-import '../entities/space.dart';
+import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/space.dart';
 
 class GetSpacesInWorkspacesUseCase
     with GlobalsWriteAccess

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_task_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_space_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -28,15 +28,15 @@ import '../../../../core/usecase.dart';
 import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
-import '../../domain/entities/space.dart';
+import '../../../../common/entities/space.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
-import '../models/clickup_folder_model.dart';
-import '../models/clickup_list_model.dart';
+import '../../../../common/models/clickup_folder_model.dart';
+import '../../../../common/models/clickup_list_model.dart';
 
 class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;

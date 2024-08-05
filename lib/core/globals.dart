@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../common/entities/user.dart';
 import '../common/entities/workspace.dart';
-import '../features/auth/domain/entities/access_token.dart';
+import '../common/entities/access_token.dart';
 import 'environment.dart';
 
 String _appName = "Time blocking app";

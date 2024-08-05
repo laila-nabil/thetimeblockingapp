@@ -4,13 +4,13 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
-import '../../../auth/domain/entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 
 class MoveTaskBetweenListsUseCase
     implements UseCase<dartz.Unit, MoveTaskBetweenListsParams> {

@@ -1,6 +1,6 @@
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_list_model.dart';
-import 'package:thetimeblockingapp/features/tasks/data/models/clickup_space_model.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/folder.dart';
+import 'package:thetimeblockingapp/common/models/clickup_list_model.dart';
+import 'package:thetimeblockingapp/common/models/clickup_space_model.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
 
 /// id : "457"
 /// name : "Updated Folder Name"

@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/space.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
@@ -12,7 +12,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../auth/domain/entities/access_token.dart';
+import '../../../../common/entities/access_token.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_task_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
