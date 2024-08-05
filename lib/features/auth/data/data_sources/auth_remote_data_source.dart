@@ -70,7 +70,8 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AccessTokenModel> getAccessToken(
       {required GetAccessTokenParams params}) {
-    throw UnsupportedError('Get access token is replaced with sign in for Supabase');
+    throw UnsupportedError(
+        'Get access token is replaced with sign in for Supabase');
   }
 
   @override
@@ -80,9 +81,12 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<SignInResultModel> signInSupabase({required SignInParams params}) async {
+  Future<SignInResultModel> signInSupabase(
+      {required SignInParams params}) async {
     final result = await network.post(
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key),
+        headers: supabaseHeader(
+            accessToken: const AccessTokenModel(accessToken: "", tokenType: ""),
+            apiKey: key),
         uri: Uri.parse("$url/auth/v1/token?grant_type=password"),
         body: {"email": params.email, "password": params.password});
     return SignInResultModel.fromJson(json.decode(result.body));

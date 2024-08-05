@@ -162,7 +162,7 @@ class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthP
                                           url: url,
                                           getAccessToken: (String code) {
                                             widget.authBloc
-                                                .add(GetAccessToken(code));
+                                                .add(GetAccessToken.clickUp(code));
                                           },
                                         );
                                       }));
@@ -277,7 +277,7 @@ class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthP
                                           url: url,
                                           getAccessToken: (String code) {
                                             widget.authBloc
-                                                .add(GetAccessToken(code));
+                                                .add(GetAccessToken.clickUp(code));
                                           },
                                         );
                                       }));
@@ -789,8 +789,7 @@ class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthP
                       height: 20,
                     ),
                     Text(
-                      'Rest easy knowing that all your task data is securely managed by ClickUp. Check out ClickUp\'s privacy and security policies for additional details',
-                      style: contentStyleMobile,
+                      appLocalization.translate("restEasyKnowingTasksSecured"),style: contentStyleMobile,
                       overflow: TextOverflow.visible,
                     ),
                     const Spacer(
@@ -827,7 +826,7 @@ class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthP
                                       url: url,
                                       getAccessToken: (String code) {
                                         widget.authBloc
-                                            .add(GetAccessToken(code));
+                                            .add(GetAccessToken.clickUp(code));
                                       },
                                     );
                                   }));
@@ -943,7 +942,7 @@ class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthP
                                       url: url,
                                       getAccessToken: (String code) {
                                         widget.authBloc
-                                            .add(GetAccessToken(code));
+                                            .add(GetAccessToken.clickUp(code));
                                       },
                                     );
                                   }));

@@ -8,7 +8,7 @@ void main() {
     const jsonString =
     """{"id":55230798,"username":"Laila Nabil","email":"laila.nabil.mustafa1@gmail.com","color":"#7b68ee","initials":"LN","week_start_day":0,"global_font_support":true,"timezone":"Africa/Cairo"} """;
     const model = ClickupUserModel(
-      id: 55230798,
+      id: "55230798",
       username:"Laila Nabil",
       email : "laila.nabil.mustafa1@gmail.com",
       color : "#7b68ee",

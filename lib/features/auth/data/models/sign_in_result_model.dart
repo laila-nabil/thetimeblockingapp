@@ -10,7 +10,7 @@ class SignInResultModel extends SignInResult {
   factory SignInResultModel.fromJson(Map<String, dynamic> json) {
     return SignInResultModel(
       accessToken: AccessTokenModel(
-          accessToken: json['accessToken'], tokenType: json['tokenType']),
+          accessToken: json['access_token'], tokenType: json['token_type']),
       user: SupabaseUserModel.fromJson(json['user']),
     );
   }

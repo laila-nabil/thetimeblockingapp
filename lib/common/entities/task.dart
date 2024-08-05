@@ -412,7 +412,7 @@ class Assignee extends Equatable {
     this.initials,
   });
 
-  final num? id;
+  final String? id;
   final String? username;
   final String? color;
   final String? email;

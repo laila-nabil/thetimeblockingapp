@@ -41,8 +41,8 @@ class CreateTaskParams extends Equatable{
 
   String get taskId => task?.id ?? "";
 
-  List<int>? get assigneesId =>
-      assignees?.map((e) => e.id?.toInt() ?? 0).toList();
+  List<String>? get assigneesId =>
+      assignees?.map((e) => e.id ?? "0").toList();
 
   List<String>? get tagsNames => tags?.map((e) => e.name ?? "").toList();
 
@@ -327,11 +327,11 @@ class CreateTaskParams extends Equatable{
       };
       return createMap;
     } else {
-      List<int>? addedAssigneesId =
-          addedAssignees?.map((e) => e.id?.toInt() ?? 0).toList();
+      List<String>? addedAssigneesId =
+          addedAssignees?.map((e) => e.id ?? "0").toList();
 
-      List<int>? removedAssigneesId =
-          removedAssignees?.map((e) => e.id?.toInt() ?? 0).toList();
+      List<String>? removedAssigneesId =
+          removedAssignees?.map((e) => e.id ?? "0").toList();
       Map<String, dynamic> assignees = {};
       if (addedAssigneesId?.isNotEmpty == true) {
         assignees["add"] = addedAssigneesId;

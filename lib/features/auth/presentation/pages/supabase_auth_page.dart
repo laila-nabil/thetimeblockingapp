@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +11,9 @@ import 'supabase_onboarding_auth_page.dart';
 
 class SupabaseAuthPage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
-  SupabaseAuthPage({super.key,});
+  SupabaseAuthPage({
+    super.key,
+  });
 
   static const routeName = Globals.authRouteName;
 
@@ -26,6 +27,7 @@ class SupabaseAuthPage extends StatelessWidget {
         return BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             printDebug("AuthBloc state listener $state");
+            final authBloc = BlocProvider.of<AuthBloc>(context);
             if (state.canGoSchedulePage == true) {
               context.go(SchedulePage.routeName, extra: true);
             }
@@ -34,7 +36,9 @@ class SupabaseAuthPage extends StatelessWidget {
             printDebug("AuthBloc state builder $state");
             final authBloc = BlocProvider.of<AuthBloc>(context);
             return SupabaseOnBoardingAndAuthPage(
-              authBloc: authBloc, settingsBloc: settingsBloc,);
+              authBloc: authBloc,
+              settingsBloc: settingsBloc,
+            );
           },
         );
       },

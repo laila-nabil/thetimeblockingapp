@@ -15,7 +15,7 @@ class User extends Equatable {
     this.timezone,
   });
 
-  final num? id;
+  final String? id;
   final String? username;
   final String? email;
   final String? color;

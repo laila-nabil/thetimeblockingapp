@@ -82,7 +82,7 @@ void main() {
           }
         };
         const model = ClickupUserModel(
-          id: 55230798,
+          id: "55230798",
             username:"Laila Nabil",
            email : "laila.nabil.mustafa1@gmail.com",
            color : "#7b68ee",

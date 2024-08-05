@@ -15,7 +15,7 @@ class Demo {
       const AccessTokenModel(
           accessToken: "fake_accessToken", tokenType: "Bearer");
 
-  static const int userId = 24332434;
+  static const String userId = "24332434";
   static const String userEmail = "demoEmail@gmail.com";
   static const String userName = "Demo Account";
   static const String userColor = "#7b68ee";
@@ -43,7 +43,7 @@ class Demo {
         members: [
           ClickupWorkspaceMembersModel(
               user: ClickupWorkspaceUserModel(
-                  id: userId,
+                  id: 5434,
                   username: userName,
                   color: "",
                   profilePicture: null))
@@ -68,7 +68,7 @@ class Demo {
     ClickupSpaceModel(id: "242442", name: "space", members: const [
       ClickupWorkspaceMembersModel(
           user: ClickupWorkspaceUserModel(
-              id: userId,
+              id: 25434,
               username: userName,
               color: userColor,
               profilePicture: null))

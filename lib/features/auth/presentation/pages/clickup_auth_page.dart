@@ -39,9 +39,9 @@ class ClickupAuthPage extends StatelessWidget {
                 state.authStates.contains(AuthStateEnum.initial)) {
 
               ///in case saved locally
-              authBloc.add(const GetAccessToken(""));
+              authBloc.add(const GetAccessToken.clickUp(""));
             } else if (code?.isNotEmpty == true && state.isLoading == false) {
-              authBloc.add(GetAccessToken(code ?? ""));
+              authBloc.add(GetAccessToken.clickUp(code ?? ""));
             }
             return ClickupOnBoardingAndAuthPage(
               authBloc: authBloc, settingsBloc: settingsBloc,);

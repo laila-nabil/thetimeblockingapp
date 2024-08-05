@@ -34,14 +34,12 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
 class SignInParams extends Equatable {
   final String email;
   final String password;
-  final AccessToken accessToken;
 
   const SignInParams({
     required this.email,
     required this.password,
-    required this.accessToken,
   });
 
   @override
-  List<Object?> get props => [email, password,accessToken];
+  List<Object?> get props => [email, password];
 }
