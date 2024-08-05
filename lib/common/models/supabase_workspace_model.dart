@@ -17,7 +17,7 @@ class SupabaseWorkspaceModel extends WorkspaceModel {
   @override
   SupabaseWorkspaceModel fromJson(dynamic json) {
     return SupabaseWorkspaceModel(
-      id: json['id'],
+      id: json['id'].toString(),
       name: json['name'],
       color: json['color'],
     );
