@@ -90,7 +90,7 @@ class AuthState extends Equatable {
     AccessToken? accessToken,
     User? clickupUser,
     Failure? getClickupUserFailure,
-    List<Workspace>? clickupWorkspaces,
+    List<Workspace>? workspaces,
     Failure? getClickupWorkspacesFailure,
     User? supabaseUser,
     Failure? signInFailure
@@ -103,7 +103,7 @@ class AuthState extends Equatable {
       clickupUser: clickupUser ?? this.clickupUser,
       getClickupUserFailure:
           getClickupUserFailure ?? this.getClickupUserFailure,
-      workspaces: clickupWorkspaces ?? this.workspaces,
+      workspaces: workspaces ?? this.workspaces,
       getClickupWorkspacesFailure:
           getClickupWorkspacesFailure ?? this.getClickupWorkspacesFailure,
       signInFailure: signInFailure ?? this.signInFailure,

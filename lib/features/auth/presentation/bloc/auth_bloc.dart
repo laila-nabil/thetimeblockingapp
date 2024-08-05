@@ -89,7 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 authStates: state.updatedAuthStates(
                     AuthStateEnum.getWorkspacesFailed))), (r) {
           emit(state.copyWith(
-              clickupWorkspaces: r,
+              workspaces: r,
               authStates: state.updatedAuthStates(
                   AuthStateEnum.getWorkspacesSuccess)));
           add(TryGetSelectedWorkspaceSpaceEvent());
@@ -127,7 +127,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                       authStates: state.updatedAuthStates(
                           AuthStateEnum.getWorkspacesFailed))), (r) {
                 emit(state.copyWith(
-                    clickupWorkspaces: r,
+                    workspaces: r,
                     authStates: state.updatedAuthStates(
                         AuthStateEnum.getWorkspacesSuccess)));
               });
