@@ -83,7 +83,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
           accessToken = result.accessToken;
           user = result.user;
           await authLocalDataSource
-              .saveAccessToken(result as AccessTokenModel);
+              .saveAccessToken(result.accessToken as AccessTokenModel);
           printDebug(
               "getClickUpAccessToken $result ${Globals.accessToken}");
         },

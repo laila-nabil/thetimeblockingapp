@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'user.dart';
+
 class Workspace extends Equatable {
   const Workspace({
     this.id,
@@ -32,35 +34,8 @@ class WorkspaceMembers extends Equatable {
     this.user,
   });
 
-  final WorkspaceUser? user;
+  final User? user;
 
   @override
   List<Object?> get props => [user];
-}
-
-/// id : 123
-/// username : "John Doe"
-/// color : "#000000"
-/// profilePicture : "https://clickup.com/avatar.jpg"
-
-class WorkspaceUser extends Equatable {
-  const WorkspaceUser({
-    this.id,
-    this.username,
-    this.color,
-    this.profilePicture,
-  });
-
-  final num? id;
-  final String? username;
-  final String? color;
-  final String? profilePicture;
-
-  @override
-  List<Object?> get props => [
-        id,
-        username,
-        color,
-        profilePicture,
-      ];
 }

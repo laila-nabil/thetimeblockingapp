@@ -1,12 +1,15 @@
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 
+import 'clickup_user_model.dart';
+import 'workspace_model.dart';
+
 /// id : "1234"
 /// name : "My ClickUp Workspace"
 /// color : "#000000"
 /// avatar : "https://clickup.com/avatar.jpg"
 /// members : [{"user":{"id":123,"username":"John Doe","color":"#000000","profilePicture":"https://clickup.com/avatar.jpg"}}]
 
-class ClickupWorkspaceModel extends Workspace {
+class ClickupWorkspaceModel extends WorkspaceModel {
   const ClickupWorkspaceModel({
     super.id,
     super.name,
@@ -15,7 +18,8 @@ class ClickupWorkspaceModel extends Workspace {
     super.members,
   });
 
-  factory ClickupWorkspaceModel.fromJson(Map<String,dynamic> json) {
+  @override
+  ClickupWorkspaceModel fromJson(dynamic json) {
     String? id = json['id'];
     String? name = json['name'];
     String? color = json['color'];
@@ -31,6 +35,7 @@ class ClickupWorkspaceModel extends Workspace {
         id: id, name: name, color: color, avatar: avatar, members: members);
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -54,46 +59,14 @@ class ClickupWorkspaceMembersModel extends WorkspaceMembers {
 
   factory ClickupWorkspaceMembersModel.fromJson(Map<String,dynamic> json) {
     return ClickupWorkspaceMembersModel(
-        user: json['user'] != null ? ClickupWorkspaceUserModel.fromJson(json['user']) : null);
+        user: json['user'] != null ? ClickupUserModel.fromJson(json['user']) : null);
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (user != null) {
-      map['user'] = (user as ClickupWorkspaceUserModel).toJson();
+      map['user'] = (user as ClickupUserModel).toJson();
     }
-    return map;
-  }
-}
-
-/// id : 123
-/// username : "John Doe"
-/// color : "#000000"
-/// profilePicture : "https://clickup.com/avatar.jpg"
-
-class ClickupWorkspaceUserModel extends WorkspaceUser {
-  const ClickupWorkspaceUserModel({
-    super.id,
-    super.username,
-    super.color,
-    super.profilePicture,
-  });
-
-  factory ClickupWorkspaceUserModel.fromJson(Map<String,dynamic> json) {
-    return ClickupWorkspaceUserModel(
-      id: json['id'],
-      username: json['username'],
-      color: json['color'],
-      profilePicture: json['profilePicture'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['username'] = username;
-    map['color'] = color;
-    map['profilePicture'] = profilePicture;
     return map;
   }
 }

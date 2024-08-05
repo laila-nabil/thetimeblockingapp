@@ -42,8 +42,8 @@ class Demo {
         avatar: null,
         members: [
           ClickupWorkspaceMembersModel(
-              user: ClickupWorkspaceUserModel(
-                  id: 5434,
+              user: ClickupUserModel(
+                  id: "5434",
                   username: userName,
                   color: "",
                   profilePicture: null))
@@ -67,8 +67,8 @@ class Demo {
   static List<ClickupSpaceModel> spaces = [
     ClickupSpaceModel(id: "242442", name: "space", members: const [
       ClickupWorkspaceMembersModel(
-          user: ClickupWorkspaceUserModel(
-              id: 25434,
+          user: ClickupUserModel(
+              id: "25434",
               username: userName,
               color: userColor,
               profilePicture: null))

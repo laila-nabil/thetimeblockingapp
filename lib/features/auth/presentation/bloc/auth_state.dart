@@ -12,8 +12,8 @@ enum AuthStateEnum {
   getClickupAccessTokenFailed,
   getClickupUserSuccess,
   getClickupAUserFailed,
-  getClickupWorkspacesSuccess,
-  getClickupWorkspacesFailed,
+  getWorkspacesSuccess,
+  getWorkspacesFailed,
   triedGetSelectedWorkspacesSpace,
 }
 

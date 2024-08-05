@@ -87,11 +87,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (l) => emit(state.copyWith(
                 getClickupWorkspacesFailure: l,
                 authStates: state.updatedAuthStates(
-                    AuthStateEnum.getClickupWorkspacesFailed))), (r) {
+                    AuthStateEnum.getWorkspacesFailed))), (r) {
           emit(state.copyWith(
               clickupWorkspaces: r,
               authStates: state.updatedAuthStates(
-                  AuthStateEnum.getClickupWorkspacesSuccess)));
+                  AuthStateEnum.getWorkspacesSuccess)));
           add(TryGetSelectedWorkspaceSpaceEvent());
         });
       } else if (event is TryGetSelectedWorkspaceSpaceEvent) {
@@ -118,19 +118,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                     state.updatedAuthStates(AuthStateEnum.signInSuccess)));
               final getClickupWorkspaces = await _getWorkspacesUseCase(
                   GetWorkspacesParams(
-                      accessToken: event.accessToken, userId: event.userId));
+                      accessToken: r.accessToken, userId: r.user.id??""));
               emit(state.copyWith(
                   authStates: state.updatedAuthStates(AuthStateEnum.loading)));
               getClickupWorkspaces?.fold(
                       (l) => emit(state.copyWith(
                       getClickupWorkspacesFailure: l,
                       authStates: state.updatedAuthStates(
-                          AuthStateEnum.getClickupWorkspacesFailed))), (r) {
+                          AuthStateEnum.getWorkspacesFailed))), (r) {
                 emit(state.copyWith(
                     clickupWorkspaces: r,
                     authStates: state.updatedAuthStates(
-                        AuthStateEnum.getClickupWorkspacesSuccess)));
-                add(TryGetSelectedWorkspaceSpaceEvent());
+                        AuthStateEnum.getWorkspacesSuccess)));
               });
             });
       }

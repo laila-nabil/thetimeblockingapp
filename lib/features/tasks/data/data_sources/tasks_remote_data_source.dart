@@ -16,6 +16,7 @@ import '../../../../common/models/clickup_workspace_model.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/network/clickup_header.dart';
 import '../../../../core/network/network.dart';
+import '../../../../core/network/supabase_header.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
@@ -167,7 +168,7 @@ class ClickupTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse("$clickupUrl/team"),
         headers: clickupHeader(clickupAccessToken: params.accessToken));
     for (var element in (json.decode(response.body)["teams"] as List)) {
-      result.add(ClickupWorkspaceModel.fromJson(element));
+      result.add(ClickupWorkspaceModel().fromJson(element));
     }
     return result;
   }
@@ -490,10 +491,10 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource{
   Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces({required GetWorkspacesParams params}) async {
     List<SupabaseWorkspaceModel> result = [];
     final response = await network.get(
-        uri: Uri.parse("$url/rest/v1/workspace?user_id=${params.userId}"),
-        headers: clickupHeader(clickupAccessToken: params.accessToken));
+        uri: Uri.parse("$url/rest/v1/workspace?user_id=eq.${params.userId}&order=id"),
+        headers: supabaseHeader(accessToken: params.accessToken,apiKey: key));
     for (var element in (json.decode(response.body) as List)) {
-      result.add(SupabaseWorkspaceModel.fromJson(element));
+      result.add(const SupabaseWorkspaceModel().fromJson(element));
     }
     return result;
   }

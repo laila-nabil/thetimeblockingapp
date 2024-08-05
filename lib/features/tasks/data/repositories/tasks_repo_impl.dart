@@ -1,4 +1,7 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/common/models/workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import 'package:thetimeblockingapp/common/models/clickup_space_model.dart';
@@ -76,8 +79,22 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupWorkspaceModel>>> getWorkspaces(
+  Future<dartz.Either<Failure, List<WorkspaceModel>>> getWorkspaces(
       {required GetWorkspacesParams params}) {
+    if(Globals.backendMode == BackendMode.supabase){
+      return repoHandleRemoteRequest(
+          remoteDataSourceRequest: () async =>
+          await remoteDataSource.getSupabaseWorkspaces(params: params),
+          trySaveResult: (result) async {
+            workspaces = result;
+            printDebug(
+                "getSupabaseWorkspaces $result ${Globals.workspaces}");
+            await localDataSource
+                .saveSupabaseWorkspaces(result as List<SupabaseWorkspaceModel>);
+          },
+          tryGetFromLocalStorage: () async =>
+          await localDataSource.getClickupWorkspaces());
+    }
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getClickupWorkspaces(params: params),
@@ -85,7 +102,8 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
           workspaces = result;
           printDebug(
               "getClickUpWorkspaces $result ${Globals.workspaces}");
-          await localDataSource.saveClickupWorkspaces(result);
+          await localDataSource
+              .saveClickupWorkspaces(result as List<ClickupWorkspaceModel>);
         },
         tryGetFromLocalStorage: () async =>
             await localDataSource.getClickupWorkspaces());

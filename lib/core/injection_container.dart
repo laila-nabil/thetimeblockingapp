@@ -101,7 +101,8 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),
       serviceLocator(),
       serviceLocator(),
-      serviceLocator(),serviceLocator()));
+      serviceLocator(),
+      serviceLocator()));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
         serviceLocator(),
@@ -316,15 +317,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
 
-  serviceLocator
-      .registerLazySingleton<TasksRemoteDataSource>(() => Globals.isDemo
-          ? TasksDemoRemoteDataSourceImpl()
-          : ClickupTasksRemoteDataSourceImpl(
-              network: serviceLocator(),
-              clickupClientId: Globals.clickupGlobals.clickupClientId,
-              clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
-              clickupUrl: Globals.clickupGlobals.clickupUrl,
-            ));
+  serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
+      () => tasksRemoteDataSource());
 
   serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
       () => ClickupStartUpRemoteDataSourceImpl(
@@ -364,10 +358,31 @@ AuthRemoteDataSource authRemoteDataSource() {
       );
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
+          network: serviceLocator(),
+          key: Globals.supabaseGlobals.key,
+          url: Globals.supabaseGlobals.url);
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError();
+  }
+}
+
+TasksRemoteDataSource tasksRemoteDataSource() {
+  if (Globals.isDemo) {
+    return TasksDemoRemoteDataSourceImpl();
+  }
+  switch (Globals.backendMode) {
+    case BackendMode.clickupOnly:
+      return ClickupTasksRemoteDataSourceImpl(
         network: serviceLocator(),
-        key: Globals.supabaseGlobals.key,
-        url: Globals.supabaseGlobals.url
+        clickupClientId: Globals.clickupGlobals.clickupClientId,
+        clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
+        clickupUrl: Globals.clickupGlobals.clickupUrl,
       );
+    case BackendMode.supabase:
+      return SupabaseTasksRemoteDataSourceImpl(
+          network: serviceLocator(),
+          key: Globals.supabaseGlobals.key,
+          url: Globals.supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
@@ -387,23 +402,23 @@ void updateFromEnv() async {
           ? overrideClickupUrl
           : 'https://timeblockingrender.onrender.com/clickup');
   Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
-      url:
-      const String.fromEnvironment("supabaseUrl", defaultValue: ""),
-      key:
-      const String.fromEnvironment("supabaseKey", defaultValue: ""),);
+    url: const String.fromEnvironment("supabaseUrl", defaultValue: ""),
+    key: const String.fromEnvironment("supabaseKey", defaultValue: ""),
+  );
+  printDebug("supabaseGlobals url ${Globals.supabaseGlobals.url}");
+  printDebug("supabaseGlobals key ${Globals.supabaseGlobals.key}");
   Globals.env = Env.getEnv(
       const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }
 
 void initServiceLocator() {
   _initServiceLocator(
-      network: NetworkHttp(
-          httpClient: Client(),
-          responseHandler: responseHandler));
+      network:
+          NetworkHttp(httpClient: Client(), responseHandler: responseHandler));
 }
 
 Future<NetworkResponse> responseHandler(
-                {required Future<Response> Function() httpResponse}) {
+    {required Future<Response> Function() httpResponse}) {
   switch (Globals.backendMode) {
     case BackendMode.clickupOnly:
       return clickupResponseHandler(httpResponse: httpResponse);
