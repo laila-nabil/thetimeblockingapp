@@ -32,7 +32,7 @@ import 'globals.dart';
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: Globals.authRouteName,
+    initialLocation: SupabaseAuthPage.routeName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
@@ -42,45 +42,18 @@ final router = GoRouter(
               small: Text(errorMessage), large: Text(errorMessage)),
         context: context,
         onRefresh: () async {
-          GoRouter.of(context).go(Globals.authRouteName);
+          GoRouter.of(context).go(SupabaseAuthPage.routeName);
         },
       );
     },
     redirect: (context, GoRouterState? state) {
-      printDebug("state?.location ${state?.uri.toString()}");
-      printDebug("state?.queryParameters ${state?.uri.queryParameters}");
-      printDebug("Globals.accessToken ${Globals.accessToken}");
-      printDebug("Globals.user ${Globals.user}");
-      printDebug("Globals.workspaces ${Globals.workspaces}");
-      printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
-      if (state?.uri.queryParameters != null &&
-          state?.uri.queryParameters["code"] != null) {
-        return "${ClickupAuthPage.routeName}?code=${state?.uri.queryParameters["code"]}";
-      } else if (Globals.accessToken.accessToken.isEmpty ||
-          Globals.user == null ||
-          Globals.workspaces?.isNotEmpty == false) {
-        if(state?.uri.toString() != ClickupAuthPage.routeName){
-          printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri.toString()},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.uri.queryParametersAll},queryParameters:${state?.uri.queryParameters}");
-          Globals.redirectAfterAuthRouteName = state?.uri.toString()??"";
-        }
-        return ClickupAuthPage.routeName;
-      }
       return null;
     },
     routes: [
       GoRoute(
-          path: Globals.authRouteName,
+          path: SupabaseAuthPage.routeName,
           builder: (context, state) {
-            if(Globals.backendMode == BackendMode.supabase){
-              return SupabaseAuthPage();
-            }
-            String? code;
-            if (state.uri.queryParameters.isNotEmpty &&
-                state.uri.queryParameters.containsKey("code") &&
-                state.uri.queryParameters["code"]?.isNotEmpty == true) {
-              code = state.uri.queryParameters["code"];
-            }
-            return ClickupAuthPage(code: code,);
+            return SupabaseAuthPage();
           },
           redirect: (context, state) async {
             if (Globals.accessToken.accessToken.isNotEmpty &&

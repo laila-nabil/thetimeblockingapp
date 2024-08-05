@@ -72,7 +72,6 @@ import 'analytics/analytics.dart';
 import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
-import 'network/clickup_exception_handler.dart';
 import 'network/network.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
@@ -99,8 +98,7 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),
       serviceLocator(),
       serviceLocator(),
-      serviceLocator(),
-      serviceLocator()));
+));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
         serviceLocator(),
@@ -155,12 +153,6 @@ void _initServiceLocator({required Network network}) {
 
   /// UseCases
 
-  serviceLocator.registerLazySingleton(() => GetAccessTokenUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetUserUseCase(
-        serviceLocator(),
-      ));
   serviceLocator.registerLazySingleton(() => GetWorkspacesUseCase(
         serviceLocator(),
       ));
@@ -347,13 +339,6 @@ AuthRemoteDataSource authRemoteDataSource() {
     return AuthDemoRemoteDataSourceImpl();
   }
   switch (Globals.backendMode) {
-    case BackendMode.clickupOnly:
-      return ClickupAuthRemoteDataSourceImpl(
-        network: serviceLocator(),
-        clickupClientId: Globals.clickupGlobals.clickupClientId,
-        clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
-        clickupUrl: Globals.clickupGlobals.clickupUrl,
-      );
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -369,13 +354,6 @@ TasksRemoteDataSource tasksRemoteDataSource() {
     return TasksDemoRemoteDataSourceImpl();
   }
   switch (Globals.backendMode) {
-    case BackendMode.clickupOnly:
-      return ClickupTasksRemoteDataSourceImpl(
-        network: serviceLocator(),
-        clickupClientId: Globals.clickupGlobals.clickupClientId,
-        clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
-        clickupUrl: Globals.clickupGlobals.clickupUrl,
-      );
     case BackendMode.supabase:
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -418,8 +396,6 @@ void initServiceLocator() {
 Future<NetworkResponse> responseHandler(
     {required Future<Response> Function() httpResponse}) {
   switch (Globals.backendMode) {
-    case BackendMode.clickupOnly:
-      return clickupResponseHandler(httpResponse: httpResponse);
     case BackendMode.supabase:
       return supabaseResponseHandler(httpResponse: httpResponse);
     case BackendMode.offlineWithCalendarSync:

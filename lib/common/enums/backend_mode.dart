@@ -1,5 +1,4 @@
 enum BackendMode {
-  clickupOnly,
   supabase,
   offlineWithCalendarSync;
 

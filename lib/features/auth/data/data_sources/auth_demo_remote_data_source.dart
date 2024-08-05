@@ -8,8 +8,9 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<SignInResultModel> signInSupabase({required SignInParams params}) async{
-    return SignInResultModel(
-        accessToken: Demo.accessTokenModel, user: Demo.supabaseUser);
+    throw UnimplementedError();
+    // return SignInResultModel(
+    //     accessToken: Demo.accessTokenModel, user: Demo.supabaseUser);
   }
 
 }
