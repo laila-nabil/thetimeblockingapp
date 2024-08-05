@@ -37,17 +37,17 @@ enum OnBoardingAndAuthStep {
   final int number;
 }
 
-class OnBoardingAndAuthPage extends StatefulWidget {
-  const OnBoardingAndAuthPage(
+class ClickupOnBoardingAndAuthPage extends StatefulWidget {
+  const ClickupOnBoardingAndAuthPage(
       {super.key, required this.authBloc, required this.settingsBloc});
 
   final AuthBloc authBloc;
   final SettingsBloc settingsBloc;
   @override
-  State<OnBoardingAndAuthPage> createState() => _OnBoardingAndAuthPageState();
+  State<ClickupOnBoardingAndAuthPage> createState() => _ClickupOnBoardingAndAuthPageState();
 }
 
-class _OnBoardingAndAuthPageState extends State<OnBoardingAndAuthPage> {
+class _ClickupOnBoardingAndAuthPageState extends State<ClickupOnBoardingAndAuthPage> {
   OnBoardingAndAuthStep step = OnBoardingAndAuthStep.first;
 
   @override

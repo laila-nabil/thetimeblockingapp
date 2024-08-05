@@ -28,6 +28,8 @@ List<Workspace>? _workspaces;
 List<Space>? _spaces;
 
 class Globals {
+  static const authRouteName = "/Auth";
+
   static BackendMode backendMode = BackendMode.supabase;
 
   static String get appName => _appName;

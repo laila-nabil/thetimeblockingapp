@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_auth_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
@@ -15,7 +17,7 @@ import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.
 import '../common/widgets/responsive/responsive_scaffold.dart';
 import '../features/all/presentation/pages/all_tasks_page.dart';
 import '../features/archive/presentation/pages/archive_page.dart';
-import '../features/auth/presentation/pages/auth_page.dart';
+import '../features/auth/presentation/pages/clickup_auth_page.dart';
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
@@ -28,7 +30,7 @@ import 'globals.dart';
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: AuthPage.routeName,
+    initialLocation: Globals.authRouteName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
@@ -38,7 +40,7 @@ final router = GoRouter(
               small: Text(errorMessage), large: Text(errorMessage)),
         context: context,
         onRefresh: () async {
-          GoRouter.of(context).go(AuthPage.routeName);
+          GoRouter.of(context).go(Globals.authRouteName);
         },
       );
     },
@@ -51,29 +53,32 @@ final router = GoRouter(
       printDebug("Globals.redirectAfterAuthRouteName ${Globals.redirectAfterAuthRouteName}");
       if (state?.uri.queryParameters != null &&
           state?.uri.queryParameters["code"] != null) {
-        return "${AuthPage.routeName}?code=${state?.uri.queryParameters["code"]}";
+        return "${ClickupAuthPage.routeName}?code=${state?.uri.queryParameters["code"]}";
       } else if (Globals.accessToken.accessToken.isEmpty ||
           Globals.user == null ||
           Globals.workspaces?.isNotEmpty == false) {
-        if(state?.uri.toString() != AuthPage.routeName){
+        if(state?.uri.toString() != ClickupAuthPage.routeName){
           printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri.toString()},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},queryParametersAll:${state?.uri.queryParametersAll},queryParameters:${state?.uri.queryParameters}");
           Globals.redirectAfterAuthRouteName = state?.uri.toString()??"";
         }
-        return AuthPage.routeName;
+        return ClickupAuthPage.routeName;
       }
       return null;
     },
     routes: [
       GoRoute(
-          path: AuthPage.routeName,
+          path: Globals.authRouteName,
           builder: (context, state) {
+            if(Globals.backendMode == BackendMode.supabase){
+              return SupabaseAuthPage();
+            }
             String? code;
             if (state.uri.queryParameters.isNotEmpty &&
                 state.uri.queryParameters.containsKey("code") &&
                 state.uri.queryParameters["code"]?.isNotEmpty == true) {
               code = state.uri.queryParameters["code"];
             }
-            return AuthPage(code: code,);
+            return ClickupAuthPage(code: code,);
           },
           redirect: (context, state) async {
             if (Globals.accessToken.accessToken.isNotEmpty &&

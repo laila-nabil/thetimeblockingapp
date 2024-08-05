@@ -2,17 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/auth/presentation/pages/onboarding_auth_page.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/clickup_onboarding_auth_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({super.key, this.code});
 
-  static const routeName = "/Auth";
+class ClickupAuthPage extends StatelessWidget {
+  const ClickupAuthPage({super.key, this.code});
+
+  static const routeName = Globals.authRouteName;
 
   final String? code;
 
@@ -41,7 +43,7 @@ class AuthPage extends StatelessWidget {
             } else if (code?.isNotEmpty == true && state.isLoading == false) {
               authBloc.add(GetAccessToken(code ?? ""));
             }
-            return OnBoardingAndAuthPage(
+            return ClickupOnBoardingAndAuthPage(
               authBloc: authBloc, settingsBloc: settingsBloc,);
           },
         );
