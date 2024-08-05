@@ -15,7 +15,7 @@ class SupabaseAuthPage extends StatelessWidget {
     super.key,
   });
 
-  static const routeName = Globals.authRouteName;
+  static const routeName = "/Auth";
 
   @override
   Widget build(BuildContext context) {

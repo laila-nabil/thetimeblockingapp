@@ -1,4 +1,3 @@
-import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import '../../../../common/models/access_token_model.dart';
@@ -7,15 +6,11 @@ import 'dart:convert';
 abstract class AuthLocalDataSource {
   Future<AccessTokenModel> getAccessToken();
 
-  Future<ClickupUserModel> getClickupUser();
-
   Future<SupabaseUserModel> getSupabaseUser();
 
 
   Future<void> saveAccessToken(
       AccessTokenModel clickupAccessTokenModel);
-
-  Future<void> saveClickupUser(ClickupUserModel clickupUserModel);
 
   Future<void> saveSupabaseUser(SupabaseUserModel user);
 
@@ -35,12 +30,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     return AccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
-  @override
-  Future<ClickupUserModel> getClickupUser() async {
-    var data = await localDataSource.getData(
-        key: LocalDataSourceKeys.clickupUser.name);
-    return ClickupUserModel.fromJson(json.decode(data.toString()));
-  }
 
 
   @override
@@ -49,13 +38,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     return localDataSource.setData(
         key: LocalDataSourceKeys.accessToken.name,
         value: clickupAccessTokenModel.toJson());
-  }
-
-  @override
-  Future<void> saveClickupUser(ClickupUserModel clickupUserModel) {
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.clickupUser.name,
-        value: clickupUserModel.toJson());
   }
 
   @override

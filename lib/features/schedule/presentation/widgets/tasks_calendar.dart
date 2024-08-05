@@ -7,7 +7,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
-import '../../../../common/models/clickup_task_model.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';

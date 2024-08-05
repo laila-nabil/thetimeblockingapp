@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
+
 
 void main() {
   test("clickup user from json", () {

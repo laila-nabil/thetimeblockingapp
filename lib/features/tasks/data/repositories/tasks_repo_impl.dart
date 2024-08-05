@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
-import 'package:thetimeblockingapp/common/models/workspace_model.dart';
+
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
-import 'package:thetimeblockingapp/common/models/clickup_space_model.dart';
-import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
+
+
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -23,7 +23,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
-import '../../../../common/models/clickup_workspace_model.dart';
+
 import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
@@ -38,8 +38,6 @@ import '../../domain/use_cases/get_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
-import '../../../../common/models/clickup_folder_model.dart';
-import '../../../../common/models/clickup_list_model.dart';
 
 class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;

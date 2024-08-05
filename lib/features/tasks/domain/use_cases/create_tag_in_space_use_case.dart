@@ -7,9 +7,6 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
-import '../../../../common/models/clickup_task_model.dart';
-import '../../../../common/entities/task.dart';
-
 class CreateTagInSpaceUseCase
     implements UseCase<dartz.Unit, CreateTagInSpaceParams> {
   final TasksRepo repo;

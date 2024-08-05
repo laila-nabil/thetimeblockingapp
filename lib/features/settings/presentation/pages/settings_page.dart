@@ -8,7 +8,6 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
-import 'package:thetimeblockingapp/features/auth/presentation/pages/clickup_auth_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
 import '../../../../core/globals.dart';

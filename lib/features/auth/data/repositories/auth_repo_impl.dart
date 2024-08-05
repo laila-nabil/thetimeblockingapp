@@ -1,24 +1,15 @@
 import 'package:dartz/dartz.dart' as dartz; 
 
-import 'package:thetimeblockingapp/common/entities/user.dart';
-
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/common/models/access_token_model.dart';
-
-import 'package:thetimeblockingapp/common/entities/access_token.dart';
-
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
-
-import '../../../../common/models/clickup_user_model.dart';
 import '../../../../core/error/exception_to_failure.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
-import '../../domain/use_cases/get_user_use_case.dart';
 import '../data_sources/auth_local_data_source.dart';
 import '../models/sign_in_result_model.dart';
 
@@ -26,41 +17,6 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
-
-  @override
-  Future<dartz.Either<Failure, AccessToken>> getAccessToken(
-      {required GetAccessTokenParams params}) async {
-    final result = await repoHandleRemoteRequest<AccessToken>(
-        remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getAccessToken(params: params),
-      trySaveResult: (result)async{
-        accessToken =  result;
-          await authLocalDataSource
-              .saveAccessToken(result as AccessTokenModel);
-        printDebug(
-            "getClickUpAccessToken $result ${Globals.accessToken}");
-      },
-        tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getAccessToken());
-    return result;
-  }
-
-  @override
-  Future<dartz.Either<Failure, User>> getUser(
-      {required GetClickupUserParams params}) {
-    return repoHandleRemoteRequest(
-        remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.getClickupUser(params: params),
-        trySaveResult: (result)async{
-          user =  result;
-          printDebug(
-              "getClickUpUser $result ${Globals.user}");
-          await authLocalDataSource
-              .saveClickupUser(result as ClickupUserModel);
-        },
-        tryGetFromLocalStorage: () async =>
-            await authLocalDataSource.getClickupUser());
-  }
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>> signOut() async {

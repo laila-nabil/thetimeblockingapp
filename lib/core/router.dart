@@ -18,7 +18,7 @@ import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.
 import '../common/widgets/responsive/responsive_scaffold.dart';
 import '../features/all/presentation/pages/all_tasks_page.dart';
 import '../features/archive/presentation/pages/archive_page.dart';
-import '../features/auth/presentation/pages/clickup_auth_page.dart';
+
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
 import '../features/privacy_policy/privacy_policy_page.dart';

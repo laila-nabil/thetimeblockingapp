@@ -1,56 +1,40 @@
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/list_entity.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
 
 class Folder extends Equatable{
   const Folder({
       this.id, 
-      this.name, 
-      this.overrideStatuses,
-      this.hidden, 
-      this.access,
-      this.space,
-      this.taskCount, 
+      this.name,
+      this.spaceId,
+      this.color,
       this.lists,});
 
   final String? id;
   final String? name;
-  final bool? overrideStatuses;
-  final bool? hidden;
-  final bool? access;
-  final Space? space;
-  final String? taskCount;
-  final List<TasksList>? lists;
+  final String? spaceId;
+  final String? color;
+  final List<ListEntity>? lists;
 
 
   @override
   List<Object?> get props => [id,
     name,
-    overrideStatuses,
-    access,
-    hidden,
-    space,
-    taskCount,
-    lists,];
+    spaceId,
+    lists,color];
 
   Folder copyWith({
     String? id,
     String? name,
-    bool? overrideStatuses,
-    bool? hidden,
-    bool? access,
-    Space? space,
-    String? taskCount,
-    List<TasksList>? lists,
+    String? spaceId,
+    String? color,
+    List<ListEntity>? lists,
   }) {
     return Folder(
       id: id ?? this.id,
       name: name ?? this.name,
-      overrideStatuses: overrideStatuses ?? this.overrideStatuses,
-      hidden: hidden ?? this.hidden,
-      access: access ?? this.access,
-      space: space ?? this.space,
-      taskCount: taskCount ?? this.taskCount,
+      spaceId: spaceId ?? this.spaceId,
+      color: color ?? this.color,
       lists: lists ?? this.lists,
     );
   }

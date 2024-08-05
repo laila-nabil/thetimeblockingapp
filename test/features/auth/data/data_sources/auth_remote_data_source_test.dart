@@ -4,13 +4,11 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:thetimeblockingapp/common/models/clickup_user_model.dart';
+
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_access_token_use_case.dart';
-import 'package:thetimeblockingapp/features/auth/domain/use_cases/get_user_use_case.dart';
 
 class MockNetwork extends Mock implements Network {}
 

@@ -113,7 +113,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                if(Globals.isDemo)continueWithClickupToUse(authBloc),
+                                if(Globals.isDemo)signInToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -135,7 +135,7 @@ class ResponsiveScaffold extends Scaffold {
                       builder: (context, state) {
                         return Column(
                           children: [
-                            if(Globals.isDemo)continueWithClickupToUse(authBloc),
+                            if(Globals.isDemo)signInToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -154,7 +154,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              if(Globals.isDemo)continueWithClickupToUse(authBloc),
+              if(Globals.isDemo)signInToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,
@@ -183,58 +183,9 @@ class ResponsiveScaffold extends Scaffold {
           isDarkMode: context.isDarkMode,
         );
 
-  Widget continueWithClickupToUse(AuthBloc authBloc){
-    return true
-        ? Padding(
-      padding: EdgeInsets.all(AppSpacing.small12.value),
-      child: CustomAlertWidget(
-        customAlertType: CustomAlertType.warning,
-        customAlertThemeType: CustomAlertThemeType.accent,
-        title: "${appLocalization.translate("continueWithClickupToUse")} ${appLocalization.translate("connectWithClickup")}",
-        primaryCta: appLocalization.translate("connectWithClickup"),
-        primaryCtaOnPressed: (){
-          final url = Globals.clickupGlobals.clickupAuthUrl;
-          if (kIsWeb) {
-            launchWithURL(url: url);
-          } else if (Platform.isAndroid || Platform.isIOS) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) {
-                  return AuthPageWebView(
-                    url: url,
-                    getAccessToken: (String code) {
-                      authBloc
-                          .add(GetAccessToken.clickUp(code));
-                    },
-                  );
-                }));
-          }
-        },
-      ),
-    )
-        : Row(
-      children: [
-        Text(appLocalization.translate("continueWithClickupToUse")),
-        CustomButton.noIcon(
-            type: CustomButtonType.greyTextLabel,
-            label: appLocalization.translate("connectWithClickup"), onPressed: (){
-          final url = Globals.clickupGlobals.clickupAuthUrl;
-          if (kIsWeb) {
-            launchWithURL(url: url);
-          } else if (Platform.isAndroid || Platform.isIOS) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) {
-                  return AuthPageWebView(
-                    url: url,
-                    getAccessToken: (String code) {
-                      authBloc
-                          .add(GetAccessToken.clickUp(code));
-                    },
-                  );
-                }));
-          }
-        })
-      ],
-    );
+  ///TODO
+  Widget signInToUse(AuthBloc authBloc){
+    return Container();
   }
 }
 

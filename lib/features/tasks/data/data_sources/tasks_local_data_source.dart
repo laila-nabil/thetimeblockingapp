@@ -1,9 +1,7 @@
-import 'package:thetimeblockingapp/common/models/clickup_workspace_model.dart';
-import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import 'dart:convert';
 
-import '../../../../common/models/clickup_space_model.dart';
 
 abstract class TasksLocalDataSource {
   Future<List<ClickupWorkspaceModel>> getClickupWorkspaces();

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/common/models/clickup_task_model.dart';
+
 
 void main(){
   final tasksJson = {

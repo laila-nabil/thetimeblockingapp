@@ -28,8 +28,6 @@ List<Workspace>? _workspaces;
 List<Space>? _spaces;
 
 class Globals {
-  static const authRouteName = "/Auth";
-
   static BackendMode backendMode = BackendMode.supabase;
 
   static String get appName => _appName;
@@ -113,7 +111,7 @@ mixin class GlobalsWriteAccess {
 
    void setSelectedSpace(Space? space) {
     _selectedSpaceId = space?.id;
-    setSpaces =  ClickupSpaceListExtensions.updateItemInList(
+    setSpaces =  SpaceListExtensions.updateItemInList(
         list: Globals.spaces, updatedSpace: space);
   }
 
