@@ -75,8 +75,13 @@
   "signOut" : "Sign out",
   "duplicate" : "Duplicate",
   "byUsingTheAppAgreeClickup" : "By using the app,you agree to Clickup's ",
+  "byUsingTheAppAgreeOur" : "By using the app,you agree to our",
   "and" : "and",
   "termsOfUse" : "Terms of use",
   "privacyPolicy" : "Privacy policy",
-  "andAutoOptInUsingAnalyticsForImproving" : "and automatically opt in using analytics for improving the app"
+  "andAutoOptInUsingAnalyticsForImproving" : "and automatically opt in using analytics for improving the app",
+  "signIn" : "Sign in",
+  "signUp" : "Sign up",
+  "email" : "Email",
+  "password" : "Password"
 }

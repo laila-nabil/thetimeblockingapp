@@ -75,8 +75,13 @@
   "signOut" : "تسجيل الخروج",
   "duplicate" : "كرر",
   "byUsingTheAppAgreeClickup" : "بأستخدامك للبرنامج، انت توافق علي ",
+  "byUsingTheAppAgreeOur" : "بأستخدامك للبرنامج، انت توافق علي ",
   "and" : "و",
   "termsOfUse" : "الشروط و الأحكام",
   "privacyPolicy" : "سياسة الخصوصية",
-  "andAutoOptInUsingAnalyticsForImproving" : "و توافق تلقائيا علي تجميع البيانات بهدف تطوير البرنامج"
+  "andAutoOptInUsingAnalyticsForImproving" : "و توافق تلقائيا علي تجميع البيانات بهدف تطوير البرنامج",
+  "signIn" : "تسجيل الدخول",
+  "signUp" : "انشاء حساب",
+  "email" : "ايميل",
+  "password" : "رقم سري"
 }

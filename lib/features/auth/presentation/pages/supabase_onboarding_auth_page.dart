@@ -11,7 +11,9 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:thetimeblockingapp/features/terms_conditions/terms_conditions_page.dart';
 
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
@@ -111,7 +113,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                     const Spacer(
                       flex: 66,
                     ),
-                    Text("welcome to supabase", style: contentStyleMobile),
+                    Text(appLocalization.translate("welcomeTimeblockingapp"), style: contentStyleMobile),
                     const Spacer(
                       flex: 88,
                     ),
@@ -128,48 +130,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                           runSpacing: AppSpacing.xSmall8.value,
                           alignment: WrapAlignment.center,
                           children: [
-                            CustomButton.custom(
-                              onPressed: () {
-                                final url = Globals.clickupGlobals.clickupAuthUrl;
-                                if (kIsWeb) {
-                                  launchWithURL(url: url);
-                                  if (true) {
-                                    widget.authBloc
-                                        .add(const ShowCodeInputTextField(true));
-                                  }
-                                } else if (Platform.isAndroid || Platform.isIOS) {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return AuthPageWebView(
-                                          url: url,
-                                          getAccessToken: (String code) {
-                                            widget.authBloc
-                                                .add(GetAccessToken(code));
-                                          },
-                                        );
-                                      }));
-                                }
-                              },
-                              type: CustomButtonType.secondaryLabel,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "${appLocalization.translate("connectWithClickupNow")} ",
-                                    style: AppTextStyle.getTextStyle(
-                                        AppTextStyleParams(
-                                            color: AppColors.primary(context.isDarkMode).shade500,
-                                            appFontWeight: AppFontWeight.semiBold,
-                                            appFontSize: AppFontSize.paragraphSmall)),
-                                  ),
-                                  Image.asset(
-                                    AppAssets.clickupLogoMin,
-                                    width: 20,
-                                    height: 20,
-                                  )
-                                ],
-                              ),
-                            ),
                             CustomButton.noIcon(
                                 analyticsEvent: AnalyticsEvents.onBoardingStep1Start,
                                 label: appLocalization.translate("getStarted"),
@@ -179,6 +139,16 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                   });
                                 },
                                 type: CustomButtonType.primaryLabel),
+                            CustomButton.noIcon(
+                              analyticsEvent: AnalyticsEvents.onBoardingStep1SignInSupabase,
+                              onPressed: () {
+                                setState(() {
+                                  step = OnBoardingAndAuthStep.auth;
+                                });
+                              },
+                              type: CustomButtonType.secondaryLabel,
+                              label:appLocalization.translate("signIn"),
+                            ),
                           ],
                         ),
                         demoButton( AnalyticsEvents.onBoardingStep1Demo,),
@@ -187,7 +157,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                     Container(
                       height: AppSpacing.huge96.value,
                       alignment: Alignment.center,
-                      child: agreeClickupPrivacyTerms(),
+                      child: agreeOurPrivacyTerms(),
                     )
                   ],
                 ),
@@ -217,76 +187,12 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         const Spacer(
                           flex: 70,
                         ),
-                        Wrap(
-                            children:
-                                "${appLocalization.translate("welcomeTimeblockingapp")} ${appLocalization.translate("withThePowerOf")}"
-                                        .split(" ")
-                                        .toList()
-                                        .map<Widget>((e) => Text("$e ",
-                                            style: contentStyleDesktop))
-                                        .toList() +
-                                    [Text(" ", style: contentStyleDesktop)] +
-                                    [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 4.0),
-                                        child: Image.asset(
-                                          AppAssets.clickupLogo(context.isDarkMode),
-                                          width: 85,
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                      )
-                                    ]),
+                        Text(appLocalization.translate("welcomeTimeblockingapp"), style: contentStyleDesktop),
                         const Spacer(
                           flex: 390,
                         ),
                         Row(
                           children: [
-                            CustomButton.custom(
-                              analyticsEvent:AnalyticsEvents.onBoardingStep1ConnectClickup,
-                              size: CustomButtonSize.large,
-                              onPressed: () {
-                                final url = Globals.clickupGlobals.clickupAuthUrl;
-                                if (kIsWeb) {
-                                  launchWithURL(url: url);
-                                  if (true) {
-                                    widget.authBloc
-                                        .add(const ShowCodeInputTextField(true));
-                                  }
-                                } else if (Platform.isAndroid || Platform.isIOS) {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return AuthPageWebView(
-                                          url: url,
-                                          getAccessToken: (String code) {
-                                            widget.authBloc
-                                                .add(GetAccessToken(code));
-                                          },
-                                        );
-                                      }));
-                                }
-                              },
-                              type: CustomButtonType.secondaryLabel,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "${appLocalization.translate("connectWithClickupNow")} ",
-                                    style: AppTextStyle.getTextStyle(
-                                        AppTextStyleParams(
-                                            color: AppColors.primary(context.isDarkMode).shade500,
-                                            appFontWeight: AppFontWeight.semiBold,
-                                            appFontSize: AppFontSize.paragraphSmall)),
-                                  ),
-                                  Image.asset(
-                                    AppAssets.clickupLogoMin,
-                                    width: 20,
-                                    height: 20,
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
                             CustomButton.noIcon(
                                 analyticsEvent:AnalyticsEvents.onBoardingStep1Start,
                                 size: CustomButtonSize.large,
@@ -297,6 +203,21 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                   });
                                 },
                                 type: CustomButtonType.primaryLabel),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            CustomButton.noIcon(
+                              analyticsEvent:AnalyticsEvents.onBoardingStep1SignInSupabase,
+                              size: CustomButtonSize.large,
+                              onPressed: () {
+                                setState(() {
+                                  step = OnBoardingAndAuthStep.auth;
+                                });
+                              },
+                              type: CustomButtonType.secondaryLabel,
+                              label:appLocalization.translate("signIn"),
+                            ),
+
                           ],
                         ),
                         const SizedBox(
@@ -306,7 +227,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         Container(
                           height: AppSpacing.xHuge128.value,
                           alignment:AlignmentDirectional.centerStart,
-                          child: agreeClickupPrivacyTerms(),
+                          child: agreeOurPrivacyTerms(),
                         )
                       ],
                     ),
@@ -795,25 +716,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                               analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                               size: CustomButtonSize.small,
                               onPressed: () {
-                                final url = Globals.clickupGlobals.clickupAuthUrl;
-                                if (kIsWeb) {
-                                  launchWithURL(url: url);
-                                  if (true) {
-                                    widget.authBloc
-                                        .add(const ShowCodeInputTextField(true));
-                                  }
-                                } else if (Platform.isAndroid || Platform.isIOS) {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return AuthPageWebView(
-                                      url: url,
-                                      getAccessToken: (String code) {
-                                        widget.authBloc
-                                            .add(GetAccessToken(code));
-                                      },
-                                    );
-                                  }));
-                                }
+                                ///TODO
                               },
                               type: CustomButtonType.primaryLabel,
                               child: Row(
@@ -834,32 +737,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                 ],
                               ),
                             ),
-                            CustomButton.trailingIcon(
-                              analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
-                              size: CustomButtonSize.small,
-                              label: appLocalization.translate("copyLink"),
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                        ClipboardData(text: Globals.clickupGlobals.clickupAuthUrl))
-                                    .then((value) =>
-                                        ScaffoldMessenger.maybeOf(context)
-                                            ?.showSnackBar(SnackBar(
-                                                content: Text(
-                                          appLocalization.translate(
-                                            "linkCopiedSuccessfully",
-                                          ),
-                                          style: AppTextStyle.getTextStyle(
-                                              AppTextStyleParams(
-                                                  appFontSize:
-                                                      AppFontSize.paragraphSmall,
-                                                  color: AppColors.grey(context.isDarkMode).shade50,
-                                                  appFontWeight:
-                                                      AppFontWeight.regular)),
-                                        ))));
-                              },
-                              type: CustomButtonType.secondaryTrailingIcon,
-                              icon: Icons.link,
-                            ),
                           ],
                         ),
                         demoButton(AnalyticsEvents.onBoardingStep4Demo)
@@ -868,7 +745,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                     Container(
                       height: AppSpacing.huge96.value,
                       alignment: Alignment.center,
-                      child: agreeClickupPrivacyTerms(),
+                      child: agreeOurPrivacyTerms(),
                     )
                   ],
                 ),
@@ -910,26 +787,9 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                             CustomButton.custom(
                               analyticsEvent:AnalyticsEvents.onBoardingStep4Connect,
                               size: CustomButtonSize.large,
+                              ///TODO
                               onPressed: () {
-                                final url = Globals.clickupGlobals.clickupAuthUrl;
-                                if (kIsWeb) {
-                                  launchWithURL(url: url);
-                                  if (true) {
-                                    widget.authBloc
-                                        .add(const ShowCodeInputTextField(true));
-                                  }
-                                } else if (Platform.isAndroid || Platform.isIOS) {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return AuthPageWebView(
-                                      url: url,
-                                      getAccessToken: (String code) {
-                                        widget.authBloc
-                                            .add(GetAccessToken(code));
-                                      },
-                                    );
-                                  }));
-                                }
+
                               },
                               type: CustomButtonType.primaryLabel,
                               child: Row(
@@ -951,35 +811,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              width: AppSpacing.xSmall8.value,
-                            ),
-                            CustomButton.trailingIcon(
-                              analyticsEvent:AnalyticsEvents.onBoardingStep4CopyLink,
-                              size: CustomButtonSize.large,
-                              label: appLocalization.translate("copyLink"),
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                        ClipboardData(text: Globals.clickupGlobals.clickupAuthUrl))
-                                    .then((value) =>
-                                        ScaffoldMessenger.maybeOf(context)
-                                            ?.showSnackBar(SnackBar(
-                                                content: Text(
-                                          appLocalization.translate(
-                                            "linkCopiedSuccessfully",
-                                          ),
-                                          style: AppTextStyle.getTextStyle(
-                                              AppTextStyleParams(
-                                                  appFontSize:
-                                                      AppFontSize.paragraphSmall,
-                                                  color: AppColors.grey(context.isDarkMode).shade50,
-                                                  appFontWeight:
-                                                      AppFontWeight.regular)),
-                                        ))));
-                              },
-                              type: CustomButtonType.secondaryTrailingIcon,
-                              icon: Icons.link,
-                            ),
                           ],
                         ),
                         SizedBox(
@@ -989,7 +820,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         Container(
                           height: AppSpacing.xHuge128.value,
                           alignment: AlignmentDirectional.centerStart,
-                          child: agreeClickupPrivacyTerms(),
+                          child: agreeOurPrivacyTerms(),
                         )
                       ],
                     ),
@@ -1080,7 +911,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
     );
   }
   
-  Widget agreeClickupPrivacyTerms(){
+  Widget agreeOurPrivacyTerms(){
     final linkStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphXSmall,
         color: AppColors.primary(context.isDarkMode),
@@ -1093,14 +924,14 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                 appFontSize: AppFontSize.paragraphXSmall,
                 color: AppColors.grey(context.isDarkMode),
                 appFontWeight: AppFontWeight.regular)),
-            text: appLocalization.translate("byUsingTheAppAgreeClickup"),
+            text: appLocalization.translate("byUsingTheAppAgreeOur" " "),
       children: [
         TextSpan(
           style: linkStyle,
           text: appLocalization.translate("termsOfUse"),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
-              launchWithURL(url: Globals.clickupGlobals.clickupTerms);
+              launchWithURL(url: "https://timeblocking.web.app/${TermsConditionsPage.routeName}");
             },
         ),
         TextSpan(text: " ${appLocalization.translate("and")} "),
@@ -1109,19 +940,11 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
           text: appLocalization.translate("privacyPolicy"),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
-              launchWithURL(url: Globals.clickupGlobals.clickupPrivacy);
+              launchWithURL(url: "https://timeblocking.web.app/${PrivacyPolicyPage.routeName}");
             },
         ),
         TextSpan(text: " ${appLocalization.translate("andAutoOptInUsingAnalyticsForImproving")} "),
       ]
     ));
-    return Wrap(
-      children: [
-        const Text("by connecting,you agree to Clickup's "),
-        CustomButton.noIcon(label: "Terms of use", onPressed: (){launchWithURL(url: "https://clickup.com/terms");}),
-        const Text("by connecting,you agree to Clickup's "),
-        CustomButton.noIcon(label: "Privacy policy", onPressed: (){launchWithURL(url: "https://clickup.com/terms/privacy");}),
-      ],
-    );
   }
 }

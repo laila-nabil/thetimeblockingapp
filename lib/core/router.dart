@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.d
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
+import 'package:thetimeblockingapp/features/terms_conditions/terms_conditions_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
 import '../common/widgets/responsive/responsive_scaffold.dart';
@@ -20,6 +21,7 @@ import '../features/archive/presentation/pages/archive_page.dart';
 import '../features/auth/presentation/pages/clickup_auth_page.dart';
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
+import '../features/privacy_policy/privacy_policy_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/all/presentation/pages/someday_page.dart';
@@ -176,7 +178,18 @@ final router = GoRouter(
         path: TrashPage.routeName,
         builder: (context, state) => const TrashPage(),
       ),
+      GoRoute(
+        path: PrivacyPolicyPage.routeName,
+        builder: (context, state) => PrivacyPolicyPage(),
+      ),
+      GoRoute(
+        path: TermsConditionsPage.routeName,
+        builder: (context, state) => TermsConditionsPage(),
+      ),
     ]);
+
+class TermsConditions {
+}
 
 class MyNavObserver extends NavigatorObserver {
   @override
