@@ -40,7 +40,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
-                workspaceId: event.workspace.id ?? "",
+                workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""]),

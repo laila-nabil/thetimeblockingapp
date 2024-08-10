@@ -11,9 +11,9 @@ class GetTasksInAllWorkspacesUseCase {
   final GetTasksInSingleWorkspaceUseCase getTasksInSingleWorkspaceUseCase;
   GetTasksInAllWorkspacesUseCase(this.getTasksInSingleWorkspaceUseCase);
 
-  Future<Map<String, dartz.Either<Failure, List<Task>>?>> call(
+  Future<Map<int, dartz.Either<Failure, List<Task>>?>> call(
       GetTasksInAllWorkspacesParams params) async {
-    Map<String,dartz.Either<Failure,List<Task>>?> result = {};
+    Map<int,dartz.Either<Failure,List<Task>>?> result = {};
     for (var element in params.workspacesIds) {
       result[element] = await getTasksInSingleWorkspaceUseCase(
           GetTasksInWorkspaceParams(
@@ -26,7 +26,7 @@ class GetTasksInAllWorkspacesUseCase {
 }
 
 class GetTasksInAllWorkspacesParams extends Equatable {
-  final List<String> workspacesIds;
+  final List<int> workspacesIds;
   final GetTasksInWorkspaceFiltersParams filtersParams;
 
   const GetTasksInAllWorkspacesParams({

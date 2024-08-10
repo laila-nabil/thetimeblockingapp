@@ -71,7 +71,7 @@ class SchedulePage extends StatelessWidget {
                         workspaceId:
                             startUpCurrentState.selectedWorkspace?.id ??
                                 Globals.workspaces?.first.id ??
-                                "",
+                                0,
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams,
                         backendMode: Globals.backendMode)));
@@ -135,7 +135,7 @@ class SchedulePage extends StatelessWidget {
                     small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
-                            startUpCurrentState.selectedWorkspace?.id),
+                            startUpCurrentState.selectedWorkspace?.id ?? 0),
                     large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
@@ -146,7 +146,7 @@ class SchedulePage extends StatelessWidget {
                     Globals.selectedWorkspace ?? Globals.defaultWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
-                        workspaceId: selectedWorkspace?.id ?? "",
+                        workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
                         backendMode: Globals.backendMode)));
@@ -166,7 +166,7 @@ class _SchedulePageContent extends StatelessWidget {
   const _SchedulePageContent(
       {required this.scheduleBloc, this.selectedWorkspaceId});
   final ScheduleBloc scheduleBloc;
-  final String? selectedWorkspaceId;
+  final int? selectedWorkspaceId;
 
   @override
   Widget build(BuildContext context) {

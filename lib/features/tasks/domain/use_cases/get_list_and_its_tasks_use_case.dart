@@ -48,7 +48,7 @@ class GetListAndItsTasksUseCase {
             }));
     final tasksResult = await repo.getTasksInWorkspace(
         params: GetTasksInWorkspaceParams(
-            workspaceId: Globals.selectedWorkspace?.id ?? "",
+            workspaceId: Globals.selectedWorkspace?.id ?? 0,
             filtersParams: defaultTasksInWorkspaceFiltersParams
                 .copyWith(filterByListsIds: [params.listId]),
             backendMode: Globals.backendMode));

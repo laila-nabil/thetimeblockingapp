@@ -61,7 +61,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
         final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
-                workspaceId: event.workspace.id ?? "",
+                workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""],

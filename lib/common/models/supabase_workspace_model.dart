@@ -25,7 +25,7 @@ class WorkspaceModel extends Workspace {
   final String? userId;
 
   WorkspaceModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? userId,
     String? color,

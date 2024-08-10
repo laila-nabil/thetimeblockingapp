@@ -26,7 +26,7 @@ class TasksCalendar extends StatelessWidget {
   final CalendarController controller;
   final ScheduleBloc scheduleBloc;
   final void Function(CalendarTapDetails)? onTap;
-  final String? selectedWorkspaceId;
+  final int? selectedWorkspaceId;
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
@@ -109,7 +109,7 @@ class TasksCalendar extends StatelessWidget {
                 GetTasksInWorkspaceParams(
                     workspaceId: selectedWorkspaceId ??
                         Globals.workspaces?.first.id ??
-                        "",
+                        0,
                     filtersParams: scheduleBloc
                         .state.defaultTasksInWorkspaceFiltersParams
                         .copyWith(

@@ -11,7 +11,7 @@ class Workspace extends Equatable {
     this.user,
   });
 
-  final String? id;
+  final int? id;
   final String? name;
   final String? color;
   final String? avatar;

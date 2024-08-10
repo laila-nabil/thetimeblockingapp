@@ -24,7 +24,7 @@ class GetTasksInSingleWorkspaceUseCase
 }
 
 class GetTasksInWorkspaceParams extends Equatable {
-  final String workspaceId;
+  final int workspaceId;
   final GetTasksInWorkspaceFiltersParams filtersParams;
   final BackendMode backendMode;
   const GetTasksInWorkspaceParams( {
