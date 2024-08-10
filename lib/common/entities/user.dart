@@ -10,7 +10,7 @@ class User extends Equatable {
     this.color,
   });
 
-  final num? id;
+  final String? id;
   final String? email;
   final String? color;
 
