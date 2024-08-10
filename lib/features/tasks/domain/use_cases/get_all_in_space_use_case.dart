@@ -28,7 +28,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
     tagsResult.fold(
             (l) => failures.add({"tagS": l}),
             (rTags) {
-          space.tags = rTags;
+          space = space.copyWith(tags : rTags);
         });
     final folderlessLists = await repo.getFolderlessLists(
         params: GetFolderlessListsInSpaceParams(
@@ -40,7 +40,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
     folderlessLists.fold(
             (l) => failures.add({"folderlessLists": l}),
             (rFolderlessLists) {
-          space.lists = rFolderlessLists;
+          space = space.copyWith(lists : rFolderlessLists);
         });
     final folders = await repo.getFolders(
         params: GetFoldersInSpaceParams(
@@ -50,7 +50,7 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
     printDebug("GetAllInClickupSpaceUseCase folders $folders");
     folders.fold(
             (lFolder) => failures.add({"folders": lFolder}),
-            (rFolders) => space.folders = rFolders);
+            (rFolders) => space = space.copyWith(folders : rFolders));
     setSelectedSpace(space);
     if (failures.isEmpty) {
       printDebug(

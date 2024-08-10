@@ -27,7 +27,7 @@ class MoveTaskBetweenListsUseCase
     createResult = await repo.createTaskInList(CreateTaskParams.createNewTask(
         accessToken: params.accessToken,
         list: params.newList,
-        title: task.name ?? "",
+        title: task.title ?? "",
         startDate: task.startDateUtc,
         taskPriority: task.priority,
         taskStatus: task.status,

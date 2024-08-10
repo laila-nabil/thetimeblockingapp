@@ -112,7 +112,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetTasksInSpaceEvent(
               accessToken: event.params.accessToken,
-              space: event.params.task.space!,
+              space: Globals.selectedSpace!,
               workspace: event.workspace));
         });
       }

@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 
+import '../../../../common/entities/tag.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/resources/text_styles.dart';
 
@@ -52,7 +53,7 @@ class _TagComponentState extends State<TagComponent> {
               children: [
                 Icon(
                   Icons.tag,
-                  color: widget.tag.getTagFgColor,
+                  color: widget.tag.getColor,
                   size: 16,
                 ),
                 const SizedBox(width: 2.5,),

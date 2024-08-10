@@ -42,9 +42,8 @@ class CreateListInFolderParams extends Equatable {
   final Folder folder;
   final String listName;
   final Color? statusColor;
-  final Assignee? assignee = Globals.user?.asAssignee;
 
-  CreateListInFolderParams({
+  const CreateListInFolderParams({
     required this.accessToken,
     required this.folder,
     required this.listName,

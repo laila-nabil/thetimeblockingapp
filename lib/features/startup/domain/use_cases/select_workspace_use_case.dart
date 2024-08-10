@@ -18,7 +18,7 @@ class SelectWorkspaceUseCase implements UseCase<dartz.Unit,SelectWorkspaceParams
 }
 
 class SelectWorkspaceParams{
-  final Workspace clickupWorkspace;
+  final Workspace workspace;
 
-  SelectWorkspaceParams(this.clickupWorkspace);
+  SelectWorkspaceParams(this.workspace);
 }

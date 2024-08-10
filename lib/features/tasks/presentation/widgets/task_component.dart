@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
@@ -64,7 +65,7 @@ class TaskComponent extends StatelessWidget {
                       }),
                 ],
                 content: Text(
-                    "${appLocalization.translate("areYouSureDelete")} ${task.name}?"),
+                    "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
               )),
           CustomPopupItem(
               icon: AppIcons.copy,
@@ -84,7 +85,7 @@ class TaskComponent extends StatelessWidget {
                     onDuplicate(CreateTaskParams.createNewTask(
                       accessToken: Globals.accessToken,
                       list: task.list!,
-                      title: task.name ?? "",
+                      title: task.title ?? "",
                       description: task.description,
                       dueDate: task.dueDateUtc,
                       folder: task.folder,
@@ -92,7 +93,6 @@ class TaskComponent extends StatelessWidget {
                       tags: task.tags,
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,
-                      timeEstimate: task.timeEstimate,
                       backendMode: Globals.backendMode
                     ));
                     Navigator.pop(context);
@@ -207,7 +207,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       children: [
                         Icon(
                           widget.task.status ==
-                                  Globals.selectedSpace?.statuses?.last
+                                  Globals.statuses.completedStatus
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.task.status?.getColor ??
@@ -219,7 +219,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                         ),
                         Expanded(
                           child: Text(
-                            widget.task.name ?? "",
+                            widget.task.title ?? "",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                     appFontSize: AppFontSize.paragraphSmall,
                                     color: AppColors.grey(context.isDarkMode).shade900,
@@ -257,7 +257,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                 verticalDirection: VerticalDirection.down,
                 children: widget.task.tags
                         ?.map((e) => TagChip(
-                            tagName: e.name ?? "", color: e.getTagFgColor))
+                            tagName: e.name ?? "", color: e.getColor))
                         .toList() ??
                     [],
               ),

@@ -42,9 +42,8 @@ class CreateFolderlessListParams extends Equatable {
   final Space space;
   final String listName;
   final Color? statusColor;
-  final Assignee? assignee = Globals.user?.asAssignee;
 
-  CreateFolderlessListParams({
+  const CreateFolderlessListParams({
     required this.accessToken,
     required this.space,
     required this.listName,

@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 
 import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/tag.dart';
 
 class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
   final AddTagToTaskUseCase addTagFromTaskUseCase;

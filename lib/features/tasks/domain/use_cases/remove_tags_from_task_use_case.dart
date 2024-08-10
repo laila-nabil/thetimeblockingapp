@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 
 import '../../../../common/entities/access_token.dart';
+import '../../../../common/entities/tag.dart';
 
 class RemoveTagsFromTaskUseCase implements UseCase<dartz.Unit, RemoveTagsFromTaskParams> {
   final RemoveTagFromTaskUseCase removeTagFromTaskUseCase;

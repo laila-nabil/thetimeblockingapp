@@ -19,7 +19,7 @@ class SelectSpaceUseCase implements UseCase<dartz.Unit,SelectSpaceParams>{
 }
 
 class SelectSpaceParams{
-  final Space clickupSpace;
+  final Space space;
 
-  SelectSpaceParams(this.clickupSpace);
+  SelectSpaceParams(this.space);
 }

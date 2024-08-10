@@ -1,20 +1,12 @@
 import 'package:thetimeblockingapp/core/network/network.dart';
 
-abstract class StartUpRemoteDataSource {
+abstract class StartUpRemoteDataSource {}
 
-}
-
-class ClickupStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
+class SupabaseStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
+  final String url;
+  final String key;
   final Network network;
-  final String clickupClientId;
-  final String clickupClientSecret;
-  final String clickupUrl;
 
-  ClickupStartUpRemoteDataSourceImpl({
-    required this.network,
-    required this.clickupClientId,
-    required this.clickupClientSecret,
-    required this.clickupUrl,
-  });
-
+  SupabaseStartUpRemoteDataSourceImpl(
+      {required this.url, required this.key, required this.network});
 }

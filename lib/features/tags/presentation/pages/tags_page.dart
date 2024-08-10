@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -205,8 +206,8 @@ class TagsPage extends StatelessWidget {
                                                     params: CreateTagInSpaceParams(
                                                         accessToken: Globals
                                                             .accessToken,
-                                                        newTag: ClickupTagModel(
-                                                            name: text),
+                                                        newTag: TagModel(
+                                                            name: text, id: '', workspaceId: '', color: ''),
                                                         space:
                                                             Globals.selectedSpace!),
                                                   ));

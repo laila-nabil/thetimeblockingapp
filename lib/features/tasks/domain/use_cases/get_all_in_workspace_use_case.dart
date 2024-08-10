@@ -41,7 +41,8 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
             tagsResult.fold(
                     (l) => failures.add({"tagS$indexSpace": l}),
                     (rTags) {
-                  spaces[indexSpace].tags = rTags;
+                  spaces[indexSpace] =
+                      spaces[indexSpace].copyWith(tags : rTags);
                 });
             final folderlessLists = await repo.getFolderlessLists(
                 params: GetFolderlessListsInSpaceParams(
@@ -53,7 +54,8 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
             folderlessLists.fold(
                     (l) => failures.add({"folderlessLists$indexSpace": l}),
                     (rFolderlessLists) {
-                  spaces[indexSpace].lists = rFolderlessLists;
+                  spaces[indexSpace] =
+                      spaces[indexSpace].copyWith(lists : rFolderlessLists);
                 });
             final folders = await repo.getFolders(
                 params: GetFoldersInSpaceParams(
@@ -63,7 +65,8 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
             printDebug("GetAllInClickupWorkspaceUseCase folders $folders");
             folders.fold(
                     (lFolder) => failures.add({"folders$indexSpace": lFolder}),
-                    (rFolders) => spaces[indexSpace].folders = rFolders);
+                    (rFolders) => spaces[indexSpace] =
+                        spaces[indexSpace].copyWith(folders: rFolders));
             indexSpace++;
           }
         });

@@ -155,7 +155,7 @@ class ListsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[] +
                                     (Globals.selectedSpace?.folders
-                                            .map<Widget>((folder) =>
+                                            ?.map<Widget>((folder) =>
                                                 ToggleableSection(
                                                     actions: [
                                                       CustomPopupItem(
@@ -238,7 +238,7 @@ class ListsPage extends StatelessWidget {
                                       ToggleableSection(
                                           title: appLocalization.translate("otherLists"),
                                           children: (Globals.selectedSpace?.lists
-                                              .map<Widget>((e) => ListComponent(
+                                              ?.map<Widget>((e) => ListComponent(
                                             list: e,
                                             actions: [
                                               CustomPopupItem(

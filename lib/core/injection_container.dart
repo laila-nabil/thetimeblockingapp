@@ -310,13 +310,11 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
       () => tasksRemoteDataSource());
 
-  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(
-      () => ClickupStartUpRemoteDataSourceImpl(
-            network: serviceLocator(),
-            clickupClientId: Globals.clickupGlobals.clickupClientId,
-            clickupClientSecret: Globals.clickupGlobals.clickupClientSecret,
-            clickupUrl: Globals.clickupGlobals.clickupUrl,
-          ));
+  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
+      SupabaseStartUpRemoteDataSourceImpl(
+          network: serviceLocator(),
+          key: Globals.supabaseGlobals.key,
+          url: Globals.supabaseGlobals.url));
 
   serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
       () => StartUpLocalDataSourceImpl(serviceLocator()));
@@ -367,16 +365,6 @@ TasksRemoteDataSource tasksRemoteDataSource() {
 void updateFromEnv() async {
   const overrideClickupUrl =
       String.fromEnvironment("clickupUrl", defaultValue: "");
-  Globals.clickupGlobals = Globals.clickupGlobals.copyWith(
-      clickupClientId:
-          const String.fromEnvironment("clickUpClientId", defaultValue: ""),
-      clickupClientSecret:
-          const String.fromEnvironment("clickUpClientSecret", defaultValue: ""),
-      clickupRedirectUrl:
-          const String.fromEnvironment("clickUpRedirectUrl", defaultValue: ""),
-      clickupUrl: overrideClickupUrl.isNotEmpty
-          ? overrideClickupUrl
-          : 'https://timeblockingrender.onrender.com/clickup');
   Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
     url: const String.fromEnvironment("supabaseUrl", defaultValue: ""),
     key: const String.fromEnvironment("supabaseKey", defaultValue: ""),

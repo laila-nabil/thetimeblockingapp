@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_us
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
+import '../../../../common/entities/tag.dart';
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase.dart';

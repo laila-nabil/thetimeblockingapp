@@ -171,9 +171,9 @@ class _SchedulePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TasksCalendar(
-      tasksDataSource: ClickupTasksDataSource(
-          clickupTasks: scheduleBloc.state.tasks
-                  ?.where((element) => element.dueDateUtcTimestamp != null)
+      tasksDataSource: SupabaseTasksDataSource(
+          tasks: scheduleBloc.state.tasks
+                  ?.where((element) => element.dueDate != null)
                   .toList() ??
               []),
       controller: scheduleBloc.controller,

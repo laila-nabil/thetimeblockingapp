@@ -15,37 +15,28 @@ class TaskPopUpState extends Equatable {
           taskParams?.list != null &&
           (taskParams?.description != null ||
               taskParams?.tags?.isNotEmpty == true ||
-              taskParams?.assignees?.isNotEmpty == true ||
               taskParams?.taskPriority != null ||
               taskParams?.taskStatus != null ||
               taskParams?.dueDate != null ||
               taskParams?.startDate != null ||
-              taskParams?.timeEstimate != null ||
-              taskParams?.notifyAll != null ||
               taskParams?.parentTask != null ||
               taskParams?.linkedTask != null);
     } else {
-      return (taskParams?.title != taskParams?.task?.name ||
+      return (taskParams?.title != taskParams?.task?.title ||
           taskParams?.description != taskParams?.task?.description ||
           taskParams?.list != taskParams?.task?.list ||
           taskParams?.tags != taskParams?.task?.tags ||
-          taskParams?.assignees != taskParams?.task?.assignees ||
           taskParams?.taskPriority != taskParams?.task?.priority ||
           taskParams?.taskStatus != taskParams?.task?.status ||
           taskParams?.dueDate != taskParams?.task?.dueDateUtc ||
           taskParams?.startDate != taskParams?.task?.startDateUtc ||
-          taskParams?.timeEstimate != taskParams?.task?.timeEstimate ||
-          taskParams?.notifyAll != null ||
           taskParams?.parentTask != null ||
           taskParams?.linkedTask != null);
     }
   }
 
-  bool get isPrioritiesEnabled =>
-      taskParams?.space?.isPrioritiesEnabled ?? false;
-
   bool get isFoldersListAvailable => taskParams?.space?.folders
-      .isNotEmpty ==
+      ?.isNotEmpty ==
       true || taskParams?.folder !=null;
 
   bool get viewTagsButton =>
@@ -72,9 +63,6 @@ class TaskPopUpState extends Equatable {
         updatedTaskStatus: taskParams?.taskStatus == task.status
             ? null
             : taskParams?.taskStatus,
-        updatedTimeEstimate: taskParams?.timeEstimate == task.timeEstimate
-            ? null
-            : taskParams?.timeEstimate,
         updatedParentTask: taskParams?.parentTask == task.list
             ? null
             : taskParams?.parentTask,

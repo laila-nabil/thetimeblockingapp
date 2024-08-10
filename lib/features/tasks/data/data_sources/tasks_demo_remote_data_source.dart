@@ -1,5 +1,11 @@
 
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
@@ -29,140 +35,128 @@ import '../../domain/use_cases/update_tag_use_case.dart';
 
 class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
-  Future<List<ClickupTaskModel>> getTasksInWorkspace(
-      {required GetTasksInWorkspaceParams params}) async {
-    if (params.filtersParams.filterByListsIds?.isNotEmpty == true) {
-      return Demo.tasks
-              .where((element) =>
-                  element.list?.id ==
-                  params.filtersParams.filterByListsIds?.first)
-              .toList();
-    }
-    return Demo.tasks;
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) {
+    // TODO: implement addTagToTask
+    throw UnimplementedError();
   }
 
   @override
-  Future<ClickupTaskModel> createTaskInList(
-      {required CreateTaskParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<FolderModel> createFolderInSpace({required CreateFolderInSpaceParams params}) {
+    // TODO: implement createFolderInSpace
+    throw UnimplementedError();
   }
 
   @override
-  Future<ClickupTaskModel> updateTask(
-      {required CreateTaskParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<ListModel> createFolderlessList({required CreateFolderlessListParams params}) {
+    // TODO: implement createFolderlessList
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<ListModel> createListInFolder({required CreateListInFolderParams params}) {
+    // TODO: implement createListInFolder
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupWorkspaceModel>> getClickupWorkspaces(
-      {required GetWorkspacesParams params}) async {
-    return Demo.workspaces;
+  Future<dartz.Unit> createTagInSpace({required CreateTagInSpaceParams params}) {
+    // TODO: implement createTagInSpace
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupFolderModel>> getClickupFolders(
-      {required GetFoldersInSpaceParams params}) async {
-    return Demo.folders;
+  Future<TaskModel> createTaskInList({required CreateTaskParams params}) {
+    // TODO: implement createTaskInList
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupListModel>> getClickupListsInFolder(
-      {required GetListsInFolderParams params}) async {
-    return Demo.folderlessLists;
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) {
+    // TODO: implement deleteFolder
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupListModel>> getClickupFolderlessLists(
-      {required GetFolderlessListsInSpaceParams params}) async {
-    return Demo.folderlessLists;
+  Future<dartz.Unit> deleteList({required DeleteListParams params}) {
+    // TODO: implement deleteList
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupSpaceModel>> getClickupSpacesInWorkspaces(
-      {required GetSpacesInWorkspacesParams params}) async {
-    return Demo.spaces;
+  Future<dartz.Unit> deleteTag({required DeleteTagParams params}) {
+    // TODO: implement deleteTag
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<ClickupTagModel>> getClickupTags(
-      {required GetTagsInSpaceParams params}) async {
-    return Demo.tags;
+  Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) {
+    // TODO: implement deleteTask
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> removeTagFromTask(
-      {required RemoveTagFromTaskParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<ListModel>> getFolderlessLists({required GetFolderlessListsInSpaceParams params}) {
+    // TODO: implement getFolderlessLists
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) async {
-    throw const DemoFailure(message: "");
-  }
-
-
-  @override
-  Future<ClickupListModel> getClickupList(
-      {required GetListParams params}) async {
-    return Demo.folderlessLists
-        .where((element) => params.listId == element.id)
-        .first;
+  Future<List<FolderModel>> getFolders({required GetFoldersInSpaceParams params}) {
+    // TODO: implement getFolders
+    throw UnimplementedError();
   }
 
   @override
-  Future<ClickupListModel> createClickupListInFolder(
-      {required CreateListInFolderParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<ListModel> getList({required GetListParams params}) {
+    // TODO: implement getList
+    throw UnimplementedError();
   }
 
   @override
-  Future<ClickupListModel> createFolderlessClickupList(
-      {required CreateFolderlessListParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<ListModel>> getListsInFolder({required GetListsInFolderParams params}) {
+    // TODO: implement getListsInFolder
+    throw UnimplementedError();
   }
 
   @override
-  Future<ClickupFolderModel> createClickupFolderInSpace(
-      {required CreateFolderInSpaceParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<SpaceModel>> getSpacesInWorkspaces({required GetSpacesInWorkspacesParams params}) {
+    // TODO: implement getSpacesInWorkspaces
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> deleteList({required DeleteListParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {
+    // TODO: implement getTags
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<TaskModel>> getTasksInWorkspace({required GetTasksInWorkspaceParams params}) {
+    // TODO: implement getTasksInWorkspace
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> createClickupTagInSpace(
-      {required CreateTagInSpaceParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<List<WorkspaceModel>> getWorkspaces({required GetWorkspacesParams params}) {
+    // TODO: implement getWorkspaces
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> deleteClickupTag(
-      {required DeleteTagParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params}) {
+    // TODO: implement removeTagFromTask
+    throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> updateClickupTag(
-      {required UpdateTagParams params}) async {
-    throw const DemoFailure(message: "");
+  Future<dartz.Unit> updateTag({required UpdateTagParams params}) {
+    // TODO: implement updateTag
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<SupabaseWorkspaceModel>> getSupabaseWorkspaces({required GetWorkspacesParams params}) {
-    // TODO: implement getSupabaseWorkspaces
+  Future<TaskModel> updateTask({required CreateTaskParams params}) {
+    // TODO: implement updateTask
     throw UnimplementedError();
   }
 }

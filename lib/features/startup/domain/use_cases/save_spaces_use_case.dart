@@ -19,7 +19,7 @@ class SaveSpacesUseCase implements UseCase<dartz.Unit,SaveSpacesParams>{
 }
 
 class SaveSpacesParams{
-  final List<Space> clickupSpaces;
+  final List<Space> spaces;
 
-  SaveSpacesParams(this.clickupSpaces);
+  SaveSpacesParams(this.spaces);
 }

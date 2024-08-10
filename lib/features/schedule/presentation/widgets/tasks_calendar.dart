@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -21,7 +22,7 @@ class TasksCalendar extends StatelessWidget {
     required this.scheduleBloc,
   });
 
-  final ClickupTasksDataSource tasksDataSource;
+  final SupabaseTasksDataSource tasksDataSource;
   final CalendarController controller;
   final ScheduleBloc scheduleBloc;
   final void Function(CalendarTapDetails)? onTap;
@@ -53,7 +54,7 @@ class TasksCalendar extends StatelessWidget {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      timeZone: Globals.user?.timezone,
+      // timeZone: Globals.user?.timezone,
       onTap: onTapCalendarElement,
       onLongPress: onTapCalendarElement,
       onAppointmentResizeEnd: (details){
@@ -188,53 +189,53 @@ class TasksCalendar extends StatelessWidget {
     }
 }
 
-class ClickupTasksDataSource extends CalendarDataSource {
-  final List<Task> clickupTasks;
+class SupabaseTasksDataSource extends CalendarDataSource {
+  final List<Task> tasks;
 
-  ClickupTasksDataSource({required this.clickupTasks});
+  SupabaseTasksDataSource({required this.tasks});
 
   @override
   DateTime getStartTime(int index) {
-    printDebug("${clickupTasks[index].name}=>"
-        " clickupTasks[index].startDateUtc ${clickupTasks[index].startDateUtc}");
-    return clickupTasks[index].startDateUtc ??
+    printDebug("${tasks[index].title}=>"
+        " clickupTasks[index].startDateUtc ${tasks[index].startDateUtc}");
+    return tasks[index].startDateUtc ??
         getEndTime(index).subtract(Globals.defaultTaskDuration);
   }
 
   @override
   Color getColor(int index) {
-    var clickupTask = clickupTasks[index];
+    var clickupTask = tasks[index];
     if(clickupTask.isCompleted){
       return AppColors.grey(false).shade300;
     }
-    return clickupTask.priority?.getPriorityColor ??
+    return clickupTask.priority?.getColor ??
         AppColors.paletteBlue;
   }
   @override
   DateTime getEndTime(int index) {
-    printDebug("${clickupTasks[index].name}=>"
-        " clickupTasks[index].dueDateUtc ${clickupTasks[index].dueDateUtc}");
-    return clickupTasks[index].dueDateUtc ?? super.getEndTime(index);
+    printDebug("${tasks[index].title}=>"
+        " clickupTasks[index].dueDateUtc ${tasks[index].dueDateUtc}");
+    return tasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 
   @override
   String? getNotes(int index) {
-    return clickupTasks[index].description;
+    return tasks[index].description;
   }
 
   @override
   Object? getId(int index) {
-    return clickupTasks[index].id;
+    return tasks[index].id;
   }
 
   @override
   String getSubject(int index) {
-    return clickupTasks[index].name ?? "";
+    return tasks[index].title ?? "";
   }
 
   @override
   bool isAllDay(int index) {
-    return clickupTasks[index].isAllDay;
+    return tasks[index].isAllDay;
   }
 
   @override
@@ -242,9 +243,9 @@ class ClickupTasksDataSource extends CalendarDataSource {
       Object? customData, Appointment appointment) {
     printDebug("customData $customData");
     printDebug("appointment $appointment");
-    return customData as ClickupTaskModel;
+    return customData as TaskModel;
   }
 
   @override
-  List? get appointments => clickupTasks;
+  List? get appointments => tasks;
 }

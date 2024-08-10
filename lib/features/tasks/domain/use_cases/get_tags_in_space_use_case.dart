@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/space.dart';
+import '../../../../common/entities/tag.dart';
 
 class GetTagsInSpaceUseCase
     implements UseCase<List<Tag>, GetTagsInSpaceParams> {

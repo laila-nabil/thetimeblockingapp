@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -24,6 +25,10 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_fr
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 
+import '../../../../common/models/supabase_list_model.dart';
+import '../../../../common/models/supabase_space_model.dart';
+import '../../../../common/models/supabase_tag_model.dart';
+import '../../../../common/models/supabase_task_model.dart';
 import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
@@ -46,7 +51,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   TasksRepoImpl(this.remoteDataSource, this.localDataSource);
 
   @override
-  Future<dartz.Either<Failure, List<ClickupTaskModel>>> getTasksInWorkspace(
+  Future<dartz.Either<Failure, List<TaskModel>>> getTasksInWorkspace(
       {required GetTasksInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
@@ -54,7 +59,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupTaskModel>?> createTaskInList(
+  Future<dartz.Either<Failure, TaskModel>?> createTaskInList(
       CreateTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
@@ -62,7 +67,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupTaskModel>?> updateTask(
+  Future<dartz.Either<Failure, TaskModel>?> updateTask(
       CreateTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
@@ -82,73 +87,73 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     if(Globals.backendMode == BackendMode.supabase){
       return repoHandleRemoteRequest(
           remoteDataSourceRequest: () async =>
-          await remoteDataSource.getSupabaseWorkspaces(params: params),
+          await remoteDataSource.getWorkspaces(params: params),
           trySaveResult: (result) async {
             workspaces = result;
             printDebug(
                 "getSupabaseWorkspaces $result ${Globals.workspaces}");
             await localDataSource
-                .saveSupabaseWorkspaces(result as List<SupabaseWorkspaceModel>);
+                .saveWorkspaces(result);
           },
           tryGetFromLocalStorage: () async =>
-          await localDataSource.getClickupWorkspaces());
+          await localDataSource.getWorkspaces());
     }
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.getClickupWorkspaces(params: params),
+            await remoteDataSource.getWorkspaces(params: params),
         trySaveResult: (result) async {
           workspaces = result;
           printDebug(
-              "getClickUpWorkspaces $result ${Globals.workspaces}");
+              "getWorkspaces $result ${Globals.workspaces}");
           await localDataSource
-              .saveClickupWorkspaces(result as List<ClickupWorkspaceModel>);
+              .saveWorkspaces(result);
         },
         tryGetFromLocalStorage: () async =>
-            await localDataSource.getClickupWorkspaces());
+            await localDataSource.getWorkspaces());
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupFolderModel>>> getFolders(
+  Future<dartz.Either<Failure, List<FolderModel>>> getFolders(
       {required GetFoldersInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.getClickupFolders(params: params),
+          remoteDataSource.getFolders(params: params),
     );
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupListModel>>> getListsInFolder(
+  Future<dartz.Either<Failure, List<ListModel>>> getListsInFolder(
       {required GetListsInFolderParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.getClickupListsInFolder(params: params),
+          remoteDataSource.getListsInFolder(params: params),
     );
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupListModel>>> getFolderlessLists(
+  Future<dartz.Either<Failure, List<ListModel>>> getFolderlessLists(
       {required GetFolderlessListsInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.getClickupFolderlessLists(params: params),
+          remoteDataSource.getFolderlessLists(params: params),
     );
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupSpaceModel>>> getSpacesInWorkspaces(
+  Future<dartz.Either<Failure, List<SpaceModel>>> getSpacesInWorkspaces(
       {required GetSpacesInWorkspacesParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.getClickupSpacesInWorkspaces(params: params),
+          remoteDataSource.getSpacesInWorkspaces(params: params),
     );
   }
 
   @override
-  Future<dartz.Either<Failure, List<ClickupTagModel>>> getTags(
+  Future<dartz.Either<Failure, List<TagModel>>> getTags(
       {required GetTagsInSpaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
-          remoteDataSource.getClickupTags(params: params),
+          remoteDataSource.getTags(params: params),
     );
   }
 
@@ -176,13 +181,13 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       SelectWorkspaceParams params) async {
     return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource.saveSelectedWorkspace(
-            params.clickupWorkspace as ClickupWorkspaceModel));
+            params.workspace as WorkspaceModel));
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupWorkspaceModel>?> getSelectedWorkspace(
+  Future<dartz.Either<Failure, WorkspaceModel>?> getSelectedWorkspace(
       NoParams params) async {
-    var result = await repoHandleLocalGetRequest<ClickupWorkspaceModel>(
+    var result = await repoHandleLocalGetRequest<WorkspaceModel>(
         tryGetFromLocalStorage: () => localDataSource.getSelectedWorkspace());
     result.fold((l) => null, (r) => selectedWorkspace = r);
     return result;
@@ -203,7 +208,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<dartz.Either<Failure, dartz.Unit>?> selectSpace(SelectSpaceParams params) async {
     return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource
-            .saveSelectedSpace(params.clickupSpace as ClickupSpaceModel));
+            .saveSelectedSpace(params.space as SpaceModel));
   }
 
   @override
@@ -220,39 +225,39 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       SaveSpacesParams params) {
     return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource
-            .saveSpaces(params.clickupSpaces as List<ClickupSpaceModel>));
+            .saveSpaces(params.spaces as List<SpaceModel>));
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> getList(
+  Future<dartz.Either<Failure, ListModel>?> getList(
       GetListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.getClickupList(params: params));
+            remoteDataSource.getList(params: params));
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> createListInFolder(
+  Future<dartz.Either<Failure, ListModel>?> createListInFolder(
       CreateListInFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createClickupListInFolder(params: params));
+            remoteDataSource.createListInFolder(params: params));
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupListModel>?> createFolderlessList(
+  Future<dartz.Either<Failure, ListModel>?> createFolderlessList(
       CreateFolderlessListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createFolderlessClickupList(params: params));
+            remoteDataSource.createFolderlessList(params: params));
   }
 
   @override
-  Future<dartz.Either<Failure, ClickupFolderModel>?> createFolderInSpace(
+  Future<dartz.Either<Failure, FolderModel>?> createFolderInSpace(
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createClickupFolderInSpace(params: params));
+            remoteDataSource.createFolderInSpace(params: params));
   }
 
   @override
@@ -273,7 +278,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<dartz.Either<Failure, dartz.Unit>?> deleteTag(DeleteTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.deleteClickupTag(params: params));
+            remoteDataSource.deleteTag(params: params));
   }
 
   @override
@@ -281,7 +286,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       CreateTagInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createClickupTagInSpace(params: params));
+            remoteDataSource.createTagInSpace(params: params));
   }
 
   @override
@@ -289,6 +294,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       UpdateTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.updateClickupTag(params: params));
+            remoteDataSource.updateTag(params: params));
   }
 }

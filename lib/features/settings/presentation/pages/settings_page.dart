@@ -8,6 +8,8 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_auth_page.dart';
+import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
 import '../../../../core/globals.dart';
@@ -15,6 +17,7 @@ import '../../../../core/launch_url.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
+import '../../../terms_conditions/terms_conditions_page.dart';
 import '../bloc/settings_bloc.dart';
 
 ///TODO create task from siri shortcuts functionality
@@ -33,7 +36,7 @@ class SettingsPage extends StatelessWidget {
     return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state.signOutSuccess) {
-          router.go(ClickupAuthPage.routeName);
+          router.go(SupabaseAuthPage.routeName);
         }
       },
       builder: (context, state) {
@@ -132,7 +135,10 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("termsOfUse"),
                       onPressed: () {
-                        launchWithURL(url: Globals.clickupGlobals.clickupTerms);
+                        launchWithURL(
+                            url:
+                            "https://timeblocking.web.app/${TermsConditionsPage
+                                .routeName}");
                       },
                       type: CustomButtonType.greyTextLabel,
                     ),
@@ -144,7 +150,10 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("privacyPolicy"),
                       onPressed: () {
-                        launchWithURL(url: Globals.clickupGlobals.clickupPrivacy);
+                        launchWithURL(
+                            url:
+                            "https://timeblocking.web.app/${PrivacyPolicyPage
+                                .routeName}");
                       },
                       type: CustomButtonType.greyTextLabel,
                     ),

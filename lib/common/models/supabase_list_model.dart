@@ -1,12 +1,9 @@
-import '../entities/list_entity.dart';
+import '../entities/tasks_list.dart';
 
-class ListModel extends ListEntity {
+class ListModel extends TasksList {
   const ListModel({
     super.id,
     super.name,
-    super.folderId,
-    super.color,
-    super.spaceId
   });
 
 
@@ -14,9 +11,6 @@ class ListModel extends ListEntity {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['space_id'] = spaceId;
-    map['folder_id'] = folderId;
-    map['color'] = color;
     return map;
   }
 
@@ -25,9 +19,6 @@ class ListModel extends ListEntity {
     return ListModel(
         id: json['id'],
         name: json['name'],
-        spaceId: json['space_id'],
-        color: json['color'],
-        folderId: json['folder_id'],
     );
   }
 }

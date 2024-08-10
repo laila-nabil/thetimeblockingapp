@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
-import 'package:thetimeblockingapp/common/entities/list_entity.dart';
-import 'package:thetimeblockingapp/common/entities/task.dart';
 
 import 'tag.dart';
+import 'tasks_list.dart';
 import 'user.dart';
 import 'workspace.dart';
 
@@ -24,7 +23,7 @@ class Space extends Equatable {
   final String? color;
   final String? workspaceId;
   final List<Folder>? folders;
-  final List<ListEntity>? lists;
+  final List<TasksList>? lists;
   final List<Tag>? tags;
 
   @override
@@ -43,7 +42,7 @@ class Space extends Equatable {
     String? color,
     String? workspaceId,
     List<Folder>? folders,
-    List<ListEntity>? lists,
+    List<TasksList>? lists,
     List<Tag>? tags,
   }) {
     return Space(

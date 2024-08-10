@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -324,7 +326,7 @@ class TaskPopup extends StatelessWidget {
                                               }),
                                         ],
                                         content: Text(
-                                            "${appLocalization.translate("areYouSureDelete")} ${taskPopupParams.task?.name}?"),
+                                            "${appLocalization.translate("areYouSureDelete")} ${taskPopupParams.task?.title}?"),
                                       );
                                     });
                               },
@@ -397,7 +399,7 @@ class TaskPopup extends StatelessWidget {
                                                 folder))),
                                     items: (state.taskParams?.space
                                         ?.folders
-                                        .map((e) =>
+                                        ?.map((e) =>
                                         DropdownMenuItem(
                                             value: e,
                                             child: Text(
@@ -482,15 +484,14 @@ class TaskPopup extends StatelessWidget {
                                           taskParams:
                                           taskParams.copyWith(
                                               taskStatus: status))),
-                                  items: state.taskParams?.space
-                                      ?.statuses
-                                      ?.map<
+                                  items: Globals.statuses
+                                      .map<
                                       DropdownMenuItem<
-                                          Status>>((e) =>
+                                          TaskStatus>>((e) =>
                                       DropdownMenuItem(
                                           value: e,
                                           child: false ? Text(
-                                              e.status ?? "",
+                                              e.name ?? "",
                                               style: CustomDropDown
                                                   .textStyle(context.isDarkMode)
                                                   .copyWith(
@@ -507,15 +508,14 @@ class TaskPopup extends StatelessWidget {
                                             children: [
                                               Icon(
                                                   e ==
-                                                      state.taskParams?.space
-                                                          ?.statuses?.last
+                                                      Globals.statuses.firstWhere((s)=>s.isDone == true)
                                                       ? AppIcons.checkboxchecked
                                                       : AppIcons.checkbox,
                                                   color: e.getColor ??
                                                       AppColors.text(context.isDarkMode)),
                                               const SizedBox(width: 2,),
                                               Text(
-                                                  e.status ?? "",
+                                                  e.name ?? "",
                                                   style: CustomDropDown
                                                       .textStyle(context.isDarkMode)
                                                       .copyWith(
@@ -536,7 +536,6 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                                 ///Priority
-                                if (state.isPrioritiesEnabled)
                                   CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
@@ -557,46 +556,17 @@ class TaskPopup extends StatelessWidget {
                                                 .copyWith(
                                                 taskPriority:
                                                 priority))),
-                                    items: (state
-                                        .taskParams
-                                        ?.space
-                                        ?.features
-                                        ?.priorities
-                                        ?.priorities
-                                        ?.map((e) => e.isNum
-                                        ? DropdownMenuItem(
+                                    items: (Globals.priorities.map((e) =>
+                                      DropdownMenuItem(
                                       value: e,
                                       child: Row(
                                         children: [
-                                          Icon(
-                                              e.priorityNum ==
-                                                  null
-                                                  ? AppIcons.flag
-                                                  : AppIcons.flagbold,
-                                              color: e.getPriorityColor ??
+                                          Icon(AppIcons.flagbold,
+                                              color: e.getColor ??
                                                   AppColors.text(context.isDarkMode)),
                                           const SizedBox(width: 2,),
                                           Text(
-                                            e.priorityNum
-                                                .toString(),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                        : DropdownMenuItem(
-                                      value: e,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                              e.priority ==
-                                                  null
-                                                  ? AppIcons.flag
-                                                  : AppIcons.flagbold,
-                                              color: e.getPriorityColor ??
-                                                  AppColors.text(context.isDarkMode)),
-                                          const SizedBox(width: 2,),
-                                          Text(
-                                            e.priority ??
+                                            e.name ??
                                                 e.id?.toStringOrNull() ??
                                                 "",
                                             style: TextStyle(
@@ -604,7 +574,7 @@ class TaskPopup extends StatelessWidget {
                                                 TextBaseline
                                                     .alphabetic,
                                                 color: e
-                                                    .getPriorityColor),
+                                                    .getColor),
                                           ),
                                         ],
                                       ),
@@ -830,7 +800,7 @@ class TaskPopup extends StatelessWidget {
                                           tagName:
                                           e.name ?? '',
                                           color: e
-                                              .getTagFgColor,
+                                              ?.getColor,
                                           onDelete: () {
                                             List<Tag>?
                                             tags =
@@ -885,12 +855,12 @@ class TaskPopup extends StatelessWidget {
                                                                       .taskParams
                                                                       ?.space
                                                                       ?.tags
-                                                                      .map((e) => CheckboxListTile(
+                                                                      ?.map((e) => CheckboxListTile(
                                                                       title: Row(
                                                                         children: [
                                                                           Icon(
                                                                             AppIcons.hashtag,
-                                                                            color: e.getTagFgColor,
+                                                                            color: e.getColor,
                                                                           ),
                                                                           Text(
                                                                             e.name ?? "",
@@ -948,14 +918,14 @@ class TaskPopup extends StatelessWidget {
                                                           .taskParams
                                                           ?.space
                                                           ?.tags
-                                                          .map((e) =>
+                                                          ?.map((e) =>
                                                           CheckboxListTile(
                                                               title:
                                                               Row(
                                                                 children: [
                                                                   Icon(
                                                                     Icons.tag,
-                                                                    color: e.getTagFgColor,
+                                                                    color: e.getColor,
                                                                   ),
                                                                   Text(
                                                                     e.name ?? "",

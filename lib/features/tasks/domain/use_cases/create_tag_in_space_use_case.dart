@@ -1,4 +1,6 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -46,7 +48,7 @@ class CreateTagInSpaceUseCase
 class CreateTagInSpaceParams {
   final Space space;
   final AccessToken accessToken;
-  final ClickupTagModel newTag;
+  final TagModel newTag;
 
   CreateTagInSpaceParams(
       {required this.space,

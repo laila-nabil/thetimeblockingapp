@@ -1,4 +1,5 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -11,6 +12,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_u
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
+import '../../../../common/entities/tag.dart';
 import '../../../../core/print_debug.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -36,7 +38,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
     List<Failure> failures = [];
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&
-        params.taskStatus == Globals.selectedSpace?.statuses?.last;
+        params.taskStatus == Globals.statuses.completedStatus;
     final eventName = isCompletingTask
         ? AnalyticsEvents.completeTask.name
         : AnalyticsEvents.updateTask.name;
