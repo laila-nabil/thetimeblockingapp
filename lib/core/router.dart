@@ -161,9 +161,6 @@ final router = GoRouter(
       ),
     ]);
 
-class TermsConditions {
-}
-
 class MyNavObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
