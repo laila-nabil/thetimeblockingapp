@@ -614,7 +614,7 @@ class _SupabaseOnBoardingAndAuthPageState
                 appFontSize: AppFontSize.paragraphXSmall,
                 color: AppColors.grey(context.isDarkMode),
                 appFontWeight: AppFontWeight.regular)),
-            text: appLocalization.translate("byUsingTheAppAgreeOur" " "),
+            text: "${appLocalization.translate("byUsingTheAppAgreeOur")} ",
             children: [
               TextSpan(
                 style: linkStyle,
