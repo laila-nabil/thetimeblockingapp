@@ -37,10 +37,10 @@ class DeleteTagUseCase
 class DeleteTagParams {
   final Space space;
   final Tag tag;
-  final AccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   DeleteTagParams(
       {required this.space,
         required this.tag,
-        required this.clickupAccessToken});
+        required this.accessToken});
 }

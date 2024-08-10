@@ -21,16 +21,16 @@ class GetFoldersInSpaceUseCase
 }
 
 class GetFoldersInSpaceParams extends Equatable {
-  final AccessToken clickupAccessToken;
-  final Space clickupSpace;
+  final AccessToken accessToken;
+  final Space space;
   final bool? archived;
 
   const GetFoldersInSpaceParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
+    required this.accessToken,
+    required this.space,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupSpace,archived];
+  List<Object?> get props => [accessToken, space,archived];
 }

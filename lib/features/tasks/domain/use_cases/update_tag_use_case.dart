@@ -53,11 +53,11 @@ class UpdateTagParams {
   final Space space;
   final String originalTagName;
   final TagModel newTag;
-  final AccessToken clickupAccessToken;
+  final AccessToken accessToken;
 
   UpdateTagParams(
       {required this.space,
       required this.newTag,
       required this.originalTagName,
-      required this.clickupAccessToken});
+      required this.accessToken});
 }

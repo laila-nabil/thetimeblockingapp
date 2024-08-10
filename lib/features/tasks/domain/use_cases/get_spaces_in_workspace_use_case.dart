@@ -31,7 +31,7 @@ class GetSpacesInWorkspacesUseCase
             }), (r) async {
       setSpaces = r;
       printDebug(
-          "GetClickupSpacesInWorkspacesUseCase Globals.clickupSpaces ${Globals.spaces}");
+          "GetSpacesInWorkspacesUseCase Globals.spaces ${Globals.spaces}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {
         AnalyticsEventParameter.data.name: "spaces",
@@ -43,16 +43,16 @@ class GetSpacesInWorkspacesUseCase
 }
 
 class GetSpacesInWorkspacesParams extends Equatable {
-  final AccessToken clickupAccessToken;
-  final Workspace clickupWorkspace;
+  final AccessToken accessToken;
+  final Workspace workspace;
   final bool? archived;
 
   const GetSpacesInWorkspacesParams({
-    required this.clickupAccessToken,
-    required this.clickupWorkspace,
+    required this.accessToken,
+    required this.workspace,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [clickupAccessToken, clickupWorkspace, archived];
+  List<Object?> get props => [accessToken, workspace, archived];
 }

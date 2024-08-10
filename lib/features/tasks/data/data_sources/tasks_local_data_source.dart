@@ -13,7 +13,7 @@ abstract class TasksLocalDataSource {
       List<WorkspaceModel> workspaceModels);
 
   Future<void> saveSelectedWorkspace(
-      WorkspaceModel clickupWorkspacesModel);
+      WorkspaceModel workspacesModel);
 
   Future<WorkspaceModel> getSelectedWorkspace();
 
@@ -45,23 +45,13 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
     return result;
   }
 
-  @override
-  Future<void> saveClickupWorkspaces(
-      List<WorkspaceModel> clickupWorkspacesModel) {
-    List<Map<String, dynamic>> result = [];
-    for (var element in clickupWorkspacesModel) {
-      result.add(element.toJson());
-    }
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.workspaces.name, value: result);
-  }
 
   @override
   Future<void> saveSelectedWorkspace(
-      WorkspaceModel clickupWorkspacesModel) {
+      WorkspaceModel workspacesModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.selectedWorkspace.name,
-        value: clickupWorkspacesModel.toJson());
+        value: workspacesModel.toJson());
   }
 
   @override

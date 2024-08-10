@@ -121,8 +121,8 @@ class CreateTaskParams extends Equatable{
       task?.startDateUtc != null &&
       startDate?.isAtSameMomentAs(task!.startDateUtc!) == false;
 
-  static TaskParamsEnum getClickupTaskParamsEnum(Task? task) {
-    printDebug("getClickupTaskParamsEnum $task ${_isNewTask(task)
+  static TaskParamsEnum getTaskParamsEnum(Task? task) {
+    printDebug("getTaskParamsEnum $task ${_isNewTask(task)
         ? TaskParamsEnum.create
         : TaskParamsEnum.update}");
     return _isNewTask(task)
@@ -138,7 +138,7 @@ class CreateTaskParams extends Equatable{
     Tag? tag,
     required BackendMode backendMode
   }) {
-    printDebug("ClickupTaskParams startCreateNewTask task");
+    printDebug("TaskParams startCreateNewTask task");
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
           accessToken: accessToken,
@@ -167,7 +167,7 @@ class CreateTaskParams extends Equatable{
     Space? space,
     required BackendMode backendMode
   }) {
-    printDebug("ClickupTaskParams createNewTask task");
+    printDebug("TaskParams createNewTask task");
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
           accessToken: accessToken,
@@ -193,7 +193,7 @@ class CreateTaskParams extends Equatable{
     required Task task,
     required BackendMode backendMode
   }) {
-    printDebug("ClickupTaskParams startUpdateTask task $task");
+    printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
     final space = Globals.spaces
         ?.firstWhere((element) => element.id == task.space?.id);
@@ -302,7 +302,7 @@ class CreateTaskParams extends Equatable{
 
   CreateTaskParams copyWith({
     TaskParamsEnum? taskParamsEnum,
-    AccessToken? clickupAccessToken,
+    AccessToken? accessToken,
     TasksList? list,
     String? title,
     String? description,
@@ -353,8 +353,8 @@ class CreateTaskParams extends Equatable{
     }
     return CreateTaskParams._(
       type:
-          taskParamsEnum ?? this.type,
-      accessToken: clickupAccessToken ?? accessToken,
+          taskParamsEnum ?? type,
+      accessToken: accessToken ?? this.accessToken,
       list: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,

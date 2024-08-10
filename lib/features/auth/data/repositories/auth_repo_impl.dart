@@ -41,7 +41,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
           await authLocalDataSource
               .saveAccessToken(result.accessToken as AccessTokenModel);
           printDebug(
-              "getClickUpAccessToken $result ${Globals.accessToken}");
+              "getAccessToken $result ${Globals.accessToken}");
         },
         tryGetFromLocalStorage: () async {
           final access =  await authLocalDataSource.getAccessToken();

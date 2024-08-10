@@ -104,41 +104,6 @@ class CustomAppBarWidget extends StatelessWidget {
                 color: Colors.deepPurpleAccent,
               )),
       actions: [
-        /*if (showSmallDesign == false &&
-            Globals.clickupWorkspaces?.isNotEmpty == true)
-          DropdownButton(
-            value: Globals.selectedWorkspace,
-            onChanged: (selected) {
-              if (selected is ClickupWorkspace) {
-                selectClickupWorkspace(selected);
-              }
-            },
-            items: Globals.clickupWorkspaces
-                    ?.map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name ?? ""),
-                        ))
-                    .toList() ??
-                [],
-            hint: Text(appLocalization.translate("workspaces")),
-          ),
-        if (showSmallDesign == false &&
-            Globals.isSpaceAppWide &&
-            Globals.clickupSpaces?.isNotEmpty == true)
-          DropdownButton<ClickupSpace?>(
-            value: Globals.selectedSpace,
-            onChanged: (selected) {
-              return selectClickupSpace(selected);
-            },
-            items: Globals.clickupSpaces
-                    ?.map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name ?? ""),
-                        ))
-                    .toList() ??
-                [],
-            hint: Text(appLocalization.translate("spaces")),
-          ),*/
 
         ///TODO search tasks,tags, lists and folders
         // ignore: dead_code

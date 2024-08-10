@@ -20,17 +20,17 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
   final TasksRepo repo;
   final AddTagsToTaskUseCase addTagsToTaskUseCase;
   final RemoveTagsFromTaskUseCase removeTagsFromTaskUseCase;
-  final MoveTaskBetweenListsUseCase moveClickupTaskBetweenListsUseCase;
-  final CreateTaskUseCase createClickupTaskUseCase;
-  final DeleteTaskUseCase deleteClickupTaskUseCase;
+  final MoveTaskBetweenListsUseCase moveTaskBetweenListsUseCase;
+  final CreateTaskUseCase createTaskUseCase;
+  final DeleteTaskUseCase deleteTaskUseCase;
 
   UpdateTaskUseCase(
       this.repo,
       this.addTagsToTaskUseCase,
       this.removeTagsFromTaskUseCase,
-      this.moveClickupTaskBetweenListsUseCase,
-      this.createClickupTaskUseCase,
-      this.deleteClickupTaskUseCase);
+      this.moveTaskBetweenListsUseCase,
+      this.createTaskUseCase,
+      this.deleteTaskUseCase);
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(CreateTaskParams params) async {
@@ -44,7 +44,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
         : AnalyticsEvents.updateTask.name;
     final task = params.task;
     printDebug("task?.list ${task?.list}");
-    printDebug("params.clickupList ${params.list}");
+    printDebug("params.List ${params.list}");
     if (params.list?.id == task?.list?.id || params.list == null) {
       final taskTags = task?.tags;
       final newTags = params.tags;
@@ -67,7 +67,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
             RemoveTagsFromTaskParams(
                 task: task,
                 tags: removeTags,
-                clickupAccessToken: params.accessToken));
+                accessToken: params.accessToken));
         removeTagsResult?.fold((l) => failures.add(l), (r) => null);
         printDebug("removeTagsResult $removeTagsResult");
       }

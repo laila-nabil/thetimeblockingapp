@@ -62,7 +62,7 @@ class TagsPage extends StatelessWidget {
                                   params: DeleteTagParams(
                                       space: Globals.selectedSpace!,
                                       tag: state.toDeleteTag!,
-                                      clickupAccessToken:
+                                      accessToken:
                                           Globals.accessToken)));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
@@ -139,7 +139,7 @@ class TagsPage extends StatelessWidget {
                                                                           insideTagPage:
                                                                               false,
                                                                           params: UpdateTagParams(
-                                                                              clickupAccessToken: Globals
+                                                                              accessToken: Globals
                                                                                   .accessToken,
                                                                               newTag: tag
                                                                                   .copyWith(name: text)
@@ -170,7 +170,7 @@ class TagsPage extends StatelessWidget {
                                                                   originalTagName:
                                                                       tag.name ??
                                                                           "",
-                                                                  clickupAccessToken:
+                                                                  accessToken:
                                                                       Globals
                                                                           .accessToken)));
                                                         }),
@@ -183,7 +183,7 @@ class TagsPage extends StatelessWidget {
                                                                   space: Globals
                                                                       .selectedSpace!,
                                                                   tag: tag,
-                                                                  clickupAccessToken:
+                                                                  accessToken:
                                                                       Globals
                                                                           .accessToken)));
                                                         }),

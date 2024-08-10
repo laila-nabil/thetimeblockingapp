@@ -363,8 +363,6 @@ TasksRemoteDataSource tasksRemoteDataSource() {
 }
 
 void updateFromEnv() async {
-  const overrideClickupUrl =
-      String.fromEnvironment("clickupUrl", defaultValue: "");
   Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
     url: const String.fromEnvironment("supabaseUrl", defaultValue: ""),
     key: const String.fromEnvironment("supabaseKey", defaultValue: ""),

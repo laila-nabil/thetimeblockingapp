@@ -80,7 +80,7 @@ class TagPage extends StatelessWidget {
                                 space: Globals.selectedSpace!,
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
-                                clickupAccessToken:
+                                accessToken:
                                     Globals.accessToken)));
                       },
                       titleWidget: Row(
@@ -95,7 +95,7 @@ class TagPage extends StatelessWidget {
                             DeleteTagParams(
                                 space: Globals.selectedSpace!,
                                 tag: state.navigateTag!,
-                                clickupAccessToken:
+                                accessToken:
                                     Globals.accessToken)));
                       },
                       titleWidget: Row(
@@ -147,7 +147,7 @@ class TagPage extends StatelessWidget {
                                           .add(UpdateTagEvent.submit(
                                         insideTagPage: true,
                                         params: UpdateTagParams(
-                                            clickupAccessToken:
+                                            accessToken:
                                                 Globals.accessToken,
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)

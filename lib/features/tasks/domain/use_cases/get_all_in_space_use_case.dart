@@ -32,11 +32,11 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
         });
     final folderlessLists = await repo.getFolderlessLists(
         params: GetFolderlessListsInSpaceParams(
-            clickupAccessToken: params.accessToken,
-            clickupSpace: space,
+            accessToken: params.accessToken,
+            space: space,
             archived: params.archived));
     printDebug(
-        "GetAllInClickupSpaceUseCase folderlessLists $folderlessLists");
+        "GetAllInSpaceUseCase folderlessLists $folderlessLists");
     folderlessLists.fold(
             (l) => failures.add({"folderlessLists": l}),
             (rFolderlessLists) {
@@ -44,10 +44,10 @@ class GetAllInSpaceUseCase with GlobalsWriteAccess{
         });
     final folders = await repo.getFolders(
         params: GetFoldersInSpaceParams(
-            clickupAccessToken: params.accessToken,
-            clickupSpace: space,
+            accessToken: params.accessToken,
+            space: space,
             archived: params.archived));
-    printDebug("GetAllInClickupSpaceUseCase folders $folders");
+    printDebug("GetAllInSpaceUseCase folders $folders");
     folders.fold(
             (lFolder) => failures.add({"folders": lFolder}),
             (rFolders) => space = space.copyWith(folders : rFolders));

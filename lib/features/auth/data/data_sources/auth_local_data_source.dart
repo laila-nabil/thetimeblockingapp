@@ -10,7 +10,7 @@ abstract class AuthLocalDataSource {
 
 
   Future<void> saveAccessToken(
-      AccessTokenModel clickupAccessTokenModel);
+      AccessTokenModel accessTokenModel);
 
   Future<void> saveSupabaseUser(SupabaseUserModel user);
 
@@ -34,10 +34,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> saveAccessToken(
-      AccessTokenModel clickupAccessTokenModel) {
+      AccessTokenModel accessTokenModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.accessToken.name,
-        value: clickupAccessTokenModel.toJson());
+        value: accessTokenModel.toJson());
   }
 
   @override

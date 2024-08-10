@@ -5,9 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 void launchWithURL({required String url}) async {
   final uri = Uri.parse(url);
   final canLaunch = await canLaunchUrl(uri);
-  var eventName = url.contains("https://app.clickup.com/api?")
-      ? AnalyticsEvents.connectClickup.name
-      : url.contains("demoo")
+  var eventName = url.contains("demoo")
           ? AnalyticsEvents.openDemo.name
           : AnalyticsEvents.launchUrl.name;
   if (canLaunch) {

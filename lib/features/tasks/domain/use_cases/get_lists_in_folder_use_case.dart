@@ -22,19 +22,19 @@ class GetListsInFolderUseCase
 }
 
 class GetListsInFolderParams extends Equatable {
-  final AccessToken clickupAccessToken;
-  final Space clickupSpace;
-  final Folder clickupFolder;
+  final AccessToken accessToken;
+  final Space space;
+  final Folder folder;
   final bool? archived;
 
   const GetListsInFolderParams({
-    required this.clickupAccessToken,
-    required this.clickupSpace,
-    required this.clickupFolder,
+    required this.accessToken,
+    required this.space,
+    required this.folder,
     this.archived,
   });
 
   @override
   List<Object?> get props =>
-      [clickupAccessToken, clickupSpace, clickupFolder, archived];
+      [accessToken, space, folder, archived];
 }

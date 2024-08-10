@@ -197,24 +197,24 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   DateTime getStartTime(int index) {
     printDebug("${tasks[index].title}=>"
-        " clickupTasks[index].startDateUtc ${tasks[index].startDateUtc}");
+        "Tasks[index].startDateUtc ${tasks[index].startDateUtc}");
     return tasks[index].startDateUtc ??
         getEndTime(index).subtract(Globals.defaultTaskDuration);
   }
 
   @override
   Color getColor(int index) {
-    var clickupTask = tasks[index];
-    if(clickupTask.isCompleted){
+    var task = tasks[index];
+    if(task.isCompleted){
       return AppColors.grey(false).shade300;
     }
-    return clickupTask.priority?.getColor ??
+    return task.priority?.getColor ??
         AppColors.paletteBlue;
   }
   @override
   DateTime getEndTime(int index) {
     printDebug("${tasks[index].title}=>"
-        " clickupTasks[index].dueDateUtc ${tasks[index].dueDateUtc}");
+        " Tasks[index].dueDateUtc ${tasks[index].dueDateUtc}");
     return tasks[index].dueDateUtc ?? super.getEndTime(index);
   }
 

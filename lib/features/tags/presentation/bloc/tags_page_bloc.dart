@@ -120,7 +120,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             ));
             if(event.insideTagPage==false){
               add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
-                  accessToken: event.params!.clickupAccessToken,
+                  accessToken: event.params!.accessToken,
                   space: event.params!.space)));
             }
           });
@@ -145,7 +145,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               tagsPageStatus: TagsPageStatus.updateTaskSuccess,
             ));
             add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
-                accessToken: event.params!.clickupAccessToken,
+                accessToken: event.params!.accessToken,
                 space: event.params!.space)));
           });
         }

@@ -353,7 +353,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
     List<String>? customFields,
     bool? customTaskIds,
     bool? includeParentTaskId,
-    AccessToken? clickupAccessToken,
+    AccessToken? accessToken,
   }) {
     return GetTasksInWorkspaceFiltersParams(
       page: page ?? this.page,
@@ -394,7 +394,7 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
       customFields: customFields ?? this.customFields,
       customTaskIds: customTaskIds ?? this.customTaskIds,
       includeParentTaskId: includeParentTaskId ?? this.includeParentTaskId,
-      accessToken: clickupAccessToken ?? accessToken,
+      accessToken: accessToken ?? this.accessToken,
     );
   }
 }

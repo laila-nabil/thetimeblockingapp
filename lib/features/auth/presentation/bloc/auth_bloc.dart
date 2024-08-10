@@ -54,18 +54,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                     state.updatedAuthStates(AuthStateEnum.signInFailed))),
             (r) async {
               emit(state.copyWith(
-                supabaseUser: r.user,
+                user: r.user,
                 accessToken: r.accessToken,
                 authStates:
                     state.updatedAuthStates(AuthStateEnum.signInSuccess)));
-              final getClickupWorkspaces = await _getWorkspacesUseCase(
+              final getWorkspaces = await _getWorkspacesUseCase(
                   GetWorkspacesParams(
                       accessToken: r.accessToken, userId: r.user.id.toStringOrNull() ?? ""));
               emit(state.copyWith(
                   authStates: state.updatedAuthStates(AuthStateEnum.loading)));
-              getClickupWorkspaces?.fold(
+              getWorkspaces?.fold(
                       (l) => emit(state.copyWith(
-                      getClickupWorkspacesFailure: l,
+                      getWorkspacesFailure: l,
                       authStates: state.updatedAuthStates(
                           AuthStateEnum.getWorkspacesFailed))), (r) {
                 emit(state.copyWith(

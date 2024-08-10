@@ -25,10 +25,10 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
     List<Map<String, Failure>> failures = [];
     final spacesResult = await repo.getSpacesInWorkspaces(
         params: GetSpacesInWorkspacesParams(
-            clickupAccessToken: params.accessToken,
-            clickupWorkspace: params.workspace,
+            accessToken: params.accessToken,
+            workspace: params.workspace,
             archived: params.archived));
-    printDebug("GetAllInClickupWorkspaceUseCase spacesResult $spacesResult");
+    printDebug("GetAllInWorkspaceUseCase spacesResult $spacesResult");
     await spacesResult.fold((l) async => failures.add({"spaces": l}),
             (rSpace) async {
           spaces = rSpace;
@@ -46,11 +46,11 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
                 });
             final folderlessLists = await repo.getFolderlessLists(
                 params: GetFolderlessListsInSpaceParams(
-                    clickupAccessToken: params.accessToken,
-                    clickupSpace: eSpace,
+                    accessToken: params.accessToken,
+                    space: eSpace,
                     archived: params.archived));
             printDebug(
-                "GetAllInClickupWorkspaceUseCase folderlessLists $folderlessLists");
+                "GetAllInWorkspaceUseCase folderlessLists $folderlessLists");
             folderlessLists.fold(
                     (l) => failures.add({"folderlessLists$indexSpace": l}),
                     (rFolderlessLists) {
@@ -59,10 +59,10 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
                 });
             final folders = await repo.getFolders(
                 params: GetFoldersInSpaceParams(
-                    clickupAccessToken: params.accessToken,
-                    clickupSpace: eSpace,
+                    accessToken: params.accessToken,
+                    space: eSpace,
                     archived: params.archived));
-            printDebug("GetAllInClickupWorkspaceUseCase folders $folders");
+            printDebug("GetAllInWorkspaceUseCase folders $folders");
             folders.fold(
                     (lFolder) => failures.add({"folders$indexSpace": lFolder}),
                     (rFolders) => spaces[indexSpace] =
@@ -74,7 +74,7 @@ class GetAllInWorkspaceUseCase with GlobalsWriteAccess {
     if (spaces.isNotEmpty) {
       setSpaces = spaces;
       printDebug(
-          "GetAllInClickupWorkspaceUseCase Globals.clickupSpaces ${Globals
+          "GetAllInWorkspaceUseCase Globals.spaces ${Globals
               .spaces}");
       await serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.getData.name, parameters: {

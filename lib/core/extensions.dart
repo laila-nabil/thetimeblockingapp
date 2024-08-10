@@ -164,28 +164,6 @@ extension UriExtension on Uri {
         queryParameters: queryParameters);
   }
 
-  static Uri uriHttpsClickupAPI(
-      {required String url,
-      Map<String, dartz.Either<List, String>>? queryParameters}) {
-    Map<String, String>? query;
-    if(queryParameters?.isNotEmpty == true){
-      query = {};
-      queryParameters?.forEach((key, value) {
-        value.fold((l) {
-          String v = "";
-          String separator = "&$key[]=";
-          for (var element in l) { v = "$v$element$separator";}
-          v = v.substring(0,v.length-separator.length);
-          query?.addAll({"$key[]": v});
-        }, (r) => query?.addAll({key: r}));
-      });
-    }
-    final urlWithoutScheme = url.replaceAll("https://", "");
-    final host = urlWithoutScheme.split("/").first;
-    final path =
-        urlWithoutScheme.substring(host.length, urlWithoutScheme.length);
-    return Uri(scheme: "https", host: host, path: path, queryParameters: query);
-  }
 }
 
 extension StringExtensions on Object? {

@@ -8,10 +8,10 @@ enum AuthStateEnum {
   signInFailed,
   signUpSuccess,
   signUpFailed,
-  getClickupAccessTokenSuccess,
-  getClickupAccessTokenFailed,
-  getClickupUserSuccess,
-  getClickupAUserFailed,
+  getAccessTokenSuccess,
+  getAccessTokenFailed,
+  getUserSuccess,
+  getAUserFailed,
   getWorkspacesSuccess,
   getWorkspacesFailed,
   triedGetSelectedWorkspacesSpace,
@@ -19,24 +19,22 @@ enum AuthStateEnum {
 
 class AuthState extends Equatable {
   final Set<AuthStateEnum> authStates;
-  final Failure? getClickupAccessTokenFailure;
+  final Failure? getAccessTokenFailure;
   final AccessToken? accessToken;
-  final User? clickupUser;
-  final Failure? getClickupUserFailure;
+  final Failure? getUserFailure;
   final List<Workspace>? workspaces;
-  final Failure? getClickupWorkspacesFailure;
-  final User? supabaseUser;
+  final Failure? getWorkspacesFailure;
+  final User? user;
   final Failure? signInFailure;
 
   const AuthState({
     required this.authStates,
-    this.getClickupAccessTokenFailure,
+    this.getAccessTokenFailure,
     this.accessToken,
-    this.clickupUser,
-    this.getClickupUserFailure,
+    this.getUserFailure,
     this.workspaces,
-    this.getClickupWorkspacesFailure,
-    this.supabaseUser,
+    this.getWorkspacesFailure,
+    this.user,
     this.signInFailure,
   });
 
@@ -48,16 +46,9 @@ class AuthState extends Equatable {
   }
 
   bool get canGoSchedulePage {
-    if(Globals.backendMode == BackendMode.supabase){
-      return supabaseUser != null &&
-          accessToken != null &&
-          workspaces?.isNotEmpty == true;
-    }
-    return !(isLoading == false && accessToken?.isEmpty == true ||
-        clickupUser == null ||
-        workspaces?.isNotEmpty == false ||
-        authStates.contains(AuthStateEnum.triedGetSelectedWorkspacesSpace) ==
-            false);
+    return user != null &&
+        accessToken != null &&
+        workspaces?.isNotEmpty == true;
   }
 
   Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
@@ -74,40 +65,37 @@ class AuthState extends Equatable {
   @override
   List<Object?> get props => [
         authStates,
-        getClickupAccessTokenFailure,
+        getAccessTokenFailure,
         accessToken,
-        clickupUser,
-        getClickupUserFailure,
+        getUserFailure,
         workspaces,
-        getClickupWorkspacesFailure,
-        supabaseUser,
+        getWorkspacesFailure,
+        user,
         signInFailure,
       ];
 
   AuthState copyWith({
     Set<AuthStateEnum>? authStates,
-    Failure? getClickupAccessTokenFailure,
+    Failure? getAccessTokenFailure,
     AccessToken? accessToken,
-    User? clickupUser,
-    Failure? getClickupUserFailure,
+    Failure? getUserFailure,
     List<Workspace>? workspaces,
-    Failure? getClickupWorkspacesFailure,
-    User? supabaseUser,
+    Failure? getWorkspacesFailure,
+    User? user,
     Failure? signInFailure
   }) {
     return AuthState(
       authStates: authStates ?? this.authStates,
-      getClickupAccessTokenFailure:
-          getClickupAccessTokenFailure ?? this.getClickupAccessTokenFailure,
+      getAccessTokenFailure:
+          getAccessTokenFailure ?? this.getAccessTokenFailure,
       accessToken: accessToken ??this.accessToken,
-      clickupUser: clickupUser ?? this.clickupUser,
-      getClickupUserFailure:
-          getClickupUserFailure ?? this.getClickupUserFailure,
+      getUserFailure:
+          getUserFailure ?? this.getUserFailure,
       workspaces: workspaces ?? this.workspaces,
-      getClickupWorkspacesFailure:
-          getClickupWorkspacesFailure ?? this.getClickupWorkspacesFailure,
+      getWorkspacesFailure:
+          getWorkspacesFailure ?? this.getWorkspacesFailure,
       signInFailure: signInFailure ?? this.signInFailure,
-      supabaseUser: supabaseUser ?? this.supabaseUser
+      user: user ?? this.user
     );
   }
 }

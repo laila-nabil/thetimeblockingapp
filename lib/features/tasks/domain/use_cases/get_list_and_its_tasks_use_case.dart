@@ -30,10 +30,10 @@ class GetListAndItsTasksUseCase {
     );
   }
 
-  Future<GetClickupListAndItsTasksResult?> call(
+  Future<GetListAndItsTasksResult?> call(
       GetListAndItsTasksParams params) async {
     final listResult = await repo.getList(GetListParams(
-        listId: params.listId, clickupAccessToken: params.accessToken));
+        listId: params.listId, accessToken: params.accessToken));
     await listResult?.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
@@ -66,7 +66,7 @@ class GetListAndItsTasksUseCase {
           AnalyticsEventParameter.status.name: true,
         }));
 
-    return GetClickupListAndItsTasksResult(
+    return GetListAndItsTasksResult(
         listResult: listResult, tasksResult: tasksResult);
   }
 }
@@ -82,11 +82,11 @@ class GetListAndItsTasksParams extends Equatable {
   List<Object?> get props => [listId, accessToken];
 }
 
-class GetClickupListAndItsTasksResult extends Equatable {
+class GetListAndItsTasksResult extends Equatable {
   final dartz.Either<Failure, TasksList>? listResult;
   final dartz.Either<Failure, List<Task>> tasksResult;
 
-  const GetClickupListAndItsTasksResult(
+  const GetListAndItsTasksResult(
       {required this.listResult, required this.tasksResult});
 
   @override

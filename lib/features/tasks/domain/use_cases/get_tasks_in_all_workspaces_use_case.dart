@@ -8,14 +8,14 @@ import 'get_tasks_in_single_workspace_use_case.dart';
 
 
 class GetTasksInAllWorkspacesUseCase {
-  final GetTasksInSingleWorkspaceUseCase getClickupTasksInSingleWorkspaceUseCase;
-  GetTasksInAllWorkspacesUseCase(this.getClickupTasksInSingleWorkspaceUseCase);
+  final GetTasksInSingleWorkspaceUseCase getTasksInSingleWorkspaceUseCase;
+  GetTasksInAllWorkspacesUseCase(this.getTasksInSingleWorkspaceUseCase);
 
   Future<Map<String, dartz.Either<Failure, List<Task>>?>> call(
       GetTasksInAllWorkspacesParams params) async {
     Map<String,dartz.Either<Failure,List<Task>>?> result = {};
     for (var element in params.workspacesIds) {
-      result[element] = await getClickupTasksInSingleWorkspaceUseCase(
+      result[element] = await getTasksInSingleWorkspaceUseCase(
           GetTasksInWorkspaceParams(
               workspaceId: element, filtersParams: params.filtersParams,
               backendMode: Globals.backendMode));

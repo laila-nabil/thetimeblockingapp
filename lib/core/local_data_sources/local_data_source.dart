@@ -1,6 +1,5 @@
 enum LocalDataSourceKeys {
   accessToken,
-  clickupUser,
   supabaseUser,
   workspaces,
   spaces,
