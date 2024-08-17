@@ -242,6 +242,6 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/all_data?workspace_id=eq.${params.workspace.id}"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    return WorkspaceModel.fromJson(response.body);
+    return WorkspaceModel.fromJson(json.decode(response.body)[0]);
   }
 }
