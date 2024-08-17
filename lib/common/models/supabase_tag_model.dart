@@ -40,7 +40,7 @@ class TagModel extends Tag {
 
   factory TagModel.fromJson(dynamic json) {
     return TagModel(
-      id: json['id'],
+      id: json['id']?.toString(),
       name: json['name'],
       workspaceId: json['workspace_id'],
       color: json['color']

@@ -36,7 +36,7 @@ class SpaceModel extends Space {
   });
 
   factory SpaceModel.fromJson(dynamic json) {
-    String? id = json['id'];
+    String? id = json['id']?.toString();
     String? name = json['name'];
     String? color = json['color'];
     List<FolderModel>? folders = foldersFromJson(json['folders']);

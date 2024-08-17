@@ -1,9 +1,14 @@
 import 'package:thetimeblockingapp/common/models/priority_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
+import '../entities/tag.dart';
 import '../entities/task.dart';
+import 'supabase_workspace_model.dart';
 
 
 List<TaskModel>? tasksFromJson(Object? json){
@@ -61,21 +66,29 @@ class TaskModel extends Task {
   factory TaskModel.fromJson(Map<String, dynamic> map) {
     return TaskModel(
       id: (map['id']as Object?)?.toStringOrNull(),
-      title: map['title'] as String,
-      description: map['description'] as String,
-      startDate: map['start_date'],
-      dueDate: map['due_date'],
-      list: map['list'],
-      folder: map['folder'],
-      space: map['space'],
-      workspace: map['workspace'],
+      title: map['title'] ,
+      description: map['description'] ,
+      startDate:DateTime.tryParse( map['start_date']),
+      dueDate: DateTime.tryParse(map['due_date']),
+      list: map['list'] == null
+          ? null
+          : ListModel.fromJson(map['list'][0]),
+      folder: map['folder'] == null
+          ? null
+          : FolderModel.fromJson(map['folder'][0]),
+      space: map['space'] == null
+          ? null
+          : SpaceModel.fromJson(map['space'][0]),
+      workspace: map['workspace'] == null
+          ? null
+          : WorkspaceModel.fromJson(map['workspace'][0]),
       status: map['status'] == null
           ? null
-          : TaskStatusModel.fromJson(map['status']),
+          : TaskStatusModel.fromJson(map['status'][0]),
       priority: map['priority'] == null
           ? null
-          : TaskPriorityModel.fromJson(map['status']),
-      tags: map['tags'] as List<TagModel>,
+          : TaskPriorityModel.fromJson(map['priority'][0]),
+      tags: tagsFromJson(map['tags']) as List<Tag>,
     );
   }
 }
