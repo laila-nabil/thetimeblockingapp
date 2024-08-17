@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 
 import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';

@@ -32,3 +32,21 @@ class SelectSpace extends StartupEvent {
   @override
   List<Object?> get props => [space,accessToken];
 }
+
+class GetStatusesEvent extends StartupEvent {
+  final AccessToken accessToken;
+  const GetStatusesEvent(
+      { required this.accessToken});
+
+  @override
+  List<Object?> get props => [accessToken];
+}
+
+class GetPrioritiesEvent extends StartupEvent {
+  final AccessToken accessToken;
+  const GetPrioritiesEvent(
+      { required this.accessToken});
+
+  @override
+  List<Object?> get props => [accessToken];
+}

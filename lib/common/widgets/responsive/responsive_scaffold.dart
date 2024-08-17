@@ -99,6 +99,18 @@ class ResponsiveScaffold extends Scaffold {
   Widget? get body {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          final startupBloc = BlocProvider.of<StartupBloc>(context);
+      if (state.isLoading == false &&
+          (state.authStates.contains(AuthStateEnum.signInSuccess) ||
+              state.authStates.contains(AuthStateEnum.signUpSuccess)) &&
+          state.accessToken != null) {
+            if (Globals.priorities.isEmpty) {
+              startupBloc.add(GetPrioritiesEvent(accessToken: state.accessToken!));
+            }
+            if (Globals.statuses.isEmpty) {
+              startupBloc.add(GetStatusesEvent(accessToken: state.accessToken!));
+            }
+          }
           final authBloc = BlocProvider.of<AuthBloc>(context);
           if (context.showSmallDesign == false) {
             return BlocBuilder<StartupBloc, StartupState>(

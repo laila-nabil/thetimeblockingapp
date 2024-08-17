@@ -10,7 +10,6 @@ enum AuthStateEnum {
   signUpFailed,
   getAccessTokenSuccess,
   getAccessTokenFailed,
-  getUserSuccess,
   getAUserFailed,
   getWorkspacesSuccess,
   getWorkspacesFailed,

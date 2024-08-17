@@ -15,6 +15,7 @@ import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_u
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
@@ -39,6 +40,7 @@ import '../features/startup/data/repositories/startup_repo_impl.dart';
 import '../features/startup/domain/repositories/startup_repo.dart';
 import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
+import '../features/startup/domain/use_cases/get_statuses_use_case.dart';
 import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
@@ -82,7 +84,7 @@ void _initServiceLocator({required Network network}) {
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc(
-      serviceLocator(),));
+      serviceLocator(),serviceLocator(),serviceLocator(),));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),
       serviceLocator(),
@@ -156,6 +158,12 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerLazySingleton(() => GetAllInWorkspaceUseCase(
+        serviceLocator(),
+      ));
+serviceLocator.registerLazySingleton(() => GetStatusesUseCase(
+        serviceLocator(),
+      ));
+serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 

@@ -1,12 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_statuses_use_case.dart';
+import '../../../../common/entities/priority.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 
 part 'startup_event.dart';
@@ -15,8 +19,10 @@ part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAccess {
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
+  final GetStatusesUseCase _getStatusesUseCase;
+  final GetPrioritiesUseCase _getPrioritiesUseCase;
   StartupBloc(
-    this._getAllInWorkspaceUseCase,
+    this._getAllInWorkspaceUseCase, this._getStatusesUseCase, this._getPrioritiesUseCase,
   ) : super(const StartupState(drawerLargerScreenOpen: false)) {
     on<StartupEvent>((event, emit) async {
       if (event is ControlDrawerLargerScreen) {
@@ -41,6 +47,34 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
                   startupStateEnum: StartupStateEnum.getAllInWorkspaceSuccess,
                   selectedWorkspace: r)));
         }
+      } else if (event is GetPrioritiesEvent) {
+        emit(state.copyWith(
+            startupStateEnum: StartupStateEnum.loading));
+        final result =
+        await _getPrioritiesUseCase(
+            GetPrioritiesParams(
+                event.accessToken,));
+        result.fold(
+                (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getPrioritiesFailed,
+                getPrioritiesFailure: l)),
+                (r) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getPrioritiesSuccess,
+                priorities: r)));
+      } else if (event is GetStatusesEvent) {
+        emit(state.copyWith(
+            startupStateEnum: StartupStateEnum.loading));
+        final result =
+        await _getStatusesUseCase(
+            GetStatusesParams(
+              event.accessToken,));
+        result.fold(
+                (l) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getStatusesFailed,
+                getStatusesFailure: l)),
+                (r) => emit(state.copyWith(
+                startupStateEnum: StartupStateEnum.getStatusesSuccess,
+                statuses: r)));
       }
     });
   }

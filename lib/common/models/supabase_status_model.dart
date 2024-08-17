@@ -2,6 +2,17 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 
 import '../entities/status.dart';
 
+List<TaskStatusModel>? taskStatusModelFromJson(json){
+  if(json != null && json is List){
+    List<TaskStatusModel> list = [];
+    for (var v in json) {
+      list.add(TaskStatusModel.fromJson(v));
+    }
+    return list;
+  }
+  return null;
+}
+
 class TaskStatusModel extends TaskStatus {
   const TaskStatusModel(
       {required super.id,
