@@ -217,9 +217,12 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<List<TaskModel>> getTasksInWorkspace(
-      {required GetTasksInWorkspaceParams params}) {
-    // TODO: implement getTasksInWorkspace
-    throw UnimplementedError();
+      {required GetTasksInWorkspaceParams params})  async {
+    final response = await network.get(
+        uri: Uri.parse(
+            "$url/rest/v1/all_data?workspace_id=eq.${params.workspaceId}"),
+        headers: supabaseHeader(accessToken: params.filtersParams.accessToken, apiKey: key));
+    return tasksFromJson(response) ?? [];
   }
 
   @override

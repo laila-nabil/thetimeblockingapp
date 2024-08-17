@@ -4,6 +4,26 @@ import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 
 import '../entities/task.dart';
 
+
+List<TaskModel>? tasksFromJson(json){
+  if(json != null && json is List){
+    List<TaskModel> list = [];
+    for (var v in json) {
+      list.add(TaskModel.fromJson(v));
+    }
+  }
+  return null;
+}
+
+extension TasksExt on List<TaskModel>?{
+  List<Map<String, dynamic>>? toJson() {
+    if(this == null){
+      return null;
+    }
+    return this?.map((v) => (v).toJson()).toList();
+  }
+}
+
 class TaskModel extends Task {
   const TaskModel(
       {required super.id,

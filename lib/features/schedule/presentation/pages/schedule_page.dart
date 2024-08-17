@@ -49,7 +49,7 @@ class SchedulePage extends StatelessWidget {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if ((Globals.isSpaceAppWide == false && state.isInitial) ||
-                  (Globals.isSpaceAppWide == true ) ||
+                  (Globals.isSpaceAppWide == true && state.tasks == null) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);

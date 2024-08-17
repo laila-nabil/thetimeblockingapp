@@ -30,7 +30,7 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
       }
       else if (event is SelectWorkspaceAndGetSpacesTagsLists) {
         selectedWorkspace = event.workspace;
-        if (Globals.isSpaceAppWide == false) {
+        if (Globals.isSpaceAppWide ) {
           emit(state.copyWith(
               selectedWorkspace: event.workspace,
               startupStateEnum: StartupStateEnum.loading));
