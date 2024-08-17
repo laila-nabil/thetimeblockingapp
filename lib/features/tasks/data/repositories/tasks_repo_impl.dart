@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
@@ -17,6 +18,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
@@ -295,5 +297,13 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.updateTag(params: params));
+  }
+
+  @override
+  Future<dartz.Either<Failure, Workspace>> getAllInWorkspace(
+      {required GetAllInWorkspaceParams params}) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () =>
+            remoteDataSource.getAllInWorkspace(params: params));
   }
 }

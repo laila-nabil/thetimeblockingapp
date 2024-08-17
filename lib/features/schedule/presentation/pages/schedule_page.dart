@@ -43,25 +43,13 @@ class SchedulePage extends StatelessWidget {
                   taskPopupParams: state.taskPopupParams!,
                 );
               }
-              if ((startUpCurrentState.startupStateEnum ==
-                          StartupStateEnum.getAllInSpaceFailed ||
-                      startUpCurrentState.startupStateEnum ==
-                          StartupStateEnum.getAllInSpaceSuccess) &&
-                  state.startGetTasks(
-                      startGetTasks: startUpCurrentState.startGetTasks,
-                      waitForStartGetTasks: waitForStartGetTasks)) {
-                startupBloc.add(const StartGetTasksEvent(startGetTasks: false));
-              }
             },
             builder: (context, state) {
               printDebug("ScheduleBloc state $state");
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if ((Globals.isSpaceAppWide == false && state.isInitial) ||
-                  (Globals.isSpaceAppWide == true &&
-                      state.startGetTasks(
-                          startGetTasks: startUpCurrentState.startGetTasks,
-                          waitForStartGetTasks: waitForStartGetTasks)) ||
+                  (Globals.isSpaceAppWide == true ) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);

@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
@@ -9,13 +8,12 @@ import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
-
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
@@ -41,25 +39,29 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<FolderModel> createFolderInSpace({required CreateFolderInSpaceParams params}) {
+  Future<FolderModel> createFolderInSpace(
+      {required CreateFolderInSpaceParams params}) {
     // TODO: implement createFolderInSpace
     throw UnimplementedError();
   }
 
   @override
-  Future<ListModel> createFolderlessList({required CreateFolderlessListParams params}) {
+  Future<ListModel> createFolderlessList(
+      {required CreateFolderlessListParams params}) {
     // TODO: implement createFolderlessList
     throw UnimplementedError();
   }
 
   @override
-  Future<ListModel> createListInFolder({required CreateListInFolderParams params}) {
+  Future<ListModel> createListInFolder(
+      {required CreateListInFolderParams params}) {
     // TODO: implement createListInFolder
     throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> createTagInSpace({required CreateTagInSpaceParams params}) {
+  Future<dartz.Unit> createTagInSpace(
+      {required CreateTagInSpaceParams params}) {
     // TODO: implement createTagInSpace
     throw UnimplementedError();
   }
@@ -95,13 +97,15 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<List<ListModel>> getFolderlessLists({required GetFolderlessListsInSpaceParams params}) {
+  Future<List<ListModel>> getFolderlessLists(
+      {required GetFolderlessListsInSpaceParams params}) {
     // TODO: implement getFolderlessLists
     throw UnimplementedError();
   }
 
   @override
-  Future<List<FolderModel>> getFolders({required GetFoldersInSpaceParams params}) {
+  Future<List<FolderModel>> getFolders(
+      {required GetFoldersInSpaceParams params}) {
     // TODO: implement getFolders
     throw UnimplementedError();
   }
@@ -113,13 +117,15 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<List<ListModel>> getListsInFolder({required GetListsInFolderParams params}) {
+  Future<List<ListModel>> getListsInFolder(
+      {required GetListsInFolderParams params}) {
     // TODO: implement getListsInFolder
     throw UnimplementedError();
   }
 
   @override
-  Future<List<SpaceModel>> getSpacesInWorkspaces({required GetSpacesInWorkspacesParams params}) {
+  Future<List<SpaceModel>> getSpacesInWorkspaces(
+      {required GetSpacesInWorkspacesParams params}) {
     // TODO: implement getSpacesInWorkspaces
     throw UnimplementedError();
   }
@@ -131,19 +137,22 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<List<TaskModel>> getTasksInWorkspace({required GetTasksInWorkspaceParams params}) {
+  Future<List<TaskModel>> getTasksInWorkspace(
+      {required GetTasksInWorkspaceParams params}) {
     // TODO: implement getTasksInWorkspace
     throw UnimplementedError();
   }
 
   @override
-  Future<List<WorkspaceModel>> getWorkspaces({required GetWorkspacesParams params}) {
+  Future<List<WorkspaceModel>> getWorkspaces(
+      {required GetWorkspacesParams params}) {
     // TODO: implement getWorkspaces
     throw UnimplementedError();
   }
 
   @override
-  Future<dartz.Unit> removeTagFromTask({required RemoveTagFromTaskParams params}) {
+  Future<dartz.Unit> removeTagFromTask(
+      {required RemoveTagFromTaskParams params}) {
     // TODO: implement removeTagFromTask
     throw UnimplementedError();
   }
@@ -157,6 +166,13 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<TaskModel> updateTask({required CreateTaskParams params}) {
     // TODO: implement updateTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<WorkspaceModel> getAllInWorkspace(
+      {required GetAllInWorkspaceParams params}) {
+    // TODO: implement getAllInWorkspace
     throw UnimplementedError();
   }
 }

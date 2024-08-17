@@ -149,7 +149,7 @@ class ScheduleState extends Equatable {
 
   bool canShowTaskPopup({required StartupStateEnum? startupStateEnum}) =>
       showTaskPopup == true &&
-      ((startupStateEnum == StartupStateEnum.getSpacesSuccess &&
+      ((startupStateEnum == StartupStateEnum.getAllInWorkspaceSuccess &&
               Globals.isSpaceAppWide == false) ||
           (startupStateEnum == StartupStateEnum.getAllInSpaceSuccess &&
               Globals.isSpaceAppWide == true));

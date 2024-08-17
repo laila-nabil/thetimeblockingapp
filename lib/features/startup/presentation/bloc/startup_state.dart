@@ -2,8 +2,8 @@ part of 'startup_bloc.dart';
 
 enum StartupStateEnum {
   loading,
-  getSpacesSuccess,
-  getSpacesFailed,
+  getAllInWorkspaceSuccess,
+  getAllInWorkspaceFailed,
   getAllInSpaceSuccess,
   getAllInSpaceFailed,
 }
@@ -12,21 +12,13 @@ class StartupState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
   final Workspace? selectedWorkspace;
-  final Space? selectedSpace;
-  final List<Map<String, Failure>>? getSpacesFailure;
-  final List<Map<String, Failure>>? getAllInSpaceFailure;
-  final List<Space>? spaces;
-  final bool? startGetTasks;
+  final Failure? getAllInWorkspaceFailure;
 
   const StartupState({
     required this.drawerLargerScreenOpen,
     this.selectedWorkspace,
-    this.selectedSpace,
     this.startupStateEnum,
-    this.getSpacesFailure,
-    this.getAllInSpaceFailure,
-    this.spaces,
-    this.startGetTasks,
+    this.getAllInWorkspaceFailure,
   });
 
   bool get isLoading => startupStateEnum == StartupStateEnum.loading;
@@ -35,29 +27,21 @@ class StartupState extends Equatable {
       isLoading == false &&
           Globals.accessToken.accessToken.isNotEmpty == true &&
           Globals.spaces == null &&
-          getSpacesFailure == null &&
-          spaces == null && triedGetSelectedWorkspacesSpace;
+          getAllInWorkspaceFailure == null && triedGetSelectedWorkspacesSpace;
 
   @override
   List<Object?> get props => [
     startupStateEnum,
     drawerLargerScreenOpen,
     selectedWorkspace,
-    selectedSpace,
-    getSpacesFailure,
-    spaces,
-    startGetTasks,
+    getAllInWorkspaceFailure,
   ];
 
   StartupState copyWith({
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
     Workspace? selectedWorkspace,
-    Space? selectedSpace,
-    List<Map<String, Failure>>? getSpacesFailure,
-    List<Map<String, Failure>>? getAllInSpaceFailure,
-    List<Space>? spaces,
-    bool? startGetTasks,
+    Failure? getAllInWorkspaceFailure,
   }) {
     return StartupState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
@@ -65,11 +49,7 @@ class StartupState extends Equatable {
       drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
       selectedWorkspace:
       selectedWorkspace ?? selectedWorkspace,
-      getSpacesFailure: getSpacesFailure ?? this.getSpacesFailure,
-      spaces: spaces ?? this.spaces,
-      selectedSpace: selectedSpace ?? this.selectedSpace,
-      getAllInSpaceFailure: getAllInSpaceFailure ?? this.getAllInSpaceFailure,
-      startGetTasks: startGetTasks,
+      getAllInWorkspaceFailure: getAllInWorkspaceFailure ?? this.getAllInWorkspaceFailure,
     );
   }
 }

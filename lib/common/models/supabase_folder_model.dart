@@ -2,6 +2,24 @@ import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 
+List<FolderModel>? foldersFromJson(json){
+  if(json != null && json is List){
+    List<FolderModel> list = [];
+    for (var v in json) {
+      list.add(FolderModel.fromJson(v));
+    }
+  }
+  return null;
+}
+extension FoldersExt on List<FolderModel>?{
+  List<Map<String, dynamic>>? toJson() {
+    if(this == null){
+      return null;
+    }
+    return this?.map((v) => (v).toJson()).toList();
+  }
+}
+
 class FolderModel extends Folder {
   const FolderModel({
     super.id,
@@ -12,13 +30,7 @@ class FolderModel extends Folder {
   });
 
   factory FolderModel.fromJson(dynamic json) {
-    List<ListModel>? lists;
-    if (json['lists'] != null) {
-      lists = [];
-      json['lists'].forEach((v) {
-        lists?.add(ListModel.fromJson(v));
-      });
-    }
+    List<ListModel>? lists = listsFromJson(json['lists']);
     return FolderModel(
       id: json['id'],
       name: json['name'],
@@ -35,7 +47,7 @@ class FolderModel extends Folder {
     map['space_id'] = spaceId;
     map['color'] = color;
     if (lists != null) {
-      map['lists'] = lists;
+      map['lists'] =  (lists as List<ListModel>).toJson();
     }
     return map;
   }

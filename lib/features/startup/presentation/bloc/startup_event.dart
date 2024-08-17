@@ -32,12 +32,3 @@ class SelectSpace extends StartupEvent {
   @override
   List<Object?> get props => [space,accessToken];
 }
-
-class StartGetTasksEvent extends StartupEvent {
-  final bool startGetTasks;
-  const StartGetTasksEvent(
-      {required this.startGetTasks,});
-
-  @override
-  List<Object?> get props => [startGetTasks];
-}

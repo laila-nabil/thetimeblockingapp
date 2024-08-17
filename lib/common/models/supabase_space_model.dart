@@ -4,6 +4,25 @@ import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import '../entities/space.dart';
 
+List<SpaceModel>? spacesFromJson(json){
+    if(json != null && json is List){
+      List<SpaceModel> list = [];
+      for (var v in json) {
+        list.add(SpaceModel.fromJson(v));
+      }
+  }
+    return null;
+}
+
+extension SpacessExt on List<SpaceModel>?{
+  List<Map<String, dynamic>>? toJson() {
+    if(this == null){
+      return null;
+    }
+    return this?.map((v) => (v).toJson()).toList();
+  }
+}
+
 class SpaceModel extends Space {
   const SpaceModel({
     super.id,
@@ -19,27 +38,9 @@ class SpaceModel extends Space {
     String? id = json['id'];
     String? name = json['name'];
     String? color = json['color'];
-    List<FolderModel>? folders;
-    if (json['folders'] != null) {
-      folders = [];
-      json['folders'].forEach((v) {
-        folders?.add(FolderModel.fromJson(v));
-      });
-    }
-    List<ListModel>? lists;
-    if (json['lists'] != null) {
-      lists = [];
-      json['lists'].forEach((v) {
-        lists?.add(ListModel.fromJson(v));
-      });
-    }
-    List<TagModel>? tags;
-    if (json['tags'] != null) {
-      tags = [];
-      json['tags'].forEach((v) {
-        tags?.add(TagModel.fromJson(v));
-      });
-    }
+    List<FolderModel>? folders = foldersFromJson(json['folders']);
+    List<ListModel>? lists = listsFromJson(json['lists']);
+    List<TagModel>? tags = tagsFromJson(json['tags']);
     return SpaceModel(
         id: id,
         color: color,
@@ -57,16 +58,14 @@ class SpaceModel extends Space {
     map['color'] = color;
     map['workspace_id'] = workspaceId;
     if (lists != null) {
-      map['lists'] =
-          lists?.map((v) => (v as ListModel).toJson()).toList();
+      map['lists'] = (lists as List<ListModel>).toJson();
     }
     if (folders != null) {
-      map['folders'] =
-          folders?.map((v) => (v as FolderModel).toJson()).toList();
+      map['folders'] = (folders as List<FolderModel>).toJson();
     }
     if (tags != null) {
       map['tags'] =
-          tags?.map((v) => (v as TagModel).toJson()).toList();
+          (tags as List<TagModel>).toJson();
     }
     return map;
   }

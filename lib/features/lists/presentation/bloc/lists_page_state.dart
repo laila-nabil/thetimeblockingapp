@@ -47,8 +47,8 @@ class ListsPageState extends Equatable {
   final TasksList? navigateList;
   final TasksList? currentList;
   final Folder? navigateFolder;
-  final List<Space>? getSpacesListsFoldersResult;
-  final List<Map<String, Failure>>? getSpacesListsFoldersFailure;
+  final Workspace? getAllInWorkspaceResult;
+  final Failure? getAllInWorkspaceFailure;
   final List<Task>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
   final List<TasksList>? addListResult;
@@ -82,8 +82,8 @@ class ListsPageState extends Equatable {
     this.navigateList,
     this.currentList,
     this.navigateFolder,
-    this.getSpacesListsFoldersResult,
-    this.getSpacesListsFoldersFailure,
+    this.getAllInWorkspaceResult,
+    this.getAllInWorkspaceFailure,
     this.currentListTasks,
     this.getListDetailsAndTasksFailure,
     this.addListResult,
@@ -146,8 +146,8 @@ class ListsPageState extends Equatable {
         navigateList,
         currentList,
         navigateFolder,
-        getSpacesListsFoldersResult,
-        getSpacesListsFoldersFailure,
+        getAllInWorkspaceResult,
+        getAllInWorkspaceFailure,
         currentListTasks,
         getListDetailsAndTasksFailure,
         addListResult,
@@ -193,8 +193,8 @@ class ListsPageState extends Equatable {
     TasksList? navigateList,
     TasksList? currentList,
     Folder? navigateFolder,
-    List<Space>? getSpacesListsFoldersResult,
-    List<Map<String, Failure>>? getSpacesListsFoldersFailure,
+    Workspace? getAllInWorkspaceResult,
+    Failure? getAllInWorkspaceFailure,
     List<Task>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
     List<TasksList>? addListResult,
@@ -229,10 +229,10 @@ class ListsPageState extends Equatable {
       navigateList: navigateList,
       currentList: currentList,
       navigateFolder: navigateFolder,
-      getSpacesListsFoldersResult:
-          getSpacesListsFoldersResult ?? this.getSpacesListsFoldersResult,
-      getSpacesListsFoldersFailure:
-          getSpacesListsFoldersFailure ?? this.getSpacesListsFoldersFailure,
+      getAllInWorkspaceResult:
+          getAllInWorkspaceResult ?? this.getAllInWorkspaceResult,
+      getAllInWorkspaceFailure:
+          getAllInWorkspaceFailure ?? this.getAllInWorkspaceFailure,
       currentListTasks: currentListTasks ?? this.currentListTasks,
       getListDetailsAndTasksFailure:
           getListDetailsAndTasksFailure ?? this.getListDetailsAndTasksFailure,

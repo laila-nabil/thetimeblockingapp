@@ -36,7 +36,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
   final GetAllInSpaceUseCase _getAllInSpaceUseCase;
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
-  final SaveSpacesUseCase _saveSpacesUseCase;
   final GetListAndItsTasksUseCase _getListAndItsTasksUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;
@@ -54,7 +53,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     this._getAllInSpaceUseCase,
     this._getListAndItsTasksUseCase,
     this._getAllInWorkspaceUseCase,
-    this._saveSpacesUseCase,
     this._createListInFolderUseCase,
     this._createFolderInSpaceUseCase,
     this._createFolderlessListUseCase,
@@ -78,38 +76,14 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
               GetAllInWorkspaceParams(
                   accessToken: event.accessToken,
                   workspace: event.workspace));
-          await result?.fold(
-              (l) async => emit(state.copyWith(
+          result.fold(
+              (l) => emit(state.copyWith(
                   listsPageStatus:
                       ListsPageStatus.getSpacesAndListsAndFoldersFailed,
-                  getSpacesListsFoldersFailure: l)), (r) async {
-            await _saveSpacesUseCase(SaveSpacesParams(r));
-            emit(state.copyWith(
+                  getAllInWorkspaceFailure: l)), (r)  => emit(state.copyWith(
                 listsPageStatus:
                     ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
-                getSpacesListsFoldersResult: r));
-          });
-        } else if (event.space != null) {
-          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _getAllInSpaceUseCase(
-              GetAllInSpaceParams(
-                  accessToken: event.accessToken,
-                  space: event.space!));
-          await result?.fold(
-              (l) async => emit(state.copyWith(
-                  listsPageStatus:
-                      ListsPageStatus.getSpacesAndListsAndFoldersFailed,
-                  getSpacesListsFoldersFailure: l)), (r) async {
-            setSelectedSpace(r);
-            if (Globals.spaces?.isNotEmpty == true) {
-              await _saveSpacesUseCase(
-                  SaveSpacesParams(Globals.spaces!));
-            }
-            emit(state.copyWith(
-                listsPageStatus:
-                    ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
-                getSpacesListsFoldersResult: Globals.spaces));
-          });
+                getAllInWorkspaceResult: r)));
         }
       } else if (event is GetListDetailsAndTasksInListEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));

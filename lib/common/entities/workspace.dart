@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'space.dart';
 import 'user.dart';
 
 class Workspace extends Equatable {
@@ -7,22 +8,22 @@ class Workspace extends Equatable {
     this.id,
     this.name,
     this.color,
-    this.avatar,
-    this.user,
+    this.userId,
+    this.spaces,
   });
 
   final int? id;
   final String? name;
   final String? color;
-  final String? avatar;
-  final User? user;
+  final String? userId;
+  final List<Space>? spaces;
 
   @override
   List<Object?> get props => [
         id,
         name,
         color,
-        avatar,
-        user,
+        userId,
+        spaces
       ];
 }

@@ -1,5 +1,24 @@
 import '../entities/tasks_list.dart';
 
+
+List<ListModel>? listsFromJson(json){
+  if(json != null && json is List){
+    List<ListModel> list = [];
+    for (var v in json) {
+      list.add(ListModel.fromJson(v));
+    }
+  }
+  return null;
+}
+extension ListsExt on List<ListModel>?{
+  List<Map<String, dynamic>>? toJson() {
+    if(this == null){
+      return null;
+    }
+    return this?.map((v) => (v).toJson()).toList();
+  }
+}
+
 class ListModel extends TasksList {
   const ListModel({
     super.id,

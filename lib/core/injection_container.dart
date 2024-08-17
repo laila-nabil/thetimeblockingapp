@@ -86,12 +86,7 @@ void _initServiceLocator({required Network network}) {
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc(
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator()));
+      serviceLocator(),));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),
       serviceLocator(),
@@ -110,7 +105,6 @@ void _initServiceLocator({required Network network}) {
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
   serviceLocator.registerFactory(() => ListsPageBloc(
-        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),

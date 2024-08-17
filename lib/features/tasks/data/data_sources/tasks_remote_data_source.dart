@@ -13,6 +13,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 
 import '../../../../core/network/network.dart';
 import '../../../../core/network/supabase_header.dart';
@@ -84,6 +85,8 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> updateTag({required UpdateTagParams params});
 
   Future<dartz.Unit> deleteTag({required DeleteTagParams params});
+
+  Future<WorkspaceModel> getAllInWorkspace({required GetAllInWorkspaceParams params});
 }
 
 class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -236,5 +239,15 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<TaskModel> updateTask({required CreateTaskParams params}) {
     // TODO: implement updateTask
     throw UnimplementedError();
+  }
+
+  @override
+  Future<WorkspaceModel> getAllInWorkspace(
+      {required GetAllInWorkspaceParams params}) async {
+    final response = await network.get(
+        uri: Uri.parse(
+            "$url/rest/v1/all_data?workspace_id=eq.${params.workspace.id}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return WorkspaceModel.fromJson(response);
   }
 }

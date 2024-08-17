@@ -22,6 +22,7 @@ import '../../../../common/entities/task.dart';
 import '../entities/task_parameters.dart';
 import '../use_cases/create_list_in_folder_use_case.dart';
 import '../use_cases/add_tag_to_task_use_case.dart';
+import '../use_cases/get_all_in_workspace_use_case.dart';
 import '../use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_folders_in_space_use_case.dart';
 import '../use_cases/get_list_use_case.dart';
@@ -33,6 +34,10 @@ import '../use_cases/get_workspaces_use_case.dart';
 import '../use_cases/remove_tag_from_task_use_case.dart';
 
 abstract class TasksRepo{
+
+  Future<dartz.Either<Failure,Workspace>> getAllInWorkspace(
+      {required GetAllInWorkspaceParams params});
+
   Future<dartz.Either<Failure,List<Task>>> getTasksInWorkspace(
       {required GetTasksInWorkspaceParams params});
 
