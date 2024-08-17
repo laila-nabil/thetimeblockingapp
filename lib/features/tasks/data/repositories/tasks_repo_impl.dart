@@ -90,7 +90,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
           trySaveResult: (result) async {
             workspaces = result;
             printDebug(
-                "getSupabaseWorkspaces $result ${Globals.workspaces}");
+                "getWorkspaces $result ${Globals.workspaces}");
             await localDataSource
                 .saveWorkspaces(result);
           },

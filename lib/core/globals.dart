@@ -49,7 +49,8 @@ class Globals {
 
   static User? get user => _user;
 
-  static Workspace? get selectedWorkspace => _selectedWorkspace;
+  static Workspace? get selectedWorkspace =>
+      _selectedWorkspace ?? workspaces?.firstOrNull;
 
   static Space? get selectedSpace => selectedWorkspace?.spaces?.firstOrNull;
 
