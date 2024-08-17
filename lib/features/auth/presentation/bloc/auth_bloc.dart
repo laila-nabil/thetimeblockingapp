@@ -1,13 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
-import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
 import '../../../../common/entities/user.dart';
@@ -23,7 +21,6 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetWorkspacesUseCase _getWorkspacesUseCase;
   final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
-  final GetSelectedSpaceUseCase _getSelectedSpaceUseCase;
   final SignInUseCase _signInUseCase;
   final GetSpacesOfSelectedWorkspaceUseCase
       _getSpacesOfSelectedWorkspaceUseCase;
@@ -31,7 +28,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(
       this._getWorkspacesUseCase,
       this._getSelectedWorkspaceUseCase,
-      this._getSelectedSpaceUseCase,
       this._getSpacesOfSelectedWorkspaceUseCase,
       this._signInUseCase)
       : super(const AuthState(authStates: {AuthStateEnum.initial})) {
@@ -39,9 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (event is TryGetSelectedWorkspaceSpaceEvent) {
         await _getSelectedWorkspaceUseCase(NoParams());
         await _getSpacesOfSelectedWorkspaceUseCase(NoParams());
-        if (Globals.isSpaceAppWide) {
-          await _getSelectedSpaceUseCase(NoParams());
-        }
         emit(state.copyWith(
             authStates: state.updatedAuthStates(
                 AuthStateEnum.triedGetSelectedWorkspacesSpace)));

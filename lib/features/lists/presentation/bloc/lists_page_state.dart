@@ -121,7 +121,7 @@ class ListsPageState extends Equatable {
   GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if (Globals.isSpaceAppWide && Globals.selectedSpaceId != null) {
+    if (Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id != null) {
       filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
     }
     return GetTasksInWorkspaceFiltersParams(

@@ -63,7 +63,7 @@ class AllTasksPage extends StatelessWidget {
                       small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state.isInit && Globals.isSpaceAppWide) {
+                      if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
                         getAllTasksInSpace(allTasksBloc);
                       }
                       return Padding(
@@ -84,8 +84,10 @@ class AllTasksPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          if (Globals.isSpaceAppWide == false &&
-                              Globals.spaces?.isNotEmpty == true)
+                          if (Globals.isWorkspaceAndSpaceAppWide == false
+                              // &&
+                              // Globals.spaces?.isNotEmpty == true
+                          )
                             DropdownButton<Space?>(
                               value: Globals.selectedSpace,
                               onChanged: (selected) {
@@ -98,12 +100,13 @@ class AllTasksPage extends StatelessWidget {
                                   getAllTasksInSpace(allTasksBloc);
                                 }
                               },
-                              items: Globals.spaces
-                                      ?.map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e.name ?? ""),
-                                          ))
-                                      .toList() ??
+                              items:
+                              // Globals.spaces
+                              //         ?.map((e) => DropdownMenuItem(
+                              //               value: e,
+                              //               child: Text(e.name ?? ""),
+                              //             ))
+                              //         .toList() ??
                                   [],
                               hint: Text(appLocalization.translate("spaces")),
                             ),

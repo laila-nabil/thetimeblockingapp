@@ -12,7 +12,6 @@ import '../../../../common/entities/tag.dart';
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase.dart';
-import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
 import '../../../../common/entities/folder.dart';
@@ -27,7 +26,6 @@ import '../use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../use_cases/get_folders_in_space_use_case.dart';
 import '../use_cases/get_list_use_case.dart';
 import '../use_cases/get_lists_in_folder_use_case.dart';
-import '../use_cases/get_spaces_in_workspace_use_case.dart';
 import '../use_cases/get_tags_in_space_use_case.dart';
 import '../use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../use_cases/get_workspaces_use_case.dart';
@@ -53,8 +51,6 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, List<Workspace>>> getWorkspaces(
       {required GetWorkspacesParams params});
 
-  Future<dartz.Either<Failure, List<Space>>> getSpacesInWorkspaces(
-      {required GetSpacesInWorkspacesParams params});
 
   Future<dartz.Either<Failure, List<Folder>>> getFolders(
       {required GetFoldersInSpaceParams params});
@@ -85,14 +81,6 @@ abstract class TasksRepo{
   Future<dartz.Either<Failure, dartz.Unit>?> selectSpace(
       SelectSpaceParams params);
 
-  Future<dartz.Either<Failure, Space>?> getSelectedSpace(
-      NoParams params);
-
-  Future<dartz.Either<Failure, dartz.Unit>?> saveSpacesOfSelectedWorkspace(
-      SaveSpacesParams params);
-
-  Future<dartz.Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
-      NoParams params);
 
   Future<dartz.Either<Failure, TasksList>?> getList(
       GetListParams params);

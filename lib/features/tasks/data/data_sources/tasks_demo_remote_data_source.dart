@@ -24,7 +24,6 @@ import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
 import '../../domain/use_cases/get_list_use_case.dart';
 import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
-import '../../domain/use_cases/get_spaces_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
@@ -123,12 +122,6 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
     throw UnimplementedError();
   }
 
-  @override
-  Future<List<SpaceModel>> getSpacesInWorkspaces(
-      {required GetSpacesInWorkspacesParams params}) {
-    // TODO: implement getSpacesInWorkspaces
-    throw UnimplementedError();
-  }
 
   @override
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {

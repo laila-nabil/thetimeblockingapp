@@ -7,12 +7,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
-import '../../../tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
-import '../../domain/use_cases/save_spaces_use_case.dart';
-import '../../domain/use_cases/select_space_use_case.dart';
-import '../../domain/use_cases/select_workspace_use_case.dart';
 
 part 'startup_event.dart';
 
@@ -30,7 +25,8 @@ class StartupBloc extends Bloc<StartupEvent, StartupState>  with GlobalsWriteAcc
       }
       else if (event is SelectWorkspaceAndGetSpacesTagsLists) {
         selectedWorkspace = event.workspace;
-        if (Globals.isSpaceAppWide ) {
+        printDebug("now workspace ${Globals.selectedWorkspace}");
+        if (Globals.isWorkspaceAndSpaceAppWide ) {
           emit(state.copyWith(
               selectedWorkspace: event.workspace,
               startupStateEnum: StartupStateEnum.loading));

@@ -48,8 +48,8 @@ class SchedulePage extends StatelessWidget {
               printDebug("ScheduleBloc state $state");
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if ((Globals.isSpaceAppWide == false && state.isInitial) ||
-                  (Globals.isSpaceAppWide == true &&
+              if ((Globals.isWorkspaceAndSpaceAppWide == false && state.isInitial) ||
+                  (Globals.isWorkspaceAndSpaceAppWide == true &&
                       state.tasks == null &&
                       Globals.workspaces?.isNotEmpty == true) ||
                   changeTaskSuccessfully) {

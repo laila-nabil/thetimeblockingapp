@@ -128,7 +128,7 @@ class ListsPage extends StatelessWidget {
                     small: BlocConsumer<ListsPageBloc, ListsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && Globals.isSpaceAppWide) {
+                    if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
                       getListsFolders(listsPageBloc);
                     }
                     return Padding(

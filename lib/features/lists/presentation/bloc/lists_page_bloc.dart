@@ -12,7 +12,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_u
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
@@ -21,7 +20,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_bet
 import '../../../../core/error/failures.dart';
 import '../../../../core/globals.dart';
 import '../../../../common/entities/access_token.dart';
-import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../../common/entities/space.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/delete_folder_use_case.dart';
@@ -34,7 +32,6 @@ part 'lists_page_state.dart';
 
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
-  final GetAllInSpaceUseCase _getAllInSpaceUseCase;
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
   final GetListAndItsTasksUseCase _getListAndItsTasksUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
@@ -50,7 +47,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final DeleteTaskUseCase _deleteTaskUseCase;
 
   ListsPageBloc(
-    this._getAllInSpaceUseCase,
     this._getListAndItsTasksUseCase,
     this._getAllInWorkspaceUseCase,
     this._createListInFolderUseCase,
@@ -70,7 +66,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
             listsPageStatus: ListsPageStatus.navigateList,
             navigateList: event.list));
       } else if (event is GetListAndFoldersInListsPageEvent) {
-        if (Globals.isSpaceAppWide == false) {
+        if (Globals.isWorkspaceAndSpaceAppWide == false) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _getAllInWorkspaceUseCase(
               GetAllInWorkspaceParams(

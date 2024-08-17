@@ -226,7 +226,7 @@ class TaskPopup extends StatelessWidget {
                           accessToken: Globals.accessToken,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isSpaceAppWide
+                          space: Globals.isWorkspaceAndSpaceAppWide
                               ? Globals.selectedSpace
                               : null,
                           list: taskPopupParams.list,
@@ -448,7 +448,7 @@ class TaskPopup extends StatelessWidget {
 
                             ///Space
                             ///TODO create a new Workspace/Space in task view
-                            if (Globals.isSpaceAppWide == false)
+                            if (Globals.isWorkspaceAndSpaceAppWide == false)
                               (task == null
                                   ? DropdownButton<Space>(
                                 hint: Text(
@@ -459,11 +459,12 @@ class TaskPopup extends StatelessWidget {
                                         taskParams:
                                         taskParams.copyWith(
                                             space: space))),
-                                items: (Globals.spaces)
-                                    ?.map((e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e.name ?? "")))
-                                    .toList() ??
+                                items:
+                                // (Globals.spaces)
+                                //     ?.map((e) => DropdownMenuItem(
+                                //     value: e,
+                                //     child: Text(e.name ?? "")))
+                                //     .toList() ??
                                     [],
                               )
                                   : Text(" ${task.space?.name ?? ""} ")),

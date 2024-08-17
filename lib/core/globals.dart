@@ -19,16 +19,13 @@ User? _user;
 
 Workspace? _selectedWorkspace;
 
-String? _selectedSpaceId;
-
-///[isSpaceAppWide] space is selected from appbar/drawer only and is global to app or not
-bool _isSpaceAppWide = true;
+///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+bool _isWorkspaceAndSpaceAppWide = true;
 
 Duration _defaultTaskDuration = const Duration(hours: 1);
 
 List<Workspace>? _workspaces;
 
-List<Space>? _spaces;
 
 class Globals {
   static BackendMode backendMode = BackendMode.supabase;
@@ -54,24 +51,16 @@ class Globals {
 
   static Workspace? get selectedWorkspace => _selectedWorkspace;
 
-  static String? get selectedSpaceId => _selectedSpaceId;
+  static Space? get selectedSpace => selectedWorkspace?.spaces?.firstOrNull;
 
-  static Space? get selectedSpace => spaces
-      ?.where((element) => element.id == _selectedSpaceId)
-      .firstOrNull;
-
-  static bool get isSpaceAppWide => _isSpaceAppWide;
+  static bool get isWorkspaceAndSpaceAppWide => _isWorkspaceAndSpaceAppWide;
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
 
   static List<Workspace>? get workspaces => _workspaces;
 
-  static List<Space>? get spaces => _spaces;
-
   static Workspace? get defaultWorkspace =>
       _workspaces?.firstOrNull;
-
-  static Space? get defaultSpace => _spaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
 
@@ -101,9 +90,7 @@ mixin class GlobalsWriteAccess {
         const AccessToken(accessToken: "", tokenType: "");
     _user = null;
     _selectedWorkspace = null;
-    _selectedSpaceId = null;
     _workspaces = null;
-    _spaces = null;
   }
 
   set user(User value) {
@@ -115,14 +102,8 @@ mixin class GlobalsWriteAccess {
     _selectedWorkspace = value;
   }
 
-   void setSelectedSpace(Space? space) {
-    _selectedSpaceId = space?.id;
-    setSpaces =  SpaceListExtensions.updateItemInList(
-        list: Globals.spaces, updatedSpace: space);
-  }
-
   set isSpaceAppWide(bool value) {
-    _isSpaceAppWide = value;
+    _isWorkspaceAndSpaceAppWide = value;
   }
 
   set defaultTaskDuration(Duration value) {
@@ -131,10 +112,6 @@ mixin class GlobalsWriteAccess {
 
   set workspaces(List<Workspace> value) {
     _workspaces = value;
-  }
-
-  set setSpaces(List<Space>? value) {
-    _spaces = value;
   }
 
 }

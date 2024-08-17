@@ -195,8 +195,7 @@ class CreateTaskParams extends Equatable{
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final space = Globals.spaces
-        ?.firstWhere((element) => element.id == task.space?.id);
+    final space = Globals.selectedSpace;
     final folder =  space?.folders
         ?.where((element) => element.id == task.folder?.id).firstOrNull;
     final list = space?.lists

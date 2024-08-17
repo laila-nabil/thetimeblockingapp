@@ -107,7 +107,7 @@ class ScheduleState extends Equatable {
   GetTasksInWorkspaceFiltersParams
       get defaultTasksInWorkspaceFiltersParams {
     List<String>? filterBySpaceIds;
-    if(Globals.isSpaceAppWide && Globals.selectedSpaceId!=null){
+    if(Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id !=null){
       filterBySpaceIds = [Globals.selectedSpace?.id??""];
     }
     return GetTasksInWorkspaceFiltersParams(
@@ -145,7 +145,7 @@ class ScheduleState extends Equatable {
   bool canShowTaskPopup({required StartupStateEnum? startupStateEnum}) =>
       showTaskPopup == true &&
       ((startupStateEnum == StartupStateEnum.getAllInWorkspaceSuccess &&
-              Globals.isSpaceAppWide == false) ||
+              Globals.isWorkspaceAndSpaceAppWide == false) ||
           (startupStateEnum == StartupStateEnum.getAllInSpaceSuccess &&
-              Globals.isSpaceAppWide == true));
+              Globals.isWorkspaceAndSpaceAppWide == true));
 }

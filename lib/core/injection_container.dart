@@ -15,8 +15,6 @@ import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_u
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
 import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_selected_space_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/save_spaces_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
 import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
@@ -27,7 +25,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_t
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
@@ -56,7 +53,6 @@ import '../features/tasks/domain/use_cases/get_folderless_lists_in_space_use_cas
 import '../features/tasks/domain/use_cases/get_folders_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import '../features/tasks/domain/use_cases/get_lists_in_folder_use_case.dart';
-import '../features/tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
@@ -92,7 +88,6 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),
       serviceLocator(),
       serviceLocator(),
-      serviceLocator(),
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
@@ -105,7 +100,6 @@ void _initServiceLocator({required Network network}) {
       (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
   serviceLocator.registerFactory(() => ListsPageBloc(
-        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
@@ -155,9 +149,6 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => GetTasksInAllWorkspacesUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => GetTagsInSpaceUseCase(
@@ -249,18 +240,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetSelectedSpaceUseCase(
-        serviceLocator(),
-      ));
   serviceLocator.registerLazySingleton(() => SelectSpaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator
-      .registerLazySingleton(() => SaveSpacesUseCase(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetAllInSpaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetSpacesInWorkspacesUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => GetListAndItsTasksUseCase(

@@ -26,7 +26,6 @@ class StartupState extends Equatable {
   bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
           Globals.accessToken.accessToken.isNotEmpty == true &&
-          Globals.spaces == null &&
           getAllInWorkspaceFailure == null && triedGetSelectedWorkspacesSpace;
 
   @override

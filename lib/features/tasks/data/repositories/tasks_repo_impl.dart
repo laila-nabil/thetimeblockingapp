@@ -20,7 +20,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_us
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_spaces_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
@@ -35,10 +34,8 @@ import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
 import '../../../../core/usecase.dart';
-import '../../../startup/domain/use_cases/save_spaces_use_case.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
-import '../../../../common/entities/space.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
 import '../../domain/use_cases/get_folders_in_space_use_case.dart';
@@ -141,14 +138,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     );
   }
 
-  @override
-  Future<dartz.Either<Failure, List<SpaceModel>>> getSpacesInWorkspaces(
-      {required GetSpacesInWorkspacesParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.getSpacesInWorkspaces(params: params),
-    );
-  }
+
 
   @override
   Future<dartz.Either<Failure, List<TagModel>>> getTags(
@@ -191,17 +181,9 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
       NoParams params) async {
     var result = await repoHandleLocalGetRequest<WorkspaceModel>(
         tryGetFromLocalStorage: () => localDataSource.getSelectedWorkspace());
-    result.fold((l) => null, (r) => selectedWorkspace = r);
-    return result;
-  }
-
-  @override
-  Future<dartz.Either<Failure, Space>?> getSelectedSpace(
-      NoParams params) async {
-    final result = await repoHandleLocalGetRequest<Space>(
-        tryGetFromLocalStorage: () => localDataSource.getSelectedSpace());
     result.fold((l) => null, (r) {
-      setSelectedSpace(r);
+      selectedWorkspace = r;
+      printDebug("now workspace ${Globals.selectedWorkspace}");
     });
     return result;
   }
@@ -211,23 +193,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource
             .saveSelectedSpace(params.space as SpaceModel));
-  }
-
-  @override
-  Future<dartz.Either<Failure, List<Space>>?> getSpacesOfSelectedWorkspace(
-      NoParams params) async {
-    final result = await repoHandleLocalGetRequest<List<Space>>(
-        tryGetFromLocalStorage: () => localDataSource.getSpaces());
-    result.fold((l) => null, (r) => setSpaces = r);
-    return result;
-  }
-
-  @override
-  Future<dartz.Either<Failure, dartz.Unit>?> saveSpacesOfSelectedWorkspace(
-      SaveSpacesParams params) {
-    return repoHandleLocalSaveRequest(
-        trySaveResult: () => localDataSource
-            .saveSpaces(params.spaces as List<SpaceModel>));
   }
 
   @override

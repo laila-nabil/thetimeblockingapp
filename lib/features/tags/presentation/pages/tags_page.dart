@@ -91,7 +91,7 @@ class TagsPage extends StatelessWidget {
                     small: BlocConsumer<TagsPageBloc, TagsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && Globals.isSpaceAppWide) {
+                    if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
                       tagsPageBloc.add(GetTagsInSpaceEvent(
                           GetTagsInSpaceParams(
                               accessToken:
