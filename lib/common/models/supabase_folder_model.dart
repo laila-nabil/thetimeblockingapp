@@ -1,6 +1,7 @@
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 List<FolderModel>? foldersFromJson(json){
   if(json != null && json is List){
@@ -33,7 +34,7 @@ class FolderModel extends Folder {
   factory FolderModel.fromJson(dynamic json) {
     List<ListModel>? lists = listsFromJson(json['lists']);
     return FolderModel(
-      id: json['id'],
+      id: (json['id']as Object?)?.toStringOrNull(),
       name: json['name'],
       spaceId: json['space_id'],
       color: json['color'],

@@ -1,3 +1,5 @@
+import 'package:thetimeblockingapp/core/extensions.dart';
+
 import '../entities/user.dart';
 
 
@@ -9,7 +11,7 @@ class SupabaseUserModel extends User {
 
   factory SupabaseUserModel.fromJson(Map<String,dynamic> json) {
     return SupabaseUserModel(
-        id: json['id'],
+        id: (json['id']as Object?)?.toStringOrNull(),
         email: json['email'],);
   }
 

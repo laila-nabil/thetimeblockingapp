@@ -1,4 +1,5 @@
 import 'package:thetimeblockingapp/common/entities/priority.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 class TaskPriorityModel extends TaskPriority {
   const TaskPriorityModel(
@@ -14,6 +15,6 @@ class TaskPriorityModel extends TaskPriority {
 
   factory TaskPriorityModel.fromJson(dynamic json) {
     return TaskPriorityModel(
-        id: json['id'], name: json['name'], color: json['color']);
+        id: (json['id']as Object?)?.toStringOrNull(), name: json['name'], color: json['color']);
   }
 }

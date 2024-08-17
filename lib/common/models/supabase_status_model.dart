@@ -1,3 +1,5 @@
+import 'package:thetimeblockingapp/core/extensions.dart';
+
 import '../entities/status.dart';
 
 class TaskStatusModel extends TaskStatus {
@@ -18,7 +20,7 @@ class TaskStatusModel extends TaskStatus {
 
   factory TaskStatusModel.fromJson(dynamic json) {
     return TaskStatusModel(
-        id: json['id'],
+        id: (json['id']as Object?)?.toStringOrNull(),
         name: json['name'],
         color: json['color'],
         isDone: json['is_done']);

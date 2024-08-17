@@ -1,4 +1,5 @@
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 import 'supabase_space_model.dart';
 

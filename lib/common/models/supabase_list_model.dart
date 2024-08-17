@@ -1,4 +1,5 @@
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 import '../entities/tasks_list.dart';
 
@@ -41,7 +42,7 @@ class ListModel extends TasksList {
 
   factory ListModel.fromJson(dynamic json) {
     return ListModel(
-        id: json['id'],
+        id: (json['id']as Object?)?.toStringOrNull(),
         name: json['name'],
         tasks: tasksFromJson(json['tasks']),
     );

@@ -1,6 +1,7 @@
 import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 
 import '../entities/task.dart';
 
@@ -59,7 +60,7 @@ class TaskModel extends Task {
 
   factory TaskModel.fromJson(Map<String, dynamic> map) {
     return TaskModel(
-      id: map['id'] as String,
+      id: (map['id']as Object?)?.toStringOrNull(),
       title: map['title'] as String,
       description: map['description'] as String,
       startDate: map['start_date'],
