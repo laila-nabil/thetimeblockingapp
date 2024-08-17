@@ -56,15 +56,20 @@ class SchedulePage extends StatelessWidget {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
+                final workspace = (startUpCurrentState.selectedWorkspace ??
+                    Globals.selectedWorkspace ??
+                    Globals.workspaces?.first);
+                printDebug(">><< workspace $workspace");
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId:
-                            startUpCurrentState.selectedWorkspace?.id ??
-                                Globals.workspaces?.first.id ??
-                                0,
+                        workspace?.id ?? 0,
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams,
                         backendMode: Globals.backendMode)));
+                startupBloc.add(GetAllInWorkspaceEvent(
+                    workspace: workspace!,
+                    accessToken: Globals.accessToken));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
