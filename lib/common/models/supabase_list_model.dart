@@ -9,6 +9,7 @@ List<ListModel>? listsFromJson(json){
     for (var v in json) {
       list.add(ListModel.fromJson(v));
     }
+    return list;
   }
   return null;
 }

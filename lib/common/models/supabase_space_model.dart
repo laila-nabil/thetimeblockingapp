@@ -10,6 +10,7 @@ List<SpaceModel>? spacesFromJson(json){
       for (var v in json) {
         list.add(SpaceModel.fromJson(v));
       }
+      return list;
   }
     return null;
 }

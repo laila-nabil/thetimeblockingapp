@@ -6,6 +6,7 @@ List<TagModel>? tagsFromJson(json){
     for (var v in json) {
       list.add(TagModel.fromJson(v));
     }
+    return list;
   }
   return null;
 }

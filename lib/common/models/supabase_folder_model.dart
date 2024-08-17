@@ -8,6 +8,7 @@ List<FolderModel>? foldersFromJson(json){
     for (var v in json) {
       list.add(FolderModel.fromJson(v));
     }
+    return list;
   }
   return null;
 }
