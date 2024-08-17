@@ -45,11 +45,6 @@ class ScheduleState extends Equatable {
   static DateTime defaultTasksLatestDate =
       DateTime.now().add(const Duration(days: 15));
 
-  bool startGetTasks(
-          {required bool? startGetTasks, required bool waitForStartGetTasks}) =>
-      waitForStartGetTasks
-          ? (startGetTasks ?? false)
-          : (tasks == null || tasks == []);
   @override
   List<Object?> get props => [
         persistingScheduleStates,
