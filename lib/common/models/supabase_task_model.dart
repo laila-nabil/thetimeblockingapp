@@ -68,8 +68,8 @@ class TaskModel extends Task {
       id: (map['id']as Object?)?.toStringOrNull(),
       title: map['title'] ,
       description: map['description'] ,
-      startDate:DateTime.tryParse( map['start_date']),
-      dueDate: DateTime.tryParse(map['due_date']),
+      startDate:DateTime.tryParse( map['start_date']??""),
+      dueDate: DateTime.tryParse(map['due_date']??""),
       list: map['list'] == null
           ? null
           : ListModel.fromJson(map['list'][0]),
