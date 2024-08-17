@@ -4,10 +4,6 @@ abstract class AuthEvent extends Equatable {
   const AuthEvent();
 }
 
-class TryGetSelectedWorkspaceSpaceEvent extends AuthEvent{
-  @override
-  List<Object?> get props => [];
-}
 class SignInEvent extends AuthEvent{
   final SignInParams signInParams;
 

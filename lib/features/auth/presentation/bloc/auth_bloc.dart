@@ -32,13 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       this._signInUseCase)
       : super(const AuthState(authStates: {AuthStateEnum.initial})) {
     on<AuthEvent>((event, emit) async {
-      if (event is TryGetSelectedWorkspaceSpaceEvent) {
-        await _getSelectedWorkspaceUseCase(NoParams());
-        await _getSpacesOfSelectedWorkspaceUseCase(NoParams());
-        emit(state.copyWith(
-            authStates: state.updatedAuthStates(
-                AuthStateEnum.triedGetSelectedWorkspacesSpace)));
-      } else if (event is SignInEvent) {
+      if (event is SignInEvent) {
         final result = await _signInUseCase(event.signInParams);
         await result?.fold(
             (l) async=> emit(state.copyWith(

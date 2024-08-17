@@ -148,7 +148,7 @@ class ListPage extends StatelessWidget {
                               listId: listId,
                               accessToken:
                                   Globals.accessToken)));
-                  startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
+                  startupBloc.add(GetAllInWorkspaceEvent(
                       workspace: Globals.selectedWorkspace!,
                       accessToken: Globals.accessToken));
                 },

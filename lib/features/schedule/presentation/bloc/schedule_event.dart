@@ -4,17 +4,6 @@ abstract class ScheduleEvent extends Equatable {
   const ScheduleEvent();
 }
 
-class GetTasksForAllWorkspacesScheduleEvent extends ScheduleEvent {
-  final GetTasksInAllWorkspacesParams
-      getTasksInAllWorkspacesParams;
-
-  const GetTasksForAllWorkspacesScheduleEvent(
-      this.getTasksInAllWorkspacesParams);
-
-  @override
-  List<Object?> get props => [getTasksInAllWorkspacesParams];
-}
-
 
 class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
   final String? id;

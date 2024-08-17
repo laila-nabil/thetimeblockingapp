@@ -173,7 +173,7 @@ class AllTasksPage extends StatelessWidget {
                   )),
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc);
-                startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
+                startupBloc.add(GetAllInWorkspaceEvent(
                     workspace: Globals.selectedWorkspace!,
                     accessToken: Globals.accessToken));
               },);

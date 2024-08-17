@@ -339,7 +339,7 @@ class ListsPage extends StatelessWidget {
                 )),
                 context: context, onRefresh: ()async {
               getListsFolders(listsPageBloc);
-              startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
+              startupBloc.add(GetAllInWorkspaceEvent(
                   workspace: Globals.selectedWorkspace!,
                   accessToken: Globals.accessToken));
             },);

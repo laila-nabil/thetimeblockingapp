@@ -22,8 +22,7 @@ class WorkspaceModel extends Workspace {
       name: json['name'],
       userId: json['user_id'],
       color: json['color'],
-      spaces: spacesFromJson(json['spaces'])
-    );
+      spaces: json['spaces'] == null ? null : spacesFromJson(json['spaces']));
   }
 
   WorkspaceModel copyWith({

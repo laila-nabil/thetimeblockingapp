@@ -240,7 +240,7 @@ class TagsPage extends StatelessWidget {
                       accessToken:
                       Globals.accessToken,
                       space: Globals.selectedSpace!)));
-              startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
+              startupBloc.add(GetAllInWorkspaceEvent(
                   workspace: Globals.selectedWorkspace!,
                   accessToken: Globals.accessToken));
             },);

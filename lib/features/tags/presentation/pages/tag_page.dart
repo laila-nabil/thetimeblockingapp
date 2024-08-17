@@ -228,7 +228,7 @@ class TagPage extends StatelessWidget {
                       workspace: Globals.selectedWorkspace!,
                       tag: state.navigateTag!,
                       space: Globals.selectedSpace!));
-                  startupBloc.add(SelectWorkspaceAndGetSpacesTagsLists(
+                  startupBloc.add(GetAllInWorkspaceEvent(
                       workspace: Globals.selectedWorkspace!,
                       accessToken: Globals.accessToken));
                 },
