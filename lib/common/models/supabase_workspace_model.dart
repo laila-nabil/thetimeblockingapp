@@ -47,7 +47,8 @@ class WorkspaceModel extends Workspace {
     map['name'] = name;
     map['user_id'] = userId;
     map['color'] = color;
-    map['spaces'] = (spaces as List<SpaceModel>).toJson();
+    map['spaces'] =
+        spaces == null ? null : (spaces as List<SpaceModel>).toJson();
     return map;
   }
 }

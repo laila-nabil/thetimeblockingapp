@@ -19,6 +19,7 @@ class GetAllInWorkspaceUseCase
   Future<dartz.Either<Failure, Workspace>> call(
       GetAllInWorkspaceParams params) async{
     final result = await repo.getAllInWorkspace(params: params);
+    printDebug("getAllInWorkspace $result");
     if(result.isRight()) {
       result.fold((_) {}, (r) {
         selectedWorkspace = r;

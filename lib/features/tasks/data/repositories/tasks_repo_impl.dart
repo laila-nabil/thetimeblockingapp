@@ -83,20 +83,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   @override
   Future<dartz.Either<Failure, List<WorkspaceModel>>> getWorkspaces(
       {required GetWorkspacesParams params}) {
-    if(Globals.backendMode == BackendMode.supabase){
-      return repoHandleRemoteRequest(
-          remoteDataSourceRequest: () async =>
-          await remoteDataSource.getWorkspaces(params: params),
-          trySaveResult: (result) async {
-            workspaces = result;
-            printDebug(
-                "getWorkspaces $result ${Globals.workspaces}");
-            await localDataSource
-                .saveWorkspaces(result);
-          },
-          tryGetFromLocalStorage: () async =>
-          await localDataSource.getWorkspaces());
-    }
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getWorkspaces(params: params),
@@ -180,7 +166,7 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   Future<dartz.Either<Failure, WorkspaceModel>?> getSelectedWorkspace(
       NoParams params) async {
     var result = await repoHandleLocalGetRequest<WorkspaceModel>(
-        tryGetFromLocalStorage: () => localDataSource.getSelectedWorkspace());
+        tryGetFromLocalStorage: () => localDataSource.getSelectedWorkspace(),);
     result.fold((l) => null, (r) {
       selectedWorkspace = r;
       printDebug("now workspace ${Globals.selectedWorkspace}");
