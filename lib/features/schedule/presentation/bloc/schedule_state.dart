@@ -40,6 +40,11 @@ class ScheduleState extends Equatable {
     required this.tasksDueDateLatestDate,
   });
 
+  @override
+  String toString() {
+    return 'ScheduleState{persistingScheduleStates: $persistingScheduleStates, nonPersistingScheduleState: $nonPersistingScheduleState, tasks: $tasks, getTasksSingleWorkspaceFailure: $getTasksSingleWorkspaceFailure, createTaskFailure: $createTaskFailure, updateTaskFailure: $updateTaskFailure, deleteTaskFailure: $deleteTaskFailure, tasksDueDateEarliestDate: $tasksDueDateEarliestDate, tasksDueDateLatestDate: $tasksDueDateLatestDate, getTasksForSingleWorkspaceScheduleEventId: $getTasksForSingleWorkspaceScheduleEventId, showTaskPopup: $showTaskPopup, taskPopupParams: $taskPopupParams}';
+  }
+
   static DateTime defaultTasksEarliestDate =
       DateTime.now().subtract(const Duration(days: 15));
   static DateTime defaultTasksLatestDate =

@@ -29,6 +29,11 @@ class StartupState extends Equatable {
           getAllInWorkspaceFailure == null && triedGetSelectedWorkspacesSpace;
 
   @override
+  String toString() {
+    return 'StartupState{startupStateEnum: $startupStateEnum, drawerLargerScreenOpen: $drawerLargerScreenOpen, selectedWorkspace: $selectedWorkspace, getAllInWorkspaceFailure: $getAllInWorkspaceFailure}';
+  }
+
+  @override
   List<Object?> get props => [
     startupStateEnum,
     drawerLargerScreenOpen,
