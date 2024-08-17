@@ -88,7 +88,7 @@ class TaskModel extends Task {
       priority: map['priority'] == null
           ? null
           : TaskPriorityModel.fromJson(map['priority'][0]),
-      tags: tagsFromJson(map['tags']) as List<Tag>,
+      tags: (tagsFromJson(map['tags']) ?? []) as List<Tag>,
     );
   }
 }
