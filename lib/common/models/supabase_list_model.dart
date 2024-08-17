@@ -1,3 +1,5 @@
+import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
+
 import '../entities/tasks_list.dart';
 
 
@@ -23,6 +25,7 @@ class ListModel extends TasksList {
   const ListModel({
     super.id,
     super.name,
+    super.tasks,
   });
 
 
@@ -30,6 +33,7 @@ class ListModel extends TasksList {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
+    map['tasks'] = (tasks as List<TaskModel>).toJson();
     return map;
   }
 
@@ -38,6 +42,7 @@ class ListModel extends TasksList {
     return ListModel(
         id: json['id'],
         name: json['name'],
+        tasks: tasksFromJson(json['tasks']),
     );
   }
 }

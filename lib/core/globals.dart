@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../common/entities/user.dart';
 import '../common/entities/workspace.dart';
@@ -110,6 +111,7 @@ mixin class GlobalsWriteAccess {
   }
 
   set selectedWorkspace(Workspace value) {
+    printDebug("set workspace $value");
     _selectedWorkspace = value;
   }
 
