@@ -213,7 +213,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/tasks_json?workspace_id=eq.${params.workspaceId}"),
         headers: supabaseHeader(accessToken: params.filtersParams.accessToken, apiKey: key));
-    return tasksFromJson(response) ?? [];
+    return tasksFromJson(json.decode(response.body)) ?? [];
   }
 
   @override
@@ -242,6 +242,6 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/all_data?workspace_id=eq.${params.workspace.id}"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    return WorkspaceModel.fromJson(response);
+    return WorkspaceModel.fromJson(response.body);
   }
 }

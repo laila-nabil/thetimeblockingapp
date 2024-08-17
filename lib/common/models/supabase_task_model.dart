@@ -5,7 +5,7 @@ import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import '../entities/task.dart';
 
 
-List<TaskModel>? tasksFromJson(json){
+List<TaskModel>? tasksFromJson(Object? json){
   if(json != null && json is List){
     List<TaskModel> list = [];
     for (var v in json) {
