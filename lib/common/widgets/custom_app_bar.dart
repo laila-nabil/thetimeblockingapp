@@ -85,7 +85,7 @@ class CustomAppBarWidget extends StatelessWidget {
       selectWorkspace;
   final List<CustomPopupItem>? pageActions;
   final bool isDarkMode;
-  ///TODO app bar different height based on size as design
+  ///TODO D app bar different height based on size as design
   static double height(bool showSmallDesign) => 52;
   // static double height(bool showSmallDesign) => showSmallDesign ? 52 : 64;
 
@@ -105,7 +105,7 @@ class CustomAppBarWidget extends StatelessWidget {
               )),
       actions: [
 
-        ///TODO search tasks,tags, lists and folders
+        ///TODO D search tasks,tags, lists and folders
         // ignore: dead_code
         if (false)
           IconButton(

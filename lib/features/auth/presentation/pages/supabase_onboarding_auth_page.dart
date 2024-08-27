@@ -647,13 +647,12 @@ class _SupabaseOnBoardingAndAuthPageState
   }
 
   Widget _auth() {
-    ///TODO
+    ///TODO A Login UI
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
 
-          ///TODO
           // ToggleButtons(children: [], isSelected: isSelected),
           TextField(controller: emailController,),
           TextField(controller: passwordController,),

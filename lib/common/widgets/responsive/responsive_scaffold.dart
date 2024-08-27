@@ -195,7 +195,7 @@ class ResponsiveScaffold extends Scaffold {
           isDarkMode: context.isDarkMode,
         );
 
-  ///TODO
+  ///TODO B
   Widget signInToUse(AuthBloc authBloc){
     return Container();
   }

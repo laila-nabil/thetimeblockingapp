@@ -12,6 +12,8 @@ import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.d
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 
+//FIXME fix UI after Flutter update
+
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({
     super.key,
@@ -30,7 +32,7 @@ class TasksCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCalendar(
-      ///TODO save selected view in calendar
+      ///TODO D save selected view in calendar
       // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
@@ -49,7 +51,7 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO calendar widget color in calendar is based on list with checkbox colored based on status as design
+      ///TODO D calendar widget color in calendar is based on list with checkbox colored based on status as design
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
@@ -70,7 +72,7 @@ class TasksCalendar extends StatelessWidget {
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO adjust TimeSlotViewSettings in calendar
+        ///TODO D adjust TimeSlotViewSettings in calendar
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: false

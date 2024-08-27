@@ -26,11 +26,11 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
 
-///TODO task view as full page instead of popup
+///TODO B task view as full page instead of popup
 
-///TODO smart auto complete like Notion's / to select a list,tags,due date and start date
-///TODO once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
-///TODO input task duration
+///TODO Z smart auto complete like Notion's / to select a list,tags,due date and start date
+///TODO D once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
+///TODO Z input task duration
 
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
@@ -368,7 +368,7 @@ class TaskPopup extends StatelessWidget {
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                ///TODO create a new Folder in task view
+                                ///TODO D create a new Folder in task view
                                 ///Folder
                                 if (state.isFoldersListAvailable)
                                   CustomDropDown(
@@ -418,7 +418,7 @@ class TaskPopup extends StatelessWidget {
                                   style: taskLocationTextStyle,
                                 ),
 
-                                ///TODO create a new list in task view
+                                ///TODO D create a new list in task view
                                 ///List
                                 if ((state.taskParams?.getAvailableLists
                                     .isNotEmpty ==
@@ -447,7 +447,7 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Space
-                            ///TODO create a new Workspace/Space in task view
+                            ///TODO D create a new Workspace/Space in task view
                             if (Globals.isWorkspaceAndSpaceAppWide == false)
                               (task == null
                                   ? DropdownButton<Space>(
@@ -636,7 +636,7 @@ class TaskPopup extends StatelessWidget {
                             Wrap(
                               spacing: AppSpacing.xSmall8.value,
                               children: [
-                                ///TODO is all day checkbox
+                                ///TODO D is all day checkbox
                                 ///isAllDay
                                 if(false)Checkbox(
                                     value: taskPopupParams.isAllDay,
@@ -778,7 +778,7 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Tags
-                            ///TODO create new tags in task view
+                            ///TODO D create new tags in task view
                             if (state.viewTagsButton)
                               true
                                   ? Column(

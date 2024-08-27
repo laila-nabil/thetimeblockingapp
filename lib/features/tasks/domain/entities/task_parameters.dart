@@ -215,7 +215,7 @@ class CreateTaskParams extends Equatable{
         taskPriority: task.priority,
         tags: task.tags,
         taskStatus: task.status,
-        ///TODO get parentTask
+        ///TODO get Z parentTask
         parentTask: null,
         dueDate: task.dueDateUtc,
         startDate: task.startDateUtc,

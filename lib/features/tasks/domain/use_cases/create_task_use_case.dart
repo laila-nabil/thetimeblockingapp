@@ -8,9 +8,9 @@ import 'package:thetimeblockingapp/common/entities/task.dart';
 import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
-///TODO add note or attachment with link to task url in timeblockingapp for quick access
-///TODO enable navigation to specific task with task id
-///TODO have brain dump/ inbox or default list
+///TODO Z add note or attachment with link to task url in timeblockingapp for quick access
+///TODO Z enable navigation to specific task with task id
+///TODO D have brain dump/ inbox or default list
 
 class CreateTaskUseCase
     implements UseCase<Task, CreateTaskParams> {

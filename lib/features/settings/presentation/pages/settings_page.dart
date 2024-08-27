@@ -20,11 +20,11 @@ import '../../../../core/resources/text_styles.dart';
 import '../../../terms_conditions/terms_conditions_page.dart';
 import '../bloc/settings_bloc.dart';
 
-///TODO create task from siri shortcuts functionality
-///TODO create task from email
-///TODO about me page with github and twitter links and why app created
-///TODO changing workspace and space in settings page
-///TODO create a new Workspace/Space in settings page
+///TODO Z create task from siri shortcuts functionality
+///TODO Z create task from email
+///TODO C about me page with github and twitter links and why app created
+///TODO D changing workspace and space in settings page
+///TODO D create a new Workspace/Space in settings page
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

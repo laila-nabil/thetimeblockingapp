@@ -15,7 +15,7 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 
-///TODO in desktop, month calendar view in drawer like SORTED for MAC
+///TODO Z in desktop, month calendar view in drawer like SORTED for MAC
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key, this.waitForStartGetTasks = false});
@@ -95,23 +95,23 @@ class SchedulePage extends StatelessWidget {
                               .contains(ScheduleStateEnum.loading) ||
                           startUpCurrentState.isLoading),
                   pageActions: [
-                    ///TODO Bulk actions on tasks
+                    ///TODO Z Bulk actions on tasks
                     // CustomDropDownItem.text(
                     //   title: appLocalization.translate("filterBy") +
                     //       appLocalization.translate("Lists").toLowerCase(),
                     //   onTap: () {
-                    //     ///TODO filter by lists in schedule page
+                    //     ///TO DO filter by lists in schedule page
                     //   },
                     // ),
                     // CustomDropDownItem.text(
                     //   title: appLocalization.translate("filterBy") +
                     //       appLocalization.translate("Tags").toLowerCase(),
                     //   onTap: () {
-                    //     ///TODO filter by tags in schedule page
+                    //     ///TO DO filter by tags in schedule page
                     //   },
                     // ),
 
-                    ///TODO auto Schedule
+                    ///TODO Z auto Schedule
                     // ignore: dead_code
                     if (false)
                       CustomPopupItem(
