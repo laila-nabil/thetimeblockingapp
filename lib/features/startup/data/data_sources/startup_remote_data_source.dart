@@ -22,22 +22,20 @@ class SupabaseStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   SupabaseStartUpRemoteDataSourceImpl(
       {required this.url, required this.key, required this.network});
 
-  ///TODO A "relation \"public.statuses\" does not exist"
   @override
   Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) async {
     final response = await network.get(
         uri: Uri.parse(
-            "$url/rest/v1/statuses"),
+            "$url/rest/v1/status"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return taskStatusModelFromJson(json.decode(response.body)) ?? [];
   }
 
-  ///TODO A "relation \"public.priorities\" does not exist"
   @override
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) async {
     final response = await network.get(
         uri: Uri.parse(
-            "$url/rest/v1/priorities"),
+            "$url/rest/v1/priority"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return taskPriorityModelFromJson(json.decode(response.body)) ?? [];
   }
