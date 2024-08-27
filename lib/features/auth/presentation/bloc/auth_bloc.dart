@@ -25,42 +25,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetSpacesOfSelectedWorkspaceUseCase
       _getSpacesOfSelectedWorkspaceUseCase;
 
-  AuthBloc(
-      this._getWorkspacesUseCase,
-      this._getSelectedWorkspaceUseCase,
-      this._getSpacesOfSelectedWorkspaceUseCase,
-      this._signInUseCase)
-      : super(const AuthState(authStates: {AuthStateEnum.initial})) {
+  AuthBloc(this._getWorkspacesUseCase, this._getSelectedWorkspaceUseCase,
+      this._getSpacesOfSelectedWorkspaceUseCase, this._signInUseCase)
+      : super(const AuthState(authState: AuthStateEnum.initial)) {
     on<AuthEvent>((event, emit) async {
       if (event is SignInEvent) {
+        emit(state.copyWith(authState: AuthStateEnum.loading));
         final result = await _signInUseCase(event.signInParams);
         await result?.fold(
-            (l) async=> emit(state.copyWith(
+            (l) async => emit(state.copyWith(
                 signInFailure: l,
-                authStates:
-                    state.updatedAuthStates(AuthStateEnum.signInFailed))),
-            (r) async {
-              emit(state.copyWith(
-                user: r.user,
-                accessToken: r.accessToken,
-                authStates:
-                    state.updatedAuthStates(AuthStateEnum.signInSuccess)));
-              final getWorkspaces = await _getWorkspacesUseCase(
-                  GetWorkspacesParams(
-                      accessToken: r.accessToken, userId: r.user.id.toStringOrNull() ?? ""));
-              emit(state.copyWith(
-                  authStates: state.updatedAuthStates(AuthStateEnum.loading)));
-              getWorkspaces?.fold(
-                      (l) => emit(state.copyWith(
-                      getWorkspacesFailure: l,
-                      authStates: state.updatedAuthStates(
-                          AuthStateEnum.getWorkspacesFailed))), (r) {
-                emit(state.copyWith(
-                    workspaces: r,
-                    authStates: state.updatedAuthStates(
-                        AuthStateEnum.getWorkspacesSuccess)));
-              });
-            });
+                authState: AuthStateEnum.signInFailed)), (r) async {
+          emit(state.copyWith(
+              user: r.user,
+              accessToken: r.accessToken,
+              authState: AuthStateEnum.signInSuccess));
+          emit(state.copyWith(authState: AuthStateEnum.loading));
+          final getWorkspaces = await _getWorkspacesUseCase(GetWorkspacesParams(
+              accessToken: r.accessToken,
+              userId: r.user.id.toStringOrNull() ?? ""));
+          emit(state.copyWith(authState: AuthStateEnum.loading));
+          getWorkspaces?.fold(
+              (l) => emit(state.copyWith(
+                  getWorkspacesFailure: l,
+                  authState: AuthStateEnum.getWorkspacesFailed)), (r) {
+            emit(state.copyWith(
+                workspaces: r, authState: AuthStateEnum.getWorkspacesSuccess));
+          });
+        });
       }
     });
   }

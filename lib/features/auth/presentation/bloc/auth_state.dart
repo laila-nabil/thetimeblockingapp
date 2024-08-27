@@ -17,7 +17,7 @@ enum AuthStateEnum {
 }
 
 class AuthState extends Equatable {
-  final Set<AuthStateEnum> authStates;
+  final AuthStateEnum authState;
   final Failure? getAccessTokenFailure;
   final AccessToken? accessToken;
   final Failure? getUserFailure;
@@ -27,7 +27,7 @@ class AuthState extends Equatable {
   final Failure? signInFailure;
 
   const AuthState({
-    required this.authStates,
+    required this.authState,
     this.getAccessTokenFailure,
     this.accessToken,
     this.getUserFailure,
@@ -37,12 +37,7 @@ class AuthState extends Equatable {
     this.signInFailure,
   });
 
-  bool get isLoading {
-    printDebug("authStates $authStates");
-    printDebug(
-        "authStates.contains(AuthStateEnum.loading) ${authStates.contains(AuthStateEnum.loading)}");
-    return authStates.contains(AuthStateEnum.loading);
-  }
+  bool get isLoading => authState == AuthStateEnum.loading;
 
   bool get canGoSchedulePage {
     return user != null &&
@@ -50,20 +45,9 @@ class AuthState extends Equatable {
         workspaces?.isNotEmpty == true;
   }
 
-  Set<AuthStateEnum> updatedAuthStates(AuthStateEnum state) {
-    Set<AuthStateEnum> updatedAuthStates = Set.from(authStates);
-    if (updatedAuthStates.contains(state)) {
-      updatedAuthStates.remove(state);
-    } else {
-      updatedAuthStates.add(state);
-    }
-
-    return updatedAuthStates;
-  }
-
   @override
   List<Object?> get props => [
-        authStates,
+        authState,
         getAccessTokenFailure,
         accessToken,
         getUserFailure,
@@ -74,7 +58,7 @@ class AuthState extends Equatable {
       ];
 
   AuthState copyWith({
-    Set<AuthStateEnum>? authStates,
+    AuthStateEnum? authState,
     Failure? getAccessTokenFailure,
     AccessToken? accessToken,
     Failure? getUserFailure,
@@ -84,7 +68,7 @@ class AuthState extends Equatable {
     Failure? signInFailure
   }) {
     return AuthState(
-      authStates: authStates ?? this.authStates,
+      authState: authState ?? this.authState,
       getAccessTokenFailure:
           getAccessTokenFailure ?? this.getAccessTokenFailure,
       accessToken: accessToken ??this.accessToken,
