@@ -42,7 +42,9 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> signOut() async {
-    await localDataSource.clear();
+    for (var v in LocalDataSourceKeys.values) {
+      await localDataSource.setData(key: v.name, value: '');
+    }
   }
 
   @override
