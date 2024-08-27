@@ -474,7 +474,8 @@ class TaskPopup extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                               CustomDropDown(
+                               if(Globals.statuses.isNotEmpty)
+                                 CustomDropDown(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDown
                                       .textStyle(context.isDarkMode),
@@ -537,6 +538,7 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                                 ///Priority
+                                if(Globals.priorities.isNotEmpty)
                                   CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization

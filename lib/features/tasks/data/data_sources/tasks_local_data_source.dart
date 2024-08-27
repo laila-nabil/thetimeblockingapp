@@ -69,10 +69,10 @@ class TasksLocalDataSourceImpl implements TasksLocalDataSource {
   }
 
   @override
-  Future<void> saveSelectedSpace(SpaceModel SpaceModel) {
+  Future<void> saveSelectedSpace(SpaceModel spaceModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.selectedSpace.name,
-        value: SpaceModel.toJson());
+        value: spaceModel.toJson());
   }
 
   @override
