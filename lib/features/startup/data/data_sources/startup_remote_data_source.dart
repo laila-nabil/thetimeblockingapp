@@ -22,6 +22,7 @@ class SupabaseStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
   SupabaseStartUpRemoteDataSourceImpl(
       {required this.url, required this.key, required this.network});
 
+  ///TODO A "relation \"public.statuses\" does not exist"
   @override
   Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) async {
     final response = await network.get(
@@ -31,6 +32,7 @@ class SupabaseStartUpRemoteDataSourceImpl implements StartUpRemoteDataSource {
     return taskStatusModelFromJson(json.decode(response.body)) ?? [];
   }
 
+  ///TODO A "relation \"public.priorities\" does not exist"
   @override
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) async {
     final response = await network.get(
