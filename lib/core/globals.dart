@@ -48,9 +48,6 @@ class Globals {
 
   static String redirectAfterAuthRouteName = "";
 
-  static const ThemeMode defaultThemeMode = ThemeMode.light;
-
-
 
 }
 
