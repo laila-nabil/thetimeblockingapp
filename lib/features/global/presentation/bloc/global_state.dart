@@ -1,19 +1,7 @@
 part of 'global_bloc.dart';
 
-enum StartupStateEnum {
-  loading,
-  getAllInWorkspaceSuccess,
-  getAllInWorkspaceFailed,
-  getStatusesSuccess,
-  getStatusesFailed,
-  getPrioritiesSuccess,
-  getPrioritiesFailed,
-  getAllInSpaceSuccess,
-  getAllInSpaceFailed,
-}
-
 class GlobalState extends Equatable {
-  final StartupStateEnum? startupStateEnum;
+  final bool isLoading;
   final bool drawerLargerScreenOpen;
   final Workspace? selectedWorkspace;
   final Failure? getAllInWorkspaceFailure;
@@ -25,33 +13,39 @@ class GlobalState extends Equatable {
   const GlobalState({
     required this.drawerLargerScreenOpen,
     this.selectedWorkspace,
-    this.startupStateEnum,
+    this.isLoading = false,
     this.getAllInWorkspaceFailure,
-    this.statuses, this.getStatusesFailure, this.priorities, this.getPrioritiesFailure,
+    this.statuses,
+    this.getStatusesFailure,
+    this.priorities,
+    this.getPrioritiesFailure,
   });
 
-  bool get isLoading => startupStateEnum == StartupStateEnum.loading;
-
-  bool  reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
+  bool reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
       isLoading == false &&
-          Globals.accessToken.accessToken.isNotEmpty == true &&
-          getAllInWorkspaceFailure == null && triedGetSelectedWorkspacesSpace;
+      Globals.accessToken.accessToken.isNotEmpty == true &&
+      getAllInWorkspaceFailure == null &&
+      triedGetSelectedWorkspacesSpace;
 
   @override
   String toString() {
-    return 'StartupState{startupStateEnum: $startupStateEnum, drawerLargerScreenOpen: $drawerLargerScreenOpen, selectedWorkspace: $selectedWorkspace, getAllInWorkspaceFailure: $getAllInWorkspaceFailure}';
+    return 'GlobalState{isLoading: $isLoading, drawerLargerScreenOpen: $drawerLargerScreenOpen, selectedWorkspace: $selectedWorkspace, getAllInWorkspaceFailure: $getAllInWorkspaceFailure, statuses: $statuses, getStatusesFailure: $getStatusesFailure, priorities: $priorities, getPrioritiesFailure: $getPrioritiesFailure}';
   }
 
   @override
   List<Object?> get props => [
-    startupStateEnum,
-    drawerLargerScreenOpen,
-    selectedWorkspace,
-    getAllInWorkspaceFailure,this.statuses, this.getStatusesFailure, this.priorities, this.getPrioritiesFailure,
-  ];
+        drawerLargerScreenOpen,
+        selectedWorkspace,
+        isLoading,
+        getAllInWorkspaceFailure,
+        statuses,
+        getStatusesFailure,
+        priorities,
+        getPrioritiesFailure,
+      ];
 
   GlobalState copyWith({
-    StartupStateEnum? startupStateEnum,
+    bool isLoading = false,
     bool? drawerLargerScreenOpen,
     Workspace? selectedWorkspace,
     Failure? getAllInWorkspaceFailure,
@@ -61,7 +55,7 @@ class GlobalState extends Equatable {
     Failure? getPrioritiesFailure,
   }) {
     return GlobalState(
-      startupStateEnum: startupStateEnum ?? this.startupStateEnum,
+      isLoading: isLoading,
       drawerLargerScreenOpen:
           drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,
       selectedWorkspace: selectedWorkspace ?? this.selectedWorkspace,

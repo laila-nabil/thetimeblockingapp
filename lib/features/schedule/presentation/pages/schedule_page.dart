@@ -34,15 +34,12 @@ class SchedulePage extends StatelessWidget {
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final globalBloc = BlocProvider.of<GlobalBloc>(context);
-              if (state.canShowTaskPopup(
-                  startupStateEnum: globalCurrentState.startupStateEnum)) {
-                scheduleBloc
-                    .add(const ShowTaskPopupEvent(showTaskPopup: false));
-                showTaskPopup(
-                  context: context,
-                  taskPopupParams: state.taskPopupParams!,
-                );
-              }
+              scheduleBloc
+                  .add(const ShowTaskPopupEvent(showTaskPopup: false));
+              showTaskPopup(
+                context: context,
+                taskPopupParams: state.taskPopupParams!,
+              );
               if (globalCurrentState.priorities?.isNotEmpty != true) {
                 globalBloc
                     .add(GetPrioritiesEvent(accessToken: Globals.accessToken));

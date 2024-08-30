@@ -147,6 +147,4 @@ class ScheduleState extends Equatable {
     return updatedStates;
   }
 
-  bool canShowTaskPopup({required StartupStateEnum? startupStateEnum}) =>
-      showTaskPopup == true;
 }
