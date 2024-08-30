@@ -48,11 +48,7 @@ class CustomDrawer extends StatelessWidget {
               }
             },
             selectSpace: (selected) {
-              if (selected != null && state.isLoading == false) {
-                globalBloc.add(SelectSpace(
-                    space: selected,
-                    accessToken: Globals.accessToken));
-              }
+              ///TODO C select space
             },
             appLocalization: appLocalization);
       },

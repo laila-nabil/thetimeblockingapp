@@ -92,14 +92,7 @@ class AllTasksPage extends StatelessWidget {
                             DropdownButton<Space?>(
                               value: Globals.selectedSpace,
                               onChanged: (selected) {
-                                if (selected != null &&
-                                    state.isLoading == false) {
-                                  globalBloc.add(SelectSpace(
-                                      space: selected,
-                                      accessToken:
-                                          Globals.accessToken));
-                                  getAllTasksInSpace(allTasksBloc);
-                                }
+                                ///TODO C select space
                               },
                               items:
                               // Globals.spaces

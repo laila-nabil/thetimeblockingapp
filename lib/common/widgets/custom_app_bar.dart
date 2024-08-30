@@ -48,11 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
               showSmallDesign: showSmallDesign,
               selectSpace: (selected) {
-                if (selected != null && state.isLoading == false) {
-                  globalBloc.add(SelectSpace(
-                      space: selected,
-                      accessToken: Globals.accessToken));
-                }
+                ///TODO C select space
               },
               pageActions: pageActions,
               isDarkMode: isDarkMode,

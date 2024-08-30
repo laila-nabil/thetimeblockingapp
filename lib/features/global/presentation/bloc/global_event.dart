@@ -22,14 +22,3 @@ class GetAllInWorkspaceEvent extends GlobalEvent {
   @override
   List<Object?> get props => [workspace,accessToken];
 }
-
-class SelectSpace extends GlobalEvent {
-  final Space space;
-  final AccessToken accessToken;
-  const SelectSpace(
-      {required this.space, required this.accessToken});
-
-  @override
-  List<Object?> get props => [space,accessToken];
-}
-
