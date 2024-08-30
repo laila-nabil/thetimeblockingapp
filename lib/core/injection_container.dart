@@ -70,7 +70,7 @@ void _initServiceLocator({required Network network}) {
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
   serviceLocator
-      .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
+      .registerSingleton<BackendMode>(BackendMode.supabase);
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
@@ -258,7 +258,7 @@ AuthRemoteDataSource authRemoteDataSource() {
   if (Globals.isDemo) {
     return AuthDemoRemoteDataSourceImpl();
   }
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -270,7 +270,7 @@ AuthRemoteDataSource authRemoteDataSource() {
 }
 GlobalRemoteDataSource globalRemoteDataSource() {
 
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -285,7 +285,7 @@ TasksRemoteDataSource tasksRemoteDataSource() {
   if (Globals.isDemo) {
     return TasksDemoRemoteDataSourceImpl();
   }
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -315,7 +315,7 @@ void initServiceLocator() {
 
 Future<NetworkResponse> responseHandler(
     {required Future<Response> Function() httpResponse}) {
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return supabaseResponseHandler(httpResponse: httpResponse);
     case BackendMode.offlineWithCalendarSync:

@@ -72,7 +72,7 @@ class TaskPopUpState extends Equatable {
         list: taskParams?.list == task.list
             ? null
             : taskParams?.list,
-          backendMode: Globals.backendMode
+          backendMode: serviceLocator<BackendMode>().mode
       );
     } else {
       params = taskParams ?? CreateTaskParams.createNewTask(
@@ -82,7 +82,7 @@ class TaskPopUpState extends Equatable {
         Globals.accessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,
-        backendMode: Globals.backendMode
+        backendMode: serviceLocator<BackendMode>().mode
       );
     }
     return params;

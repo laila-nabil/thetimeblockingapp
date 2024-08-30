@@ -29,8 +29,7 @@ part 'lists_page_event.dart';
 
 part 'lists_page_state.dart';
 
-class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
-    with GlobalsWriteAccess {
+class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;

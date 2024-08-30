@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -71,7 +72,7 @@ class SchedulePage extends StatelessWidget {
                         workspace?.id ?? 0,
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams,
-                        backendMode: Globals.backendMode)));
+                        backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
                     accessToken: Globals.accessToken));
@@ -149,7 +150,7 @@ class SchedulePage extends StatelessWidget {
                         workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
-                        backendMode: Globals.backendMode)));
+                        backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
                     accessToken: Globals.accessToken));

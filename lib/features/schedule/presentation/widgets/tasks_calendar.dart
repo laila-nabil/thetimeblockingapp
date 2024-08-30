@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
@@ -67,7 +69,7 @@ class TasksCalendar extends StatelessWidget {
               task: details.appointment as Task,
               accessToken: Globals.accessToken,
               updatedDueDate: details.endTime,
-              backendMode: Globals.backendMode
+              backendMode: serviceLocator<BackendMode>().mode
             )));
       },
 
@@ -86,7 +88,7 @@ class TasksCalendar extends StatelessWidget {
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
-          backendMode: Globals.backendMode
+          backendMode: serviceLocator<BackendMode>().mode
         )));
       },
       onViewChanged: (viewChangedDetails){
@@ -123,7 +125,7 @@ class TasksCalendar extends StatelessWidget {
                                 viewChangedDetails.visibleDates.last
                                     .add(const Duration(days: 1))
                                     .millisecondsSinceEpoch),
-                    backendMode: Globals.backendMode)));
+                    backendMode: serviceLocator<BackendMode>().mode)));
           } else {
             printDebug("onViewChange Not");
           }
@@ -154,7 +156,7 @@ class TasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: CreateTaskParams.fromTask(task,Globals.backendMode)));
+                  params: CreateTaskParams.fromTask(task,serviceLocator<BackendMode>().mode)));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&

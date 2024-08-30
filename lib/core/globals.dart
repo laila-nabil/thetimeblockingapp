@@ -29,8 +29,6 @@ List<Workspace>? _workspaces;
 ///TODO B move to global bloc
 
 class Globals {
-  static BackendMode backendMode = BackendMode.supabase;
-
   static String get appName => _appName;
 
   static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
@@ -69,48 +67,6 @@ class Globals {
   static String demoUrl =
       "https://demoo-timeblocking.web.app";
 
-
-}
-
-///just to make it harder to write global variable
-///with priority to repo>use case
-mixin class GlobalsWriteAccess {
-  set appName(String value) {
-    _appName = value;
-  }
-
-  set accessToken(AccessToken value) {
-    _accessToken = value;
-  }
-
-  void clearGlobals() {
-    _accessToken =
-        const AccessToken(accessToken: "", tokenType: "");
-    _user = null;
-    _selectedWorkspace = null;
-    _workspaces = null;
-  }
-
-  set user(User value) {
-    _user = value;
-  }
-
-  set selectedWorkspace(Workspace value) {
-    printDebug("set workspace $value");
-    _selectedWorkspace = value;
-  }
-
-  set isSpaceAppWide(bool value) {
-    _isWorkspaceAndSpaceAppWide = value;
-  }
-
-  set defaultTaskDuration(Duration value) {
-    _defaultTaskDuration = value;
-  }
-
-  set workspaces(List<Workspace> value) {
-    _workspaces = value;
-  }
 
 }
 

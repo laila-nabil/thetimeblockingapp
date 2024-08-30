@@ -9,9 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import '../../../../common/entities/access_token.dart';
 import '../repositories/global_repo.dart';
 
-class GetAllInWorkspaceUseCase
-    with GlobalsWriteAccess
-    implements UseCase<Workspace, GetAllInWorkspaceParams> {
+class GetAllInWorkspaceUseCase implements UseCase<Workspace, GetAllInWorkspaceParams> {
   final GlobalRepo repo;
 
   GetAllInWorkspaceUseCase(this.repo);
@@ -21,12 +19,6 @@ class GetAllInWorkspaceUseCase
       GetAllInWorkspaceParams params) async{
     final result = await repo.getAllInWorkspace(params: params);
     printDebug("getAllInWorkspace $result");
-    if(result.isRight()) {
-      result.fold((_) {}, (r) {
-        selectedWorkspace = r;
-        printDebug("now workspace ${Globals.selectedWorkspace}");
-      });
-    }
     return result;
   }
 }

@@ -18,8 +18,7 @@ part 'global_event.dart';
 
 part 'global_state.dart';
 
-class GlobalBloc extends Bloc<GlobalEvent, GlobalState>
-    with GlobalsWriteAccess {
+class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
   final GetStatusesUseCase _getStatusesUseCase;
   final GetPrioritiesUseCase _getPrioritiesUseCase;

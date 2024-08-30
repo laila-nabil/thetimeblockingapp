@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 
 import '../../../../common/entities/workspace.dart';
@@ -44,7 +46,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""]),
-                backendMode: Globals.backendMode
+                backendMode: serviceLocator<BackendMode>().mode
             ));
         result?.fold(
             (l) => emit(state.copyWith(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -232,11 +233,11 @@ class TaskPopup extends StatelessWidget {
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag,
-                      backendMode: Globals.backendMode)
+                      backendMode: serviceLocator<BackendMode>().mode)
                       : CreateTaskParams.startUpdateTask(
                           accessToken: Globals.accessToken,
                           task: task,
-                      backendMode: Globals.backendMode
+                      backendMode: serviceLocator<BackendMode>().mode
                         )));
           },
         ),
@@ -258,11 +259,11 @@ class TaskPopup extends StatelessWidget {
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate,
-                      backendMode: Globals.backendMode)
+                      backendMode: serviceLocator<BackendMode>().mode)
                       : CreateTaskParams.startUpdateTask(
                           accessToken: Globals.accessToken,
                           task: task,
-                      backendMode: Globals.backendMode
+                      backendMode: serviceLocator<BackendMode>().mode
                         ));
               printDebug("taskParams $taskParams");
               final firstDate =

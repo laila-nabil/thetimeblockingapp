@@ -9,6 +9,8 @@ enum BackendMode {
   bool get syncWithOutlookCalendar =>
       this == BackendMode.supabase ||
       this == BackendMode.offlineWithCalendarSync;
+
+  BackendMode get mode => this;
 }
 
 

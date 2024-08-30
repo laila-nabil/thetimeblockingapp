@@ -2,8 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
@@ -72,7 +74,8 @@ class TaskComponent extends StatelessWidget {
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(CreateTaskParams.fromTask(task,Globals.backendMode)))
+              onTap: () => onDuplicate(CreateTaskParams.fromTask(
+                  task, serviceLocator<BackendMode>().mode)))
         ],
         showList: showListChip,
         onTap: () {
@@ -95,7 +98,7 @@ class TaskComponent extends StatelessWidget {
                       tags: task.tags,
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,
-                      backendMode: Globals.backendMode
+                      backendMode: serviceLocator<BackendMode>().mode
                     ));
                     Navigator.pop(context);
                   },

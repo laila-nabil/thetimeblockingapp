@@ -28,7 +28,7 @@ import '../../../../core/repo_handler.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
-class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
+class TasksRepoImpl implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
 
   TasksRepoImpl(this.remoteDataSource,);
