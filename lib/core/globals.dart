@@ -22,19 +22,10 @@ List<Workspace>? _workspaces;
 
 class Globals {
 
-  static Workspace? get selectedWorkspace =>
-      _selectedWorkspace ?? workspaces?.firstOrNull;
-
-  static Space? get selectedSpace => selectedWorkspace?.spaces?.firstOrNull;
 
   static bool get isWorkspaceAndSpaceAppWide => _isWorkspaceAndSpaceAppWide;
 
   static Duration get defaultTaskDuration => _defaultTaskDuration;
-
-  static List<Workspace>? get workspaces => _workspaces;
-
-  static Workspace? get defaultWorkspace =>
-      _workspaces?.firstOrNull;
 
   static String redirectAfterAuthRouteName = "";
 
