@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
@@ -45,6 +46,7 @@ class TaskComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = BlocProvider.of<AuthBloc>(context).state;
     return TaskWidget(
         actions: [
           CustomPopupItem(
@@ -59,7 +61,7 @@ class TaskComponent extends StatelessWidget {
                         onDelete(DeleteTaskParams(
                             task: task,
                             accessToken:
-                            Globals.accessToken));
+                            authState.accessToken!));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -75,7 +77,11 @@ class TaskComponent extends StatelessWidget {
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
               onTap: () => onDuplicate(CreateTaskParams.fromTask(
-                  task, serviceLocator<BackendMode>().mode)))
+                    task,
+                    serviceLocator<BackendMode>().mode,
+                    authState.accessToken!,
+                    BlocProvider.of<AuthBloc>(context).state.user!,
+                  )))
         ],
         showList: showListChip,
         onTap: () {
@@ -88,7 +94,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
                       list: task.list!,
                       title: task.title ?? "",
                       description: task.description,
@@ -98,8 +104,8 @@ class TaskComponent extends StatelessWidget {
                       tags: task.tags,
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,
-                      backendMode: serviceLocator<BackendMode>().mode
-                    ));
+                        backendMode: serviceLocator<BackendMode>().mode,
+                        user: authState.user!));
                     Navigator.pop(context);
                   },
                   isLoading: (state) => isLoading(state)));

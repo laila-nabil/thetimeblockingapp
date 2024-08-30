@@ -37,8 +37,6 @@ class AuthRepoImpl  implements AuthRepo{
         trySaveResult: (result) async {
           await authLocalDataSource
               .saveAccessToken(result.accessToken as AccessTokenModel);
-          printDebug(
-              "getAccessToken $result ${Globals.accessToken}");
         },
         tryGetFromLocalStorage: () async {
           ///TODO B make sure works correctly

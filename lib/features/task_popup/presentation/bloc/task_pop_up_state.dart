@@ -42,13 +42,13 @@ class TaskPopUpState extends Equatable {
   bool get viewTagsButton =>
       taskParams?.task != null || taskParams?.space != null;
 
-  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate){
+  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate,AccessToken accessToken,User user){
     CreateTaskParams params;
     final task = taskParams?.task;
     if (task != null) {
       params = CreateTaskParams.updateTask(
         task: taskParams!.task!,
-        accessToken: Globals.accessToken,
+        accessToken: accessToken,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
@@ -72,17 +72,17 @@ class TaskPopUpState extends Equatable {
         list: taskParams?.list == task.list
             ? null
             : taskParams?.list,
-          backendMode: serviceLocator<BackendMode>().mode
+          backendMode: serviceLocator<BackendMode>().mode, user: user
       );
     } else {
       params = taskParams ?? CreateTaskParams.createNewTask(
         dueDate: newTaskDueDate,
         list: taskParams!.list!,
         accessToken:
-        Globals.accessToken,
+        accessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,
-        backendMode: serviceLocator<BackendMode>().mode
+        backendMode: serviceLocator<BackendMode>().mode, user: user
       );
     }
     return params;

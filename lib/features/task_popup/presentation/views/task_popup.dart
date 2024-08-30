@@ -15,6 +15,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
@@ -217,6 +218,7 @@ class TaskPopup extends StatelessWidget {
     final radius = AppBorderRadius.xLarge.value;
     final borderRadius = BorderRadius.circular(radius);
     final task = taskPopupParams.task;
+    final authState = BlocProvider.of<AuthBloc>(context).state;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -225,7 +227,7 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.accessToken,
+                          accessToken: authState.accessToken!,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
                           space: Globals.isWorkspaceAndSpaceAppWide
@@ -233,11 +235,11 @@ class TaskPopup extends StatelessWidget {
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag,
-                      backendMode: serviceLocator<BackendMode>().mode)
+                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.accessToken,
+                        accessToken: authState.accessToken!,
                           task: task,
-                      backendMode: serviceLocator<BackendMode>().mode
+                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!
                         )));
           },
         ),
@@ -255,13 +257,15 @@ class TaskPopup extends StatelessWidget {
               final taskParams = state.taskParams ??
                   (task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
+                          user: authState.user!,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate,
                       backendMode: serviceLocator<BackendMode>().mode)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
+                      user: authState.user!,
                           task: task,
                       backendMode: serviceLocator<BackendMode>().mode
                         ));
@@ -315,8 +319,8 @@ class TaskPopup extends StatelessWidget {
                                                     DeleteTaskParams(
                                                         task: taskPopupParams
                                                             .task!,
-                                                        accessToken: Globals
-                                                            .accessToken));
+                                                      accessToken: authState.accessToken!,
+                                                      ));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType
@@ -354,8 +358,13 @@ class TaskPopup extends StatelessWidget {
                                 state.readyToSubmit == false
                             ? null
                             : () {
-                                taskPopupParams.onSave!(state
-                                    .onSaveTaskParams(taskPopupParams.dueDate));
+                                taskPopupParams.onSave!(state.onSaveTaskParams(
+                                    taskPopupParams.dueDate,
+                                    BlocProvider.of<AuthBloc>(context)
+                                        .state
+                                        .accessToken!,BlocProvider.of<AuthBloc>(context)
+                                    .state
+                                    .user!));
                               },
                         label: appLocalization.translate("save")),
                   ],

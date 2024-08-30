@@ -14,6 +14,7 @@ import '../../../../core/globals.dart';
 import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../../common/entities/space.dart';
@@ -65,7 +66,7 @@ class AllTasksPage extends StatelessWidget {
                     listener: (context, state) {},
                     builder: (context, state) {
                       if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
-                        getAllTasksInSpace(allTasksBloc);
+                        getAllTasksInSpace(allTasksBloc,context);
                       }
                       return Padding(
                         padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -166,10 +167,10 @@ class AllTasksPage extends StatelessWidget {
                     },
                   )),
                   context: context, onRefresh: ()async {
-                getAllTasksInSpace(allTasksBloc);
+                getAllTasksInSpace(allTasksBloc,context);
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: Globals.selectedWorkspace!,
-                    accessToken: Globals.accessToken));
+                    accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
               },);
             },
           );
@@ -201,9 +202,9 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  void getAllTasksInSpace(AllTasksBloc allTasksBloc) {
+  void getAllTasksInSpace(AllTasksBloc allTasksBloc,BuildContext context) {
     allTasksBloc.add(GetTasksInSpaceEvent(
-        accessToken: Globals.accessToken,
+        accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!,
         workspace: Globals.selectedWorkspace!,
         space: Globals.selectedSpace!));
   }

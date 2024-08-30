@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';

@@ -15,6 +15,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
@@ -40,12 +41,13 @@ class ListPage extends StatelessWidget {
             listener: (context, state) {},
             builder: (context, state) {
               final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               printDebug(
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
                 listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-                    accessToken: Globals.accessToken,
+                    accessToken: authBloc.state.accessToken!,
                     workspace: Globals.selectedWorkspace!));
               }
               return ResponsiveScaffold(
@@ -142,11 +144,11 @@ class ListPage extends StatelessWidget {
                 onRefresh: () async {
                   listsPageBloc.add(
                       GetListAndFoldersInListsPageEvent.inWorkSpace(
-                          accessToken: Globals.accessToken,
+                          accessToken: authBloc.state.accessToken!,
                           workspace: Globals.selectedWorkspace!));
                   globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: Globals.selectedWorkspace!,
-                      accessToken: Globals.accessToken));
+                      accessToken: authBloc.state.accessToken!));
                 },
               );
             },

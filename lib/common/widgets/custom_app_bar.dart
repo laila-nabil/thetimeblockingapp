@@ -28,18 +28,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, state) {
             if (state.reSelectWorkspace(authState.authState ==
-                AuthStateEnum.triedGetSelectedWorkspacesSpace)) {
+                AuthStateEnum.triedGetSelectedWorkspacesSpace,authState.accessToken)) {
               globalBloc.add(GetAllInWorkspaceEvent(
                   workspace:
                       Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
-                  accessToken: Globals.accessToken));
+                  accessToken: authState.accessToken!));
             }
             return CustomAppBarWidget(
               selectWorkspace: (selected) {
                 if (selected is Workspace && state.isLoading == false) {
                   globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: selected,
-                      accessToken: Globals.accessToken));
+                      accessToken: authState.accessToken!));
                 }
               },
               openDrawer: () {

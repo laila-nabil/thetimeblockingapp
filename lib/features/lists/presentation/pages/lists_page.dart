@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -41,6 +42,7 @@ class ListsPage extends StatelessWidget {
         return BlocConsumer<ListsPageBloc, ListsPageState>(
           listener: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+            final authBloc = BlocProvider.of<AuthBloc>(context);
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
               context.push(
@@ -64,7 +66,7 @@ class ListsPage extends StatelessWidget {
                                       DeleteListParams(
                                           list: state.toDeleteList!,
                                           accessToken:
-                                              Globals.accessToken),
+                                          authBloc.state.accessToken!),
                                   workspace: Globals.selectedWorkspace!,
                                   space: Globals.selectedSpace!));
                               Navigator.pop(context);
@@ -97,7 +99,7 @@ class ListsPage extends StatelessWidget {
                                       DeleteFolderParams(
                                           folder: state.toDeleteFolder!,
                                           accessToken:
-                                              Globals.accessToken),
+                                              authBloc.state.accessToken!),
                                   workspace: Globals.selectedWorkspace!,
                                   space: Globals.selectedSpace!));
                               Navigator.pop(context);
@@ -119,6 +121,7 @@ class ListsPage extends StatelessWidget {
           builder: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
             final globalBloc = BlocProvider.of<GlobalBloc>(context);
+            final authBloc = BlocProvider.of<AuthBloc>(context);
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
@@ -129,7 +132,7 @@ class ListsPage extends StatelessWidget {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
-                      getListsFolders(listsPageBloc);
+                      getListsFolders(listsPageBloc,authBloc.state);
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -214,8 +217,8 @@ class ListsPage extends StatelessWidget {
                                                               listsPageBloc.add(CreateListInFolderEvent.submit(
                                                                   createListInFolderParams: CreateListInFolderParams(
                                                                       accessToken:
-                                                                          Globals
-                                                                              .accessToken,
+                                                                      authBloc.state
+                                                                              .accessToken!,
                                                                       folder:
                                                                           folder,
                                                                       listName:
@@ -269,8 +272,8 @@ class ListsPage extends StatelessWidget {
                                                         createFolderInSpaceParams:
                                                             CreateFolderInSpaceParams(
                                                                 accessToken:
-                                                                    Globals
-                                                                        .accessToken,
+                                                                authBloc.state
+                                                                        .accessToken!,
                                                                 folderName: text,
                                                                 space: Globals
                                                                     .selectedSpace!),
@@ -304,8 +307,8 @@ class ListsPage extends StatelessWidget {
                                                       createFolderlessListParams:
                                                           CreateFolderlessListParams(
                                                               accessToken:
-                                                                  Globals
-                                                                      .accessToken,
+                                                              authBloc.state
+                                                                      .accessToken!,
                                                               listName: text,
                                                               space: Globals
                                                                   .selectedSpace!),
@@ -338,10 +341,10 @@ class ListsPage extends StatelessWidget {
                   },
                 )),
                 context: context, onRefresh: ()async {
-              getListsFolders(listsPageBloc);
+              getListsFolders(listsPageBloc,authBloc.state);
               globalBloc.add(GetAllInWorkspaceEvent(
                   workspace: Globals.selectedWorkspace!,
-                  accessToken: Globals.accessToken));
+                  accessToken: authBloc.state.accessToken!));
             },);
           },
         );
@@ -349,9 +352,9 @@ class ListsPage extends StatelessWidget {
     );
   }
 
-  void getListsFolders(ListsPageBloc listsPageBloc) {
+  void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState) {
     listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
-      accessToken: Globals.accessToken,
+      accessToken: authState.accessToken!,
       workspace: Globals.selectedWorkspace!,
       space: Globals.selectedSpace!,
     ));

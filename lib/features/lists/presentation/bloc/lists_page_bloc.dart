@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';

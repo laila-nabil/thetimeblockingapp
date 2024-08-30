@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -37,7 +38,7 @@ class MoveTaskBetweenListsUseCase
         dueDate: task.dueDateUtc,
         description: task.description,
         tags: task.tags,
-        backendMode: serviceLocator<BackendMode>().mode));
+        backendMode: serviceLocator<BackendMode>().mode, user: params.user));
     if (createResult?.isRight() == true) {
       deleteResult = await repo.deleteTask(DeleteTaskParams(
           task: task, accessToken: params.accessToken));
@@ -66,9 +67,12 @@ class MoveTaskBetweenListsParams {
   final Task task;
   final TasksList newList;
   final AccessToken accessToken;
+  final User user;
 
   MoveTaskBetweenListsParams(
       {required this.task,
       required this.newList,
-      required this.accessToken});
+      required this.accessToken,
+      required this.user,
+      });
 }

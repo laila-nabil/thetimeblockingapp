@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
@@ -19,6 +20,7 @@ import '../common/widgets/responsive/responsive_scaffold.dart';
 import '../features/all/presentation/pages/all_tasks_page.dart';
 import '../features/archive/presentation/pages/archive_page.dart';
 
+import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/help/presentation/pages/help_page.dart';
 import '../features/maps/presentation/pages/maps_page.dart';
 import '../features/privacy_policy/privacy_policy_page.dart';
@@ -56,8 +58,8 @@ final router = GoRouter(
             return SupabaseAuthPage();
           },
           redirect: (context, state) async {
-            if (Globals.accessToken.accessToken.isNotEmpty &&
-                Globals.user != null &&
+            if (BlocProvider.of<AuthBloc>(context).state.accessToken != null &&
+                BlocProvider.of<AuthBloc>(context).state.user != null &&
                 Globals.workspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
             }
@@ -73,8 +75,14 @@ final router = GoRouter(
           return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
         },
         redirect: (context,state) async{
-          final userLoggedIn = Globals.accessToken.accessToken.isNotEmpty &&
-              Globals.user != null &&
+          final userLoggedIn = BlocProvider
+              .of<AuthBloc>(context)
+                        .state
+                        .accessToken
+                        ?.accessToken
+                        .isNotEmpty ==
+                    true &&
+                BlocProvider.of<AuthBloc>(context).state.user != null &&
               Globals.workspaces?.isNotEmpty == true;
           if(userLoggedIn && Globals.redirectAfterAuthRouteName.isNotEmpty){
             String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
@@ -6,10 +7,12 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
@@ -33,6 +36,7 @@ class TasksCalendar extends StatelessWidget {
   final int? selectedWorkspaceId;
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return SfCalendar(
       ///TODO D save selected view in calendar
       // view: CalendarView.day,
@@ -59,17 +63,17 @@ class TasksCalendar extends StatelessWidget {
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
       // timeZone: Globals.user?.timezone,
-      onTap: onTapCalendarElement,
-      onLongPress: onTapCalendarElement,
+      onTap: (d)=> onTapCalendarElement(d,authBloc),
+      onLongPress: (d)=> onTapCalendarElement(d,authBloc),
       onAppointmentResizeEnd: (details){
         printDebug("details.startTime ${details.startTime}");
         printDebug("details.endTime ${details.endTime}");
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
-              accessToken: Globals.accessToken,
+              accessToken: authBloc.state.accessToken!,
               updatedDueDate: details.endTime,
-              backendMode: serviceLocator<BackendMode>().mode
+              backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
       },
 
@@ -83,8 +87,8 @@ class TasksCalendar extends StatelessWidget {
         final task = details.appointment as Task;
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
-              task: task,
-              accessToken: Globals.accessToken,
+              task: task, user: authBloc.state.user!,
+              accessToken: authBloc.state.accessToken!,
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
@@ -115,7 +119,9 @@ class TasksCalendar extends StatelessWidget {
                         Globals.workspaces?.first.id ??
                         0,
                     filtersParams: scheduleBloc
-                        .state.defaultTasksInWorkspaceFiltersParams
+                        .state.defaultTasksInWorkspaceFiltersParams(
+                        accessToken: authBloc.state.accessToken!,
+                        user: authBloc.state.user)
                         .copyWith(
                             filterByDueDateGreaterThanUnixTimeMilliseconds:
                                 (viewChangedDetails.visibleDates.first
@@ -134,7 +140,7 @@ class TasksCalendar extends StatelessWidget {
     );
   }
 
-  void onTapCalendarElement(calendarTapDetails){
+  void onTapCalendarElement(calendarTapDetails,AuthBloc authBloc){
       printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
       printDebug("calendarTapDetails date ${calendarTapDetails.date}");
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
@@ -156,7 +162,11 @@ class TasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: CreateTaskParams.fromTask(task,serviceLocator<BackendMode>().mode)));
+                  params: CreateTaskParams.fromTask(
+                      task,
+                      serviceLocator<BackendMode>().mode,
+                      authBloc.state.accessToken!,
+                      authBloc.state.user!)));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&

@@ -11,11 +11,6 @@ import '../common/entities/access_token.dart';
 import 'environment.dart';
 
 
-
-AccessToken _accessToken =
-    const AccessToken(accessToken: "", tokenType: "");
-User? _user;
-
 Workspace? _selectedWorkspace;
 
 ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
@@ -26,11 +21,6 @@ Duration _defaultTaskDuration = const Duration(hours: 1);
 List<Workspace>? _workspaces;
 
 class Globals {
-
-  static AccessToken get accessToken =>
-      _accessToken;
-
-  static User? get user => _user;
 
   static Workspace? get selectedWorkspace =>
       _selectedWorkspace ?? workspaces?.firstOrNull;

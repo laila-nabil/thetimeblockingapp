@@ -110,15 +110,16 @@ class ScheduleState extends Equatable {
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
   GetTasksInWorkspaceFiltersParams
-      get defaultTasksInWorkspaceFiltersParams {
+      defaultTasksInWorkspaceFiltersParams (
+      {required AccessToken accessToken, required User? user}){
     List<String>? filterBySpaceIds;
     if(Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id !=null){
       filterBySpaceIds = [Globals.selectedSpace?.id??""];
     }
     return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
-            accessToken: Globals.accessToken,
-            filterByAssignees: [Globals.user?.id.toString() ?? ""],
+            accessToken: accessToken,
+            filterByAssignees: [user?.id.toString() ?? ""],
             filterByDueDateGreaterThanUnixTimeMilliseconds:
                 tasksDueDateEarliestDate.millisecondsSinceEpoch,
             filterByDueDateLessThanUnixTimeMilliseconds:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -35,6 +36,7 @@ class SchedulePage extends StatelessWidget {
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final globalBloc = BlocProvider.of<GlobalBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               scheduleBloc
                   .add(const ShowTaskPopupEvent(showTaskPopup: false));
               showTaskPopup(
@@ -43,16 +45,17 @@ class SchedulePage extends StatelessWidget {
               );
               if (globalCurrentState.priorities?.isNotEmpty != true) {
                 globalBloc
-                    .add(GetPrioritiesEvent(accessToken: Globals.accessToken));
+                    .add(GetPrioritiesEvent(accessToken: authBloc.state.accessToken!));
               }
               if (globalCurrentState.statuses?.isNotEmpty != true) {
                 globalBloc
-                    .add(GetStatusesEvent(accessToken: Globals.accessToken));
+                    .add(GetStatusesEvent(accessToken: authBloc.state.accessToken!));
               }
             },
             builder: (context, state) {
               printDebug("ScheduleBloc state $state");
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if ((Globals.isWorkspaceAndSpaceAppWide == false && state.isInitial) ||
                   (Globals.isWorkspaceAndSpaceAppWide == true &&
@@ -70,12 +73,14 @@ class SchedulePage extends StatelessWidget {
                     GetTasksInWorkspaceParams(
                         workspaceId:
                         workspace?.id ?? 0,
-                        filtersParams: scheduleBloc
-                            .state.defaultTasksInWorkspaceFiltersParams,
+                        filtersParams: scheduleBloc.state
+                            .defaultTasksInWorkspaceFiltersParams(
+                                accessToken: authBloc.state.accessToken!,
+                                user: authBloc.state.user),
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
-                    accessToken: Globals.accessToken));
+                    accessToken: authBloc.state.accessToken!));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -149,11 +154,13 @@ class SchedulePage extends StatelessWidget {
                     GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
-                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
+                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams(
+                            accessToken: authBloc.state.accessToken!,
+                            user: authBloc.state.user),
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
-                    accessToken: Globals.accessToken));
+                    accessToken: authBloc.state.accessToken!));
               },);
             },
           );

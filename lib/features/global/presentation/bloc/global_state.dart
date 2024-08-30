@@ -24,9 +24,9 @@ class GlobalState extends Equatable {
       this.priorities,
       this.getPrioritiesFailure});
 
-  bool reSelectWorkspace(bool triedGetSelectedWorkspacesSpace) =>
+  bool reSelectWorkspace(bool triedGetSelectedWorkspacesSpace,AccessToken? accessToken) =>
       isLoading == false &&
-      Globals.accessToken.accessToken.isNotEmpty == true &&
+      accessToken?.accessToken.isNotEmpty == true &&
       getAllInWorkspaceFailure == null &&
       triedGetSelectedWorkspacesSpace;
 

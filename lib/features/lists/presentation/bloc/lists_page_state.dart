@@ -119,15 +119,15 @@ class ListsPageState extends Equatable {
   bool get isLoading => listsPageStatus == ListsPageStatus.isLoading;
 
   GetTasksInWorkspaceFiltersParams
-      get defaultTasksInWorkspaceFiltersParams {
+      defaultTasksInWorkspaceFiltersParams(AccessToken accessToken , User? user) {
     List<String>? filterBySpaceIds;
     if (Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id != null) {
       filterBySpaceIds = [Globals.selectedSpace?.id ?? ""];
     }
     return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
-      accessToken: Globals.accessToken,
-      filterByAssignees: [Globals.user?.id.toString() ?? ""],
+      accessToken: accessToken,
+      filterByAssignees: [user?.id.toString() ?? ""],
     );
   }
 

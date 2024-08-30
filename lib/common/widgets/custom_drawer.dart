@@ -22,6 +22,7 @@ import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.
 import '../../core/globals.dart';
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/global/presentation/bloc/global_bloc.dart';
 import '../entities/space.dart';
 import '../entities/workspace.dart';
@@ -44,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
               if (selected is Workspace && state.isLoading == false) {
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selected,
-                    accessToken: Globals.accessToken));
+                    accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
               }
             },
             selectSpace: (selected) {
