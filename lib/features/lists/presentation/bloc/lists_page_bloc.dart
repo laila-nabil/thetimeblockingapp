@@ -13,7 +13,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
 
@@ -33,7 +32,6 @@ part 'lists_page_state.dart';
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
     with GlobalsWriteAccess {
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
-  final GetListAndItsTasksUseCase _getListAndItsTasksUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;
   final CreateFolderlessListUseCase
@@ -47,7 +45,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
   final DeleteTaskUseCase _deleteTaskUseCase;
 
   ListsPageBloc(
-    this._getListAndItsTasksUseCase,
     this._getAllInWorkspaceUseCase,
     this._createListInFolderUseCase,
     this._createFolderInSpaceUseCase,
@@ -81,38 +78,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
                     ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
                 getAllInWorkspaceResult: r)));
         }
-      } else if (event is GetListDetailsAndTasksInListEvent) {
-        emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final getListAndItsTasks =
-            await _getListAndItsTasksUseCase(
-                event.getListAndItsTasksParams);
-        TasksList? list;
-        List<Task>? tasks;
-        List<Failure>? failures = [];
-        getListAndItsTasks?.listResult
-            ?.fold((l) => failures.add(l), (r) => list = r);
-        getListAndItsTasks?.tasksResult
-            .fold((l) => failures.add(l), (r) => tasks = r);
-        FailuresList? failuresList = FailuresList(failures: failures);
-        printDebug("**** list $list");
-        printDebug("**** tasks $tasks");
-        printDebug("**** failuresList $failuresList");
-        if (getListAndItsTasks?.tasksResult.isRight() == true &&
-            getListAndItsTasks?.listResult?.isRight() == true) {
-          printDebug("**** both right");
-          emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.getListDetailsAndTasksSuccess,
-              currentList: list,
-              currentListTasks: tasks));
-        } else {
-          printDebug("**** something went wrong");
-          emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.getListDetailsAndTasksWentWrong,
-              currentList: list,
-              currentListTasks: tasks,
-              getListDetailsAndTasksFailure: failuresList));
-        }
-      } else if (event is CreateListInFolderEvent) {
+      }else if (event is CreateListInFolderEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInFolderTry,
@@ -287,10 +253,9 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          add(GetListDetailsAndTasksInListEvent(
-              getListAndItsTasksParams: GetListAndItsTasksParams(
-                  listId: event.params.getListId,
-                  accessToken: event.params.accessToken)));
+          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+              accessToken: event.params.accessToken,
+              workspace: Globals.selectedWorkspace!));
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -303,10 +268,9 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          add(GetListDetailsAndTasksInListEvent(
-              getListAndItsTasksParams: GetListAndItsTasksParams(
-                  listId: event.params.getListId,
-                  accessToken: event.params.accessToken)));
+          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+              accessToken: event.params.accessToken,
+              workspace: Globals.selectedWorkspace!));
         });
       }
       else if (event is UpdateTaskEvent) {
@@ -319,10 +283,9 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.updateTaskSuccess,
           ));
-          add(GetListDetailsAndTasksInListEvent(
-              getListAndItsTasksParams: GetListAndItsTasksParams(
-                  listId: event.params.getListId,
-                  accessToken: event.params.accessToken)));
+          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+              accessToken: event.params.accessToken,
+              workspace: Globals.selectedWorkspace!));
         });
       }
       else if (event is DeleteTaskEvent) {
@@ -335,10 +298,9 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState>
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.deleteTaskSuccess,
           ));
-          add(GetListDetailsAndTasksInListEvent(
-              getListAndItsTasksParams: GetListAndItsTasksParams(
-                  listId: event.params.task.list?.id??"",
-                  accessToken: event.params.accessToken)));
+          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+              accessToken: event.params.accessToken,
+              workspace: Globals.selectedWorkspace!));
         });
       }
     });

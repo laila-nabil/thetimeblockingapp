@@ -19,7 +19,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_u
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
@@ -37,9 +36,6 @@ import '../../../../core/usecase.dart';
 import '../../../startup/domain/use_cases/select_space_use_case.dart';
 import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
 import '../../domain/entities/task_parameters.dart';
-import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
-import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
 
@@ -98,35 +94,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, List<FolderModel>>> getFolders(
-      {required GetFoldersInSpaceParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.getFolders(params: params),
-    );
-  }
-
-  @override
-  Future<dartz.Either<Failure, List<ListModel>>> getListsInFolder(
-      {required GetListsInFolderParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.getListsInFolder(params: params),
-    );
-  }
-
-  @override
-  Future<dartz.Either<Failure, List<ListModel>>> getFolderlessLists(
-      {required GetFolderlessListsInSpaceParams params}) {
-    return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.getFolderlessLists(params: params),
-    );
-  }
-
-
-
-  @override
   Future<dartz.Either<Failure, List<TagModel>>> getTags(
       {required GetTagsInSpaceParams params}) {
     return repoHandleRemoteRequest(
@@ -179,14 +146,6 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleLocalSaveRequest(
         trySaveResult: () => localDataSource
             .saveSelectedSpace(params.space as SpaceModel));
-  }
-
-  @override
-  Future<dartz.Either<Failure, ListModel>?> getList(
-      GetListParams params) {
-    return repoHandleRemoteRequest(
-        remoteDataSourceRequest: () =>
-            remoteDataSource.getList(params: params));
   }
 
   @override

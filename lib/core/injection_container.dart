@@ -26,7 +26,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_t
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
 import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
@@ -51,17 +50,12 @@ import '../features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_list_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_folderless_lists_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_folders_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
-import '../features/tasks/domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/create_task_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_task_use_case.dart';
-import '../features/tasks/domain/use_cases/get_tasks_in_all_workspaces_use_case.dart';
 import '../features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/move_task_between_lists_use_case.dart';
 import '../features/tasks/domain/use_cases/update_tag_use_case.dart';
@@ -113,7 +107,6 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
-        serviceLocator(),
       ));
 
   serviceLocator.registerFactory(() => TagsPageBloc(
@@ -150,9 +143,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerLazySingleton(() => GetTasksInSingleWorkspaceUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetTasksInAllWorkspacesUseCase(
-        serviceLocator(),
-      ));
+
   serviceLocator.registerLazySingleton(() => GetTagsInSpaceUseCase(
         serviceLocator(),
       ));
@@ -193,14 +184,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetFoldersInSpaceUseCase(
-        serviceLocator(),
-      ));
-
-  serviceLocator.registerLazySingleton(() => GetListsInFolderUseCase(
-        serviceLocator(),
-      ));
-
   serviceLocator.registerLazySingleton(() => CreateListInFolderUseCase(
         serviceLocator(),
       ));
@@ -217,9 +200,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetFolderlessListsInSpaceUseCase(
-        serviceLocator(),
-      ));
+
 
   serviceLocator.registerLazySingleton(() => SelectWorkspaceUseCase(
         serviceLocator(),
@@ -235,9 +216,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => AddTagToTaskUseCase(
         serviceLocator(),
       ));
-  serviceLocator.registerLazySingleton(() => GetListUseCase(
-        serviceLocator(),
-      ));
+
   serviceLocator.registerLazySingleton(() => AddTagsToTaskUseCase(
         serviceLocator(),
       ));
@@ -249,9 +228,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
       ));
 
   serviceLocator.registerLazySingleton(() => SelectSpaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator.registerLazySingleton(() => GetListAndItsTasksUseCase(
         serviceLocator(),
       ));
 

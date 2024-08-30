@@ -13,7 +13,6 @@ import '../../../../core/globals.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
-import '../../../tasks/domain/use_cases/get_tasks_in_all_workspaces_use_case.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 part 'schedule_event.dart';

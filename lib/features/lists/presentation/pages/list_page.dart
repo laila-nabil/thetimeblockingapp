@@ -5,7 +5,6 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_list_and_its_tasks_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
@@ -43,12 +42,9 @@ class ListPage extends StatelessWidget {
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
-                listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                    getListAndItsTasksParams:
-                        GetListAndItsTasksParams(
-                            listId: listId,
-                            accessToken:
-                                Globals.accessToken)));
+                listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+                    accessToken: Globals.accessToken,
+                    workspace: Globals.selectedWorkspace!));
               }
               return ResponsiveScaffold(
                 ///TODO D Bulk actions on tasks
@@ -142,12 +138,10 @@ class ListPage extends StatelessWidget {
                 )),
                 context: context,
                 onRefresh: () async {
-                  listsPageBloc.add(GetListDetailsAndTasksInListEvent(
-                      getListAndItsTasksParams:
-                          GetListAndItsTasksParams(
-                              listId: listId,
-                              accessToken:
-                                  Globals.accessToken)));
+                  listsPageBloc.add(
+                      GetListAndFoldersInListsPageEvent.inWorkSpace(
+                          accessToken: Globals.accessToken,
+                          workspace: Globals.selectedWorkspace!));
                   startupBloc.add(GetAllInWorkspaceEvent(
                       workspace: Globals.selectedWorkspace!,
                       accessToken: Globals.accessToken));

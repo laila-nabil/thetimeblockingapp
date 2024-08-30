@@ -37,18 +37,6 @@ class NavigateToListPageEvent extends ListsPageEvent {
   List<Object?> get props => [list];
 }
 
-class GetListDetailsAndTasksInListEvent extends ListsPageEvent {
-  final GetListAndItsTasksParams getListAndItsTasksParams;
-
-  const GetListDetailsAndTasksInListEvent(
-      {required this.getListAndItsTasksParams});
-
-  @override
-  List<Object?> get props => [
-        getListAndItsTasksParams,
-      ];
-}
-
 class StartCreateListInFolderEvent extends ListsPageEvent {
   final CreateListInFolderParams createListInFolderParams;
   final Workspace workspace;

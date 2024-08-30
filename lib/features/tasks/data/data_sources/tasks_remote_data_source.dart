@@ -22,10 +22,6 @@ import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
-import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
-import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_list_use_case.dart';
-import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
@@ -45,18 +41,8 @@ abstract class TasksRemoteDataSource {
   Future<List<WorkspaceModel>> getWorkspaces(
       {required GetWorkspacesParams params});
 
-  Future<List<FolderModel>> getFolders(
-      {required GetFoldersInSpaceParams params});
-
-  Future<List<ListModel>> getListsInFolder(
-      {required GetListsInFolderParams params});
-
   Future<ListModel> createListInFolder(
       {required CreateListInFolderParams params});
-
-  Future<List<ListModel>> getFolderlessLists(
-      {required GetFolderlessListsInSpaceParams params});
-
 
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params});
 
@@ -64,8 +50,6 @@ abstract class TasksRemoteDataSource {
       {required RemoveTagFromTaskParams params});
 
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params});
-
-  Future<ListModel> getList({required GetListParams params});
 
   Future<ListModel> createFolderlessList(
       {required CreateFolderlessListParams params});
@@ -175,55 +159,6 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     // TODO A implement deleteTask
     throw UnimplementedError();
   }
-
-  @override
-  Future<List<ListModel>> getFolderlessLists(
-      {required GetFolderlessListsInSpaceParams params}) async {
-    List<ListModel> result = [];
-    final response = await network.get(
-        uri: Uri.parse(
-            "$url/rest/v1/list?user_id=eq.${params.userId}&space_id=eq.${params.space.id}&order=id"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    for (var element in (json.decode(response.body) as List)) {
-      result.add(ListModel.fromJson(element));
-    }
-    return result;
-  }
-
-  @override
-  Future<List<FolderModel>> getFolders(
-      {required GetFoldersInSpaceParams params}) async{
-    List<FolderModel> result = [];
-    final response = await network.get(
-        uri: Uri.parse(
-            "$url/rest/v1/folder?user_id=eq.${params.userId}&space_id=eq.${params.space.id}&order=id"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    for (var element in (json.decode(response.body) as List)) {
-      result.add(FolderModel.fromJson(element));
-    }
-    return result;
-  }
-
-  @override
-  Future<ListModel> getList({required GetListParams params}) async {
-    List<ListModel> result = [];
-    final response = await network.get(
-        uri: Uri.parse(
-            "$url/rest/v1/list?user_id=eq.${params.userId}&id=eq.${params.listId}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    for (var element in (json.decode(response.body) as List)) {
-      result.add(ListModel.fromJson(element));
-    }
-    return result.first;
-  }
-
-  @override
-  Future<List<ListModel>> getListsInFolder(
-      {required GetListsInFolderParams params}) {
-    // TODO A implement getListsInFolder
-    throw UnimplementedError();
-  }
-
 
   @override
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {

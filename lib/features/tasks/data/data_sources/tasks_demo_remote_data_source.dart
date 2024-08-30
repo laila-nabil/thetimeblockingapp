@@ -20,10 +20,6 @@ import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
 import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
-import '../../domain/use_cases/get_folderless_lists_in_space_use_case.dart';
-import '../../domain/use_cases/get_folders_in_space_use_case.dart';
-import '../../domain/use_cases/get_list_use_case.dart';
-import '../../domain/use_cases/get_lists_in_folder_use_case.dart';
 import '../../domain/use_cases/get_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
@@ -94,34 +90,6 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
     // TODO C implement deleteTask
     throw UnimplementedError();
   }
-
-  @override
-  Future<List<ListModel>> getFolderlessLists(
-      {required GetFolderlessListsInSpaceParams params}) {
-    // TODO C implement getFolderlessLists
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<FolderModel>> getFolders(
-      {required GetFoldersInSpaceParams params}) {
-    // TODO C implement getFolders
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<ListModel> getList({required GetListParams params}) {
-    // TODO C implement getList
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<ListModel>> getListsInFolder(
-      {required GetListsInFolderParams params}) {
-    // TODO C implement getListsInFolder
-    throw UnimplementedError();
-  }
-
 
   @override
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {
