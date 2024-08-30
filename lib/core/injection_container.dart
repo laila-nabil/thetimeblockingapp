@@ -74,7 +74,8 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
   /// Globals
-  serviceLocator.registerSingleton(Logger(printer: kIsWeb ? logPrinter : null));
+  serviceLocator
+      .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
   /// Bloc
   serviceLocator.registerFactory(() => StartupBloc(

@@ -16,7 +16,7 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
       try {
         result = await tryGetFromLocalStorage();
       } catch (e) {
-        printDebug("tryGetFromLocalStorage error $e");
+        printDebug("tryGetFromLocalStorage error $e",printLevel: PrintLevel.error);
         result = await remoteDataSourceRequest();
       }
     } else {

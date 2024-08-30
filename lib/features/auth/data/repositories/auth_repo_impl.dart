@@ -25,7 +25,7 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
       clearGlobals();
       return const dartz.Right(dartz.unit);
     } catch (e) {
-      printDebug(e);
+      printDebug(e,printLevel: PrintLevel.error);
       return dartz.Left(exceptionToFailure(e as Exception));
     }
   }
