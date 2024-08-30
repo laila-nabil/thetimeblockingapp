@@ -62,6 +62,9 @@ import 'package:http/http.dart';
 
 final serviceLocator = GetIt.instance;
 
+SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
+
+
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
@@ -262,8 +265,8 @@ AuthRemoteDataSource authRemoteDataSource() {
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url);
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
@@ -274,8 +277,8 @@ GlobalRemoteDataSource globalRemoteDataSource() {
     case BackendMode.supabase:
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url);
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
@@ -289,20 +292,20 @@ TasksRemoteDataSource tasksRemoteDataSource() {
     case BackendMode.supabase:
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url);
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
 }
 
 void updateFromEnv() async {
-  Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
+  _supabaseGlobals = _supabaseGlobals.copyWith(
     url: const String.fromEnvironment("supabaseUrl", defaultValue: ""),
     key: const String.fromEnvironment("supabaseKey", defaultValue: ""),
   );
-  printDebug("supabaseGlobals url ${Globals.supabaseGlobals.url}");
-  printDebug("supabaseGlobals key ${Globals.supabaseGlobals.key}");
+  printDebug("supabaseGlobals url ${_supabaseGlobals.url}");
+  printDebug("supabaseGlobals key ${_supabaseGlobals.key}");
   Globals.env = Env.getEnv(
       const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }

@@ -29,8 +29,6 @@ List<Workspace>? _workspaces;
 
 class Globals {
 
-  static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
-
   static const Env defaultEnv  = Env.debugLocally;
 
   static Env env = defaultEnv;
