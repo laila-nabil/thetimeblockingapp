@@ -25,8 +25,6 @@ Duration _defaultTaskDuration = const Duration(hours: 1);
 
 List<Workspace>? _workspaces;
 
-///TODO B move to global bloc
-
 class Globals {
 
   static AccessToken get accessToken =>
@@ -52,10 +50,6 @@ class Globals {
 
   static const ThemeMode defaultThemeMode = ThemeMode.light;
 
-  static const bool isDemo = false;
-
-  static String demoUrl =
-      "https://demoo-timeblocking.web.app";
 
 
 }

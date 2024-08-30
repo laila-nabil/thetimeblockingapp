@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
@@ -113,7 +114,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                if(Globals.isDemo)signInToUse(authBloc),
+                                if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -135,7 +136,7 @@ class ResponsiveScaffold extends Scaffold {
                       builder: (context, state) {
                         return Column(
                           children: [
-                            if(Globals.isDemo)signInToUse(authBloc),
+                            if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -154,7 +155,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              if(Globals.isDemo)signInToUse(authBloc),
+              if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,

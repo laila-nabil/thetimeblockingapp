@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/globals.dart';
+import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
 import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
@@ -28,7 +29,7 @@ Future<void> main() async {
   di.updateFromEnv();
   await di.serviceLocator<Analytics>().initialize();
   await di.serviceLocator<Analytics>().logAppOpen();
-  if (kIsWeb && Globals.isDemo == false) {
+  if (kIsWeb && serviceLocator<bool>(instanceName: "isDemo") == false) {
     await tz_web.initializeTimeZone();
   } else {
     tz_not_web.initializeTimeZones();

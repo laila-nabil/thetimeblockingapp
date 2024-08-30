@@ -76,12 +76,16 @@ void _initServiceLocator({required Network network}) {
       .registerSingleton<BackendMode>(BackendMode.supabase);
 
   serviceLocator
-      .registerSingleton(Env.debugLocally,instanceName: "defaultEnv");
+      .registerSingleton<Env>(Env.debugLocally,instanceName: "defaultEnv");
 
   serviceLocator
-      .registerSingleton(
+      .registerSingleton<Env>(
       (serviceLocator.get(instanceName: "defaultEnv") as Env),
       instanceName: "env");
+
+  serviceLocator
+      .registerSingleton<bool>(false,instanceName: "isDemo");
+
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
@@ -266,7 +270,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 }
 
 AuthRemoteDataSource authRemoteDataSource() {
-  if (Globals.isDemo) {
+  if (serviceLocator<bool>(instanceName: "isDemo")) {
     return AuthDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {
@@ -293,7 +297,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
 }
 
 TasksRemoteDataSource tasksRemoteDataSource() {
-  if (Globals.isDemo) {
+  if (serviceLocator<bool>(instanceName: "isDemo")) {
     return TasksDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {

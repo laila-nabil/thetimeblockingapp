@@ -50,7 +50,7 @@ class PostHogImpl implements Analytics {
   Future<void> setCurrentScreen(String screenName) async {
     try {
       await _instance.screen(
-          screenName: Globals.isDemo ? "demo/$screenName" : screenName);
+          screenName: serviceLocator<bool>(instanceName: "isDemo") ? "demo/$screenName" : screenName);
       printDebug("PostHogImpl setCurrentScreen $screenName");
     } catch (e) {
       printDebug(e);
