@@ -10,7 +10,6 @@ import '../common/entities/workspace.dart';
 import '../common/entities/access_token.dart';
 import 'environment.dart';
 
-String _appName = "Time blocking app";
 
 
 AccessToken _accessToken =
@@ -29,7 +28,6 @@ List<Workspace>? _workspaces;
 ///TODO B move to global bloc
 
 class Globals {
-  static String get appName => _appName;
 
   static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
 

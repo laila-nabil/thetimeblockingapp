@@ -61,10 +61,11 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
+          String appName = "Time blocking app";
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: router,
-            title: Globals.appName,
+            title: appName,
             themeMode: settingsState.themeMode,
             theme: appTheme(false),
             darkTheme: appTheme(true),
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateTitle: (BuildContext context) {
-              return Globals.appName;
+              return appName;
             },
             scrollBehavior: MyCustomScrollBehavior(),
           );
