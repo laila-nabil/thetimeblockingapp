@@ -27,15 +27,15 @@ class SchedulePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => serviceLocator<ScheduleBloc>(),
       child: BlocConsumer<GlobalBloc, GlobalState>(
-        listener: (context, startUpCurrentState) {},
-        builder: (context, startUpCurrentState) {
+        listener: (context, globalCurrentState) {},
+        builder: (context, globalCurrentState) {
           final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final globalBloc = BlocProvider.of<GlobalBloc>(context);
               if (state.canShowTaskPopup(
-                  startupStateEnum: startUpCurrentState.startupStateEnum)) {
+                  startupStateEnum: globalCurrentState.startupStateEnum)) {
                 scheduleBloc
                     .add(const ShowTaskPopupEvent(showTaskPopup: false));
                 showTaskPopup(
@@ -43,12 +43,12 @@ class SchedulePage extends StatelessWidget {
                   taskPopupParams: state.taskPopupParams!,
                 );
               }
-              if (Globals.priorities.isEmpty) {
-                scheduleBloc
+              if (globalCurrentState.priorities?.isNotEmpty != true) {
+                globalBloc
                     .add(GetPrioritiesEvent(accessToken: Globals.accessToken));
               }
-              if (Globals.statuses.isEmpty) {
-                scheduleBloc
+              if (globalCurrentState.statuses?.isNotEmpty != true) {
+                globalBloc
                     .add(GetStatusesEvent(accessToken: Globals.accessToken));
               }
             },
@@ -64,7 +64,7 @@ class SchedulePage extends StatelessWidget {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
-                final workspace = (startUpCurrentState.selectedWorkspace ??
+                final workspace = (globalCurrentState.selectedWorkspace ??
                     Globals.selectedWorkspace ??
                     Globals.workspaces?.first);
                 printDebug(">><< workspace $workspace");
@@ -101,7 +101,7 @@ class SchedulePage extends StatelessWidget {
                           ResponsiveScaffoldLoadingEnum.overlayLoading,
                       isLoading: state.persistingScheduleStates
                               .contains(ScheduleStateEnum.loading) ||
-                          startUpCurrentState.isLoading),
+                          globalCurrentState.isLoading),
                   pageActions: [
                     ///TODO Z Bulk actions on tasks
                     // CustomDropDownItem.text(
@@ -138,11 +138,11 @@ class SchedulePage extends StatelessWidget {
                     small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
-                            startUpCurrentState.selectedWorkspace?.id ?? 0),
+                            globalCurrentState.selectedWorkspace?.id ?? 0),
                     large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
-                            startUpCurrentState.selectedWorkspace?.id),
+                            globalCurrentState.selectedWorkspace?.id),
                   ),
                   context: context, onRefresh: ()async {
                 var selectedWorkspace =

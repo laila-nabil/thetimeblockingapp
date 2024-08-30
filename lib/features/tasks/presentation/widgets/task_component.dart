@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
@@ -9,6 +10,7 @@ import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
@@ -125,6 +127,7 @@ class _TaskWidgetState extends State<TaskWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final globalState = BlocProvider.of<GlobalBloc>(context).state ;
     final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
@@ -207,7 +210,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       children: [
                         Icon(
                           widget.task.status ==
-                                  Globals.statuses.completedStatus
+                                  globalState.statuses?.completedStatus
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.task.status?.getColor ??

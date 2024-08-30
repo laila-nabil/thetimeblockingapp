@@ -61,21 +61,3 @@ class ShowTaskPopupEvent extends ScheduleEvent {
   @override
   List<Object?> get props => [showTaskPopup, taskPopupParams];
 }
-
-class GetStatusesEvent extends ScheduleEvent {
-  final AccessToken accessToken;
-  const GetStatusesEvent(
-      { required this.accessToken});
-
-  @override
-  List<Object?> get props => [accessToken];
-}
-
-class GetPrioritiesEvent extends ScheduleEvent {
-  final AccessToken accessToken;
-  const GetPrioritiesEvent(
-      { required this.accessToken});
-
-  @override
-  List<Object?> get props => [accessToken];
-}

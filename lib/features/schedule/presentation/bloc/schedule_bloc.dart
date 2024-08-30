@@ -9,8 +9,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_statuses_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_task_use_case.dart';
 
 import '../../../../core/globals.dart';
@@ -32,8 +32,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final DuplicateTaskUseCase _duplicateTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
-  final GetPrioritiesUseCase _getPrioritiesUseCase;
-  final GetStatusesUseCase _getStatusesUseCase;
 
   final CalendarController controller = CalendarController();
 
@@ -43,8 +41,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       this._duplicateTaskUseCase,
       this._updateTaskUseCase,
     this._deleteTaskUseCase,
-    this._getPrioritiesUseCase,
-    this._getStatusesUseCase,
   ) : super(ScheduleState._(
             persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
@@ -160,33 +156,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(state.copyWith(
             showTaskPopup: event.showTaskPopup,
             taskPopupParams: event.taskPopupParams));
-      }else if (event is GetPrioritiesEvent) {
-        emit(state.copyWith(
-          persistingScheduleStateAddRemove:
-          const dartz.Right(ScheduleStateEnum.loading),
-        ));
-        final result = await _getPrioritiesUseCase(
-            GetPrioritiesParams(
-              event.accessToken,));
-        printDebug('_getPrioritiesUseCase $result');
-        emit(state.copyWith(
-            persistingScheduleStateAddRemove:
-            const dartz.Left(ScheduleStateEnum.loading)));
-        ///TODO A
-      } else if (event is GetStatusesEvent) {
-        emit(state.copyWith(
-          persistingScheduleStateAddRemove:
-          const dartz.Right(ScheduleStateEnum.loading),
-        ));
-        final result =
-        await _getStatusesUseCase(
-            GetStatusesParams(
-              event.accessToken,));
-        printDebug('_getStatusesUseCase $result');
-        emit(state.copyWith(
-            persistingScheduleStateAddRemove:
-            const dartz.Left(ScheduleStateEnum.loading)));
-        ///TODO A
       }
     });
   }

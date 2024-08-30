@@ -26,15 +26,12 @@ Duration _defaultTaskDuration = const Duration(hours: 1);
 
 List<Workspace>? _workspaces;
 
+///TODO B move to global bloc
 
 class Globals {
   static BackendMode backendMode = BackendMode.supabase;
 
   static String get appName => _appName;
-
-  static List<TaskStatus> statuses = [];
-
-  static List<TaskPriority> priorities = [];
 
   static SupabaseGlobals supabaseGlobals = SupabaseGlobals();
 

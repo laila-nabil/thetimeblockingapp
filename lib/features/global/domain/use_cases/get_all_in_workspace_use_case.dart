@@ -7,11 +7,12 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import '../../../../common/entities/access_token.dart';
+import '../repositories/global_repo.dart';
 
 class GetAllInWorkspaceUseCase
     with GlobalsWriteAccess
     implements UseCase<Workspace, GetAllInWorkspaceParams> {
-  final TasksRepo repo;
+  final GlobalRepo repo;
 
   GetAllInWorkspaceUseCase(this.repo);
 

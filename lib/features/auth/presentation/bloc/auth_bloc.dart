@@ -6,12 +6,10 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
-import 'package:thetimeblockingapp/features/global/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
-import '../../../global/domain/use_cases/get_selected_workspace_use_case.dart';
-import '../../../tasks/domain/use_cases/get_workspaces_use_case.dart';
+import '../../../global/domain/use_cases/get_workspaces_use_case.dart';
 import '../../../../common/entities/access_token.dart';
 
 part 'auth_event.dart';
@@ -20,13 +18,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetWorkspacesUseCase _getWorkspacesUseCase;
-  final GetSelectedWorkspaceUseCase _getSelectedWorkspaceUseCase;
   final SignInUseCase _signInUseCase;
-  final GetSpacesOfSelectedWorkspaceUseCase
-      _getSpacesOfSelectedWorkspaceUseCase;
 
-  AuthBloc(this._getWorkspacesUseCase, this._getSelectedWorkspaceUseCase,
-      this._getSpacesOfSelectedWorkspaceUseCase, this._signInUseCase)
+  AuthBloc(this._getWorkspacesUseCase, this._signInUseCase)
       : super(const AuthState(authState: AuthStateEnum.initial)) {
     on<AuthEvent>((event, emit) async {
       if (event is SignInEvent) {

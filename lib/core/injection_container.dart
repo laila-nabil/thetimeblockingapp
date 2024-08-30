@@ -9,12 +9,12 @@ import 'package:thetimeblockingapp/core/network/supabase_exception_handler.dart'
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
+import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
-import 'package:thetimeblockingapp/features/global/domain/use_cases/select_space_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
@@ -33,21 +33,17 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
-import '../features/global/domain/use_cases/get_selected_workspace_use_case.dart';
-import '../features/global/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_statuses_use_case.dart';
-import '../features/global/domain/use_cases/select_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
-import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_list_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_tag_use_case.dart';
-import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_workspaces_use_case.dart';
+import '../features/global/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/create_task_use_case.dart';
@@ -73,18 +69,17 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
+  serviceLocator
+      .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
+
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),
       serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
-        serviceLocator(),
-        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
@@ -199,19 +194,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-
-
-  serviceLocator.registerLazySingleton(() => SelectWorkspaceUseCase(
-        serviceLocator(),
-      ));
-
-  serviceLocator.registerLazySingleton(() => GetSelectedWorkspaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator
-      .registerLazySingleton(() => GetSpacesOfSelectedWorkspaceUseCase(
-            serviceLocator(),
-          ));
   serviceLocator.registerLazySingleton(() => AddTagToTaskUseCase(
         serviceLocator(),
       ));
@@ -223,10 +205,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => RemoveTagsFromTaskUseCase(
-        serviceLocator(),
-      ));
-
-  serviceLocator.registerLazySingleton(() => SelectSpaceUseCase(
         serviceLocator(),
       ));
 
@@ -253,7 +231,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton<TasksRepo>(
-      () => TasksRepoImpl(serviceLocator(), serviceLocator()));
+      () => TasksRepoImpl(serviceLocator(),));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
@@ -264,8 +242,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
       () => tasksRemoteDataSource());
 
-  serviceLocator.registerLazySingleton<TasksLocalDataSource>(
-      () => TasksLocalDataSourceImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<GlobalRemoteDataSource>(
+          () => globalRemoteDataSource());
 
   /// External
 
@@ -284,6 +262,18 @@ AuthRemoteDataSource authRemoteDataSource() {
   switch (Globals.backendMode) {
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
+          network: serviceLocator(),
+          key: Globals.supabaseGlobals.key,
+          url: Globals.supabaseGlobals.url);
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError();
+  }
+}
+GlobalRemoteDataSource globalRemoteDataSource() {
+
+  switch (Globals.backendMode) {
+    case BackendMode.supabase:
+      return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
           key: Globals.supabaseGlobals.key,
           url: Globals.supabaseGlobals.url);

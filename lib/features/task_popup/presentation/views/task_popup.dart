@@ -14,6 +14,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
@@ -284,6 +285,7 @@ class TaskPopup extends StatelessWidget {
                   appFontSize: AppFontSize.paragraphSmall,
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium));
+              final globalState = BlocProvider.of<GlobalBloc>(context).state ;
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -474,7 +476,7 @@ class TaskPopup extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                               if(Globals.statuses.isNotEmpty)
+                               if(globalState.statuses?.isNotEmpty == true)
                                  CustomDropDown(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDown
@@ -486,8 +488,8 @@ class TaskPopup extends StatelessWidget {
                                           taskParams:
                                           taskParams.copyWith(
                                               taskStatus: status))),
-                                  items: Globals.statuses
-                                      .map<
+                                  items: globalState.statuses
+                                      ?.map<
                                       DropdownMenuItem<
                                           TaskStatus>>((e) =>
                                       DropdownMenuItem(
@@ -509,9 +511,8 @@ class TaskPopup extends StatelessWidget {
                                                       : null)):Row(
                                             children: [
                                               Icon(
-                                                  e ==
-                                                      Globals.statuses.firstWhere((s)=>s.isDone == true)
-                                                      ? AppIcons.checkboxchecked
+                                                  e == globalState.statuses?.firstWhere((s) => s.isDone == true)
+                                                                        ? AppIcons.checkboxchecked
                                                       : AppIcons.checkbox,
                                                   color: e.getColor ??
                                                       AppColors.text(context.isDarkMode)),
@@ -538,7 +539,7 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                                 ///Priority
-                                if(Globals.priorities.isNotEmpty)
+                                if(globalState.priorities?.isNotEmpty == true)
                                   CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
@@ -559,7 +560,7 @@ class TaskPopup extends StatelessWidget {
                                                 .copyWith(
                                                 taskPriority:
                                                 priority))),
-                                    items: (Globals.priorities.map((e) =>
+                                    items: (globalState.priorities?.map((e) =>
                                       DropdownMenuItem(
                                       value: e,
                                       child: Row(
