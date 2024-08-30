@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';
 
+import '../environment.dart';
 import '../globals.dart';
 import '../injection_container.dart';
 import 'analytics.dart';
@@ -17,8 +18,8 @@ class FirebaseAnalyticsImpl implements Analytics {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      await FirebaseAnalytics.instance
-          .setAnalyticsCollectionEnabled(Globals.isAnalyticsEnabled);
+      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(
+          serviceLocator<Env>(instanceName: "env").isAnalyticsEnabled);
       _instance = FirebaseAnalytics.instance;
       printDebug("FirebaseAnalyticsImpl initialize");
     } catch (e) {

@@ -29,12 +29,6 @@ List<Workspace>? _workspaces;
 
 class Globals {
 
-  static const Env defaultEnv  = Env.debugLocally;
-
-  static Env env = defaultEnv;
-
-  static get isAnalyticsEnabled => env.isAnalyticsEnabled;
-
   static AccessToken get accessToken =>
       _accessToken;
 

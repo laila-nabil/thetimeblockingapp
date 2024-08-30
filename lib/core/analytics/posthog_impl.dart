@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
+import '../environment.dart';
 import '../globals.dart';
 import 'analytics.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
@@ -13,9 +15,9 @@ class PostHogImpl implements Analytics {
   Future<void> initialize() async {
     try {
       _instance = Posthog();
-      if(Globals.isAnalyticsEnabled){
+      if(serviceLocator<Env>(instanceName: "env").isAnalyticsEnabled){
         await _instance.enable();
-        await _instance.debug(Globals.env.isDebug);
+        await _instance.debug(serviceLocator<Env>(instanceName: "env").isDebug);
       }
       printDebug("PostHogImpl initialize");
     } catch (e) {

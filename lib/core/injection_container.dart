@@ -75,6 +75,14 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerSingleton<BackendMode>(BackendMode.supabase);
 
+  serviceLocator
+      .registerSingleton(Env.debugLocally,instanceName: "defaultEnv");
+
+  serviceLocator
+      .registerSingleton(
+      (serviceLocator.get(instanceName: "defaultEnv") as Env),
+      instanceName: "env");
+
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
@@ -306,8 +314,10 @@ void updateFromEnv() async {
   );
   printDebug("supabaseGlobals url ${_supabaseGlobals.url}");
   printDebug("supabaseGlobals key ${_supabaseGlobals.key}");
-  Globals.env = Env.getEnv(
-      const String.fromEnvironment("env", defaultValue: "debugLocally"));
+  serviceLocator
+      .registerSingleton<Env>(Env.getEnv(
+          const String.fromEnvironment("env", defaultValue: "debugLocally")),
+      instanceName: "defaultEnv");
 }
 
 void initServiceLocator() {
