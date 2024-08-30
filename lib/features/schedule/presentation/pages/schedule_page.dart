@@ -13,7 +13,7 @@ import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 
 ///TODO Z in desktop, month calendar view in drawer like SORTED for MAC
 
@@ -26,14 +26,14 @@ class SchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ScheduleBloc>(),
-      child: BlocConsumer<StartupBloc, StartupState>(
+      child: BlocConsumer<GlobalBloc, GlobalState>(
         listener: (context, startUpCurrentState) {},
         builder: (context, startUpCurrentState) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              final startupBloc = BlocProvider.of<StartupBloc>(context);
+              final globalBloc = BlocProvider.of<GlobalBloc>(context);
               if (state.canShowTaskPopup(
                   startupStateEnum: startUpCurrentState.startupStateEnum)) {
                 scheduleBloc
@@ -42,6 +42,14 @@ class SchedulePage extends StatelessWidget {
                   context: context,
                   taskPopupParams: state.taskPopupParams!,
                 );
+              }
+              if (Globals.priorities.isEmpty) {
+                scheduleBloc
+                    .add(GetPrioritiesEvent(accessToken: Globals.accessToken));
+              }
+              if (Globals.statuses.isEmpty) {
+                scheduleBloc
+                    .add(GetStatusesEvent(accessToken: Globals.accessToken));
               }
             },
             builder: (context, state) {
@@ -67,7 +75,7 @@ class SchedulePage extends StatelessWidget {
                         filtersParams: scheduleBloc
                             .state.defaultTasksInWorkspaceFiltersParams,
                         backendMode: Globals.backendMode)));
-                startupBloc.add(GetAllInWorkspaceEvent(
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
                     accessToken: Globals.accessToken));
               }
@@ -145,7 +153,7 @@ class SchedulePage extends StatelessWidget {
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
                         backendMode: Globals.backendMode)));
-                startupBloc.add(GetAllInWorkspaceEvent(
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
                     accessToken: Globals.accessToken));
               },);

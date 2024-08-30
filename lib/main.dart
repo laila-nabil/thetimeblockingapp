@@ -13,7 +13,7 @@ import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
 import 'core/router.dart';
-import 'features/startup/presentation/bloc/startup_bloc.dart';
+import 'features/global/presentation/bloc/global_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/mock_web_packages/mock_timezone.dart'
 if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.serviceLocator<StartupBloc>(),
+          create: (context) => di.serviceLocator<GlobalBloc>(),
         ),
         BlocProvider(
           create: (context) => di.serviceLocator<AuthBloc>(),

@@ -6,11 +6,11 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
-import '../../../startup/domain/use_cases/get_selected_workspace_use_case.dart';
+import '../../../global/domain/use_cases/get_selected_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/get_workspaces_use_case.dart';
 import '../../../../common/entities/access_token.dart';
 

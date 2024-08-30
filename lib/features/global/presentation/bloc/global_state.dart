@@ -1,4 +1,4 @@
-part of 'startup_bloc.dart';
+part of 'global_bloc.dart';
 
 enum StartupStateEnum {
   loading,
@@ -12,7 +12,7 @@ enum StartupStateEnum {
   getAllInSpaceFailed,
 }
 
-class StartupState extends Equatable {
+class GlobalState extends Equatable {
   final StartupStateEnum? startupStateEnum;
   final bool drawerLargerScreenOpen;
   final Workspace? selectedWorkspace;
@@ -22,7 +22,7 @@ class StartupState extends Equatable {
   final List<TaskPriority>? priorities;
   final Failure? getPrioritiesFailure;
 
-  const StartupState({
+  const GlobalState({
     required this.drawerLargerScreenOpen,
     this.selectedWorkspace,
     this.startupStateEnum,
@@ -50,7 +50,7 @@ class StartupState extends Equatable {
     getAllInWorkspaceFailure,this.statuses, this.getStatusesFailure, this.priorities, this.getPrioritiesFailure,
   ];
 
-  StartupState copyWith({
+  GlobalState copyWith({
     StartupStateEnum? startupStateEnum,
     bool? drawerLargerScreenOpen,
     Workspace? selectedWorkspace,
@@ -60,7 +60,7 @@ class StartupState extends Equatable {
     List<TaskPriority>? priorities,
     Failure? getPrioritiesFailure,
   }) {
-    return StartupState(
+    return GlobalState(
       startupStateEnum: startupStateEnum ?? this.startupStateEnum,
       drawerLargerScreenOpen:
           drawerLargerScreenOpen ?? this.drawerLargerScreenOpen,

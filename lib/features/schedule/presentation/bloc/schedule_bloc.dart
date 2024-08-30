@@ -2,15 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_task_use_case.dart';
 
 import '../../../../core/globals.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
@@ -28,6 +32,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final DuplicateTaskUseCase _duplicateTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+  final GetPrioritiesUseCase _getPrioritiesUseCase;
+  final GetStatusesUseCase _getStatusesUseCase;
+
   final CalendarController controller = CalendarController();
 
   ScheduleBloc(
@@ -35,8 +42,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       this._createTaskUseCase,
       this._duplicateTaskUseCase,
       this._updateTaskUseCase,
-      this._deleteTaskUseCase,)
-      : super(ScheduleState._(
+    this._deleteTaskUseCase,
+    this._getPrioritiesUseCase,
+    this._getStatusesUseCase,
+  ) : super(ScheduleState._(
             persistingScheduleStates: const {},
             tasksDueDateEarliestDate: ScheduleState.defaultTasksEarliestDate,
             tasksDueDateLatestDate: ScheduleState.defaultTasksLatestDate)) {
@@ -151,6 +160,33 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(state.copyWith(
             showTaskPopup: event.showTaskPopup,
             taskPopupParams: event.taskPopupParams));
+      }else if (event is GetPrioritiesEvent) {
+        emit(state.copyWith(
+          persistingScheduleStateAddRemove:
+          const dartz.Right(ScheduleStateEnum.loading),
+        ));
+        final result = await _getPrioritiesUseCase(
+            GetPrioritiesParams(
+              event.accessToken,));
+        printDebug('_getPrioritiesUseCase $result');
+        emit(state.copyWith(
+            persistingScheduleStateAddRemove:
+            const dartz.Left(ScheduleStateEnum.loading)));
+        ///TODO A
+      } else if (event is GetStatusesEvent) {
+        emit(state.copyWith(
+          persistingScheduleStateAddRemove:
+          const dartz.Right(ScheduleStateEnum.loading),
+        ));
+        final result =
+        await _getStatusesUseCase(
+            GetStatusesParams(
+              event.accessToken,));
+        printDebug('_getStatusesUseCase $result');
+        emit(state.copyWith(
+            persistingScheduleStateAddRemove:
+            const dartz.Left(ScheduleStateEnum.loading)));
+        ///TODO A
       }
     });
   }

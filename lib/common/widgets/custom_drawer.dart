@@ -22,7 +22,7 @@ import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.
 import '../../core/globals.dart';
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
-import '../../features/startup/presentation/bloc/startup_bloc.dart';
+import '../../features/global/presentation/bloc/global_bloc.dart';
 import '../entities/space.dart';
 import '../entities/workspace.dart';
 
@@ -33,23 +33,23 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startupBloc = BlocProvider.of<StartupBloc>(context);
+    final globalBloc = BlocProvider.of<GlobalBloc>(context);
     final showSmallDesign = context.showSmallDesign;
-    return BlocBuilder<StartupBloc, StartupState>(
+    return BlocBuilder<GlobalBloc, GlobalState>(
       builder: (context, state) {
         return CustomDrawerWidget(
             showSmallDesign: showSmallDesign,
             router: GoRouter.of(context),
             selectWorkspace: (selected) {
               if (selected is Workspace && state.isLoading == false) {
-                startupBloc.add(GetAllInWorkspaceEvent(
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selected,
                     accessToken: Globals.accessToken));
               }
             },
             selectSpace: (selected) {
               if (selected != null && state.isLoading == false) {
-                startupBloc.add(SelectSpace(
+                globalBloc.add(SelectSpace(
                     space: selected,
                     accessToken: Globals.accessToken));
               }

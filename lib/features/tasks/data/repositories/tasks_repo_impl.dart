@@ -1,10 +1,14 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 
@@ -33,8 +37,8 @@ import '../../../../core/globals.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/repo_handler.dart';
 import '../../../../core/usecase.dart';
-import '../../../startup/domain/use_cases/select_space_use_case.dart';
-import '../../../startup/domain/use_cases/select_workspace_use_case.dart';
+import '../../../global/domain/use_cases/select_space_use_case.dart';
+import '../../../global/domain/use_cases/select_workspace_use_case.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 import '../data_sources/tasks_local_data_source.dart';
@@ -215,5 +219,28 @@ class TasksRepoImpl with GlobalsWriteAccess implements TasksRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.getAllInWorkspace(params: params));
+  }
+
+
+  @override
+  Future<dartz.Either<Failure, List<TaskStatusModel>>> getStatuses(GetStatusesParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () async {
+          var result = await remoteDataSource.getStatuses(params);
+          Globals.statuses = result;
+          printDebug("Globals.statuses now ${Globals.statuses}");
+          return result;
+        });
+  }
+
+  @override
+  Future<dartz.Either<Failure, List<TaskPriorityModel>>> getPriorities(GetPrioritiesParams params) {
+    return repoHandleRemoteRequest(
+        remoteDataSourceRequest: () async {
+          var result = await remoteDataSource.getPriorities(params);
+          Globals.priorities = result;
+          printDebug("Globals.priorities now ${Globals.priorities}");
+          return result;
+        });
   }
 }

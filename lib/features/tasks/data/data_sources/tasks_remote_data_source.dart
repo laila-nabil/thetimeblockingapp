@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_statuses_use_case.dart';
 
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
@@ -68,6 +72,10 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteTag({required DeleteTagParams params});
 
   Future<WorkspaceModel> getAllInWorkspace({required GetAllInWorkspaceParams params});
+
+  Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params);
+
+  Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params);
 }
 
 class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -203,5 +211,24 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
             "$url/rest/v1/all_data?workspace_id=eq.${params.workspace.id}"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return WorkspaceModel.fromJson(json.decode(response.body)[0]);
+  }
+
+
+  @override
+  Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) async {
+    final response = await network.get(
+        uri: Uri.parse(
+            "$url/rest/v1/status"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return taskStatusModelFromJson(json.decode(response.body)) ?? [];
+  }
+
+  @override
+  Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) async {
+    final response = await network.get(
+        uri: Uri.parse(
+            "$url/rest/v1/priority"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return taskPriorityModelFromJson(json.decode(response.body)) ?? [];
   }
 }

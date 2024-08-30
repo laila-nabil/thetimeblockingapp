@@ -17,7 +17,7 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
@@ -39,9 +39,9 @@ class TagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: tagsPageBloc,
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<TagsPageBloc, TagsPageState>(
             listener: (context, state) {
               printDebug(
@@ -230,7 +230,7 @@ class TagPage extends StatelessWidget {
                       workspace: Globals.selectedWorkspace!,
                       tag: state.navigateTag!,
                       space: Globals.selectedSpace!));
-                  startupBloc.add(GetAllInWorkspaceEvent(
+                  globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: Globals.selectedWorkspace!,
                       accessToken: Globals.accessToken));
                 },

@@ -14,7 +14,7 @@ import '../../../../core/globals.dart';
 import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../../common/entities/space.dart';
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
@@ -30,9 +30,9 @@ class AllTasksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<AllTasksBloc>(),
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, startupState) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<AllTasksBloc, AllTasksState>(
             listener: (context, state) {
             },
@@ -94,7 +94,7 @@ class AllTasksPage extends StatelessWidget {
                               onChanged: (selected) {
                                 if (selected != null &&
                                     state.isLoading == false) {
-                                  startupBloc.add(SelectSpace(
+                                  globalBloc.add(SelectSpace(
                                       space: selected,
                                       accessToken:
                                           Globals.accessToken));
@@ -174,7 +174,7 @@ class AllTasksPage extends StatelessWidget {
                   )),
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc);
-                startupBloc.add(GetAllInWorkspaceEvent(
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: Globals.selectedWorkspace!,
                     accessToken: Globals.accessToken));
               },);

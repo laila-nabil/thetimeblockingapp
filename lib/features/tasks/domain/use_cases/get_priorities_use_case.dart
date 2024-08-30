@@ -4,10 +4,10 @@ import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/startup/domain/repositories/startup_repo.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 class GetPrioritiesUseCase implements UseCase<List<TaskPriority>,GetPrioritiesParams>{
-  final StartUpRepo repo;
+  final TasksRepo repo;
 
   GetPrioritiesUseCase(this.repo);
   @override

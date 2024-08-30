@@ -20,7 +20,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
@@ -35,7 +35,7 @@ class TagsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<TagsPageBloc>(),
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, startupState) {
         return BlocConsumer<TagsPageBloc, TagsPageState>(
           listener: (context, state) {
@@ -81,7 +81,7 @@ class TagsPage extends StatelessWidget {
           },
           builder: (context, state) {
             final tagsPageBloc = BlocProvider.of<TagsPageBloc>(context);
-            final startupBloc = BlocProvider.of<StartupBloc>(context);
+            final globalBloc = BlocProvider.of<GlobalBloc>(context);
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
@@ -240,7 +240,7 @@ class TagsPage extends StatelessWidget {
                       accessToken:
                       Globals.accessToken,
                       space: Globals.selectedSpace!)));
-              startupBloc.add(GetAllInWorkspaceEvent(
+              globalBloc.add(GetAllInWorkspaceEvent(
                   workspace: Globals.selectedWorkspace!,
                   accessToken: Globals.accessToken));
             },);

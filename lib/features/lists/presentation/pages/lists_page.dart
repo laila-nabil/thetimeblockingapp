@@ -23,7 +23,7 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
 
@@ -36,7 +36,7 @@ class ListsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ListsPageBloc>(),
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, startupState) {
         return BlocConsumer<ListsPageBloc, ListsPageState>(
           listener: (context, state) {
@@ -118,7 +118,7 @@ class ListsPage extends StatelessWidget {
           },
           builder: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
-            final startupBloc = BlocProvider.of<StartupBloc>(context);
+            final globalBloc = BlocProvider.of<GlobalBloc>(context);
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
@@ -339,7 +339,7 @@ class ListsPage extends StatelessWidget {
                 )),
                 context: context, onRefresh: ()async {
               getListsFolders(listsPageBloc);
-              startupBloc.add(GetAllInWorkspaceEvent(
+              globalBloc.add(GetAllInWorkspaceEvent(
                   workspace: Globals.selectedWorkspace!,
                   accessToken: Globals.accessToken));
             },);

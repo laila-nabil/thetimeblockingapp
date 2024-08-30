@@ -13,11 +13,9 @@ import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
-import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_priorities_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/select_space_use_case.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
@@ -35,12 +33,10 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
-import '../features/startup/data/repositories/startup_repo_impl.dart';
-import '../features/startup/domain/repositories/startup_repo.dart';
-import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
-import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
-import '../features/startup/domain/use_cases/get_statuses_use_case.dart';
-import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_selected_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
+import '../features/tasks/domain/use_cases/get_statuses_use_case.dart';
+import '../features/global/domain/use_cases/select_workspace_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -78,7 +74,7 @@ void _initServiceLocator({required Network network}) {
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc(
+  serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),
@@ -87,6 +83,8 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
+        serviceLocator(),
+        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
@@ -257,9 +255,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<TasksRepo>(
       () => TasksRepoImpl(serviceLocator(), serviceLocator()));
 
-  serviceLocator.registerLazySingleton<StartUpRepo>(
-      () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
-
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
       () => authRemoteDataSource());
@@ -268,15 +263,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
       () => tasksRemoteDataSource());
-
-  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
-      SupabaseStartUpRemoteDataSourceImpl(
-          network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url));
-
-  serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
-      () => StartUpLocalDataSourceImpl(serviceLocator()));
 
   serviceLocator.registerLazySingleton<TasksLocalDataSource>(
       () => TasksLocalDataSourceImpl(serviceLocator()));

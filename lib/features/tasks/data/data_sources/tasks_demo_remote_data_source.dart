@@ -1,11 +1,15 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
@@ -134,6 +138,18 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<WorkspaceModel> getAllInWorkspace(
       {required GetAllInWorkspaceParams params}) {
     // TODO C implement getAllInWorkspace
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) {
+    // TODO C implement getPriorities
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) {
+    // TODO C implement getStatuses
     throw UnimplementedError();
   }
 }
