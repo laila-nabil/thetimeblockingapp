@@ -23,6 +23,15 @@ class GetAllInWorkspaceEvent extends GlobalEvent {
   List<Object?> get props => [workspace,accessToken];
 }
 
+class GetAllWorkspacesEvent extends GlobalEvent {
+  final GetWorkspacesParams params;
+  const GetAllWorkspacesEvent(
+      { required this.params});
+
+  @override
+  List<Object?> get props => [params];
+}
+
 
 class GetStatusesEvent extends GlobalEvent {
   final AccessToken accessToken;

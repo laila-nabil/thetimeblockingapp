@@ -16,7 +16,7 @@ class GetWorkspacesUseCase
   GetWorkspacesUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, List<Workspace>>?> call(
+  Future<dartz.Either<Failure, List<Workspace>>> call(
       GetWorkspacesParams params) async {
     final result = await repo.getWorkspaces(params: params);
     await result.fold(

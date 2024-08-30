@@ -17,10 +17,9 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final GetWorkspacesUseCase _getWorkspacesUseCase;
   final SignInUseCase _signInUseCase;
 
-  AuthBloc(this._getWorkspacesUseCase, this._signInUseCase)
+  AuthBloc( this._signInUseCase)
       : super(const AuthState(authState: AuthStateEnum.initial)) {
     on<AuthEvent>((event, emit) async {
       if (event is SignInEvent) {
@@ -34,18 +33,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               user: r.user,
               accessToken: r.accessToken,
               authState: AuthStateEnum.signInSuccess));
-          emit(state.copyWith(authState: AuthStateEnum.loading));
-          final getWorkspaces = await _getWorkspacesUseCase(GetWorkspacesParams(
-              accessToken: r.accessToken,
-              userId: r.user.id.toStringOrNull() ?? ""));
-          emit(state.copyWith(authState: AuthStateEnum.loading));
-          getWorkspaces?.fold(
-              (l) => emit(state.copyWith(
-                  getWorkspacesFailure: l,
-                  authState: AuthStateEnum.getWorkspacesFailed)), (r) {
-            emit(state.copyWith(
-                workspaces: r, authState: AuthStateEnum.getWorkspacesSuccess));
-          });
         });
       }
     });

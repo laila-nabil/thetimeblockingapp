@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/get_prioriti
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../../../../common/entities/priority.dart';
 import '../../domain/use_cases/get_all_in_workspace_use_case.dart';
+import '../../domain/use_cases/get_workspaces_use_case.dart';
 
 part 'global_event.dart';
 
@@ -22,10 +23,12 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState>
   final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
   final GetStatusesUseCase _getStatusesUseCase;
   final GetPrioritiesUseCase _getPrioritiesUseCase;
+  final GetWorkspacesUseCase _getWorkspacesUseCase;
 
   GlobalBloc(
     this._getAllInWorkspaceUseCase,
     this._getStatusesUseCase,
+    this._getWorkspacesUseCase,
     this._getPrioritiesUseCase,
   ) : super(const GlobalState(
             drawerLargerScreenOpen: false, isLoading: false)) {
@@ -58,6 +61,11 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState>
         ));
         result.fold((l) => emit(state.copyWith(getStatusesFailure: l)),
             (r) => emit(state.copyWith(statuses: r)));
+      }else if (event is GetAllWorkspacesEvent) {
+        emit(state.copyWith(isLoading: true));
+        final result = await _getWorkspacesUseCase(event.params);
+        result.fold((l) => emit(state.copyWith(getWorkspacesFailure: l)),
+                (r) => emit(state.copyWith(workspaces: r)));
       }
     });
   }
