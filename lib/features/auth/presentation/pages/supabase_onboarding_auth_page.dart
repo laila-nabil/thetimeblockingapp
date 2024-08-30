@@ -349,6 +349,7 @@ class _SupabaseOnBoardingAndAuthPageState
                                           });
                                         },
                                         type: CustomButtonType.secondaryLabel),
+                                    ///TODO B remove next button since onboarding only 2 steps
                                     CustomButton.noIcon(
                                         analyticsEvent:
                                         AnalyticsEvents.onBoardingStep2Next,
@@ -374,6 +375,7 @@ class _SupabaseOnBoardingAndAuthPageState
                                   ),
                                   Wrap(
                                     children: [
+                                      ///TODO B remove skip button since onboarding only 2 steps
                                       CustomButton.noIcon(
                                           analyticsEvent:
                                           AnalyticsEvents.onBoardingStep2Skip,
@@ -453,6 +455,7 @@ class _SupabaseOnBoardingAndAuthPageState
                                     SizedBox(
                                       width: AppSpacing.xSmall8.value,
                                     ),
+                                    ///TODO B remove next button since onboarding only 2 steps
                                     CustomButton.noIcon(
                                         analyticsEvent:
                                         AnalyticsEvents.onBoardingStep2Next,
@@ -476,6 +479,7 @@ class _SupabaseOnBoardingAndAuthPageState
                                       ),
                                       Row(
                                         children: [
+                                          ///TODO B remove skip button since onboarding only 2 steps
                                           CustomButton.noIcon(
                                               analyticsEvent: AnalyticsEvents
                                                   .onBoardingStep2Skip,
@@ -647,7 +651,9 @@ class _SupabaseOnBoardingAndAuthPageState
   }
 
   Widget _auth() {
-    ///TODO A Login UI
+    ///TODO A Sign in UI
+    ///TODO A Sign up UI
+    ///TODO A Sign up Flow
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

@@ -18,6 +18,8 @@ import '../../../../core/resources/text_styles.dart';
 import '../../../startup/presentation/bloc/startup_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
+///TODO A fix tasks not viewed
+
 class ListPage extends StatelessWidget {
   const ListPage(
       {super.key, required this.listId, required this.listsPageBloc});

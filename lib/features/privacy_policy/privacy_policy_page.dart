@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///TODO C PrivacyPolicyPage content
+
 class PrivacyPolicyPage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   PrivacyPolicyPage({super.key});

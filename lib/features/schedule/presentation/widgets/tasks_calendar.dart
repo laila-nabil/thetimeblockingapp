@@ -12,7 +12,7 @@ import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.d
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 
-//FIXME fix UI after Flutter update
+//TODO B FIXME fix UI after Flutter update
 
 class TasksCalendar extends StatelessWidget {
   const TasksCalendar({

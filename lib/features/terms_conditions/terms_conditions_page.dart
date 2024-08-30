@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+///TODO C TermsConditionsPage content
+
 class TermsConditionsPage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   TermsConditionsPage({super.key});

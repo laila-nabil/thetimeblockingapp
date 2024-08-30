@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 
+///TODO B handle JWT expiration
+
 abstract class Network {
   final http.Client httpClient;
   final Future<NetworkResponse> Function(

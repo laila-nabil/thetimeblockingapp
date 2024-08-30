@@ -25,6 +25,8 @@ import 'package:thetimeblockingapp/common/entities/task.dart';
 
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
+///TODO A fix tasks not viewed
+
 class TagPage extends StatelessWidget {
   const TagPage({super.key, required this.tagName, required this.tagsPageBloc});
 
