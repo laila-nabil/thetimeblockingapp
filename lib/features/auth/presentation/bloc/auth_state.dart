@@ -21,8 +21,6 @@ class AuthState extends Equatable {
   final Failure? getAccessTokenFailure;
   final AccessToken? accessToken;
   final Failure? getUserFailure;
-  final List<Workspace>? workspaces;
-  final Failure? getWorkspacesFailure;
   final User? user;
   final Failure? signInFailure;
 
@@ -31,8 +29,6 @@ class AuthState extends Equatable {
     this.getAccessTokenFailure,
     this.accessToken,
     this.getUserFailure,
-    this.workspaces,
-    this.getWorkspacesFailure,
     this.user,
     this.signInFailure,
   });
@@ -41,8 +37,7 @@ class AuthState extends Equatable {
 
   bool get canGoSchedulePage {
     return user != null &&
-        accessToken != null &&
-        workspaces?.isNotEmpty == true;
+        accessToken != null ;
   }
 
   @override
@@ -51,8 +46,7 @@ class AuthState extends Equatable {
         getAccessTokenFailure,
         accessToken,
         getUserFailure,
-        workspaces,
-        getWorkspacesFailure,
+
         user,
         signInFailure,
       ];
@@ -62,8 +56,6 @@ class AuthState extends Equatable {
     Failure? getAccessTokenFailure,
     AccessToken? accessToken,
     Failure? getUserFailure,
-    List<Workspace>? workspaces,
-    Failure? getWorkspacesFailure,
     User? user,
     Failure? signInFailure
   }) {
@@ -74,9 +66,6 @@ class AuthState extends Equatable {
       accessToken: accessToken ??this.accessToken,
       getUserFailure:
           getUserFailure ?? this.getUserFailure,
-      workspaces: workspaces ?? this.workspaces,
-      getWorkspacesFailure:
-          getWorkspacesFailure ?? this.getWorkspacesFailure,
       signInFailure: signInFailure ?? this.signInFailure,
       user: user ?? this.user
     );

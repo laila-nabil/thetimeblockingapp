@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
@@ -17,7 +18,7 @@ import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_
 
 import '../../../core/launch_url.dart';
 import '../../../features/auth/presentation/widgets/auth_page_webview.dart';
-import '../../../features/startup/presentation/bloc/startup_bloc.dart';
+import '../../../features/global/presentation/bloc/global_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_pop_up_menu.dart';
 import '../custom_loading.dart';
@@ -99,22 +100,9 @@ class ResponsiveScaffold extends Scaffold {
   Widget? get body {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-      var authStates = state.authState;
-      if (state.isLoading == false &&
-          (authStates == AuthStateEnum.signInSuccess ||
-              authStates == AuthStateEnum.signUpSuccess) &&
-          state.accessToken != null) {
-        final startupBloc = BlocProvider.of<StartupBloc>(context);
-        if (Globals.priorities.isEmpty) {
-              startupBloc.add(GetPrioritiesEvent(accessToken: state.accessToken!));
-            }
-            if (Globals.statuses.isEmpty) {
-              startupBloc.add(GetStatusesEvent(accessToken: state.accessToken!));
-            }
-          }
           final authBloc = BlocProvider.of<AuthBloc>(context);
           if (context.showSmallDesign == false) {
-            return BlocBuilder<StartupBloc, StartupState>(
+            return BlocBuilder<GlobalBloc, GlobalState>(
               builder: (context, state) {
                 if (state.drawerLargerScreenOpen) {
                   return BlocBuilder<SettingsBloc, SettingsState>(
@@ -126,7 +114,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                if(Globals.isDemo)signInToUse(authBloc),
+                                if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -142,13 +130,13 @@ class ResponsiveScaffold extends Scaffold {
                     },
                   );
                 }
-                return BlocBuilder<StartupBloc, StartupState>(
+                return BlocBuilder<GlobalBloc, GlobalState>(
                   builder: (context, state) {
                     return BlocBuilder<SettingsBloc, SettingsState>(
                       builder: (context, state) {
                         return Column(
                           children: [
-                            if(Globals.isDemo)signInToUse(authBloc),
+                            if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -167,7 +155,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              if(Globals.isDemo)signInToUse(authBloc),
+              if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,

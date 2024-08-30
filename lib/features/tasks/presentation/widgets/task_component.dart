@@ -1,14 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
@@ -41,6 +46,7 @@ class TaskComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = BlocProvider.of<AuthBloc>(context).state;
     return TaskWidget(
         actions: [
           CustomPopupItem(
@@ -55,7 +61,7 @@ class TaskComponent extends StatelessWidget {
                         onDelete(DeleteTaskParams(
                             task: task,
                             accessToken:
-                            Globals.accessToken));
+                            authState.accessToken!));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -70,7 +76,12 @@ class TaskComponent extends StatelessWidget {
           CustomPopupItem(
               icon: AppIcons.copy,
               title: appLocalization.translate("duplicate"),
-              onTap: () => onDuplicate(CreateTaskParams.fromTask(task,Globals.backendMode)))
+              onTap: () => onDuplicate(CreateTaskParams.fromTask(
+                    task,
+                    serviceLocator<BackendMode>().mode,
+                    authState.accessToken!,
+                    BlocProvider.of<AuthBloc>(context).state.user!,
+                  )))
         ],
         showList: showListChip,
         onTap: () {
@@ -83,7 +94,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
                       list: task.list!,
                       title: task.title ?? "",
                       description: task.description,
@@ -93,8 +104,8 @@ class TaskComponent extends StatelessWidget {
                       tags: task.tags,
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,
-                      backendMode: Globals.backendMode
-                    ));
+                        backendMode: serviceLocator<BackendMode>().mode,
+                        user: authState.user!));
                     Navigator.pop(context);
                   },
                   isLoading: (state) => isLoading(state)));
@@ -125,6 +136,7 @@ class _TaskWidgetState extends State<TaskWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final globalState = BlocProvider.of<GlobalBloc>(context).state ;
     final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
@@ -207,7 +219,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       children: [
                         Icon(
                           widget.task.status ==
-                                  Globals.statuses.completedStatus
+                                  globalState.statuses?.completedStatus
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.task.status?.getColor ??

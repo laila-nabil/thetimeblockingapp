@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
@@ -14,6 +15,8 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
@@ -57,7 +60,9 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
+    dueDate = task?.dueDateUtc ??
+        cellDate?.add(
+            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
     isAllDay = false;
     list = null;
   }
@@ -70,7 +75,7 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
+    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
     isAllDay = false;
     list = null;
   }
@@ -215,6 +220,7 @@ class TaskPopup extends StatelessWidget {
     final radius = AppBorderRadius.xLarge.value;
     final borderRadius = BorderRadius.circular(radius);
     final task = taskPopupParams.task;
+    final authState = BlocProvider.of<AuthBloc>(context).state;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -223,19 +229,19 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.accessToken,
+                          accessToken: authState.accessToken!,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isWorkspaceAndSpaceAppWide
-                              ? Globals.selectedSpace
+                          space: serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")
+                              ? BlocProvider.of<GlobalBloc>(context).state.selectedSpace
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag,
-                      backendMode: Globals.backendMode)
+                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.accessToken,
+                        accessToken: authState.accessToken!,
                           task: task,
-                      backendMode: Globals.backendMode
+                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!, space: null
                         )));
           },
         ),
@@ -253,15 +259,17 @@ class TaskPopup extends StatelessWidget {
               final taskParams = state.taskParams ??
                   (task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
+                          user: authState.user!,
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate,
-                      backendMode: Globals.backendMode)
+                      backendMode: serviceLocator<BackendMode>().mode)
                       : CreateTaskParams.startUpdateTask(
-                          accessToken: Globals.accessToken,
+                      accessToken: authState.accessToken!,
+                      user: authState.user!,
                           task: task,
-                      backendMode: Globals.backendMode
+                      backendMode: serviceLocator<BackendMode>().mode, space: null
                         ));
               printDebug("taskParams $taskParams");
               final firstDate =
@@ -284,6 +292,7 @@ class TaskPopup extends StatelessWidget {
                   appFontSize: AppFontSize.paragraphSmall,
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium));
+              final globalState = BlocProvider.of<GlobalBloc>(context).state ;
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -312,8 +321,8 @@ class TaskPopup extends StatelessWidget {
                                                     DeleteTaskParams(
                                                         task: taskPopupParams
                                                             .task!,
-                                                        accessToken: Globals
-                                                            .accessToken));
+                                                      accessToken: authState.accessToken!,
+                                                      ));
                                                 Navigator.pop(ctx);
                                               },
                                               type: CustomButtonType
@@ -351,8 +360,13 @@ class TaskPopup extends StatelessWidget {
                                 state.readyToSubmit == false
                             ? null
                             : () {
-                                taskPopupParams.onSave!(state
-                                    .onSaveTaskParams(taskPopupParams.dueDate));
+                                taskPopupParams.onSave!(state.onSaveTaskParams(
+                                    taskPopupParams.dueDate,
+                                    BlocProvider.of<AuthBloc>(context)
+                                        .state
+                                        .accessToken!,BlocProvider.of<AuthBloc>(context)
+                                    .state
+                                    .user!));
                               },
                         label: appLocalization.translate("save")),
                   ],
@@ -448,7 +462,7 @@ class TaskPopup extends StatelessWidget {
 
                             ///Space
                             ///TODO D create a new Workspace/Space in task view
-                            if (Globals.isWorkspaceAndSpaceAppWide == false)
+                            if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false)
                               (task == null
                                   ? DropdownButton<Space>(
                                 hint: Text(
@@ -460,7 +474,7 @@ class TaskPopup extends StatelessWidget {
                                         taskParams.copyWith(
                                             space: space))),
                                 items:
-                                // (Globals.spaces)
+                                // (BlocProvider.of<GlobalBloc>(context).state.spaces)
                                 //     ?.map((e) => DropdownMenuItem(
                                 //     value: e,
                                 //     child: Text(e.name ?? "")))
@@ -474,7 +488,7 @@ class TaskPopup extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ///Status
-                               if(Globals.statuses.isNotEmpty)
+                               if(globalState.statuses?.isNotEmpty == true)
                                  CustomDropDown(
                                   value: state.taskParams?.taskStatus,
                                   style:  CustomDropDown
@@ -486,8 +500,8 @@ class TaskPopup extends StatelessWidget {
                                           taskParams:
                                           taskParams.copyWith(
                                               taskStatus: status))),
-                                  items: Globals.statuses
-                                      .map<
+                                  items: globalState.statuses
+                                      ?.map<
                                       DropdownMenuItem<
                                           TaskStatus>>((e) =>
                                       DropdownMenuItem(
@@ -509,9 +523,8 @@ class TaskPopup extends StatelessWidget {
                                                       : null)):Row(
                                             children: [
                                               Icon(
-                                                  e ==
-                                                      Globals.statuses.firstWhere((s)=>s.isDone == true)
-                                                      ? AppIcons.checkboxchecked
+                                                  e == globalState.statuses?.firstWhere((s) => s.isDone == true)
+                                                                        ? AppIcons.checkboxchecked
                                                       : AppIcons.checkbox,
                                                   color: e.getColor ??
                                                       AppColors.text(context.isDarkMode)),
@@ -538,7 +551,7 @@ class TaskPopup extends StatelessWidget {
                                 ),
 
                                 ///Priority
-                                if(Globals.priorities.isNotEmpty)
+                                if(globalState.priorities?.isNotEmpty == true)
                                   CustomDropDown(
                                     value: state.taskParams?.taskPriority,
                                     hint: Text(appLocalization
@@ -559,7 +572,7 @@ class TaskPopup extends StatelessWidget {
                                                 .copyWith(
                                                 taskPriority:
                                                 priority))),
-                                    items: (Globals.priorities.map((e) =>
+                                    items: (globalState.priorities?.map((e) =>
                                       DropdownMenuItem(
                                       value: e,
                                       child: Row(

@@ -8,12 +8,13 @@ import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/globals.dart';
+import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
 import 'core/print_debug.dart';
 import 'core/resources/app_theme.dart';
 import 'core/injection_container.dart' as di;
 import 'core/router.dart';
-import 'features/startup/presentation/bloc/startup_bloc.dart';
+import 'features/global/presentation/bloc/global_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/mock_web_packages/mock_timezone.dart'
 if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
@@ -28,7 +29,7 @@ Future<void> main() async {
   di.updateFromEnv();
   await di.serviceLocator<Analytics>().initialize();
   await di.serviceLocator<Analytics>().logAppOpen();
-  if (kIsWeb && Globals.isDemo == false) {
+  if (kIsWeb && serviceLocator<bool>(instanceName: "isDemo") == false) {
     await tz_web.initializeTimeZone();
   } else {
     tz_not_web.initializeTimeZones();
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => di.serviceLocator<StartupBloc>(),
+          create: (context) => di.serviceLocator<GlobalBloc>(),
         ),
         BlocProvider(
           create: (context) => di.serviceLocator<AuthBloc>(),
@@ -61,10 +62,11 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
+          String appName = "Time blocking app";
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: router,
-            title: Globals.appName,
+            title: appName,
             themeMode: settingsState.themeMode,
             theme: appTheme(false),
             darkTheme: appTheme(true),
@@ -72,7 +74,7 @@ class MyApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateTitle: (BuildContext context) {
-              return Globals.appName;
+              return appName;
             },
             scrollBehavior: MyCustomScrollBehavior(),
           );

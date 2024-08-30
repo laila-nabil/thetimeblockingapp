@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -23,7 +24,7 @@ import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
 
@@ -36,11 +37,12 @@ class ListsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ListsPageBloc>(),
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, startupState) {
         return BlocConsumer<ListsPageBloc, ListsPageState>(
           listener: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+            final authBloc = BlocProvider.of<AuthBloc>(context);
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
               context.push(
@@ -64,9 +66,9 @@ class ListsPage extends StatelessWidget {
                                       DeleteListParams(
                                           list: state.toDeleteList!,
                                           accessToken:
-                                              Globals.accessToken),
-                                  workspace: Globals.selectedWorkspace!,
-                                  space: Globals.selectedSpace!));
+                                          authBloc.state.accessToken!),
+                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+                                  space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -97,9 +99,9 @@ class ListsPage extends StatelessWidget {
                                       DeleteFolderParams(
                                           folder: state.toDeleteFolder!,
                                           accessToken:
-                                              Globals.accessToken),
-                                  workspace: Globals.selectedWorkspace!,
-                                  space: Globals.selectedSpace!));
+                                              authBloc.state.accessToken!),
+                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+                                  space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
@@ -118,7 +120,8 @@ class ListsPage extends StatelessWidget {
           },
           builder: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
-            final startupBloc = BlocProvider.of<StartupBloc>(context);
+            final globalBloc = BlocProvider.of<GlobalBloc>(context);
+            final authBloc = BlocProvider.of<AuthBloc>(context);
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
@@ -128,8 +131,9 @@ class ListsPage extends StatelessWidget {
                     small: BlocConsumer<ListsPageBloc, ListsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
-                      getListsFolders(listsPageBloc);
+                    var globalState = BlocProvider.of<GlobalBloc>(context).state;
+                    if (state.isInit && serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")) {
+                      getListsFolders(listsPageBloc,authBloc.state,globalState);
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -154,7 +158,7 @@ class ListsPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[] +
-                                    (Globals.selectedSpace?.folders
+                                    (globalState.selectedSpace?.folders
                                             ?.map<Widget>((folder) =>
                                                 ToggleableSection(
                                                     actions: [
@@ -214,17 +218,17 @@ class ListsPage extends StatelessWidget {
                                                               listsPageBloc.add(CreateListInFolderEvent.submit(
                                                                   createListInFolderParams: CreateListInFolderParams(
                                                                       accessToken:
-                                                                          Globals
-                                                                              .accessToken,
+                                                                      authBloc.state
+                                                                              .accessToken!,
                                                                       folder:
                                                                           folder,
                                                                       listName:
                                                                           text),
                                                                   workspace:
-                                                                      Globals
+                                                                  globalState
                                                                           .selectedWorkspace!,
                                                                   space:
-                                                                      Globals
+                                                                  globalState
                                                                           .selectedSpace!));
                                                             }, onCancel: () {
                                                               listsPageBloc.add(
@@ -237,7 +241,7 @@ class ListsPage extends StatelessWidget {
                                     [
                                       ToggleableSection(
                                           title: appLocalization.translate("otherLists"),
-                                          children: (Globals.selectedSpace?.lists
+                                          children: (globalState.selectedSpace?.lists
                                               ?.map<Widget>((e) => ListComponent(
                                             list: e,
                                             actions: [
@@ -269,14 +273,14 @@ class ListsPage extends StatelessWidget {
                                                         createFolderInSpaceParams:
                                                             CreateFolderInSpaceParams(
                                                                 accessToken:
-                                                                    Globals
-                                                                        .accessToken,
+                                                                authBloc.state
+                                                                        .accessToken!,
                                                                 folderName: text,
-                                                                space: Globals
+                                                                space: globalState
                                                                     .selectedSpace!),
-                                                        workspace: Globals
+                                                        workspace: globalState
                                                             .selectedWorkspace!,
-                                                        space: Globals
+                                                        space: globalState
                                                             .selectedSpace!));
                                                   },
                                                   onCancel: () {
@@ -304,14 +308,14 @@ class ListsPage extends StatelessWidget {
                                                       createFolderlessListParams:
                                                           CreateFolderlessListParams(
                                                               accessToken:
-                                                                  Globals
-                                                                      .accessToken,
+                                                              authBloc.state
+                                                                      .accessToken!,
                                                               listName: text,
-                                                              space: Globals
+                                                              space: globalState
                                                                   .selectedSpace!),
-                                                      workspace: Globals
+                                                      workspace: globalState
                                                           .selectedWorkspace!,
-                                                      space: Globals
+                                                      space: globalState
                                                           .selectedSpace!));
                                                 }, onCancel: () {
                                                   listsPageBloc.add(
@@ -338,10 +342,10 @@ class ListsPage extends StatelessWidget {
                   },
                 )),
                 context: context, onRefresh: ()async {
-              getListsFolders(listsPageBloc);
-              startupBloc.add(GetAllInWorkspaceEvent(
-                  workspace: Globals.selectedWorkspace!,
-                  accessToken: Globals.accessToken));
+              getListsFolders(listsPageBloc,authBloc.state,globalBloc.state);
+              globalBloc.add(GetAllInWorkspaceEvent(
+                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+                  accessToken: authBloc.state.accessToken!));
             },);
           },
         );
@@ -349,11 +353,11 @@ class ListsPage extends StatelessWidget {
     );
   }
 
-  void getListsFolders(ListsPageBloc listsPageBloc) {
+  void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState,GlobalState globalState) {
     listsPageBloc.add(GetListAndFoldersInListsPageEvent.inSpace(
-      accessToken: Globals.accessToken,
-      workspace: Globals.selectedWorkspace!,
-      space: Globals.selectedSpace!,
+      accessToken: authState.accessToken!,
+      workspace: globalState.selectedWorkspace!,
+      space: globalState.selectedSpace!,
     ));
   }
 }

@@ -3,10 +3,12 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/features/startup/domain/repositories/startup_repo.dart';
+import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
+
+import '../../../tasks/domain/repositories/tasks_repo.dart';
 
 class GetStatusesUseCase implements UseCase<List<TaskStatus>,GetStatusesParams>{
-  final StartUpRepo repo;
+  final GlobalRepo repo;
 
   GetStatusesUseCase(this.repo);
   @override

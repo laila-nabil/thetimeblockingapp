@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -29,7 +30,7 @@ class CreateTaskParams extends Equatable{
   final Task? parentTask;
   final Task? linkedTask;
   final Task? task;
-
+  final User user;
   final Space? space;
   final Folder? folder;
 
@@ -61,9 +62,10 @@ class CreateTaskParams extends Equatable{
     return <TasksList>[];
   }
 
-  factory CreateTaskParams.fromTask(Task task,BackendMode backendMode){
+  factory CreateTaskParams.fromTask(Task task,BackendMode backendMode,AccessToken accessToken, User user,
+      ){
     return CreateTaskParams.createNewTask(
-      accessToken: Globals.accessToken,
+      accessToken: accessToken,
       list: task.list!,
       title: task.title ?? "",
       description: task.description,
@@ -73,7 +75,7 @@ class CreateTaskParams extends Equatable{
       tags: task.tags,
       taskPriority: task.priority,
       startDate: task.startDateUtc,
-      backendMode: backendMode
+      backendMode: backendMode, user: user
     );
   }
   const CreateTaskParams._(
@@ -89,6 +91,7 @@ class CreateTaskParams extends Equatable{
       this.linkedTask,
       required this.accessToken,
       required this.type,
+      required this.user,
       this.task,
       this.space,
       this.folder,required this.backendMode, });
@@ -136,7 +139,9 @@ class CreateTaskParams extends Equatable{
     Space? space,
     TasksList? list,
     Tag? tag,
-    required BackendMode backendMode
+    required BackendMode backendMode,
+    required User user,
+
   }) {
     printDebug("TaskParams startCreateNewTask task");
     return CreateTaskParams._(
@@ -147,7 +152,7 @@ class CreateTaskParams extends Equatable{
           space: space,
           list: list,
           tags: tag == null ? null : [tag],
-          backendMode: backendMode
+          backendMode: backendMode, user: user
     );
   }
 
@@ -165,7 +170,8 @@ class CreateTaskParams extends Equatable{
     Task? linkedTask,
     Folder? folder,
     Space? space,
-    required BackendMode backendMode
+    required BackendMode backendMode,
+    required User user,
   }) {
     printDebug("TaskParams createNewTask task");
     return CreateTaskParams._(
@@ -184,18 +190,20 @@ class CreateTaskParams extends Equatable{
           parentTask: parentTask,
           startDate: startDate,
           taskPriority: taskPriority,
-          backendMode: backendMode
+          backendMode: backendMode, user: user
     );
   }
 
   factory CreateTaskParams.startUpdateTask({
     required AccessToken accessToken,
     required Task task,
-    required BackendMode backendMode
+    required BackendMode backendMode,
+    required User user,
+    required Space? space,
+
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final space = Globals.selectedSpace;
     final folder =  space?.folders
         ?.where((element) => element.id == task.folder?.id).firstOrNull;
     final list = space?.lists
@@ -219,7 +227,7 @@ class CreateTaskParams extends Equatable{
         parentTask: null,
         dueDate: task.dueDateUtc,
         startDate: task.startDateUtc,
-        backendMode: backendMode
+        backendMode: backendMode, user: user
         );
   }
 
@@ -239,12 +247,14 @@ class CreateTaskParams extends Equatable{
     bool? updatedArchived,
     TasksList? list,
     Folder? folder,
-    required BackendMode backendMode
+    required BackendMode backendMode,
+    required User user,
   }) =>
       CreateTaskParams._(
           type: TaskParamsEnum.update,
           accessToken: accessToken,
           space: null,
+          user: user,
           list: list,
           folder: folder,
           title: updatedTitle,
@@ -263,7 +273,7 @@ class CreateTaskParams extends Equatable{
   Map<String, dynamic> toJson() {
     return {
       "title": title,
-      "user_id": Globals.user?.id??"",
+      "user_id": user.id??"",
       "list_id": list?.id??""
     };
     if (type == TaskParamsEnum.create) {
@@ -372,7 +382,7 @@ class CreateTaskParams extends Equatable{
       task: task ?? this.task,
       folder: selectedFolder,
       space: selectedSpace,
-      backendMode: backendMode
+      backendMode: backendMode, user: user
     );
   }
 
@@ -394,10 +404,10 @@ class CreateTaskParams extends Equatable{
     task,
     folder,
     space,
-    getAvailableLists,backendMode];
+    getAvailableLists,backendMode,user];
 
   @override
   String toString() {
-    return 'CreateTaskParams{backendMode: $backendMode, type: $type, accessToken: $accessToken, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, space: $space, folder: $folder}';
+    return 'CreateTaskParams{backendMode: $backendMode, type: $type, accessToken: $accessToken, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, user: $user, space: $space, folder: $folder}';
   }
 }

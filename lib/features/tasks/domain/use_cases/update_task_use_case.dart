@@ -38,7 +38,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
     List<Failure> failures = [];
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&
-        params.taskStatus == Globals.statuses.completedStatus;
+        params.taskStatus?.isDone == true;
     final eventName = isCompletingTask
         ? AnalyticsEvents.completeTask.name
         : AnalyticsEvents.updateTask.name;

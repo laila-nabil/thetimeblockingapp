@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
@@ -17,7 +18,7 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
@@ -39,9 +40,9 @@ class TagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: tagsPageBloc,
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<TagsPageBloc, TagsPageState>(
             listener: (context, state) {
               printDebug(
@@ -57,6 +58,7 @@ class TagPage extends StatelessWidget {
             },
             builder: (context, state) {
               final tagsPageBloc = BlocProvider.of<TagsPageBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               printDebug(
                   "state.tagsPageStatus rebuild ${state.tagsPageStatus}");
               printDebug("state rebuild $state");
@@ -66,10 +68,10 @@ class TagPage extends StatelessWidget {
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetTasksForTagEvent(
-                    accessToken: Globals.accessToken,
-                    workspace: Globals.selectedWorkspace!,
+                    accessToken: authBloc.state.accessToken!,
+                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     tag: state.navigateTag!,
-                    space: Globals.selectedSpace!));
+                    space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
               }
               return ResponsiveScaffold(
                 ///TODO Z Bulk actions on tasks
@@ -79,11 +81,11 @@ class TagPage extends StatelessWidget {
                         tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                             insideTagPage: true,
                             params: UpdateTagParams(
-                                space: Globals.selectedSpace!,
+                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
                                 accessToken:
-                                    Globals.accessToken)));
+                                    authBloc.state.accessToken!)));
                       },
                       titleWidget: Row(
                         children: [
@@ -95,10 +97,10 @@ class TagPage extends StatelessWidget {
                       onTap: () {
                         tagsPageBloc.add(DeleteTagEvent.tryDelete(
                             DeleteTagParams(
-                                space: Globals.selectedSpace!,
+                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
                                 tag: state.navigateTag!,
                                 accessToken:
-                                    Globals.accessToken)));
+                                    authBloc.state.accessToken!)));
                       },
                       titleWidget: Row(
                         children: [
@@ -117,7 +119,7 @@ class TagPage extends StatelessWidget {
                             onSave: (params) {
                               tagsPageBloc.add(CreateTaskEvent(
                                   params: params,
-                                  workspace: Globals.selectedWorkspace!));
+                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! TagsPageState
@@ -150,13 +152,13 @@ class TagPage extends StatelessWidget {
                                         insideTagPage: true,
                                         params: UpdateTagParams(
                                             accessToken:
-                                                Globals.accessToken,
+                                                authBloc.state.accessToken!,
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)
                                                 .getModel,
                                             originalTagName:
                                                 state.navigateTag!.name ?? "",
-                                            space: Globals.selectedSpace!),
+                                            space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
                                       ));
                                     },
                                     onCancel: () {
@@ -226,13 +228,13 @@ class TagPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   tagsPageBloc.add(GetTasksForTagEvent(
-                      accessToken: Globals.accessToken,
-                      workspace: Globals.selectedWorkspace!,
+                      accessToken: authBloc.state.accessToken!,
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       tag: state.navigateTag!,
-                      space: Globals.selectedSpace!));
-                  startupBloc.add(GetAllInWorkspaceEvent(
-                      workspace: Globals.selectedWorkspace!,
-                      accessToken: Globals.accessToken));
+                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+                  globalBloc.add(GetAllInWorkspaceEvent(
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+                      accessToken: authBloc.state.accessToken!));
                 },
               );
             },
@@ -250,16 +252,16 @@ class TagPage extends StatelessWidget {
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {
         tagsPageBloc.add(DeleteTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
         tagsPageBloc.add(UpdateTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
       tagsPageBloc.add(DuplicateTaskEvent(
-          params: params, workspace: Globals.selectedWorkspace!));
+          params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
     },
     );
   }

@@ -1,10 +1,10 @@
-part of 'startup_bloc.dart';
+part of 'global_bloc.dart';
 
-abstract class StartupEvent extends Equatable {
-  const StartupEvent();
+abstract class GlobalEvent extends Equatable {
+  const GlobalEvent();
 }
 
-class ControlDrawerLargerScreen extends StartupEvent {
+class ControlDrawerLargerScreen extends GlobalEvent {
   final bool drawerLargerScreenOpen;
 
   const ControlDrawerLargerScreen(this.drawerLargerScreenOpen);
@@ -13,7 +13,7 @@ class ControlDrawerLargerScreen extends StartupEvent {
   List<Object?> get props => [drawerLargerScreenOpen];
 }
 
-class GetAllInWorkspaceEvent extends StartupEvent {
+class GetAllInWorkspaceEvent extends GlobalEvent {
   final Workspace workspace;
   final AccessToken accessToken;
   const GetAllInWorkspaceEvent(
@@ -23,17 +23,17 @@ class GetAllInWorkspaceEvent extends StartupEvent {
   List<Object?> get props => [workspace,accessToken];
 }
 
-class SelectSpace extends StartupEvent {
-  final Space space;
-  final AccessToken accessToken;
-  const SelectSpace(
-      {required this.space, required this.accessToken});
+class GetAllWorkspacesEvent extends GlobalEvent {
+  final GetWorkspacesParams params;
+  const GetAllWorkspacesEvent(
+      { required this.params});
 
   @override
-  List<Object?> get props => [space,accessToken];
+  List<Object?> get props => [params];
 }
 
-class GetStatusesEvent extends StartupEvent {
+
+class GetStatusesEvent extends GlobalEvent {
   final AccessToken accessToken;
   const GetStatusesEvent(
       { required this.accessToken});
@@ -42,7 +42,7 @@ class GetStatusesEvent extends StartupEvent {
   List<Object?> get props => [accessToken];
 }
 
-class GetPrioritiesEvent extends StartupEvent {
+class GetPrioritiesEvent extends GlobalEvent {
   final AccessToken accessToken;
   const GetPrioritiesEvent(
       { required this.accessToken});

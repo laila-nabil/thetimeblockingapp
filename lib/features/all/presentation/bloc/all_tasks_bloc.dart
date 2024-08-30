@@ -1,6 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 
 import '../../../../common/entities/workspace.dart';
@@ -44,7 +48,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""]),
-                backendMode: Globals.backendMode
+                backendMode: serviceLocator<BackendMode>().mode
             ));
         result?.fold(
             (l) => emit(state.copyWith(
@@ -97,7 +101,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           ));
           add(GetTasksInSpaceEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space ?? Globals.selectedSpace!,
+              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is DeleteTaskEvent) {
@@ -110,10 +114,10 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetTasksInSpaceEvent(
-              accessToken: event.params.accessToken,
-              space: Globals.selectedSpace!,
-              workspace: event.workspace));
+          // add(GetTasksInSpaceEvent(
+          //     accessToken: event.params.accessToken,
+          //     space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
+          //     workspace: event.workspace));
         });
       }
     });

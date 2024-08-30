@@ -40,6 +40,9 @@ enum OnBoardingAndAuthStep {
   final int number;
 }
 
+String _demoUrl =
+    "https://demoo-timeblocking.web.app";
+
 class SupabaseOnBoardingAndAuthPage extends StatefulWidget {
   const SupabaseOnBoardingAndAuthPage(
       {super.key, required this.authBloc, required this.settingsBloc});
@@ -540,7 +543,7 @@ class _SupabaseOnBoardingAndAuthPageState
         analyticsEvent: analyticsEvents,
         label: appLocalization.translate("demo"),
         onPressed: () {
-          final url = Globals.demoUrl;
+          final url = _demoUrl;
           launchWithURL(url: url);
         },
         type: CustomButtonType.primaryTextLabel);

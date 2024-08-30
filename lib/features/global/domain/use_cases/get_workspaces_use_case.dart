@@ -4,18 +4,19 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
+import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import '../../../../common/entities/workspace.dart';
 import '../../../../common/entities/access_token.dart';
-import '../repositories/tasks_repo.dart';
+import '../../../tasks/domain/repositories/tasks_repo.dart';
 
 class GetWorkspacesUseCase
     implements UseCase<List<Workspace>, GetWorkspacesParams> {
-  final TasksRepo repo;
+  final GlobalRepo repo;
 
   GetWorkspacesUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, List<Workspace>>?> call(
+  Future<dartz.Either<Failure, List<Workspace>>> call(
       GetWorkspacesParams params) async {
     final result = await repo.getWorkspaces(params: params);
     await result.fold(

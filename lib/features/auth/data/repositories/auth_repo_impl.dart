@@ -13,7 +13,7 @@ import '../../domain/repositories/auth_repo.dart';
 import '../data_sources/auth_local_data_source.dart';
 import '../models/sign_in_result_model.dart';
 
-class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
+class AuthRepoImpl  implements AuthRepo{
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
@@ -22,7 +22,6 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
   Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
     try {
       await authLocalDataSource.signOut();
-      clearGlobals();
       return const dartz.Right(dartz.unit);
     } catch (e) {
       printDebug(e,printLevel: PrintLevel.error);
@@ -36,12 +35,8 @@ class AuthRepoImpl  with GlobalsWriteAccess implements AuthRepo{
         remoteDataSourceRequest: () async =>
         await authRemoteDataSource.signInSupabase(params: params),
         trySaveResult: (result) async {
-          accessToken = result.accessToken;
-          user = result.user;
           await authLocalDataSource
               .saveAccessToken(result.accessToken as AccessTokenModel);
-          printDebug(
-              "getAccessToken $result ${Globals.accessToken}");
         },
         tryGetFromLocalStorage: () async {
           ///TODO B make sure works correctly

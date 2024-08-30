@@ -15,7 +15,8 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
 ///TODO A fix tasks not viewed
@@ -33,20 +34,21 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: listsPageBloc,
-      child: BlocBuilder<StartupBloc, StartupState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ListsPageBloc, ListsPageState>(
             listener: (context, state) {},
             builder: (context, state) {
               final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               printDebug(
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
                 listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-                    accessToken: Globals.accessToken,
-                    workspace: Globals.selectedWorkspace!));
+                    accessToken: authBloc.state.accessToken!,
+                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
               }
               return ResponsiveScaffold(
                 ///TODO D Bulk actions on tasks
@@ -142,11 +144,11 @@ class ListPage extends StatelessWidget {
                 onRefresh: () async {
                   listsPageBloc.add(
                       GetListAndFoldersInListsPageEvent.inWorkSpace(
-                          accessToken: Globals.accessToken,
-                          workspace: Globals.selectedWorkspace!));
-                  startupBloc.add(GetAllInWorkspaceEvent(
-                      workspace: Globals.selectedWorkspace!,
-                      accessToken: Globals.accessToken));
+                          accessToken: authBloc.state.accessToken!,
+                          workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+                  globalBloc.add(GetAllInWorkspaceEvent(
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+                      accessToken: authBloc.state.accessToken!));
                 },
               );
             },

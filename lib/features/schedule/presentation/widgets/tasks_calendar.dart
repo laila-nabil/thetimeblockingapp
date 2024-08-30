@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
@@ -31,6 +37,7 @@ class TasksCalendar extends StatelessWidget {
   final int? selectedWorkspaceId;
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return SfCalendar(
       ///TODO D save selected view in calendar
       // view: CalendarView.day,
@@ -56,18 +63,18 @@ class TasksCalendar extends StatelessWidget {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      // timeZone: Globals.user?.timezone,
-      onTap: onTapCalendarElement,
-      onLongPress: onTapCalendarElement,
+      // timeZone: BlocProvider.of<GlobalBloc>(context).state.user?.timezone,
+      onTap: (d)=> onTapCalendarElement(d,authBloc),
+      onLongPress: (d)=> onTapCalendarElement(d,authBloc),
       onAppointmentResizeEnd: (details){
         printDebug("details.startTime ${details.startTime}");
         printDebug("details.endTime ${details.endTime}");
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
-              accessToken: Globals.accessToken,
+              accessToken: authBloc.state.accessToken!,
               updatedDueDate: details.endTime,
-              backendMode: Globals.backendMode
+              backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
       },
 
@@ -81,12 +88,12 @@ class TasksCalendar extends StatelessWidget {
         final task = details.appointment as Task;
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
-              task: task,
-              accessToken: Globals.accessToken,
+              task: task, user: authBloc.state.user!,
+              accessToken: authBloc.state.accessToken!,
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
-          backendMode: Globals.backendMode
+          backendMode: serviceLocator<BackendMode>().mode
         )));
       },
       onViewChanged: (viewChangedDetails){
@@ -110,10 +117,12 @@ class TasksCalendar extends StatelessWidget {
                 id: id,
                 GetTasksInWorkspaceParams(
                     workspaceId: selectedWorkspaceId ??
-                        Globals.workspaces?.first.id ??
+                        BlocProvider.of<GlobalBloc>(context).state.workspaces?.first.id ??
                         0,
                     filtersParams: scheduleBloc
-                        .state.defaultTasksInWorkspaceFiltersParams
+                        .state.defaultTasksInWorkspaceFiltersParams(
+                        accessToken: authBloc.state.accessToken!,
+                        user: authBloc.state.user)
                         .copyWith(
                             filterByDueDateGreaterThanUnixTimeMilliseconds:
                                 (viewChangedDetails.visibleDates.first
@@ -123,7 +132,7 @@ class TasksCalendar extends StatelessWidget {
                                 viewChangedDetails.visibleDates.last
                                     .add(const Duration(days: 1))
                                     .millisecondsSinceEpoch),
-                    backendMode: Globals.backendMode)));
+                    backendMode: serviceLocator<BackendMode>().mode)));
           } else {
             printDebug("onViewChange Not");
           }
@@ -132,7 +141,7 @@ class TasksCalendar extends StatelessWidget {
     );
   }
 
-  void onTapCalendarElement(calendarTapDetails){
+  void onTapCalendarElement(calendarTapDetails,AuthBloc authBloc){
       printDebug("calendarTapDetails targetElement ${calendarTapDetails.targetElement}");
       printDebug("calendarTapDetails date ${calendarTapDetails.date}");
       printDebug("calendarTapDetails appointments ${calendarTapDetails.appointments?.length} ${calendarTapDetails.appointments}");
@@ -154,7 +163,11 @@ class TasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: CreateTaskParams.fromTask(task,Globals.backendMode)));
+                  params: CreateTaskParams.fromTask(
+                      task,
+                      serviceLocator<BackendMode>().mode,
+                      authBloc.state.accessToken!,
+                      authBloc.state.user!)));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&
@@ -201,7 +214,8 @@ class SupabaseTasksDataSource extends CalendarDataSource {
     printDebug("${tasks[index].title}=>"
         "Tasks[index].startDateUtc ${tasks[index].startDateUtc}");
     return tasks[index].startDateUtc ??
-        getEndTime(index).subtract(Globals.defaultTaskDuration);
+        getEndTime(index).subtract(
+            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
   }
 
   @override

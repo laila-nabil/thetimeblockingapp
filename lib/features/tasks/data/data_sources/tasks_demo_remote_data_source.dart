@@ -1,11 +1,15 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
@@ -13,7 +17,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
 
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
@@ -22,7 +26,7 @@ import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
 import '../../domain/use_cases/get_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
-import '../../domain/use_cases/get_workspaces_use_case.dart';
+import '../../../global/domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_tag_use_case.dart';
 
@@ -134,6 +138,18 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<WorkspaceModel> getAllInWorkspace(
       {required GetAllInWorkspaceParams params}) {
     // TODO C implement getAllInWorkspace
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) {
+    // TODO C implement getPriorities
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) {
+    // TODO C implement getStatuses
     throw UnimplementedError();
   }
 }

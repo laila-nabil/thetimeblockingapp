@@ -9,15 +9,13 @@ import 'package:thetimeblockingapp/core/network/supabase_exception_handler.dart'
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
+import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_local_data_source.dart';
-import 'package:thetimeblockingapp/features/startup/data/data_sources/startup_remote_data_source.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/get_priorities_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/domain/use_cases/select_space_use_case.dart';
-import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
@@ -35,23 +33,17 @@ import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
-import '../features/startup/data/repositories/startup_repo_impl.dart';
-import '../features/startup/domain/repositories/startup_repo.dart';
-import '../features/startup/domain/use_cases/get_selected_workspace_use_case.dart';
-import '../features/startup/domain/use_cases/get_spaces_of_selected_workspace_use_case.dart';
-import '../features/startup/domain/use_cases/get_statuses_use_case.dart';
-import '../features/startup/domain/use_cases/select_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
-import '../features/tasks/data/data_sources/tasks_local_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import '../features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_list_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_tag_use_case.dart';
-import '../features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import '../features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
-import '../features/tasks/domain/use_cases/get_workspaces_use_case.dart';
+import '../features/global/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
 import '../features/tasks/domain/use_cases/create_task_use_case.dart';
@@ -70,6 +62,9 @@ import 'package:http/http.dart';
 
 final serviceLocator = GetIt.instance;
 
+SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
+
+
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
@@ -77,13 +72,32 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
+  serviceLocator
+      .registerSingleton<BackendMode>(BackendMode.supabase);
+
+  serviceLocator
+      .registerSingleton<Env>(Env.debugLocally,instanceName: "defaultEnv");
+
+  serviceLocator
+      .registerSingleton<Env>(
+      (serviceLocator.get(instanceName: "defaultEnv") as Env),
+      instanceName: "env");
+
+  serviceLocator
+      .registerSingleton<bool>(false,instanceName: "isDemo");
+
+  serviceLocator.registerSingleton<Duration>(const Duration(hours: 1),
+      instanceName: "defaultTaskDuration");
+
+  ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+
+  serviceLocator.registerSingleton<bool>(true,
+      instanceName: "isWorkspaceAndSpaceAppWide");
+
   /// Bloc
-  serviceLocator.registerFactory(() => StartupBloc(
-      serviceLocator(),serviceLocator(),serviceLocator(),));
+  serviceLocator.registerFactory(() => GlobalBloc(
+      serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
       serviceLocator(),
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
@@ -201,19 +215,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-
-
-  serviceLocator.registerLazySingleton(() => SelectWorkspaceUseCase(
-        serviceLocator(),
-      ));
-
-  serviceLocator.registerLazySingleton(() => GetSelectedWorkspaceUseCase(
-        serviceLocator(),
-      ));
-  serviceLocator
-      .registerLazySingleton(() => GetSpacesOfSelectedWorkspaceUseCase(
-            serviceLocator(),
-          ));
   serviceLocator.registerLazySingleton(() => AddTagToTaskUseCase(
         serviceLocator(),
       ));
@@ -225,10 +226,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => RemoveTagsFromTaskUseCase(
-        serviceLocator(),
-      ));
-
-  serviceLocator.registerLazySingleton(() => SelectSpaceUseCase(
         serviceLocator(),
       ));
 
@@ -255,10 +252,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<AuthRepo>(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton<TasksRepo>(
-      () => TasksRepoImpl(serviceLocator(), serviceLocator()));
-
-  serviceLocator.registerLazySingleton<StartUpRepo>(
-      () => StartUpRepoImpl(serviceLocator(), serviceLocator()));
+      () => TasksRepoImpl(serviceLocator(),));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
@@ -269,17 +263,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
       () => tasksRemoteDataSource());
 
-  serviceLocator.registerLazySingleton<StartUpRemoteDataSource>(() =>
-      SupabaseStartUpRemoteDataSourceImpl(
-          network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url));
-
-  serviceLocator.registerLazySingleton<StartUpLocalDataSource>(
-      () => StartUpLocalDataSourceImpl(serviceLocator()));
-
-  serviceLocator.registerLazySingleton<TasksLocalDataSource>(
-      () => TasksLocalDataSourceImpl(serviceLocator()));
+  serviceLocator.registerLazySingleton<GlobalRemoteDataSource>(
+          () => globalRemoteDataSource());
 
   /// External
 
@@ -292,44 +277,58 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 }
 
 AuthRemoteDataSource authRemoteDataSource() {
-  if (Globals.isDemo) {
+  if (serviceLocator<bool>(instanceName: "isDemo")) {
     return AuthDemoRemoteDataSourceImpl();
   }
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url);
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError();
+  }
+}
+GlobalRemoteDataSource globalRemoteDataSource() {
+
+  switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.supabase:
+      return SupabaseGlobalRemoteDataSourceImpl(
+          network: serviceLocator(),
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
 }
 
 TasksRemoteDataSource tasksRemoteDataSource() {
-  if (Globals.isDemo) {
+  if (serviceLocator<bool>(instanceName: "isDemo")) {
     return TasksDemoRemoteDataSourceImpl();
   }
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
-          key: Globals.supabaseGlobals.key,
-          url: Globals.supabaseGlobals.url);
+          key: _supabaseGlobals.key,
+          url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError();
   }
 }
 
 void updateFromEnv() async {
-  Globals.supabaseGlobals = Globals.supabaseGlobals.copyWith(
+  _supabaseGlobals = _supabaseGlobals.copyWith(
     url: const String.fromEnvironment("supabaseUrl", defaultValue: ""),
     key: const String.fromEnvironment("supabaseKey", defaultValue: ""),
   );
-  printDebug("supabaseGlobals url ${Globals.supabaseGlobals.url}");
-  printDebug("supabaseGlobals key ${Globals.supabaseGlobals.key}");
-  Globals.env = Env.getEnv(
-      const String.fromEnvironment("env", defaultValue: "debugLocally"));
+  printDebug("supabaseGlobals url ${_supabaseGlobals.url}");
+  printDebug("supabaseGlobals key ${_supabaseGlobals.key}");
+  serviceLocator
+      .registerSingleton<Env>(Env.getEnv(
+          const String.fromEnvironment("env", defaultValue: "debugLocally")),
+      instanceName: "defaultEnv");
 }
 
 void initServiceLocator() {
@@ -340,7 +339,7 @@ void initServiceLocator() {
 
 Future<NetworkResponse> responseHandler(
     {required Future<Response> Function() httpResponse}) {
-  switch (Globals.backendMode) {
+  switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return supabaseResponseHandler(httpResponse: httpResponse);
     case BackendMode.offlineWithCalendarSync:
@@ -351,4 +350,22 @@ Future<NetworkResponse> responseHandler(
 @visibleForTesting
 void initServiceLocatorTesting({required Network mockNetwork}) {
   _initServiceLocator(network: mockNetwork);
+}
+
+
+class SupabaseGlobals {
+  final String url;
+  final String key;
+
+  SupabaseGlobals({this.url = "", this.key = ""});
+
+  SupabaseGlobals copyWith({
+    String? url,
+    String? key,
+  }) {
+    return SupabaseGlobals(
+      url: url ?? this.url,
+      key: key ?? this.key,
+    );
+  }
 }

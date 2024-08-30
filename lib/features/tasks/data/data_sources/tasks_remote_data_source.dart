@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
@@ -13,7 +17,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_all_in_workspace_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
 
 import '../../../../core/network/network.dart';
 import '../../../../core/network/supabase_header.dart';
@@ -24,7 +28,7 @@ import '../../domain/use_cases/create_tag_in_space_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
 import '../../domain/use_cases/get_tags_in_space_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
-import '../../domain/use_cases/get_workspaces_use_case.dart';
+import '../../../global/domain/use_cases/get_workspaces_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_tag_use_case.dart';
 
@@ -37,9 +41,6 @@ abstract class TasksRemoteDataSource {
   Future<TaskModel> updateTask({required CreateTaskParams params});
 
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
-
-  Future<List<WorkspaceModel>> getWorkspaces(
-      {required GetWorkspacesParams params});
 
   Future<ListModel> createListInFolder(
       {required CreateListInFolderParams params});
@@ -68,6 +69,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> deleteTag({required DeleteTagParams params});
 
   Future<WorkspaceModel> getAllInWorkspace({required GetAllInWorkspaceParams params});
+
 }
 
 class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
@@ -78,19 +80,6 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   SupabaseTasksRemoteDataSourceImpl(
       {required this.url, required this.key, required this.network});
 
-  @override
-  Future<List<WorkspaceModel>> getWorkspaces(
-      {required GetWorkspacesParams params}) async {
-    List<WorkspaceModel> result = [];
-    final response = await network.get(
-        uri: Uri.parse(
-            "$url/rest/v1/workspace?user_id=eq.${params.userId}&order=id"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
-    for (var element in (json.decode(response.body) as List)) {
-      result.add(WorkspaceModel.fromJson(element));
-    }
-    return result;
-  }
 
   @override
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) {
@@ -204,4 +193,5 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return WorkspaceModel.fromJson(json.decode(response.body)[0]);
   }
+
 }

@@ -8,7 +8,7 @@ class SettingsState extends Equatable {
 
   const SettingsState(
       {this.currentLanguage,
-      this.themeMode = Globals.defaultThemeMode,
+      this.themeMode = ThemeMode.light,
       this.isLoading = false,
       this.signOutSuccess = false});
 

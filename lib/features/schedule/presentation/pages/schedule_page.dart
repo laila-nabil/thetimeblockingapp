@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -13,7 +15,7 @@ import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
-import '../../../startup/presentation/bloc/startup_bloc.dart';
+import '../../../global/presentation/bloc/global_bloc.dart';
 
 ///TODO Z in desktop, month calendar view in drawer like SORTED for MAC
 
@@ -26,50 +28,59 @@ class SchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => serviceLocator<ScheduleBloc>(),
-      child: BlocConsumer<StartupBloc, StartupState>(
-        listener: (context, startUpCurrentState) {},
-        builder: (context, startUpCurrentState) {
-          final startupBloc = BlocProvider.of<StartupBloc>(context);
+      child: BlocConsumer<GlobalBloc, GlobalState>(
+        listener: (context, globalCurrentState) {},
+        builder: (context, globalCurrentState) {
+          final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              final startupBloc = BlocProvider.of<StartupBloc>(context);
-              if (state.canShowTaskPopup(
-                  startupStateEnum: startUpCurrentState.startupStateEnum)) {
-                scheduleBloc
-                    .add(const ShowTaskPopupEvent(showTaskPopup: false));
-                showTaskPopup(
-                  context: context,
-                  taskPopupParams: state.taskPopupParams!,
-                );
+              final globalBloc = BlocProvider.of<GlobalBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
+              scheduleBloc
+                  .add(const ShowTaskPopupEvent(showTaskPopup: false));
+              showTaskPopup(
+                context: context,
+                taskPopupParams: state.taskPopupParams!,
+              );
+              if (globalCurrentState.priorities?.isNotEmpty != true) {
+                globalBloc
+                    .add(GetPrioritiesEvent(accessToken: authBloc.state.accessToken!));
+              }
+              if (globalCurrentState.statuses?.isNotEmpty != true) {
+                globalBloc
+                    .add(GetStatusesEvent(accessToken: authBloc.state.accessToken!));
               }
             },
             builder: (context, state) {
               printDebug("ScheduleBloc state $state");
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if ((Globals.isWorkspaceAndSpaceAppWide == false && state.isInitial) ||
-                  (Globals.isWorkspaceAndSpaceAppWide == true &&
+              if ((serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false && state.isInitial) ||
+                  (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == true &&
                       state.tasks == null &&
-                      Globals.workspaces?.isNotEmpty == true) ||
+                      BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
-                final workspace = (startUpCurrentState.selectedWorkspace ??
-                    Globals.selectedWorkspace ??
-                    Globals.workspaces?.first);
+                final workspace = (globalCurrentState.selectedWorkspace ??
+                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace ??
+                    BlocProvider.of<GlobalBloc>(context).state.workspaces?.first);
                 printDebug(">><< workspace $workspace");
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId:
                         workspace?.id ?? 0,
-                        filtersParams: scheduleBloc
-                            .state.defaultTasksInWorkspaceFiltersParams,
-                        backendMode: Globals.backendMode)));
-                startupBloc.add(GetAllInWorkspaceEvent(
+                        filtersParams: scheduleBloc.state
+                            .defaultTasksInWorkspaceFiltersParams(
+                                accessToken: authBloc.state.accessToken!,
+                                user: authBloc.state.user),
+                        backendMode: serviceLocator<BackendMode>().mode)));
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
-                    accessToken: Globals.accessToken));
+                    accessToken: authBloc.state.accessToken!));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -93,7 +104,7 @@ class SchedulePage extends StatelessWidget {
                           ResponsiveScaffoldLoadingEnum.overlayLoading,
                       isLoading: state.persistingScheduleStates
                               .contains(ScheduleStateEnum.loading) ||
-                          startUpCurrentState.isLoading),
+                          globalCurrentState.isLoading),
                   pageActions: [
                     ///TODO Z Bulk actions on tasks
                     // CustomDropDownItem.text(
@@ -130,24 +141,26 @@ class SchedulePage extends StatelessWidget {
                     small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
-                            startUpCurrentState.selectedWorkspace?.id ?? 0),
+                            globalCurrentState.selectedWorkspace?.id ?? 0),
                     large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
                         selectedWorkspaceId:
-                            startUpCurrentState.selectedWorkspace?.id),
+                            globalCurrentState.selectedWorkspace?.id),
                   ),
                   context: context, onRefresh: ()async {
                 var selectedWorkspace =
-                    Globals.selectedWorkspace ?? Globals.defaultWorkspace;
+                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
-                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams,
-                        backendMode: Globals.backendMode)));
-                startupBloc.add(GetAllInWorkspaceEvent(
+                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams(
+                            accessToken: authBloc.state.accessToken!,
+                            user: authBloc.state.user),
+                        backendMode: serviceLocator<BackendMode>().mode)));
+                globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
-                    accessToken: Globals.accessToken));
+                    accessToken: authBloc.state.accessToken!));
               },);
             },
           );

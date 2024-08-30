@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
-import 'package:thetimeblockingapp/features/startup/presentation/bloc/startup_bloc.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../../core/resources/app_colors.dart';
@@ -22,37 +22,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     printDebug("CustomAppBar isDarkMode $isDarkMode");
-    final startupBloc = BlocProvider.of<StartupBloc>(context);
+    final globalBloc = BlocProvider.of<GlobalBloc>(context);
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
-        return BlocBuilder<StartupBloc, StartupState>(
+        return BlocBuilder<GlobalBloc, GlobalState>(
           builder: (context, state) {
             if (state.reSelectWorkspace(authState.authState ==
-                AuthStateEnum.triedGetSelectedWorkspacesSpace)) {
-              startupBloc.add(GetAllInWorkspaceEvent(
+                AuthStateEnum.triedGetSelectedWorkspacesSpace,authState.accessToken)) {
+              globalBloc.add(GetAllInWorkspaceEvent(
                   workspace:
-                      Globals.selectedWorkspace ?? Globals.defaultWorkspace!,
-                  accessToken: Globals.accessToken));
+                      state.selectedWorkspace!,
+                  accessToken: authState.accessToken!));
             }
             return CustomAppBarWidget(
               selectWorkspace: (selected) {
                 if (selected is Workspace && state.isLoading == false) {
-                  startupBloc.add(GetAllInWorkspaceEvent(
+                  globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: selected,
-                      accessToken: Globals.accessToken));
+                      accessToken: authState.accessToken!));
                 }
               },
               openDrawer: () {
-                startupBloc.add(ControlDrawerLargerScreen(
-                    !startupBloc.state.drawerLargerScreenOpen));
+                globalBloc.add(ControlDrawerLargerScreen(
+                    !globalBloc.state.drawerLargerScreenOpen));
               },
               showSmallDesign: showSmallDesign,
               selectSpace: (selected) {
-                if (selected != null && state.isLoading == false) {
-                  startupBloc.add(SelectSpace(
-                      space: selected,
-                      accessToken: Globals.accessToken));
-                }
+                ///TODO C select space
               },
               pageActions: pageActions,
               isDarkMode: isDarkMode,
