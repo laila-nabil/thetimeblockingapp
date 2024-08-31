@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 
 import '../../../../core/extensions.dart';
@@ -62,7 +63,7 @@ class TasksCalendar extends StatelessWidget {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      // timeZone: Globals.user?.timezone,
+      // timeZone: BlocProvider.of<GlobalBloc>(context).state.user?.timezone,
       onTap: (d)=> onTapCalendarElement(d,authBloc),
       onLongPress: (d)=> onTapCalendarElement(d,authBloc),
       onAppointmentResizeEnd: (details){
@@ -116,7 +117,7 @@ class TasksCalendar extends StatelessWidget {
                 id: id,
                 GetTasksInWorkspaceParams(
                     workspaceId: selectedWorkspaceId ??
-                        Globals.workspaces?.first.id ??
+                        BlocProvider.of<GlobalBloc>(context).state.workspaces?.first.id ??
                         0,
                     filtersParams: scheduleBloc
                         .state.defaultTasksInWorkspaceFiltersParams(
@@ -213,7 +214,8 @@ class SupabaseTasksDataSource extends CalendarDataSource {
     printDebug("${tasks[index].title}=>"
         "Tasks[index].startDateUtc ${tasks[index].startDateUtc}");
     return tasks[index].startDateUtc ??
-        getEndTime(index).subtract(Globals.defaultTaskDuration);
+        getEndTime(index).subtract(
+            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
   }
 
   @override

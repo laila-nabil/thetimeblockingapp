@@ -57,17 +57,17 @@ class SchedulePage extends StatelessWidget {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final authBloc = BlocProvider.of<AuthBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if ((Globals.isWorkspaceAndSpaceAppWide == false && state.isInitial) ||
-                  (Globals.isWorkspaceAndSpaceAppWide == true &&
+              if ((serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false && state.isInitial) ||
+                  (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == true &&
                       state.tasks == null &&
-                      Globals.workspaces?.isNotEmpty == true) ||
+                      BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) ||
                   changeTaskSuccessfully) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
                 final workspace = (globalCurrentState.selectedWorkspace ??
-                    Globals.selectedWorkspace ??
-                    Globals.workspaces?.first);
+                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace ??
+                    BlocProvider.of<GlobalBloc>(context).state.workspaces?.first);
                 printDebug(">><< workspace $workspace");
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
@@ -149,7 +149,7 @@ class SchedulePage extends StatelessWidget {
                   ),
                   context: context, onRefresh: ()async {
                 var selectedWorkspace =
-                    Globals.selectedWorkspace ?? Globals.defaultWorkspace;
+                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace;
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? 0,

@@ -49,7 +49,7 @@ class AllTasksPage extends StatelessWidget {
                               onSave: (params) {
                                 allTasksBloc.add(CreateTaskEvent(
                                     params: params,
-                                    workspace: Globals.selectedWorkspace!));
+                                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
                                 Navigator.maybePop(context);
                               },
                               isLoading: (state) => state is! AllTasksState
@@ -65,7 +65,8 @@ class AllTasksPage extends StatelessWidget {
                       small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
+                      if (state.isInit && serviceLocator<bool>(
+                            instanceName: "isWorkspaceAndSpaceAppWide")) {
                         getAllTasksInSpace(allTasksBloc,context);
                       }
                       return Padding(
@@ -86,17 +87,17 @@ class AllTasksPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          if (Globals.isWorkspaceAndSpaceAppWide == false
+                          if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false
                               // &&
-                              // Globals.spaces?.isNotEmpty == true
+                              // BlocProvider.of<GlobalBloc>(context).state.spaces?.isNotEmpty == true
                           )
                             DropdownButton<Space?>(
-                              value: Globals.selectedSpace,
+                              value: BlocProvider.of<GlobalBloc>(context).state.selectedSpace,
                               onChanged: (selected) {
                                 ///TODO C select space
                               },
                               items:
-                              // Globals.spaces
+                              // BlocProvider.of<GlobalBloc>(context).state.spaces
                               //         ?.map((e) => DropdownMenuItem(
                               //               value: e,
                               //               child: Text(e.name ?? ""),
@@ -169,7 +170,7 @@ class AllTasksPage extends StatelessWidget {
                   context: context, onRefresh: ()async {
                 getAllTasksInSpace(allTasksBloc,context);
                 globalBloc.add(GetAllInWorkspaceEvent(
-                    workspace: Globals.selectedWorkspace!,
+                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
               },);
             },
@@ -186,18 +187,18 @@ class AllTasksPage extends StatelessWidget {
       bloc: allTasksBloc,
       onDelete: (params) {
         allTasksBloc.add(DeleteTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
         allTasksBloc.add(UpdateTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
       onDuplicate: (params) {
         allTasksBloc.add(DuplicateTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
       },
     );
   }
@@ -205,7 +206,7 @@ class AllTasksPage extends StatelessWidget {
   void getAllTasksInSpace(AllTasksBloc allTasksBloc,BuildContext context) {
     allTasksBloc.add(GetTasksInSpaceEvent(
         accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!,
-        workspace: Globals.selectedWorkspace!,
-        space: Globals.selectedSpace!));
+        workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+        space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
   }
 }

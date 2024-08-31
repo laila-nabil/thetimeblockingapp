@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/globals.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
@@ -36,7 +37,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       } else if (event is GetAllInWorkspaceEvent) {
-        if (Globals.isWorkspaceAndSpaceAppWide) {
+        if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")) {
           emit(state.copyWith(
               selectedWorkspace: event.workspace, isLoading: true));
           final getAllInWorkspaceResult = await _getAllInWorkspaceUseCase(

@@ -62,7 +62,7 @@ class TagsPage extends StatelessWidget {
                             onPressed: () {
                               tagsPageBloc.add(DeleteTagEvent.submit(
                                   params: DeleteTagParams(
-                                      space: Globals.selectedSpace!,
+                                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
                                       tag: state.toDeleteTag!,
                                       accessToken:
                                           authBloc.state.accessToken!)));
@@ -94,12 +94,12 @@ class TagsPage extends StatelessWidget {
                     small: BlocConsumer<TagsPageBloc, TagsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && Globals.isWorkspaceAndSpaceAppWide) {
+                    if (state.isInit && serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")) {
                       tagsPageBloc.add(GetTagsInSpaceEvent(
                           GetTagsInSpaceParams(
                               accessToken:
                                   authBloc.state.accessToken!,
-                              space: Globals.selectedSpace!)));
+                              space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!)));
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -148,7 +148,7 @@ class TagsPage extends StatelessWidget {
                                                                                   .copyWith(name: text)
                                                                                   .getModel,
                                                                               originalTagName: tag.name ?? "",
-                                                                              space: Globals.selectedSpace!),
+                                                                              space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
                                                                         ));
                                                                       },
                                                                       onCancel: () {
@@ -166,7 +166,7 @@ class TagsPage extends StatelessWidget {
                                                           tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                                                               insideTagPage: false,
                                                               params: UpdateTagParams(
-                                                                  space: Globals
+                                                                  space: BlocProvider.of<GlobalBloc>(context).state
                                                                       .selectedSpace!,
                                                                   newTag:
                                                                       tag.getModel,
@@ -183,7 +183,7 @@ class TagsPage extends StatelessWidget {
                                                         onTap: () {
                                                           tagsPageBloc.add(DeleteTagEvent.tryDelete(
                                                               DeleteTagParams(
-                                                                  space: Globals
+                                                                  space: BlocProvider.of<GlobalBloc>(context).state
                                                                       .selectedSpace!,
                                                                   tag: tag,
                                                                   accessToken:
@@ -212,7 +212,7 @@ class TagsPage extends StatelessWidget {
                                                         newTag: TagModel(
                                                             name: text, id: '', workspaceId: '', color: ''),
                                                         space:
-                                                            Globals.selectedSpace!),
+                                                            BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
                                                   ));
                                                 }, onCancel: () {
                                                   tagsPageBloc.add(
@@ -242,9 +242,9 @@ class TagsPage extends StatelessWidget {
                   GetTagsInSpaceParams(
                       accessToken:
                       authBloc.state.accessToken!,
-                      space: Globals.selectedSpace!)));
+                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!)));
               globalBloc.add(GetAllInWorkspaceEvent(
-                  workspace: Globals.selectedWorkspace!,
+                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                   accessToken: authBloc.state.accessToken!));
             },);
           },

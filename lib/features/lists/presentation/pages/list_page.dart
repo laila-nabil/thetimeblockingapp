@@ -48,7 +48,7 @@ class ListPage extends StatelessWidget {
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
                 listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
                     accessToken: authBloc.state.accessToken!,
-                    workspace: Globals.selectedWorkspace!));
+                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
               }
               return ResponsiveScaffold(
                 ///TODO D Bulk actions on tasks
@@ -145,9 +145,9 @@ class ListPage extends StatelessWidget {
                   listsPageBloc.add(
                       GetListAndFoldersInListsPageEvent.inWorkSpace(
                           accessToken: authBloc.state.accessToken!,
-                          workspace: Globals.selectedWorkspace!));
+                          workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
                   globalBloc.add(GetAllInWorkspaceEvent(
-                      workspace: Globals.selectedWorkspace!,
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       accessToken: authBloc.state.accessToken!));
                 },
               );

@@ -69,9 +69,9 @@ class TagPage extends StatelessWidget {
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetTasksForTagEvent(
                     accessToken: authBloc.state.accessToken!,
-                    workspace: Globals.selectedWorkspace!,
+                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     tag: state.navigateTag!,
-                    space: Globals.selectedSpace!));
+                    space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
               }
               return ResponsiveScaffold(
                 ///TODO Z Bulk actions on tasks
@@ -81,7 +81,7 @@ class TagPage extends StatelessWidget {
                         tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                             insideTagPage: true,
                             params: UpdateTagParams(
-                                space: Globals.selectedSpace!,
+                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
                                 newTag: state.navigateTag!.getModel,
                                 originalTagName: state.navigateTag!.name ?? "",
                                 accessToken:
@@ -97,7 +97,7 @@ class TagPage extends StatelessWidget {
                       onTap: () {
                         tagsPageBloc.add(DeleteTagEvent.tryDelete(
                             DeleteTagParams(
-                                space: Globals.selectedSpace!,
+                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
                                 tag: state.navigateTag!,
                                 accessToken:
                                     authBloc.state.accessToken!)));
@@ -119,7 +119,7 @@ class TagPage extends StatelessWidget {
                             onSave: (params) {
                               tagsPageBloc.add(CreateTaskEvent(
                                   params: params,
-                                  workspace: Globals.selectedWorkspace!));
+                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! TagsPageState
@@ -158,7 +158,7 @@ class TagPage extends StatelessWidget {
                                                 .getModel,
                                             originalTagName:
                                                 state.navigateTag!.name ?? "",
-                                            space: Globals.selectedSpace!),
+                                            space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
                                       ));
                                     },
                                     onCancel: () {
@@ -229,11 +229,11 @@ class TagPage extends StatelessWidget {
                 onRefresh: () async {
                   tagsPageBloc.add(GetTasksForTagEvent(
                       accessToken: authBloc.state.accessToken!,
-                      workspace: Globals.selectedWorkspace!,
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       tag: state.navigateTag!,
-                      space: Globals.selectedSpace!));
+                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
                   globalBloc.add(GetAllInWorkspaceEvent(
-                      workspace: Globals.selectedWorkspace!,
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       accessToken: authBloc.state.accessToken!));
                 },
               );
@@ -252,16 +252,16 @@ class TagPage extends StatelessWidget {
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {
         tagsPageBloc.add(DeleteTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       },
       onSave: (params) {
         tagsPageBloc.add(UpdateTaskEvent(
-            params: params, workspace: Globals.selectedWorkspace!));
+            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
       tagsPageBloc.add(DuplicateTaskEvent(
-          params: params, workspace: Globals.selectedWorkspace!));
+          params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
     },
     );
   }

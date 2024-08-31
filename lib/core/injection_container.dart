@@ -86,6 +86,13 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerSingleton<bool>(false,instanceName: "isDemo");
 
+  serviceLocator.registerSingleton<Duration>(const Duration(hours: 1),
+      instanceName: "defaultTaskDuration");
+
+  ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+
+  serviceLocator.registerSingleton<bool>(true,
+      instanceName: "isWorkspaceAndSpaceAppWide");
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
@@ -343,4 +350,22 @@ Future<NetworkResponse> responseHandler(
 @visibleForTesting
 void initServiceLocatorTesting({required Network mockNetwork}) {
   _initServiceLocator(network: mockNetwork);
+}
+
+
+class SupabaseGlobals {
+  final String url;
+  final String key;
+
+  SupabaseGlobals({this.url = "", this.key = ""});
+
+  SupabaseGlobals copyWith({
+    String? url,
+    String? key,
+  }) {
+    return SupabaseGlobals(
+      url: url ?? this.url,
+      key: key ?? this.key,
+    );
+  }
 }

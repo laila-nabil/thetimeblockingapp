@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
@@ -63,7 +64,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             listsPageStatus: ListsPageStatus.navigateList,
             navigateList: event.list));
       } else if (event is GetListAndFoldersInListsPageEvent) {
-        if (Globals.isWorkspaceAndSpaceAppWide == false) {
+        if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _getAllInWorkspaceUseCase(
               GetAllInWorkspaceParams(
@@ -253,9 +254,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
+          ///TODO A
           add(GetListAndFoldersInListsPageEvent.inWorkSpace(
               accessToken: event.params.accessToken,
-              workspace: Globals.selectedWorkspace!));
+              workspace: Workspace()));
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -268,9 +270,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
+          ///TODO A
           add(GetListAndFoldersInListsPageEvent.inWorkSpace(
               accessToken: event.params.accessToken,
-              workspace: Globals.selectedWorkspace!));
+              workspace: Workspace()));
         });
       }
       else if (event is UpdateTaskEvent) {
@@ -283,9 +286,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.updateTaskSuccess,
           ));
+          ///TODO A
           add(GetListAndFoldersInListsPageEvent.inWorkSpace(
               accessToken: event.params.accessToken,
-              workspace: Globals.selectedWorkspace!));
+              workspace: Workspace()));
         });
       }
       else if (event is DeleteTaskEvent) {
@@ -298,9 +302,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.deleteTaskSuccess,
           ));
+          ///TODO A
           add(GetListAndFoldersInListsPageEvent.inWorkSpace(
               accessToken: event.params.accessToken,
-              workspace: Globals.selectedWorkspace!));
+              workspace: Workspace()));
         });
       }
     });

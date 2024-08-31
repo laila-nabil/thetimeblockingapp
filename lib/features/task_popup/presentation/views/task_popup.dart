@@ -60,7 +60,9 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
+    dueDate = task?.dueDateUtc ??
+        cellDate?.add(
+            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
     isAllDay = false;
     list = null;
   }
@@ -73,7 +75,7 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(Globals.defaultTaskDuration);
+    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
     isAllDay = false;
     list = null;
   }
@@ -230,8 +232,8 @@ class TaskPopup extends StatelessWidget {
                           accessToken: authState.accessToken!,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: Globals.isWorkspaceAndSpaceAppWide
-                              ? Globals.selectedSpace
+                          space: serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")
+                              ? BlocProvider.of<GlobalBloc>(context).state.selectedSpace
                               : null,
                           list: taskPopupParams.list,
                           tag: taskPopupParams.tag,
@@ -239,7 +241,7 @@ class TaskPopup extends StatelessWidget {
                       : CreateTaskParams.startUpdateTask(
                         accessToken: authState.accessToken!,
                           task: task,
-                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!
+                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!, space: null
                         )));
           },
         ),
@@ -267,7 +269,7 @@ class TaskPopup extends StatelessWidget {
                       accessToken: authState.accessToken!,
                       user: authState.user!,
                           task: task,
-                      backendMode: serviceLocator<BackendMode>().mode
+                      backendMode: serviceLocator<BackendMode>().mode, space: null
                         ));
               printDebug("taskParams $taskParams");
               final firstDate =
@@ -460,7 +462,7 @@ class TaskPopup extends StatelessWidget {
 
                             ///Space
                             ///TODO D create a new Workspace/Space in task view
-                            if (Globals.isWorkspaceAndSpaceAppWide == false)
+                            if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false)
                               (task == null
                                   ? DropdownButton<Space>(
                                 hint: Text(
@@ -472,7 +474,7 @@ class TaskPopup extends StatelessWidget {
                                         taskParams.copyWith(
                                             space: space))),
                                 items:
-                                // (Globals.spaces)
+                                // (BlocProvider.of<GlobalBloc>(context).state.spaces)
                                 //     ?.map((e) => DropdownMenuItem(
                                 //     value: e,
                                 //     child: Text(e.name ?? "")))

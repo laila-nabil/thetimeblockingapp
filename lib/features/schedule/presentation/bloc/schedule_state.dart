@@ -113,9 +113,12 @@ class ScheduleState extends Equatable {
       defaultTasksInWorkspaceFiltersParams (
       {required AccessToken accessToken, required User? user}){
     List<String>? filterBySpaceIds;
-    if(Globals.isWorkspaceAndSpaceAppWide && Globals.selectedSpace?.id !=null){
-      filterBySpaceIds = [Globals.selectedSpace?.id??""];
-    }
+    // if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") &&
+    //     BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
+    //   filterBySpaceIds = [
+    //     BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id ?? ""
+    //   ];
+    // }
     return GetTasksInWorkspaceFiltersParams(
             filterBySpaceIds: filterBySpaceIds,
             accessToken: accessToken,

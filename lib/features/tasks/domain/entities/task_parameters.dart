@@ -199,11 +199,11 @@ class CreateTaskParams extends Equatable{
     required Task task,
     required BackendMode backendMode,
     required User user,
+    required Space? space,
 
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final space = Globals.selectedSpace;
     final folder =  space?.folders
         ?.where((element) => element.id == task.folder?.id).firstOrNull;
     final list = space?.lists
