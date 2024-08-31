@@ -1,4 +1,5 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -37,9 +38,10 @@ class AuthRepoImpl  implements AuthRepo{
         trySaveResult: (result) async {
           await authLocalDataSource
               .saveAccessToken(result.accessToken as AccessTokenModel);
+          await authLocalDataSource
+              .saveSupabaseUser(result.user as SupabaseUserModel);
         },
         tryGetFromLocalStorage: () async {
-          ///TODO B make sure works correctly
           final access =  await authLocalDataSource.getAccessToken();
           final user =  await authLocalDataSource.getSupabaseUser();
           return SignInResultModel(accessToken: access, user: user);
