@@ -63,6 +63,9 @@ final serviceLocator = GetIt.instance;
 
 SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
 
+enum ServiceLocatorName {
+  defaultEnv,env,isDemo,defaultTaskDuration,isWorkspaceAndSpaceAppWide
+}
 
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
@@ -74,24 +77,24 @@ void _initServiceLocator({required Network network}) {
   serviceLocator
       .registerSingleton<BackendMode>(BackendMode.supabase);
 
-  serviceLocator
-      .registerSingleton<Env>(Env.debugLocally,instanceName: "defaultEnv");
+  serviceLocator.registerSingleton<Env>(Env.debugLocally,
+      instanceName: ServiceLocatorName.defaultEnv.name);
 
   serviceLocator
       .registerSingleton<Env>(
-      (serviceLocator.get(instanceName: "defaultEnv") as Env),
-      instanceName: "env");
+      (serviceLocator.get(instanceName: ServiceLocatorName.defaultEnv.name) as Env),
+      instanceName: ServiceLocatorName.env.name);
 
   serviceLocator
-      .registerSingleton<bool>(false,instanceName: "isDemo");
+      .registerSingleton<bool>(false,instanceName: ServiceLocatorName.isDemo.name);
 
   serviceLocator.registerSingleton<Duration>(const Duration(hours: 1),
-      instanceName: "defaultTaskDuration");
+      instanceName: ServiceLocatorName.defaultTaskDuration.name);
 
   ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
 
   serviceLocator.registerSingleton<bool>(true,
-      instanceName: "isWorkspaceAndSpaceAppWide");
+      instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name);
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
@@ -276,7 +279,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 }
 
 AuthRemoteDataSource authRemoteDataSource() {
-  if (serviceLocator<bool>(instanceName: "isDemo")) {
+  if (serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name)) {
     return AuthDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {
@@ -303,7 +306,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
 }
 
 TasksRemoteDataSource tasksRemoteDataSource() {
-  if (serviceLocator<bool>(instanceName: "isDemo")) {
+  if (serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name)) {
     return TasksDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {
@@ -327,7 +330,7 @@ void updateFromEnv() async {
   serviceLocator
       .registerSingleton<Env>(Env.getEnv(
           const String.fromEnvironment("env", defaultValue: "debugLocally")),
-      instanceName: "defaultEnv");
+      instanceName: ServiceLocatorName.defaultEnv.name);
 }
 
 void initServiceLocator() {

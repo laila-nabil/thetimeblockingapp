@@ -66,7 +66,7 @@ class AllTasksPage extends StatelessWidget {
                     listener: (context, state) {},
                     builder: (context, state) {
                       if (state.isInit && serviceLocator<bool>(
-                            instanceName: "isWorkspaceAndSpaceAppWide")) {
+                            instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
                         getAllTasksInSpace(allTasksBloc,context);
                       }
                       return Padding(
@@ -87,7 +87,7 @@ class AllTasksPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false
+                          if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false
                               // &&
                               // BlocProvider.of<GlobalBloc>(context).state.spaces?.isNotEmpty == true
                           )

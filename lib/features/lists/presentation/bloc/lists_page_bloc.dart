@@ -63,7 +63,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             listsPageStatus: ListsPageStatus.navigateList,
             navigateList: event.list));
       } else if (event is GetListAndFoldersInListsPageEvent) {
-        if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false) {
+        if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false) {
           emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
           final result = await _getAllInWorkspaceUseCase(
               GetAllInWorkspaceParams(

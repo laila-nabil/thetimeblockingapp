@@ -57,8 +57,8 @@ class SchedulePage extends StatelessWidget {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
               final authBloc = BlocProvider.of<AuthBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if ((serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false && state.isInitial) ||
-                  (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == true &&
+              if ((serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false && state.isInitial) ||
+                  (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == true &&
                       state.tasks == null &&
                       BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) ||
                   changeTaskSuccessfully) {

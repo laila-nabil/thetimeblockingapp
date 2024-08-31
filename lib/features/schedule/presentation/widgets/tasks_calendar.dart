@@ -214,7 +214,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
         "Tasks[index].startDateUtc ${tasks[index].startDateUtc}");
     return tasks[index].startDateUtc ??
         getEndTime(index).subtract(
-            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
+            serviceLocator<Duration>(instanceName: ServiceLocatorName.defaultTaskDuration.name));
   }
 
   @override

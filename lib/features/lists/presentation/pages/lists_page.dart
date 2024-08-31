@@ -132,7 +132,7 @@ class ListsPage extends StatelessWidget {
                   listener: (context, state) {},
                   builder: (context, state) {
                     var globalState = BlocProvider.of<GlobalBloc>(context).state;
-                    if (state.isInit && serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")) {
+                    if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
                       getListsFolders(listsPageBloc,authBloc.state,globalState);
                     }
                     return Padding(

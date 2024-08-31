@@ -62,7 +62,7 @@ class TaskPopupParams extends Equatable {
     startDate = task?.startDateUtc ?? cellDate;
     dueDate = task?.dueDateUtc ??
         cellDate?.add(
-            serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
+            serviceLocator<Duration>(instanceName: ServiceLocatorName.defaultTaskDuration.name));
     isAllDay = false;
     list = null;
   }
@@ -75,7 +75,7 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<Duration>(instanceName: "defaultTaskDuration"));
+    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<Duration>(instanceName: ServiceLocatorName.defaultTaskDuration.name));
     isAllDay = false;
     list = null;
   }
@@ -232,7 +232,7 @@ class TaskPopup extends StatelessWidget {
                           accessToken: authState.accessToken!,
                           dueDate: taskPopupParams.dueDate,
                           startDate: taskPopupParams.startDate,
-                          space: serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")
+                          space: serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)
                               ? BlocProvider.of<GlobalBloc>(context).state.selectedSpace
                               : null,
                           list: taskPopupParams.list,
@@ -462,7 +462,7 @@ class TaskPopup extends StatelessWidget {
 
                             ///Space
                             ///TODO D create a new Workspace/Space in task view
-                            if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") == false)
+                            if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false)
                               (task == null
                                   ? DropdownButton<Space>(
                                 hint: Text(
