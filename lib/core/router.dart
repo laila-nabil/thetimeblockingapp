@@ -73,23 +73,29 @@ final router = GoRouter(
           return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
         },
         redirect: (context,state) async{
-          // final userLoggedIn = BlocProvider
-          //     .of<AuthBloc>(context)
-          //               .state
-          //               .accessToken
-          //               ?.accessToken
-          //               .isNotEmpty ==
-          //           true &&
-          //       BlocProvider.of<AuthBloc>(context).state.user != null &&
-          //     BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true;
-          // if(userLoggedIn && false){
-          //   String redirectAfterAuthRouteName = Globals.redirectAfterAuthRouteName;
-          //
-          //   Globals.redirectAfterAuthRouteName = "";
-          //
-          //   return redirectAfterAuthRouteName;
-          //
-          // }
+          final userLoggedIn = BlocProvider
+              .of<AuthBloc>(context)
+                        .state
+                        .accessToken
+                        ?.accessToken
+                        .isNotEmpty ==
+                    true &&
+                BlocProvider.of<AuthBloc>(context).state.user != null &&
+              BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true;
+            var redirectAuth = serviceLocator.get<String>(
+                  type: String,
+                  instanceName:
+                  ServiceLocatorName.redirectAfterAuthRouteName.name);
+            if (userLoggedIn && redirectAuth.isNotEmpty) {
+              String redirectAfterAuthRouteName = redirectAuth;
+
+              serviceLocator.registerSingleton<String>("",
+                  instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
+
+
+              return redirectAfterAuthRouteName;
+
+          }
           return null;
         }
       ),

@@ -66,7 +66,12 @@ final serviceLocator = GetIt.instance;
 SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
 
 enum ServiceLocatorName {
-  defaultEnv,env,isDemo,defaultTaskDuration,isWorkspaceAndSpaceAppWide
+  defaultEnv,
+  env,
+  isDemo,
+  defaultTaskDuration,
+  isWorkspaceAndSpaceAppWide,
+  redirectAfterAuthRouteName
 }
 
 void _initServiceLocator({required Network network}) {
@@ -92,6 +97,9 @@ void _initServiceLocator({required Network network}) {
 
   serviceLocator.registerSingleton<Duration>(const Duration(hours: 1),
       instanceName: ServiceLocatorName.defaultTaskDuration.name);
+
+  serviceLocator.registerSingleton<String>("",
+      instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
 
   ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
 
