@@ -121,7 +121,7 @@ class ListsPageState extends Equatable {
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams(AccessToken accessToken , User? user) {
     List<String>? filterBySpaceIds;
-    // if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide") && BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
+    // if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) && BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
     //   filterBySpaceIds = [BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id ?? ""];
     // }
     return GetTasksInWorkspaceFiltersParams(

@@ -105,7 +105,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
+                                if(serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name))signInToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -127,7 +127,7 @@ class ResponsiveScaffold extends Scaffold {
                       builder: (context, state) {
                         return Column(
                           children: [
-                            if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
+                            if(serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name))signInToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -146,7 +146,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              if(serviceLocator<bool>(instanceName: "isDemo"))signInToUse(authBloc),
+              if(serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name))signInToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,

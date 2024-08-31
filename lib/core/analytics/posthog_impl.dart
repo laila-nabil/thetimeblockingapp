@@ -14,9 +14,9 @@ class PostHogImpl implements Analytics {
   Future<void> initialize() async {
     try {
       _instance = Posthog();
-      if(serviceLocator<Env>(instanceName: "env").isAnalyticsEnabled){
+      if(serviceLocator<Env>(instanceName: ServiceLocatorName.env.name).isAnalyticsEnabled){
         await _instance.enable();
-        await _instance.debug(serviceLocator<Env>(instanceName: "env").isDebug);
+        await _instance.debug(serviceLocator<Env>(instanceName: ServiceLocatorName.env.name).isDebug);
       }
       printDebug("PostHogImpl initialize");
     } catch (e) {
@@ -49,7 +49,7 @@ class PostHogImpl implements Analytics {
   Future<void> setCurrentScreen(String screenName) async {
     try {
       await _instance.screen(
-          screenName: serviceLocator<bool>(instanceName: "isDemo") ? "demo/$screenName" : screenName);
+          screenName: serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name) ? "demo/$screenName" : screenName);
       printDebug("PostHogImpl setCurrentScreen $screenName");
     } catch (e) {
       printDebug(e);

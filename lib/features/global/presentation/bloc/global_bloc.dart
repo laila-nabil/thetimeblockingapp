@@ -35,7 +35,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         emit(state.copyWith(
             drawerLargerScreenOpen: event.drawerLargerScreenOpen));
       } else if (event is GetAllInWorkspaceEvent) {
-        if (serviceLocator<bool>(instanceName: "isWorkspaceAndSpaceAppWide")) {
+        if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
           emit(state.copyWith(
               selectedWorkspace: event.workspace, isLoading: true));
           final getAllInWorkspaceResult = await _getAllInWorkspaceUseCase(
