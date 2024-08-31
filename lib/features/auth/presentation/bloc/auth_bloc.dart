@@ -29,6 +29,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               accessToken: r.accessToken,
               authState: AuthStateEnum.signInSuccess));
         });
+      }else if (event is CheckAlreadySignedInEvent) {
+        emit(state.copyWith(authState: AuthStateEnum.loading));
+        final result =
+            await _signInUseCase(const SignInParams(email: '', password: ''));
+        await result?.fold(
+            (l) async => emit(state.copyWith(
+                signInFailure: l,
+                authState: AuthStateEnum.signInFailed)), (r) async {
+          emit(state.copyWith(
+              user: r.user,
+              accessToken: r.accessToken,
+              authState: AuthStateEnum.signInSuccess));
+        });
       }
     });
   }
