@@ -77,7 +77,7 @@ class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
   Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) async {
     final response = await network.get(
         uri: Uri.parse(
-            "$url/rest/v1/status"),
+            "$url/rest/v1/status?order=id"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return taskStatusModelFromJson(json.decode(response.body)) ?? [];
   }
@@ -86,7 +86,7 @@ class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) async {
     final response = await network.get(
         uri: Uri.parse(
-            "$url/rest/v1/priority"),
+            "$url/rest/v1/priority?order=id"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return taskPriorityModelFromJson(json.decode(response.body)) ?? [];
   }
