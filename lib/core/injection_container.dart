@@ -10,6 +10,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/global/data/repositories/global_repo_impl.dart';
+import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
@@ -255,6 +257,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
       () => AuthRepoImpl(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton<TasksRepo>(
       () => TasksRepoImpl(serviceLocator(),));
+  serviceLocator.registerLazySingleton<GlobalRepo>(
+          () => GlobalRepoImpl(serviceLocator(),));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
