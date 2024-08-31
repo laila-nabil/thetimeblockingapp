@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -64,8 +63,7 @@ class TaskCalendarWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           divider,
-                          Text(task.tags?.map((e) => "#${e.name}").toString() ??
-                              ""),
+                          Text(task.tags.map((e) => "#${e.name}").toString()),
                         ],
                       ),
                   ],

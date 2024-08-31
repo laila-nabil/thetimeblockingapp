@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';
 
 import '../environment.dart';
-import '../globals.dart';
 import '../injection_container.dart';
 import 'analytics.dart';
 

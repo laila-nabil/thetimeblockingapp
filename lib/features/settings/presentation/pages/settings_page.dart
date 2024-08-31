@@ -12,7 +12,7 @@ import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_aut
 import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
-import '../../../../core/globals.dart';
+
 import '../../../../core/launch_url.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';

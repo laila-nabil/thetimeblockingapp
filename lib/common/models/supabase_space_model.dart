@@ -1,7 +1,6 @@
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
-import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import '../entities/space.dart';
 
 List<SpaceModel>? spacesFromJson(json){

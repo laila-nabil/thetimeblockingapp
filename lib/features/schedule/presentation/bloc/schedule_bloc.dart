@@ -6,17 +6,12 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
-import 'package:thetimeblockingapp/core/injection_container.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
-import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_task_use_case.dart';
 
-import '../../../../core/globals.dart';
-import '../../../global/presentation/bloc/global_bloc.dart';
+
 import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';

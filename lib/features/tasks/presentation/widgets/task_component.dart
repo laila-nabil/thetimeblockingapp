@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
+
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
@@ -268,10 +268,9 @@ class _TaskWidgetState extends State<TaskWidget> {
                 direction: Axis.horizontal,
                 verticalDirection: VerticalDirection.down,
                 children: widget.task.tags
-                        ?.map((e) => TagChip(
+                        .map((e) => TagChip(
                             tagName: e.name ?? "", color: e.getColor))
-                        .toList() ??
-                    [],
+                        .toList() ,
               ),
             )
           ],

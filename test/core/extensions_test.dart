@@ -1,7 +1,5 @@
-import 'package:dartz/dartz.dart' as dartz; 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 
 void main(){
   group("extensions tests", () {

@@ -1,7 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/common/entities/task.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 class User extends Equatable {
   const User({

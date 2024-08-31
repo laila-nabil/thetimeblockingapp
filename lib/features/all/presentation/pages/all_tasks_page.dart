@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_comp
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
-import '../../../../core/globals.dart';
+
 import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
@@ -103,7 +103,7 @@ class AllTasksPage extends StatelessWidget {
                               //               child: Text(e.name ?? ""),
                               //             ))
                               //         .toList() ??
-                                  [],
+                                  const [],
                               hint: Text(appLocalization.translate("spaces")),
                             ),
                           Expanded(

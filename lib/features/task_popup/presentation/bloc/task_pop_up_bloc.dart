@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 
 import '../../../../common/entities/user.dart';
-import '../../../../core/globals.dart';
+
 import '../views/task_popup.dart';
 
 part 'task_pop_up_event.dart';

@@ -4,8 +4,6 @@ import 'package:thetimeblockingapp/common/entities/folder.dart';
 
 import 'tag.dart';
 import 'tasks_list.dart';
-import 'user.dart';
-import 'workspace.dart';
 
 class Space extends Equatable {
   const Space({

@@ -3,7 +3,6 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import '../environment.dart';
-import '../globals.dart';
 import 'analytics.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 

@@ -1,5 +1,4 @@
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
-import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 

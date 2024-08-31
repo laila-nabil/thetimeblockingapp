@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
+
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -816,7 +816,7 @@ class TaskPopup extends StatelessWidget {
                                           tagName:
                                           e.name ?? '',
                                           color: e
-                                              ?.getColor,
+                                              .getColor,
                                           onDelete: () {
                                             List<Tag>?
                                             tags =

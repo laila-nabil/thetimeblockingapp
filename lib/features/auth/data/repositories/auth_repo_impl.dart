@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_d
 import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import '../../../../core/error/exception_to_failure.dart';
-import '../../../../core/globals.dart';
+
 import '../../../../core/repo_handler.dart';
 import '../../domain/repositories/auth_repo.dart';
 import '../data_sources/auth_local_data_source.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -29,8 +28,6 @@ import '../features/schedule/presentation/pages/schedule_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/all/presentation/pages/someday_page.dart';
 import '../features/tags/presentation/pages/tag_page.dart';
-import 'globals.dart';
-
 
 // GoRouter configuration
 final router = GoRouter(

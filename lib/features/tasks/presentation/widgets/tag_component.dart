@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/common/entities/task.dart';
 
 import '../../../../common/entities/tag.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';

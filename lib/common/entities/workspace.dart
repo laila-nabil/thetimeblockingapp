@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import 'space.dart';
-import 'user.dart';
 
 class Workspace extends Equatable {
   const Workspace({
