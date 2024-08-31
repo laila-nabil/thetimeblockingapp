@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -43,6 +44,12 @@ class SchedulePage extends StatelessWidget {
                 context: context,
                 taskPopupParams: state.taskPopupParams!,
               );
+            },
+            builder: (context, state) {
+              printDebug("ScheduleBloc state $state");
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              final authBloc = BlocProvider.of<AuthBloc>(context);
+              final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if (globalCurrentState.priorities?.isNotEmpty != true) {
                 globalBloc
                     .add(GetPrioritiesEvent(accessToken: authBloc.state.accessToken!));
@@ -51,28 +58,32 @@ class SchedulePage extends StatelessWidget {
                 globalBloc
                     .add(GetStatusesEvent(accessToken: authBloc.state.accessToken!));
               }
-            },
-            builder: (context, state) {
-              printDebug("ScheduleBloc state $state");
-              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              final authBloc = BlocProvider.of<AuthBloc>(context);
-              final changeTaskSuccessfully = state.changedTaskSuccessfully;
-              if ((serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false && state.isInitial) ||
-                  (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == true &&
-                      state.tasks == null &&
-                      BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) ||
-                  changeTaskSuccessfully) {
+              if (globalCurrentState.workspaces?.isNotEmpty != true) {
+                final globalBloc = BlocProvider.of<GlobalBloc>(context);
+                globalBloc.add(GetAllWorkspacesEvent(
+                    params: GetWorkspacesParams(
+                        accessToken: authBloc.state.accessToken!,
+                        userId: authBloc.state.user!.id!)));
+              }
+              var isWorkspaceAndSpaceAppWide = serviceLocator<bool>(
+                              instanceName: ServiceLocatorName.isWorkspaceAndSpaceAppWide.name);
+              if (globalCurrentState.isLoading != true &&
+                  state.isLoading != true &&
+                  ((isWorkspaceAndSpaceAppWide == false && state.isInitial) ||
+                      (isWorkspaceAndSpaceAppWide == true &&
+                          state.tasks == null &&
+                          globalCurrentState.workspaces?.isNotEmpty == true) ||
+                      changeTaskSuccessfully)) {
                 if (changeTaskSuccessfully) {
                   Navigator.maybePop(context);
                 }
                 final workspace = (globalCurrentState.selectedWorkspace ??
-                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace ??
-                    BlocProvider.of<GlobalBloc>(context).state.workspaces?.first);
+                    globalCurrentState.selectedWorkspace ??
+                    globalCurrentState.workspaces?.first);
                 printDebug(">><< workspace $workspace");
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
-                        workspaceId:
-                        workspace?.id ?? 0,
+                        workspaceId: workspace?.id ?? 0,
                         filtersParams: scheduleBloc.state
                             .defaultTasksInWorkspaceFiltersParams(
                                 accessToken: authBloc.state.accessToken!,
