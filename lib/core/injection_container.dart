@@ -53,7 +53,6 @@ import '../features/tasks/domain/use_cases/move_task_between_lists_use_case.dart
 import '../features/tasks/domain/use_cases/update_tag_use_case.dart';
 import '../features/tasks/domain/use_cases/update_task_use_case.dart';
 import 'analytics/analytics.dart';
-import 'globals.dart';
 import 'local_data_sources/local_data_source.dart';
 import 'local_data_sources/shared_preferences_local_data_source.dart';
 import 'network/network.dart';

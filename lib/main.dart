@@ -7,7 +7,6 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'core/bloc_observer.dart';
-import 'core/globals.dart';
 import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
 import 'core/print_debug.dart';

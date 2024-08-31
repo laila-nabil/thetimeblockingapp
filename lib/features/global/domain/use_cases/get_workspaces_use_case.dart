@@ -7,7 +7,6 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import '../../../../common/entities/workspace.dart';
 import '../../../../common/entities/access_token.dart';
-import '../../../tasks/domain/repositories/tasks_repo.dart';
 
 class GetWorkspacesUseCase
     implements UseCase<List<Workspace>, GetWorkspacesParams> {

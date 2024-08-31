@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
-import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 class GetPrioritiesUseCase implements UseCase<List<TaskPriority>,GetPrioritiesParams>{
   final GlobalRepo repo;

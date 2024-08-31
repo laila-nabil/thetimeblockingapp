@@ -1,10 +1,7 @@
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
@@ -21,12 +18,11 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_drop_down.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
-import '../../../../core/globals.dart';
+
 import '../../../../core/launch_url.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../settings/domain/use_cases/change_language_use_case.dart';
 import '../bloc/auth_bloc.dart';
-import '../widgets/auth_page_webview.dart';
 
 enum OnBoardingAndAuthStep {
   first(1),

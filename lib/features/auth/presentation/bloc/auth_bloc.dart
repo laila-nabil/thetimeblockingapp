@@ -1,15 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/workspace.dart';
-import 'package:thetimeblockingapp/core/extensions.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/core/usecase.dart';
+
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
-import '../../../global/domain/use_cases/get_workspaces_use_case.dart';
 import '../../../../common/entities/access_token.dart';
 
 part 'auth_event.dart';

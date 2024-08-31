@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import 'tasks_list.dart';
 

@@ -9,7 +9,6 @@ import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 import '../../../../common/entities/tag.dart';
-import '../../../../common/entities/task.dart';
 import '../../../../common/models/supabase_tag_model.dart';
 
 class UpdateTagUseCase

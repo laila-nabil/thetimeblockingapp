@@ -1,23 +1,14 @@
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
-import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
-import 'package:thetimeblockingapp/core/localization/localization.dart';
-import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
-import '../../../core/launch_url.dart';
-import '../../../features/auth/presentation/widgets/auth_page_webview.dart';
 import '../../../features/global/presentation/bloc/global_bloc.dart';
 import '../custom_app_bar.dart';
 import '../custom_pop_up_menu.dart';

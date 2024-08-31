@@ -19,7 +19,6 @@ import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dar
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
 import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.dart';
 
-import '../../core/globals.dart';
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';

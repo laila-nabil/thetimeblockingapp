@@ -2,7 +2,6 @@
 
 import 'dart:ui';
 
-import 'package:dartz/dartz.dart' as dartz; 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 extension ElementAtNullableOrEmpty<T> on List<T>? {

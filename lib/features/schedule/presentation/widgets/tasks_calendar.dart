@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
+
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -13,7 +13,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
-import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';

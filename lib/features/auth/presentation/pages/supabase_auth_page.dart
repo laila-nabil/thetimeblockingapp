@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/core/globals.dart';
+
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 
 import '../../../schedule/presentation/pages/schedule_page.dart';
 import '../bloc/auth_bloc.dart';
@@ -28,7 +27,7 @@ class SupabaseAuthPage extends StatelessWidget {
         return BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             printDebug("AuthBloc state listener $state");
-            final authBloc = BlocProvider.of<AuthBloc>(context);
+            BlocProvider.of<AuthBloc>(context);
             if (state.canGoSchedulePage == true) {
               context.go(SchedulePage.routeName, extra: true);
             }
