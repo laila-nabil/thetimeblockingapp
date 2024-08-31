@@ -82,7 +82,7 @@ void _initServiceLocator({required Network network}) {
 
   serviceLocator
       .registerSingleton<Env>(
-      (serviceLocator.get(instanceName: ServiceLocatorName.defaultEnv.name) as Env),
+      (serviceLocator.get(instanceName: ServiceLocatorName.defaultEnv.name,type: Env) as Env),
       instanceName: ServiceLocatorName.env.name);
 
   serviceLocator
