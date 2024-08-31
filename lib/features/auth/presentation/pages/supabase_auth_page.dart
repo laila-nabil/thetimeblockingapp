@@ -27,7 +27,6 @@ class SupabaseAuthPage extends StatelessWidget {
         return BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             printDebug("AuthBloc state listener $state");
-            BlocProvider.of<AuthBloc>(context);
             if (state.canGoSchedulePage == true) {
               context.go(SchedulePage.routeName, extra: true);
             }
@@ -35,6 +34,9 @@ class SupabaseAuthPage extends StatelessWidget {
           builder: (context, state) {
             printDebug("AuthBloc state builder $state");
             final authBloc = BlocProvider.of<AuthBloc>(context);
+            if(state.authState == AuthStateEnum.initial){
+              authBloc.add(CheckAlreadySignedInEvent());
+            }
             return SupabaseOnBoardingAndAuthPage(
               authBloc: authBloc,
               settingsBloc: settingsBloc,
