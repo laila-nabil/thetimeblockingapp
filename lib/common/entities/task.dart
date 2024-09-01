@@ -68,4 +68,34 @@ class Task extends Equatable {
         space,
         workspace,
       ];
+
+  Task copyWith({
+    String? id,
+    String? title,
+    String? description,
+    TaskStatus? status,
+    TaskPriority? priority,
+    List<Tag>? tags,
+    DateTime? startDate,
+    DateTime? dueDate,
+    TasksList? list,
+    Folder? folder,
+    Space? space,
+    Workspace? workspace,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      status: status ?? this.status,
+      priority: priority ?? this.priority,
+      tags: tags ?? this.tags,
+      startDate: startDate ?? this.startDate,
+      dueDate: dueDate ?? this.dueDate,
+      list: list ?? this.list,
+      folder: folder ?? this.folder,
+      space: space ?? this.space,
+      workspace: workspace ?? this.workspace,
+    );
+  }
 }

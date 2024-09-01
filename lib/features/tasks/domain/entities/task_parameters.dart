@@ -53,9 +53,9 @@ class CreateTaskParams extends Equatable{
 
   String? get getLinkedTaskId => linkedTask?.id;
 
-  List<TasksList> get getAvailableLists {
+  List<TasksList> getAvailableLists(Folder? folder) {
     if (space != null && folder != null) {
-      return List.of(folder?.lists ?? <TasksList>[]);
+      return List.of(folder.lists ?? <TasksList>[]);
     } else if (space != null && folder == null) {
       return List.of(space?.lists ?? []);
     }
@@ -204,13 +204,6 @@ class CreateTaskParams extends Equatable{
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
-    final folder =  space?.folders
-        ?.where((element) => element.id == task.folder?.id).firstOrNull;
-    final list = space?.lists
-        ?.where((element) => element.id == task.list?.id)
-        .firstOrNull ??  folder?.lists
-        ?.where((element) => element.id == task.list?.id)
-            .firstOrNull;
     return CreateTaskParams._(
         type: TaskParamsEnum.update,
         accessToken: accessToken,
@@ -218,8 +211,8 @@ class CreateTaskParams extends Equatable{
         description: null,//description controlled by text controller
         title: null,//title controlled by text controller
         space: space,
-        folder: folder,
-        list: list,
+        folder: task.folder,
+        list: task.list,
         taskPriority: task.priority,
         tags: task.tags,
         taskStatus: task.status,

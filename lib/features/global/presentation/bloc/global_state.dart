@@ -34,7 +34,10 @@ class GlobalState extends Equatable {
   // Workspace? get selectedWorkspace =>
   //     workspaces?.firstOrNull;
 
-  Space? get selectedSpace => selectedWorkspace?.spaces?.firstOrNull;
+  Space? get selectedSpace => serviceLocator(
+          instanceName: ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)
+      ? selectedWorkspace?.spaces?.firstOrNull
+      : null;
 
   @override
   String toString() {

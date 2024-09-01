@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
@@ -48,7 +50,11 @@ class TaskPopupParams extends Equatable {
   DateTime? dueDate;
   late bool isAllDay;
   TasksList? list;
+  Folder? folder;
+  Space? space;
   Tag? tag;
+  TaskStatus? status;
+  TaskPriority? priority;
 
   TaskPopupParams.openNotAllDayTask({
     required this.task,
@@ -64,7 +70,12 @@ class TaskPopupParams extends Equatable {
         cellDate?.add(
             serviceLocator<Duration>(instanceName: ServiceLocatorName.defaultTaskDuration.name));
     isAllDay = false;
-    list = null;
+    list = task?.list;
+    status = task?.status;
+    priority = task?.priority;
+    folder = task?.folder;
+    space = task?.space;
+
   }
   TaskPopupParams.notAllDayTask({
     this.task,
@@ -219,7 +230,9 @@ class TaskPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = AppBorderRadius.xLarge.value;
     final borderRadius = BorderRadius.circular(radius);
-    final task = taskPopupParams.task;
+    var task = taskPopupParams.task;
+    final globalState = BlocProvider.of<GlobalBloc>(context).state ;
+    // task = updateTaskFromGlobalState(globalState, task);
     final authState = BlocProvider.of<AuthBloc>(context).state;
     return MultiBlocProvider(
       providers: [
@@ -229,19 +242,31 @@ class TaskPopup extends StatelessWidget {
               ..add(UpdateTaskParamsEvent(
                   taskParams: task == null
                       ? CreateTaskParams.startCreateNewTask(
-                          accessToken: authState.accessToken!,
-                          dueDate: taskPopupParams.dueDate,
-                          startDate: taskPopupParams.startDate,
-                          space: serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)
-                              ? BlocProvider.of<GlobalBloc>(context).state.selectedSpace
-                              : null,
-                          list: taskPopupParams.list,
-                          tag: taskPopupParams.tag,
-                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!)
+                      accessToken: authState.accessToken!,
+                      dueDate: taskPopupParams.dueDate,
+                      startDate: taskPopupParams.startDate,
+                      space: serviceLocator<bool>(
+                          instanceName: ServiceLocatorName
+                              .isWorkspaceAndSpaceAppWide.name)
+                          ? globalState
+                          .selectedSpace
+                          : null,
+                      list: taskPopupParams.list,
+                      tag: taskPopupParams.tag,
+                      backendMode: serviceLocator<BackendMode>().mode,
+                      user: authState.user!)
                       : CreateTaskParams.startUpdateTask(
-                        accessToken: authState.accessToken!,
-                          task: task,
-                      backendMode: serviceLocator<BackendMode>().mode, user: authState.user!, space: null
+                    accessToken: authState.accessToken!,
+                    task: task,
+                    backendMode: serviceLocator<BackendMode>().mode,
+                    user: authState.user!,
+                          space: serviceLocator<bool>(
+                                  instanceName: ServiceLocatorName
+                                      .isWorkspaceAndSpaceAppWide.name)
+                              ? globalState.selectedWorkspace?.spaces
+                                  ?.where((s) => s.id == task.space?.id)
+                                  .firstOrNull
+                              : task.space,
                         )));
           },
         ),
@@ -292,7 +317,9 @@ class TaskPopup extends StatelessWidget {
                   appFontSize: AppFontSize.paragraphSmall,
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium));
-              final globalState = BlocProvider.of<GlobalBloc>(context).state ;
+              var selectedFolder = state.taskParams?.space?.folders
+                  ?.where((f) => f.id == state.taskParams?.folder?.id)
+                  .firstOrNull;
               return CustomAlertDialog(
                   loading: loading,
                   shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -390,9 +417,9 @@ class TaskPopup extends StatelessWidget {
                                     hint: Text(appLocalization
                                         .translate("folder")),
                                     style: taskLocationTextStyle,
-                                    value: state.taskParams?.folder,
-                                    icon: const Padding(
-                                      padding:  EdgeInsets.all(4.0),
+                                    value: selectedFolder,
+                                      icon: const Padding(
+                                        padding:  EdgeInsets.all(4.0),
                                       child: Icon(AppIcons.chevrondown,size: 14),
                                     ),
 
@@ -434,7 +461,7 @@ class TaskPopup extends StatelessWidget {
 
                                 ///TODO D create a new list in task view
                                 ///List
-                                if ((state.taskParams?.getAvailableLists
+                                if ((state.taskParams?.getAvailableLists(selectedFolder)
                                     .isNotEmpty ==
                                     true))
                                   CustomDropDown(
@@ -442,14 +469,19 @@ class TaskPopup extends StatelessWidget {
                                     style: taskLocationTextStyle,
                                     hint: Text(
                                         appLocalization.translate("list")),
-                                    value: state.taskParams?.list,
-                                    onChanged: (list) => taskPopUpBloc.add(
+                                    value: state.taskParams
+                                          ?.getAvailableLists(selectedFolder)
+                                          .where((l) =>
+                                              l.id ==
+                                              state.taskParams?.list?.id)
+                                          .firstOrNull,
+                                      onChanged: (list) => taskPopUpBloc.add(
                                         UpdateTaskParamsEvent(
                                             taskParams:
                                             taskParams.copyWith(
                                                 list: list))),
                                     items: state
-                                        .taskParams?.getAvailableLists
+                                        .taskParams?.getAvailableLists(selectedFolder)
                                         .map((e) => DropdownMenuItem(
                                         value: e,
                                         child: Text(e.name ?? "")))
@@ -490,8 +522,12 @@ class TaskPopup extends StatelessWidget {
                                 ///Status
                                if(globalState.statuses?.isNotEmpty == true)
                                  CustomDropDown(
-                                  value: state.taskParams?.taskStatus,
-                                  style:  CustomDropDown
+                                      value: globalState.statuses
+                                          ?.where((s) =>
+                                              s.id ==
+                                              state.taskParams?.taskStatus?.id)
+                                          .firstOrNull,
+                                      style:  CustomDropDown
                                       .textStyle(context.isDarkMode),
                                   hint: Text(
                                       appLocalization.translate("status")),
@@ -985,4 +1021,20 @@ class TaskPopup extends StatelessWidget {
       ),
     );
   }
+
+  // Task? updateTaskFromGlobalState(GlobalState globalState, Task? task) {
+  //   if (serviceLocator(instanceName: ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
+  //     var space = globalState.selectedSpace;
+  //     var folder = space?.folders?.firstWhere((f) => f.id == task?.folder?.id);
+  //     var list = space?.lists?.where((l) => l.id == task?.list?.id).firstOrNull ??
+  //         folder?.lists?.where((l) => l.id == task?.list?.id).firstOrNull;
+  //     printDebug("task=> before $task");
+  //     task = task?.copyWith(
+  //         space: space,
+  //         folder: folder,list: list);
+  //     printDebug("task=> after $task");
+  //     return task;
+  //   }
+  //   throw UnimplementedError('updateTaskFromGlobalState');
+  // }
 }
