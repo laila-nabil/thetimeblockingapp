@@ -905,7 +905,6 @@ class TaskPopup extends StatelessWidget {
                                                                 ListView(
                                                                   children: state
                                                                       .taskParams
-                                                                      ?.space
                                                                       ?.tags
                                                                       ?.map((e) => CheckboxListTile(
                                                                       title: Row(
