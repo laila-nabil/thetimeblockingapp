@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
@@ -111,11 +112,12 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> createTaskInList({required CreateTaskParams params}) async {
-    await network.post(
+    final result = await network.post(
         uri: Uri.parse(
             "$url/rest/v1/task"),
         body: params.toJson(),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
     return dartz.unit;
   }
 

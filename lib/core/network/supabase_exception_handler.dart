@@ -13,7 +13,7 @@ Future<NetworkResponse> supabaseResponseHandler(
   http.Response? response;
   try {
     response = await httpResponse();
-    if (response.statusCode != 200 && response.statusCode != 204) {
+    if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204) {
       throw ServerException(
           message: SupabaseError.fromJson(json.decode(response.body))
               .error

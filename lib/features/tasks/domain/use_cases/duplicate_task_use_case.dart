@@ -7,7 +7,8 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
-///TODO A FIXME duplicate
+///TODO A since duplicating a task adds to task table, to add a tag, another api must be called to add tags, same for creating
+
 
 class DuplicateTaskUseCase
     implements UseCase<dartz.Unit, CreateTaskParams> {

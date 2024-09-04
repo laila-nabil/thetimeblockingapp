@@ -75,7 +75,8 @@ class CreateTaskParams extends Equatable{
       tags: task.tags,
       taskPriority: task.priority,
       startDate: task.startDateUtc,
-      backendMode: backendMode, user: user
+      backendMode: backendMode, user: user,
+      taskStatus: task.status
     );
   }
   const CreateTaskParams._(
@@ -263,11 +264,19 @@ class CreateTaskParams extends Equatable{
           backendMode: backendMode
       );
 
+  ///TODO A tags??
   Map<String, dynamic> toJson() {
     return {
       "title": title,
-      "user_id": user.id??"",
-      "list_id": list?.id??""
+      "description": description,
+      "status_id": int.tryParse(taskStatus?.id??""),
+      "priority_id" : getPriority,
+      "list_id": list?.id,
+      "user_id": user.id,
+      "due_date": dueDate?.toIso8601String(),
+      "start_date": startDate?.toIso8601String(),
+      "parent_task_id": parentTask?.id,
+      "child_task_id": null,///TODO D child task
     };
     if (type == TaskParamsEnum.create) {
       Map<String, Object?>  createMap = {

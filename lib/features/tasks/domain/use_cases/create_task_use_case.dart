@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import '../entities/task_parameters.dart';
 import '../repositories/tasks_repo.dart';
 
+///TODO A since creating a task adds to task table, to add a tag, another api must be called to add tags, same for duplicate
 ///TODO Z add note or attachment with link to task url in timeblockingapp for quick access
 ///TODO Z enable navigation to specific task with task id
 ///TODO D have brain dump/ inbox or default list
