@@ -36,7 +36,7 @@ class AddTagToTaskParams {
   final Task task;
   final Tag tag;
   final AccessToken accessToken;
-
+  final String userId;
   String get taskId => task.id ?? "";
 
   String get tagName => tag.name ?? "";
@@ -44,21 +44,14 @@ class AddTagToTaskParams {
   AddTagToTaskParams(
       {required this.task,
       required this.tag,
+      required this.userId,
       required this.accessToken});
 
   Map<String, dynamic> toJson() {
     return {
-      'task': task,
-      'tag': tag,
-      'accessToken': accessToken,
+      'task_id': task.id,
+      'tag_id': tag.id,
+      'user_id': userId,
     };
-  }
-
-  factory AddTagToTaskParams.fromJson(Map<String, dynamic> map) {
-    return AddTagToTaskParams(
-      task: map['task'] as Task,
-      tag: map['tag'] as Tag,
-      accessToken: map['accessToken'] as AccessToken,
-    );
   }
 }

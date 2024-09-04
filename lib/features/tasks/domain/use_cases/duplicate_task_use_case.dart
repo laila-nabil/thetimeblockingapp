@@ -48,7 +48,7 @@ class DuplicateTaskUseCase {
                     params: AddTagToTaskParams(
                         task: task!,
                         tag: tag,
-                        accessToken: params.accessToken));
+                        accessToken: params.accessToken, userId: params.user.id.toString()));
                 addTagResult.fold((l) => printDebug("addTagResult failed $l"),
                         (r) => printDebug("addTagResult success $r"));
               }

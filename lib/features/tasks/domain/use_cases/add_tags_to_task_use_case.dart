@@ -19,7 +19,7 @@ class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
       final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
           task: params.task,
           accessToken: params.accessToken,
-          tag: element));
+          tag: element, userId: ""));
       result.add(elementResult);
     }
     if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
