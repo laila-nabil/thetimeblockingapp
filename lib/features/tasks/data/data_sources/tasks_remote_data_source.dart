@@ -77,9 +77,14 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
 
   @override
-  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) {
-    // TODO A implement addTagToTask
-    throw UnimplementedError();
+  Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse(
+            "$url/rest/v1/tagged_task"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override

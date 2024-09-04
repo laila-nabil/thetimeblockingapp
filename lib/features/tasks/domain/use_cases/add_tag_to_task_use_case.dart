@@ -45,4 +45,20 @@ class AddTagToTaskParams {
       {required this.task,
       required this.tag,
       required this.accessToken});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'task': task,
+      'tag': tag,
+      'accessToken': accessToken,
+    };
+  }
+
+  factory AddTagToTaskParams.fromJson(Map<String, dynamic> map) {
+    return AddTagToTaskParams(
+      task: map['task'] as Task,
+      tag: map['tag'] as Tag,
+      accessToken: map['accessToken'] as AccessToken,
+    );
+  }
 }
