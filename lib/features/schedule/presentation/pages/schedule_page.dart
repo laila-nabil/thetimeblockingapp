@@ -103,8 +103,14 @@ class SchedulePage extends StatelessWidget {
                           taskPopupParams: TaskPopupParams.notAllDayTask(
                             onSave: (params) {
                               scheduleBloc
-                                  .add(CreateTaskEvent(params: params));
-                            },
+                                  .add(CreateTaskEvent(
+                                params: params,
+                                workspaceId: (globalCurrentState
+                                            .selectedWorkspace ??
+                                        globalCurrentState.selectedWorkspace ??
+                                        globalCurrentState.workspaces?.first)!
+                                    .id!));
+                          },
                             bloc: scheduleBloc,
                             isLoading: (state) => state is! ScheduleState
                                 ? false

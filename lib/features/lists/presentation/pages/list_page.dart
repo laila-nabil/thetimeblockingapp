@@ -64,8 +64,13 @@ class ListPage extends StatelessWidget {
                             list: state.currentList,
                             bloc: listsPageBloc,
                             onSave: (params) {
-                              listsPageBloc
-                                  .add(CreateTaskEvent(params: params));
+                              listsPageBloc.add(CreateTaskEvent(
+                                  params: params,
+                                  workspaceId:
+                                      BlocProvider.of<GlobalBloc>(context)
+                                          .state
+                                          .selectedWorkspace!
+                                          .id!));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! ListsPageState

@@ -17,11 +17,12 @@ class GetTasksForSingleWorkspaceScheduleEvent extends ScheduleEvent {
 
 class CreateTaskEvent extends ScheduleEvent {
   final CreateTaskParams params;
+  final int workspaceId;
 
-  const CreateTaskEvent({required this.params});
+  const CreateTaskEvent({required this.params,required this.workspaceId});
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,workspaceId];
 }
 
 class DuplicateTaskEvent extends ScheduleEvent {

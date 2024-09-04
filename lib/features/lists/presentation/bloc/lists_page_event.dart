@@ -216,11 +216,12 @@ class DeleteListEvent extends ListsPageEvent {
 
 class CreateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
+  final int workspaceId;
 
-  const CreateTaskEvent({required this.params});
+  const CreateTaskEvent({required this.params,required this.workspaceId});
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,workspaceId];
 }
 class DuplicateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;

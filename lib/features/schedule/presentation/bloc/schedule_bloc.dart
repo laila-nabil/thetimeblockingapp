@@ -79,7 +79,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           persistingScheduleStateAddRemove:
               const dartz.Right(ScheduleStateEnum.loading),
         ));
-        final result = await _createTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params,event.workspaceId);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const dartz.Left(ScheduleStateEnum.loading)));

@@ -179,7 +179,7 @@ class TasksCalendar extends StatelessWidget {
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(
                       params:
-                          params));
+                          params, workspaceId: selectedWorkspaceId!));
                 },
                 bloc: scheduleBloc,
                 isLoading:(state)=>scheduleBloc.state.isLoading
@@ -194,7 +194,7 @@ class TasksCalendar extends StatelessWidget {
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(
                       params:
-                      params));
+                      params, workspaceId: selectedWorkspaceId!));
                 },
                 bloc: scheduleBloc,
                 isLoading: (state)=>state is! ScheduleState

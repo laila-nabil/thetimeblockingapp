@@ -245,7 +245,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
       }
       else if (event is CreateTaskEvent) {
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-        final result = await _createTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params,event.workspaceId);
         result?.fold(
             (l) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.createTaskFailed,

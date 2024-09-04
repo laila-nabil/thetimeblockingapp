@@ -155,7 +155,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
         }
       } else if (event is CreateTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _createTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params,event.workspace.id!);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.createTaskFailed,

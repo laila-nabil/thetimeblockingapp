@@ -60,7 +60,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 )));
       } else if (event is CreateTaskEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
-        final result = await _createTaskUseCase(event.params);
+        final result = await _createTaskUseCase(event.params,event.workspace.id!);
         result?.fold(
             (l) => emit(state.copyWith(
                 allTasksStatus: AllTasksStatus.createTaskFailed,
