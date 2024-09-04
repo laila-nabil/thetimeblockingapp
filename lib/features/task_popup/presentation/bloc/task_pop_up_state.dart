@@ -82,7 +82,14 @@ class TaskPopUpState extends Equatable {
         accessToken,
         title: taskParams?.title ?? "",
         description: taskParams?.description,
-        backendMode: serviceLocator<BackendMode>().mode, user: user
+        backendMode: serviceLocator<BackendMode>().mode, user: user,
+        taskStatus: taskParams?.taskStatus,
+        folder: taskParams?.folder,
+        space: taskParams?.space,
+        startDate: taskParams?.startDate,
+        tags: taskParams?.tags,
+        taskPriority: taskParams?.taskPriority,
+        parentTask: taskParams?.parentTask
       );
     }
     return params;

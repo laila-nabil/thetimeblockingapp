@@ -393,7 +393,7 @@ class TaskPopup extends StatelessWidget {
                                         .state
                                         .accessToken!,BlocProvider.of<AuthBloc>(context)
                                     .state
-                                    .user!));
+                                    .user!,));
                               },
                         label: appLocalization.translate("save")),
                   ],
