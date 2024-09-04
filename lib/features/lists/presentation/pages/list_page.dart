@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
@@ -175,8 +178,12 @@ class ListPage extends StatelessWidget {
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
         listsPageBloc.add(DuplicateTaskEvent(
-          params: params,));
-    },
+          params: params,
+          workspace: BlocProvider.of<GlobalBloc>(context)
+              .state
+              .selectedWorkspace!,
+        ));
+      },
     );
   }
 }

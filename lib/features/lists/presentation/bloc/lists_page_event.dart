@@ -224,11 +224,15 @@ class CreateTaskEvent extends ListsPageEvent {
 }
 class DuplicateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
+  final Workspace workspace;
 
-  const DuplicateTaskEvent({required this.params});
+  const DuplicateTaskEvent({
+    required this.params,
+    required this.workspace,
+  });
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params, workspace];
 }
 
 class UpdateTaskEvent extends ListsPageEvent {

@@ -26,11 +26,15 @@ class CreateTaskEvent extends ScheduleEvent {
 
 class DuplicateTaskEvent extends ScheduleEvent {
   final CreateTaskParams params;
+  final int workspace;
 
-  const DuplicateTaskEvent({required this.params});
+  const DuplicateTaskEvent({
+    required this.params,
+    required this.workspace,
+  });
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params, workspace];
 }
 
 class UpdateTaskEvent extends ScheduleEvent {

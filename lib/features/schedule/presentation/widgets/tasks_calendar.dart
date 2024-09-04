@@ -166,7 +166,8 @@ class TasksCalendar extends StatelessWidget {
                       task,
                       serviceLocator<BackendMode>().mode,
                       authBloc.state.accessToken!,
-                      authBloc.state.user!)));
+                      authBloc.state.user!),
+                  workspace: selectedWorkspaceId!));
             },)));
       } else if (calendarTapDetails.targetElement ==
               CalendarElement.calendarCell &&

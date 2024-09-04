@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
@@ -97,7 +98,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           persistingScheduleStateAddRemove:
               const dartz.Right(ScheduleStateEnum.loading),
         ));
-        final result = await _duplicateTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params,event.workspace);
         emit(state.copyWith(
             persistingScheduleStateAddRemove:
                 const dartz.Left(ScheduleStateEnum.loading)));

@@ -172,7 +172,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       }
         else if (event is DuplicateTaskEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
-        final result = await _duplicateTaskUseCase(event.params);
+        final result = await _duplicateTaskUseCase(event.params,event.workspace.id!);
         result?.fold(
             (l) => emit(state.copyWith(
                 tagsPageStatus: TagsPageStatus.createTaskFailed,

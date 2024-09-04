@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
@@ -198,7 +200,10 @@ class AllTasksPage extends StatelessWidget {
       isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
       onDuplicate: (params) {
         allTasksBloc.add(DuplicateTaskEvent(
-            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+          params: params,
+          workspace:
+              BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+        ));
       },
     );
   }

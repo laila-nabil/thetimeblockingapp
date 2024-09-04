@@ -5,13 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
+import '../../../../common/enums/backend_mode.dart';
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/custom_text_input_field.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
+import '../../../../core/injection_container.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../../core/print_debug.dart';
 import '../../../../core/resources/app_colors.dart';
@@ -261,8 +264,11 @@ class TagPage extends StatelessWidget {
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
       tagsPageBloc.add(DuplicateTaskEvent(
-          params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
-    },
+            params: params,
+            workspace:
+                BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+            ));
+      },
     );
   }
 }
