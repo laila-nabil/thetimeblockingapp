@@ -208,6 +208,7 @@ class TaskPopupParams extends Equatable {
       ];
 }
 
+///TODO A FIXME takes a lot of time to open popup
 Future showTaskPopup({
   required BuildContext context,
   required TaskPopupParams taskPopupParams,
@@ -829,6 +830,7 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Tags
+                            ///TODO A FIXME show tags in workspace to select from
                             ///TODO D create new tags in task view
                             if (state.viewTagsButton)
                               true
