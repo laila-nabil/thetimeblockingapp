@@ -39,14 +39,14 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
       this._deleteTaskUseCase)
       : super(const AllTasksState(allTasksStatus: AllTasksStatus.initial)) {
     on<AllTasksEvent>((event, emit) async {
-      if (event is GetTasksInSpaceEvent) {
+      if (event is GetTasksInWorkspaceEvent) {
         emit(state.copyWith(allTasksStatus: AllTasksStatus.loading));
         final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
-                    filterBySpaceIds: [event.space.id ?? ""]),
+                    filterBySpaceIds: const []),
                 backendMode: serviceLocator<BackendMode>().mode
             ));
         result?.fold(
@@ -68,9 +68,8 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetTasksInSpaceEvent(
+          add(GetTasksInWorkspaceEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is DuplicateTaskEvent) {
@@ -83,9 +82,8 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
-          add(GetTasksInSpaceEvent(
+          add(GetTasksInWorkspaceEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is UpdateTaskEvent) {
@@ -98,9 +96,8 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          add(GetTasksInSpaceEvent(
+          add(GetTasksInWorkspaceEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space!,
               workspace: event.workspace));
         });
       } else if (event is DeleteTaskEvent) {
@@ -113,10 +110,9 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
           emit(state.copyWith(
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
-          // add(GetTasksInSpaceEvent(
-          //     accessToken: event.params.accessToken,
-          //     space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
-          //     workspace: event.workspace));
+          add(GetTasksInWorkspaceEvent(
+              accessToken: event.params.accessToken,
+              workspace: event.workspace));
         });
       }
     });

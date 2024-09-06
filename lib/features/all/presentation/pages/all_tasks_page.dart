@@ -69,7 +69,7 @@ class AllTasksPage extends StatelessWidget {
                     builder: (context, state) {
                       if (state.isInit && serviceLocator<bool>(
                             instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
-                        getAllTasksInSpace(allTasksBloc,context);
+                        getAllTasksInWorkspace(allTasksBloc,context);
                       }
                       return Padding(
                         padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -170,7 +170,7 @@ class AllTasksPage extends StatelessWidget {
                     },
                   )),
                   context: context, onRefresh: ()async {
-                getAllTasksInSpace(allTasksBloc,context);
+                getAllTasksInWorkspace(allTasksBloc,context);
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
@@ -208,10 +208,10 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  void getAllTasksInSpace(AllTasksBloc allTasksBloc,BuildContext context) {
-    allTasksBloc.add(GetTasksInSpaceEvent(
+  void getAllTasksInWorkspace(AllTasksBloc allTasksBloc,BuildContext context) {
+    allTasksBloc.add(GetTasksInWorkspaceEvent(
         accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!,
         workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-        space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+        ));
   }
 }
