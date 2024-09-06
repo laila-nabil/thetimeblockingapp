@@ -1,4 +1,5 @@
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 
 import 'supabase_space_model.dart';
 
@@ -14,6 +15,7 @@ class WorkspaceModel extends Workspace {
     super.userId,
     super.color,
     super.spaces,
+    super.tags,
   });
 
   factory WorkspaceModel.fromJson(dynamic json) {
@@ -22,7 +24,9 @@ class WorkspaceModel extends Workspace {
       name: json['name'],
       userId: json['user_id'],
       color: json['color'],
-      spaces: json['spaces'] == null ? null : spacesFromJson(json['spaces']));
+      spaces: json['spaces'] == null ? null : spacesFromJson(json['spaces']),
+      tags: json['tags'] == null ? null : tagsFromJson(json['tags']),
+    );
   }
 
   WorkspaceModel copyWith({
@@ -30,14 +34,16 @@ class WorkspaceModel extends Workspace {
     String? name,
     String? userId,
     String? color,
-    List<SpaceModel>? spaces
+    List<SpaceModel>? spaces,
+    List<TagModel>? tags
   }) =>
       WorkspaceModel(
         id: id ?? this.id,
         name: name ?? this.name,
         userId: userId ?? this.userId,
         color: color ?? this.color,
-        spaces: spaces ?? this.spaces
+        spaces: spaces ?? this.spaces,
+        tags: tags ?? this.tags
       );
 
   Map<String, dynamic> toJson() {
@@ -48,6 +54,8 @@ class WorkspaceModel extends Workspace {
     map['color'] = color;
     map['spaces'] =
         spaces == null ? null : (spaces as List<SpaceModel>).toJson();
+    map['tags'] =
+    tags == null ? null : (tags as List<TagModel>).toJson();
     return map;
   }
 }

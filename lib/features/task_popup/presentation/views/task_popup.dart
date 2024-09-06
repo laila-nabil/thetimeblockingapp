@@ -233,7 +233,7 @@ class TaskPopup extends StatelessWidget {
     final borderRadius = BorderRadius.circular(radius);
     var task = taskPopupParams.task;
     final globalState = BlocProvider.of<GlobalBloc>(context).state ;
-    // task = updateTaskFromGlobalState(globalState, task);
+    printDebug("taskPopupParams $taskPopupParams");
     final authState = BlocProvider.of<AuthBloc>(context).state;
     return MultiBlocProvider(
       providers: [
@@ -255,7 +255,7 @@ class TaskPopup extends StatelessWidget {
                       list: taskPopupParams.list,
                       tag: taskPopupParams.tag,
                       backendMode: serviceLocator<BackendMode>().mode,
-                      user: authState.user!)
+                      user: authState.user!, tags: [])
                       : CreateTaskParams.startUpdateTask(
                     accessToken: authState.accessToken!,
                     task: task,
@@ -267,7 +267,7 @@ class TaskPopup extends StatelessWidget {
                               ? globalState.selectedWorkspace?.spaces
                                   ?.where((s) => s.id == task.space?.id)
                                   .firstOrNull
-                              : task.space,
+                              : task.space, tags: task.tags,
                         )));
           },
         ),
@@ -290,13 +290,15 @@ class TaskPopup extends StatelessWidget {
                           dueDate: taskPopupParams.dueDate,
                           list: taskPopupParams.list,
                           startDate: taskPopupParams.startDate,
-                      backendMode: serviceLocator<BackendMode>().mode)
+                          backendMode: serviceLocator<BackendMode>().mode,
+                          tags: [])
                       : CreateTaskParams.startUpdateTask(
                       accessToken: authState.accessToken!,
                       user: authState.user!,
                           task: task,
-                      backendMode: serviceLocator<BackendMode>().mode, space: null
-                        ));
+                          backendMode: serviceLocator<BackendMode>().mode,
+                          space: null,
+                          tags: task.tags));
               printDebug("taskParams $taskParams");
               final firstDate =
                   DateTime.now().subtract(const Duration(days: 1000));
@@ -830,7 +832,6 @@ class TaskPopup extends StatelessWidget {
                             spacerV,
 
                             ///Tags
-                            ///TODO A FIXME show tags in workspace to select from
                             ///TODO D create new tags in task view
                             if (state.viewTagsButton)
                               true
@@ -848,8 +849,7 @@ class TaskPopup extends StatelessWidget {
                                   Wrap(
                                     spacing: 2,
                                     runSpacing: 2,
-                                    children: (state.taskParams?.tags
-                                        ?.map<Widget>(
+                                    children: (state.taskParams?.tags?.map<Widget>(
                                             (e) => TagChip(
                                           tagName:
                                           e.name ?? '',
@@ -905,8 +905,7 @@ class TaskPopup extends StatelessWidget {
                                                                 width: 400,
                                                                 child:
                                                                 ListView(
-                                                                  children: state
-                                                                      .taskParams
+                                                                  children: globalState.selectedWorkspace
                                                                       ?.tags
                                                                       ?.map((e) => CheckboxListTile(
                                                                       title: Row(

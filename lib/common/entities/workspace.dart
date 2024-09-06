@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'space.dart';
+import 'tag.dart';
 
 class Workspace extends Equatable {
   const Workspace({
@@ -9,6 +10,7 @@ class Workspace extends Equatable {
     this.color,
     this.userId,
     this.spaces,
+    this.tags,
   });
 
   final int? id;
@@ -16,6 +18,7 @@ class Workspace extends Equatable {
   final String? color;
   final String? userId;
   final List<Space>? spaces;
+  final List<Tag>? tags;
 
   @override
   List<Object?> get props => [
@@ -23,6 +26,7 @@ class Workspace extends Equatable {
         name,
         color,
         userId,
-        spaces
+        spaces,
+        tags
       ];
 }

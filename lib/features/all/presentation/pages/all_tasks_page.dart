@@ -56,7 +56,7 @@ class AllTasksPage extends StatelessWidget {
                               },
                               isLoading: (state) => state is! AllTasksState
                                   ? false
-                                  : state.isLoading));
+                                  : state.isLoading, ));
                     },
                   ),
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(

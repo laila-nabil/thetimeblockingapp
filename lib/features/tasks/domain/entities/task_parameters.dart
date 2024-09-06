@@ -140,6 +140,7 @@ class CreateTaskParams extends Equatable{
     Space? space,
     TasksList? list,
     Tag? tag,
+    required List<Tag> tags,
     required BackendMode backendMode,
     required User user,
 
@@ -152,7 +153,7 @@ class CreateTaskParams extends Equatable{
           dueDate: dueDate,
           space: space,
           list: list,
-          tags: tag == null ? null : [tag],
+          tags: tags,
           backendMode: backendMode, user: user
     );
   }
@@ -201,7 +202,7 @@ class CreateTaskParams extends Equatable{
     required BackendMode backendMode,
     required User user,
     required Space? space,
-
+    required List<Tag> tags,
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.space}");
@@ -215,7 +216,7 @@ class CreateTaskParams extends Equatable{
         folder: task.folder,
         list: task.list,
         taskPriority: task.priority,
-        tags: task.tags,
+        tags: tags,
         taskStatus: task.status,
         ///TODO get Z parentTask
         parentTask: null,
