@@ -40,7 +40,7 @@ import '../../../tasks/presentation/widgets/tag_chip.dart';
 // ignore: must_be_immutable
 class TaskPopupParams extends Equatable {
   Task? task;
-  final void Function(CreateTaskParams params)? onSave;
+  final void Function(CreateTaskParams params) onSave;
   void Function()? onDuplicate;
   final void Function(DeleteTaskParams params)? onDelete;
   final Bloc bloc;
@@ -79,7 +79,7 @@ class TaskPopupParams extends Equatable {
   }
   TaskPopupParams.notAllDayTask({
     this.task,
-    this.onSave,
+    required this.onSave,
     this.onDelete,
     this.cellDate,
     required this.bloc,
@@ -93,7 +93,7 @@ class TaskPopupParams extends Equatable {
 
   TaskPopupParams.allDayTask({
     this.task,
-    this.onSave,
+    required this.onSave,
     this.onDelete,
     this.cellDate,
     required this.bloc,
@@ -108,7 +108,7 @@ class TaskPopupParams extends Equatable {
   }
 
   TaskPopupParams.addToList({
-    this.onSave,
+    required this.onSave,
     this.onDelete,
     required this.list,
     required this.bloc,
@@ -162,7 +162,7 @@ class TaskPopupParams extends Equatable {
 
   TaskPopupParams._(
       {this.task,
-      this.onSave,
+        required this.onSave,
       this.onDelete,
       required this.bloc,
       required this.isLoading,
@@ -385,19 +385,24 @@ class TaskPopup extends StatelessWidget {
                         onPressed: () => Navigator.maybePop(context),
                         label: appLocalization.translate("cancel")),
                     CustomButton.noIcon(
-                        onPressed: loading ||
-                                taskPopupParams.onSave == null ||
-                                state.readyToSubmit == false
-                            ? null
-                            : () {
-                                taskPopupParams.onSave!(state.onSaveTaskParams(
-                                    taskPopupParams.dueDate,
-                                    BlocProvider.of<AuthBloc>(context)
-                                        .state
-                                        .accessToken!,BlocProvider.of<AuthBloc>(context)
-                                    .state
-                                    .user!,));
-                              },
+                        onPressed:(){
+                          printDebug("onsave");
+                          printDebug("taskParams $taskParams");
+                          printDebug("taskPopupParams $taskPopupParams");
+                          printDebug("loading $loading");
+                          printDebug("state.readyToSubmit ${state.readyToSubmit}");
+                          if(loading != true && state.readyToSubmit ){
+                            taskPopupParams.onSave(state.onSaveTaskParams(
+                              taskPopupParams.dueDate,
+                              BlocProvider.of<AuthBloc>(context)
+                                  .state
+                                  .accessToken!,
+                              BlocProvider.of<AuthBloc>(context)
+                                  .state
+                                  .user!,
+                            ));
+                          }
+                        },
                         label: appLocalization.translate("save")),
                   ],
                   content: SingleChildScrollView(

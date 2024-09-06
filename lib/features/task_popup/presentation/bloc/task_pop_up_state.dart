@@ -7,9 +7,8 @@ class TaskPopUpState extends Equatable {
     this.taskParams,
   });
 
-  bool get readyToSubmit => taskParams?.list != null && changesAvailable;
+  bool get readyToSubmit {
 
-  bool get changesAvailable {
     if (taskParams?.task == null) {
       return taskParams?.title != null &&
           taskParams?.list != null &&
