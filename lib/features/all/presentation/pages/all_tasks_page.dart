@@ -6,10 +6,13 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
+import '../../../../common/widgets/custom_alert_dialog.dart';
+import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 
@@ -182,9 +185,43 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  StatelessWidget buildTaskWidget(Task e, BuildContext context,
+  Dismissible buildTaskWidget(Task e, BuildContext context,
       AllTasksBloc allTasksBloc) {
-    return TaskComponent(
+    return Dismissible(key: Key(e.id.toString()),
+        confirmDismiss: (dismissDirection) async {
+          if(dismissDirection == DismissDirection.endToStart){
+           final res =  await showDialog<bool>(context: context, builder: (context){
+              return CustomAlertDialog(
+                loading: false,
+                actions: [
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("delete"),
+                      onPressed: () {
+                        allTasksBloc.add(DeleteTaskEvent(
+                            params: DeleteTaskParams(
+                                task: e,
+                                accessToken:
+                                BlocProvider.of<AuthBloc>(context).state.accessToken!),
+                            workspace: BlocProvider.of<GlobalBloc>(context)
+                                .state
+                                .selectedWorkspace!));
+                        Navigator.pop(context);
+                      },type: CustomButtonType.destructiveFilledLabel),
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("cancel"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+                content: Text(
+                    "${appLocalization.translate("areYouSureDelete")} ${e.title}?"),
+              );
+            });
+            return res;
+          }
+          return null;
+        },
+        child: TaskComponent(
       task: e,
       bloc: allTasksBloc,
       onDelete: (params) {
@@ -202,10 +239,10 @@ class AllTasksPage extends StatelessWidget {
         allTasksBloc.add(DuplicateTaskEvent(
           params: params,
           workspace:
-              BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
+          BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
         ));
       },
-    );
+    ));
   }
 
   void getAllTasksInWorkspace(AllTasksBloc allTasksBloc,BuildContext context) {
