@@ -33,7 +33,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(CreateTaskParams params) async {
-    dartz.Either<Failure, Task>? updateTaskResult;
+    dartz.Either<Failure, dartz.Unit>? updateTaskResult;
     List<Failure> failures = [];
     printDebug("params $params");
     final isCompletingTask = params.taskStatus != null &&

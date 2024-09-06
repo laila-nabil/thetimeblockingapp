@@ -28,7 +28,7 @@ abstract class TasksRepo {
   Future<dartz.Either<Failure, dartz.Unit>?> createTaskInList(
       CreateTaskParams params);
 
-  Future<dartz.Either<Failure, Task>?> updateTask(CreateTaskParams params);
+  Future<dartz.Either<Failure, dartz.Unit>?> updateTask(CreateTaskParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(
       DeleteTaskParams params);

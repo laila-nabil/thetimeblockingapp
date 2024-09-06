@@ -116,7 +116,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<TaskModel> updateTask({required CreateTaskParams params}) {
+  Future<dartz.Unit> updateTask({required CreateTaskParams params}) {
     // TODO C implement updateTask
     throw UnimplementedError();
   }

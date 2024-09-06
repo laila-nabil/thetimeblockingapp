@@ -17,6 +17,13 @@ abstract class Network {
       Map<String, dynamic>? body,
       Encoding? encoding});
 
+  Future<NetworkResponse> patch(
+      {required Uri uri,
+        Map<String, String>? headers,
+        Map<String, dynamic>? body,
+        Encoding? encoding});
+
+
   Future<NetworkResponse> put(
       {required Uri uri,
         Map<String, String>? headers,
@@ -33,6 +40,7 @@ abstract class Network {
       Encoding? encoding});
 
   Network({required this.httpClient,required this.responseHandler});
+
 }
 
 class NetworkResponse extends Equatable{

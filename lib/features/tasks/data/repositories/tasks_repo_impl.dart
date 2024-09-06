@@ -50,7 +50,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, TaskModel>?> updateTask(
+  Future<dartz.Either<Failure, dartz.Unit>?> updateTask(
       CreateTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>

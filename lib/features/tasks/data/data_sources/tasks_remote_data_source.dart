@@ -33,7 +33,7 @@ abstract class TasksRemoteDataSource {
 
   Future<dartz.Unit> createTaskInList({required CreateTaskParams params});
 
-  Future<TaskModel> updateTask({required CreateTaskParams params});
+  Future<dartz.Unit> updateTask({required CreateTaskParams params});
 
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
 
@@ -183,9 +183,14 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<TaskModel> updateTask({required CreateTaskParams params}) {
-    // TODO A implement updateTask
-    throw UnimplementedError("updateTask");
+  Future<dartz.Unit> updateTask({required CreateTaskParams params}) async {
+    final result = await network.patch(
+        uri: Uri.parse(
+            "$url/rest/v1/task?id=eq.${params.task?.id}"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override

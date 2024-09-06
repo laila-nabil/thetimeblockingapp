@@ -101,4 +101,24 @@ class NetworkHttp implements Network {
         httpResponse: () async => await httpClient.put(uri,
             headers: headers, body: bodyAsString, encoding: encoding));
   }
+
+  @override
+  Future<NetworkResponse> patch({required Uri uri, Map<String, String>? headers, Map<String, dynamic>? body, Encoding? encoding}) {
+    final bodyAsString = json.encode(body);
+    printDebug(
+      "[url] start$uri",
+    );
+    printDebug(
+      "[url] $uri",
+    );
+    printDebug(
+      "[header] " "${headers ?? ""}",
+    );
+    printDebug(
+      "[body] " "$bodyAsString",
+    );
+    return responseHandler(
+        httpResponse: () async => await httpClient.patch(uri,
+            headers: headers, body: bodyAsString, encoding: encoding));
+  }
 }
