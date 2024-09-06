@@ -197,7 +197,6 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
         serviceLocator(),
         serviceLocator(),
-        serviceLocator(),
       ));
   serviceLocator.registerLazySingleton(() => DeleteTaskUseCase(
         serviceLocator(),

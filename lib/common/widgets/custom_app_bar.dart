@@ -21,7 +21,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDarkMode;
   @override
   Widget build(BuildContext context) {
-    printDebug("CustomAppBar isDarkMode $isDarkMode");
     final globalBloc = BlocProvider.of<GlobalBloc>(context);
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
