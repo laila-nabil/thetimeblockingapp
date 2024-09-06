@@ -301,7 +301,7 @@ AuthRemoteDataSource authRemoteDataSource() {
           key: _supabaseGlobals.key,
           url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
-      throw UnimplementedError();
+      throw UnimplementedError("offlineWithCalendarSync AuthRemoteDataSourceImpl");
   }
 }
 GlobalRemoteDataSource globalRemoteDataSource() {
@@ -313,7 +313,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
           key: _supabaseGlobals.key,
           url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
-      throw UnimplementedError();
+      throw UnimplementedError("offlineWithCalendarSync GlobalRemoteDataSourceImpl");
   }
 }
 
@@ -328,7 +328,7 @@ TasksRemoteDataSource tasksRemoteDataSource() {
           key: _supabaseGlobals.key,
           url: _supabaseGlobals.url);
     case BackendMode.offlineWithCalendarSync:
-      throw UnimplementedError();
+      throw UnimplementedError("offlineWithCalendarSync TasksRemoteDataSourceImpl");
   }
 }
 
@@ -357,7 +357,7 @@ Future<NetworkResponse> responseHandler(
     case BackendMode.supabase:
       return supabaseResponseHandler(httpResponse: httpResponse);
     case BackendMode.offlineWithCalendarSync:
-      throw UnimplementedError();
+      throw UnimplementedError("offlineWithCalendarSync response handler");
   }
 }
 

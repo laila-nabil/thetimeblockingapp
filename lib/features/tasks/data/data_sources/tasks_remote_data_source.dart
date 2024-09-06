@@ -91,28 +91,28 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<FolderModel> createFolderInSpace(
       {required CreateFolderInSpaceParams params}) {
     // TODO A implement createFolderInSpace
-    throw UnimplementedError();
+    throw UnimplementedError("createFolderInSpace");
   }
 
   @override
   Future<ListModel> createFolderlessList(
       {required CreateFolderlessListParams params}) {
     // TODO A implement createFolderlessList
-    throw UnimplementedError();
+    throw UnimplementedError("createFolderlessList");
   }
 
   @override
   Future<ListModel> createListInFolder(
       {required CreateListInFolderParams params}) {
     // TODO A implement createListInFolder
-    throw UnimplementedError();
+    throw UnimplementedError("createListInFolder");
   }
 
   @override
   Future<dartz.Unit> createTagInSpace(
       {required CreateTagInSpaceParams params}) {
     // TODO A implement createTagInSpace
-    throw UnimplementedError();
+    throw UnimplementedError("createTagInSpace");
   }
 
   @override
@@ -129,19 +129,19 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) {
     // TODO A implement deleteFolder
-    throw UnimplementedError();
+    throw UnimplementedError("deleteFolder");
   }
 
   @override
   Future<dartz.Unit> deleteList({required DeleteListParams params}) {
     // TODO A implement deleteList
-    throw UnimplementedError();
+    throw UnimplementedError("deleteList");
   }
 
   @override
   Future<dartz.Unit> deleteTag({required DeleteTagParams params}) {
     // TODO A implement deleteTag
-    throw UnimplementedError();
+    throw UnimplementedError("deleteTag");
   }
 
   @override
@@ -156,7 +156,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {
     // TODO A implement getTags
-    throw UnimplementedError();
+    throw UnimplementedError("getTags");
   }
 
   @override
@@ -173,19 +173,19 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   Future<dartz.Unit> removeTagFromTask(
       {required RemoveTagFromTaskParams params}) {
     // TODO A implement removeTagFromTask
-    throw UnimplementedError();
+    throw UnimplementedError("removeTagFromTask");
   }
 
   @override
   Future<dartz.Unit> updateTag({required UpdateTagParams params}) {
     // TODO A implement updateTag
-    throw UnimplementedError();
+    throw UnimplementedError("updateTag");
   }
 
   @override
   Future<TaskModel> updateTask({required CreateTaskParams params}) {
     // TODO A implement updateTask
-    throw UnimplementedError();
+    throw UnimplementedError("updateTask");
   }
 
   @override
