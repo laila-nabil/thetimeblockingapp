@@ -25,7 +25,7 @@ class Task extends Equatable {
 
   bool get isUpcoming => dueDate?.isAfter(DateTime.now()) == true;
 
-  bool get isUnscheduled => dueDate == null;
+  bool get isUnscheduled => dueDate == null && isCompleted == false;
 
   bool get isCompleted => status?.isDone == true;
 
