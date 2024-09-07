@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
@@ -188,6 +191,9 @@ class AllTasksPage extends StatelessWidget {
   Dismissible buildTaskWidget(Task e, BuildContext context,
       AllTasksBloc allTasksBloc) {
     return Dismissible(key: Key(e.id.toString()),
+        ///TODO C add icons to background
+        background: Container(color: AppColors.success(context.isDarkMode),),
+        secondaryBackground: Container(color: AppColors.error(context.isDarkMode),),
         confirmDismiss: (dismissDirection) async {
           if(dismissDirection == DismissDirection.endToStart){
            final res =  await showDialog<bool>(context: context, builder: (context){
@@ -215,6 +221,41 @@ class AllTasksPage extends StatelessWidget {
                 ],
                 content: Text(
                     "${appLocalization.translate("areYouSureDelete")} ${e.title}?"),
+              );
+            });
+            return res;
+          }
+          if(dismissDirection == DismissDirection.startToEnd){
+            final res =  await showDialog<bool>(context: context, builder: (context){
+              return CustomAlertDialog(
+                loading: false,
+                actions: [
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("complete"),
+                      onPressed: () {
+                            var authState = BlocProvider.of<AuthBloc>(context).state;
+                            var globalState = BlocProvider.of<GlobalBloc>(context).state;
+                            final newTask = e.copyWith(status: globalState.statuses!.completedStatus);
+                            printDebug("newTask $newTask");
+                            allTasksBloc.add(UpdateTaskEvent(
+                                params: CreateTaskParams.startUpdateTask(
+                                    accessToken: authState.accessToken!,
+                                    task: newTask,
+                                    backendMode: serviceLocator<BackendMode>(),
+                                    user: authState.user!,
+                                    space: newTask.space,
+                                    tags: newTask.tags),
+                                workspace: globalState.selectedWorkspace!));
+                            Navigator.pop(context);
+                      },type: CustomButtonType.secondaryLabel),
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("cancel"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+                content: Text(
+                    "${appLocalization.translate("areYouSureComplete")} ${e.title}?"),
               );
             });
             return res;
