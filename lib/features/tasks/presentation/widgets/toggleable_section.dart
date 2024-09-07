@@ -21,6 +21,7 @@ class ToggleableSection extends StatefulWidget {
       required this.children,
       required this.title,
       this.buttons,
+      this.isOpenInStart = true,
       this.actions, this.titleColor});
 
   final List<Widget> children;
@@ -28,14 +29,21 @@ class ToggleableSection extends StatefulWidget {
   final String title;
   final Color? titleColor;
   final List<CustomPopupItem>? actions;
-
+  final bool isOpenInStart;
   @override
   State<ToggleableSection> createState() => _ToggleableSectionState();
 }
 
 class _ToggleableSectionState extends State<ToggleableSection> {
-  bool isOpen = true;
+  late bool isOpen ;
+
   bool onHover = false;
+
+  @override
+  void initState() {
+    isOpen = widget.isOpenInStart;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

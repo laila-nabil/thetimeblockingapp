@@ -157,6 +157,7 @@ class AllTasksPage extends StatelessWidget {
                                   ),
                                 if (state.getAllTasksResultCompleted.isNotEmpty)
                                   true ? ToggleableSection(
+                                      isOpenInStart: false,
                                       title: appLocalization.translate("Completed"),
                                       titleColor: AppColors.success(context.isDarkMode).shade500,
                                       children: state.getAllTasksResultCompleted
