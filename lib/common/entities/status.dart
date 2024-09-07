@@ -22,8 +22,7 @@ class TaskStatus extends Equatable {
 }
 
 extension ExTaskStatus on List<TaskStatus>{
-  TaskStatus get completedStatus{
-    return firstWhere((s)=>s.isDone == true) ;
+  TaskStatus? get completedStatus{
+    return where((s)=>s.isDone == true).firstOrNull ;
   }
-
 }

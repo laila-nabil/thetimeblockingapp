@@ -225,7 +225,7 @@ class AllTasksPage extends StatelessWidget {
             });
             return res;
           }
-          if(dismissDirection == DismissDirection.startToEnd){
+          if(e.isCompleted  == false && dismissDirection == DismissDirection.startToEnd){
             final res =  await showDialog<bool>(context: context, builder: (context){
               return CustomAlertDialog(
                 loading: false,

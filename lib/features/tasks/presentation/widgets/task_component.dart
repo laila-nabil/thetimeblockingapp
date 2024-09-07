@@ -218,8 +218,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          widget.task.status ==
-                                  globalState.statuses?.completedStatus
+                          widget.task.isCompleted
                               ? AppIcons.checkboxchecked
                               : AppIcons.checkbox,
                           color: widget.task.status?.getColor ??

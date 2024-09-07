@@ -25,7 +25,7 @@ class TaskStatusModel extends TaskStatus {
     map['id'] = id;
     map['name'] = name;
     map['color'] = color;
-    map['is_done'] = isDone;
+    map['is-done'] = isDone;
     return map;
   }
 
@@ -34,6 +34,6 @@ class TaskStatusModel extends TaskStatus {
         id: (json['id']as Object?)?.toStringOrNull(),
         name: json['name'],
         color: json['color'],
-        isDone: json['is_done']);
+        isDone: json['is-done']);
   }
 }
