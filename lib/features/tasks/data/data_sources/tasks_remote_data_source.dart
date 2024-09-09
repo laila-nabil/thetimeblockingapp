@@ -142,15 +142,21 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) {
-    // TODO A implement deleteFolder
-    throw UnimplementedError("deleteFolder");
+  Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) async {
+    await network.delete(
+        uri: Uri.parse(
+            "$url/rest/v1/folder?id=eq.${params.folderId}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return dartz.unit;
   }
 
   @override
-  Future<dartz.Unit> deleteList({required DeleteListParams params}) {
-    // TODO A implement deleteList
-    throw UnimplementedError("deleteList");
+  Future<dartz.Unit> deleteList({required DeleteListParams params}) async {
+    await network.delete(
+        uri: Uri.parse(
+            "$url/rest/v1/list?id=eq.${params.listId}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return dartz.unit;
   }
 
   @override
