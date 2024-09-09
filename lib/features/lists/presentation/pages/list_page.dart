@@ -45,11 +45,12 @@ class ListPage extends StatelessWidget {
             builder: (context, state) {
               final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
               final authBloc = BlocProvider.of<AuthBloc>(context);
+              final globalBloc = BlocProvider.of<GlobalBloc>(context);
               printDebug(
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
-                listsPageBloc.add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+                globalBloc.add(GetAllInWorkspaceEvent(
                     accessToken: authBloc.state.accessToken!,
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
               }
@@ -150,8 +151,8 @@ class ListPage extends StatelessWidget {
                 )),
                 context: context,
                 onRefresh: () async {
-                  listsPageBloc.add(
-                      GetListAndFoldersInListsPageEvent.inWorkSpace(
+                  globalBloc.add(
+                      GetAllInWorkspaceEvent(
                           accessToken: authBloc.state.accessToken!,
                           workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
                   globalBloc.add(GetAllInWorkspaceEvent(

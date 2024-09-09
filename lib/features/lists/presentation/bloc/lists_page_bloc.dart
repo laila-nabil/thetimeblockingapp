@@ -62,22 +62,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
         emit(state.copyWith(
             listsPageStatus: ListsPageStatus.navigateList,
             navigateList: event.list));
-      } else if (event is GetListAndFoldersInListsPageEvent) {
-        if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false) {
-          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _getAllInWorkspaceUseCase(
-              GetAllInWorkspaceParams(
-                  accessToken: event.accessToken,
-                  workspace: event.workspace));
-          result.fold(
-              (l) => emit(state.copyWith(
-                  listsPageStatus:
-                      ListsPageStatus.getSpacesAndListsAndFoldersFailed,
-                  getAllInWorkspaceFailure: l)), (r)  => emit(state.copyWith(
-                listsPageStatus:
-                    ListsPageStatus.getSpacesAndListsAndFoldersSuccess,
-                getAllInWorkspaceResult: r)));
-        }
       }else if (event is CreateListInFolderEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(

@@ -6,28 +6,6 @@ abstract class ListsPageEvent extends Equatable {
   const ListsPageEvent();
 }
 
-class GetListAndFoldersInListsPageEvent extends ListsPageEvent {
-  final AccessToken accessToken;
-  final Workspace workspace;
-  Space? space;
-
-  GetListAndFoldersInListsPageEvent.inSpace(
-      {required this.accessToken,
-      required this.workspace,
-      required this.space});
-
-  GetListAndFoldersInListsPageEvent.inWorkSpace({
-    required this.accessToken,
-    required this.workspace,
-  }) {
-    space = null;
-  }
-
-  @override
-  List<Object?> get props =>
-      [accessToken, workspace, space];
-}
-
 class NavigateToListPageEvent extends ListsPageEvent {
   final TasksList list;
 

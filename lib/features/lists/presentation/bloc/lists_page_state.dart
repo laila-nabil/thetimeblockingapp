@@ -5,8 +5,6 @@ enum ListsPageStatus {
   isLoading,
   getListDetailsSuccess,
   getListDetailsFailed,
-  getSpacesAndListsAndFoldersSuccess,
-  getSpacesAndListsAndFoldersFailed,
   getListDetailsAndTasksSuccess,
   getListDetailsAndTasksWentWrong,
   moveListTry,
@@ -47,8 +45,6 @@ class ListsPageState extends Equatable {
   final TasksList? navigateList;
   final TasksList? currentList;
   final Folder? navigateFolder;
-  final Workspace? getAllInWorkspaceResult;
-  final Failure? getAllInWorkspaceFailure;
   final List<Task>? currentListTasks;
   final FailuresList? getListDetailsAndTasksFailure;
   final List<TasksList>? addListResult;
@@ -64,8 +60,6 @@ class ListsPageState extends Equatable {
   final Failure? deleteFolderFailure;
   final List<Task>? deleteTaskResult;
   final Failure? deleteTaskFailure;
-  final Workspace? workspace;
-  final Space? space;
   final CreateListInFolderParams? createListInFolderParams;
   final CreateFolderlessListParams? createFolderlessListParams;
   final MoveTaskBetweenListsParams? moveTaskBetweenListsParams;
@@ -82,8 +76,6 @@ class ListsPageState extends Equatable {
     this.navigateList,
     this.currentList,
     this.navigateFolder,
-    this.getAllInWorkspaceResult,
-    this.getAllInWorkspaceFailure,
     this.currentListTasks,
     this.getListDetailsAndTasksFailure,
     this.addListResult,
@@ -99,8 +91,6 @@ class ListsPageState extends Equatable {
     this.deleteFolderFailure,
     this.deleteTaskResult,
     this.deleteTaskFailure,
-    this.workspace,
-    this.space,
     this.createListInFolderParams,
     this.createFolderlessListParams,
     this.moveTaskBetweenListsParams,
@@ -146,8 +136,6 @@ class ListsPageState extends Equatable {
         navigateList,
         currentList,
         navigateFolder,
-        getAllInWorkspaceResult,
-        getAllInWorkspaceFailure,
         currentListTasks,
         getListDetailsAndTasksFailure,
         addListResult,
@@ -163,8 +151,6 @@ class ListsPageState extends Equatable {
         deleteFolderFailure,
         deleteTaskResult,
         deleteTaskFailure,
-        workspace,
-        space,
         createListInFolderParams,
         createFolderlessListParams,
         moveTaskBetweenListsParams,
@@ -193,8 +179,6 @@ class ListsPageState extends Equatable {
     TasksList? navigateList,
     TasksList? currentList,
     Folder? navigateFolder,
-    Workspace? getAllInWorkspaceResult,
-    Failure? getAllInWorkspaceFailure,
     List<Task>? currentListTasks,
     FailuresList? getListDetailsAndTasksFailure,
     List<TasksList>? addListResult,
@@ -229,10 +213,6 @@ class ListsPageState extends Equatable {
       navigateList: navigateList,
       currentList: currentList,
       navigateFolder: navigateFolder,
-      getAllInWorkspaceResult:
-          getAllInWorkspaceResult ?? this.getAllInWorkspaceResult,
-      getAllInWorkspaceFailure:
-          getAllInWorkspaceFailure ?? this.getAllInWorkspaceFailure,
       currentListTasks: currentListTasks ?? this.currentListTasks,
       getListDetailsAndTasksFailure:
           getListDetailsAndTasksFailure ?? this.getListDetailsAndTasksFailure,
@@ -248,8 +228,6 @@ class ListsPageState extends Equatable {
       deleteFolderFailure: deleteFolderFailure ?? this.deleteFolderFailure,
       deleteTaskResult: deleteTaskResult ?? this.deleteTaskResult,
       deleteTaskFailure: deleteTaskFailure ?? this.deleteTaskFailure,
-      workspace: workspace ?? this.workspace,
-      space: space ?? this.space,
       moveTaskBetweenListsResult:
           moveTaskBetweenListsResult ?? this.moveTaskBetweenListsResult,
       moveTaskBetweenListsFailure:
