@@ -1055,6 +1055,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                                 showDialog(
                                                     context: context,
                                                     builder: (ctx) {
+                                                      ///TODO A FIXME fix add a tag in task_popup.dart after change to stateful
                                                       return AlertDialog(
                                                         title: Text(
                                                             appLocalization
@@ -1062,74 +1063,82 @@ class _TaskPopupState extends State<TaskPopup> {
                                                                 "tags")),
                                                         scrollable: true,
                                                         content:
-                                                        SizedBox(
-                                                          height: 400,
-                                                          width: 400,
-                                                          child:
-                                                          ListView(
-                                                            children: globalState
-                                                                .selectedWorkspace
-                                                                ?.tags
-                                                                ?.map((
-                                                                e) =>
-                                                                CheckboxListTile(
-                                                                    title: Row(
-                                                                      children: [
-                                                                        Icon(
-                                                                          AppIcons
-                                                                              .hashtag,
-                                                                          color: e
-                                                                              .getColor,
-                                                                        ),
-                                                                        Text(
-                                                                          e
-                                                                              .name ??
-                                                                              "",
-                                                                          style: TagChip
-                                                                              .textStyle(
-                                                                              AppColors
-                                                                                  .text(
-                                                                                  context
-                                                                                      .isDarkMode)),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    value: taskParams
-                                                                        .tags
-                                                                        ?.contains(
-                                                                        e) ==
-                                                                        true,
-                                                                    onChanged: (
-                                                                        value) {
-                                                                      List<
-                                                                          Tag>? tags = List
-                                                                          .from(
-                                                                          taskParams
-                                                                              .tags ??
-                                                                              [
-                                                                              ],
-                                                                          growable: true);
-                                                                      if (value ==
-                                                                          true) {
-                                                                        tags
-                                                                            .add(
-                                                                            e);
-                                                                      } else {
-                                                                        tags
-                                                                            .remove(
-                                                                            e);
-                                                                      }
-                                                                      setState(() {
-                                                                        taskParams =
+                                                        StatefulBuilder(builder: (context,setStateAlert){
+                                                          return SizedBox(
+                                                            height: 400,
+                                                            width: 400,
+                                                            child:
+                                                            ListView(
+                                                              children: globalState
+                                                                  .selectedWorkspace
+                                                                  ?.tags
+                                                                  ?.map((
+                                                                  e) =>
+                                                                  CheckboxListTile(
+                                                                      title: Row(
+                                                                        children: [
+                                                                          Icon(
+                                                                            AppIcons
+                                                                                .hashtag,
+                                                                            color: e
+                                                                                .getColor,
+                                                                          ),
+                                                                          Text(
+                                                                            e
+                                                                                .name ??
+                                                                                "",
+                                                                            style: TagChip
+                                                                                .textStyle(
+                                                                                AppColors
+                                                                                    .text(
+                                                                                    context
+                                                                                        .isDarkMode)),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      value: taskParams
+                                                                          .tags
+                                                                          ?.contains(
+                                                                          e) ==
+                                                                          true,
+                                                                      onChanged: (
+                                                                          value) {
+                                                                        List<
+                                                                            Tag>? tags = List
+                                                                            .from(
                                                                             taskParams
-                                                                                .copyWith(
-                                                                                tags: tags);
-                                                                      });
-                                                                    }))
-                                                                .toList() ??
-                                                                [],
-                                                          ),
-                                                        ),
+                                                                                .tags ??
+                                                                                [
+                                                                                ],
+                                                                            growable: true);
+                                                                        if (value ==
+                                                                            true) {
+                                                                          tags
+                                                                              .add(
+                                                                              e);
+                                                                        } else {
+                                                                          tags
+                                                                              .remove(
+                                                                              e);
+                                                                        }
+                                                                        setStateAlert(() {
+                                                                          taskParams =
+                                                                              taskParams
+                                                                                  .copyWith(
+                                                                                  tags: tags);
+                                                                        });
+                                                                        setState(() {
+                                                                          taskParams =
+                                                                              taskParams
+                                                                                  .copyWith(
+                                                                                  tags: tags);
+                                                                        });
+                                                                      }))
+                                                                  .toList() ??
+                                                                  [],
+                                                            ),
+                                                          );
+                                                        }),
                                                       );
                                                     });
                                               })
