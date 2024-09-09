@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/tag.dart';
+import '../../../../common/entities/user.dart';
 
 class AddTagToTaskUseCase
     implements UseCase<dartz.Unit, AddTagToTaskParams> {
@@ -36,7 +37,7 @@ class AddTagToTaskParams {
   final Task task;
   final Tag tag;
   final AccessToken accessToken;
-  final String userId;
+  final User? user;
   String get taskId => task.id ?? "";
 
   String get tagName => tag.name ?? "";
@@ -44,14 +45,14 @@ class AddTagToTaskParams {
   AddTagToTaskParams(
       {required this.task,
       required this.tag,
-      required this.userId,
+      required this.user,
       required this.accessToken});
 
   Map<String, dynamic> toJson() {
     return {
       'task_id': task.id,
       'tag_id': tag.id,
-      'user_id': userId,
+      'user_id': user?.id,
     };
   }
 }

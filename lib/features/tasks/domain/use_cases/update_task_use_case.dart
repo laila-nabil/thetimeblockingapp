@@ -58,7 +58,7 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
       final addTagsResult = await addTagsToTaskUseCase(AddTagsToTaskParams(
           task: task!,
           tags: addTags,
-          accessToken: params.accessToken));
+          accessToken: params.accessToken, user: params.user));
       addTagsResult?.fold((l) => failures.add(l), (r) => null);
       printDebug("addTagsResult $addTagsResult");
       final removeTagsResult = await removeTagsFromTaskUseCase(

@@ -1,4 +1,5 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -19,7 +20,7 @@ class AddTagsToTaskUseCase implements UseCase<dartz.Unit, AddTagsToTaskParams> {
       final elementResult = await addTagFromTaskUseCase(AddTagToTaskParams(
           task: params.task,
           accessToken: params.accessToken,
-          tag: element, userId: ""));
+          tag: element, user: params.user));
       result.add(elementResult);
     }
     if (result.where((element) => element?.isLeft() == true).isNotEmpty ==
@@ -34,6 +35,7 @@ class AddTagsToTaskParams {
   final Task task;
   final List<Tag> tags;
   final AccessToken accessToken;
+  final User user;
 
   String get taskId => task.id ?? "";
 
@@ -42,5 +44,6 @@ class AddTagsToTaskParams {
   AddTagsToTaskParams(
       {required this.task,
       required this.tags,
+      required this.user,
       required this.accessToken});
 }
