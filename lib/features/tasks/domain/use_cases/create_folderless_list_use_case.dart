@@ -10,16 +10,17 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/tasks_list.dart';
+import '../../../../common/entities/user.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateFolderlessListUseCase
-    implements UseCase<TasksList, CreateFolderlessListParams> {
+    implements UseCase<dartz.Unit, CreateFolderlessListParams> {
   final TasksRepo repo;
 
   CreateFolderlessListUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, TasksList>?> call(
+  Future<dartz.Either<Failure, dartz.Unit>?> call(
       CreateFolderlessListParams params) async {
     final result = await repo.createFolderlessList(params);
     await result?.fold(
@@ -38,18 +39,32 @@ class CreateFolderlessListUseCase
 
 class CreateFolderlessListParams extends Equatable {
   final AccessToken accessToken;
-  final Space space;
   final String listName;
   final Color? statusColor;
-
+  final User user;
+  final Space space;
   const CreateFolderlessListParams({
     required this.accessToken,
-    required this.space,
     required this.listName,
+    required this.user,
+    required this.space,
     this.statusColor,
   });
 
   @override
-  List<Object?> get props =>
-      [accessToken, space, listName, statusColor];
+  List<Object?> get props => [
+    accessToken,
+    listName,
+    statusColor,
+    user,
+    space,
+  ];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'space_id': space.id,
+      'name': listName,
+      'user_id': user.id,
+    };
+  }
 }

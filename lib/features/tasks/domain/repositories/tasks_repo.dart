@@ -44,10 +44,10 @@ abstract class TasksRepo {
       {required AddTagToTaskParams params});
 
 
-  Future<dartz.Either<Failure, TasksList>?> createListInFolder(
+  Future<dartz.Either<Failure, dartz.Unit>?> createListInFolder(
       CreateListInFolderParams params);
 
-  Future<dartz.Either<Failure, TasksList>?> createFolderlessList(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderlessList(
       CreateFolderlessListParams params);
 
   Future<dartz.Either<Failure, Folder>?> createFolderInSpace(

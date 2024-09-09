@@ -93,7 +93,7 @@ class TasksRepoImpl implements TasksRepo {
 
 
   @override
-  Future<dartz.Either<Failure, ListModel>?> createListInFolder(
+  Future<dartz.Either<Failure, dartz.Unit>?> createListInFolder(
       CreateListInFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
@@ -101,7 +101,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, ListModel>?> createFolderlessList(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderlessList(
       CreateFolderlessListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>

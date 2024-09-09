@@ -38,14 +38,14 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<ListModel> createFolderlessList(
+  Future<dartz.Unit> createFolderlessList(
       {required CreateFolderlessListParams params}) {
     // TODO C implement createFolderlessList
     throw UnimplementedError();
   }
 
   @override
-  Future<ListModel> createListInFolder(
+  Future<dartz.Unit> createListInFolder(
       {required CreateListInFolderParams params}) {
     // TODO C implement createListInFolder
     throw UnimplementedError();

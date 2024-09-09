@@ -223,7 +223,7 @@ class ListsPage extends StatelessWidget {
                                                                       folder:
                                                                           folder,
                                                                       listName:
-                                                                          text),
+                                                                          text, user: authBloc.state.user!, space: globalState.selectedSpace!),
                                                                   workspace:
                                                                   globalState
                                                                           .selectedWorkspace!,
@@ -312,7 +312,7 @@ class ListsPage extends StatelessWidget {
                                                                       .accessToken!,
                                                               listName: text,
                                                               space: globalState
-                                                                  .selectedSpace!),
+                                                                  .selectedSpace!, user: authBloc.state.user!),
                                                       workspace: globalState
                                                           .selectedWorkspace!,
                                                       space: globalState

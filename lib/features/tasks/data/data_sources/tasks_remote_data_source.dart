@@ -37,7 +37,7 @@ abstract class TasksRemoteDataSource {
 
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params});
 
-  Future<ListModel> createListInFolder(
+  Future<dartz.Unit> createListInFolder(
       {required CreateListInFolderParams params});
 
   Future<List<TagModel>> getTags({required GetTagsInSpaceParams params});
@@ -47,7 +47,7 @@ abstract class TasksRemoteDataSource {
 
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params});
 
-  Future<ListModel> createFolderlessList(
+  Future<dartz.Unit> createFolderlessList(
       {required CreateFolderlessListParams params});
 
   Future<FolderModel> createFolderInSpace(
@@ -95,17 +95,27 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<ListModel> createFolderlessList(
-      {required CreateFolderlessListParams params}) {
-    // TODO A implement createFolderlessList
-    throw UnimplementedError("createFolderlessList");
+  Future<dartz.Unit> createFolderlessList(
+      {required CreateFolderlessListParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse(
+            "$url/rest/v1/list"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override
-  Future<ListModel> createListInFolder(
-      {required CreateListInFolderParams params}) {
-    // TODO A implement createListInFolder
-    throw UnimplementedError("createListInFolder");
+  Future<dartz.Unit> createListInFolder(
+      {required CreateListInFolderParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse(
+            "$url/rest/v1/list"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override
