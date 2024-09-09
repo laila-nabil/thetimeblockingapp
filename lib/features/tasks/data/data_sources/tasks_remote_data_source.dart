@@ -171,9 +171,13 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
 
   @override
   Future<dartz.Unit> removeTagFromTask(
-      {required RemoveTagFromTaskParams params}) {
-    // TODO A implement removeTagFromTask
-    throw UnimplementedError("removeTagFromTask");
+      {required RemoveTagFromTaskParams params}) async{
+    final result = await network.delete(
+        uri: Uri.parse(
+            "$url/rest/v1/tagged_task?tag_id=eq.${params.tag.id}&task_id=eq.${params.task.id}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override
