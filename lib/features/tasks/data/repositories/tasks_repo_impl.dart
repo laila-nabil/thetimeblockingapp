@@ -109,7 +109,7 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, FolderModel>?> createFolderInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInSpace(
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>

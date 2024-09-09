@@ -50,7 +50,7 @@ abstract class TasksRepo {
   Future<dartz.Either<Failure, dartz.Unit>?> createFolderlessList(
       CreateFolderlessListParams params);
 
-  Future<dartz.Either<Failure, Folder>?> createFolderInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInSpace(
       CreateFolderInSpaceParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteList(

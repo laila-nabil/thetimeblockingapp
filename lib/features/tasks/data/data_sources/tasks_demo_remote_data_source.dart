@@ -31,7 +31,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<FolderModel> createFolderInSpace(
+  Future<dartz.Unit> createFolderInSpace(
       {required CreateFolderInSpaceParams params}) {
     // TODO C implement createFolderInSpace
     throw UnimplementedError();

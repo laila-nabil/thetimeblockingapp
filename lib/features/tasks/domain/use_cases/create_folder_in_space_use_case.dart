@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -10,13 +11,13 @@ import '../../../../common/entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateFolderInSpaceUseCase
-    implements UseCase<Folder, CreateFolderInSpaceParams> {
+    implements UseCase<dartz.Unit, CreateFolderInSpaceParams> {
   final TasksRepo repo;
 
   CreateFolderInSpaceUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, Folder>?> call(
+  Future<dartz.Either<Failure, dartz.Unit>?> call(
       CreateFolderInSpaceParams params) async{
     final result = await repo.createFolderInSpace(params);
     await result?.fold(
@@ -37,13 +38,23 @@ class CreateFolderInSpaceParams extends Equatable {
   final AccessToken accessToken;
   final Space space;
   final String folderName;
+  final User user;
   const CreateFolderInSpaceParams({
     required this.accessToken,
     required this.space,
     required this.folderName,
+    required this.user,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'space_id': space.id,
+      'name': folderName,
+      'user_id': user.id,
+    };
+  }
 
   @override
   List<Object?> get props =>
-      [accessToken, space,folderName,];
+      [accessToken, space,folderName,user];
 }

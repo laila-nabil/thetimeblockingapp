@@ -277,7 +277,7 @@ class ListsPage extends StatelessWidget {
                                                                         .accessToken!,
                                                                 folderName: text,
                                                                 space: globalState
-                                                                    .selectedSpace!),
+                                                                    .selectedSpace!, user: authBloc.state.user!),
                                                         workspace: globalState
                                                             .selectedWorkspace!,
                                                         space: globalState

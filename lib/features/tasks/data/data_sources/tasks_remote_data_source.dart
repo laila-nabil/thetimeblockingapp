@@ -50,7 +50,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> createFolderlessList(
       {required CreateFolderlessListParams params});
 
-  Future<FolderModel> createFolderInSpace(
+  Future<dartz.Unit> createFolderInSpace(
       {required CreateFolderInSpaceParams params});
 
   Future<dartz.Unit> deleteList({required DeleteListParams params});
@@ -88,10 +88,15 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<FolderModel> createFolderInSpace(
-      {required CreateFolderInSpaceParams params}) {
-    // TODO A implement createFolderInSpace
-    throw UnimplementedError("createFolderInSpace");
+  Future<dartz.Unit> createFolderInSpace(
+      {required CreateFolderInSpaceParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse(
+            "$url/rest/v1/folder"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override
