@@ -44,17 +44,17 @@ class CreateListInFolderEvent extends ListsPageEvent {
   Space? space;
   Folder? folderToCreateListIn;
   bool? tryEvent;
-
-  CreateListInFolderEvent.tryCreate({required Folder this.folderToCreateListIn}){
+  final Function() onSuccess;
+  CreateListInFolderEvent.tryCreate({required Folder this.folderToCreateListIn,required this.onSuccess}){
     tryEvent = true;
   }
-  CreateListInFolderEvent.cancelCreate(){
+  CreateListInFolderEvent.cancelCreate({required this.onSuccess}){
     tryEvent = false;
   }
   CreateListInFolderEvent.submit({
     required CreateListInFolderParams this.createListInFolderParams,
     required Workspace this.workspace,
-    required Space this.space,
+    required Space this.space,required this.onSuccess
   }){
     tryEvent = false;
   }
@@ -73,17 +73,18 @@ class CreateFolderlessListEvent extends ListsPageEvent {
   Workspace? workspace;
   Space? space;
   bool? tryEvent;
-
-  CreateFolderlessListEvent.tryCreate(){
+  final Function() onSuccess;
+  CreateFolderlessListEvent.tryCreate({required this.onSuccess}){
     tryEvent = true;
   }
-  CreateFolderlessListEvent.cancelCreate(){
+  CreateFolderlessListEvent.cancelCreate({required this.onSuccess}){
     tryEvent = false;
   }
   CreateFolderlessListEvent.submit({
     required CreateFolderlessListParams this.createFolderlessListParams,
     required Workspace this.workspace,
     required Space this.space,
+    required this.onSuccess
   }){
     tryEvent = false;
   }
@@ -119,17 +120,19 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
   Workspace? workspace;
   Space? space;
   bool? tryEvent;
+  final Function() onSuccess;
 
-  CreateFolderInSpaceEvent.tryCreate(){
+  CreateFolderInSpaceEvent.tryCreate({required this.onSuccess}){
     tryEvent = true;
   }
-  CreateFolderInSpaceEvent.cancelCreate(){
+  CreateFolderInSpaceEvent.cancelCreate({required this.onSuccess}){
     tryEvent = false;
   }
   CreateFolderInSpaceEvent.submit({
     required CreateFolderInSpaceParams this.createFolderInSpaceParams,
     required Workspace this.workspace,
     required Space this.space,
+    required this.onSuccess
   }){
     tryEvent = false;
   }
@@ -149,17 +152,19 @@ class DeleteFolderEvent extends ListsPageEvent {
   Space? space;
   Folder? toDeleteFolder;
   bool? tryEvent;
+  final Function() onSuccess;
 
-  DeleteFolderEvent.tryDelete(Folder this.toDeleteFolder){
+  DeleteFolderEvent.tryDelete(Folder this.toDeleteFolder,{required this.onSuccess}){
     tryEvent = true;
   }
-  DeleteFolderEvent.cancelDelete(){
+  DeleteFolderEvent.cancelDelete({required this.onSuccess}){
     tryEvent = false;
   }
   DeleteFolderEvent.submit({
     required DeleteFolderParams this.deleteFolderParams,
     required Workspace this.workspace,
     required Space this.space,
+    required this.onSuccess
   }){
     tryEvent = false;
   }
@@ -176,17 +181,19 @@ class DeleteListEvent extends ListsPageEvent {
   Space? space;
   TasksList? toDeleteList;
   bool? tryEvent;
+  final Function() onSuccess;
 
-  DeleteListEvent.tryDelete(TasksList this.toDeleteList){
+  DeleteListEvent.tryDelete(TasksList this.toDeleteList,{required this.onSuccess}){
     tryEvent = true;
   }
-  DeleteListEvent.cancelDelete(){
+  DeleteListEvent.cancelDelete({required this.onSuccess}){
     tryEvent = false;
   }
   DeleteListEvent.submit({
     required DeleteListParams this.deleteListParams,
     required Workspace this.workspace,
     required Space this.space,
+    required this.onSuccess
   }){
     tryEvent = false;
   }

@@ -43,6 +43,7 @@ class ListsPage extends StatelessWidget {
           listener: (context, state) {
             final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
             final authBloc = BlocProvider.of<AuthBloc>(context);
+            var globalBloc = BlocProvider.of<GlobalBloc>(context);
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
               context.push(
@@ -67,15 +68,29 @@ class ListsPage extends StatelessWidget {
                                           list: state.toDeleteList!,
                                           accessToken:
                                           authBloc.state.accessToken!),
-                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                                  space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+                                  workspace:
+                                      globalBloc.state.selectedWorkspace!,
+                                  space: globalBloc.state.selectedSpace!,
+                                  onSuccess: () {
+                                    globalBloc.add(GetAllInWorkspaceEvent(
+                                      accessToken: authBloc.state.accessToken!,
+                                      workspace:
+                                          globalBloc.state.selectedWorkspace!,
+                                    ));
+                                  }));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
-                              listsPageBloc
-                                  .add(DeleteListEvent.cancelDelete());
+                              listsPageBloc.add(
+                                  DeleteListEvent.cancelDelete(onSuccess: () {
+                                globalBloc.add(GetAllInWorkspaceEvent(
+                                  accessToken: authBloc.state.accessToken!,
+                                  workspace:
+                                      globalBloc.state.selectedWorkspace!,
+                                ));
+                              }));
                               Navigator.pop(context);
                             }),
                       ],
@@ -100,15 +115,33 @@ class ListsPage extends StatelessWidget {
                                           folder: state.toDeleteFolder!,
                                           accessToken:
                                               authBloc.state.accessToken!),
-                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                                  space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+                                  workspace:
+                                      BlocProvider.of<GlobalBloc>(context)
+                                          .state
+                                          .selectedWorkspace!,
+                                  space: BlocProvider.of<GlobalBloc>(context)
+                                      .state
+                                      .selectedSpace!,
+                                  onSuccess: () {
+                                    globalBloc.add(GetAllInWorkspaceEvent(
+                                      accessToken: authBloc.state.accessToken!,
+                                      workspace:
+                                          globalBloc.state.selectedWorkspace!,
+                                    ));
+                                  }));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
                         CustomButton.noIcon(
                             label: appLocalization.translate("cancel"),
                             onPressed: () {
-                              listsPageBloc
-                                  .add(DeleteFolderEvent.cancelDelete());
+                              listsPageBloc.add(
+                                  DeleteFolderEvent.cancelDelete(onSuccess: () {
+                                globalBloc.add(GetAllInWorkspaceEvent(
+                                  accessToken: authBloc.state.accessToken!,
+                                  workspace:
+                                      globalBloc.state.selectedWorkspace!,
+                                ));
+                              }));
                               Navigator.pop(context);
                             }),
                       ],
@@ -167,7 +200,10 @@ class ListsPage extends StatelessWidget {
                                                       listsPageBloc.add(
                                                           DeleteFolderEvent
                                                               .tryDelete(
-                                                              folder));
+                                                              folder, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                            accessToken: authBloc.state.accessToken!,
+                                                            workspace: globalBloc.state.selectedWorkspace!,
+                                                          )); }));
                                                     })
                                               ],
                                               title: folder.name ?? "",
@@ -184,7 +220,12 @@ class ListsPage extends StatelessWidget {
                                                             CreateListInFolderEvent
                                                                 .tryCreate(
                                                                 folderToCreateListIn:
-                                                                folder));
+                                                                folder, onSuccess: () {
+                                                              globalBloc.add(GetAllInWorkspaceEvent(
+                                                                accessToken: authBloc.state.accessToken!,
+                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                              ));
+                                                            }));
                                                       })
                                               ],
                                               children: (folder.lists
@@ -200,7 +241,10 @@ class ListsPage extends StatelessWidget {
                                                       CustomPopupItem(
                                                           title: appLocalization.translate("delete"),
                                                           onTap: () {
-                                                            listsPageBloc.add(DeleteListEvent.tryDelete(e));
+                                                            listsPageBloc.add(DeleteListEvent.tryDelete(e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                              accessToken: authBloc.state.accessToken!,
+                                                              workspace: globalBloc.state.selectedWorkspace!,
+                                                            )); }));
                                                           })
                                                     ],
                                                   ))
@@ -226,11 +270,21 @@ class ListsPage extends StatelessWidget {
                                                                     .selectedWorkspace!,
                                                                 space:
                                                                 globalState
-                                                                    .selectedSpace!));
+                                                                    .selectedSpace!, onSuccess: () {
+                                                              globalBloc.add(GetAllInWorkspaceEvent(
+                                                                accessToken: authBloc.state.accessToken!,
+                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                              ));
+                                                            }));
                                                           }, onCancel: () {
                                                         listsPageBloc.add(
                                                             CreateListInFolderEvent
-                                                                .cancelCreate());
+                                                                .cancelCreate(onSuccess: (){
+                                                              globalBloc.add(GetAllInWorkspaceEvent(
+                                                                accessToken: authBloc.state.accessToken!,
+                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                              ));
+                                                            }));
                                                       })
                                                   ]))
                                           .toList() ??
@@ -250,7 +304,10 @@ class ListsPage extends StatelessWidget {
                                                       listsPageBloc.add(
                                                           DeleteListEvent
                                                               .tryDelete(
-                                                              e));
+                                                              e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                            accessToken: authBloc.state.accessToken!,
+                                                            workspace: globalBloc.state.selectedWorkspace!,
+                                                          )); }));
                                                     })
                                               ],
                                               onTap: () {
@@ -278,12 +335,18 @@ class ListsPage extends StatelessWidget {
                                                 workspace: globalState
                                                     .selectedWorkspace!,
                                                 space: globalState
-                                                    .selectedSpace!));
+                                                    .selectedSpace!, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                              accessToken: authBloc.state.accessToken!,
+                                              workspace: globalBloc.state.selectedWorkspace!,
+                                            )); }));
                                           },
                                           onCancel: () {
                                             listsPageBloc.add(
                                                 CreateFolderInSpaceEvent
-                                                    .cancelCreate());
+                                                    .cancelCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                  accessToken: authBloc.state.accessToken!,
+                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                )); }));
                                           },
                                         )
                                             : CustomButton.noIcon(
@@ -292,7 +355,10 @@ class ListsPage extends StatelessWidget {
                                           onPressed: () {
                                             listsPageBloc.add(
                                                 CreateFolderInSpaceEvent
-                                                    .tryCreate());
+                                                    .tryCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                  accessToken: authBloc.state.accessToken!,
+                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                )); }));
                                           },
                                           type: CustomButtonType
                                               .greyTextLabel,
@@ -313,11 +379,26 @@ class ListsPage extends StatelessWidget {
                                               workspace: globalState
                                                   .selectedWorkspace!,
                                               space: globalState
-                                                  .selectedSpace!));
+                                                  .selectedSpace!,
+                                                  onSuccess: () {
+                                                    globalBloc.add(
+                                                        GetAllInWorkspaceEvent(
+                                                      accessToken: authBloc
+                                                          .state.accessToken!,
+                                                      workspace: globalBloc
+                                                          .state
+                                                          .selectedWorkspace!,
+                                                    ));
+                                                  }));
                                         }, onCancel: () {
                                           listsPageBloc.add(
                                               CreateListInFolderEvent
-                                                  .cancelCreate());
+                                                  .cancelCreate(onSuccess: () {
+                                                globalBloc.add(GetAllInWorkspaceEvent(
+                                                  accessToken: authBloc.state.accessToken!,
+                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                ));
+                                              }));
                                         })
                                             : CustomButton.noIcon(
                                           label:
@@ -325,7 +406,16 @@ class ListsPage extends StatelessWidget {
                                           onPressed: () {
                                             listsPageBloc.add(
                                                 CreateFolderlessListEvent
-                                                    .tryCreate());
+                                                    .tryCreate(onSuccess: () {
+                                                  globalBloc.add(
+                                                      GetAllInWorkspaceEvent(
+                                                        accessToken: authBloc
+                                                            .state.accessToken!,
+                                                        workspace: globalBloc
+                                                            .state
+                                                            .selectedWorkspace!,
+                                                      ));
+                                                }));
                                           },
                                           type: CustomButtonType
                                               .greyTextLabel,

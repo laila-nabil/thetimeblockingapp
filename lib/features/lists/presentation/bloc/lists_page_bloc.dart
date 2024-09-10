@@ -82,12 +82,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInFolderSuccess,
             ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.createListInFolderParams!.accessToken,
-            //     workspace: event.workspace!,
-            //     space: event.space));
+            event.onSuccess();
           });
         }
       } else if (event is CreateFolderlessListEvent) {
@@ -112,12 +107,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInSpaceSuccess,
             ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.createFolderlessListParams!.accessToken,
-            //     workspace: event.workspace!,
-            //     space: event.space));
+            event.onSuccess();
           });
         }
       } else if (event is MoveTaskBetweenListsEvent) {
@@ -169,12 +159,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createFolderSuccess,
             ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.createFolderInSpaceParams!.accessToken,
-            //     workspace: event.workspace!,
-            //     space: event.space));
+            event.onSuccess();
           });
         }
       } else if (event is DeleteFolderEvent) {
@@ -197,12 +182,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteFolderSuccess,
             ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.deleteFolderParams!.accessToken,
-            //     workspace: event.workspace!,
-            //     space: event.space));
+            event.onSuccess();
           });
         }
       } else if (event is DeleteListEvent) {
@@ -225,12 +205,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteListSuccess,
             ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.deleteListParams!.accessToken,
-            //     workspace: event.workspace!,
-            //     space: event.space));
+            event.onSuccess();
           });
         }
       }

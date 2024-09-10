@@ -115,6 +115,14 @@ class ListsPageState extends Equatable {
 
   bool get isLoading => listsPageStatus == ListsPageStatus.isLoading;
 
+  bool get needUpdateAllInWorkspace =>
+      listsPageStatus == ListsPageStatus.createFolderSuccess ||
+      listsPageStatus == ListsPageStatus.createListInFolderSuccess ||
+      listsPageStatus == ListsPageStatus.createListInSpaceSuccess ||
+      listsPageStatus == ListsPageStatus.deleteFolderSuccess ||
+      listsPageStatus == ListsPageStatus.deleteListSuccess ||
+      listsPageStatus == ListsPageStatus.getListDetailsAndTasksSuccess;
+
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams(AccessToken accessToken , User? user) {
     List<String>? filterBySpaceIds;
