@@ -7,10 +7,10 @@ import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
@@ -28,10 +28,10 @@ part 'tags_page_state.dart';
 ///TODO A not getting tags
 
 class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
-  final GetTagsInSpaceUseCase _getTagsInSpaceUseCase;
+  final GetTagsInWorkspaceUseCase _getTagsInSpaceUseCase;
   final GetTasksInSingleWorkspaceUseCase
       _getTasksInSingleWorkspaceUseCase;
-  final CreateTagInSpaceUseCase _createTagInSpaceUseCase;
+  final CreateTagInWorkspaceUseCase _createTagInSpaceUseCase;
   final UpdateTagUseCase _updateTagUseCase;
   final DeleteTagUseCase _deleteTagUseCase;
   final CreateTaskUseCase _createTaskUseCase;
@@ -51,7 +51,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
       this._deleteTaskUseCase)
       : super(const TagsPageState(tagsPageStatus: TagsPageStatus.initial)) {
     on<TagsPageEvent>((event, emit) async {
-      if (event is GetTagsInSpaceEvent) {
+      if (event is GetTagsInWorkspaceEvent) {
         emit(state.copyWith(tagsPageStatus: TagsPageStatus.loading));
         final result = await _getTagsInSpaceUseCase(event.params);
         result?.fold(
@@ -96,9 +96,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.createTagSuccess,
             ));
-            add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+            add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
                 accessToken: event.params!.accessToken,
-                space: event.params!.space)));
+                workspace: event.params!.workspace)));
           });
         }
       } else if (event is UpdateTagEvent) {
@@ -123,9 +123,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               updateTagResult: event.params?.newTag
             ));
             if(event.insideTagPage==false){
-              add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+              add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
                   accessToken: event.params!.accessToken,
-                  space: event.params!.space)));
+                  workspace: event.params!.workspace)));
             }
           });
         }
@@ -148,9 +148,9 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             emit(state.copyWith(
               tagsPageStatus: TagsPageStatus.updateTaskSuccess,
             ));
-            add(GetTagsInSpaceEvent(GetTagsInSpaceParams(
+            add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
                 accessToken: event.params!.accessToken,
-                space: event.params!.space)));
+                workspace: event.params!.workspace)));
           });
         }
       } else if (event is CreateTaskEvent) {

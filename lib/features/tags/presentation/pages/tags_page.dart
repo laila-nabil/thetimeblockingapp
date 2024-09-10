@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_component.dart';
 
 import '../../../../common/widgets/custom_alert_dialog.dart';
@@ -22,7 +22,7 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
-import '../../../tasks/domain/use_cases/create_tag_in_space_use_case.dart';
+import '../../../tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import '../bloc/tags_page_bloc.dart';
 import 'tag_page.dart';
@@ -62,7 +62,7 @@ class TagsPage extends StatelessWidget {
                             onPressed: () {
                               tagsPageBloc.add(DeleteTagEvent.submit(
                                   params: DeleteTagParams(
-                                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
+                                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                                       tag: state.toDeleteTag!,
                                       accessToken:
                                           authBloc.state.accessToken!)));
@@ -95,11 +95,11 @@ class TagsPage extends StatelessWidget {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
-                      tagsPageBloc.add(GetTagsInSpaceEvent(
-                          GetTagsInSpaceParams(
+                      tagsPageBloc.add(GetTagsInWorkspaceEvent(
+                          GetTagsInWorkspaceParams(
                               accessToken:
                                   authBloc.state.accessToken!,
-                              space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!)));
+                              workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!)));
                     }
                     return Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -147,8 +147,8 @@ class TagsPage extends StatelessWidget {
                                                                               newTag: tag
                                                                                   .copyWith(name: text)
                                                                                   .getModel,
-                                                                              originalTagName: tag.name ?? "",
-                                                                              space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
+                                                                              user: authBloc.state.user!,
+                                                                              workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!),
                                                                         ));
                                                                       },
                                                                       onCancel: () {
@@ -166,16 +166,13 @@ class TagsPage extends StatelessWidget {
                                                           tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                                                               insideTagPage: false,
                                                               params: UpdateTagParams(
-                                                                  space: BlocProvider.of<GlobalBloc>(context).state
-                                                                      .selectedSpace!,
+                                                                  workspace: BlocProvider.of<GlobalBloc>(context).state
+                                                                      .selectedWorkspace!,
                                                                   newTag:
                                                                       tag.getModel,
-                                                                  originalTagName:
-                                                                      tag.name ??
-                                                                          "",
                                                                   accessToken:
                                                                   authBloc.state
-                                                                      .accessToken!)));
+                                                                      .accessToken!, user: authBloc.state.user!)));
                                                         }),
                                                     CustomPopupItem(
                                                         title: appLocalization
@@ -183,8 +180,8 @@ class TagsPage extends StatelessWidget {
                                                         onTap: () {
                                                           tagsPageBloc.add(DeleteTagEvent.tryDelete(
                                                               DeleteTagParams(
-                                                                  space: BlocProvider.of<GlobalBloc>(context).state
-                                                                      .selectedSpace!,
+                                                                  workspace: BlocProvider.of<GlobalBloc>(context).state
+                                                                      .selectedWorkspace!,
                                                                   tag: tag,
                                                                   accessToken:
                                                                   authBloc.state
@@ -206,13 +203,12 @@ class TagsPage extends StatelessWidget {
                                                   tagsPageBloc.add(
                                                       CreateTagInSpaceEvent
                                                           .submit(
-                                                    params: CreateTagInSpaceParams(
+                                                    params: CreateTagInWorkspaceParams(
                                                         accessToken: authBloc.state
                                                             .accessToken!,
-                                                        newTag: TagModel(
-                                                            name: text, id: '', workspaceId: '', color: ''),
-                                                        space:
-                                                            BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
+                                                        tagName: text,
+                                                        workspace:
+                                                            BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!, user: authBloc.state.user!),
                                                   ));
                                                 }, onCancel: () {
                                                   tagsPageBloc.add(
@@ -238,11 +234,11 @@ class TagsPage extends StatelessWidget {
                   },
                 )),
                 context: context, onRefresh: ()async {
-              tagsPageBloc.add(GetTagsInSpaceEvent(
-                  GetTagsInSpaceParams(
+              tagsPageBloc.add(GetTagsInWorkspaceEvent(
+                  GetTagsInWorkspaceParams(
                       accessToken:
                       authBloc.state.accessToken!,
-                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!)));
+                      workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!)));
               globalBloc.add(GetAllInWorkspaceEvent(
                   workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                   accessToken: authBloc.state.accessToken!));

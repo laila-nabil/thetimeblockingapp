@@ -16,9 +16,9 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_w
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
-import '../../domain/use_cases/create_tag_in_space_use_case.dart';
+import '../../domain/use_cases/create_tag_in_workspace_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
-import '../../domain/use_cases/get_tags_in_space_use_case.dart';
+import '../../domain/use_cases/get_tags_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_tag_use_case.dart';
@@ -52,8 +52,8 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> createTagInSpace(
-      {required CreateTagInSpaceParams params}) {
+  Future<dartz.Unit> createTagInWorkspace(
+      {required CreateTagInWorkspaceParams params}) {
     // TODO C implement createTagInSpace
     throw UnimplementedError();
   }
@@ -89,7 +89,7 @@ class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {
+  Future<List<TagModel>> getTags({required GetTagsInWorkspaceParams params}) {
     // TODO C implement getTags
     throw UnimplementedError();
   }

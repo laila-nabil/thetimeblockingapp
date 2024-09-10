@@ -15,10 +15,10 @@ class NavigateToTagPageEvent extends TagsPageEvent {
   List<Object?> get props => [tag,insideTagPage];
 }
 
-class GetTagsInSpaceEvent extends TagsPageEvent {
-  final GetTagsInSpaceParams params;
+class GetTagsInWorkspaceEvent extends TagsPageEvent {
+  final GetTagsInWorkspaceParams params;
 
-  const GetTagsInSpaceEvent(this.params);
+  const GetTagsInWorkspaceEvent(this.params);
 
   @override
   List<Object?> get props => [params];
@@ -41,7 +41,7 @@ class GetTasksForTagEvent extends TagsPageEvent {
 }
 
 class CreateTagInSpaceEvent extends TagsPageEvent {
-  CreateTagInSpaceParams? params;
+  CreateTagInWorkspaceParams? params;
   bool? tryEvent;
   CreateTagInSpaceEvent.tryCreate(){
     tryEvent = true;
@@ -50,7 +50,7 @@ class CreateTagInSpaceEvent extends TagsPageEvent {
     tryEvent = false;
   }
   CreateTagInSpaceEvent.submit({
-    required CreateTagInSpaceParams this.params
+    required CreateTagInWorkspaceParams this.params
   }){
     tryEvent = false;
   }

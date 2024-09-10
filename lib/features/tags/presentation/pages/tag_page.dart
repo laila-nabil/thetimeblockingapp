@@ -84,9 +84,9 @@ class TagPage extends StatelessWidget {
                         tagsPageBloc.add(UpdateTagEvent.tryUpdate(
                             insideTagPage: true,
                             params: UpdateTagParams(
-                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
+                                workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                                 newTag: state.navigateTag!.getModel,
-                                originalTagName: state.navigateTag!.name ?? "",
+                                user: authBloc.state.user!,
                                 accessToken:
                                     authBloc.state.accessToken!)));
                       },
@@ -100,7 +100,7 @@ class TagPage extends StatelessWidget {
                       onTap: () {
                         tagsPageBloc.add(DeleteTagEvent.tryDelete(
                             DeleteTagParams(
-                                space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!,
+                                workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                                 tag: state.navigateTag!,
                                 accessToken:
                                     authBloc.state.accessToken!)));
@@ -159,9 +159,8 @@ class TagPage extends StatelessWidget {
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)
                                                 .getModel,
-                                            originalTagName:
-                                                state.navigateTag!.name ?? "",
-                                            space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!),
+                                            user: authBloc.state.user!,
+                                            workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!),
                                       ));
                                     },
                                     onCancel: () {

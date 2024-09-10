@@ -9,13 +9,13 @@ import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
@@ -66,7 +66,7 @@ class TasksRepoImpl implements TasksRepo {
 
   @override
   Future<dartz.Either<Failure, List<TagModel>>> getTags(
-      {required GetTagsInSpaceParams params}) {
+      {required GetTagsInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getTags(params: params),
@@ -138,11 +138,11 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> createTagInSpace(
-      CreateTagInSpaceParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> createTagInWorkspace(
+      CreateTagInWorkspaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createTagInSpace(params: params));
+            remoteDataSource.createTagInWorkspace(params: params));
   }
 
   @override

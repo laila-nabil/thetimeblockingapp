@@ -20,9 +20,9 @@ import '../../../../core/network/supabase_header.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';
-import '../../domain/use_cases/create_tag_in_space_use_case.dart';
+import '../../domain/use_cases/create_tag_in_workspace_use_case.dart';
 import '../../domain/use_cases/delete_tag_use_case.dart';
-import '../../domain/use_cases/get_tags_in_space_use_case.dart';
+import '../../domain/use_cases/get_tags_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/remove_tag_from_task_use_case.dart';
 import '../../domain/use_cases/update_tag_use_case.dart';
@@ -40,7 +40,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> createListInFolder(
       {required CreateListInFolderParams params});
 
-  Future<List<TagModel>> getTags({required GetTagsInSpaceParams params});
+  Future<List<TagModel>> getTags({required GetTagsInWorkspaceParams params});
 
   Future<dartz.Unit> removeTagFromTask(
       {required RemoveTagFromTaskParams params});
@@ -57,7 +57,7 @@ abstract class TasksRemoteDataSource {
 
   Future<dartz.Unit> deleteFolder({required DeleteFolderParams params});
 
-  Future<dartz.Unit> createTagInSpace({required CreateTagInSpaceParams params});
+  Future<dartz.Unit> createTagInWorkspace({required CreateTagInWorkspaceParams params});
 
   Future<dartz.Unit> updateTag({required UpdateTagParams params});
 
@@ -124,10 +124,15 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> createTagInSpace(
-      {required CreateTagInSpaceParams params}) {
-    // TODO A implement createTagInSpace
-    throw UnimplementedError("createTagInSpace");
+  Future<dartz.Unit> createTagInWorkspace(
+      {required CreateTagInWorkspaceParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse(
+            "$url/rest/v1/tag"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override
@@ -160,9 +165,12 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> deleteTag({required DeleteTagParams params}) {
-    // TODO A implement deleteTag
-    throw UnimplementedError("deleteTag");
+  Future<dartz.Unit> deleteTag({required DeleteTagParams params}) async {
+    await network.delete(
+        uri: Uri.parse(
+            "$url/rest/v1/tag?id=eq.${params.tag.id}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return dartz.unit;
   }
 
   @override
@@ -175,9 +183,12 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<List<TagModel>> getTags({required GetTagsInSpaceParams params}) {
-    // TODO A implement getTags
-    throw UnimplementedError("getTags");
+  Future<List<TagModel>> getTags({required GetTagsInWorkspaceParams params}) async {
+    final response = await network.get(
+        uri: Uri.parse(
+            "$url/rest/v1/tag?workspace_id=eq.${params.workspace.id}"),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    return tagsFromJson(json.decode(response.body)) ?? [];
   }
 
   @override
@@ -202,9 +213,14 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> updateTag({required UpdateTagParams params}) {
-    // TODO A implement updateTag
-    throw UnimplementedError("updateTag");
+  Future<dartz.Unit> updateTag({required UpdateTagParams params})async {
+    final result = await network.patch(
+        uri: Uri.parse(
+            "$url/rest/v1/tag?id=eq.${params.newTag.id}"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 
   @override

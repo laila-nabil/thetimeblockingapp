@@ -1,4 +1,6 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -49,14 +51,22 @@ class UpdateTagUseCase
 }
 
 class UpdateTagParams {
-  final Space space;
-  final String originalTagName;
+  final Workspace workspace;
   final TagModel newTag;
   final AccessToken accessToken;
+  final User user;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'workspace_id': workspace.id,
+      'name': newTag.name,
+      'user_id': user.id,
+    };
+  }
 
   UpdateTagParams(
-      {required this.space,
+      {required this.workspace,
       required this.newTag,
-      required this.originalTagName,
+      required this.user,
       required this.accessToken});
 }

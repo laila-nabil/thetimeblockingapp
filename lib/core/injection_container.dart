@@ -39,12 +39,12 @@ import '../features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
-import '../features/tasks/domain/use_cases/create_tag_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_list_use_case.dart';
 import '../features/tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
-import '../features/tasks/domain/use_cases/get_tags_in_space_use_case.dart';
+import '../features/tasks/domain/use_cases/get_tags_in_workspace_use_case.dart';
 import '../features/global/domain/use_cases/get_workspaces_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_remote_data_source.dart';
 import '../features/tasks/data/repositories/tasks_repo_impl.dart';
@@ -171,7 +171,7 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => GetTagsInSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => GetTagsInWorkspaceUseCase(
         serviceLocator(),
       ));
 
@@ -240,7 +240,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => CreateTagInSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => CreateTagInWorkspaceUseCase(
         serviceLocator(),
       ));
 

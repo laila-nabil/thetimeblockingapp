@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -34,12 +35,12 @@ class DeleteTagUseCase
 }
 
 class DeleteTagParams {
-  final Space space;
+  final Workspace workspace;
   final Tag tag;
   final AccessToken accessToken;
 
   DeleteTagParams(
-      {required this.space,
+      {required this.workspace,
         required this.tag,
         required this.accessToken});
 }
