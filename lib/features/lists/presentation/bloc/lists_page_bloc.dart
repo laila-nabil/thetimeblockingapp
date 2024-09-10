@@ -32,7 +32,7 @@ part 'lists_page_event.dart';
 part 'lists_page_state.dart';
 
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
-  final GetAllInWorkspaceUseCase _getAllInWorkspaceUseCase;
+  final GetTasksInSingleWorkspaceUseCase _getTasksInSingleWorkspaceUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
   final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;
   final CreateFolderlessListUseCase
@@ -46,7 +46,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
   final DeleteTaskUseCase _deleteTaskUseCase;
 
   ListsPageBloc(
-    this._getAllInWorkspaceUseCase,
+    this._getTasksInSingleWorkspaceUseCase,
     this._createListInFolderUseCase,
     this._createFolderInSpaceUseCase,
     this._createFolderlessListUseCase,
@@ -219,10 +219,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-          //     accessToken: event.params.accessToken,
-          //     workspace: Workspace()));
+          event.onSuccess();
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -235,10 +232,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-          //     accessToken: event.params.accessToken,
-          //     workspace: Workspace()));
+          event.onSuccess();
         });
       }
       else if (event is UpdateTaskEvent) {
@@ -251,10 +245,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.updateTaskSuccess,
           ));
-          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-          //     accessToken: event.params.accessToken,
-          //     workspace: Workspace()));
+          event.onSuccess();
         });
       }
       else if (event is DeleteTaskEvent) {
@@ -267,14 +258,24 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.deleteTaskSuccess,
           ));
-          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-          //     accessToken: event.params.accessToken,
-          //     workspace: Workspace()));
+          event.onSuccess();
         });
       }
       else if (event is TryGetDataEvent){
         emit(state.copyWith(listsPageStatus: ListsPageStatus.initial,triedGetData: true));
+      }
+      else if(event is GetTasksInWorkspaceEvent){
+        emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
+        final result = await _getTasksInSingleWorkspaceUseCase(event.params);
+        result?.fold(
+                (l) => emit(state.copyWith(
+                listsPageStatus: ListsPageStatus.getTasksFailed,
+                getTasksFailure: l,
+                deleteTaskFailure: l)), (r) => emit(state.copyWith(
+                listsPageStatus: ListsPageStatus.getTasksSuccess,
+                currentListTasks: r
+                    .where((task) => task.list == state.currentList)
+                    .toList())));
       }
     });
   }

@@ -206,8 +206,12 @@ class DeleteListEvent extends ListsPageEvent {
 class CreateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
   final int workspaceId;
+  final Function() onSuccess;
 
-  const CreateTaskEvent({required this.params,required this.workspaceId});
+  const CreateTaskEvent(
+      {required this.params,
+      required this.workspaceId,
+      required this.onSuccess});
 
   @override
   List<Object?> get props => [params,workspaceId];
@@ -215,10 +219,11 @@ class CreateTaskEvent extends ListsPageEvent {
 class DuplicateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
   final Workspace workspace;
-
+  final Function() onSuccess;
   const DuplicateTaskEvent({
     required this.params,
     required this.workspace,
+    required this.onSuccess,
   });
 
   @override
@@ -227,8 +232,8 @@ class DuplicateTaskEvent extends ListsPageEvent {
 
 class UpdateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
-
-  const UpdateTaskEvent({required this.params});
+  final Function() onSuccess;
+  const UpdateTaskEvent({required this.params, required this.onSuccess});
 
   @override
   List<Object?> get props => [params];
@@ -236,8 +241,20 @@ class UpdateTaskEvent extends ListsPageEvent {
 
 class DeleteTaskEvent extends ListsPageEvent {
   final DeleteTaskParams params;
+  final Function() onSuccess;
 
-  const DeleteTaskEvent({required this.params});
+  DeleteTaskEvent({required this.params, required this.onSuccess});
+
+
+  @override
+  List<Object?> get props => [params];
+
+}
+
+class GetTasksInWorkspaceEvent extends ListsPageEvent {
+  final GetTasksInWorkspaceParams params;
+
+  const GetTasksInWorkspaceEvent({required this.params});
 
   @override
   List<Object?> get props => [params];

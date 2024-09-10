@@ -50,9 +50,12 @@ class ListPage extends StatelessWidget {
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
-                globalBloc.add(GetAllInWorkspaceEvent(
-                    accessToken: authBloc.state.accessToken!,
-                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+                listsPageBloc.add(GetTasksInWorkspaceEvent(
+                    params: GetTasksInWorkspaceParams(
+                        workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                        filtersParams: GetTasksInWorkspaceFiltersParams(
+                            accessToken: authBloc.state.accessToken!),
+                        backendMode: BackendMode.supabase)));
               }
               return ResponsiveScaffold(
                 ///TODO D Bulk actions on tasks
@@ -71,7 +74,12 @@ class ListPage extends StatelessWidget {
                                       BlocProvider.of<GlobalBloc>(context)
                                           .state
                                           .selectedWorkspace!
-                                          .id!));
+                                          .id!, onSuccess: () {listsPageBloc.add(GetTasksInWorkspaceEvent(
+                                  params: GetTasksInWorkspaceParams(
+                                      workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                                      filtersParams: GetTasksInWorkspaceFiltersParams(
+                                          accessToken: authBloc.state.accessToken!),
+                                      backendMode: BackendMode.supabase)));  }));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! ListsPageState
@@ -112,7 +120,7 @@ class ListPage extends StatelessWidget {
                                     titleColor: AppColors.error(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksOverdue
                                         .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
+                                            e, context, listsPageBloc,globalBloc,authBloc))
                                         .toList()),
                               if (state.getCurrentListTasksUpcoming.isNotEmpty)
                                 ToggleableSection(
@@ -121,7 +129,7 @@ class ListPage extends StatelessWidget {
                                     titleColor: AppColors.warning(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksUpcoming
                                         .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
+                                            e, context, listsPageBloc,globalBloc,authBloc))
                                         .toList()),
                               if (state
                                   .getCurrentListTasksUnscheduled.isNotEmpty)
@@ -131,7 +139,7 @@ class ListPage extends StatelessWidget {
                                     children: state
                                         .getCurrentListTasksUnscheduled
                                         .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
+                                            e, context, listsPageBloc,globalBloc,authBloc))
                                         .toList()),
                               if (state.getCurrentListTasksCompleted.isNotEmpty)
                                 ToggleableSection(
@@ -140,7 +148,7 @@ class ListPage extends StatelessWidget {
                                     titleColor: AppColors.success(context.isDarkMode).shade500,
                                     children: state.getCurrentListTasksCompleted
                                         .map<Widget>((e) => buildTaskWidget(
-                                            e, context, listsPageBloc))
+                                            e, context, listsPageBloc,globalBloc,authBloc))
                                         .toList()),
                             ],
                           ),
@@ -165,7 +173,7 @@ class ListPage extends StatelessWidget {
   }
 
   Widget buildTaskWidget(
-      Task e, BuildContext context, ListsPageBloc listsPageBloc) {
+      Task e, BuildContext context, ListsPageBloc listsPageBloc,GlobalBloc globalBloc, AuthBloc authBloc) {
     // return Container();
     return TaskComponent(
       task: e,
@@ -173,18 +181,33 @@ class ListPage extends StatelessWidget {
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
       onDelete: (params) {
-        listsPageBloc.add(DeleteTaskEvent(params: params));
+        listsPageBloc.add(DeleteTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+            params: GetTasksInWorkspaceParams(
+                workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                    accessToken: authBloc.state.accessToken!),
+                backendMode: BackendMode.supabase))); }));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        listsPageBloc.add(UpdateTaskEvent(params: params));
+        listsPageBloc.add(UpdateTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+            params: GetTasksInWorkspaceParams(
+                workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                    accessToken: authBloc.state.accessToken!),
+                backendMode: BackendMode.supabase))); }));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
         listsPageBloc.add(DuplicateTaskEvent(
           params: params,
           workspace: BlocProvider.of<GlobalBloc>(context)
               .state
-              .selectedWorkspace!,
+              .selectedWorkspace!, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+            params: GetTasksInWorkspaceParams(
+                workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                    accessToken: authBloc.state.accessToken!),
+                backendMode: BackendMode.supabase))); },
         ));
       },
     );

@@ -5,8 +5,8 @@ enum ListsPageStatus {
   isLoading,
   getListDetailsSuccess,
   getListDetailsFailed,
-  getListDetailsAndTasksSuccess,
-  getListDetailsAndTasksWentWrong,
+  getTasksSuccess,
+  getTasksFailed,
   moveListTry,
   createListInFolderTry,
   createListInFolderSuccess,
@@ -47,7 +47,7 @@ class ListsPageState extends Equatable {
   final TasksList? currentList;
   final Folder? navigateFolder;
   final List<Task>? currentListTasks;
-  final FailuresList? getListDetailsAndTasksFailure;
+  final FailuresList? getTasksFailure;
   final List<TasksList>? addListResult;
   final Failure? createListFailure;
   final List<Folder>? createFolderResult;
@@ -79,7 +79,7 @@ class ListsPageState extends Equatable {
     this.currentList,
     this.navigateFolder,
     this.currentListTasks,
-    this.getListDetailsAndTasksFailure,
+    this.getTasksFailure,
     this.addListResult,
     this.createListFailure,
     this.createFolderResult,
@@ -121,7 +121,7 @@ class ListsPageState extends Equatable {
       listsPageStatus == ListsPageStatus.createListInSpaceSuccess ||
       listsPageStatus == ListsPageStatus.deleteFolderSuccess ||
       listsPageStatus == ListsPageStatus.deleteListSuccess ||
-      listsPageStatus == ListsPageStatus.getListDetailsAndTasksSuccess;
+      listsPageStatus == ListsPageStatus.getTasksSuccess;
 
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams(AccessToken accessToken , User? user) {
@@ -153,7 +153,7 @@ class ListsPageState extends Equatable {
         currentList,
         navigateFolder,
         currentListTasks,
-        getListDetailsAndTasksFailure,
+        getTasksFailure,
         addListResult,
         createListFailure,
         createFolderResult,
@@ -197,7 +197,7 @@ class ListsPageState extends Equatable {
     TasksList? currentList,
     Folder? navigateFolder,
     List<Task>? currentListTasks,
-    FailuresList? getListDetailsAndTasksFailure,
+    Failure? getTasksFailure,
     List<TasksList>? addListResult,
     Failure? createListFailure,
     List<Folder>? createFolderResult,
@@ -232,8 +232,8 @@ class ListsPageState extends Equatable {
       currentList: currentList,
       navigateFolder: navigateFolder,
       currentListTasks: currentListTasks ?? this.currentListTasks,
-      getListDetailsAndTasksFailure:
-          getListDetailsAndTasksFailure ?? this.getListDetailsAndTasksFailure,
+      getTasksFailure:
+          getTasksFailure ?? this.getTasksFailure,
       addListResult: addListResult ?? this.addListResult,
       createListFailure: createListFailure ?? this.createListFailure,
       createFolderResult: createFolderResult ?? this.createFolderResult,
