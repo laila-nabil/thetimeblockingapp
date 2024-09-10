@@ -40,8 +40,7 @@ class AllTasksState extends Equatable {
   List<Task> get getAllTasksResultOverdue =>
       allTasksResult
           ?.where((element) =>
-              element.isOverdue &&
-              element.isCompleted == false)
+              element.isOverdue )
           .toList() ??
       [];
 

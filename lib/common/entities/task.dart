@@ -21,7 +21,8 @@ class Task extends Equatable {
   final Space? space;
   final Workspace? workspace;
 
-  bool get isOverdue => dueDate?.isBefore(DateTime.now()) == true;
+  bool get isOverdue =>
+      dueDate?.isBefore(DateTime.now()) == true && isCompleted == false;
 
   bool get isUpcoming => dueDate?.isAfter(DateTime.now()) == true;
 
