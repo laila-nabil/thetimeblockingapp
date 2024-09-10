@@ -47,11 +47,8 @@ class ListsPage extends StatelessWidget {
             if (state.listsPageStatus == ListsPageStatus.navigateList &&
                 state.navigateList != null) {
               context.push(
-                  Uri(path: ListPage.routeName, queryParameters: {
-                    ListPage.queryParametersList.first:
-                        state.navigateList?.id ?? ""
-                  }).toString(),
-                  extra: listsPageBloc);
+                  Uri(path: ListPage.routeName).toString(),
+                  extra: [listsPageBloc ,state.navigateList ]);
             } else if (state.listsPageStatus == ListsPageStatus.deleteListTry) {
               showDialog(
                   context: context,

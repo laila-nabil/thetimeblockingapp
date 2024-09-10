@@ -251,11 +251,11 @@ class DeleteTaskEvent extends ListsPageEvent {
 
 }
 
-class GetTasksInWorkspaceEvent extends ListsPageEvent {
+class GetTasksInListEvent extends ListsPageEvent {
   final GetTasksInWorkspaceParams params;
-
-  const GetTasksInWorkspaceEvent({required this.params});
+  final TasksList list;
+  const GetTasksInListEvent({required this.params,required this.list});
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [params,list];
 }

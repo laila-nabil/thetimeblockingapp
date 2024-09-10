@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -132,9 +133,10 @@ final router = GoRouter(
       GoRoute(
         path: ListPage.routeName,
         builder: (context, state) => ListPage(
-            listId: state.uri.queryParameters[ListPage.queryParametersList.first]
-                as String,listsPageBloc: state.extra as ListsPageBloc),
-        redirect: (context,state){
+                listsPageBloc: (state.extra as List)[0] as ListsPageBloc,
+                list: (state.extra as List)[1] as TasksList,
+              ),
+          redirect: (context,state){
           if(state.extra == null){
             return ListsPage.routeName;
           }

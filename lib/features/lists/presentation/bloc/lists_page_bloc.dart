@@ -264,7 +264,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
       else if (event is TryGetDataEvent){
         emit(state.copyWith(listsPageStatus: ListsPageStatus.initial,triedGetData: true));
       }
-      else if(event is GetTasksInWorkspaceEvent){
+      else if(event is GetTasksInListEvent){
         emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
         final result = await _getTasksInSingleWorkspaceUseCase(event.params);
         result?.fold(
@@ -273,8 +273,9 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
                 getTasksFailure: l,
                 deleteTaskFailure: l)), (r) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.getTasksSuccess,
+                currentList: event.list,
                 currentListTasks: r
-                    .where((task) => task.list == state.currentList)
+                    .where((task) => task.list == event.list)
                     .toList())));
       }
     });

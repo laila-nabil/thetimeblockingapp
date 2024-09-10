@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 
@@ -26,11 +27,10 @@ import '../bloc/lists_page_bloc.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage(
-      {super.key, required this.listId, required this.listsPageBloc});
+      {super.key, required this.list, required this.listsPageBloc});
 
   static const routeName = "/List";
-  static const queryParametersList = ["list"];
-  final String listId;
+  final TasksList list;
   final ListsPageBloc listsPageBloc;
 
   @override
@@ -50,12 +50,12 @@ class ListPage extends StatelessWidget {
                   "state.listsPageStatus rebuild ${state.listsPageStatus}");
               printDebug("state rebuild $state");
               if (state.listsPageStatus == ListsPageStatus.navigateList) {
-                listsPageBloc.add(GetTasksInWorkspaceEvent(
+                listsPageBloc.add(GetTasksInListEvent(
                     params: GetTasksInWorkspaceParams(
                         workspaceId: globalBloc.state.selectedWorkspace!.id!,
                         filtersParams: GetTasksInWorkspaceFiltersParams(
                             accessToken: authBloc.state.accessToken!),
-                        backendMode: BackendMode.supabase)));
+                        backendMode: BackendMode.supabase), list: list));
               }
               return ResponsiveScaffold(
                 ///TODO D Bulk actions on tasks
@@ -74,12 +74,12 @@ class ListPage extends StatelessWidget {
                                       BlocProvider.of<GlobalBloc>(context)
                                           .state
                                           .selectedWorkspace!
-                                          .id!, onSuccess: () {listsPageBloc.add(GetTasksInWorkspaceEvent(
+                                          .id!, onSuccess: () {listsPageBloc.add(GetTasksInListEvent(
                                   params: GetTasksInWorkspaceParams(
                                       workspaceId: globalBloc.state.selectedWorkspace!.id!,
                                       filtersParams: GetTasksInWorkspaceFiltersParams(
                                           accessToken: authBloc.state.accessToken!),
-                                      backendMode: BackendMode.supabase)));  }));
+                                      backendMode: BackendMode.supabase), list: list));  }));
                               Navigator.maybePop(context);
                             },
                             isLoading: (state) => state is! ListsPageState
@@ -181,33 +181,33 @@ class ListPage extends StatelessWidget {
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
       onDelete: (params) {
-        listsPageBloc.add(DeleteTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+        listsPageBloc.add(DeleteTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: authBloc.state.accessToken!),
-                backendMode: BackendMode.supabase))); }));
+                backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
       },
       onSave: (params) {
-        listsPageBloc.add(UpdateTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+        listsPageBloc.add(UpdateTaskEvent(params: params, onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: authBloc.state.accessToken!),
-                backendMode: BackendMode.supabase))); }));
+                backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
         listsPageBloc.add(DuplicateTaskEvent(
           params: params,
           workspace: BlocProvider.of<GlobalBloc>(context)
               .state
-              .selectedWorkspace!, onSuccess: () { listsPageBloc.add(GetTasksInWorkspaceEvent(
+              .selectedWorkspace!, onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: authBloc.state.accessToken!),
-                backendMode: BackendMode.supabase))); },
+                backendMode: BackendMode.supabase), list: list)); },
         ));
       },
     );
