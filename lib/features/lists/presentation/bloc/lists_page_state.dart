@@ -41,6 +41,7 @@ enum ListsPageStatus {
 }
 
 class ListsPageState extends Equatable {
+  final bool triedGetData;
   final ListsPageStatus listsPageStatus;
   final TasksList? navigateList;
   final TasksList? currentList;
@@ -72,6 +73,7 @@ class ListsPageState extends Equatable {
   final TasksList? toDeleteList;
   final Folder? toDeleteFolder;
   const ListsPageState({
+    required this.triedGetData,
     required this.listsPageStatus,
     this.navigateList,
     this.currentList,
@@ -106,6 +108,11 @@ class ListsPageState extends Equatable {
 
   bool get isInit => listsPageStatus == ListsPageStatus.initial;
 
+  bool canGetData(bool isGlobalStateLoading) =>
+      listsPageStatus == ListsPageStatus.initial &&
+      triedGetData == false &&
+      isGlobalStateLoading == false;
+
   bool get isLoading => listsPageStatus == ListsPageStatus.isLoading;
 
   GetTasksInWorkspaceFiltersParams
@@ -132,6 +139,7 @@ class ListsPageState extends Equatable {
       currentListTasks?.where((element) => element.isCompleted).toList() ?? [];
   @override
   List<Object?> get props => [
+        triedGetData,
         listsPageStatus,
         navigateList,
         currentList,
@@ -175,6 +183,7 @@ class ListsPageState extends Equatable {
       listsPageStatus == ListsPageStatus.createFolderTry ;
 
   ListsPageState copyWith({
+    bool? triedGetData,
     required ListsPageStatus listsPageStatus,
     TasksList? navigateList,
     TasksList? currentList,
@@ -209,6 +218,7 @@ class ListsPageState extends Equatable {
     Folder? toDeleteFolder,
   }) {
     return ListsPageState(
+        triedGetData: triedGetData ?? this.triedGetData,
       listsPageStatus: listsPageStatus,
       navigateList: navigateList,
       currentList: currentList,

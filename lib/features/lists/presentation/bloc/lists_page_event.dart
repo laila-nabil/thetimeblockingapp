@@ -6,6 +6,10 @@ abstract class ListsPageEvent extends Equatable {
   const ListsPageEvent();
 }
 
+class TryGetDataEvent extends ListsPageEvent {
+  @override
+  List<Object?> get props => [];
+}
 class NavigateToListPageEvent extends ListsPageEvent {
   final TasksList list;
 

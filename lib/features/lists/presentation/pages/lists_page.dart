@@ -123,8 +123,8 @@ class ListsPage extends StatelessWidget {
             final globalBloc = BlocProvider.of<GlobalBloc>(context);
             final authBloc = BlocProvider.of<AuthBloc>(context);
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
-            if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
-              getListsFolders(authBloc.state,globalBloc);
+            if (state.canGetData(globalState.isLoading) && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
+              getListsFolders(listsPageBloc,authBloc.state,globalBloc);
             }
             return ResponsiveScaffold(
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
@@ -337,10 +337,7 @@ class ListsPage extends StatelessWidget {
                       ),
                     )),
                 context: context, onRefresh: ()async {
-              getListsFolders(authBloc.state,globalBloc);
-              globalBloc.add(GetAllInWorkspaceEvent(
-                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                  accessToken: authBloc.state.accessToken!));
+              getListsFolders(listsPageBloc,authBloc.state,globalBloc);
             },);
           },
         );
@@ -348,11 +345,12 @@ class ListsPage extends StatelessWidget {
     );
   }
 
-  void getListsFolders(AuthState authState,GlobalBloc globalBloc) {
+  void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState,GlobalBloc globalBloc) {
     globalBloc.add(GetAllInWorkspaceEvent(
       accessToken: authState.accessToken!,
       workspace: globalBloc.state.selectedWorkspace!,
     ));
+    listsPageBloc.add(TryGetDataEvent());
   }
 }
 

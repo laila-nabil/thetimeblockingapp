@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
@@ -56,7 +57,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
     this._duplicateTaskUseCase,
     this._updateTaskUseCase,
     this._deleteTaskUseCase,
-  ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial)) {
+  ) : super(const ListsPageState(listsPageStatus: ListsPageStatus.initial, triedGetData: false)) {
     on<ListsPageEvent>((event, emit) async {
       if (event is NavigateToListPageEvent) {
         emit(state.copyWith(
@@ -81,11 +82,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInFolderSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.createListInFolderParams!.accessToken,
-                workspace: event.workspace!,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.createListInFolderParams!.accessToken,
+            //     workspace: event.workspace!,
+            //     space: event.space));
           });
         }
       } else if (event is CreateFolderlessListEvent) {
@@ -110,11 +112,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createListInSpaceSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.createFolderlessListParams!.accessToken,
-                workspace: event.workspace!,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.createFolderlessListParams!.accessToken,
+            //     workspace: event.workspace!,
+            //     space: event.space));
           });
         }
       } else if (event is MoveTaskBetweenListsEvent) {
@@ -136,11 +139,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.moveTaskBetweenListsSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.moveTaskBetweenListsParams.accessToken,
-                workspace: event.workspace,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.moveTaskBetweenListsParams.accessToken,
+            //     workspace: event.workspace,
+            //     space: event.space));
           });
         }
       } else if (event is CreateFolderInSpaceEvent) {
@@ -165,11 +169,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.createFolderSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.createFolderInSpaceParams!.accessToken,
-                workspace: event.workspace!,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.createFolderInSpaceParams!.accessToken,
+            //     workspace: event.workspace!,
+            //     space: event.space));
           });
         }
       } else if (event is DeleteFolderEvent) {
@@ -192,11 +197,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteFolderSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.deleteFolderParams!.accessToken,
-                workspace: event.workspace!,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.deleteFolderParams!.accessToken,
+            //     workspace: event.workspace!,
+            //     space: event.space));
           });
         }
       } else if (event is DeleteListEvent) {
@@ -219,11 +225,12 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             emit(state.copyWith(
               listsPageStatus: ListsPageStatus.deleteListSuccess,
             ));
-            add(GetListAndFoldersInListsPageEvent.inSpace(
-                accessToken:
-                    event.deleteListParams!.accessToken,
-                workspace: event.workspace!,
-                space: event.space));
+            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+            // add(GetListAndFoldersInListsPageEvent.inSpace(
+            //     accessToken:
+            //         event.deleteListParams!.accessToken,
+            //     workspace: event.workspace!,
+            //     space: event.space));
           });
         }
       }
@@ -237,10 +244,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          ///TODO A
-          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-              accessToken: event.params.accessToken,
-              workspace: Workspace()));
+          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+          //     accessToken: event.params.accessToken,
+          //     workspace: Workspace()));
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -253,10 +260,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.createTaskSuccess,
           ));
-          ///TODO A
-          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-              accessToken: event.params.accessToken,
-              workspace: Workspace()));
+          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+          //     accessToken: event.params.accessToken,
+          //     workspace: Workspace()));
         });
       }
       else if (event is UpdateTaskEvent) {
@@ -269,10 +276,10 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.updateTaskSuccess,
           ));
-          ///TODO A
-          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-              accessToken: event.params.accessToken,
-              workspace: Workspace()));
+          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+          //     accessToken: event.params.accessToken,
+          //     workspace: Workspace()));
         });
       }
       else if (event is DeleteTaskEvent) {
@@ -285,11 +292,14 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
           emit(state.copyWith(
             listsPageStatus: ListsPageStatus.deleteTaskSuccess,
           ));
-          ///TODO A
-          add(GetListAndFoldersInListsPageEvent.inWorkSpace(
-              accessToken: event.params.accessToken,
-              workspace: Workspace()));
+          printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
+          // add(GetListAndFoldersInListsPageEvent.inWorkSpace(
+          //     accessToken: event.params.accessToken,
+          //     workspace: Workspace()));
         });
+      }
+      else if (event is TryGetDataEvent){
+        emit(state.copyWith(listsPageStatus: ListsPageStatus.initial,triedGetData: true));
       }
     });
   }
