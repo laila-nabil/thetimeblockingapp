@@ -269,6 +269,12 @@ class TagPage extends StatelessWidget {
                 BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
             ));
       },
+      onDeleteConfirmed: () {
+        //TODO B
+      },
+      onCompleteConfirmed: () {
+        //TODO B
+      },
     );
   }
 }

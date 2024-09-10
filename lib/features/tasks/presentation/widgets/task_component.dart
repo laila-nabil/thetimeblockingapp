@@ -33,6 +33,8 @@ class TaskComponent extends StatelessWidget {
     required this.onDelete,
     required this.onSave,
     required this.onDuplicate,
+    required this.onDeleteConfirmed,
+    required this.onCompleteConfirmed,
     this.showListChip = true,
   });
 
@@ -42,6 +44,8 @@ class TaskComponent extends StatelessWidget {
   final void Function(DeleteTaskParams) onDelete;
   final void Function(CreateTaskParams) onSave;
   final void Function(CreateTaskParams) onDuplicate;
+  final void Function() onCompleteConfirmed;
+  final void Function() onDeleteConfirmed;
   final bool showListChip;
 
   @override
@@ -110,6 +114,8 @@ class TaskComponent extends StatelessWidget {
                   },
                   isLoading: (state) => isLoading(state)));
         },
+        onDeleteConfirmed: onDeleteConfirmed,
+        onCompleteConfirmed: onCompleteConfirmed,
         task: task);
   }
 }
@@ -120,9 +126,13 @@ class TaskWidget extends StatefulWidget {
       required this.onTap,
       required this.task,
       required this.showList,
+      required this.onDeleteConfirmed,
+      required this.onCompleteConfirmed,
       this.actions});
 
   final void Function() onTap;
+  final void Function() onCompleteConfirmed;
+  final void Function() onDeleteConfirmed;
   final Task task;
   final bool showList;
   final List<CustomPopupItem>? actions;
@@ -146,133 +156,187 @@ class _TaskWidgetState extends State<TaskWidget> {
     final listName = widget.task.list?.name;
     final isListInsideFolder =
         folderName?.isNotEmpty == true;
-    return InkWell(
-      onTap: widget.onTap,
-      onHover: (hover) {
-        if (hover != onHover) {
-          setState(() {
-            onHover = hover;
+    return  Dismissible(key: Key(widget.task.id.toString()),
+      ///TODO C add icons to background
+      background: Container(color: AppColors.success(context.isDarkMode),),
+      secondaryBackground: Container(color: AppColors.error(context.isDarkMode),),
+      confirmDismiss: (dismissDirection) async {
+        if(dismissDirection == DismissDirection.endToStart){
+          final res =  await showDialog<bool>(context: context, builder: (context){
+            return CustomAlertDialog(
+              loading: false,
+              actions: [
+                CustomButton.noIcon(
+                    label: appLocalization.translate("delete"),
+                    onPressed: () {
+                      widget.onDeleteConfirmed();
+                      Navigator.pop(context);
+                    },type: CustomButtonType.destructiveFilledLabel),
+                CustomButton.noIcon(
+                    label: appLocalization.translate("cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ],
+              content: Text(
+                  "${appLocalization.translate("areYouSureDelete")} ${widget.task.title}?"),
+            );
           });
+          return res;
         }
+        if(widget.task.isCompleted  == false && dismissDirection == DismissDirection.startToEnd){
+          final res =  await showDialog<bool>(context: context, builder: (context){
+            return CustomAlertDialog(
+              loading: false,
+              actions: [
+                CustomButton.noIcon(
+                    label: appLocalization.translate("complete"),
+                    onPressed: () {
+                      widget.onCompleteConfirmed();
+                      Navigator.pop(context);
+                    },type: CustomButtonType.secondaryLabel),
+                CustomButton.noIcon(
+                    label: appLocalization.translate("cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ],
+              content: Text(
+                  "${appLocalization.translate("areYouSureComplete")} ${widget.task.title}?"),
+            );
+          });
+          return res;
+        }
+        return null;
       },
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 68),
-        padding: EdgeInsets.all(AppSpacing.xSmall8.value),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
-          color: onHover
-              ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
-              : AppColors.background(context.isDarkMode),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.showList)
-              Padding(
-                padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (isListInsideFolder)
+      child: InkWell(
+        onTap: widget.onTap,
+        onHover: (hover) {
+          if (hover != onHover) {
+            setState(() {
+              onHover = hover;
+            });
+          }
+        },
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 68),
+          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+            color: onHover
+                ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+                : AppColors.background(context.isDarkMode),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (widget.showList)
+                Padding(
+                  padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (isListInsideFolder)
+                        Text(
+                          folderName ?? "",
+                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphXSmall,
+                              color: colors,
+                              appFontWeight: AppFontWeight.medium)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      if (isListInsideFolder)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                          child: Text(
+                            "/",
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                appFontSize: AppFontSize.paragraphXSmall,
+                                color: colors,
+                                appFontWeight: AppFontWeight.medium)),
+                          ),
+                        ),
                       Text(
-                        folderName ?? "",
+                        listName ?? '',
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphXSmall,
                             color: colors,
                             appFontWeight: AppFontWeight.medium)),
                         overflow: TextOverflow.ellipsis,
                       ),
-                    if (isListInsideFolder)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                        child: Text(
-                          "/",
-                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                              appFontSize: AppFontSize.paragraphXSmall,
-                              color: colors,
-                              appFontWeight: AppFontWeight.medium)),
-                        ),
-                      ),
-                    Text(
-                      listName ?? '',
-                      style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                          appFontSize: AppFontSize.paragraphXSmall,
-                          color: colors,
-                          appFontWeight: AppFontWeight.medium)),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          widget.task.isCompleted
-                              ? AppIcons.checkboxchecked
-                              : AppIcons.checkbox,
-                          color: widget.task.status?.getColor ??
-                              AppColors.text(context.isDarkMode),
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: AppSpacing.xSmall8.value,
-                        ),
-                        Expanded(
-                          child: Text(
-                            widget.task.title ?? "",
-                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                    appFontSize: AppFontSize.paragraphSmall,
-                                    color: AppColors.grey(context.isDarkMode).shade900,
-                                    appFontWeight: AppFontWeight.semiBold))
-                                .copyWith(
-                                    decoration: widget.task.isCompleted
-                                        ? TextDecoration.lineThrough
-                                        : null),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            widget.task.isCompleted
+                                ? AppIcons.checkboxchecked
+                                : AppIcons.checkbox,
+                            color: widget.task.status?.getColor ??
+                                AppColors.text(context.isDarkMode),
+                            size: 20,
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: AppSpacing.xSmall8.value,
+                          ),
+                          Expanded(
+                            child: Text(
+                              widget.task.title ?? "",
+                              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                      appFontSize: AppFontSize.paragraphSmall,
+                                      color: AppColors.grey(context.isDarkMode).shade900,
+                                      appFontWeight: AppFontWeight.semiBold))
+                                  .copyWith(
+                                      decoration: widget.task.isCompleted
+                                          ? TextDecoration.lineThrough
+                                          : null),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                if (widget.actions?.isNotEmpty == true)
-                  CustomPopupMenu(
-                    items: widget.actions ?? [],
-                  ),
-              ],
-            ),
-            if (widget.task.startDateUtc != null &&
-                widget.task.dueDateUtc != null)
-              Text(
-                  "🕑 ${DateTimeExtensions.customToString(widget.task.startDateUtc)} => ${DateTimeExtensions.customToString(widget.task.dueDateUtc)}",
-                  style: dateTextStyle)
-            else
-              Text("", style: dateTextStyle),
-            Padding(
-              padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                spacing: AppSpacing.x2Small4.value,
-                runSpacing: AppSpacing.x2Small4.value,
-                direction: Axis.horizontal,
-                verticalDirection: VerticalDirection.down,
-                children: widget.task.tags
-                        .map((e) => TagChip(
-                            tagName: e.name ?? "", color: e.getColor))
-                        .toList() ,
+                  if (widget.actions?.isNotEmpty == true)
+                    CustomPopupMenu(
+                      items: widget.actions ?? [],
+                    ),
+                ],
               ),
-            )
-          ],
+              if (widget.task.startDateUtc != null &&
+                  widget.task.dueDateUtc != null)
+                Text(
+                    "🕑 ${DateTimeExtensions.customToString(widget.task.startDateUtc)} => ${DateTimeExtensions.customToString(widget.task.dueDateUtc)}",
+                    style: dateTextStyle)
+              else
+                Text("", style: dateTextStyle),
+              Padding(
+                padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: AppSpacing.x2Small4.value,
+                  runSpacing: AppSpacing.x2Small4.value,
+                  direction: Axis.horizontal,
+                  verticalDirection: VerticalDirection.down,
+                  children: widget.task.tags
+                          .map((e) => TagChip(
+                              tagName: e.name ?? "", color: e.getColor))
+                          .toList() ,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

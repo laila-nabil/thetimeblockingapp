@@ -243,7 +243,7 @@ class DeleteTaskEvent extends ListsPageEvent {
   final DeleteTaskParams params;
   final Function() onSuccess;
 
-  DeleteTaskEvent({required this.params, required this.onSuccess});
+  const DeleteTaskEvent({required this.params, required this.onSuccess});
 
 
   @override

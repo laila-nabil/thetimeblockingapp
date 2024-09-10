@@ -189,102 +189,52 @@ class AllTasksPage extends StatelessWidget {
     );
   }
 
-  Dismissible buildTaskWidget(Task e, BuildContext context,
+  Widget buildTaskWidget(Task task, BuildContext context,
       AllTasksBloc allTasksBloc) {
-    return Dismissible(key: Key(e.id.toString()),
-        ///TODO C add icons to background
-        background: Container(color: AppColors.success(context.isDarkMode),),
-        secondaryBackground: Container(color: AppColors.error(context.isDarkMode),),
-        confirmDismiss: (dismissDirection) async {
-          if(dismissDirection == DismissDirection.endToStart){
-           final res =  await showDialog<bool>(context: context, builder: (context){
-              return CustomAlertDialog(
-                loading: false,
-                actions: [
-                  CustomButton.noIcon(
-                      label: appLocalization.translate("delete"),
-                      onPressed: () {
-                        allTasksBloc.add(DeleteTaskEvent(
-                            params: DeleteTaskParams(
-                                task: e,
-                                accessToken:
-                                BlocProvider.of<AuthBloc>(context).state.accessToken!),
-                            workspace: BlocProvider.of<GlobalBloc>(context)
-                                .state
-                                .selectedWorkspace!));
-                        Navigator.pop(context);
-                      },type: CustomButtonType.destructiveFilledLabel),
-                  CustomButton.noIcon(
-                      label: appLocalization.translate("cancel"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ],
-                content: Text(
-                    "${appLocalization.translate("areYouSureDelete")} ${e.title}?"),
-              );
-            });
-            return res;
-          }
-          if(e.isCompleted  == false && dismissDirection == DismissDirection.startToEnd){
-            final res =  await showDialog<bool>(context: context, builder: (context){
-              return CustomAlertDialog(
-                loading: false,
-                actions: [
-                  CustomButton.noIcon(
-                      label: appLocalization.translate("complete"),
-                      onPressed: () {
-                            var authState = BlocProvider.of<AuthBloc>(context).state;
-                            var globalState = BlocProvider.of<GlobalBloc>(context).state;
-                            final newTask = e.copyWith(status: globalState.statuses!.completedStatus);
-                            printDebug("newTask $newTask");
-                            allTasksBloc.add(UpdateTaskEvent(
-                                params: CreateTaskParams.startUpdateTask(
-                                    accessToken: authState.accessToken!,
-                                    task: newTask,
-                                    backendMode: serviceLocator<BackendMode>(),
-                                    user: authState.user!,
-                                    space: newTask.space,
-                                    tags: newTask.tags),
-                                workspace: globalState.selectedWorkspace!));
-                            Navigator.pop(context);
-                      },type: CustomButtonType.secondaryLabel),
-                  CustomButton.noIcon(
-                      label: appLocalization.translate("cancel"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ],
-                content: Text(
-                    "${appLocalization.translate("areYouSureComplete")} ${e.title}?"),
-              );
-            });
-            return res;
-          }
-          return null;
-        },
-        child: TaskComponent(
-      task: e,
-      bloc: allTasksBloc,
-      onDelete: (params) {
-        allTasksBloc.add(DeleteTaskEvent(
-            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
-        Navigator.maybePop(context);
-      },
-      onSave: (params) {
-        allTasksBloc.add(UpdateTaskEvent(
-            params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
-        Navigator.maybePop(context);
-      },
-      isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
-      onDuplicate: (params) {
-        allTasksBloc.add(DuplicateTaskEvent(
-          params: params,
-          workspace:
-          BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-        ));
-      },
+    return TaskComponent(
+          task: task,
+          bloc: allTasksBloc,
+          onDelete: (params) {
+    allTasksBloc.add(DeleteTaskEvent(
+        params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+    Navigator.maybePop(context);
+          },
+          onSave: (params) {
+    allTasksBloc.add(UpdateTaskEvent(
+        params: params, workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+    Navigator.maybePop(context);
+          },
+          isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
+          onDuplicate: (params) {
+    allTasksBloc.add(DuplicateTaskEvent(
+      params: params,
+      workspace:
+      BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
     ));
+          }, onDeleteConfirmed: () {
+      allTasksBloc.add(DeleteTaskEvent(
+          params: DeleteTaskParams(
+              task: task,
+              accessToken:
+              BlocProvider.of<AuthBloc>(context).state.accessToken!),
+          workspace: BlocProvider.of<GlobalBloc>(context)
+              .state
+              .selectedWorkspace!));
+    }, onCompleteConfirmed: () {
+      var authState = BlocProvider.of<AuthBloc>(context).state;
+      var globalState = BlocProvider.of<GlobalBloc>(context).state;
+      final newTask = task.copyWith(status: globalState.statuses!.completedStatus);
+      printDebug("newTask $newTask");
+      allTasksBloc.add(UpdateTaskEvent(
+          params: CreateTaskParams.startUpdateTask(
+              accessToken: authState.accessToken!,
+              task: newTask,
+              backendMode: serviceLocator<BackendMode>(),
+              user: authState.user!,
+              space: newTask.space,
+              tags: newTask.tags),
+          workspace: globalState.selectedWorkspace!)); },
+        );
   }
 
   void getAllTasksInWorkspace(AllTasksBloc allTasksBloc,BuildContext context) {

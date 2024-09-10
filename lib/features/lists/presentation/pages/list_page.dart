@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -8,6 +9,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
@@ -173,10 +176,10 @@ class ListPage extends StatelessWidget {
   }
 
   Widget buildTaskWidget(
-      Task e, BuildContext context, ListsPageBloc listsPageBloc,GlobalBloc globalBloc, AuthBloc authBloc) {
+      Task task, BuildContext context, ListsPageBloc listsPageBloc,GlobalBloc globalBloc, AuthBloc authBloc) {
     // return Container();
     return TaskComponent(
-      task: e,
+      task: task,
       bloc: listsPageBloc,
       showListChip: false,
       isLoading: (state) => state is! ListsPageState ? false : state.isLoading,
@@ -209,6 +212,32 @@ class ListPage extends StatelessWidget {
                     accessToken: authBloc.state.accessToken!),
                 backendMode: BackendMode.supabase), list: list)); },
         ));
+      },
+      onDeleteConfirmed: () {
+        listsPageBloc.add(DeleteTaskEvent(
+            params: DeleteTaskParams(task: task, accessToken: authBloc.state.accessToken!),
+            onSuccess: () {
+              listsPageBloc.add(GetTasksInListEvent(
+                  params: GetTasksInWorkspaceParams(
+                      workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                      filtersParams: GetTasksInWorkspaceFiltersParams(
+                          accessToken: authBloc.state.accessToken!),
+                      backendMode: BackendMode.supabase), list: list)); }));
+      },
+      onCompleteConfirmed: () {
+        final newTask = task.copyWith(status: globalBloc.state.statuses!.completedStatus);
+        listsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
+            accessToken: authBloc.state.accessToken!,
+            task: newTask,
+            backendMode: serviceLocator<BackendMode>(),
+            user: authBloc.state.user!,
+            space: newTask.space,
+            tags: newTask.tags), onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
+            params: GetTasksInWorkspaceParams(
+                workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                    accessToken: authBloc.state.accessToken!),
+                backendMode: BackendMode.supabase), list: list)); }));
       },
     );
   }
