@@ -48,25 +48,13 @@ class ListsPageState extends Equatable {
   final Folder? navigateFolder;
   final List<Task>? currentListTasks;
   final FailuresList? getTasksFailure;
-  final List<TasksList>? addListResult;
   final Failure? createListFailure;
-  final List<Folder>? createFolderResult;
   final Failure? createFolderFailure;
-  final List<Task>? createTaskResult;
   final Failure? createTaskFailure;
   final Failure? updateTaskFailure;
-  final List<Task>? deleteListResult;
   final Failure? deleteListFailure;
-  final List<Folder>? deleteFolderResult;
   final Failure? deleteFolderFailure;
-  final List<Task>? deleteTaskResult;
   final Failure? deleteTaskFailure;
-  final CreateListInFolderParams? createListInFolderParams;
-  final CreateFolderlessListParams? createFolderlessListParams;
-  final MoveTaskBetweenListsParams? moveTaskBetweenListsParams;
-  final CreateFolderInSpaceParams? createFolderInSpaceParams;
-  final DeleteFolderParams? deleteFolderParams;
-  final DeleteListParams? deleteListParams;
   final dartz.Unit? moveTaskBetweenListsResult;
   final Failure? moveTaskBetweenListsFailure;
   final Folder? folderToCreateListIn;
@@ -80,25 +68,13 @@ class ListsPageState extends Equatable {
     this.navigateFolder,
     this.currentListTasks,
     this.getTasksFailure,
-    this.addListResult,
     this.createListFailure,
-    this.createFolderResult,
     this.createFolderFailure,
-    this.createTaskResult,
     this.createTaskFailure,
     this.updateTaskFailure,
-    this.deleteListResult,
     this.deleteListFailure,
-    this.deleteFolderResult,
     this.deleteFolderFailure,
-    this.deleteTaskResult,
     this.deleteTaskFailure,
-    this.createListInFolderParams,
-    this.createFolderlessListParams,
-    this.moveTaskBetweenListsParams,
-    this.createFolderInSpaceParams,
-    this.deleteFolderParams,
-    this.deleteListParams,
     this.moveTaskBetweenListsResult,
     this.moveTaskBetweenListsFailure,
     this.folderToCreateListIn,
@@ -154,25 +130,13 @@ class ListsPageState extends Equatable {
         navigateFolder,
         currentListTasks,
         getTasksFailure,
-        addListResult,
         createListFailure,
-        createFolderResult,
         createFolderFailure,
-        createTaskResult,
         createTaskFailure,
         updateTaskFailure,
-        deleteListResult,
         deleteListFailure,
-        deleteFolderResult,
         deleteFolderFailure,
-        deleteTaskResult,
         deleteTaskFailure,
-        createListInFolderParams,
-        createFolderlessListParams,
-        moveTaskBetweenListsParams,
-        createFolderInSpaceParams,
-        deleteFolderParams,
-        deleteListParams,
         moveTaskBetweenListsResult,
         moveTaskBetweenListsFailure,
         folderToCreateListIn,
@@ -232,31 +196,17 @@ class ListsPageState extends Equatable {
       currentList: currentList,
       navigateFolder: navigateFolder,
       currentListTasks: currentListTasks ?? this.currentListTasks,
-      getTasksFailure:
-          getTasksFailure ?? this.getTasksFailure,
-      addListResult: addListResult ?? this.addListResult,
       createListFailure: createListFailure ?? this.createListFailure,
-      createFolderResult: createFolderResult ?? this.createFolderResult,
       createFolderFailure: createFolderFailure ?? this.createFolderFailure,
-      createTaskResult: createTaskResult ?? this.createTaskResult,
       createTaskFailure: createTaskFailure ?? this.createTaskFailure,
-      deleteListResult: deleteListResult ?? this.deleteListResult,
       deleteListFailure: deleteListFailure ?? this.deleteListFailure,
-      deleteFolderResult: deleteFolderResult ?? this.deleteFolderResult,
       deleteFolderFailure: deleteFolderFailure ?? this.deleteFolderFailure,
-      deleteTaskResult: deleteTaskResult ?? this.deleteTaskResult,
       deleteTaskFailure: deleteTaskFailure ?? this.deleteTaskFailure,
       moveTaskBetweenListsResult:
           moveTaskBetweenListsResult ?? this.moveTaskBetweenListsResult,
       moveTaskBetweenListsFailure:
           moveTaskBetweenListsFailure ?? this.moveTaskBetweenListsFailure,
       updateTaskFailure: updateTaskFailure??this.updateTaskFailure,
-      createListInFolderParams: createListInFolderParams,
-      createFolderlessListParams: createFolderlessListParams,
-      moveTaskBetweenListsParams: moveTaskBetweenListsParams,
-      createFolderInSpaceParams: createFolderInSpaceParams,
-      deleteFolderParams: deleteFolderParams,
-      deleteListParams: deleteListParams,
       folderToCreateListIn: folderToCreateListIn,
       toDeleteList: toDeleteList,
       toDeleteFolder: toDeleteFolder
