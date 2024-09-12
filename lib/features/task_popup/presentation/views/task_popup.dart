@@ -114,8 +114,10 @@ class TaskPopupParams extends Equatable {
     required this.onSave,
     this.onDelete,
     required this.list,
+    this.folder,
     required this.bloc,
     required this.isLoading,
+    required this.space,
   }) {
     task = null;
     isAllDay = false;
@@ -368,6 +370,7 @@ class _TaskPopupState extends State<TaskPopup> {
               .selectedSpace
               : null,
           list: widget.taskPopupParams.list,
+          folder: widget.taskPopupParams.folder,
           tag: widget.taskPopupParams.tag,
           backendMode: serviceLocator<BackendMode>().mode,
           user: authState.user!,

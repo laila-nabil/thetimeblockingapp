@@ -70,6 +70,11 @@ class ListPage extends StatelessWidget {
                         context: context,
                         taskPopupParams: TaskPopupParams.addToList(
                             list: state.currentList,
+                            folder: globalBloc.state.selectedSpace?.folders
+                                ?.where((f) =>
+                                    f.lists?.contains(state.currentList) ==
+                                    true)
+                                .firstOrNull,
                             bloc: listsPageBloc,
                             onSave: (params) {
                               listsPageBloc.add(CreateTaskEvent(
@@ -89,7 +94,7 @@ class ListPage extends StatelessWidget {
                             },
                             isLoading: (state) => state is! ListsPageState
                                 ? false
-                                : state.isLoading));
+                                : state.isLoading, space: globalBloc.state.selectedSpace));
                   },
                 ),
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
