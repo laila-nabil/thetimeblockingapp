@@ -371,10 +371,11 @@ class _TaskPopupState extends State<TaskPopup> {
               : null,
           list: widget.taskPopupParams.list,
           folder: widget.taskPopupParams.folder,
-          tag: widget.taskPopupParams.tag,
           backendMode: serviceLocator<BackendMode>().mode,
           user: authState.user!,
-          tags: [])
+          tags: widget.taskPopupParams.tag != null
+              ? [widget.taskPopupParams.tag!]
+              : [])
           : CreateTaskParams.startUpdateTask(
         accessToken: authState.accessToken!,
         task: widget.taskPopupParams.task!,

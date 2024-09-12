@@ -140,7 +140,6 @@ class CreateTaskParams extends Equatable{
     Space? space,
     TasksList? list,
     Folder? folder,
-    Tag? tag,
     required List<Tag> tags,
     required BackendMode backendMode,
     required User user,
