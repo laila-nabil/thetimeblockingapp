@@ -3,6 +3,8 @@ import 'package:thetimeblockingapp/core/extensions.dart';
 
 import '../../core/resources/app_icons.dart';
 
+///TODO B update UI to match Figma design
+
 /// A [TextFormField] configured to accept and validate a date entered by a user.
 ///
 /// When the field is saved or submitted, the text will be parsed into a

@@ -109,6 +109,7 @@ class ScheduleState extends Equatable {
   bool get isInitial => persistingScheduleStates.isEmpty;
   bool get isLoading => persistingScheduleStates.contains(ScheduleStateEnum.loading);
 
+  ///TODO B filter params in schedule page
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams (
       {required AccessToken accessToken, required User? user}){

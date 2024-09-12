@@ -26,7 +26,6 @@ import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
 import '../bloc/lists_page_bloc.dart';
 
-///TODO A fix tasks not viewed
 
 class ListPage extends StatelessWidget {
   const ListPage(

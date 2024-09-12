@@ -28,8 +28,6 @@ import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../../common/entities/space.dart';
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
-///TODO A fix tasks not viewed
-
 class AllTasksPage extends StatelessWidget {
   const AllTasksPage({super.key});
 

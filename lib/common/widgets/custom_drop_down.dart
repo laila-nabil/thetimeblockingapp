@@ -5,6 +5,8 @@ import '../../core/resources/app_colors.dart';
 import '../../core/resources/app_design.dart';
 import '../../core/resources/app_icons.dart';
 
+///TODO B update UI to match Figma design
+
 class CustomDropDown extends DropdownButton {
   static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,

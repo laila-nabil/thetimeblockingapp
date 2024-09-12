@@ -25,8 +25,6 @@ part 'tags_page_event.dart';
 
 part 'tags_page_state.dart';
 
-///TODO A not getting tags
-
 class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
   final GetTagsInWorkspaceUseCase _getTagsInSpaceUseCase;
   final GetTasksInSingleWorkspaceUseCase

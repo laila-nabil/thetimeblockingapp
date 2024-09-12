@@ -1063,7 +1063,6 @@ class _TaskPopupState extends State<TaskPopup> {
                                                 showDialog(
                                                     context: context,
                                                     builder: (ctx) {
-                                                      ///TODO A FIXME fix add a tag in task_popup.dart after change to stateful
                                                       return AlertDialog(
                                                         title: Text(
                                                             appLocalization
