@@ -30,9 +30,9 @@ class TagModel extends Tag {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = id;
+    map['id'] = int.tryParse(id.toString());
     map['name'] = name;
-    map['workspace_id'] = workspaceId;
+    map['workspace_id'] = int.tryParse(workspaceId.toString());
     map['color'] = color;
     return map;
   }
@@ -42,7 +42,7 @@ class TagModel extends Tag {
     return TagModel(
       id: json['id']?.toString(),
       name: json['name'],
-      workspaceId: json['workspace_id'],
+      workspaceId: json['workspace_id']?.toString(),
       color: json['color']
     );
   }
