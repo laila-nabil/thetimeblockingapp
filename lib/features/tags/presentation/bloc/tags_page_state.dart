@@ -28,6 +28,7 @@ enum TagsPageStatus {
   navigateTag,refreshTag, updateTagCanceled
 }
 
+///TODO A delete unused props
 class TagsPageState extends Equatable {
   final TagsPageStatus tagsPageStatus;
   final Tag? navigateTag;

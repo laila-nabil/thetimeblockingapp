@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
@@ -23,7 +24,9 @@ import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../tasks/domain/use_cases/update_tag_use_case.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 
@@ -189,7 +192,7 @@ class TagPage extends StatelessWidget {
                                   children: state
                                       .getCurrentTagTasksResultOverdue
                                       .map<Widget>((e) => buildTaskWidget(
-                                          e, context, tagsPageBloc))
+                                          e, context, tagsPageBloc,authBloc,globalBloc))
                                       .toList()),
                             if (state
                                 .getCurrentTagTasksResultUpcoming.isNotEmpty)
@@ -199,7 +202,7 @@ class TagPage extends StatelessWidget {
                                   children: state
                                       .getCurrentTagTasksResultUpcoming
                                       .map<Widget>((e) => buildTaskWidget(
-                                          e, context, tagsPageBloc))
+                                          e, context, tagsPageBloc,authBloc,globalBloc))
                                       .toList()),
                             if (state
                                 .getCurrentTagTasksResultUnscheduled.isNotEmpty)
@@ -209,7 +212,7 @@ class TagPage extends StatelessWidget {
                                   children: state
                                       .getCurrentTagTasksResultUnscheduled
                                       .map<Widget>((e) => buildTaskWidget(
-                                          e, context, tagsPageBloc))
+                                          e, context, tagsPageBloc,authBloc,globalBloc))
                                       .toList()),
                             if (state
                                 .getCurrentTagTasksResultCompleted.isNotEmpty)
@@ -219,7 +222,7 @@ class TagPage extends StatelessWidget {
                                   children: state
                                       .getCurrentTagTasksResultCompleted
                                       .map<Widget>((e) => buildTaskWidget(
-                                          e, context, tagsPageBloc))
+                                          e, context, tagsPageBloc,authBloc,globalBloc))
                                       .toList()),
                           ],
                         ),
@@ -247,9 +250,9 @@ class TagPage extends StatelessWidget {
   }
 
   StatelessWidget buildTaskWidget(
-      Task e, BuildContext context, TagsPageBloc tagsPageBloc) {
+      Task task, BuildContext context, TagsPageBloc tagsPageBloc,AuthBloc authBloc,GlobalBloc globalBloc) {
     return TaskComponent(
-      task: e,
+      task: task,
       bloc: tagsPageBloc,
       isLoading: (state) => state is! TagsPageState ? false : state.isLoading,
       onDelete: (params) {
@@ -269,10 +272,21 @@ class TagPage extends StatelessWidget {
             ));
       },
       onDeleteConfirmed: () {
-        //TODO B
+        tagsPageBloc.add(DeleteTaskEvent(
+            params: DeleteTaskParams(
+                task: task, accessToken: authBloc.state.accessToken!),
+            workspace:
+                BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
       },
       onCompleteConfirmed: () {
-        //TODO B
+        final newTask = task.copyWith(status: globalBloc.state.statuses!.completedStatus);
+        tagsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
+            accessToken: authBloc.state.accessToken!,
+            task: newTask,
+            backendMode: serviceLocator<BackendMode>(),
+            user: authBloc.state.user!,
+            space: newTask.space,
+            tags: newTask.tags), workspace: globalBloc.state.selectedWorkspace!));
       },
     );
   }
