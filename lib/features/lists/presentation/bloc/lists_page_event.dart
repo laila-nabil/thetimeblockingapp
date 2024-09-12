@@ -93,29 +93,6 @@ class CreateFolderlessListEvent extends ListsPageEvent {
       [createFolderlessListParams, workspace, space, tryEvent];
 }
 
-///TODO A REMOVE
-class MoveTaskBetweenListsEvent extends ListsPageEvent {
-  final MoveTaskBetweenListsParams moveTaskBetweenListsParams;
-  final Workspace workspace;
-  final Space? space;
-  final bool tryEvent;
-
-  const MoveTaskBetweenListsEvent({
-    required this.moveTaskBetweenListsParams,
-    required this.workspace,
-    this.space,
-    this.tryEvent = false,
-  });
-
-  @override
-  List<Object?> get props => [
-        moveTaskBetweenListsParams,
-        workspace,
-        space,
-        tryEvent
-      ];
-}
-
 class CreateFolderInSpaceEvent extends ListsPageEvent {
   CreateFolderInSpaceParams? createFolderInSpaceParams;
   Workspace? workspace;

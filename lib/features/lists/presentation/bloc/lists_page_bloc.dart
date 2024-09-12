@@ -110,33 +110,6 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
             event.onSuccess();
           });
         }
-      } else if (event is MoveTaskBetweenListsEvent) {
-        if (event.tryEvent) {
-          emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.moveListTry,
-              moveTaskBetweenListsParams:
-                  event.moveTaskBetweenListsParams,
-              workspace: event.workspace,
-              space: event.space));
-        } else {
-          emit(state.copyWith(listsPageStatus: ListsPageStatus.isLoading));
-          final result = await _moveTaskBetweenListsUseCase(
-              event.moveTaskBetweenListsParams);
-          result?.fold(
-              (l) => emit(state.copyWith(
-                  listsPageStatus: ListsPageStatus.moveTaskBetweenListsFailed,
-                  moveTaskBetweenListsFailure: l)), (r) {
-            emit(state.copyWith(
-              listsPageStatus: ListsPageStatus.moveTaskBetweenListsSuccess,
-            ));
-            printDebug("GetListAndFoldersInListsPageEvent"); //TODO A ??
-            // add(GetListAndFoldersInListsPageEvent.inSpace(
-            //     accessToken:
-            //         event.moveTaskBetweenListsParams.accessToken,
-            //     workspace: event.workspace,
-            //     space: event.space));
-          });
-        }
       } else if (event is CreateFolderInSpaceEvent) {
         if (event.tryEvent == true) {
           emit(state.copyWith(
