@@ -153,6 +153,7 @@ class ListPage extends StatelessWidget {
                                         .toList()),
                               if (state.getCurrentListTasksCompleted.isNotEmpty)
                                 ToggleableSection(
+                                    isOpenInStart: false,
                                     title:
                                         appLocalization.translate("Completed"),
                                     titleColor: AppColors.success(context.isDarkMode).shade500,
