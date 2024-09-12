@@ -134,6 +134,10 @@ class TaskPopupParams extends Equatable {
     isAllDay = task?.isAllDay ?? false;
     cellDate = null;
     list = task?.list;
+    space = task?.space;
+    priority = task?.priority;
+    folder = task?.folder;
+    status = task?.status;
   }
 
   TaskPopupParams.addToTag({

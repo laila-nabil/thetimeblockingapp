@@ -208,7 +208,6 @@ class DuplicateTaskEvent extends ListsPageEvent {
   List<Object?> get props => [params, workspace];
 }
 
-///TODO A FIXME changing list
 class UpdateTaskEvent extends ListsPageEvent {
   final CreateTaskParams params;
   final Function() onSuccess;
