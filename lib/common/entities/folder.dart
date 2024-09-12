@@ -19,9 +19,7 @@ class Folder extends Equatable{
 
   @override
   List<Object?> get props => [id,
-    name,
-    spaceId,
-    lists,color];
+    name];
 
   Folder copyWith({
     String? id,
