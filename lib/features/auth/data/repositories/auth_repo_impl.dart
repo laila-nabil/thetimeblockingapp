@@ -22,6 +22,7 @@ class AuthRepoImpl  implements AuthRepo{
   @override
   Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
     try {
+      ///TODO A call logout api first
       await authLocalDataSource.signOut();
       return const dartz.Right(dartz.unit);
     } catch (e) {

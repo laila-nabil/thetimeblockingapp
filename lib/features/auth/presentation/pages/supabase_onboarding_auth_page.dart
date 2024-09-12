@@ -650,6 +650,7 @@ class _SupabaseOnBoardingAndAuthPageState
   }
 
   Widget _auth() {
+    ///TODO C Sign in with magic link maybe
     ///TODO A Sign in UI
     ///TODO A Sign up UI
     ///TODO A Sign up Flow
