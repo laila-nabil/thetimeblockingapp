@@ -127,10 +127,22 @@ class SettingsPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.medium16.value,
+                    ),
+                    child: CustomButton.noIcon(
+                      label: appLocalization.translate("signOut"),
+                      onPressed: () {
+                        bloc.add(SignOutEvent());
+                      },
+                      type: CustomButtonType.destructiveFilledLabel,
+                    ),
+                  ),
                   const Expanded(child: SizedBox()),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: AppSpacing.xSmall8.value,
+                      top: AppSpacing.x2Small4.value,
                     ),
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("termsOfUse"),
@@ -145,7 +157,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: AppSpacing.xSmall8.value,
+                      top: AppSpacing.x2Small4.value,
                     ),
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("privacyPolicy"),
@@ -158,18 +170,7 @@ class SettingsPage extends StatelessWidget {
                       type: CustomButtonType.greyTextLabel,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: AppSpacing.xSmall8.value,
-                    ),
-                    child: CustomButton.noIcon(
-                      label: appLocalization.translate("signOut"),
-                      onPressed: () {
-                        bloc.add(SignOutEvent());
-                      },
-                      type: CustomButtonType.destructiveFilledLabel,
-                    ),
-                  )
+
                 ],
               ),
             )),
