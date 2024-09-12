@@ -57,6 +57,7 @@ class ListPage extends StatelessWidget {
                     params: GetTasksInWorkspaceParams(
                         workspaceId: globalBloc.state.selectedWorkspace!.id!,
                         filtersParams: GetTasksInWorkspaceFiltersParams(
+                            filterByList: list,
                             accessToken: authBloc.state.accessToken!),
                         backendMode: BackendMode.supabase), list: list));
               }
@@ -81,6 +82,7 @@ class ListPage extends StatelessWidget {
                                   params: GetTasksInWorkspaceParams(
                                       workspaceId: globalBloc.state.selectedWorkspace!.id!,
                                       filtersParams: GetTasksInWorkspaceFiltersParams(
+                                          filterByList: list,
                                           accessToken: authBloc.state.accessToken!),
                                       backendMode: BackendMode.supabase), list: list));  }));
                               Navigator.maybePop(context);
@@ -188,6 +190,7 @@ class ListPage extends StatelessWidget {
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
+                    filterByList: list,
                     accessToken: authBloc.state.accessToken!),
                 backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
@@ -197,6 +200,7 @@ class ListPage extends StatelessWidget {
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
+                    filterByList: list,
                     accessToken: authBloc.state.accessToken!),
                 backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
@@ -209,6 +213,7 @@ class ListPage extends StatelessWidget {
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
+                    filterByList: list,
                     accessToken: authBloc.state.accessToken!),
                 backendMode: BackendMode.supabase), list: list)); },
         ));
@@ -221,6 +226,7 @@ class ListPage extends StatelessWidget {
                   params: GetTasksInWorkspaceParams(
                       workspaceId: globalBloc.state.selectedWorkspace!.id!,
                       filtersParams: GetTasksInWorkspaceFiltersParams(
+                          filterByList: list,
                           accessToken: authBloc.state.accessToken!),
                       backendMode: BackendMode.supabase), list: list)); }));
       },
@@ -236,6 +242,7 @@ class ListPage extends StatelessWidget {
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
+                    filterByList: list,
                     accessToken: authBloc.state.accessToken!),
                 backendMode: BackendMode.supabase), list: list)); }));
       },

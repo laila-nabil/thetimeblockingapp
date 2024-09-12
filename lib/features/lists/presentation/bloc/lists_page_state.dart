@@ -108,7 +108,6 @@ class ListsPageState extends Equatable {
     return GetTasksInWorkspaceFiltersParams(
       filterBySpaceIds: filterBySpaceIds,
       accessToken: accessToken,
-      filterByAssignees: [user?.id.toString() ?? ""],
     );
   }
 

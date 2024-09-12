@@ -274,9 +274,7 @@ class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
                 deleteTaskFailure: l)), (r) => emit(state.copyWith(
                 listsPageStatus: ListsPageStatus.getTasksSuccess,
                 currentList: event.list,
-                currentListTasks: r
-                    .where((task) => task.list == event.list)
-                    .toList())));
+                currentListTasks: r)));
       }
     });
   }

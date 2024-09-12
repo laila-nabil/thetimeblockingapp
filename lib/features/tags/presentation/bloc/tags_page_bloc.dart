@@ -69,7 +69,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
                     filterBySpaceIds: [event.space.id ?? ""],
-                    filterByTags: [event.tag.name ?? ""]),
+                    filterByTag: event.tag),
                 backendMode: serviceLocator<BackendMode>().mode));
         result?.fold(
             (l) => emit(state.copyWith(

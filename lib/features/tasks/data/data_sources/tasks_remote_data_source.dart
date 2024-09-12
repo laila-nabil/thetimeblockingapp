@@ -196,7 +196,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
       {required GetTasksInWorkspaceParams params})  async {
     final response = await network.get(
         uri: Uri.parse(
-            "$url/rest/v1/tasks_json?workspace_id=eq.${params.workspaceId}"),
+            "$url/rest/v1/tasks_json?workspace_id=eq.${params.workspaceId}${params.filtersParams.toString()}"),
         headers: supabaseHeader(accessToken: params.filtersParams.accessToken, apiKey: key));
     return tasksFromJson(json.decode(response.body)) ?? [];
   }
