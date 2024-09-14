@@ -2,6 +2,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
@@ -54,17 +55,6 @@ class SupabaseOnBoardingAndAuthPage extends StatefulWidget {
 class _SupabaseOnBoardingAndAuthPageState
     extends State<SupabaseOnBoardingAndAuthPage> {
   OnBoardingAndAuthStep step = OnBoardingAndAuthStep.first;
-  bool isSignIn = true;
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -523,9 +513,9 @@ class _SupabaseOnBoardingAndAuthPageState
                 )),
         OnBoardingAndAuthStep.third =>
             ResponsiveTParams(
-                small: changeLanguageWrapper(child: _auth(), isSmall: true),
+                small: changeLanguageWrapper(child: Auth(authBloc: widget.authBloc), isSmall: true),
                 large: changeLanguageWrapper(
-                  child: _auth(),
+                  child: Auth(authBloc: widget.authBloc),
                   isSmall: false,
                 )),
       },
@@ -649,27 +639,131 @@ class _SupabaseOnBoardingAndAuthPageState
             ]));
   }
 
-  Widget _auth() {
-    ///TODO C Sign in with magic link maybe
-    ///TODO C Sign in anon maybe ??
-    ///TODO A Sign in UI
-    ///TODO A Sign up UI
-    ///TODO A Sign up Flow
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
+}
 
-          // ToggleButtons(children: [], isSelected: isSelected),
-          TextField(controller: emailController,),
-          TextField(controller: passwordController,),
+///TODO C Sign in with magic link maybe
+///TODO C Sign in anon maybe ??
+
+class Auth extends StatefulWidget {
+  const Auth({super.key, required this.authBloc});
+  final AuthBloc authBloc;
+  @override
+  State<Auth> createState() => _AuthState();
+}
+
+class _AuthState extends State<Auth> {
+  bool isSignIn = true;
+  final TextEditingController emailController =
+      TextEditingController();
+  final FocusNode emailFocusNode = FocusNode();
+  final TextEditingController passwordController =
+      TextEditingController();
+  final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode submitFocusNode = FocusNode();
+  final FocusNode changeAuthModeFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    submitFocusNode.dispose();
+    changeAuthModeFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final showSmallDesign = context.showSmallDesign;
+    return Container(
+      constraints:
+          BoxConstraints(maxWidth: showSmallDesign ? 400 : 500),
+      padding: EdgeInsets.all(AppSpacing.medium16.value),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Image.asset(
+              AppAssets.logo(context.isDarkMode),
+              width: showSmallDesign ? 180 : 200,
+            ),
+          ),
+          SizedBox(height: AppSpacing.large40.value,),
+          Center(
+            child: Text(
+              isSignIn
+                  ? appLocalization.translate("signIn")
+                  : appLocalization.translate("signUp"),
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  color: AppColors.grey(context.isDarkMode).shade900,
+                  appFontWeight: AppFontWeight.medium,
+                  appFontSize: AppFontSize.heading5)),
+            ),
+          ),
+          SizedBox(height: AppSpacing.medium16.value,),
+
+          //email
+          Text(appLocalization.translate('email'),
+            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                color: AppColors.grey(context.isDarkMode).shade900,
+                appFontWeight: AppFontWeight.medium,
+                appFontSize: AppFontSize.paragraphMedium)),),
+          CustomTextInputField(controller: emailController, focusNode: emailFocusNode,),
+
+          SizedBox(height: AppSpacing.xBig24.value,),
+
+          //password
+          Text(appLocalization.translate('password'),
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  color: AppColors.grey(context.isDarkMode).shade900,
+                  appFontWeight: AppFontWeight.medium,
+                  appFontSize: AppFontSize.paragraphMedium))),
+          ///TODO B secure input
+          CustomTextInputField(controller: passwordController, focusNode: passwordFocusNode),
+          SizedBox(height: AppSpacing.x3Big32.value,),
           CustomButton.noIcon(
-              label: appLocalization.translate("signIn"), onPressed: () {
-            printDebug("${emailController.text} : ${passwordController.text}");
-            widget.authBloc.add(SignInEvent(SignInParams(
-                email: emailController.text,
-                password: passwordController.text,)));
-          })
+              focusNode: submitFocusNode,
+              analyticsEvent:
+                  isSignIn ? AnalyticsEvents.signIn : AnalyticsEvents.signUp,
+              label: isSignIn
+                  ? appLocalization.translate("signIn")
+                  : appLocalization.translate("signUp"),
+              onPressed: () {
+                printDebug(
+                    "${emailController.text} : ${passwordController.text}");
+                widget.authBloc.add(SignInEvent(SignInParams(
+                  email: emailController.text,
+                  password: passwordController.text,
+                )));
+              }),
+          SizedBox(height: AppSpacing.xBig24.value,),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                  isSignIn
+                      ? appLocalization.translate('areYouNewHere?')
+                      : appLocalization.translate('alreadyHaveAnAccount?'),
+                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      color: AppColors.grey(context.isDarkMode).shade500,
+                      appFontWeight: AppFontWeight.medium,
+                      appFontSize: AppFontSize.paragraphSmall))),
+              if(showSmallDesign == false)SizedBox(width: AppSpacing.x2Small4.value,),
+              CustomButton.noIcon(
+                  focusNode: changeAuthModeFocusNode,
+                  type: CustomButtonType.primaryTextLabel,
+                  label: isSignIn
+                      ? appLocalization.translate("createNewAccount")
+                      : appLocalization.translate("tryToSignIn"),
+                  onPressed: () {
+                    setState(() {
+                      isSignIn = !isSignIn;
+                    });
+                  }),
+            ],
+          )
         ],
       ),
     );

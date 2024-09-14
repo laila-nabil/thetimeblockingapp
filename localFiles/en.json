@@ -84,5 +84,11 @@
   "signIn" : "Sign in",
   "signUp" : "Sign up",
   "email" : "Email",
-  "password" : "Password"
+  "emailAddress" : "Email Address",
+  "password" : "Password",
+  "enterYourCredentialsToAccessYourAccount" : "Enter your credentials to access your account",
+  "areYouNewHere?" : "Are you new here?",
+  "alreadyHaveAnAccount?" : "Already have an account?",
+  "createNewAccount" : "Create a new account",
+  "tryToSignIn" : "Try to sign in"
 }

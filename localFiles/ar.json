@@ -83,6 +83,12 @@
   "andAutoOptInUsingAnalyticsForImproving" : "و توافق تلقائيا علي تجميع البيانات بهدف تطوير البرنامج",
   "signIn" : "تسجيل الدخول",
   "signUp" : "انشاء حساب",
-  "email" : "ايميل",
-  "password" : "رقم سري"
+  "email" : "البريد الالكتروني",
+  "emailAddress" : "البريد الالكتروني",
+  "password" : "رقم سري",
+  "enterYourCredentialsToAccessYourAccount" : "أدخل بيانات الاعتماد الخاصة بك للوصول إلى حسابك",
+  "areYouNewHere?" : "هل أنت مستخدم جديد؟",
+  "alreadyHaveAnAccount?" : "لديك حساب بالفعل؟",
+  "createNewAccount" : "إنشاء حساب جديد",
+  "tryToSignIn" : "حاول تسجيل الدخول"
 }
