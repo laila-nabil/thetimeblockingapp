@@ -101,7 +101,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton<String>("",
       instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
 
-  ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+  ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
 
   serviceLocator.registerSingleton<bool>(true,
       instanceName:ServiceLocatorName.isWorkspaceAppWide.name);

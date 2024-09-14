@@ -213,7 +213,9 @@ class _DrawerItem extends StatelessWidget {
       required this.iconPath,
       required this.onPressed,
       required this.isSelected,
+      // ignore: unused_element
       this.hasSubPage = false,
+      // ignore: unused_element
       this.isSubPage = false});
 
   final String title;

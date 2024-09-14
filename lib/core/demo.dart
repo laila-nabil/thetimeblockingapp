@@ -44,9 +44,6 @@
 //     status: "done",
 //     color: "#d3d300",
 //   );
-//   static List<SpaceModel> spaces = [
-//     SpaceModel(id: "242442", name: "space",)
-//   ];
 //
 //   static List<FolderModel> folders = [
 //     FolderModel(
