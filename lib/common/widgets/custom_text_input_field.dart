@@ -34,7 +34,6 @@ class CustomTextInputField extends StatefulWidget {
     this.showCursor,
     this.autofocus = false,
     this.obscuringCharacter = '•',
-    this.obscureText = false,
     this.autocorrect = true,
     this.smartDashesType,
     this.smartQuotesType,
@@ -85,6 +84,7 @@ class CustomTextInputField extends StatefulWidget {
     this.successText,
     this.prefixIcon,
     this.prefixImage,
+    this.isPassword = false,
   });
 
   final CustomTextInputFieldStyle buttonStyle;
@@ -111,7 +111,6 @@ class CustomTextInputField extends StatefulWidget {
   final bool? showCursor;
   final bool autofocus;
   final String obscuringCharacter;
-  final bool obscureText;
   final bool autocorrect;
   final SmartDashesType? smartDashesType;
   final SmartQuotesType? smartQuotesType;
@@ -160,6 +159,7 @@ class CustomTextInputField extends StatefulWidget {
   final TextMagnifierConfiguration? magnifierConfiguration;
   final IconData? prefixIcon;
   final String? prefixImage;
+  final bool isPassword;
 
   @override
   State<CustomTextInputField> createState() => _CustomTextInputFieldState();
@@ -167,7 +167,13 @@ class CustomTextInputField extends StatefulWidget {
 
 class _CustomTextInputFieldState extends State<CustomTextInputField> {
   bool isChanging = false;
+  bool obscureText = false;
 
+  @override
+  void initState() {
+    obscureText = widget.isPassword;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     bool isSuccess = widget.successText?.isNotEmpty == true;
@@ -271,17 +277,44 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                               width: iconSize,
                               height: iconSize,
                             ),
-                  suffixIcon: isSuccess
-                      ? Icon(
-                          AppIcons.checkcircle,
-                          color: AppColors.success(context.isDarkMode).shade500,
+                  suffixIcon: (widget.isPassword && obscureText)
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.visibility,
+                            color: AppColors.grey(context.isDarkMode).shade500,
+                          ),
                         )
-                      : isError
-                          ?  Icon(
-                            AppIcons.multiplycircle,
-                            color: AppColors.error(context.isDarkMode).shade500,
-                          )
-                          : null,
+                      : (widget.isPassword && obscureText == false)
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  obscureText = !obscureText;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.visibility_off,
+                                color:
+                                    AppColors.grey(context.isDarkMode).shade500,
+                              ),
+                            )
+                          : isSuccess
+                              ? Icon(
+                                  AppIcons.checkcircle,
+                                  color: AppColors.success(context.isDarkMode)
+                                      .shade500,
+                                )
+                              : isError
+                                  ? Icon(
+                                      AppIcons.multiplycircle,
+                                      color: AppColors.error(context.isDarkMode)
+                                          .shade500,
+                                    )
+                                  : null,
                   enabled: widget.enabled ?? true,
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(
@@ -399,7 +432,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                 maxLength: widget.maxLength,
                 maxLines: widget.maxLines,
                 maxLengthEnforcement: widget.maxLengthEnforcement,
-                obscureText: widget.obscureText,
+                obscureText: obscureText,
                 obscuringCharacter: widget.obscuringCharacter,
                 onAppPrivateCommand: widget.onAppPrivateCommand,
                 onChanged: (input) {
@@ -447,323 +480,3 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
     );
   }
 }
-/* class CustomTextInputField extends TextField {
-  const CustomTextInputField({
-    Key? key,
-    CustomTextInputFieldSize size = CustomTextInputFieldSize.small,
-    TextEditingController? controller,
-    FocusNode? focusNode,
-    UndoHistoryController? undoController,
-    InputDecoration? decoration = const InputDecoration(),
-    TextInputType? keyboardType,
-    TextInputAction? textInputAction,
-    TextCapitalization textCapitalization = TextCapitalization.none,
-    TextStyle? style,
-    StrutStyle? strutStyle,
-    TextAlign textAlign = TextAlign.start,
-    TextAlignVertical? textAlignVertical,
-    TextDirection? textDirection,
-    bool readOnly = false,
-    bool? showCursor,
-    bool autofocus = false,
-    String obscuringCharacter = '•',
-    bool obscureText = false,
-    bool autocorrect = true,
-    SmartDashesType? smartDashesType,
-    SmartQuotesType? smartQuotesType,
-    bool enableSuggestions = true,
-    int? maxLines = 1,
-    int? minLines,
-    bool expands = false,
-    int? maxLength,
-    MaxLengthEnforcement? maxLengthEnforcement,
-    void Function(String)? onChanged,
-    void Function()? onEditingComplete,
-    void Function(String)? onSubmitted,
-    void Function(String, Map<String, dynamic>)? onAppPrivateCommand,
-    List<TextInputFormatter>? inputFormatters,
-    bool? enabled,
-    double cursorWidth = 2.0,
-    double? cursorHeight,
-    Radius? cursorRadius,
-    bool? cursorOpacityAnimates,
-    Color? cursorColor,
-    ui.BoxHeightStyle selectionHeightStyle = ui.BoxHeightStyle.tight,
-    ui.BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight,
-    Brightness? keyboardAppearance,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    bool? enableInteractiveSelection,
-    TextSelectionControls? selectionControls,
-    void Function()? onTap,
-    void Function(PointerDownEvent)? onTapOutside,
-    MouseCursor? mouseCursor,
-    Widget? Function(BuildContext,
-            {required int currentLength,
-            required bool isFocused,
-            required int? maxLength})?
-        buildCounter,
-    ScrollController? scrollController,
-    ScrollPhysics? scrollPhysics,
-    Iterable<String>? autofillHints = const <String>[],
-    ContentInsertionConfiguration? contentInsertionConfiguration,
-    Clip clipBehavior = Clip.hardEdge,
-    String? restorationId,
-    bool scribbleEnabled = true,
-    bool enableIMEPersonalizedLearning = true,
-    Widget Function(BuildContext, EditableTextState)? contextMenuBuilder,
-    bool canRequestFocus = true,
-    SpellCheckConfiguration? spellCheckConfiguration,
-    TextMagnifierConfiguration? magnifierConfiguration,
-  }) : super(
-            focusNode: focusNode,
-            onTap: onTap,
-            controller: controller,
-            autocorrect: autocorrect,
-            autofillHints: autofillHints,
-            autofocus: autofocus,
-            buildCounter: buildCounter,
-            canRequestFocus: canRequestFocus,
-            clipBehavior: clipBehavior,
-            contentInsertionConfiguration: contentInsertionConfiguration,
-            contextMenuBuilder: contextMenuBuilder,
-            cursorColor: cursorColor,
-            cursorHeight: cursorHeight,
-            cursorOpacityAnimates: cursorOpacityAnimates,
-            cursorRadius: cursorRadius,
-            cursorWidth: cursorWidth,
-            decoration: decoration,
-            dragStartBehavior: dragStartBehavior,
-            enabled: enabled,
-            enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
-            enableInteractiveSelection: enableInteractiveSelection,
-            enableSuggestions: enableSuggestions,
-            expands: expands,
-            inputFormatters: inputFormatters,
-            key: key,
-            keyboardAppearance: keyboardAppearance,
-            keyboardType: keyboardType,
-            magnifierConfiguration: magnifierConfiguration,
-            maxLength: maxLength,
-            maxLines: maxLines,
-            maxLengthEnforcement: maxLengthEnforcement,
-            obscureText: obscureText,
-            obscuringCharacter: obscuringCharacter,
-            onAppPrivateCommand: onAppPrivateCommand,
-            onChanged: onChanged,
-            onEditingComplete: onEditingComplete,
-            onSubmitted: onSubmitted,
-            onTapOutside: onTapOutside,
-            readOnly: readOnly,
-            restorationId: restorationId,
-            scribbleEnabled: scribbleEnabled,
-            scrollController: scrollController,
-            scrollPadding: scrollPadding,
-            scrollPhysics: scrollPhysics,
-            selectionControls: selectionControls,
-            selectionHeightStyle: selectionHeightStyle,
-            selectionWidthStyle: selectionWidthStyle,
-            showCursor: showCursor,
-            smartDashesType: smartDashesType,
-            smartQuotesType: smartQuotesType,
-            spellCheckConfiguration: spellCheckConfiguration,
-            strutStyle: strutStyle,
-            style: style,
-            textAlign: textAlign,
-            textAlignVertical: textAlignVertical,
-            textCapitalization: textCapitalization,
-            textDirection: textDirection,
-            textInputAction: textInputAction,
-            undoController: undoController,
-            minLines: minLines,
-            mouseCursor: mouseCursor);
-
-  CustomTextInputField.box({
-    Key? key,
-    CustomTextInputFieldSize size = CustomTextInputFieldSize.small,
-    String? labelText,
-    String? hintText,
-    String? helperText,
-    String? errorText,
-    TextEditingController? controller,
-    FocusNode? focusNode,
-    UndoHistoryController? undoController,
-    TextInputType? keyboardType,
-    TextInputAction? textInputAction,
-    TextCapitalization textCapitalization = TextCapitalization.none,
-    TextStyle? style,
-    StrutStyle? strutStyle,
-    TextAlign textAlign = TextAlign.start,
-    TextAlignVertical? textAlignVertical,
-    TextDirection? textDirection,
-    bool readOnly = false,
-    bool? showCursor,
-    bool autofocus = false,
-    String obscuringCharacter = '•',
-    bool obscureText = false,
-    bool autocorrect = true,
-    SmartDashesType? smartDashesType,
-    SmartQuotesType? smartQuotesType,
-    bool enableSuggestions = true,
-    int? maxLines = 1,
-    int? minLines,
-    bool expands = false,
-    int? maxLength,
-    MaxLengthEnforcement? maxLengthEnforcement,
-    void Function(String)? onChanged,
-    void Function()? onEditingComplete,
-    void Function(String)? onSubmitted,
-    void Function(String, Map<String, dynamic>)? onAppPrivateCommand,
-    List<TextInputFormatter>? inputFormatters,
-    bool? enabled,
-    double cursorWidth = 2.0,
-    double? cursorHeight,
-    Radius? cursorRadius,
-    bool? cursorOpacityAnimates,
-    Color? cursorColor,
-    ui.BoxHeightStyle selectionHeightStyle = ui.BoxHeightStyle.tight,
-    ui.BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight,
-    Brightness? keyboardAppearance,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    bool? enableInteractiveSelection,
-    TextSelectionControls? selectionControls,
-    void Function()? onTap,
-    void Function(PointerDownEvent)? onTapOutside,
-    MouseCursor? mouseCursor,
-    Widget? Function(BuildContext,
-            {required int currentLength,
-            required bool isFocused,
-            required int? maxLength})?
-        buildCounter,
-    ScrollController? scrollController,
-    ScrollPhysics? scrollPhysics,
-    Iterable<String>? autofillHints = const <String>[],
-    ContentInsertionConfiguration? contentInsertionConfiguration,
-    Clip clipBehavior = Clip.hardEdge,
-    String? restorationId,
-    bool scribbleEnabled = true,
-    bool enableIMEPersonalizedLearning = true,
-    Widget Function(BuildContext, EditableTextState)? contextMenuBuilder,
-    bool canRequestFocus = true,
-    SpellCheckConfiguration? spellCheckConfiguration,
-    TextMagnifierConfiguration? magnifierConfiguration,
-  }) : this(
-            focusNode: focusNode,
-            onTap: onTap,
-            controller: controller,
-            autocorrect: autocorrect,
-            autofillHints: autofillHints,
-            autofocus: autofocus,
-            buildCounter: buildCounter,
-            canRequestFocus: canRequestFocus,
-            clipBehavior: clipBehavior,
-            contentInsertionConfiguration: contentInsertionConfiguration,
-            contextMenuBuilder: contextMenuBuilder,
-            cursorColor: cursorColor,
-            cursorHeight: cursorHeight,
-            cursorOpacityAnimates: cursorOpacityAnimates,
-            cursorRadius: cursorRadius,
-            cursorWidth: cursorWidth,
-            decoration: InputDecoration(
-                enabled: enabled ?? true,
-                labelText: labelText,
-                labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade400,
-                    appFontWeight: AppFontWeight.regular)),
-                floatingLabelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade900,
-                    appFontWeight: AppFontWeight.medium)),
-                floatingLabelAlignment: FloatingLabelAlignment.start,
-                hintText: hintText,
-                hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade400,
-                    appFontWeight: AppFontWeight.regular)),
-                helperText: helperText,
-                helperStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade500,
-                    appFontWeight: AppFontWeight.regular)),
-                disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide:
-                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide:
-                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide:
-                    BorderSide(color: AppColors.primary(context.isDarkMode).shade100, width: 1),),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide:
-                        BorderSide(color: AppColors.grey(context.isDarkMode).shade300, width: 1)),
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal:
-                        size == CustomTextInputFieldSize.small ? 12 : 16),
-                errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide:
-                        BorderSide(color: AppColors.error(context.isDarkMode).shade200, width: 1)),
-                errorStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.error(context.isDarkMode).shade500,
-                    appFontWeight: AppFontWeight.regular)),
-                errorText: errorText,
-                fillColor: enabled == false
-                    ? AppColors.grey(context.isDarkMode).shade100
-                    : AppColors.white,
-                filled: true,
-
-            ),
-            dragStartBehavior: dragStartBehavior,
-            enabled: enabled,
-            enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
-            enableInteractiveSelection: enableInteractiveSelection,
-            enableSuggestions: enableSuggestions,
-            expands: expands,
-            inputFormatters: inputFormatters,
-            key: key,
-            keyboardAppearance: keyboardAppearance,
-            keyboardType: keyboardType,
-            magnifierConfiguration: magnifierConfiguration,
-            maxLength: maxLength,
-            maxLines: maxLines,
-            maxLengthEnforcement: maxLengthEnforcement,
-            obscureText: obscureText,
-            obscuringCharacter: obscuringCharacter,
-            onAppPrivateCommand: onAppPrivateCommand,
-            onChanged: onChanged,
-            onEditingComplete: onEditingComplete,
-            onSubmitted: onSubmitted,
-            onTapOutside: onTapOutside,
-            readOnly: readOnly,
-            restorationId: restorationId,
-            scribbleEnabled: scribbleEnabled,
-            scrollController: scrollController,
-            scrollPadding: scrollPadding,
-            scrollPhysics: scrollPhysics,
-            selectionControls: selectionControls,
-            selectionHeightStyle: selectionHeightStyle,
-            selectionWidthStyle: selectionWidthStyle,
-            showCursor: showCursor,
-            smartDashesType: smartDashesType,
-            smartQuotesType: smartQuotesType,
-            spellCheckConfiguration: spellCheckConfiguration,
-            strutStyle: strutStyle,
-            style: style,
-            textAlign: textAlign,
-            textAlignVertical: textAlignVertical,
-            textCapitalization: textCapitalization,
-            textDirection: textDirection,
-            textInputAction: textInputAction,
-            undoController: undoController,
-            minLines: minLines,
-            mouseCursor: mouseCursor);
-}
- */

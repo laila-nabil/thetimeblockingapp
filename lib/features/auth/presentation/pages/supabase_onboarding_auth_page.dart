@@ -719,8 +719,11 @@ class _AuthState extends State<Auth> {
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium,
                   appFontSize: AppFontSize.paragraphMedium))),
-          ///TODO B secure input
-          CustomTextInputField(controller: passwordController, focusNode: passwordFocusNode),
+          CustomTextInputField(
+            controller: passwordController,
+            focusNode: passwordFocusNode,
+            isPassword: true,
+          ),
           SizedBox(height: AppSpacing.x3Big32.value,),
           CustomButton.noIcon(
               focusNode: submitFocusNode,
