@@ -18,6 +18,7 @@ class GetWorkspacesUseCase
   Future<dartz.Either<Failure, List<Workspace>>> call(
       GetWorkspacesParams params) async {
     final result = await repo.getWorkspaces(params: params);
+    ///TODO A if no workspaces exist, create one and create one list in it
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
