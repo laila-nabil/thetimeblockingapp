@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -19,10 +20,11 @@ class AuthRepoImpl  implements AuthRepo{
   final AuthLocalDataSource authLocalDataSource;
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource);
 
+
   @override
-  Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
+  Future<dartz.Either<Failure, dartz.Unit>> signOut(AccessToken accessToken) async{
     try {
-      ///TODO A call logout api first
+      await authRemoteDataSource.signOut(accessToken as AccessTokenModel);
       await authLocalDataSource.signOut();
       return const dartz.Right(dartz.unit);
     } catch (e) {

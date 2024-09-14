@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
@@ -35,7 +36,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             isLoading: true,
             currentLanguage: state.currentLanguage,
             themeMode: state.themeMode));
-        final result = await _signOutUseCase(NoParams());
+        final result = await _signOutUseCase(event.accessToken);
         result?.fold(
             (l) => emit(SettingsState(
                 isLoading: false,

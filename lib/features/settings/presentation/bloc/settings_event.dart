@@ -23,6 +23,9 @@ class ChangeThemeEvent extends SettingsEvent {
 }
 
 class SignOutEvent extends SettingsEvent {
+  final AccessToken accessToken;
+
+  const SignOutEvent(this.accessToken);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [accessToken];
 }
