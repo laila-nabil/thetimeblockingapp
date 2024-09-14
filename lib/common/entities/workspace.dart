@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+import 'folder.dart';
 import 'space.dart';
 import 'tag.dart';
+import 'tasks_list.dart';
 
 class Workspace extends Equatable {
   const Workspace({
@@ -9,7 +11,8 @@ class Workspace extends Equatable {
     this.name,
     this.color,
     this.userId,
-    this.spaces,
+    this.folders,
+    this.lists,
     this.tags,
   });
 
@@ -17,7 +20,8 @@ class Workspace extends Equatable {
   final String? name;
   final String? color;
   final String? userId;
-  final List<Space>? spaces;
+  final List<Folder>? folders;
+  final List<TasksList>? lists;
   final List<Tag>? tags;
 
   @override
@@ -26,7 +30,8 @@ class Workspace extends Equatable {
         name,
         color,
         userId,
-        spaces,
+        folders,
+        lists,
         tags
       ];
 }

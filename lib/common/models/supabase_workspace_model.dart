@@ -1,12 +1,12 @@
+import 'package:thetimeblockingapp/common/entities/folder.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 
+import 'supabase_folder_model.dart';
+import 'supabase_list_model.dart';
 import 'supabase_space_model.dart';
 
-/// id : 1
-/// name : "Main workspace"
-/// user_id : "04fe62a0-9ae0-0000-ac9f-95539468cedd"
-/// color : null
 
 class WorkspaceModel extends Workspace {
   const WorkspaceModel({
@@ -14,17 +14,21 @@ class WorkspaceModel extends Workspace {
     super.name,
     super.userId,
     super.color,
-    super.spaces,
+    super.folders,
+    super.lists,
     super.tags,
   });
 
   factory WorkspaceModel.fromJson(dynamic json) {
+    List<ListModel>? lists = listsFromJson(json['lists']);
+    List<FolderModel>? folders = foldersFromJson(json['folders']);
     return WorkspaceModel(
       id: json['id'] ?? json['workspace_id'],
       name: json['name'],
       userId: json['user_id'],
       color: json['color'],
-      spaces: json['spaces'] == null ? null : spacesFromJson(json['spaces']),
+      lists: lists,
+      folders: folders,
       tags: json['tags'] == null ? null : tagsFromJson(json['tags']),
     );
   }
@@ -34,7 +38,8 @@ class WorkspaceModel extends Workspace {
     String? name,
     String? userId,
     String? color,
-    List<SpaceModel>? spaces,
+    List<Folder>? folders,
+    List<TasksList>? lists,
     List<TagModel>? tags
   }) =>
       WorkspaceModel(
@@ -42,7 +47,8 @@ class WorkspaceModel extends Workspace {
         name: name ?? this.name,
         userId: userId ?? this.userId,
         color: color ?? this.color,
-        spaces: spaces ?? this.spaces,
+        folders: folders ?? this.folders,
+        lists: lists ?? this.lists,
         tags: tags ?? this.tags
       );
 
@@ -52,8 +58,12 @@ class WorkspaceModel extends Workspace {
     map['name'] = name;
     map['user_id'] = userId;
     map['color'] = color;
-    map['spaces'] =
-        spaces == null ? null : (spaces as List<SpaceModel>).toJson();
+    if (lists != null) {
+      map['lists'] = (lists as List<ListModel>).toJson();
+    }
+    if (folders != null) {
+      map['folders'] = (folders as List<FolderModel>).toJson();
+    }
     map['tags'] =
     tags == null ? null : (tags as List<TagModel>).toJson();
     return map;

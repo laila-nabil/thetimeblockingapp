@@ -93,25 +93,6 @@ class AllTasksPage extends StatelessWidget {
                                       appFontSize: AppFontSize.heading4)),
                             ),
                           ),
-                          if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) == false
-                              // &&
-                              // BlocProvider.of<GlobalBloc>(context).state.spaces?.isNotEmpty == true
-                          )
-                            DropdownButton<Space?>(
-                              value: BlocProvider.of<GlobalBloc>(context).state.selectedSpace,
-                              onChanged: (selected) {
-                                ///TODO C select space
-                              },
-                              items:
-                              // BlocProvider.of<GlobalBloc>(context).state.spaces
-                              //         ?.map((e) => DropdownMenuItem(
-                              //               value: e,
-                              //               child: Text(e.name ?? ""),
-                              //             ))
-                              //         .toList() ??
-                                  const [],
-                              hint: Text(appLocalization.translate("spaces")),
-                            ),
                           Expanded(
                             child: ListView(
                               children: [

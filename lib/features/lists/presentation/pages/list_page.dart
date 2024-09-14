@@ -69,7 +69,7 @@ class ListPage extends StatelessWidget {
                         context: context,
                         taskPopupParams: TaskPopupParams.addToList(
                             list: state.currentList,
-                            folder: globalBloc.state.selectedSpace?.folders
+                            folder: globalBloc.state.selectedWorkspace?.folders
                                 ?.where((f) =>
                                     f.lists?.contains(state.currentList) ==
                                     true)
