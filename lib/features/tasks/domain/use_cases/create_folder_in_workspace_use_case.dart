@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -10,16 +11,16 @@ import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/folder.dart';
 import '../repositories/tasks_repo.dart';
 
-class CreateFolderInSpaceUseCase
+class CreateFolderInWorkspaceUseCase
     implements UseCase<dartz.Unit, CreateFolderInSpaceParams> {
   final TasksRepo repo;
 
-  CreateFolderInSpaceUseCase(this.repo);
+  CreateFolderInWorkspaceUseCase(this.repo);
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(
       CreateFolderInSpaceParams params) async{
-    final result = await repo.createFolderInSpace(params);
+    final result = await repo.createFolderInWorkspace(params);
     await result?.fold(
             (l) async =>await serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.createFolder.name, parameters: {
@@ -36,19 +37,19 @@ class CreateFolderInSpaceUseCase
 
 class CreateFolderInSpaceParams extends Equatable {
   final AccessToken accessToken;
-  final Space space;
+  final Workspace workspace;
   final String folderName;
   final User user;
   const CreateFolderInSpaceParams({
     required this.accessToken,
-    required this.space,
+    required this.workspace,
     required this.folderName,
     required this.user,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'space_id': space.id,
+      'workspace_id': workspace.id,
       'name': folderName,
       'user_id': user.id,
     };
@@ -56,5 +57,5 @@ class CreateFolderInSpaceParams extends Equatable {
 
   @override
   List<Object?> get props =>
-      [accessToken, space,folderName,user];
+      [accessToken, workspace,folderName,user];
 }

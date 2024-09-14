@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
@@ -261,7 +261,7 @@ class ListsPage extends StatelessWidget {
                                                                     folder:
                                                                     folder,
                                                                     listName:
-                                                                    text, user: authBloc.state.user!, space: globalState.selectedSpace!),
+                                                                    text, user: authBloc.state.user!, workspace: globalState.selectedWorkspace!),
                                                                 workspace:
                                                                 globalState
                                                                     .selectedWorkspace!,
@@ -327,8 +327,8 @@ class ListsPage extends StatelessWidget {
                                                     authBloc.state
                                                         .accessToken!,
                                                     folderName: text,
-                                                    space: globalState
-                                                        .selectedSpace!, user: authBloc.state.user!),
+                                                    workspace: globalState
+                                                        .selectedWorkspace!, user: authBloc.state.user!),
                                                 workspace: globalState
                                                     .selectedWorkspace!,
                                                 space: globalState
@@ -371,8 +371,8 @@ class ListsPage extends StatelessWidget {
                                                   authBloc.state
                                                       .accessToken!,
                                                   listName: text,
-                                                  space: globalState
-                                                      .selectedSpace!, user: authBloc.state.user!),
+                                                  workspace: globalState
+                                                      .selectedWorkspace!, user: authBloc.state.user!),
                                               workspace: globalState
                                                   .selectedWorkspace!,
                                               space: globalState

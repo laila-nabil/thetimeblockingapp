@@ -6,7 +6,7 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 
 
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
@@ -109,11 +109,11 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInWorkspace(
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createFolderInSpace(params: params));
+            remoteDataSource.createFolderInWorkspace(params: params));
   }
 
   @override

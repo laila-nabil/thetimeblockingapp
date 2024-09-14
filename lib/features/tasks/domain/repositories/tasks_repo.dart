@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
@@ -50,7 +50,7 @@ abstract class TasksRepo {
   Future<dartz.Either<Failure, dartz.Unit>?> createFolderlessList(
       CreateFolderlessListParams params);
 
-  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInWorkspace(
       CreateFolderInSpaceParams params);
 
   Future<dartz.Either<Failure, dartz.Unit>?> deleteList(

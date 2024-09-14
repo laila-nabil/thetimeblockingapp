@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
@@ -34,7 +34,7 @@ part 'lists_page_state.dart';
 class ListsPageBloc extends Bloc<ListsPageEvent, ListsPageState> {
   final GetTasksInSingleWorkspaceUseCase _getTasksInSingleWorkspaceUseCase;
   final CreateListInFolderUseCase _createListInFolderUseCase;
-  final CreateFolderInSpaceUseCase _createFolderInSpaceUseCase;
+  final CreateFolderInWorkspaceUseCase _createFolderInSpaceUseCase;
   final CreateFolderlessListUseCase
       _createFolderlessListUseCase;
   final MoveTaskBetweenListsUseCase _moveTaskBetweenListsUseCase;
