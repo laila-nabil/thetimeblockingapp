@@ -172,7 +172,7 @@ class ListPage extends StatelessWidget {
                   globalBloc.add(
                       GetAllInWorkspaceEvent(
                           accessToken: authBloc.state.accessToken!,
-                          workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
+                          workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!, user: authBloc.state.user!));
                 },
               );
             },

@@ -177,7 +177,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerLazySingleton(() => GetAllInWorkspaceUseCase(
-        serviceLocator(),
+        serviceLocator(), serviceLocator(),
       ));
 serviceLocator.registerLazySingleton(() => GetStatusesUseCase(
         serviceLocator(),

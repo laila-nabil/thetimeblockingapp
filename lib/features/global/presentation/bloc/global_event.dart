@@ -16,8 +16,10 @@ class ControlDrawerLargerScreen extends GlobalEvent {
 class GetAllInWorkspaceEvent extends GlobalEvent {
   final Workspace workspace;
   final AccessToken accessToken;
+
+  final User user;
   const GetAllInWorkspaceEvent(
-      {required this.workspace, required this.accessToken});
+      {required this.workspace, required this.accessToken,required this.user});
 
   @override
   List<Object?> get props => [workspace,accessToken];

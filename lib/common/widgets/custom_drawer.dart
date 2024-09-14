@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
               if (selected is Workspace && state.isLoading == false) {
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selected,
-                    accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
+                    accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!, user: BlocProvider.of<AuthBloc>(context).state.user!));
               }
             },
             appLocalization: appLocalization);
