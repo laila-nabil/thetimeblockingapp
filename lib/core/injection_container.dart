@@ -33,6 +33,7 @@ import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/sign_in_use_case.dart';
+import '../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
@@ -110,7 +111,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
-      serviceLocator(),serviceLocator()
+      serviceLocator(),serviceLocator(),serviceLocator()
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
@@ -258,6 +259,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => SignOutUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => SignInUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => SignUpUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

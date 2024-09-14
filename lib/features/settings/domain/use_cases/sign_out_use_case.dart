@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.d
 import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
 
+///TODO A move to auth feature
 class SignOutUseCase implements UseCase<dartz.Unit, AccessToken> {
   final AuthRepo authRepo;
 

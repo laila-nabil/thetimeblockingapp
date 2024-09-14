@@ -12,6 +12,13 @@ class SignInEvent extends AuthEvent{
   @override
   List<Object?> get props => [signInParams];
 }
+class SignUpEvent extends AuthEvent{
+  final SignUpParams params;
+
+  const SignUpEvent(this.params);
+  @override
+  List<Object?> get props => [params];
+}
 
 class CheckAlreadySignedInEvent extends AuthEvent {
 
