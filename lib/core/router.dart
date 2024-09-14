@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_auth_page.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onboarding_auth_page.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
@@ -33,7 +33,7 @@ import '../features/tags/presentation/pages/tag_page.dart';
 // GoRouter configuration
 final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
-    initialLocation: SupabaseAuthPage.routeName,
+    initialLocation: SupabaseOnBoardingAndAuthPage.routeName,
     debugLogDiagnostics: true,
     observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
@@ -43,7 +43,7 @@ final router = GoRouter(
               small: Text(errorMessage), large: Text(errorMessage)),
         context: context,
         onRefresh: () async {
-          GoRouter.of(context).go(SupabaseAuthPage.routeName);
+          GoRouter.of(context).go(SupabaseOnBoardingAndAuthPage.routeName);
         },
       );
     },
@@ -55,20 +55,20 @@ final router = GoRouter(
       printDebug("state?.uri ${state?.uri}");
       if (BlocProvider.of<AuthBloc>(context).state.accessToken == null ||
           BlocProvider.of<AuthBloc>(context).state.user == null) {
-        if(state?.uri.toString() != SupabaseAuthPage.routeName){
+        if(state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName){
           printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
           serviceLocator.registerSingleton<String>(state?.uri.toString()??"",
               instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
         }
-        return SupabaseAuthPage.routeName;
+        return SupabaseOnBoardingAndAuthPage.routeName;
       }
       return null;
     },
     routes: [
       GoRoute(
-          path: SupabaseAuthPage.routeName,
+          path: SupabaseOnBoardingAndAuthPage.routeName,
           builder: (context, state) {
-            return SupabaseAuthPage();
+            return SupabaseOnBoardingAndAuthPage();
           },
           redirect: (context, state) async {
             if (BlocProvider.of<AuthBloc>(context).state.accessToken != null &&

@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_auth_page.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onboarding_auth_page.dart';
 import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
@@ -37,7 +37,7 @@ class SettingsPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.authState == AuthStateEnum.signOutSuccess) {
-          router.go(SupabaseAuthPage.routeName);
+          router.go(SupabaseOnBoardingAndAuthPage.routeName);
         }
       },
       builder: (context, state) {

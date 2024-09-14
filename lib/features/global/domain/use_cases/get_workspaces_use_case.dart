@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/create_workspace_use_case.dart';
 import '../../../../common/entities/workspace.dart';
 import '../../../../common/entities/access_token.dart';
 
@@ -18,19 +19,25 @@ class GetWorkspacesUseCase
   Future<dartz.Either<Failure, List<Workspace>>> call(
       GetWorkspacesParams params) async {
     final result = await repo.getWorkspaces(params: params);
-    ///TODO A if no workspaces exist, create one and create one list in it
     await result.fold(
-        (l) async => await serviceLocator<Analytics>()
+        (l)async  =>  serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
               AnalyticsEventParameter.data.name: "workspaces",
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
             }),
-        (r) async => await serviceLocator<Analytics>()
+        (r)async {
+          serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
               AnalyticsEventParameter.data.name: "workspaces",
               AnalyticsEventParameter.status.name: true,
-            }));
+            });
+          if (r.isEmpty) {
+        final result = await repo.createWorkspace(
+            params: CreateWorkspaceParams.defaultWorkspace(
+                accessToken: params.accessToken, userId: params.userId));
+      }
+    });
     return result;
   }
 }

@@ -156,8 +156,10 @@ class AllTasksPage extends StatelessWidget {
                 getAllTasksInWorkspace(allTasksBloc,context);
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                    accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
-              },);
+                      accessToken:
+                          BlocProvider.of<AuthBloc>(context).state.accessToken!,
+                      user: BlocProvider.of<AuthBloc>(context).state.user!));
+                },);
             },
           );
         },

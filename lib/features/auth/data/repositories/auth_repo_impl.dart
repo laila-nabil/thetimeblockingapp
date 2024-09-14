@@ -38,20 +38,30 @@ class AuthRepoImpl  implements AuthRepo{
 
   @override
   Future<dartz.Either<Failure, SignInResultModel>> signIn({required SignInParams params}) async {
-    final result = await repoHandleRemoteRequest<SignInResultModel>(
-        remoteDataSourceRequest: () async =>
-        await authRemoteDataSource.signInSupabase(params: params),
-        trySaveResult: (result) async {
-          await authLocalDataSource
-              .saveAccessToken(result.accessToken as AccessTokenModel);
-          await authLocalDataSource
-              .saveSupabaseUser(result.user as SupabaseUserModel);
-        },
-        tryGetFromLocalStorage: () async {
-          final access =  await authLocalDataSource.getAccessToken();
-          final user =  await authLocalDataSource.getSupabaseUser();
-          return SignInResultModel(accessToken: access, user: user);
-        });
+    dartz.Either<Failure, SignInResultModel> result;
+    if(params.email.isNotEmpty && params.password.isNotEmpty){
+      result = await repoHandleRemoteRequest<SignInResultModel>(
+          remoteDataSourceRequest: () async =>
+              await authRemoteDataSource.signInSupabase(params: params),
+          trySaveResult: (result) async {
+            await authLocalDataSource
+                .saveAccessToken(result.accessToken as AccessTokenModel);
+            await authLocalDataSource
+                .saveSupabaseUser(result.user as SupabaseUserModel);
+          },
+          tryGetFromLocalStorage: () async {
+            final access = await authLocalDataSource.getAccessToken();
+            final user = await authLocalDataSource.getSupabaseUser();
+            return SignInResultModel(accessToken: access, user: user);
+          });
+    }else{
+      result = await repoHandleLocalGetRequest<SignInResultModel>(
+          tryGetFromLocalStorage: () async {
+            final access = await authLocalDataSource.getAccessToken();
+            final user = await authLocalDataSource.getSupabaseUser();
+            return SignInResultModel(accessToken: access, user: user);
+          });
+    }
     return result;
   }
 

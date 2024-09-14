@@ -54,14 +54,13 @@ Future<NetworkResponse> supabaseResponseHandler(
 
 class SupabaseError extends Equatable{
   final String error;
-  final String errorTitle;
 
-  const SupabaseError({required this.error, required this.errorTitle});
+  const SupabaseError({required this.error,});
 
   factory SupabaseError.fromJson(Map<String,dynamic> json) {
-    return SupabaseError(error: json["error_description"].toString(),errorTitle: json["error"].toString());
+    return SupabaseError(error: (json["error_description"] ?? json["msg"]).toString(),);
   }
   @override
-  List<Object?> get props => [error,errorTitle];
+  List<Object?> get props => [error];
 
 }

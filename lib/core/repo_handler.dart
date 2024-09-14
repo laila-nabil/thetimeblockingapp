@@ -22,9 +22,6 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
     } else {
       result = await remoteDataSourceRequest();
     }
-  } on ServerException {
-    printDebug("repo ServerException", printLevel: PrintLevel.error);
-    return const dartz.Left(ServerFailure(message: ''));
   } catch (error) {
     printDebug(error, printLevel: PrintLevel.error);
     if (error is Exception) {

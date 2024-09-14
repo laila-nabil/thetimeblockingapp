@@ -1,8 +1,11 @@
 import 'dart:convert';
+
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/create_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 
@@ -10,6 +13,7 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_w
 
 import '../../../../core/network/network.dart';
 import '../../../../core/network/supabase_header.dart';
+import '../../../../core/print_debug.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 
@@ -26,6 +30,8 @@ abstract class GlobalRemoteDataSource {
   Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params);
 
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params);
+
+  Future<dartz.Unit> createWorkspace({required CreateWorkspaceParams params});
 }
 
 class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
@@ -89,5 +95,16 @@ class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
             "$url/rest/v1/priority?order=id"),
         headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
     return taskPriorityModelFromJson(json.decode(response.body)) ?? [];
+  }
+
+  @override
+  Future<dartz.Unit> createWorkspace(
+      {required CreateWorkspaceParams params}) async {
+    final result = await network.post(
+        uri: Uri.parse("$url/rest/v1/workspace"),
+        body: params.toJson(),
+        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+    printDebug("Result $result");
+    return dartz.unit;
   }
 }

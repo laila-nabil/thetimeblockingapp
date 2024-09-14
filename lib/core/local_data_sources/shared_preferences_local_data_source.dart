@@ -16,7 +16,7 @@ class SharedPrefLocalDataSource implements LocalDataSource {
   Future<String?> getData({required String key}) async {
     await init();
     final result = _sharedPreferences.get(key);
-    if (result !=null) {
+    if (result !=null && result!="\"\"") {
       return result.toString();
     }
     throw(EmptyCacheException());

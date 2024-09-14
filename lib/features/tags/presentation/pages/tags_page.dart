@@ -240,7 +240,7 @@ class TagsPage extends StatelessWidget {
                       workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!)));
               globalBloc.add(GetAllInWorkspaceEvent(
                   workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                  accessToken: authBloc.state.accessToken!));
+                  accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
             },);
           },
         );

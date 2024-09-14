@@ -29,14 +29,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               globalBloc.add(GetAllInWorkspaceEvent(
                   workspace:
                       state.selectedWorkspace!,
-                  accessToken: authState.accessToken!));
+                  accessToken: authState.accessToken!, user: authState.user!));
             }
             return CustomAppBarWidget(
               selectWorkspace: (selected) {
                 if (selected is Workspace && state.isLoading == false) {
                   globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: selected,
-                      accessToken: authState.accessToken!));
+                      accessToken: authState.accessToken!, user: authState.user!));
                 }
               },
               openDrawer: () {

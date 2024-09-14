@@ -93,7 +93,7 @@ class SchedulePage extends StatelessWidget {
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
-                    accessToken: authBloc.state.accessToken!));
+                    accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -179,7 +179,7 @@ class SchedulePage extends StatelessWidget {
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
-                    accessToken: authBloc.state.accessToken!));
+                    accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
               },);
             },
           );

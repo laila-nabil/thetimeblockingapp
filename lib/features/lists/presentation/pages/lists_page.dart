@@ -71,7 +71,7 @@ class ListsPage extends StatelessWidget {
                                     globalBloc.add(GetAllInWorkspaceEvent(
                                       accessToken: authBloc.state.accessToken!,
                                       workspace:
-                                          globalBloc.state.selectedWorkspace!,
+                                          globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                     ));
                                   }));
                               Navigator.pop(context);
@@ -84,7 +84,8 @@ class ListsPage extends StatelessWidget {
                                 globalBloc.add(GetAllInWorkspaceEvent(
                                   accessToken: authBloc.state.accessToken!,
                                   workspace:
-                                      globalBloc.state.selectedWorkspace!,
+                                      globalBloc.state.selectedWorkspace!
+                                    , user: authBloc.state.user!
                                 ));
                               }));
                               Navigator.pop(context);
@@ -119,7 +120,8 @@ class ListsPage extends StatelessWidget {
                                     globalBloc.add(GetAllInWorkspaceEvent(
                                       accessToken: authBloc.state.accessToken!,
                                       workspace:
-                                          globalBloc.state.selectedWorkspace!,
+                                          globalBloc.state.selectedWorkspace!
+                                        , user: authBloc.state.user!
                                     ));
                                   }));
                               Navigator.pop(context);
@@ -132,7 +134,7 @@ class ListsPage extends StatelessWidget {
                                 globalBloc.add(GetAllInWorkspaceEvent(
                                   accessToken: authBloc.state.accessToken!,
                                   workspace:
-                                      globalBloc.state.selectedWorkspace!,
+                                      globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                 ));
                               }));
                               Navigator.pop(context);
@@ -194,7 +196,7 @@ class ListsPage extends StatelessWidget {
                                                           DeleteFolderEvent
                                                               .tryDelete(
                                                               folder, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                            accessToken: authBloc.state.accessToken!,
+                                                            accessToken: authBloc.state.accessToken!, user: authBloc.state.user!,
                                                             workspace: globalBloc.state.selectedWorkspace!,
                                                           )); }));
                                                     })
@@ -216,7 +218,7 @@ class ListsPage extends StatelessWidget {
                                                                 folder, onSuccess: () {
                                                               globalBloc.add(GetAllInWorkspaceEvent(
                                                                 accessToken: authBloc.state.accessToken!,
-                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                                workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
                                                       })
@@ -236,7 +238,7 @@ class ListsPage extends StatelessWidget {
                                                           onTap: () {
                                                             listsPageBloc.add(DeleteListEvent.tryDelete(e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                                               accessToken: authBloc.state.accessToken!,
-                                                              workspace: globalBloc.state.selectedWorkspace!,
+                                                              workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                             )); }));
                                                           })
                                                     ],
@@ -264,7 +266,7 @@ class ListsPage extends StatelessWidget {
                                                                 onSuccess: () {
                                                               globalBloc.add(GetAllInWorkspaceEvent(
                                                                 accessToken: authBloc.state.accessToken!,
-                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                                workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
                                                           }, onCancel: () {
@@ -273,7 +275,7 @@ class ListsPage extends StatelessWidget {
                                                                 .cancelCreate(onSuccess: (){
                                                               globalBloc.add(GetAllInWorkspaceEvent(
                                                                 accessToken: authBloc.state.accessToken!,
-                                                                workspace: globalBloc.state.selectedWorkspace!,
+                                                                workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
                                                       })
@@ -297,7 +299,7 @@ class ListsPage extends StatelessWidget {
                                                               .tryDelete(
                                                               e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                                             accessToken: authBloc.state.accessToken!,
-                                                            workspace: globalBloc.state.selectedWorkspace!,
+                                                            workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                           )); }));
                                                     })
                                               ],
@@ -327,7 +329,7 @@ class ListsPage extends StatelessWidget {
                                                     .selectedWorkspace!,
                                                 onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                               accessToken: authBloc.state.accessToken!,
-                                              workspace: globalBloc.state.selectedWorkspace!,
+                                              workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                             )); }));
                                           },
                                           onCancel: () {
@@ -335,7 +337,7 @@ class ListsPage extends StatelessWidget {
                                                 CreateFolderInSpaceEvent
                                                     .cancelCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                                   accessToken: authBloc.state.accessToken!,
-                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                  workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 )); }));
                                           },
                                         )
@@ -347,7 +349,7 @@ class ListsPage extends StatelessWidget {
                                                 CreateFolderInSpaceEvent
                                                     .tryCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                                   accessToken: authBloc.state.accessToken!,
-                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                  workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 )); }));
                                           },
                                           type: CustomButtonType
@@ -375,7 +377,8 @@ class ListsPage extends StatelessWidget {
                                                           .state.accessToken!,
                                                       workspace: globalBloc
                                                           .state
-                                                          .selectedWorkspace!,
+                                                          .selectedWorkspace!
+                                                            , user: authBloc.state.user!
                                                     ));
                                                   }));
                                         }, onCancel: () {
@@ -384,7 +387,7 @@ class ListsPage extends StatelessWidget {
                                                   .cancelCreate(onSuccess: () {
                                                 globalBloc.add(GetAllInWorkspaceEvent(
                                                   accessToken: authBloc.state.accessToken!,
-                                                  workspace: globalBloc.state.selectedWorkspace!,
+                                                  workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 ));
                                               }));
                                         })
@@ -401,7 +404,8 @@ class ListsPage extends StatelessWidget {
                                                             .state.accessToken!,
                                                         workspace: globalBloc
                                                             .state
-                                                            .selectedWorkspace!,
+                                                            .selectedWorkspace!
+                                                          , user: authBloc.state.user!
                                                       ));
                                                 }));
                                           },
@@ -426,7 +430,8 @@ class ListsPage extends StatelessWidget {
   void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState,GlobalBloc globalBloc) {
     globalBloc.add(GetAllInWorkspaceEvent(
       accessToken: authState.accessToken!,
-      workspace: globalBloc.state.selectedWorkspace!,
+      workspace: globalBloc.state.selectedWorkspace!
+        , user: authState.user!
     ));
     listsPageBloc.add(TryGetDataEvent());
   }

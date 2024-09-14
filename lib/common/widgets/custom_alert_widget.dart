@@ -93,7 +93,8 @@ class CustomAlertWidget extends StatelessWidget {
                     ),
                     if (details?.isNotEmpty == true)
                       Padding(
-                        padding: EdgeInsets.only(top: AppSpacing.x2Small4.value),
+                        padding:
+                            EdgeInsets.only(top: AppSpacing.x2Small4.value),
                         child: Text(details ?? "",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                 appFontSize: AppFontSize.paragraphSmall,
@@ -103,7 +104,9 @@ class CustomAlertWidget extends StatelessWidget {
                                     isDarkMode: context.isDarkMode),
                                 appFontWeight: AppFontWeight.regular))),
                       ),
-                    SizedBox(height: AppSpacing.medium16.value,),
+                    SizedBox(
+                      height: AppSpacing.medium16.value,
+                    ),
                     Row(
                       children: [
                         if (secondaryCtaOnPressed != null &&
@@ -115,7 +118,8 @@ class CustomAlertWidget extends StatelessWidget {
                         if (primaryCtaOnPressed != null &&
                             primaryCta?.isNotEmpty == true)
                           CustomButton.noIcon(
-                            label: primaryCta ?? "", onPressed: primaryCtaOnPressed,
+                              label: primaryCta ?? "",
+                              onPressed: primaryCtaOnPressed,
                               type: CustomButtonType.greyFilledLabel),
                       ],
                     )
@@ -490,4 +494,32 @@ class CustomAlertWidget extends StatelessWidget {
 
     return AppColors.grey(isDarkMode).shade600;
   }
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCustomAlert({
+  required BuildContext context,
+  required CustomAlertType customAlertType,
+  required CustomAlertThemeType customAlertThemeType,
+  required String title,
+  String? details,
+  String? primaryCta,
+  void Function()? primaryCtaOnPressed,
+  String? secondaryCta,
+  void Function()? secondaryCtaOnPressed,
+  void Function()? onClose,
+}) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      content: CustomAlertWidget(
+        customAlertType: customAlertType,
+        customAlertThemeType: customAlertThemeType,
+        title: title,
+        details: details,
+        onClose: onClose,
+        primaryCta: primaryCta,
+        primaryCtaOnPressed: primaryCtaOnPressed,
+        secondaryCta: secondaryCta,
+        secondaryCtaOnPressed: secondaryCtaOnPressed,
+      )));
 }

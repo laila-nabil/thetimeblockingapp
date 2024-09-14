@@ -38,17 +38,25 @@ class CreateFolderlessListUseCase
 
 class CreateFolderlessListParams extends Equatable {
   final AccessToken accessToken;
-  final String listName;
+  String? listName;
   final Color? statusColor;
   final User user;
   final Workspace workspace;
-  const CreateFolderlessListParams({
+  CreateFolderlessListParams({
     required this.accessToken,
-    required this.listName,
+    required String this.listName,
     required this.user,
     required this.workspace,
     this.statusColor,
   });
+
+  CreateFolderlessListParams.defaultList({
+    required this.accessToken,
+    required this.user,
+    required this.workspace,
+    this.statusColor,
+  });
+
 
   @override
   List<Object?> get props => [
@@ -62,7 +70,7 @@ class CreateFolderlessListParams extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'workspace_id': workspace.id,
-      'name': listName,
+      if(listName?.isNotEmpty==true)'name': listName,
       'user_id': user.id,
     };
   }

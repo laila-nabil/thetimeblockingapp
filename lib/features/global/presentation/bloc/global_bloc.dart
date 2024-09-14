@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../../../../common/entities/priority.dart';
+import '../../../../common/entities/user.dart';
 import '../../domain/use_cases/get_all_in_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 
@@ -39,7 +40,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
               selectedWorkspace: event.workspace, isLoading: true));
           final getAllInWorkspaceResult = await _getAllInWorkspaceUseCase(
               GetAllInWorkspaceParams(
-                  accessToken: event.accessToken, workspace: event.workspace));
+                  accessToken: event.accessToken, workspace: event.workspace, user: event.user));
           getAllInWorkspaceResult.fold(
               (l) => emit(state.copyWith(getAllInWorkspaceFailure: l)),
               (r) => emit(state.copyWith(selectedWorkspace: r)));
