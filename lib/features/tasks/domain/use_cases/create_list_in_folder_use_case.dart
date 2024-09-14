@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -12,7 +11,6 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/folder.dart';
-import '../../../../common/entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateListInFolderUseCase

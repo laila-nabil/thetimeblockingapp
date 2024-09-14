@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_tas
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../common/entities/access_token.dart';
-import '../../../../common/entities/space.dart';
+
 import '../../../../common/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_task_use_case.dart';
@@ -46,7 +46,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
                 workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
-                    filterBySpaceIds: const []),
+                ),
                 backendMode: serviceLocator<BackendMode>().mode
             ));
         result?.fold(

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import 'folder.dart';
-import 'space.dart';
 import 'tag.dart';
 import 'tasks_list.dart';
 

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
@@ -20,7 +19,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_fr
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 
-import '../../../../common/models/supabase_list_model.dart';
 import '../../../../common/models/supabase_tag_model.dart';
 import '../../../../common/models/supabase_task_model.dart';
 

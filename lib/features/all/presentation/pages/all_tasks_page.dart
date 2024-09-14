@@ -10,12 +10,9 @@ import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
-import '../../../../common/widgets/custom_alert_dialog.dart';
-import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 
@@ -25,7 +22,7 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
-import '../../../../common/entities/space.dart';
+
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
 class AllTasksPage extends StatelessWidget {
@@ -72,7 +69,7 @@ class AllTasksPage extends StatelessWidget {
                     listener: (context, state) {},
                     builder: (context, state) {
                       if (state.isInit && serviceLocator<bool>(
-                            instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
+                            instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
                         getAllTasksInWorkspace(allTasksBloc,context);
                       }
                       return Padding(
@@ -210,7 +207,7 @@ class AllTasksPage extends StatelessWidget {
               task: newTask,
               backendMode: serviceLocator<BackendMode>(),
               user: authState.user!,
-              space: newTask.space,
+              workspace: newTask.workspace,
               tags: newTask.tags),
           workspace: globalState.selectedWorkspace!)); },
         );

@@ -5,7 +5,7 @@ void main(){
 
   group('TaskModel tests',(){
     test('TaskModel from json test',(){
-      final model = TaskModel.fromJson({
+      final model = TaskModel.fromJson(const {
         'id': 4,
         'title': 'task API setup',
         'start_date': '2024-08-16T13:31:27',

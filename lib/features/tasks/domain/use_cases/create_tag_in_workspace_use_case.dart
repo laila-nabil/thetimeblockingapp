@@ -1,14 +1,11 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
-import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 
 class CreateTagInWorkspaceUseCase
@@ -18,9 +15,9 @@ class CreateTagInWorkspaceUseCase
   CreateTagInWorkspaceUseCase(this.repo);
 
   static bool readyToSubmit(String tagName) =>
-      tagName?.isNotEmpty == true &&
-          tagName?.endsWith("?") == false &&
-          tagName?.endsWith("؟") == false;
+      tagName.isNotEmpty == true &&
+          tagName.endsWith("?") == false &&
+          tagName.endsWith("؟") == false;
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> call(CreateTagInWorkspaceParams params) async{

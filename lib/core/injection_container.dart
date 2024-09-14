@@ -70,7 +70,7 @@ enum ServiceLocatorName {
   env,
   isDemo,
   defaultTaskDuration,
-  isWorkspaceAndSpaceAppWide,
+  isWorkspaceAppWide,
   redirectAfterAuthRouteName
 }
 
@@ -104,7 +104,7 @@ void _initServiceLocator({required Network network}) {
   ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
 
   serviceLocator.registerSingleton<bool>(true,
-      instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name);
+      instanceName:ServiceLocatorName.isWorkspaceAppWide.name);
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(

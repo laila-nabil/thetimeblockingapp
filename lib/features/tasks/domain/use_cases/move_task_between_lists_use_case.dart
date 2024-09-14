@@ -33,7 +33,7 @@ class MoveTaskBetweenListsUseCase
         startDate: task.startDateUtc,
         taskPriority: task.priority,
         taskStatus: task.status,
-        space: task.space,
+        workspace: task.workspace,
         folder: task.folder,
         dueDate: task.dueDateUtc,
         description: task.description,

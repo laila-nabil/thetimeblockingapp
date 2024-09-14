@@ -5,7 +5,6 @@ import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 
 import 'supabase_folder_model.dart';
 import 'supabase_list_model.dart';
-import 'supabase_space_model.dart';
 
 
 class WorkspaceModel extends Workspace {

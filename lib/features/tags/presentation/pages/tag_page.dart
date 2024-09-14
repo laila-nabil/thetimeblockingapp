@@ -6,7 +6,6 @@ import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/enums/backend_mode.dart';
@@ -75,7 +74,7 @@ class TagPage extends StatelessWidget {
                     accessToken: authBloc.state.accessToken!,
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     tag: state.navigateTag!,
-                    space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+                    ));
               }
               return ResponsiveScaffold(
                 ///TODO Z Bulk actions on tasks
@@ -235,7 +234,7 @@ class TagPage extends StatelessWidget {
                       accessToken: authBloc.state.accessToken!,
                       workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       tag: state.navigateTag!,
-                      space: BlocProvider.of<GlobalBloc>(context).state.selectedSpace!));
+                      ));
                   globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       accessToken: authBloc.state.accessToken!));
@@ -284,7 +283,7 @@ class TagPage extends StatelessWidget {
             task: newTask,
             backendMode: serviceLocator<BackendMode>(),
             user: authBloc.state.user!,
-            space: newTask.space,
+            workspace: newTask.workspace,
             tags: newTask.tags), workspace: globalBloc.state.selectedWorkspace!));
       },
     );

@@ -22,13 +22,11 @@ class NavigateToListPageEvent extends ListsPageEvent {
 class StartCreateListInFolderEvent extends ListsPageEvent {
   final CreateListInFolderParams createListInFolderParams;
   final Workspace workspace;
-  final Space? space;
   final bool tryEvent;
 
   const StartCreateListInFolderEvent({
     required this.createListInFolderParams,
     required this.workspace,
-    this.space,
     this.tryEvent = false,
   });
 
@@ -41,7 +39,6 @@ class StartCreateListInFolderEvent extends ListsPageEvent {
 class CreateListInFolderEvent extends ListsPageEvent {
   CreateListInFolderParams? createListInFolderParams;
   Workspace? workspace;
-  Space? space;
   Folder? folderToCreateListIn;
   bool? tryEvent;
   final Function() onSuccess;
@@ -53,8 +50,7 @@ class CreateListInFolderEvent extends ListsPageEvent {
   }
   CreateListInFolderEvent.submit({
     required CreateListInFolderParams this.createListInFolderParams,
-    required Workspace this.workspace,
-    required Space this.space,required this.onSuccess
+    required Workspace this.workspace, required this.onSuccess
   }){
     tryEvent = false;
   }
@@ -63,7 +59,6 @@ class CreateListInFolderEvent extends ListsPageEvent {
   List<Object?> get props => [
         createListInFolderParams,
         workspace,
-        space,
         tryEvent,
       ];
 }
@@ -71,7 +66,6 @@ class CreateListInFolderEvent extends ListsPageEvent {
 class CreateFolderlessListEvent extends ListsPageEvent {
   CreateFolderlessListParams? createFolderlessListParams;
   Workspace? workspace;
-  Space? space;
   bool? tryEvent;
   final Function() onSuccess;
   CreateFolderlessListEvent.tryCreate({required this.onSuccess}){
@@ -83,20 +77,18 @@ class CreateFolderlessListEvent extends ListsPageEvent {
   CreateFolderlessListEvent.submit({
     required CreateFolderlessListParams this.createFolderlessListParams,
     required Workspace this.workspace,
-    required Space this.space,
     required this.onSuccess
   }){
     tryEvent = false;
   }
   @override
   List<Object?> get props =>
-      [createFolderlessListParams, workspace, space, tryEvent];
+      [createFolderlessListParams, workspace, tryEvent];
 }
 
 class CreateFolderInSpaceEvent extends ListsPageEvent {
   CreateFolderInSpaceParams? createFolderInSpaceParams;
   Workspace? workspace;
-  Space? space;
   bool? tryEvent;
   final Function() onSuccess;
 
@@ -109,7 +101,6 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
   CreateFolderInSpaceEvent.submit({
     required CreateFolderInSpaceParams this.createFolderInSpaceParams,
     required Workspace this.workspace,
-    required Space this.space,
     required this.onSuccess
   }){
     tryEvent = false;
@@ -119,7 +110,6 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
   List<Object?> get props => [
         createFolderInSpaceParams,
         workspace,
-        space,
         tryEvent
       ];
 }
@@ -127,7 +117,6 @@ class CreateFolderInSpaceEvent extends ListsPageEvent {
 class DeleteFolderEvent extends ListsPageEvent {
   DeleteFolderParams? deleteFolderParams;
   Workspace? workspace;
-  Space? space;
   Folder? toDeleteFolder;
   bool? tryEvent;
   final Function() onSuccess;
@@ -141,7 +130,6 @@ class DeleteFolderEvent extends ListsPageEvent {
   DeleteFolderEvent.submit({
     required DeleteFolderParams this.deleteFolderParams,
     required Workspace this.workspace,
-    required Space this.space,
     required this.onSuccess
   }){
     tryEvent = false;
@@ -156,7 +144,6 @@ class DeleteFolderEvent extends ListsPageEvent {
 class DeleteListEvent extends ListsPageEvent {
   DeleteListParams? deleteListParams;
   Workspace? workspace;
-  Space? space;
   TasksList? toDeleteList;
   bool? tryEvent;
   final Function() onSuccess;
@@ -170,7 +157,6 @@ class DeleteListEvent extends ListsPageEvent {
   DeleteListEvent.submit({
     required DeleteListParams this.deleteListParams,
     required Workspace this.workspace,
-    required Space this.space,
     required this.onSuccess
   }){
     tryEvent = false;
@@ -178,7 +164,7 @@ class DeleteListEvent extends ListsPageEvent {
 
   @override
   List<Object?> get props =>
-      [deleteListParams, workspace, space, tryEvent];
+      [deleteListParams, workspace, tryEvent];
 }
 
 class CreateTaskEvent extends ListsPageEvent {

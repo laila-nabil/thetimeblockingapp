@@ -2,9 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:thetimeblockingapp/common/entities/access_token.dart';
 
-import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 
 import '../../domain/use_cases/change_language_use_case.dart';

@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
@@ -46,9 +44,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     !globalBloc.state.drawerLargerScreenOpen));
               },
               showSmallDesign: showSmallDesign,
-              selectSpace: (selected) {
-                ///TODO C select space
-              },
               pageActions: pageActions,
               isDarkMode: isDarkMode,
             );
@@ -69,13 +64,11 @@ class CustomAppBarWidget extends StatelessWidget {
     this.pageActions,
     required this.showSmallDesign,
     required this.openDrawer,
-    required this.selectSpace,
     required this.selectWorkspace,
     required this.isDarkMode,
   });
   final bool showSmallDesign;
   final void Function() openDrawer;
-  final void Function(Space? space) selectSpace;
   final void Function(Workspace? workspace)
       selectWorkspace;
   final List<CustomPopupItem>? pageActions;

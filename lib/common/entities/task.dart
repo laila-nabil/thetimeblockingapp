@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
@@ -18,7 +17,6 @@ class Task extends Equatable {
   final DateTime? dueDate;
   final TasksList? list;
   final Folder? folder;
-  final Space? space;
   final Workspace? workspace;
 
   bool get isOverdue =>
@@ -51,7 +49,6 @@ class Task extends Equatable {
     required this.dueDate,
     required this.list,
     required this.folder,
-    required this.space,
     required this.workspace,
   });
 
@@ -66,7 +63,6 @@ class Task extends Equatable {
         startDate,
         dueDate,
         folder,
-        space,
         workspace,
       ];
 
@@ -81,7 +77,6 @@ class Task extends Equatable {
     DateTime? dueDate,
     TasksList? list,
     Folder? folder,
-    Space? space,
     Workspace? workspace,
   }) {
     return Task(
@@ -95,7 +90,6 @@ class Task extends Equatable {
       dueDate: dueDate ?? this.dueDate,
       list: list ?? this.list,
       folder: folder ?? this.folder,
-      space: space ?? this.space,
       workspace: workspace ?? this.workspace,
     );
   }
