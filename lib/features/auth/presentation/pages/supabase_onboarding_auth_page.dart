@@ -735,10 +735,14 @@ class _AuthState extends State<Auth> {
               onPressed: () {
                 printDebug(
                     "${emailController.text} : ${passwordController.text}");
-                widget.authBloc.add(SignInEvent(SignInParams(
-                  email: emailController.text,
-                  password: passwordController.text,
-                )));
+                if(isSignIn){
+                  widget.authBloc.add(SignInEvent(SignInParams(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  )));
+                }else{
+                  ///TODO A Sign up API
+                }
               }),
           SizedBox(height: AppSpacing.xBig24.value,),
           Row(
