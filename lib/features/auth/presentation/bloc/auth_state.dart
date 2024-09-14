@@ -23,7 +23,9 @@ class AuthState extends Equatable {
   final Failure? getUserFailure;
   final User? user;
   final Failure? signInFailure;
+  final Failure? signUpFailure;
   final Failure? signOutFailure;
+  final SignUpResult? signUpResult;
 
   const AuthState({
     required this.authState,
@@ -32,7 +34,9 @@ class AuthState extends Equatable {
     this.getUserFailure,
     this.user,
     this.signInFailure,
+    this.signUpFailure,
     this.signOutFailure,
+    this.signUpResult,
   });
 
   bool get isLoading => authState == AuthStateEnum.loading;
@@ -49,8 +53,10 @@ class AuthState extends Equatable {
         accessToken,
         getUserFailure,
         user,
+        signUpResult,
         signInFailure,
-        signOutFailure
+        signUpFailure,
+        signOutFailure,
       ];
 
   AuthState copyWith({
@@ -60,8 +66,10 @@ class AuthState extends Equatable {
     Failure? getUserFailure,
     User? user,
     Failure? signInFailure,
+    Failure? signUpFailure,
     Failure? signOutFailure,
     bool resetState = false,
+    SignUpResult? signUpResult,
   }) {
     return AuthState(
       authState: authState ?? this.authState,
@@ -71,7 +79,9 @@ class AuthState extends Equatable {
       getUserFailure: getUserFailure ?? this.getUserFailure,
       user: resetState ? null : user ?? this.user,
       signInFailure: signInFailure ?? this.signInFailure,
+      signUpFailure: signUpFailure ?? this.signUpFailure,
       signOutFailure: signOutFailure ?? this.signOutFailure,
+      signUpResult: signUpResult ?? this.signUpResult,
     );
   }
 }

@@ -101,12 +101,10 @@ class ListsPageState extends Equatable {
 
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams(AccessToken accessToken , User? user) {
-    List<String>? filterBySpaceIds;
     // if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) && BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
     //   filterBySpaceIds = [BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id ?? ""];
     // }
     return GetTasksInWorkspaceFiltersParams(
-      filterBySpaceIds: filterBySpaceIds,
       accessToken: accessToken,
     );
   }
@@ -174,7 +172,6 @@ class ListsPageState extends Equatable {
     List<Task>? deleteTaskResult,
     Failure? deleteTaskFailure,
     Workspace? workspace,
-    Space? space,
     CreateListInFolderParams? createListInFolderParams,
     CreateFolderlessListParams? createFolderlessListParams,
     MoveTaskBetweenListsParams? moveTaskBetweenListsParams,

@@ -1,12 +1,11 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
@@ -20,7 +19,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_fr
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 
-import '../../../../common/models/supabase_list_model.dart';
 import '../../../../common/models/supabase_tag_model.dart';
 import '../../../../common/models/supabase_task_model.dart';
 
@@ -109,11 +107,11 @@ class TasksRepoImpl implements TasksRepo {
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInSpace(
+  Future<dartz.Either<Failure, dartz.Unit>?> createFolderInWorkspace(
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createFolderInSpace(params: params));
+            remoteDataSource.createFolderInWorkspace(params: params));
   }
 
   @override

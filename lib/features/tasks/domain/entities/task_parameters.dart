@@ -3,11 +3,11 @@ import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/tasks_list.dart';
@@ -31,7 +31,7 @@ class CreateTaskParams extends Equatable{
   final Task? linkedTask;
   final Task? task;
   final User user;
-  final Space? space;
+  final Workspace? workspace;
   final Folder? folder;
 
   String get getListId => task?.list?.id ?? list?.id ?? "";
@@ -54,10 +54,10 @@ class CreateTaskParams extends Equatable{
   String? get getLinkedTaskId => linkedTask?.id;
 
   List<TasksList> getAvailableLists(Folder? folder) {
-    if (space != null && folder != null) {
+    if (workspace != null && folder != null) {
       return List.of(folder.lists ?? <TasksList>[]);
-    } else if (space != null && folder == null) {
-      return List.of(space?.lists ?? []);
+    } else if (workspace != null && folder == null) {
+      return List.of(workspace?.lists ?? []);
     }
     return <TasksList>[];
   }
@@ -71,7 +71,7 @@ class CreateTaskParams extends Equatable{
       description: task.description,
       dueDate: task.dueDateUtc,
       folder: task.folder,
-      space: task.space,
+      workspace: task.workspace,
       tags: task.tags,
       taskPriority: task.priority,
       startDate: task.startDateUtc,
@@ -94,7 +94,7 @@ class CreateTaskParams extends Equatable{
       required this.type,
       required this.user,
       this.task,
-      this.space,
+      this.workspace,
       this.folder,required this.backendMode, });
 
   static _isNewTask(Task? task) =>
@@ -137,7 +137,7 @@ class CreateTaskParams extends Equatable{
     required AccessToken accessToken,
     DateTime? startDate,
     DateTime? dueDate,
-    Space? space,
+    Workspace? workspace,
     TasksList? list,
     Folder? folder,
     required List<Tag> tags,
@@ -151,7 +151,7 @@ class CreateTaskParams extends Equatable{
           accessToken: accessToken,
           startDate: startDate,
           dueDate: dueDate,
-          space: space,
+          workspace: workspace,
           list: list,
           folder: folder,
           tags: tags,
@@ -172,7 +172,7 @@ class CreateTaskParams extends Equatable{
     Task? parentTask,
     Task? linkedTask,
     Folder? folder,
-    Space? space,
+    Workspace? workspace,
     required BackendMode backendMode,
     required User user,
   }) {
@@ -180,7 +180,7 @@ class CreateTaskParams extends Equatable{
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
           accessToken: accessToken,
-          space: space,
+          workspace: workspace,
           list: list,
           folder: folder,
           title: title,
@@ -202,18 +202,18 @@ class CreateTaskParams extends Equatable{
     required Task task,
     required BackendMode backendMode,
     required User user,
-    required Space? space,
+    required Workspace? workspace,
     required List<Tag> tags,
   }) {
     printDebug("TaskParams startUpdateTask task $task");
-    printDebug("startUpdateTask task ${task.space}");
+    printDebug("startUpdateTask task ${task.workspace}");
     return CreateTaskParams._(
         type: TaskParamsEnum.update,
         accessToken: accessToken,
         task: task,
         description: null,//description controlled by text controller
         title: null,//title controlled by text controller
-        space: space,
+        workspace: workspace,
         folder: task.folder,
         list: task.list,
         taskPriority: task.priority,
@@ -249,7 +249,7 @@ class CreateTaskParams extends Equatable{
       CreateTaskParams._(
           type: TaskParamsEnum.update,
           accessToken: accessToken,
-          space: null,
+          workspace: null,
           user: user,
           list: list,
           folder: folder,
@@ -332,26 +332,26 @@ class CreateTaskParams extends Equatable{
     Task? parentTask,
     Task? linkedTask,
     Task? task,
-    Space? space,
+    Workspace? workspace,
     Folder? folder,
     bool? clearFolder,
     bool? clearPriority,
   }) {
-    Space? selectedSpace = space ?? this.space;
+    Workspace? selectedWorkspace = workspace ?? this.workspace;
     TaskPriority? selectedPriority =
         clearFolder == true ? null : (taskPriority ?? this.taskPriority);
     Folder? selectedFolder =
         clearFolder == true ? null : (folder ?? this.folder);
-    if (selectedSpace?.folders?.contains(selectedFolder) == false) {
+    if (selectedWorkspace?.folders?.contains(selectedFolder) == false) {
       selectedFolder = null;
     }
 
     TasksList? selectedList = list ?? this.list;
     if ((selectedFolder != null &&
             selectedFolder.lists?.contains(selectedList) == false) ||
-        (selectedSpace != null &&
+        (selectedWorkspace != null &&
             selectedFolder == null &&
-            selectedSpace.lists?.contains(selectedList) == false)) {
+            selectedWorkspace.lists?.contains(selectedList) == false)) {
       selectedList = null;
     }
     DateTime? selectedStartDate = startDate ?? this.startDate;
@@ -384,7 +384,7 @@ class CreateTaskParams extends Equatable{
       linkedTask: linkedTask ?? this.linkedTask,
       task: task ?? this.task,
       folder: selectedFolder,
-      space: selectedSpace,
+      workspace: selectedWorkspace,
       backendMode: backendMode, user: user
     );
   }
@@ -406,11 +406,11 @@ class CreateTaskParams extends Equatable{
     type,
     task,
     folder,
-    space,
+    workspace,
     getAvailableLists,backendMode,user];
 
   @override
   String toString() {
-    return 'CreateTaskParams{backendMode: $backendMode, type: $type, accessToken: $accessToken, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, user: $user, space: $space, folder: $folder}';
+    return 'CreateTaskParams{backendMode: $backendMode, type: $type, accessToken: $accessToken, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, user: $user, space: $workspace, folder: $folder}';
   }
 }

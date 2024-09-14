@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
@@ -20,7 +21,6 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
@@ -52,7 +52,7 @@ class TaskPopupParams extends Equatable {
   late bool isAllDay;
   TasksList? list;
   Folder? folder;
-  Space? space;
+  Workspace? workspace;
   Tag? tag;
   TaskStatus? status;
   TaskPriority? priority;
@@ -76,7 +76,7 @@ class TaskPopupParams extends Equatable {
     status = task?.status;
     priority = task?.priority;
     folder = task?.folder;
-    space = task?.space;
+    workspace = task?.workspace;
   }
 
   TaskPopupParams.notAllDayTask({
@@ -117,7 +117,7 @@ class TaskPopupParams extends Equatable {
     this.folder,
     required this.bloc,
     required this.isLoading,
-    required this.space,
+    required this.workspace,
   }) {
     task = null;
     isAllDay = false;
@@ -136,7 +136,7 @@ class TaskPopupParams extends Equatable {
     isAllDay = task?.isAllDay ?? false;
     cellDate = null;
     list = task?.list;
-    space = task?.space;
+    workspace = task?.workspace;
     priority = task?.priority;
     folder = task?.folder;
     status = task?.status;
@@ -322,7 +322,7 @@ class _TaskPopupState extends State<TaskPopup> {
           user: user,
           taskStatus: taskParams.taskStatus,
           folder: taskParams.folder,
-          space: taskParams.space,
+          workspace: taskParams.workspace,
           startDate: taskParams.startDate,
           tags: taskParams.tags,
           taskPriority: taskParams.taskPriority,
@@ -333,12 +333,12 @@ class _TaskPopupState extends State<TaskPopup> {
   }
 
   bool get isFoldersListAvailable =>
-      taskParams.space?.folders
+      taskParams.workspace?.folders
           ?.isNotEmpty ==
           true || taskParams.folder != null;
 
   bool get viewTagsButton =>
-      taskParams.task != null || taskParams.space != null;
+      taskParams.task != null || taskParams.workspace != null;
 
   late bool setTaskParams = false;
 
@@ -363,11 +363,11 @@ class _TaskPopupState extends State<TaskPopup> {
           accessToken: authState.accessToken!,
           dueDate: widget.taskPopupParams.dueDate,
           startDate: widget.taskPopupParams.startDate,
-          space: serviceLocator<bool>(
+          workspace: serviceLocator<bool>(
               instanceName: ServiceLocatorName
-                  .isWorkspaceAndSpaceAppWide.name)
+                  .isWorkspaceAppWide.name)
               ? globalState
-              .selectedSpace
+              .selectedWorkspace
               : null,
           list: widget.taskPopupParams.list,
           folder: widget.taskPopupParams.folder,
@@ -381,13 +381,11 @@ class _TaskPopupState extends State<TaskPopup> {
         task: widget.taskPopupParams.task!,
         backendMode: serviceLocator<BackendMode>().mode,
         user: authState.user!,
-        space: serviceLocator<bool>(
+        workspace: serviceLocator<bool>(
             instanceName: ServiceLocatorName
-                .isWorkspaceAndSpaceAppWide.name)
-            ? globalState.selectedWorkspace?.spaces
-            ?.where((s) => s.id == widget.taskPopupParams.task!.space?.id)
-            .firstOrNull
-            : widget.taskPopupParams.task!.space,
+                .isWorkspaceAppWide.name)
+            ? globalState.selectedWorkspace
+            : widget.taskPopupParams.task!.workspace,
         tags: widget.taskPopupParams.task!.tags,
       );
       setTaskParams = true;
@@ -450,7 +448,7 @@ class _TaskPopupState extends State<TaskPopup> {
                     .grey(context.isDarkMode)
                     .shade900,
                 appFontWeight: AppFontWeight.medium));
-            var selectedFolder = taskParams.space?.folders
+            var selectedFolder = taskParams.workspace?.folders
                 ?.where((f) => f.id == taskParams.folder?.id)
                 .firstOrNull;
             return CustomAlertDialog(
@@ -583,7 +581,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                         }
                                       });
                                     },
-                                    items: (taskParams.space
+                                    items: (taskParams.workspace
                                         ?.folders
                                         ?.map((e) =>
                                         DropdownMenuItem(
@@ -641,32 +639,6 @@ class _TaskPopupState extends State<TaskPopup> {
                               ],
                             ),
                             spacerV,
-
-                            ///Space
-                            ///TODO D create a new Workspace/Space in task view
-                            if (serviceLocator<bool>(
-                                instanceName: ServiceLocatorName
-                                    .isWorkspaceAndSpaceAppWide.name) == false)
-                              (task == null
-                                  ? DropdownButton<Space>(
-                                hint: Text(
-                                    appLocalization.translate("space")),
-                                value: taskParams.space,
-                                onChanged: (space) {
-                                  setState(() {
-                                    taskParams = taskParams.copyWith(
-                                        space: space);
-                                  });
-                                },
-                                items:
-                                // (BlocProvider.of<GlobalBloc>(context).spaces)
-                                //     ?.map((e) => DropdownMenuItem(
-                                //     value: e,
-                                //     child: Text(e.name ?? "")))
-                                //     .toList() ??
-                                [],
-                              )
-                                  : Text(" ${task.space?.name ?? ""} ")),
 
                             ///Status && Priority
                             Row(

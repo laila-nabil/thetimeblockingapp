@@ -1,12 +1,11 @@
 import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
-import 'package:thetimeblockingapp/common/models/supabase_space_model.dart';
+
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
-import '../entities/tag.dart';
 import '../entities/task.dart';
 import 'supabase_workspace_model.dart';
 
@@ -43,7 +42,6 @@ class TaskModel extends Task {
       required super.dueDate,
       required super.list,
       required super.folder,
-      required super.space,
       required super.workspace});
 
   Map<String, dynamic> toJson() {
@@ -58,7 +56,6 @@ class TaskModel extends Task {
       'start_date': startDate,
       'list': list,
       'folder': folder,
-      'space': space,
       'workspace': workspace,
     };
   }
@@ -76,9 +73,6 @@ class TaskModel extends Task {
       folder: map['folder'] == null
           ? null
           : FolderModel.fromJson(map['folder'][0]),
-      space: map['space'] == null
-          ? null
-          : SpaceModel.fromJson(map['space'][0]),
       workspace: map['workspace'] == null
           ? null
           : WorkspaceModel.fromJson(map['workspace'][0]),
@@ -88,7 +82,7 @@ class TaskModel extends Task {
       priority: map['priority'] == null
           ? null
           : TaskPriorityModel.fromJson(map['priority'][0]),
-      tags: (tagsFromJson(map['tags']) ?? []) as List<Tag>,
+      tags: (tagsFromJson(map['tags']) ?? []),
     );
   }
 }

@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import '../../../../common/entities/access_token.dart';
-import '../../../../common/entities/tasks_list.dart';
 import '../../../../common/entities/user.dart';
 import '../repositories/tasks_repo.dart';
 
@@ -42,12 +41,12 @@ class CreateFolderlessListParams extends Equatable {
   final String listName;
   final Color? statusColor;
   final User user;
-  final Space space;
+  final Workspace workspace;
   const CreateFolderlessListParams({
     required this.accessToken,
     required this.listName,
     required this.user,
-    required this.space,
+    required this.workspace,
     this.statusColor,
   });
 
@@ -57,12 +56,12 @@ class CreateFolderlessListParams extends Equatable {
     listName,
     statusColor,
     user,
-    space,
+    workspace,
   ];
 
   Map<String, dynamic> toJson() {
     return {
-      'space_id': space.id,
+      'workspace_id': workspace.id,
       'name': listName,
       'user_id': user.id,
     };

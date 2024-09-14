@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -94,7 +93,7 @@ class TagsPage extends StatelessWidget {
                     small: BlocConsumer<TagsPageBloc, TagsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
+                    if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
                       tagsPageBloc.add(GetTagsInWorkspaceEvent(
                           GetTagsInWorkspaceParams(
                               accessToken:

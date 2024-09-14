@@ -31,14 +31,6 @@ class GlobalState extends Equatable {
       triedGetSelectedWorkspacesSpace;
 
 
-  // Workspace? get selectedWorkspace =>
-  //     workspaces?.firstOrNull;
-
-  Space? get selectedSpace => serviceLocator(
-          instanceName: ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)
-      ? selectedWorkspace?.spaces?.firstOrNull
-      : null;
-
   @override
   String toString() {
     return 'GlobalState{isLoading: $isLoading, drawerLargerScreenOpen: $drawerLargerScreenOpen, workspaces: $workspaces, selectedWorkspace: $selectedWorkspace, getWorkspacesFailure: $getWorkspacesFailure, getAllInWorkspaceFailure: $getAllInWorkspaceFailure, statuses: $statuses, getStatusesFailure: $getStatusesFailure, priorities: $priorities, getPrioritiesFailure: $getPrioritiesFailure}';

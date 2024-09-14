@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/models/supabase_folder_model.dart';
-import 'package:thetimeblockingapp/common/models/supabase_list_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_list_use_case.dart';
@@ -50,7 +48,7 @@ abstract class TasksRemoteDataSource {
   Future<dartz.Unit> createFolderlessList(
       {required CreateFolderlessListParams params});
 
-  Future<dartz.Unit> createFolderInSpace(
+  Future<dartz.Unit> createFolderInWorkspace(
       {required CreateFolderInSpaceParams params});
 
   Future<dartz.Unit> deleteList({required DeleteListParams params});
@@ -88,7 +86,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> createFolderInSpace(
+  Future<dartz.Unit> createFolderInWorkspace(
       {required CreateFolderInSpaceParams params}) async {
     final result = await network.post(
         uri: Uri.parse(

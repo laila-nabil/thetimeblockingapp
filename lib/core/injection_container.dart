@@ -23,7 +23,7 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_po
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
@@ -33,6 +33,7 @@ import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
 import '../features/auth/data/repositories/auth_repo_impl.dart';
 import '../features/auth/domain/use_cases/sign_in_use_case.dart';
+import '../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
@@ -70,7 +71,7 @@ enum ServiceLocatorName {
   env,
   isDemo,
   defaultTaskDuration,
-  isWorkspaceAndSpaceAppWide,
+  isWorkspaceAppWide,
   redirectAfterAuthRouteName
 }
 
@@ -101,16 +102,16 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerSingleton<String>("",
       instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
 
-  ///[isWorkspaceAndSpaceAppWide] Workspace and space is selected from appbar/drawer only and is global to app or not
+  ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
 
   serviceLocator.registerSingleton<bool>(true,
-      instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name);
+      instanceName:ServiceLocatorName.isWorkspaceAppWide.name);
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
-      serviceLocator(),serviceLocator()
+      serviceLocator(),serviceLocator(),serviceLocator()
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
@@ -222,7 +223,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
         serviceLocator(),
       ));
 
-  serviceLocator.registerLazySingleton(() => CreateFolderInSpaceUseCase(
+  serviceLocator.registerLazySingleton(() => CreateFolderInWorkspaceUseCase(
         serviceLocator(),
       ));
 
@@ -258,6 +259,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => SignOutUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => SignInUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => SignUpUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

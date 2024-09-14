@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -42,7 +41,6 @@ class GetTasksInWorkspaceParams extends Equatable {
 class GetTasksInWorkspaceFiltersParams extends Equatable {
   final int? page;
   final TasksOrderBy? tasksOrderBy;
-  final List<String>? filterBySpaceIds;
   final TasksList? filterByList;
   final List<String>? filterByStatuses;
   final Tag? filterByTag;
@@ -59,7 +57,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   const GetTasksInWorkspaceFiltersParams({
     this.page,
     this.tasksOrderBy,
-    this.filterBySpaceIds,
     this.filterByList,
     this.filterByStatuses,
     this.filterByTag,
@@ -92,7 +89,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   List<Object?> get props => [
         page,
         tasksOrderBy,
-        filterBySpaceIds,
         filterByList,
         filterByStatuses,
         filterByTag,
@@ -111,7 +107,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   GetTasksInWorkspaceFiltersParams copyWith({
     int? page,
     TasksOrderBy? tasksOrderBy,
-    List<String>? filterBySpaceIds,
     TasksList? filterByList,
     List<String>? filterByStatuses,
     Tag? filterByTag,
@@ -128,7 +123,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
     return GetTasksInWorkspaceFiltersParams(
       page: page ?? this.page,
       tasksOrderBy: tasksOrderBy ?? this.tasksOrderBy,
-      filterBySpaceIds: filterBySpaceIds ?? this.filterBySpaceIds,
       filterByList: filterByList ?? this.filterByList,
       filterByStatuses: filterByStatuses ?? this.filterByStatuses,
       filterByTag: filterByTag ?? this.filterByTag,

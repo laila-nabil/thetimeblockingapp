@@ -2,6 +2,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -23,6 +26,7 @@ import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/launch_url.dart';
 import '../../../../core/localization/localization.dart';
 import '../../../settings/domain/use_cases/change_language_use_case.dart';
+import '../../domain/use_cases/sign_up_use_case.dart';
 import '../bloc/auth_bloc.dart';
 
 enum OnBoardingAndAuthStep {
@@ -75,452 +79,463 @@ class _SupabaseOnBoardingAndAuthPageState
         color: AppColors.text(context.isDarkMode),
         appFontWeight: AppFontWeight.medium));
     const boxConstraints = BoxConstraints(maxWidth: 510);
-    return ResponsiveScaffold(
-      hideAppBarDrawer: true,
-      responsiveScaffoldLoading: ResponsiveScaffoldLoading(
-          responsiveScaffoldLoadingEnum:
-          ResponsiveScaffoldLoadingEnum.contentLoading,
-          isLoading: widget.authBloc.state.isLoading),
-      responsiveBody: switch (step) {
-        OnBoardingAndAuthStep.first =>
-            ResponsiveTParams(
-                small: changeLanguageWrapper(
-                    child: Center(
-                      child: Container(
-                        constraints: boxConstraints,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AppSpacing.x2Big28.value),
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Spacer(
-                              flex: 86,
-                            ),
-                            Image.asset(
-                              AppAssets.logo(context.isDarkMode),
-                              width: 258,
-                              height: 39,
-                              fit: BoxFit.contain,
-                            ),
-                            const Spacer(
-                              flex: 34,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  AppBorderRadius.x3Large.value),
-                              child: Image.asset(
-                                AppAssets.onBoarding1mobile,
-                                width: 246,
-                                height: 290,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if(state.authState == AuthStateEnum.signUpSuccess){
+          showDialog(context: context, builder: (ctx){
+            return CustomAlertWidget(customAlertType: CustomAlertType.information,
+                customAlertThemeType: CustomAlertThemeType.filled,
+                title: "confirmation email sent to ${state.signUpResult?.email??""}");
+          });
+        }
+      },
+      child: ResponsiveScaffold(
+        hideAppBarDrawer: true,
+        responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+            responsiveScaffoldLoadingEnum:
+            ResponsiveScaffoldLoadingEnum.contentLoading,
+            isLoading: widget.authBloc.state.isLoading),
+        responsiveBody: switch (step) {
+          OnBoardingAndAuthStep.first =>
+              ResponsiveTParams(
+                  small: changeLanguageWrapper(
+                      child: Center(
+                        child: Container(
+                          constraints: boxConstraints,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x2Big28.value),
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Spacer(
+                                flex: 86,
+                              ),
+                              Image.asset(
+                                AppAssets.logo(context.isDarkMode),
+                                width: 258,
+                                height: 39,
                                 fit: BoxFit.contain,
                               ),
-                            ),
-                            const Spacer(
-                              flex: 66,
-                            ),
-                            Text(
-                                appLocalization.translate(
-                                    "welcomeTimeblockingapp"),
-                                style: contentStyleMobile),
-                            const Spacer(
-                              flex: 88,
-                            ),
-                            Wrap(
-                              spacing: AppSpacing.xSmall8.value,
-                              runSpacing: AppSpacing.xSmall8.value,
-                              direction: Axis.vertical,
-                              runAlignment: WrapAlignment.center,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Wrap(
-                                  spacing: AppSpacing.xSmall8.value,
-                                  runSpacing: AppSpacing.xSmall8.value,
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    CustomButton.noIcon(
-                                        analyticsEvent:
-                                        AnalyticsEvents.onBoardingStep1Start,
-                                        label:
-                                        appLocalization.translate("getStarted"),
-                                        onPressed: () {
-                                          setState(() {
-                                            step = OnBoardingAndAuthStep.second;
-                                          });
-                                        },
-                                        type: CustomButtonType.primaryLabel),
-                                    CustomButton.noIcon(
-                                      analyticsEvent: AnalyticsEvents
-                                          .onBoardingStep1SignInSupabase,
-                                      onPressed: () {
-                                        setState(() {
-                                          step = OnBoardingAndAuthStep.auth;
-                                        });
-                                      },
-                                      type: CustomButtonType.secondaryLabel,
-                                      label: appLocalization.translate(
-                                          "signIn"),
-                                    ),
-                                  ],
-                                ),
-                                demoButton(
-                                  AnalyticsEvents.onBoardingStep1Demo,
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: AppSpacing.huge96.value,
-                              alignment: Alignment.center,
-                              child: agreeOurPrivacyTerms(),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    isSmall: true),
-                large: changeLanguageWrapper(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: MediaQuery
-                            .sizeOf(context)
-                            .width * 0.4,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            AppSpacing.x2Large64.value, 0, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Spacer(
-                              flex: 105,
-                            ),
-                            Image.asset(
-                              AppAssets.logo(context.isDarkMode),
-                              width: 258,
-                              height: 39,
-                              fit: BoxFit.contain,
-                            ),
-                            const Spacer(
-                              flex: 70,
-                            ),
-                            Text(
-                                appLocalization.translate(
-                                    "welcomeTimeblockingapp"),
-                                style: contentStyleDesktop),
-                            const Spacer(
-                              flex: 390,
-                            ),
-                            Row(
-                              children: [
-                                CustomButton.noIcon(
-                                    analyticsEvent:
-                                    AnalyticsEvents.onBoardingStep1Start,
-                                    size: CustomButtonSize.large,
-                                    label: appLocalization.translate(
-                                        "getStarted"),
-                                    onPressed: () {
-                                      setState(() {
-                                        step = OnBoardingAndAuthStep.second;
-                                      });
-                                    },
-                                    type: CustomButtonType.primaryLabel),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                CustomButton.noIcon(
-                                  analyticsEvent:
-                                  AnalyticsEvents.onBoardingStep1SignInSupabase,
-                                  size: CustomButtonSize.large,
-                                  onPressed: () {
-                                    setState(() {
-                                      step = OnBoardingAndAuthStep.auth;
-                                    });
-                                  },
-                                  type: CustomButtonType.secondaryLabel,
-                                  label: appLocalization.translate("signIn"),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            demoButton(
-                              AnalyticsEvents.onBoardingStep1Demo,
-                            ),
-                            Container(
-                              height: AppSpacing.xHuge128.value,
-                              alignment: AlignmentDirectional.centerStart,
-                              child: agreeOurPrivacyTerms(),
-                            )
-                          ],
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius:
-                        BorderRadius.circular(AppBorderRadius.x3Large.value),
-                        child: Image.asset(
-                          AppAssets.onBoarding1desktop,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      )
-                    ],
-                  ),
-                  isSmall: false,
-                )),
-        OnBoardingAndAuthStep.second =>
-            ResponsiveTParams(
-                small: changeLanguageWrapper(
-                    child: Center(
-                      child: Container(
-                        constraints: boxConstraints,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AppSpacing.x2Big28.value),
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Spacer(
-                              flex: 36,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  AppBorderRadius.x3Large.value),
-                              child: Image.asset(
-                                AppAssets.onBoarding2mobile,
-                                width: 246,
-                                height: 290,
-                                fit: BoxFit.contain,
+                              const Spacer(
+                                flex: 34,
                               ),
-                            ),
-                            const Spacer(
-                              flex: 66,
-                            ),
-                            Text(
-                              appLocalization.translate("simplifyTasks"),
-                              style: titleStyleMobile,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              appLocalization.translate(
-                                  "timeBlockingAppStreamlinesTaskManagement"),
-                              style: contentStyleMobile,
-                            ),
-                            const Spacer(
-                              flex: 72,
-                            ),
-                            Wrap(
-                              spacing: AppSpacing.xSmall8.value,
-                              runSpacing: AppSpacing.xSmall8.value,
-                              runAlignment: WrapAlignment.center,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Wrap(
-                                  spacing: AppSpacing.xSmall8.value,
-                                  runSpacing: AppSpacing.xSmall8.value,
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    CustomButton.noIcon(
-                                        analyticsEvent:
-                                        AnalyticsEvents.onBoardingStep2Back,
-                                        size: CustomButtonSize.small,
-                                        label: appLocalization.translate(
-                                            "back"),
-                                        onPressed: () {
-                                          setState(() {
-                                            step = OnBoardingAndAuthStep.first;
-                                          });
-                                        },
-                                        type: CustomButtonType.secondaryLabel),
-                                    ///TODO B remove next button since onboarding only 2 steps
-                                    CustomButton.noIcon(
-                                        analyticsEvent:
-                                        AnalyticsEvents.onBoardingStep2Next,
-                                        size: CustomButtonSize.small,
-                                        label: appLocalization.translate(
-                                            "next"),
-                                        onPressed: () {
-                                          setState(() {
-                                            step = OnBoardingAndAuthStep.third;
-                                          });
-                                        },
-                                        type: CustomButtonType.primaryLabel),
-                                  ],
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                    AppBorderRadius.x3Large.value),
+                                child: Image.asset(
+                                  AppAssets.onBoarding1mobile,
+                                  width: 246,
+                                  height: 290,
+                                  fit: BoxFit.contain,
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: AppSpacing.huge96.value,
-                              child: Column(
+                              ),
+                              const Spacer(
+                                flex: 66,
+                              ),
+                              Text(
+                                  appLocalization.translate(
+                                      "welcomeTimeblockingapp"),
+                                  style: contentStyleMobile),
+                              const Spacer(
+                                flex: 88,
+                              ),
+                              Wrap(
+                                spacing: AppSpacing.xSmall8.value,
+                                runSpacing: AppSpacing.xSmall8.value,
+                                direction: Axis.vertical,
+                                runAlignment: WrapAlignment.center,
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  const SizedBox(
-                                    height: 18,
-                                  ),
                                   Wrap(
+                                    spacing: AppSpacing.xSmall8.value,
+                                    runSpacing: AppSpacing.xSmall8.value,
+                                    alignment: WrapAlignment.center,
                                     children: [
-                                      ///TODO B remove skip button since onboarding only 2 steps
                                       CustomButton.noIcon(
                                           analyticsEvent:
-                                          AnalyticsEvents.onBoardingStep2Skip,
-                                          size: CustomButtonSize.small,
-                                          label: appLocalization.translate(
-                                              "skip"),
+                                          AnalyticsEvents.onBoardingStep1Start,
+                                          label:
+                                          appLocalization.translate("getStarted"),
                                           onPressed: () {
                                             setState(() {
-                                              step = OnBoardingAndAuthStep.auth;
+                                              step = OnBoardingAndAuthStep.second;
                                             });
                                           },
-                                          type: CustomButtonType
-                                              .primaryTextLabel),
-                                      demoButton(
-                                          AnalyticsEvents.onBoardingStep2Demo),
+                                          type: CustomButtonType.primaryLabel),
+                                      CustomButton.noIcon(
+                                        analyticsEvent: AnalyticsEvents
+                                            .onBoardingStep1SignInSupabase,
+                                        onPressed: () {
+                                          setState(() {
+                                            step = OnBoardingAndAuthStep.auth;
+                                          });
+                                        },
+                                        type: CustomButtonType.secondaryLabel,
+                                        label: appLocalization.translate(
+                                            "signIn"),
+                                      ),
+                                    ],
+                                  ),
+                                  demoButton(
+                                    AnalyticsEvents.onBoardingStep1Demo,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: AppSpacing.huge96.value,
+                                alignment: Alignment.center,
+                                child: agreeOurPrivacyTerms(),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      isSmall: true),
+                  large: changeLanguageWrapper(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: MediaQuery
+                              .sizeOf(context)
+                              .width * 0.4,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              AppSpacing.x2Large64.value, 0, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Spacer(
+                                flex: 105,
+                              ),
+                              Image.asset(
+                                AppAssets.logo(context.isDarkMode),
+                                width: 258,
+                                height: 39,
+                                fit: BoxFit.contain,
+                              ),
+                              const Spacer(
+                                flex: 70,
+                              ),
+                              Text(
+                                  appLocalization.translate(
+                                      "welcomeTimeblockingapp"),
+                                  style: contentStyleDesktop),
+                              const Spacer(
+                                flex: 390,
+                              ),
+                              Row(
+                                children: [
+                                  CustomButton.noIcon(
+                                      analyticsEvent:
+                                      AnalyticsEvents.onBoardingStep1Start,
+                                      size: CustomButtonSize.large,
+                                      label: appLocalization.translate(
+                                          "getStarted"),
+                                      onPressed: () {
+                                        setState(() {
+                                          step = OnBoardingAndAuthStep.second;
+                                        });
+                                      },
+                                      type: CustomButtonType.primaryLabel),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  CustomButton.noIcon(
+                                    analyticsEvent:
+                                    AnalyticsEvents.onBoardingStep1SignInSupabase,
+                                    size: CustomButtonSize.large,
+                                    onPressed: () {
+                                      setState(() {
+                                        step = OnBoardingAndAuthStep.auth;
+                                      });
+                                    },
+                                    type: CustomButtonType.secondaryLabel,
+                                    label: appLocalization.translate("signIn"),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              demoButton(
+                                AnalyticsEvents.onBoardingStep1Demo,
+                              ),
+                              Container(
+                                height: AppSpacing.xHuge128.value,
+                                alignment: AlignmentDirectional.centerStart,
+                                child: agreeOurPrivacyTerms(),
+                              )
+                            ],
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                          child: Image.asset(
+                            AppAssets.onBoarding1desktop,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )
+                      ],
+                    ),
+                    isSmall: false,
+                  )),
+          OnBoardingAndAuthStep.second =>
+              ResponsiveTParams(
+                  small: changeLanguageWrapper(
+                      child: Center(
+                        child: Container(
+                          constraints: boxConstraints,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x2Big28.value),
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Spacer(
+                                flex: 36,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                    AppBorderRadius.x3Large.value),
+                                child: Image.asset(
+                                  AppAssets.onBoarding2mobile,
+                                  width: 246,
+                                  height: 290,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              const Spacer(
+                                flex: 66,
+                              ),
+                              Text(
+                                appLocalization.translate("simplifyTasks"),
+                                style: titleStyleMobile,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                appLocalization.translate(
+                                    "timeBlockingAppStreamlinesTaskManagement"),
+                                style: contentStyleMobile,
+                              ),
+                              const Spacer(
+                                flex: 72,
+                              ),
+                              Wrap(
+                                spacing: AppSpacing.xSmall8.value,
+                                runSpacing: AppSpacing.xSmall8.value,
+                                runAlignment: WrapAlignment.center,
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Wrap(
+                                    spacing: AppSpacing.xSmall8.value,
+                                    runSpacing: AppSpacing.xSmall8.value,
+                                    alignment: WrapAlignment.center,
+                                    children: [
+                                      CustomButton.noIcon(
+                                          analyticsEvent:
+                                          AnalyticsEvents.onBoardingStep2Back,
+                                          size: CustomButtonSize.small,
+                                          label: appLocalization.translate(
+                                              "back"),
+                                          onPressed: () {
+                                            setState(() {
+                                              step = OnBoardingAndAuthStep.first;
+                                            });
+                                          },
+                                          type: CustomButtonType.secondaryLabel),
+                                      ///TODO B remove next button since onboarding only 2 steps
+                                      CustomButton.noIcon(
+                                          analyticsEvent:
+                                          AnalyticsEvents.onBoardingStep2Next,
+                                          size: CustomButtonSize.small,
+                                          label: appLocalization.translate(
+                                              "next"),
+                                          onPressed: () {
+                                            setState(() {
+                                              step = OnBoardingAndAuthStep.third;
+                                            });
+                                          },
+                                          type: CustomButtonType.primaryLabel),
                                     ],
                                   ),
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    isSmall: true),
-                large: changeLanguageWrapper(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: MediaQuery
-                            .sizeOf(context)
-                            .width * 0.4,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            AppSpacing.x2Large64.value, 0, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Spacer(
-                              flex: 228,
-                            ),
-                            Text(
-                              appLocalization.translate("simplifyTasks"),
-                              style: titleStyleDesktop,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              appLocalization.translate(
-                                  "timeBlockingAppStreamlinesTaskManagement"),
-                              style: contentStyleDesktop,
-                            ),
-                            const Spacer(
-                              flex: 390,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                              SizedBox(
+                                height: AppSpacing.huge96.value,
+                                child: Column(
                                   children: [
-                                    CustomButton.noIcon(
-                                        analyticsEvent:
-                                        AnalyticsEvents.onBoardingStep2Back,
-                                        size: CustomButtonSize.large,
-                                        label: appLocalization.translate(
-                                            "back"),
-                                        onPressed: () {
-                                          setState(() {
-                                            step = OnBoardingAndAuthStep.first;
-                                          });
-                                        },
-                                        type: CustomButtonType.secondaryLabel),
-                                    SizedBox(
-                                      width: AppSpacing.xSmall8.value,
+                                    const SizedBox(
+                                      height: 18,
                                     ),
-                                    ///TODO B remove next button since onboarding only 2 steps
-                                    CustomButton.noIcon(
-                                        analyticsEvent:
-                                        AnalyticsEvents.onBoardingStep2Next,
-                                        size: CustomButtonSize.large,
-                                        label: appLocalization.translate(
-                                            "next"),
-                                        onPressed: () {
-                                          setState(() {
-                                            step = OnBoardingAndAuthStep.third;
-                                          });
-                                        },
-                                        type: CustomButtonType.primaryLabel),
+                                    Wrap(
+                                      children: [
+                                        ///TODO B remove skip button since onboarding only 2 steps
+                                        CustomButton.noIcon(
+                                            analyticsEvent:
+                                            AnalyticsEvents.onBoardingStep2Skip,
+                                            size: CustomButtonSize.small,
+                                            label: appLocalization.translate(
+                                                "skip"),
+                                            onPressed: () {
+                                              setState(() {
+                                                step = OnBoardingAndAuthStep.auth;
+                                              });
+                                            },
+                                            type: CustomButtonType
+                                                .primaryTextLabel),
+                                        demoButton(
+                                            AnalyticsEvents.onBoardingStep2Demo),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: AppSpacing.xHuge128.value,
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 18,
-                                      ),
-                                      Row(
-                                        children: [
-                                          ///TODO B remove skip button since onboarding only 2 steps
-                                          CustomButton.noIcon(
-                                              analyticsEvent: AnalyticsEvents
-                                                  .onBoardingStep2Skip,
-                                              size: CustomButtonSize.large,
-                                              label:
-                                              appLocalization.translate("skip"),
-                                              onPressed: () {
-                                                setState(() {
-                                                  step = OnBoardingAndAuthStep
-                                                      .auth;
-                                                });
-                                              },
-                                              type: CustomButtonType
-                                                  .primaryTextLabel),
-                                          SizedBox(
-                                            width: AppSpacing.xSmall8.value,
-                                          ),
-                                          demoButton(
-                                              AnalyticsEvents
-                                                  .onBoardingStep2Demo),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      ClipRRect(
-                        borderRadius:
-                        BorderRadius.circular(AppBorderRadius.x3Large.value),
-                        child: Image.asset(
-                          AppAssets.onBoarding2desktop,
-                          fit: BoxFit.fitHeight,
+                      isSmall: true),
+                  large: changeLanguageWrapper(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: MediaQuery
+                              .sizeOf(context)
+                              .width * 0.4,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              AppSpacing.x2Large64.value, 0, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Spacer(
+                                flex: 228,
+                              ),
+                              Text(
+                                appLocalization.translate("simplifyTasks"),
+                                style: titleStyleDesktop,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                appLocalization.translate(
+                                    "timeBlockingAppStreamlinesTaskManagement"),
+                                style: contentStyleDesktop,
+                              ),
+                              const Spacer(
+                                flex: 390,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomButton.noIcon(
+                                          analyticsEvent:
+                                          AnalyticsEvents.onBoardingStep2Back,
+                                          size: CustomButtonSize.large,
+                                          label: appLocalization.translate(
+                                              "back"),
+                                          onPressed: () {
+                                            setState(() {
+                                              step = OnBoardingAndAuthStep.first;
+                                            });
+                                          },
+                                          type: CustomButtonType.secondaryLabel),
+                                      SizedBox(
+                                        width: AppSpacing.xSmall8.value,
+                                      ),
+                                      ///TODO B remove next button since onboarding only 2 steps
+                                      CustomButton.noIcon(
+                                          analyticsEvent:
+                                          AnalyticsEvents.onBoardingStep2Next,
+                                          size: CustomButtonSize.large,
+                                          label: appLocalization.translate(
+                                              "next"),
+                                          onPressed: () {
+                                            setState(() {
+                                              step = OnBoardingAndAuthStep.third;
+                                            });
+                                          },
+                                          type: CustomButtonType.primaryLabel),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: AppSpacing.xHuge128.value,
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 18,
+                                        ),
+                                        Row(
+                                          children: [
+                                            ///TODO B remove skip button since onboarding only 2 steps
+                                            CustomButton.noIcon(
+                                                analyticsEvent: AnalyticsEvents
+                                                    .onBoardingStep2Skip,
+                                                size: CustomButtonSize.large,
+                                                label:
+                                                appLocalization.translate("skip"),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    step = OnBoardingAndAuthStep
+                                                        .auth;
+                                                  });
+                                                },
+                                                type: CustomButtonType
+                                                    .primaryTextLabel),
+                                            SizedBox(
+                                              width: AppSpacing.xSmall8.value,
+                                            ),
+                                            demoButton(
+                                                AnalyticsEvents
+                                                    .onBoardingStep2Demo),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                  isSmall: false,
-                )),
-        OnBoardingAndAuthStep.third =>
-            ResponsiveTParams(
-                small: changeLanguageWrapper(child: Auth(authBloc: widget.authBloc), isSmall: true),
-                large: changeLanguageWrapper(
-                  child: Auth(authBloc: widget.authBloc),
-                  isSmall: false,
-                )),
-      },
-      context: context,
-      onRefresh: () async {},
+                        ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(AppBorderRadius.x3Large.value),
+                          child: Image.asset(
+                            AppAssets.onBoarding2desktop,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )
+                      ],
+                    ),
+                    isSmall: false,
+                  )),
+          OnBoardingAndAuthStep.third =>
+              ResponsiveTParams(
+                  small: changeLanguageWrapper(child: Auth(authBloc: widget.authBloc), isSmall: true),
+                  large: changeLanguageWrapper(
+                    child: Auth(authBloc: widget.authBloc),
+                    isSmall: false,
+                  )),
+        },
+        context: context,
+        onRefresh: () async {},
+      ),
     );
   }
 
@@ -654,10 +669,10 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   bool isSignIn = true;
   final TextEditingController emailController =
-      TextEditingController();
+  TextEditingController();
   final FocusNode emailFocusNode = FocusNode();
   final TextEditingController passwordController =
-      TextEditingController();
+  TextEditingController();
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode submitFocusNode = FocusNode();
   final FocusNode changeAuthModeFocusNode = FocusNode();
@@ -677,98 +692,105 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     final showSmallDesign = context.showSmallDesign;
     return Container(
-      constraints:
-          BoxConstraints(maxWidth: showSmallDesign ? 400 : 500),
-      padding: EdgeInsets.all(AppSpacing.medium16.value),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset(
-              AppAssets.logo(context.isDarkMode),
-              width: showSmallDesign ? 180 : 200,
+        constraints:
+            BoxConstraints(maxWidth: showSmallDesign ? 400 : 500),
+        padding: EdgeInsets.all(AppSpacing.medium16.value),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image.asset(
+                AppAssets.logo(context.isDarkMode),
+                width: showSmallDesign ? 180 : 200,
+              ),
             ),
-          ),
-          SizedBox(height: AppSpacing.large40.value,),
-          Center(
-            child: Text(
-              isSignIn
-                  ? appLocalization.translate("signIn")
-                  : appLocalization.translate("signUp"),
+            SizedBox(height: AppSpacing.large40.value,),
+            Center(
+              child: Text(
+                isSignIn
+                    ? appLocalization.translate("signIn")
+                    : appLocalization.translate("signUp"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium,
+                    appFontSize: AppFontSize.heading5)),
+              ),
+            ),
+            SizedBox(height: AppSpacing.medium16.value,),
+
+            //email
+            Text(appLocalization.translate('email'),
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium,
-                  appFontSize: AppFontSize.heading5)),
+                  appFontSize: AppFontSize.paragraphMedium)),),
+            CustomTextInputField(controller: emailController, focusNode: emailFocusNode,),
+
+            SizedBox(height: AppSpacing.xBig24.value,),
+
+            //password
+            Text(appLocalization.translate('password'),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium,
+                    appFontSize: AppFontSize.paragraphMedium))),
+            CustomTextInputField(
+              controller: passwordController,
+              focusNode: passwordFocusNode,
+              isPassword: true,
             ),
-          ),
-          SizedBox(height: AppSpacing.medium16.value,),
-
-          //email
-          Text(appLocalization.translate('email'),
-            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                color: AppColors.grey(context.isDarkMode).shade900,
-                appFontWeight: AppFontWeight.medium,
-                appFontSize: AppFontSize.paragraphMedium)),),
-          CustomTextInputField(controller: emailController, focusNode: emailFocusNode,),
-
-          SizedBox(height: AppSpacing.xBig24.value,),
-
-          //password
-          Text(appLocalization.translate('password'),
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  color: AppColors.grey(context.isDarkMode).shade900,
-                  appFontWeight: AppFontWeight.medium,
-                  appFontSize: AppFontSize.paragraphMedium))),
-          CustomTextInputField(
-            controller: passwordController,
-            focusNode: passwordFocusNode,
-            isPassword: true,
-          ),
-          SizedBox(height: AppSpacing.x3Big32.value,),
-          CustomButton.noIcon(
-              focusNode: submitFocusNode,
-              analyticsEvent:
-                  isSignIn ? AnalyticsEvents.signIn : AnalyticsEvents.signUp,
-              label: isSignIn
-                  ? appLocalization.translate("signIn")
-                  : appLocalization.translate("signUp"),
-              onPressed: () {
-                printDebug(
-                    "${emailController.text} : ${passwordController.text}");
-                widget.authBloc.add(SignInEvent(SignInParams(
-                  email: emailController.text,
-                  password: passwordController.text,
-                )));
-              }),
-          SizedBox(height: AppSpacing.xBig24.value,),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                  isSignIn
-                      ? appLocalization.translate('areYouNewHere?')
-                      : appLocalization.translate('alreadyHaveAnAccount?'),
-                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      color: AppColors.grey(context.isDarkMode).shade500,
-                      appFontWeight: AppFontWeight.medium,
-                      appFontSize: AppFontSize.paragraphSmall))),
-              if(showSmallDesign == false)SizedBox(width: AppSpacing.x2Small4.value,),
-              CustomButton.noIcon(
-                  focusNode: changeAuthModeFocusNode,
-                  type: CustomButtonType.primaryTextLabel,
-                  label: isSignIn
-                      ? appLocalization.translate("createNewAccount")
-                      : appLocalization.translate("tryToSignIn"),
-                  onPressed: () {
-                    setState(() {
-                      isSignIn = !isSignIn;
-                    });
-                  }),
-            ],
-          )
-        ],
-      ),
-    );
+            SizedBox(height: AppSpacing.x3Big32.value,),
+            CustomButton.noIcon(
+                focusNode: submitFocusNode,
+                analyticsEvent:
+                    isSignIn ? AnalyticsEvents.signIn : AnalyticsEvents.signUp,
+                label: isSignIn
+                    ? appLocalization.translate("signIn")
+                    : appLocalization.translate("signUp"),
+                onPressed: () {
+                  printDebug(
+                      "${emailController.text} : ${passwordController.text}");
+                  if(isSignIn){
+                    widget.authBloc.add(SignInEvent(SignInParams(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    )));
+                  }else{
+                    widget.authBloc.add(SignUpEvent(SignUpParams(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    )));
+                  }
+                }),
+            SizedBox(height: AppSpacing.xBig24.value,),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                    isSignIn
+                        ? appLocalization.translate('areYouNewHere?')
+                        : appLocalization.translate('alreadyHaveAnAccount?'),
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        color: AppColors.grey(context.isDarkMode).shade500,
+                        appFontWeight: AppFontWeight.medium,
+                        appFontSize: AppFontSize.paragraphSmall))),
+                if(showSmallDesign == false)SizedBox(width: AppSpacing.x2Small4.value,),
+                CustomButton.noIcon(
+                    focusNode: changeAuthModeFocusNode,
+                    type: CustomButtonType.primaryTextLabel,
+                    label: isSignIn
+                        ? appLocalization.translate("createNewAccount")
+                        : appLocalization.translate("tryToSignIn"),
+                    onPressed: () {
+                      setState(() {
+                        isSignIn = !isSignIn;
+                      });
+                    }),
+              ],
+            )
+          ],
+        ),
+      );
   }
 }

@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -11,7 +11,6 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 
 import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/folder.dart';
-import '../../../../common/entities/tasks_list.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateListInFolderUseCase
@@ -44,13 +43,13 @@ class CreateListInFolderParams extends Equatable {
   final String listName;
   final Color? statusColor;
   final User user;
-  final Space space;
+  final Workspace workspace;
   const CreateListInFolderParams({
     required this.accessToken,
     required this.folder,
     required this.listName,
     required this.user,
-    required this.space,
+    required this.workspace,
     this.statusColor,
   });
 
@@ -61,12 +60,12 @@ class CreateListInFolderParams extends Equatable {
         listName,
         statusColor,
         user,
-        space,
+        workspace,
       ];
 
   Map<String, dynamic> toJson() {
     return {
-      'space_id': space.id,
+      'workspace_id': workspace.id,
       'name': listName,
       'folder_id': folder.id,
       'user_id': user.id,

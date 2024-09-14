@@ -113,7 +113,6 @@ class ScheduleState extends Equatable {
   GetTasksInWorkspaceFiltersParams
       defaultTasksInWorkspaceFiltersParams (
       {required AccessToken accessToken, required User? user}){
-    List<String>? filterBySpaceIds;
     // if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) &&
     //     BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
     //   filterBySpaceIds = [
@@ -121,7 +120,7 @@ class ScheduleState extends Equatable {
     //   ];
     // }
     return GetTasksInWorkspaceFiltersParams(
-            filterBySpaceIds: filterBySpaceIds,
+
             accessToken: accessToken,
             filterByDueDateGreaterThanUnixTimeMilliseconds:
                 tasksDueDateEarliestDate.millisecondsSinceEpoch,

@@ -4,7 +4,6 @@ import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 
-import 'package:thetimeblockingapp/common/entities/space.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_tag_in_workspace_use_case.dart';
@@ -66,7 +65,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
                 workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     accessToken: event.accessToken,
-                    filterBySpaceIds: [event.space.id ?? ""],
                     filterByTag: event.tag),
                 backendMode: serviceLocator<BackendMode>().mode));
         result?.fold(
@@ -163,7 +161,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
           add(GetTasksForTagEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -180,7 +177,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
           add(GetTasksForTagEvent(
               accessToken: event.params.accessToken,
-              space: event.params.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -196,7 +192,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
           add(GetTasksForTagEvent(
               accessToken: event.params.accessToken,
-              space: event.params.task!.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -212,7 +207,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
           ));
           add(GetTasksForTagEvent(
               accessToken: event.params.accessToken,
-              space: event.params.task.space!,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });

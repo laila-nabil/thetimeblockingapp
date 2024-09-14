@@ -69,7 +69,7 @@ class ListPage extends StatelessWidget {
                         context: context,
                         taskPopupParams: TaskPopupParams.addToList(
                             list: state.currentList,
-                            folder: globalBloc.state.selectedSpace?.folders
+                            folder: globalBloc.state.selectedWorkspace?.folders
                                 ?.where((f) =>
                                     f.lists?.contains(state.currentList) ==
                                     true)
@@ -93,7 +93,7 @@ class ListPage extends StatelessWidget {
                             },
                             isLoading: (state) => state is! ListsPageState
                                 ? false
-                                : state.isLoading, space: globalBloc.state.selectedSpace));
+                                : state.isLoading, workspace: globalBloc.state.selectedWorkspace));
                   },
                 ),
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
@@ -242,7 +242,7 @@ class ListPage extends StatelessWidget {
             task: newTask,
             backendMode: serviceLocator<BackendMode>(),
             user: authBloc.state.user!,
-            space: newTask.space,
+            workspace: newTask.workspace,
             tags: newTask.tags), onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
             params: GetTasksInWorkspaceParams(
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,

@@ -1,7 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
@@ -104,7 +102,7 @@ class TaskComponent extends StatelessWidget {
                       description: task.description,
                       dueDate: task.dueDateUtc,
                       folder: task.folder,
-                      space: task.space,
+                      workspace: task.workspace,
                       tags: task.tags,
                       taskPriority: task.priority,
                       startDate: task.startDateUtc,

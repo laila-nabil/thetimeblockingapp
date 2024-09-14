@@ -27,17 +27,15 @@ class GetTagsInWorkspaceEvent extends TagsPageEvent {
 class GetTasksForTagEvent extends TagsPageEvent {
   final AccessToken accessToken;
   final Tag tag;
-  final Space space;
   final Workspace workspace;
 
   const GetTasksForTagEvent(
       {required this.accessToken,
       required this.tag,
-      required this.workspace,
-      required this.space});
+      required this.workspace,});
 
   @override
-  List<Object?> get props => [accessToken, tag, space];
+  List<Object?> get props => [accessToken, tag,];
 }
 
 class CreateTagInSpaceEvent extends TagsPageEvent {

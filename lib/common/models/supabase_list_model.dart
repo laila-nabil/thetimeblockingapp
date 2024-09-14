@@ -1,4 +1,3 @@
-import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
 import '../entities/tasks_list.dart';

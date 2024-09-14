@@ -6,7 +6,6 @@ import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
-import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
@@ -25,8 +24,8 @@ import '../bloc/settings_bloc.dart';
 ///TODO Z create task from siri shortcuts functionality
 ///TODO Z create task from email
 ///TODO C about me page with github and twitter links and why app created
-///TODO D changing workspace and space in settings page
-///TODO D create a new Workspace/Space in settings page
+///TODO D changing workspace in settings page
+///TODO D create a new Workspace in settings page
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

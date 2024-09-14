@@ -7,7 +7,10 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/common/models/access_token_model.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/sign_up_result_model.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/sign_in_result.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../../../core/error/exception_to_failure.dart';
 
 import '../../../../core/repo_handler.dart';
@@ -49,6 +52,15 @@ class AuthRepoImpl  implements AuthRepo{
           final user =  await authLocalDataSource.getSupabaseUser();
           return SignInResultModel(accessToken: access, user: user);
         });
+    return result;
+  }
+
+  @override
+  Future<dartz.Either<Failure, SignUpResultModel>> signUp({required SignUpParams params}) async {
+    final result = await repoHandleRemoteRequest<SignUpResultModel>(
+        remoteDataSourceRequest: () =>
+        authRemoteDataSource.signUpSupabase(params: params),
+    );
     return result;
   }
 }

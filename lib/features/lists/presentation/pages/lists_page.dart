@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.dart';
-import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_space_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folderless_list_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_folder_use_case.dart';
@@ -67,7 +67,6 @@ class ListsPage extends StatelessWidget {
                                           authBloc.state.accessToken!),
                                   workspace:
                                       globalBloc.state.selectedWorkspace!,
-                                  space: globalBloc.state.selectedSpace!,
                                   onSuccess: () {
                                     globalBloc.add(GetAllInWorkspaceEvent(
                                       accessToken: authBloc.state.accessToken!,
@@ -116,9 +115,6 @@ class ListsPage extends StatelessWidget {
                                       BlocProvider.of<GlobalBloc>(context)
                                           .state
                                           .selectedWorkspace!,
-                                  space: BlocProvider.of<GlobalBloc>(context)
-                                      .state
-                                      .selectedSpace!,
                                   onSuccess: () {
                                     globalBloc.add(GetAllInWorkspaceEvent(
                                       accessToken: authBloc.state.accessToken!,
@@ -153,7 +149,7 @@ class ListsPage extends StatelessWidget {
             final globalBloc = BlocProvider.of<GlobalBloc>(context);
             final authBloc = BlocProvider.of<AuthBloc>(context);
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
-            if (state.canGetData(globalState.isLoading) && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name)) {
+            if (state.canGetData(globalState.isLoading) && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
               getListsFolders(listsPageBloc,authBloc.state,globalBloc);
             }
             return ResponsiveScaffold(
@@ -185,7 +181,7 @@ class ListsPage extends StatelessWidget {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[] +
-                                      (globalState.selectedSpace?.folders
+                                      (globalState.selectedWorkspace?.folders
                                           ?.map<Widget>((folder) =>
                                           ToggleableSection(
                                               actions: [
@@ -261,13 +257,11 @@ class ListsPage extends StatelessWidget {
                                                                     folder:
                                                                     folder,
                                                                     listName:
-                                                                    text, user: authBloc.state.user!, space: globalState.selectedSpace!),
+                                                                    text, user: authBloc.state.user!, workspace: globalState.selectedWorkspace!),
                                                                 workspace:
                                                                 globalState
                                                                     .selectedWorkspace!,
-                                                                space:
-                                                                globalState
-                                                                    .selectedSpace!, onSuccess: () {
+                                                                onSuccess: () {
                                                               globalBloc.add(GetAllInWorkspaceEvent(
                                                                 accessToken: authBloc.state.accessToken!,
                                                                 workspace: globalBloc.state.selectedWorkspace!,
@@ -289,7 +283,7 @@ class ListsPage extends StatelessWidget {
                                       [
                                         ToggleableSection(
                                             title: appLocalization.translate("otherLists"),
-                                            children: (globalState.selectedSpace?.lists
+                                            children: (globalState.selectedWorkspace?.lists
                                                 ?.map<Widget>((e) => ListComponent(
                                               list: e,
                                               actions: [
@@ -327,12 +321,11 @@ class ListsPage extends StatelessWidget {
                                                     authBloc.state
                                                         .accessToken!,
                                                     folderName: text,
-                                                    space: globalState
-                                                        .selectedSpace!, user: authBloc.state.user!),
+                                                    workspace: globalState
+                                                        .selectedWorkspace!, user: authBloc.state.user!),
                                                 workspace: globalState
                                                     .selectedWorkspace!,
-                                                space: globalState
-                                                    .selectedSpace!, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+                                                onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
                                               accessToken: authBloc.state.accessToken!,
                                               workspace: globalBloc.state.selectedWorkspace!,
                                             )); }));
@@ -371,12 +364,10 @@ class ListsPage extends StatelessWidget {
                                                   authBloc.state
                                                       .accessToken!,
                                                   listName: text,
-                                                  space: globalState
-                                                      .selectedSpace!, user: authBloc.state.user!),
+                                                  workspace: globalState
+                                                      .selectedWorkspace!, user: authBloc.state.user!),
                                               workspace: globalState
                                                   .selectedWorkspace!,
-                                              space: globalState
-                                                  .selectedSpace!,
                                                   onSuccess: () {
                                                     globalBloc.add(
                                                         GetAllInWorkspaceEvent(

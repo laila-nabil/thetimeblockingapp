@@ -23,7 +23,6 @@ import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/global/presentation/bloc/global_bloc.dart';
-import '../entities/space.dart';
 import '../entities/workspace.dart';
 
 ///TODO C in desktop,show folders and list as sub to Lists
@@ -47,9 +46,6 @@ class CustomDrawer extends StatelessWidget {
                     accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!));
               }
             },
-            selectSpace: (selected) {
-              ///TODO C select space
-            },
             appLocalization: appLocalization);
       },
     );
@@ -61,13 +57,11 @@ class CustomDrawerWidget extends StatelessWidget {
     super.key,
     required this.appLocalization,
     required this.selectWorkspace,
-    required this.selectSpace,
     required this.router,
     required this.showSmallDesign,
   });
 
   final void Function(Workspace? workspace) selectWorkspace;
-  final void Function(Space? space) selectSpace;
   final Localization appLocalization;
   final GoRouter? router;
   final bool showSmallDesign;
@@ -219,7 +213,9 @@ class _DrawerItem extends StatelessWidget {
       required this.iconPath,
       required this.onPressed,
       required this.isSelected,
+      // ignore: unused_element
       this.hasSubPage = false,
+      // ignore: unused_element
       this.isSubPage = false});
 
   final String title;

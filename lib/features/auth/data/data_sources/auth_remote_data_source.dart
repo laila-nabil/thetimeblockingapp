@@ -5,14 +5,18 @@ import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../../../common/models/access_token_model.dart';
 import '../models/sign_in_result_model.dart';
+import '../models/sign_up_result_model.dart';
 
 abstract class AuthRemoteDataSource {
 
   Future<SignInResultModel> signInSupabase({required SignInParams params});
 
   Future<dartz.Unit> signOut(AccessTokenModel accessModel);
+
+  Future<SignUpResultModel> signUpSupabase({required SignUpParams params});
 }
 
 class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -44,5 +48,16 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         uri: Uri.parse("$url/auth/v1/logout"),);
     printDebug("logout api result $result");
     return dartz.unit;
+  }
+
+  @override
+  Future<SignUpResultModel> signUpSupabase({required SignUpParams params}) async {
+    final result = await network.post(
+        headers: supabaseHeader(
+            accessToken: const AccessTokenModel(accessToken: "", tokenType: ""),
+            apiKey: key),
+        uri: Uri.parse("$url/auth/v1/signup"),
+        body: {"email": params.email, "password": params.password});
+    return SignUpResultModel.fromJson(json.decode(result.body));
   }
 }

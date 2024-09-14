@@ -34,12 +34,12 @@ class TaskPopUpState extends Equatable {
     }
   }
 
-  bool get isFoldersListAvailable => taskParams?.space?.folders
+  bool get isFoldersListAvailable => taskParams?.workspace?.folders
       ?.isNotEmpty ==
       true || taskParams?.folder !=null;
 
   bool get viewTagsButton =>
-      taskParams?.task != null || taskParams?.space != null;
+      taskParams?.task != null || taskParams?.workspace != null;
 
   CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate,AccessToken accessToken,User user){
     CreateTaskParams params;
@@ -84,7 +84,7 @@ class TaskPopUpState extends Equatable {
         backendMode: serviceLocator<BackendMode>().mode, user: user,
         taskStatus: taskParams?.taskStatus,
         folder: taskParams?.folder,
-        space: taskParams?.space,
+        workspace: taskParams?.workspace,
         startDate: taskParams?.startDate,
         tags: taskParams?.tags,
         taskPriority: taskParams?.taskPriority,
