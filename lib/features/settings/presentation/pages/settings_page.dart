@@ -35,14 +35,17 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SettingsBloc, SettingsState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.signOutSuccess) {
+        if (state.authState == AuthStateEnum.signOutSuccess) {
           router.go(SupabaseAuthPage.routeName);
         }
       },
       builder: (context, state) {
+        return BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
         final bloc = BlocProvider.of<SettingsBloc>(context);
+        final authBloc = BlocProvider.of<AuthBloc>(context);
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
                 small: Padding(
@@ -136,7 +139,7 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("signOut"),
                       onPressed: () {
-                        bloc.add(SignOutEvent(BlocProvider.of<AuthBloc>(context)
+                        authBloc.add(SignOutEvent(BlocProvider.of<AuthBloc>(context)
                             .state
                             .accessToken!));
                       },
@@ -182,5 +185,7 @@ class SettingsPage extends StatelessWidget {
             onRefresh: () async {});
       },
     );
+  },
+);
   }
 }

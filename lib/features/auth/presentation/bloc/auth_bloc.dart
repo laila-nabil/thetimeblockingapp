@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_ca
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../common/entities/access_token.dart';
+import '../../../settings/domain/use_cases/sign_out_use_case.dart';
 
 part 'auth_event.dart';
 
@@ -13,8 +14,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInUseCase _signInUseCase;
+  final SignOutUseCase _signOutUseCase;
 
-  AuthBloc( this._signInUseCase)
+  AuthBloc( this._signInUseCase,this._signOutUseCase)
       : super(const AuthState(authState: AuthStateEnum.initial)) {
     on<AuthEvent>((event, emit) async {
       if (event is SignInEvent) {
@@ -33,14 +35,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(authState: AuthStateEnum.loading));
         final result =
             await _signInUseCase(const SignInParams(email: '', password: ''));
-        await result?.fold(
-            (l) async => emit(state.copyWith(
+        result?.fold(
+            (l) => emit(state.copyWith(
                 signInFailure: l,
-                authState: AuthStateEnum.signInFailed)), (r) async {
+                authState: AuthStateEnum.signInFailed)), (r) {
           emit(state.copyWith(
               user: r.user,
               accessToken: r.accessToken,
               authState: AuthStateEnum.signInSuccess));
+        });
+      } else if(event is SignOutEvent){
+        emit(state.copyWith(authState: AuthStateEnum.loading));
+        final result = await _signOutUseCase(event.accessToken);
+        result?.fold(
+                (l) => emit(state.copyWith(
+                signInFailure: l,
+                authState: AuthStateEnum.signOutFailed)), (r) {
+          emit(state.copyWith(
+              resetState: true,
+              authState: AuthStateEnum.signOutSuccess));
         });
       }
     });

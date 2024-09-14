@@ -19,3 +19,11 @@ class CheckAlreadySignedInEvent extends AuthEvent {
   List<Object?> get props => [];
 }
 
+class SignOutEvent extends AuthEvent {
+  final AccessToken accessToken;
+
+  const SignOutEvent(this.accessToken);
+  @override
+  List<Object?> get props => [accessToken];
+}
+

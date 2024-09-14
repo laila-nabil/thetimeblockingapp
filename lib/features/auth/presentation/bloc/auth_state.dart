@@ -13,7 +13,7 @@ enum AuthStateEnum {
   getAUserFailed,
   getWorkspacesSuccess,
   getWorkspacesFailed,
-  triedGetSelectedWorkspacesSpace,
+  triedGetSelectedWorkspacesSpace, signOutFailed, signOutSuccess,
 }
 
 class AuthState extends Equatable {
@@ -23,6 +23,7 @@ class AuthState extends Equatable {
   final Failure? getUserFailure;
   final User? user;
   final Failure? signInFailure;
+  final Failure? signOutFailure;
 
   const AuthState({
     required this.authState,
@@ -31,6 +32,7 @@ class AuthState extends Equatable {
     this.getUserFailure,
     this.user,
     this.signInFailure,
+    this.signOutFailure,
   });
 
   bool get isLoading => authState == AuthStateEnum.loading;
@@ -46,9 +48,9 @@ class AuthState extends Equatable {
         getAccessTokenFailure,
         accessToken,
         getUserFailure,
-
         user,
         signInFailure,
+        signOutFailure
       ];
 
   AuthState copyWith({
@@ -57,17 +59,19 @@ class AuthState extends Equatable {
     AccessToken? accessToken,
     Failure? getUserFailure,
     User? user,
-    Failure? signInFailure
+    Failure? signInFailure,
+    Failure? signOutFailure,
+    bool resetState = false,
   }) {
     return AuthState(
       authState: authState ?? this.authState,
       getAccessTokenFailure:
           getAccessTokenFailure ?? this.getAccessTokenFailure,
-      accessToken: accessToken ??this.accessToken,
-      getUserFailure:
-          getUserFailure ?? this.getUserFailure,
+      accessToken: resetState ? null : (accessToken ?? this.accessToken),
+      getUserFailure: getUserFailure ?? this.getUserFailure,
+      user: resetState ? null : user ?? this.user,
       signInFailure: signInFailure ?? this.signInFailure,
-      user: user ?? this.user
+      signOutFailure: signOutFailure ?? this.signOutFailure,
     );
   }
 }

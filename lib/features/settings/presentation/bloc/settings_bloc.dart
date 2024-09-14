@@ -25,29 +25,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         emit(SettingsState(
           isLoading: false,
             themeMode: state.themeMode,
-            signOutSuccess: state.signOutSuccess,
             currentLanguage: event.changeLanguageParams.locale));
       } else if (event is ChangeThemeEvent) {
         emit(SettingsState(
             currentLanguage: state.currentLanguage,
             themeMode: event.themeMode));
-      } else if (event is SignOutEvent) {
-        emit(SettingsState(
-            isLoading: true,
-            currentLanguage: state.currentLanguage,
-            themeMode: state.themeMode));
-        final result = await _signOutUseCase(event.accessToken);
-        result?.fold(
-            (l) => emit(SettingsState(
-                isLoading: false,
-                currentLanguage: state.currentLanguage,
-                themeMode: state.themeMode,
-                signOutSuccess: false)),
-            (r) => emit(SettingsState(
-                isLoading: false,
-                currentLanguage: state.currentLanguage,
-                themeMode: state.themeMode,
-                signOutSuccess: true)));
       }
     });
   }
