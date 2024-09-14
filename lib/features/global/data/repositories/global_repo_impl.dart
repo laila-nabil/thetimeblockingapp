@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/repo_handler.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/create_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
@@ -55,6 +56,13 @@ class GlobalRepoImpl implements GlobalRepo {
       {required GetWorkspacesParams params}) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () => remoteDataSource.getWorkspaces(params: params),
+    );
+  }
+
+  @override
+  Future<dartz.Either<Failure, dartz.Unit>> createWorkspace({required CreateWorkspaceParams params}) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () => remoteDataSource.createWorkspace(params: params),
     );
   }
 }
