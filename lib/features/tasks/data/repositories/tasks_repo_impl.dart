@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';

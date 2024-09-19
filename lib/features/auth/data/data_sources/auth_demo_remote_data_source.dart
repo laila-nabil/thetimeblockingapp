@@ -1,5 +1,4 @@
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
-import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../models/sign_in_result_model.dart';

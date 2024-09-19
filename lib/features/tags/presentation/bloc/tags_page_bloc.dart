@@ -14,7 +14,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../common/entities/access_token.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/create_task_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';

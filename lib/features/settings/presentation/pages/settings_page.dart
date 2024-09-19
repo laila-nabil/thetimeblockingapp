@@ -140,7 +140,7 @@ class SettingsPage extends StatelessWidget {
                       onPressed: () {
                         authBloc.add(SignOutEvent(BlocProvider.of<AuthBloc>(context)
                             .state
-                            .accessToken!));
+                            .accessToken));
                       },
                       type: CustomButtonType.destructiveFilledLabel,
                     ),

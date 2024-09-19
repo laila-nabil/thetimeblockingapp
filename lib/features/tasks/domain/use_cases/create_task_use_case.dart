@@ -35,7 +35,7 @@ class CreateTaskUseCase {
           final newTasks = await repo.getTasksInWorkspace(
               params: GetTasksInWorkspaceParams(
                   workspaceId: workspaceId,
-                  filtersParams: GetTasksInWorkspaceFiltersParams(
+                  filtersParams: const GetTasksInWorkspaceFiltersParams(
                       ),
                   backendMode: serviceLocator<BackendMode>().mode));
           await newTasks.fold((l)async{}, (tasks) async {

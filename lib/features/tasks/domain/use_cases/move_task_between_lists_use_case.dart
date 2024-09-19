@@ -12,7 +12,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
-import '../../../../common/entities/access_token.dart';
 
 class MoveTaskBetweenListsUseCase
     implements UseCase<dartz.Unit, MoveTaskBetweenListsParams> {

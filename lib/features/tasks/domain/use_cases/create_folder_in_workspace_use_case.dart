@@ -6,7 +6,6 @@ import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
-import '../../../../common/entities/access_token.dart';
 import '../repositories/tasks_repo.dart';
 
 class CreateFolderInWorkspaceUseCase

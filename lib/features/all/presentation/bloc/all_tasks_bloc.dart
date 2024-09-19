@@ -8,7 +8,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_tas
 
 import '../../../../common/entities/workspace.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../common/entities/access_token.dart';
 
 import '../../../../common/entities/task.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';

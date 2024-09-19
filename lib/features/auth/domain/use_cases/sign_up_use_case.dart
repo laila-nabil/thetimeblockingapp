@@ -7,7 +7,6 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/sign_up_result.dart';
 
-import '../entities/sign_in_result.dart';
 import '../repositories/auth_repo.dart';
 
 class SignUpUseCase implements UseCase<SignUpResult, SignUpParams> {

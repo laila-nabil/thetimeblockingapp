@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
-import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';

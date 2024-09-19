@@ -104,7 +104,7 @@ class ListsPageState extends Equatable {
     // if (serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAndSpaceAppWide.name) && BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id != null) {
     //   filterBySpaceIds = [BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id ?? ""];
     // }
-    return GetTasksInWorkspaceFiltersParams(
+    return const GetTasksInWorkspaceFiltersParams(
     );
   }
 

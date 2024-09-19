@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/entities/access_token.dart';
-import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
-import 'package:thetimeblockingapp/core/error/exceptions.dart';
-import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
@@ -19,8 +15,6 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/get_all_in_w
 import '../../../../core/network/network.dart';
 import '../../../../core/network/supabase_header.dart';
 import '../../../../core/remote_data_source_handler.dart';
-import '../../../auth/data/data_sources/auth_local_data_source.dart';
-import '../../../auth/data/data_sources/auth_remote_data_source.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/create_list_in_folder_use_case.dart';
 import '../../domain/use_cases/add_tag_to_task_use_case.dart';

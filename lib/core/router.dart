@@ -53,8 +53,7 @@ final router = GoRouter(
           instanceName:
           ServiceLocatorName.redirectAfterAuthRouteName.name)}");
       printDebug("state?.uri ${state?.uri}");
-      if (BlocProvider.of<AuthBloc>(context).state.accessToken == null ||
-          BlocProvider.of<AuthBloc>(context).state.user == null) {
+      if (BlocProvider.of<AuthBloc>(context).state.user == null) {
         if(state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName){
           printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
           serviceLocator.registerSingleton<String>(state?.uri.toString()??"",
@@ -71,8 +70,7 @@ final router = GoRouter(
             return SupabaseOnBoardingAndAuthPage();
           },
           redirect: (context, state) async {
-            if (BlocProvider.of<AuthBloc>(context).state.accessToken != null &&
-                BlocProvider.of<AuthBloc>(context).state.user != null &&
+            if (BlocProvider.of<AuthBloc>(context).state.user != null &&
                 BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) {
               return SchedulePage.routeName;
             }
@@ -92,7 +90,7 @@ final router = GoRouter(
               .of<AuthBloc>(context)
                         .state
                         .accessToken
-                        ?.accessToken
+                        .accessToken
                         .isNotEmpty ==
                     true &&
                 BlocProvider.of<AuthBloc>(context).state.user != null &&

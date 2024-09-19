@@ -24,7 +24,6 @@ import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
-import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/user.dart';
 import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_drop_down.dart';

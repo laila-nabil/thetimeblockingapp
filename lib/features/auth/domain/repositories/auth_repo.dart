@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart' as dartz;
-import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 
