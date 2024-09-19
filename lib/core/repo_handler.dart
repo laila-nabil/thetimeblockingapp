@@ -42,6 +42,8 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
       await serviceLocator<AuthLocalDataSource>().saveSignInResult(refreshTokenResult);
       serviceLocator.registerSingleton<String>(refreshTokenResult.refreshToken,
           instanceName: ServiceLocatorName.refreshToken.name);
+      serviceLocator.registerSingleton<AccessToken>(refreshTokenResult.accessToken,
+          instanceName: ServiceLocatorName.accessToken.name);
       result = await remoteDataSourceRequest();
     } on Exception catch (e) {
       printDebug("RefreshToken Exception $e", printLevel: PrintLevel.error);

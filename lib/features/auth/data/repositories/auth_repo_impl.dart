@@ -49,11 +49,15 @@ class AuthRepoImpl  implements AuthRepo{
                 .saveSignInResult(result);
             serviceLocator.registerSingleton<String>(result.refreshToken,
                 instanceName: ServiceLocatorName.refreshToken.name);
+            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
+                instanceName: ServiceLocatorName.accessToken.name);
           },
           tryGetFromLocalStorage: () async {
             final result = await authLocalDataSource.getSignInResult();
             serviceLocator.registerSingleton<String>(result.refreshToken,
                 instanceName: ServiceLocatorName.refreshToken.name);
+            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
+                instanceName: ServiceLocatorName.accessToken.name);
             return result;
           }, accessToken: params.accessToken.toModel);
     }else{
@@ -62,6 +66,8 @@ class AuthRepoImpl  implements AuthRepo{
             final result = await authLocalDataSource.getSignInResult();
             serviceLocator.registerSingleton<String>(result.refreshToken,
                 instanceName: ServiceLocatorName.refreshToken.name);
+            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
+                instanceName: ServiceLocatorName.accessToken.name);
             return result;
           });
     }

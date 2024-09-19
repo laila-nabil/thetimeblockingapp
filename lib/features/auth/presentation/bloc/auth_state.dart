@@ -19,7 +19,6 @@ enum AuthStateEnum {
 class AuthState extends Equatable {
   final AuthStateEnum authState;
   final Failure? getAccessTokenFailure;
-  final AccessToken? accessToken;
   final Failure? getUserFailure;
   final User? user;
   final Failure? signInFailure;
@@ -30,7 +29,6 @@ class AuthState extends Equatable {
   const AuthState({
     required this.authState,
     this.getAccessTokenFailure,
-    this.accessToken,
     this.getUserFailure,
     this.user,
     this.signInFailure,
@@ -38,6 +36,10 @@ class AuthState extends Equatable {
     this.signOutFailure,
     this.signUpResult,
   });
+
+  ///TODO B fix workaround
+  AccessToken get accessToken =>  serviceLocator<AccessToken>(
+      instanceName: ServiceLocatorName.accessToken.name);
 
   bool get isLoading => authState == AuthStateEnum.loading;
 
@@ -62,7 +64,6 @@ class AuthState extends Equatable {
   AuthState copyWith({
     AuthStateEnum? authState,
     Failure? getAccessTokenFailure,
-    AccessToken? accessToken,
     Failure? getUserFailure,
     User? user,
     Failure? signInFailure,
@@ -71,11 +72,17 @@ class AuthState extends Equatable {
     bool resetState = false,
     SignUpResult? signUpResult,
   }) {
+    if(resetState){
+      serviceLocator.registerSingleton<String>('',
+          instanceName: ServiceLocatorName.refreshToken.name);
+      serviceLocator.registerSingleton<AccessToken>(
+          const AccessToken(accessToken: '', tokenType: ''),
+          instanceName: ServiceLocatorName.accessToken.name);
+    }
     return AuthState(
       authState: authState ?? this.authState,
       getAccessTokenFailure:
           getAccessTokenFailure ?? this.getAccessTokenFailure,
-      accessToken: resetState ? null : (accessToken ?? this.accessToken),
       getUserFailure: getUserFailure ?? this.getUserFailure,
       user: resetState ? null : user ?? this.user,
       signInFailure: signInFailure ?? this.signInFailure,

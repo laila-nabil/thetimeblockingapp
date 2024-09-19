@@ -27,9 +27,12 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final String url;
   final String key;
   final Network network;
-
+  final AccessTokenModel accessTokenModel;
   SupabaseAuthRemoteDataSourceImpl(
-      {required this.network, required this.url, required this.key});
+      {required this.network,
+      required this.url,
+      required this.key,
+      required this.accessTokenModel});
 
   @override
   Future<SignInResultModel> signInSupabase(
@@ -47,7 +50,7 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<dartz.Unit> signOut(AccessTokenModel accessModel) async{
     final result = await network.post(
         headers: supabaseHeader(
-            accessToken: accessModel,
+            accessToken: accessTokenModel,
             apiKey: key),
         uri: Uri.parse("$url/auth/v1/logout"),);
     printDebug("logout api result $result");
@@ -70,7 +73,7 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {required String refreshToken, required AccessToken accessToken}) async{
     final result = await network.post(
         headers: supabaseHeader(
-            accessToken: accessToken,
+            accessToken: accessTokenModel,
             apiKey: key),
         uri: Uri.parse("$url/auth/v1/token?grant_type=refresh_token"),
         body: {"refresh_token": refreshToken});

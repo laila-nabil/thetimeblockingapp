@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/sign_up_result.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
@@ -28,9 +29,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (l) async => emit(state.copyWith(
                 signInFailure: l,
                 authState: AuthStateEnum.signInFailed)), (r) async {
+          serviceLocator.registerSingleton<AccessToken>(r.accessToken,
+              instanceName: ServiceLocatorName.accessToken.name);
           emit(state.copyWith(
               user: r.user,
-              accessToken: r.accessToken,
               authState: AuthStateEnum.signInSuccess));
         });
       }else if (event is SignUpEvent) {
@@ -54,9 +56,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (l) => emit(state.copyWith(
                 signInFailure: l,
                 authState: AuthStateEnum.signInFailed)), (r) {
+          serviceLocator.registerSingleton<AccessToken>(r.accessToken,
+              instanceName: ServiceLocatorName.accessToken.name);
           emit(state.copyWith(
               user: r.user,
-              accessToken: r.accessToken,
               authState: AuthStateEnum.signInSuccess));
         });
       } else if(event is SignOutEvent){

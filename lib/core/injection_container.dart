@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/analytics/posthog_impl.dart';
 import 'package:thetimeblockingapp/core/environment.dart';
@@ -73,7 +74,8 @@ enum ServiceLocatorName {
   defaultTaskDuration,
   isWorkspaceAppWide,
   redirectAfterAuthRouteName,
-  refreshToken
+  refreshToken,
+  accessToken
 }
 
 void _initServiceLocator({required Network network}) {
@@ -82,6 +84,8 @@ void _initServiceLocator({required Network network}) {
   /// Globals
   serviceLocator.registerSingleton<String>('',
       instanceName: ServiceLocatorName.refreshToken.name);
+serviceLocator.registerSingleton<AccessToken>(const AccessToken(accessToken: '', tokenType: ''),
+      instanceName: ServiceLocatorName.accessToken.name);
 
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
@@ -305,7 +309,7 @@ AuthRemoteDataSource authRemoteDataSource() {
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url);
+          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(instanceName: ServiceLocatorName.accessToken.name).toModel);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync AuthRemoteDataSourceImpl");
   }
@@ -317,7 +321,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url);
+          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(instanceName: ServiceLocatorName.accessToken.name).toModel);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync GlobalRemoteDataSourceImpl");
   }
@@ -332,7 +336,9 @@ TasksRemoteDataSource tasksRemoteDataSource() {
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url);
+          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(
+                  instanceName: ServiceLocatorName.accessToken.name)
+              .toModel);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync TasksRemoteDataSourceImpl");
   }

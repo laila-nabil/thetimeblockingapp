@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 
@@ -69,10 +72,13 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   final String url;
   final String key;
   final Network network;
-
-  SupabaseTasksRemoteDataSourceImpl(
-      {required this.url, required this.key, required this.network});
-
+  final AccessTokenModel accessTokenModel;
+  SupabaseTasksRemoteDataSourceImpl({
+    required this.url,
+    required this.key,
+    required this.network,
+    required this.accessTokenModel,
+  });
 
   @override
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) async {
@@ -80,7 +86,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/tagged_task"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -92,7 +98,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/folder"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -104,7 +110,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/list"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -116,7 +122,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/list"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -128,7 +134,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/tag"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -139,7 +145,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/task"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -149,7 +155,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.delete(
         uri: Uri.parse(
             "$url/rest/v1/folder?id=eq.${params.folderId}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return dartz.unit;
   }
 
@@ -158,7 +164,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.delete(
         uri: Uri.parse(
             "$url/rest/v1/list?id=eq.${params.listId}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return dartz.unit;
   }
 
@@ -167,7 +173,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.delete(
         uri: Uri.parse(
             "$url/rest/v1/tag?id=eq.${params.tag.id}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return dartz.unit;
   }
 
@@ -176,7 +182,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     await network.delete(
         uri: Uri.parse(
             "$url/rest/v1/task?id=eq.${params.task.id}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return dartz.unit;
   }
 
@@ -185,7 +191,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final response = await network.get(
         uri: Uri.parse(
             "$url/rest/v1/tag?workspace_id=eq.${params.workspace.id}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return tagsFromJson(json.decode(response.body)) ?? [];
   }
 
@@ -195,7 +201,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final response = await network.get(
         uri: Uri.parse(
             "$url/rest/v1/tasks_json?workspace_id=eq.${params.workspaceId}${params.filtersParams.toString()}"),
-        headers: supabaseHeader(accessToken: params.filtersParams.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return tasksFromJson(json.decode(response.body)) ?? [];
   }
 
@@ -205,7 +211,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final result = await network.delete(
         uri: Uri.parse(
             "$url/rest/v1/tagged_task?tag_id=eq.${params.tag.id}&task_id=eq.${params.task.id}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -216,7 +222,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/tag?id=eq.${params.newTag.id}"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -227,7 +233,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
         uri: Uri.parse(
             "$url/rest/v1/task?id=eq.${params.task?.id}"),
         body: params.toJson(),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     printDebug("Result $result");
     return dartz.unit;
   }
@@ -238,7 +244,7 @@ class SupabaseTasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     final response = await network.get(
         uri: Uri.parse(
             "$url/rest/v1/all_data?workspace_id=eq.${params.workspace.id}"),
-        headers: supabaseHeader(accessToken: params.accessToken, apiKey: key));
+        headers: supabaseHeader(accessToken: accessTokenModel, apiKey: key));
     return WorkspaceModel.fromJson(json.decode(response.body)[0]);
   }
 
