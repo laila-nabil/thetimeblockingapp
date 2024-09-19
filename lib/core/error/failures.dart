@@ -16,6 +16,9 @@ class UnknownFailure extends Failure {
 class ServerFailure extends Failure {
   const ServerFailure({required super.message});
 }
+class TokenTimeOutFailure extends Failure {
+  const TokenTimeOutFailure() : super(message: "");
+}
 
 class EmptyCacheFailure extends Failure {
   const EmptyCacheFailure() : super(message: "");

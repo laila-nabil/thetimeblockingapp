@@ -72,13 +72,17 @@ enum ServiceLocatorName {
   isDemo,
   defaultTaskDuration,
   isWorkspaceAppWide,
-  redirectAfterAuthRouteName
+  redirectAfterAuthRouteName,
+  refreshToken
 }
 
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
   /// Globals
+  serviceLocator.registerSingleton<String>('',
+      instanceName: ServiceLocatorName.refreshToken.name);
+
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 

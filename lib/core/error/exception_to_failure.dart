@@ -6,6 +6,9 @@ Failure exceptionToFailure(Exception exception){
   if(exception is ServerException){
     return ServerFailure(message: exception.message ?? "");
   }
+  if(exception is TokenTimeOutException){
+    return const TokenTimeOutFailure();
+  }
   if(exception is EmptyCacheException){
     return const EmptyCacheFailure();
   }

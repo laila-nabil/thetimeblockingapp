@@ -46,8 +46,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
       }else if (event is CheckAlreadySignedInEvent) {
         emit(state.copyWith(authState: AuthStateEnum.loading));
-        final result =
-            await _signInUseCase(const SignInParams(email: '', password: ''));
+        final result = await _signInUseCase(const SignInParams(
+            email: '',
+            password: '',
+            accessToken: AccessToken(accessToken: '', tokenType: '')));
         result?.fold(
             (l) => emit(state.copyWith(
                 signInFailure: l,

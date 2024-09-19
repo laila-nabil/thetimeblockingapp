@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
-
 
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
@@ -18,7 +18,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tags_in_w
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_tag_use_case.dart';
 
-
 import '../../../../common/models/supabase_tag_model.dart';
 import '../../../../common/models/supabase_task_model.dart';
 
@@ -29,14 +28,17 @@ import '../../domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 class TasksRepoImpl implements TasksRepo {
   final TasksRemoteDataSource remoteDataSource;
 
-  TasksRepoImpl(this.remoteDataSource,);
+  TasksRepoImpl(
+    this.remoteDataSource,
+  );
 
   @override
   Future<dartz.Either<Failure, List<TaskModel>>> getTasksInWorkspace(
       {required GetTasksInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.getTasksInWorkspace(params: params));
+            await remoteDataSource.getTasksInWorkspace(params: params),
+        accessToken: params.filtersParams.accessToken.toModel);
   }
 
   @override
@@ -44,7 +46,8 @@ class TasksRepoImpl implements TasksRepo {
       CreateTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.createTaskInList(params: params));
+            await remoteDataSource.createTaskInList(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
@@ -52,22 +55,25 @@ class TasksRepoImpl implements TasksRepo {
       CreateTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.updateTask(params: params));
+            await remoteDataSource.updateTask(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(DeleteTaskParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteTask(
+      DeleteTaskParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.deleteTask(params: params));
+            await remoteDataSource.deleteTask(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
   Future<dartz.Either<Failure, List<TagModel>>> getTags(
       {required GetTagsInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () =>
-          remoteDataSource.getTags(params: params),
+      remoteDataSourceRequest: () => remoteDataSource.getTags(params: params),
+      accessToken: params.accessToken.toModel,
     );
   }
 
@@ -77,6 +83,7 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.addTagToTask(params: params),
+      accessToken: params.accessToken.toModel,
     );
   }
 
@@ -86,16 +93,17 @@ class TasksRepoImpl implements TasksRepo {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.removeTagFromTask(params: params),
+      accessToken: params.accessToken.toModel,
     );
   }
-
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> createListInFolder(
       CreateListInFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createListInFolder(params: params));
+            remoteDataSource.createListInFolder(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
@@ -103,7 +111,8 @@ class TasksRepoImpl implements TasksRepo {
       CreateFolderlessListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createFolderlessList(params: params));
+            remoteDataSource.createFolderlessList(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
@@ -111,28 +120,34 @@ class TasksRepoImpl implements TasksRepo {
       CreateFolderInSpaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createFolderInWorkspace(params: params));
+            remoteDataSource.createFolderInWorkspace(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteList(DeleteListParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteList(
+      DeleteListParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.deleteList(params: params));
+            remoteDataSource.deleteList(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> deleteFolder(DeleteFolderParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> deleteFolder(
+      DeleteFolderParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.deleteFolder(params: params));
+            remoteDataSource.deleteFolder(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>?> deleteTag(DeleteTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.deleteTag(params: params));
+            remoteDataSource.deleteTag(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
@@ -140,14 +155,15 @@ class TasksRepoImpl implements TasksRepo {
       CreateTagInWorkspaceParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.createTagInWorkspace(params: params));
+            remoteDataSource.createTagInWorkspace(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> updateTag(
-      UpdateTagParams params) {
+  Future<dartz.Either<Failure, dartz.Unit>?> updateTag(UpdateTagParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.updateTag(params: params));
+            remoteDataSource.updateTag(params: params),
+        accessToken: params.accessToken.toModel);
   }
 }

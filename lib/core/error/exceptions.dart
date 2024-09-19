@@ -4,6 +4,8 @@ class ServerException implements Exception {
   ServerException({this.message});
 }
 
+class TokenTimeOutException implements Exception {}
+
 class EmptyCacheException implements Exception {}
 
 class FailedCachingException implements Exception {}

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -33,12 +34,14 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
 class SignInParams extends Equatable {
   final String email;
   final String password;
+  final AccessToken accessToken;
 
   const SignInParams({
     required this.email,
     required this.password,
+    required this.accessToken,
   });
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password,accessToken];
 }

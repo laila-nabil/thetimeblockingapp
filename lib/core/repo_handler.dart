@@ -1,6 +1,13 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/sign_in_result_model.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 
+import '../common/models/access_token_model.dart';
+import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import 'error/exception_to_failure.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
@@ -9,6 +16,7 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
+  required AccessTokenModel accessToken
 }) async {
   late T result;
   try {
@@ -16,12 +24,29 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
       try {
         result = await tryGetFromLocalStorage();
       } catch (e) {
-        printDebug("tryGetFromLocalStorage error $e",printLevel: PrintLevel.error);
+        printDebug("tryGetFromLocalStorage error $e",
+            printLevel: PrintLevel.error);
         result = await remoteDataSourceRequest();
       }
     } else {
       result = await remoteDataSourceRequest();
     }
+  } on TokenTimeOutException {
+    ///TODO improve
+    printDebug("TokenTimeOutException", printLevel: PrintLevel.error);
+    try {
+      final refreshTokenResult = await serviceLocator<AuthRemoteDataSource>().refreshToken(
+          refreshToken: serviceLocator<String>(
+              instanceName: ServiceLocatorName.refreshToken.name),
+          accessToken: accessToken);
+      await serviceLocator<AuthLocalDataSource>().saveSignInResult(refreshTokenResult);
+      serviceLocator.registerSingleton<String>(refreshTokenResult.refreshToken,
+          instanceName: ServiceLocatorName.refreshToken.name);
+      result = await remoteDataSourceRequest();
+    } on Exception catch (e) {
+      printDebug("RefreshToken Exception $e", printLevel: PrintLevel.error);
+    }
+
   } catch (error) {
     printDebug(error, printLevel: PrintLevel.error);
     if (error is Exception) {
@@ -53,7 +78,6 @@ Future<dartz.Either<Failure, T>> repoHandleLocalGetRequest<T>({
     return dartz.Left(UnknownFailure(message: error.toString()));
   }
   return dartz.Right(result);
-
 }
 
 Future<dartz.Either<Failure, dartz.Unit>> repoHandleLocalSaveRequest<T>({

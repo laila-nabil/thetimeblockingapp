@@ -3,6 +3,7 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -27,7 +28,7 @@ class AuthRepoImpl  implements AuthRepo{
   @override
   Future<dartz.Either<Failure, dartz.Unit>> signOut(AccessToken accessToken) async{
     try {
-      await authRemoteDataSource.signOut(accessToken as AccessTokenModel);
+      await authRemoteDataSource.signOut(accessToken.toModel);
       await authLocalDataSource.signOut();
       return const dartz.Right(dartz.unit);
     } catch (e) {
@@ -45,21 +46,23 @@ class AuthRepoImpl  implements AuthRepo{
               await authRemoteDataSource.signInSupabase(params: params),
           trySaveResult: (result) async {
             await authLocalDataSource
-                .saveAccessToken(result.accessToken as AccessTokenModel);
-            await authLocalDataSource
-                .saveSupabaseUser(result.user as SupabaseUserModel);
+                .saveSignInResult(result);
+            serviceLocator.registerSingleton<String>(result.refreshToken,
+                instanceName: ServiceLocatorName.refreshToken.name);
           },
           tryGetFromLocalStorage: () async {
-            final access = await authLocalDataSource.getAccessToken();
-            final user = await authLocalDataSource.getSupabaseUser();
-            return SignInResultModel(accessToken: access, user: user);
-          });
+            final result = await authLocalDataSource.getSignInResult();
+            serviceLocator.registerSingleton<String>(result.refreshToken,
+                instanceName: ServiceLocatorName.refreshToken.name);
+            return result;
+          }, accessToken: params.accessToken.toModel);
     }else{
       result = await repoHandleLocalGetRequest<SignInResultModel>(
           tryGetFromLocalStorage: () async {
-            final access = await authLocalDataSource.getAccessToken();
-            final user = await authLocalDataSource.getSupabaseUser();
-            return SignInResultModel(accessToken: access, user: user);
+            final result = await authLocalDataSource.getSignInResult();
+            serviceLocator.registerSingleton<String>(result.refreshToken,
+                instanceName: ServiceLocatorName.refreshToken.name);
+            return result;
           });
     }
     return result;
@@ -69,7 +72,8 @@ class AuthRepoImpl  implements AuthRepo{
   Future<dartz.Either<Failure, SignUpResultModel>> signUp({required SignUpParams params}) async {
     final result = await repoHandleRemoteRequest<SignUpResultModel>(
         remoteDataSourceRequest: () =>
-        authRemoteDataSource.signUpSupabase(params: params),
+          authRemoteDataSource.signUpSupabase(params: params),
+      accessToken: params.accessToken.toModel,
     );
     return result;
   }

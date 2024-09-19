@@ -13,6 +13,9 @@ Future<NetworkResponse> supabaseResponseHandler(
   http.Response? response;
   try {
     response = await httpResponse();
+    if(response.statusCode == 401){
+      throw TokenTimeOutException();
+    }
     if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204) {
       throw ServerException(
           message: SupabaseError.fromJson(json.decode(response.body))
@@ -36,16 +39,21 @@ Future<NetworkResponse> supabaseResponseHandler(
     );
     printDebug("[Exception] 0 ${exception.toString()}",
         printLevel: PrintLevel.error);
-    if (response?.statusCode!=204) {
+    if (response?.statusCode != 204) {
       if (exception is ServerException) {
-            printDebug("[Exception] 1 ${exception.message.toString()}",
-                printLevel: PrintLevel.error);
-            rethrow;
-          } else {
-            printDebug("[Exception] 2 ${exception.toString()}",
-                printLevel: PrintLevel.error);
-            throw ServerException(message: exception.toString());
-          }
+        printDebug("[Exception] 1 ${exception.message.toString()}",
+            printLevel: PrintLevel.error);
+        rethrow;
+      }
+      if (exception is TokenTimeOutException) {
+        printDebug("[Exception] 2 ${exception.toString()}",
+            printLevel: PrintLevel.error);
+        rethrow;
+      } else {
+        printDebug("[Exception] 3 ${exception.toString()}",
+            printLevel: PrintLevel.error);
+        throw ServerException(message: exception.toString());
+      }
     }
   }
 

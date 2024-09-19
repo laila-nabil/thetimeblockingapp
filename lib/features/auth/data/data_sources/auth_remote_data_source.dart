@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -17,6 +18,9 @@ abstract class AuthRemoteDataSource {
   Future<dartz.Unit> signOut(AccessTokenModel accessModel);
 
   Future<SignUpResultModel> signUpSupabase({required SignUpParams params});
+
+  Future<SignInResultModel> refreshToken(
+      {required String refreshToken, required AccessToken accessToken});
 }
 
 class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -59,5 +63,17 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         uri: Uri.parse("$url/auth/v1/signup"),
         body: {"email": params.email, "password": params.password});
     return SignUpResultModel.fromJson(json.decode(result.body));
+  }
+
+  @override
+  Future<SignInResultModel> refreshToken(
+      {required String refreshToken, required AccessToken accessToken}) async{
+    final result = await network.post(
+        headers: supabaseHeader(
+            accessToken: accessToken,
+            apiKey: key),
+        uri: Uri.parse("$url/auth/v1/token?grant_type=refresh_token"),
+        body: {"refresh_token": refreshToken});
+    return SignInResultModel.fromJson(json.decode(result.body));
   }
 }

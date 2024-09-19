@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
@@ -26,21 +28,24 @@ class GlobalRepoImpl implements GlobalRepo {
       {required GetTasksInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
-            await remoteDataSource.getTasksInWorkspace(params: params));
+            await remoteDataSource.getTasksInWorkspace(params: params),
+        accessToken: params.filtersParams.accessToken.toModel);
   }
 
   @override
   Future<dartz.Either<Failure, List<TaskStatusModel>>> getStatuses(
       GetStatusesParams params) {
     return repoHandleRemoteRequest(
-        remoteDataSourceRequest: () => remoteDataSource.getStatuses(params));
+        remoteDataSourceRequest: () => remoteDataSource.getStatuses(params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
   Future<dartz.Either<Failure, List<TaskPriorityModel>>> getPriorities(
       GetPrioritiesParams params) {
     return repoHandleRemoteRequest(
-        remoteDataSourceRequest: () => remoteDataSource.getPriorities(params));
+        remoteDataSourceRequest: () => remoteDataSource.getPriorities(params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
@@ -48,21 +53,26 @@ class GlobalRepoImpl implements GlobalRepo {
       {required GetAllInWorkspaceParams params}) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
-            remoteDataSource.getAllInWorkspace(params: params));
+            remoteDataSource.getAllInWorkspace(params: params),
+        accessToken: params.accessToken.toModel);
   }
 
   @override
   Future<dartz.Either<Failure, List<WorkspaceModel>>> getWorkspaces(
       {required GetWorkspacesParams params}) {
     return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () => remoteDataSource.getWorkspaces(params: params),
+      remoteDataSourceRequest: () =>
+          remoteDataSource.getWorkspaces(params: params),
+      accessToken: params.accessToken.toModel,
     );
   }
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>> createWorkspace({required CreateWorkspaceParams params}) {
     return repoHandleRemoteRequest(
-      remoteDataSourceRequest: () => remoteDataSource.createWorkspace(params: params),
+      remoteDataSourceRequest: () =>
+          remoteDataSource.createWorkspace(params: params),
+      accessToken: params.accessToken.toModel,
     );
   }
 }

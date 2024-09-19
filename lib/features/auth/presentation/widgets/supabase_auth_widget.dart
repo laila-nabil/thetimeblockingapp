@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
@@ -126,11 +127,15 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
                   widget.authBloc.add(SignInEvent(SignInParams(
                     email: widget.emailController.text,
                     password: widget.passwordController.text,
+                    accessToken:
+                        const AccessToken(accessToken: '', tokenType: ''),
                   )));
                 } else {
                   widget.authBloc.add(SignUpEvent(SignUpParams(
                     email: widget.emailController.text,
                     password: widget.passwordController.text,
+                    accessToken:
+                        const AccessToken(accessToken: '', tokenType: ''),
                   )));
                 }
               }),

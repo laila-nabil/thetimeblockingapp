@@ -1,3 +1,4 @@
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
@@ -24,6 +25,13 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<SignUpResultModel> signUpSupabase({required SignUpParams params}) {
     // TODO: implement signUpSupabase
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SignInResultModel> refreshToken(
+      {required String refreshToken, required AccessToken accessToken}) {
+    // TODO: implement refreshToken
     throw UnimplementedError();
   }
 

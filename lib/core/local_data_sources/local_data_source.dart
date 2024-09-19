@@ -1,6 +1,7 @@
 enum LocalDataSourceKeys {
   accessToken,
   supabaseUser,
+  refreshToken,
   workspaces,
   spaces,
   selectedWorkspace,
