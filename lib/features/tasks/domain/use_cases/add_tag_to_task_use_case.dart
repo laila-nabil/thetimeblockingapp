@@ -36,7 +36,6 @@ class AddTagToTaskUseCase
 class AddTagToTaskParams {
   final Task task;
   final Tag tag;
-  final AccessToken accessToken;
   final User? user;
   String get taskId => task.id ?? "";
 
@@ -45,8 +44,7 @@ class AddTagToTaskParams {
   AddTagToTaskParams(
       {required this.task,
       required this.tag,
-      required this.user,
-      required this.accessToken});
+      required this.user,});
 
   Map<String, dynamic> toJson() {
     return {

@@ -57,7 +57,7 @@ class ListPage extends StatelessWidget {
                         workspaceId: globalBloc.state.selectedWorkspace!.id!,
                         filtersParams: GetTasksInWorkspaceFiltersParams(
                             filterByList: list,
-                            accessToken: authBloc.state.accessToken!),
+                            ),
                         backendMode: BackendMode.supabase), list: list));
               }
               return ResponsiveScaffold(
@@ -87,7 +87,7 @@ class ListPage extends StatelessWidget {
                                       workspaceId: globalBloc.state.selectedWorkspace!.id!,
                                       filtersParams: GetTasksInWorkspaceFiltersParams(
                                           filterByList: list,
-                                          accessToken: authBloc.state.accessToken!),
+                                          ),
                                       backendMode: BackendMode.supabase), list: list));  }));
                               Navigator.maybePop(context);
                             },
@@ -171,7 +171,7 @@ class ListPage extends StatelessWidget {
                 onRefresh: () async {
                   globalBloc.add(
                       GetAllInWorkspaceEvent(
-                          accessToken: authBloc.state.accessToken!,
+
                           workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!, user: authBloc.state.user!));
                 },
               );
@@ -196,7 +196,7 @@ class ListPage extends StatelessWidget {
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     filterByList: list,
-                    accessToken: authBloc.state.accessToken!),
+                    ),
                 backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
       },
@@ -206,7 +206,7 @@ class ListPage extends StatelessWidget {
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     filterByList: list,
-                    accessToken: authBloc.state.accessToken!),
+                    ),
                 backendMode: BackendMode.supabase), list: list)); }));
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
@@ -219,26 +219,25 @@ class ListPage extends StatelessWidget {
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     filterByList: list,
-                    accessToken: authBloc.state.accessToken!),
+                    ),
                 backendMode: BackendMode.supabase), list: list)); },
         ));
       },
       onDeleteConfirmed: () {
         listsPageBloc.add(DeleteTaskEvent(
-            params: DeleteTaskParams(task: task, accessToken: authBloc.state.accessToken!),
+            params: DeleteTaskParams(task: task, ),
             onSuccess: () {
               listsPageBloc.add(GetTasksInListEvent(
                   params: GetTasksInWorkspaceParams(
                       workspaceId: globalBloc.state.selectedWorkspace!.id!,
                       filtersParams: GetTasksInWorkspaceFiltersParams(
                           filterByList: list,
-                          accessToken: authBloc.state.accessToken!),
+                          ),
                       backendMode: BackendMode.supabase), list: list)); }));
       },
       onCompleteConfirmed: () {
         final newTask = task.copyWith(status: globalBloc.state.statuses!.completedStatus);
         listsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
-            accessToken: authBloc.state.accessToken!,
             task: newTask,
             backendMode: serviceLocator<BackendMode>(),
             user: authBloc.state.user!,
@@ -248,7 +247,7 @@ class ListPage extends StatelessWidget {
                 workspaceId: globalBloc.state.selectedWorkspace!.id!,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
                     filterByList: list,
-                    accessToken: authBloc.state.accessToken!),
+                    ),
                 backendMode: BackendMode.supabase), list: list)); }));
       },
     );

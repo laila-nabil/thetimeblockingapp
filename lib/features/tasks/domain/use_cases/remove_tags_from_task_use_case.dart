@@ -18,7 +18,7 @@ class RemoveTagsFromTaskUseCase implements UseCase<dartz.Unit, RemoveTagsFromTas
     for (var element in params.tags) {
       final elementResult = await removeTagFromTaskUseCase(RemoveTagFromTaskParams(
           task: params.task,
-          accessToken: params.accessToken,
+
           tag: element));
       result.add(elementResult);
     }
@@ -33,7 +33,7 @@ class RemoveTagsFromTaskUseCase implements UseCase<dartz.Unit, RemoveTagsFromTas
 class RemoveTagsFromTaskParams {
   final Task task;
   final List<Tag> tags;
-  final AccessToken accessToken;
+
 
   String get taskId => task.id ?? "";
 
@@ -42,5 +42,5 @@ class RemoveTagsFromTaskParams {
   RemoveTagsFromTaskParams(
       {required this.task,
       required this.tags,
-      required this.accessToken});
+      });
 }

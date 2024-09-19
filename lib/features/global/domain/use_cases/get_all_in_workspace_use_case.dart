@@ -35,7 +35,7 @@ class GetAllInWorkspaceUseCase implements UseCase<Workspace, GetAllInWorkspacePa
     }
     if(listsExist == false){
       final resultCreate = await tasksRepo.createFolderlessList(
-          CreateFolderlessListParams.defaultList(accessToken: params.accessToken,
+          CreateFolderlessListParams.defaultList(
               user: params.user, workspace: params.workspace));
       printDebug("resultCreate $resultCreate");
     }
@@ -44,18 +44,16 @@ class GetAllInWorkspaceUseCase implements UseCase<Workspace, GetAllInWorkspacePa
 }
 
 class GetAllInWorkspaceParams extends Equatable {
-  final AccessToken accessToken;
+
   final Workspace workspace;
   final User user;
   const GetAllInWorkspaceParams({
-    required this.accessToken,
     required this.workspace,
     required this.user,
   });
 
   @override
   List<Object?> get props => [
-        accessToken,
         workspace,
          user,
       ];

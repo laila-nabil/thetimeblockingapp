@@ -105,7 +105,6 @@ class ListsPageState extends Equatable {
     //   filterBySpaceIds = [BlocProvider.of<GlobalBloc>(context).state.selectedSpace?.id ?? ""];
     // }
     return GetTasksInWorkspaceFiltersParams(
-      accessToken: accessToken,
     );
   }
 

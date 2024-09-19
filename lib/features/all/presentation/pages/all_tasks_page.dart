@@ -156,8 +156,6 @@ class AllTasksPage extends StatelessWidget {
                 getAllTasksInWorkspace(allTasksBloc,context);
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                      accessToken:
-                          BlocProvider.of<AuthBloc>(context).state.accessToken!,
                       user: BlocProvider.of<AuthBloc>(context).state.user!));
                 },);
             },
@@ -193,8 +191,7 @@ class AllTasksPage extends StatelessWidget {
       allTasksBloc.add(DeleteTaskEvent(
           params: DeleteTaskParams(
               task: task,
-              accessToken:
-              BlocProvider.of<AuthBloc>(context).state.accessToken!),
+              ),
           workspace: BlocProvider.of<GlobalBloc>(context)
               .state
               .selectedWorkspace!));
@@ -205,7 +202,6 @@ class AllTasksPage extends StatelessWidget {
       printDebug("newTask $newTask");
       allTasksBloc.add(UpdateTaskEvent(
           params: CreateTaskParams.startUpdateTask(
-              accessToken: authState.accessToken!,
               task: newTask,
               backendMode: serviceLocator<BackendMode>(),
               user: authState.user!,
@@ -217,7 +213,6 @@ class AllTasksPage extends StatelessWidget {
 
   void getAllTasksInWorkspace(AllTasksBloc allTasksBloc,BuildContext context) {
     allTasksBloc.add(GetTasksInWorkspaceEvent(
-        accessToken: BlocProvider.of<AuthBloc>(context).state.accessToken!,
         workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
         ));
   }

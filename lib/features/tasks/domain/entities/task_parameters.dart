@@ -9,7 +9,6 @@ import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 
-import '../../../../common/entities/access_token.dart';
 import '../../../../common/entities/tasks_list.dart';
 import '../../../../common/entities/task.dart';
 
@@ -18,7 +17,6 @@ enum TaskParamsEnum { create, update }
 class CreateTaskParams extends Equatable{
   final BackendMode backendMode;
   final TaskParamsEnum type;
-  final AccessToken accessToken;
   final TasksList? list;
   final String? title;
   final String? description;
@@ -62,10 +60,9 @@ class CreateTaskParams extends Equatable{
     return <TasksList>[];
   }
 
-  factory CreateTaskParams.fromTask(Task task,BackendMode backendMode,AccessToken accessToken, User user,
+  factory CreateTaskParams.fromTask(Task task,BackendMode backendMode, User user,
       ){
     return CreateTaskParams.createNewTask(
-      accessToken: accessToken,
       list: task.list!,
       title: task.title ?? "",
       description: task.description,
@@ -90,7 +87,6 @@ class CreateTaskParams extends Equatable{
       this.startDate,
       this.parentTask,
       this.linkedTask,
-      required this.accessToken,
       required this.type,
       required this.user,
       this.task,
@@ -134,7 +130,6 @@ class CreateTaskParams extends Equatable{
       : TaskParamsEnum.update;
   }
   factory CreateTaskParams.startCreateNewTask({
-    required AccessToken accessToken,
     DateTime? startDate,
     DateTime? dueDate,
     Workspace? workspace,
@@ -148,7 +143,6 @@ class CreateTaskParams extends Equatable{
     printDebug("TaskParams startCreateNewTask task");
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
-          accessToken: accessToken,
           startDate: startDate,
           dueDate: dueDate,
           workspace: workspace,
@@ -160,7 +154,6 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.createNewTask({
-    required AccessToken accessToken,
     required TasksList list,
     required String title,
     String? description,
@@ -179,7 +172,6 @@ class CreateTaskParams extends Equatable{
     printDebug("TaskParams createNewTask task");
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
-          accessToken: accessToken,
           workspace: workspace,
           list: list,
           folder: folder,
@@ -198,7 +190,6 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.startUpdateTask({
-    required AccessToken accessToken,
     required Task task,
     required BackendMode backendMode,
     required User user,
@@ -209,7 +200,6 @@ class CreateTaskParams extends Equatable{
     printDebug("startUpdateTask task ${task.workspace}");
     return CreateTaskParams._(
         type: TaskParamsEnum.update,
-        accessToken: accessToken,
         task: task,
         description: null,//description controlled by text controller
         title: null,//title controlled by text controller
@@ -228,7 +218,6 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.updateTask({
-    required AccessToken accessToken,
     required Task task,
     String? updatedTitle,
     String? updatedDescription,
@@ -248,7 +237,6 @@ class CreateTaskParams extends Equatable{
   }) =>
       CreateTaskParams._(
           type: TaskParamsEnum.update,
-          accessToken: accessToken,
           workspace: null,
           user: user,
           list: list,
@@ -319,7 +307,6 @@ class CreateTaskParams extends Equatable{
 
   CreateTaskParams copyWith({
     TaskParamsEnum? taskParamsEnum,
-    AccessToken? accessToken,
     TasksList? list,
     String? title,
     String? description,
@@ -371,7 +358,6 @@ class CreateTaskParams extends Equatable{
     return CreateTaskParams._(
       type:
           taskParamsEnum ?? type,
-      accessToken: accessToken ?? this.accessToken,
       list: selectedList,
       title: title ?? this.title,
       description: description ?? this.description,
@@ -402,7 +388,6 @@ class CreateTaskParams extends Equatable{
     startDateTime,
     parentTask,
     linkedTask,
-    accessToken,
     type,
     task,
     folder,
@@ -411,6 +396,6 @@ class CreateTaskParams extends Equatable{
 
   @override
   String toString() {
-    return 'CreateTaskParams{backendMode: $backendMode, type: $type, accessToken: $accessToken, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, user: $user, space: $workspace, folder: $folder}';
+    return 'CreateTaskParams{backendMode: $backendMode, type: $type, list: $list, title: $title, description: $description, tags: $tags, taskStatus: $taskStatus, taskPriority: $taskPriority, dueDate: $dueDate, startDate: $startDate, parentTask: $parentTask, linkedTask: $linkedTask, task: $task, user: $user, space: $workspace, folder: $folder}';
   }
 }

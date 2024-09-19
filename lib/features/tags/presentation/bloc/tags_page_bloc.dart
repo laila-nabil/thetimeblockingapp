@@ -64,7 +64,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? 0,
                 filtersParams: GetTasksInWorkspaceFiltersParams(
-                    accessToken: event.accessToken,
+
                     filterByTag: event.tag),
                 backendMode: serviceLocator<BackendMode>().mode));
         result?.fold(
@@ -93,7 +93,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               tagsPageStatus: TagsPageStatus.createTagSuccess,
             ));
             add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
-                accessToken: event.params!.accessToken,
                 workspace: event.params!.workspace)));
           });
         }
@@ -120,7 +119,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             ));
             if(event.insideTagPage==false){
               add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
-                  accessToken: event.params!.accessToken,
+
                   workspace: event.params!.workspace)));
             }
           });
@@ -145,7 +144,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
               tagsPageStatus: TagsPageStatus.updateTaskSuccess,
             ));
             add(GetTagsInWorkspaceEvent(GetTagsInWorkspaceParams(
-                accessToken: event.params!.accessToken,
+
                 workspace: event.params!.workspace)));
           });
         }
@@ -160,7 +159,6 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.accessToken,
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -176,7 +174,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.createTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.accessToken,
+
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -191,7 +189,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.accessToken,
+
               tag: state.navigateTag!,
               workspace: event.workspace));
         });
@@ -206,7 +204,7 @@ class TagsPageBloc extends Bloc<TagsPageEvent, TagsPageState> {
             tagsPageStatus: TagsPageStatus.updateTaskSuccess,
           ));
           add(GetTasksForTagEvent(
-              accessToken: event.params.accessToken,
+
               tag: state.navigateTag!,
               workspace: event.workspace));
         });

@@ -62,8 +62,7 @@ class TaskComponent extends StatelessWidget {
                       onPressed: () {
                         onDelete(DeleteTaskParams(
                             task: task,
-                            accessToken:
-                            authState.accessToken!));
+                            ));
                         Navigator.pop(context);
                       },type: CustomButtonType.destructiveFilledLabel),
                   CustomButton.noIcon(
@@ -81,7 +80,6 @@ class TaskComponent extends StatelessWidget {
               onTap: () => onDuplicate(CreateTaskParams.fromTask(
                     task,
                     serviceLocator<BackendMode>().mode,
-                    authState.accessToken!,
                     BlocProvider.of<AuthBloc>(context).state.user!,
                   )))
         ],
@@ -96,7 +94,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-                      accessToken: authState.accessToken!,
+
                       list: task.list!,
                       title: task.title ?? "",
                       description: task.description,

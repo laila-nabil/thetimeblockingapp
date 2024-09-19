@@ -40,7 +40,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
               selectedWorkspace: event.workspace, isLoading: true));
           final getAllInWorkspaceResult = await _getAllInWorkspaceUseCase(
               GetAllInWorkspaceParams(
-                  accessToken: event.accessToken, workspace: event.workspace, user: event.user));
+                  workspace: event.workspace, user: event.user));
           getAllInWorkspaceResult.fold(
               (l) => emit(state.copyWith(getAllInWorkspaceFailure: l)),
               (r) => emit(state.copyWith(selectedWorkspace: r)));
@@ -48,14 +48,14 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       } else if (event is GetPrioritiesEvent) {
         emit(state.copyWith(isLoading: true));
         final result = await _getPrioritiesUseCase(GetPrioritiesParams(
-          event.accessToken,
+          
         ));
         result.fold((l) => emit(state.copyWith(getPrioritiesFailure: l)),
             (r) => emit(state.copyWith(priorities: r)));
       } else if (event is GetStatusesEvent) {
         emit(state.copyWith(isLoading: true));
         final result = await _getStatusesUseCase(GetStatusesParams(
-          event.accessToken,
+          
         ));
         result.fold((l) => emit(state.copyWith(getStatusesFailure: l)),
             (r) => emit(state.copyWith(statuses: r)));

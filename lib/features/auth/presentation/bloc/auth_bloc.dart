@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/sign_up_result.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
@@ -64,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
       } else if(event is SignOutEvent){
         emit(state.copyWith(authState: AuthStateEnum.loading));
-        final result = await _signOutUseCase(event.accessToken);
+        final result = await _signOutUseCase(NoParams());
         result?.fold(
                 (l) => emit(state.copyWith(
                 signInFailure: l,

@@ -45,7 +45,7 @@ class AuthState extends Equatable {
 
   bool get canGoSchedulePage {
     return user != null &&
-        accessToken != null ;
+        accessToken != const AccessToken(accessToken: '', tokenType: '');
   }
 
   @override

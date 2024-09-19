@@ -52,7 +52,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
   final int? filterByDateUpdatedGreaterThanUnixTimeMilliseconds;
   final int? filterByDateDoneLessThanUnixTimeMilliseconds;
   final int? filterByDateDoneGreaterThanUnixTimeMilliseconds;
-  final AccessToken accessToken;
 
   const GetTasksInWorkspaceFiltersParams({
     this.page,
@@ -68,7 +67,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
     this.filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
     this.filterByDateDoneLessThanUnixTimeMilliseconds,
     this.filterByDateDoneGreaterThanUnixTimeMilliseconds,
-    required this.accessToken,
   });
 
   //https://postgrest.org/en/v12/references/api/tables_views.html#read
@@ -100,8 +98,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
         filterByDateUpdatedGreaterThanUnixTimeMilliseconds,
         filterByDateDoneLessThanUnixTimeMilliseconds,
         filterByDateDoneGreaterThanUnixTimeMilliseconds,
-
-        accessToken,
       ];
 
   GetTasksInWorkspaceFiltersParams copyWith({
@@ -150,7 +146,6 @@ class GetTasksInWorkspaceFiltersParams extends Equatable {
       filterByDateDoneGreaterThanUnixTimeMilliseconds:
           filterByDateDoneGreaterThanUnixTimeMilliseconds ??
               this.filterByDateDoneGreaterThanUnixTimeMilliseconds,
-      accessToken: accessToken ?? this.accessToken,
     );
   }
 }

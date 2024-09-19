@@ -71,7 +71,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: details.appointment as Task,
-              accessToken: authBloc.state.accessToken!,
+
               updatedDueDate: details.endTime,
               backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
@@ -88,7 +88,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
               task: task, user: authBloc.state.user!,
-              accessToken: authBloc.state.accessToken!,
+
           updatedDueDate: details.droppingTime
               !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
           updatedStartDate: details.droppingTime,
@@ -120,7 +120,7 @@ class TasksCalendar extends StatelessWidget {
                         0,
                     filtersParams: scheduleBloc
                         .state.defaultTasksInWorkspaceFiltersParams(
-                        accessToken: authBloc.state.accessToken!,
+
                         user: authBloc.state.user)
                         .copyWith(
                             filterByDueDateGreaterThanUnixTimeMilliseconds:
@@ -165,7 +165,6 @@ class TasksCalendar extends StatelessWidget {
                   params: CreateTaskParams.fromTask(
                       task,
                       serviceLocator<BackendMode>().mode,
-                      authBloc.state.accessToken!,
                       authBloc.state.user!),
                   workspace: selectedWorkspaceId!));
             },)));

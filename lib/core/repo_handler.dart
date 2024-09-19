@@ -16,7 +16,6 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
   required Future<T> Function() remoteDataSourceRequest,
   Future<T> Function()? tryGetFromLocalStorage,
   Future<void> Function(T result)? trySaveResult,
-  required AccessTokenModel accessToken
 }) async {
   late T result;
   try {

@@ -1,15 +1,12 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
-import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/sign_up_result_model.dart';
-import 'package:thetimeblockingapp/features/auth/domain/entities/sign_in_result.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../../../core/error/exception_to_failure.dart';
@@ -26,9 +23,9 @@ class AuthRepoImpl  implements AuthRepo{
 
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>> signOut(AccessToken accessToken) async{
+  Future<dartz.Either<Failure, dartz.Unit>> signOut() async{
     try {
-      await authRemoteDataSource.signOut(accessToken.toModel);
+      await authRemoteDataSource.signOut();
       await authLocalDataSource.signOut();
       return const dartz.Right(dartz.unit);
     } catch (e) {
@@ -59,7 +56,7 @@ class AuthRepoImpl  implements AuthRepo{
             serviceLocator.registerSingleton<AccessToken>(result.accessToken,
                 instanceName: ServiceLocatorName.accessToken.name);
             return result;
-          }, accessToken: params.accessToken.toModel);
+          }, );
     }else{
       result = await repoHandleLocalGetRequest<SignInResultModel>(
           tryGetFromLocalStorage: () async {
@@ -79,7 +76,6 @@ class AuthRepoImpl  implements AuthRepo{
     final result = await repoHandleRemoteRequest<SignUpResultModel>(
         remoteDataSourceRequest: () =>
           authRemoteDataSource.signUpSupabase(params: params),
-      accessToken: params.accessToken.toModel,
     );
     return result;
   }

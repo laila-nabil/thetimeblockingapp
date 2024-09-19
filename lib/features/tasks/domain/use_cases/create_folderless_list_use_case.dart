@@ -37,13 +37,12 @@ class CreateFolderlessListUseCase
 }
 
 class CreateFolderlessListParams extends Equatable {
-  final AccessToken accessToken;
+
   String? listName;
   final Color? statusColor;
   final User user;
   final Workspace workspace;
   CreateFolderlessListParams({
-    required this.accessToken,
     required String this.listName,
     required this.user,
     required this.workspace,
@@ -51,7 +50,6 @@ class CreateFolderlessListParams extends Equatable {
   });
 
   CreateFolderlessListParams.defaultList({
-    required this.accessToken,
     required this.user,
     required this.workspace,
     this.statusColor,
@@ -60,7 +58,6 @@ class CreateFolderlessListParams extends Equatable {
 
   @override
   List<Object?> get props => [
-    accessToken,
     listName,
     statusColor,
     user,

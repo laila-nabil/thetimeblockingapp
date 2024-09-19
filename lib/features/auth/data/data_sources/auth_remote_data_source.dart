@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/remote_data_source_handler.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../../../common/models/access_token_model.dart';
@@ -15,7 +16,7 @@ abstract class AuthRemoteDataSource {
 
   Future<SignInResultModel> signInSupabase({required SignInParams params});
 
-  Future<dartz.Unit> signOut(AccessTokenModel accessModel);
+  Future<dartz.Unit> signOut();
 
   Future<SignUpResultModel> signUpSupabase({required SignUpParams params});
 
@@ -47,12 +48,13 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> signOut(AccessTokenModel accessModel) async{
-    final result = await network.post(
+  Future<dartz.Unit> signOut() async{
+    NetworkResponse result = await remoteDateRequestHandler(network: network,
+        request: (accessToken) => network.post(
         headers: supabaseHeader(
-            accessToken: accessTokenModel,
+            accessToken: accessToken,
             apiKey: key),
-        uri: Uri.parse("$url/auth/v1/logout"),);
+        uri: Uri.parse("$url/auth/v1/logout"),));
     printDebug("logout api result $result");
     return dartz.unit;
   }

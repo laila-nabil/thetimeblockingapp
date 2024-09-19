@@ -18,7 +18,7 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<dartz.Unit> signOut(AccessTokenModel accessModel) {
+  Future<dartz.Unit> signOut() {
     throw UnimplementedError();
   }
 

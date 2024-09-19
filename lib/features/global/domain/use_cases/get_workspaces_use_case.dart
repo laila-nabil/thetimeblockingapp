@@ -35,7 +35,7 @@ class GetWorkspacesUseCase
           if (r.isEmpty) {
         final result = await repo.createWorkspace(
             params: CreateWorkspaceParams.defaultWorkspace(
-                accessToken: params.accessToken, userId: params.userId));
+                 userId: params.userId));
       }
     });
     return result;
@@ -43,11 +43,11 @@ class GetWorkspacesUseCase
 }
 
 class GetWorkspacesParams extends Equatable {
-  final AccessToken accessToken;
+
   final String userId;
 
-  const GetWorkspacesParams({required this.accessToken, required this.userId});
+  const GetWorkspacesParams({ required this.userId});
 
   @override
-  List<Object?> get props => [accessToken, userId];
+  List<Object?> get props => [ userId];
 }

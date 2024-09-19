@@ -37,10 +37,9 @@ class DeleteTagUseCase
 class DeleteTagParams {
   final Workspace workspace;
   final Tag tag;
-  final AccessToken accessToken;
+
 
   DeleteTagParams(
       {required this.workspace,
-        required this.tag,
-        required this.accessToken});
+        required this.tag,});
 }

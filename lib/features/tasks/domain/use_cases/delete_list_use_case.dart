@@ -32,8 +32,8 @@ class DeleteListUseCase
 
 class DeleteListParams {
   final TasksList list;
-  final AccessToken accessToken;
-  DeleteListParams({required this.list,required this.accessToken, });
+
+  DeleteListParams({required this.list });
 
   String get listId => list.id ?? "";
 }

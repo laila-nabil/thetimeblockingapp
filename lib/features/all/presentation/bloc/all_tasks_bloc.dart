@@ -44,8 +44,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
         final result = await _getTasksInSingleWorkspaceUseCase(
             GetTasksInWorkspaceParams(
                 workspaceId: event.workspace.id ?? 0,
-                filtersParams: GetTasksInWorkspaceFiltersParams(
-                    accessToken: event.accessToken,
+                filtersParams: const GetTasksInWorkspaceFiltersParams(
                 ),
                 backendMode: serviceLocator<BackendMode>().mode
             ));
@@ -69,7 +68,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
           add(GetTasksInWorkspaceEvent(
-              accessToken: event.params.accessToken,
+
               workspace: event.workspace));
         });
       } else if (event is DuplicateTaskEvent) {
@@ -83,7 +82,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.createTaskSuccess,
           ));
           add(GetTasksInWorkspaceEvent(
-              accessToken: event.params.accessToken,
+
               workspace: event.workspace));
         });
       } else if (event is UpdateTaskEvent) {
@@ -97,7 +96,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
           add(GetTasksInWorkspaceEvent(
-              accessToken: event.params.accessToken,
+
               workspace: event.workspace));
         });
       } else if (event is DeleteTaskEvent) {
@@ -111,7 +110,7 @@ class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
             allTasksStatus: AllTasksStatus.updateTaskSuccess,
           ));
           add(GetTasksInWorkspaceEvent(
-              accessToken: event.params.accessToken,
+
               workspace: event.workspace));
         });
       }

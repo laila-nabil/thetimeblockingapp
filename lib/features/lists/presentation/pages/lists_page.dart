@@ -63,13 +63,12 @@ class ListsPage extends StatelessWidget {
                                   deleteListParams:
                                       DeleteListParams(
                                           list: state.toDeleteList!,
-                                          accessToken:
-                                          authBloc.state.accessToken!),
+                                          ),
                                   workspace:
                                       globalBloc.state.selectedWorkspace!,
                                   onSuccess: () {
                                     globalBloc.add(GetAllInWorkspaceEvent(
-                                      accessToken: authBloc.state.accessToken!,
+                                      
                                       workspace:
                                           globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                     ));
@@ -82,7 +81,7 @@ class ListsPage extends StatelessWidget {
                               listsPageBloc.add(
                                   DeleteListEvent.cancelDelete(onSuccess: () {
                                 globalBloc.add(GetAllInWorkspaceEvent(
-                                  accessToken: authBloc.state.accessToken!,
+                                  
                                   workspace:
                                       globalBloc.state.selectedWorkspace!
                                     , user: authBloc.state.user!
@@ -109,16 +108,14 @@ class ListsPage extends StatelessWidget {
                               listsPageBloc.add(DeleteFolderEvent.submit(
                                   deleteFolderParams:
                                       DeleteFolderParams(
-                                          folder: state.toDeleteFolder!,
-                                          accessToken:
-                                              authBloc.state.accessToken!),
+                                          folder: state.toDeleteFolder!,),
                                   workspace:
                                       BlocProvider.of<GlobalBloc>(context)
                                           .state
                                           .selectedWorkspace!,
                                   onSuccess: () {
                                     globalBloc.add(GetAllInWorkspaceEvent(
-                                      accessToken: authBloc.state.accessToken!,
+                                      
                                       workspace:
                                           globalBloc.state.selectedWorkspace!
                                         , user: authBloc.state.user!
@@ -132,7 +129,7 @@ class ListsPage extends StatelessWidget {
                               listsPageBloc.add(
                                   DeleteFolderEvent.cancelDelete(onSuccess: () {
                                 globalBloc.add(GetAllInWorkspaceEvent(
-                                  accessToken: authBloc.state.accessToken!,
+                                  
                                   workspace:
                                       globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                 ));
@@ -196,7 +193,7 @@ class ListsPage extends StatelessWidget {
                                                           DeleteFolderEvent
                                                               .tryDelete(
                                                               folder, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                            accessToken: authBloc.state.accessToken!, user: authBloc.state.user!,
+                                                             user: authBloc.state.user!,
                                                             workspace: globalBloc.state.selectedWorkspace!,
                                                           )); }));
                                                     })
@@ -217,7 +214,7 @@ class ListsPage extends StatelessWidget {
                                                                 folderToCreateListIn:
                                                                 folder, onSuccess: () {
                                                               globalBloc.add(GetAllInWorkspaceEvent(
-                                                                accessToken: authBloc.state.accessToken!,
+                                                                
                                                                 workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
@@ -237,7 +234,7 @@ class ListsPage extends StatelessWidget {
                                                           title: appLocalization.translate("delete"),
                                                           onTap: () {
                                                             listsPageBloc.add(DeleteListEvent.tryDelete(e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                              accessToken: authBloc.state.accessToken!,
+                                                              
                                                               workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                             )); }));
                                                           })
@@ -253,9 +250,7 @@ class ListsPage extends StatelessWidget {
                                                           onAdd: (text) {
                                                             listsPageBloc.add(CreateListInFolderEvent.submit(
                                                                 createListInFolderParams: CreateListInFolderParams(
-                                                                    accessToken:
-                                                                    authBloc.state
-                                                                        .accessToken!,
+
                                                                     folder:
                                                                     folder,
                                                                     listName:
@@ -265,7 +260,7 @@ class ListsPage extends StatelessWidget {
                                                                     .selectedWorkspace!,
                                                                 onSuccess: () {
                                                               globalBloc.add(GetAllInWorkspaceEvent(
-                                                                accessToken: authBloc.state.accessToken!,
+                                                                
                                                                 workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
@@ -274,7 +269,7 @@ class ListsPage extends StatelessWidget {
                                                             CreateListInFolderEvent
                                                                 .cancelCreate(onSuccess: (){
                                                               globalBloc.add(GetAllInWorkspaceEvent(
-                                                                accessToken: authBloc.state.accessToken!,
+                                                                
                                                                 workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                               ));
                                                             }));
@@ -298,7 +293,7 @@ class ListsPage extends StatelessWidget {
                                                           DeleteListEvent
                                                               .tryDelete(
                                                               e, onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                            accessToken: authBloc.state.accessToken!,
+                                                            
                                                             workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                           )); }));
                                                     })
@@ -319,16 +314,14 @@ class ListsPage extends StatelessWidget {
                                             listsPageBloc.add(CreateFolderInSpaceEvent.submit(
                                                 createFolderInSpaceParams:
                                                 CreateFolderInSpaceParams(
-                                                    accessToken:
-                                                    authBloc.state
-                                                        .accessToken!,
+
                                                     folderName: text,
                                                     workspace: globalState
                                                         .selectedWorkspace!, user: authBloc.state.user!),
                                                 workspace: globalState
                                                     .selectedWorkspace!,
                                                 onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                              accessToken: authBloc.state.accessToken!,
+                                              
                                               workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                             )); }));
                                           },
@@ -336,7 +329,7 @@ class ListsPage extends StatelessWidget {
                                             listsPageBloc.add(
                                                 CreateFolderInSpaceEvent
                                                     .cancelCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                  accessToken: authBloc.state.accessToken!,
+                                                  
                                                   workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 )); }));
                                           },
@@ -348,7 +341,7 @@ class ListsPage extends StatelessWidget {
                                             listsPageBloc.add(
                                                 CreateFolderInSpaceEvent
                                                     .tryCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-                                                  accessToken: authBloc.state.accessToken!,
+                                                  
                                                   workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 )); }));
                                           },
@@ -362,9 +355,7 @@ class ListsPage extends StatelessWidget {
                                           listsPageBloc.add(CreateFolderlessListEvent.submit(
                                               createFolderlessListParams:
                                               CreateFolderlessListParams(
-                                                  accessToken:
-                                                  authBloc.state
-                                                      .accessToken!,
+
                                                   listName: text,
                                                   workspace: globalState
                                                       .selectedWorkspace!, user: authBloc.state.user!),
@@ -373,8 +364,7 @@ class ListsPage extends StatelessWidget {
                                                   onSuccess: () {
                                                     globalBloc.add(
                                                         GetAllInWorkspaceEvent(
-                                                      accessToken: authBloc
-                                                          .state.accessToken!,
+
                                                       workspace: globalBloc
                                                           .state
                                                           .selectedWorkspace!
@@ -386,7 +376,7 @@ class ListsPage extends StatelessWidget {
                                               CreateListInFolderEvent
                                                   .cancelCreate(onSuccess: () {
                                                 globalBloc.add(GetAllInWorkspaceEvent(
-                                                  accessToken: authBloc.state.accessToken!,
+                                                  
                                                   workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
                                                 ));
                                               }));
@@ -400,8 +390,7 @@ class ListsPage extends StatelessWidget {
                                                     .tryCreate(onSuccess: () {
                                                   globalBloc.add(
                                                       GetAllInWorkspaceEvent(
-                                                        accessToken: authBloc
-                                                            .state.accessToken!,
+
                                                         workspace: globalBloc
                                                             .state
                                                             .selectedWorkspace!
@@ -429,7 +418,6 @@ class ListsPage extends StatelessWidget {
 
   void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState,GlobalBloc globalBloc) {
     globalBloc.add(GetAllInWorkspaceEvent(
-      accessToken: authState.accessToken!,
       workspace: globalBloc.state.selectedWorkspace!
         , user: authState.user!
     ));

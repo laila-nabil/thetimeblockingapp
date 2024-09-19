@@ -18,7 +18,5 @@ class GetStatusesUseCase implements UseCase<List<TaskStatus>,GetStatusesParams>{
 }
 
 class GetStatusesParams{
-  final AccessToken accessToken;
 
-  GetStatusesParams(this.accessToken);
 }

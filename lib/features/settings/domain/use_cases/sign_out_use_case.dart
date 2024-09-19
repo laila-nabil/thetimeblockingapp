@@ -8,14 +8,14 @@ import '../../../../core/analytics/analytics.dart';
 import '../../../../core/injection_container.dart';
 
 ///TODO A move to auth feature
-class SignOutUseCase implements UseCase<dartz.Unit, AccessToken> {
+class SignOutUseCase implements UseCase<dartz.Unit, NoParams> {
   final AuthRepo authRepo;
 
   SignOutUseCase(this.authRepo);
 
   @override
-  Future<dartz.Either<Failure, dartz.Unit>?> call(AccessToken accessToken) async {
-    final result = await authRepo.signOut(accessToken);
+  Future<dartz.Either<Failure, dartz.Unit>?> call(NoParams) async {
+    final result = await authRepo.signOut();
     await result.fold(
         (l) async => await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.signOut.name, parameters: {

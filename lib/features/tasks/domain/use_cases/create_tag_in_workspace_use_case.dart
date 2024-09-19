@@ -46,7 +46,6 @@ class CreateTagInWorkspaceUseCase
 
 class CreateTagInWorkspaceParams {
   final Workspace workspace;
-  final AccessToken accessToken;
   final String tagName;
   final User user;
   Map<String, dynamic> toJson() {
@@ -59,7 +58,6 @@ class CreateTagInWorkspaceParams {
 
   CreateTagInWorkspaceParams(
       {required this.workspace,
-      required this.accessToken,
       required this.user,
       required this.tagName});
 }

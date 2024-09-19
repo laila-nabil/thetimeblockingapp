@@ -33,11 +33,10 @@ class DeleteFolderUseCase
 
 class DeleteFolderParams {
   final Folder folder;
-  final AccessToken accessToken;
+
 
   DeleteFolderParams({
     required this.folder,
-    required this.accessToken,
   });
 
   String get folderId => folder.id ?? "";

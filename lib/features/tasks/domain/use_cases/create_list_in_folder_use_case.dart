@@ -38,14 +38,13 @@ class CreateListInFolderUseCase
 }
 
 class CreateListInFolderParams extends Equatable {
-  final AccessToken accessToken;
+
   final Folder folder;
   final String listName;
   final Color? statusColor;
   final User user;
   final Workspace workspace;
   const CreateListInFolderParams({
-    required this.accessToken,
     required this.folder,
     required this.listName,
     required this.user,
@@ -55,7 +54,6 @@ class CreateListInFolderParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        accessToken,
         folder,
         listName,
         statusColor,

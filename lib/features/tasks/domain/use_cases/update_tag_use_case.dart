@@ -52,7 +52,7 @@ class UpdateTagUseCase
 class UpdateTagParams {
   final Workspace workspace;
   final TagModel newTag;
-  final AccessToken accessToken;
+
   final User user;
 
   Map<String, dynamic> toJson() {
@@ -67,5 +67,5 @@ class UpdateTagParams {
       {required this.workspace,
       required this.newTag,
       required this.user,
-      required this.accessToken});
+      });
 }

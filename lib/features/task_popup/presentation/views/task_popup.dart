@@ -277,13 +277,13 @@ class _TaskPopupState extends State<TaskPopup> {
   }
 
   CreateTaskParams onSaveTaskParams(DateTime? newTaskDueDate,
-      AccessToken accessToken, User user) {
+      User user) {
     CreateTaskParams params;
     final task = taskParams.task;
     if (task != null) {
       params = CreateTaskParams.updateTask(
           task: taskParams.task!,
-          accessToken: accessToken,
+
           updatedTitle: taskParams.title,
           updatedDescription: taskParams.description,
           updatedTags: taskParams.tags == task.tags ? null : taskParams.tags,
@@ -314,8 +314,7 @@ class _TaskPopupState extends State<TaskPopup> {
       params = taskParams ?? CreateTaskParams.createNewTask(
           dueDate: newTaskDueDate,
           list: taskParams.list!,
-          accessToken:
-          accessToken,
+
           title: taskParams.title ?? "",
           description: taskParams.description,
           backendMode: serviceLocator<BackendMode>().mode,
@@ -360,7 +359,7 @@ class _TaskPopupState extends State<TaskPopup> {
     if(setTaskParams != true){
       taskParams = widget.taskPopupParams.task == null
           ? CreateTaskParams.startCreateNewTask(
-          accessToken: authState.accessToken!,
+
           dueDate: widget.taskPopupParams.dueDate,
           startDate: widget.taskPopupParams.startDate,
           workspace: serviceLocator<bool>(
@@ -377,7 +376,6 @@ class _TaskPopupState extends State<TaskPopup> {
               ? [widget.taskPopupParams.tag!]
               : [])
           : CreateTaskParams.startUpdateTask(
-        accessToken: authState.accessToken!,
         task: widget.taskPopupParams.task!,
         backendMode: serviceLocator<BackendMode>().mode,
         user: authState.user!,
@@ -479,8 +477,6 @@ class _TaskPopupState extends State<TaskPopup> {
                                             DeleteTaskParams(
                                               task: widget.taskPopupParams
                                                   .task!,
-                                              accessToken: authState
-                                                  .accessToken!,
                                             ));
                                         Navigator.pop(ctx);
                                       },
@@ -526,10 +522,6 @@ class _TaskPopupState extends State<TaskPopup> {
                         if (loading != true && readyToSubmit) {
                           widget.taskPopupParams.onSave(onSaveTaskParams(
                             widget.taskPopupParams.dueDate,
-                            BlocProvider
-                                .of<AuthBloc>(context)
-                                .state
-                                .accessToken!,
                             BlocProvider
                                 .of<AuthBloc>(context)
                                 .state

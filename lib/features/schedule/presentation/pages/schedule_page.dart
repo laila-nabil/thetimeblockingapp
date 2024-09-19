@@ -54,17 +54,17 @@ class SchedulePage extends StatelessWidget {
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if (globalCurrentState.priorities?.isNotEmpty != true) {
                 globalBloc
-                    .add(GetPrioritiesEvent(accessToken: authBloc.state.accessToken!));
+                    .add(GetPrioritiesEvent());
               }
               if (globalCurrentState.statuses?.isNotEmpty != true) {
                 globalBloc
-                    .add(GetStatusesEvent(accessToken: authBloc.state.accessToken!));
+                    .add(GetStatusesEvent());
               }
               if (globalCurrentState.workspaces?.isNotEmpty != true) {
                 final globalBloc = BlocProvider.of<GlobalBloc>(context);
                 globalBloc.add(GetAllWorkspacesEvent(
                     params: GetWorkspacesParams(
-                        accessToken: authBloc.state.accessToken!,
+
                         userId: authBloc.state.user!.id!)));
               }
               var isWorkspaceAndSpaceAppWide = serviceLocator<bool>(
@@ -88,12 +88,12 @@ class SchedulePage extends StatelessWidget {
                         workspaceId: workspace?.id ?? 0,
                         filtersParams: scheduleBloc.state
                             .defaultTasksInWorkspaceFiltersParams(
-                                accessToken: authBloc.state.accessToken!,
+
                                 user: authBloc.state.user),
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: workspace!,
-                    accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
+                    user: authBloc.state.user!));
               }
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
@@ -174,12 +174,12 @@ class SchedulePage extends StatelessWidget {
                         workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
                         scheduleBloc.state.defaultTasksInWorkspaceFiltersParams(
-                            accessToken: authBloc.state.accessToken!,
+
                             user: authBloc.state.user),
                         backendMode: serviceLocator<BackendMode>().mode)));
                 globalBloc.add(GetAllInWorkspaceEvent(
                     workspace: selectedWorkspace!,
-                    accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
+                     user: authBloc.state.user!));
               },);
             },
           );

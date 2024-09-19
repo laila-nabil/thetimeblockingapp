@@ -15,14 +15,13 @@ class ControlDrawerLargerScreen extends GlobalEvent {
 
 class GetAllInWorkspaceEvent extends GlobalEvent {
   final Workspace workspace;
-  final AccessToken accessToken;
 
   final User user;
   const GetAllInWorkspaceEvent(
-      {required this.workspace, required this.accessToken,required this.user});
+      {required this.workspace, required this.user});
 
   @override
-  List<Object?> get props => [workspace,accessToken];
+  List<Object?> get props => [workspace,user];
 }
 
 class GetAllWorkspacesEvent extends GlobalEvent {
@@ -36,19 +35,12 @@ class GetAllWorkspacesEvent extends GlobalEvent {
 
 
 class GetStatusesEvent extends GlobalEvent {
-  final AccessToken accessToken;
-  const GetStatusesEvent(
-      { required this.accessToken});
-
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [];
 }
 
 class GetPrioritiesEvent extends GlobalEvent {
-  final AccessToken accessToken;
-  const GetPrioritiesEvent(
-      { required this.accessToken});
 
   @override
-  List<Object?> get props => [accessToken];
+  List<Object?> get props => [];
 }

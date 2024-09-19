@@ -17,7 +17,5 @@ class GetPrioritiesUseCase implements UseCase<List<TaskPriority>,GetPrioritiesPa
 }
 
 class GetPrioritiesParams{
-  final AccessToken accessToken;
 
-  GetPrioritiesParams(this.accessToken);
 }

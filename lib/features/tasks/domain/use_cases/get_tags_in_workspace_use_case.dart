@@ -37,16 +37,14 @@ class GetTagsInWorkspaceUseCase
 }
 
 class GetTagsInWorkspaceParams extends Equatable {
-  final AccessToken accessToken;
   final Workspace workspace;
   final bool? archived;
 
   const GetTagsInWorkspaceParams({
-    required this.accessToken,
     required this.workspace,
     this.archived,
   });
 
   @override
-  List<Object?> get props => [accessToken, workspace,archived];
+  List<Object?> get props => [ workspace,archived];
 }

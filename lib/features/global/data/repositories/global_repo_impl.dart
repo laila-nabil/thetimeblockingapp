@@ -29,7 +29,7 @@ class GlobalRepoImpl implements GlobalRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () async =>
             await remoteDataSource.getTasksInWorkspace(params: params),
-        accessToken: params.filtersParams.accessToken.toModel);
+        );
   }
 
   @override
@@ -37,7 +37,7 @@ class GlobalRepoImpl implements GlobalRepo {
       GetStatusesParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () => remoteDataSource.getStatuses(params),
-        accessToken: params.accessToken.toModel);
+        );
   }
 
   @override
@@ -45,7 +45,7 @@ class GlobalRepoImpl implements GlobalRepo {
       GetPrioritiesParams params) {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () => remoteDataSource.getPriorities(params),
-        accessToken: params.accessToken.toModel);
+        );
   }
 
   @override
@@ -54,7 +54,7 @@ class GlobalRepoImpl implements GlobalRepo {
     return repoHandleRemoteRequest(
         remoteDataSourceRequest: () =>
             remoteDataSource.getAllInWorkspace(params: params),
-        accessToken: params.accessToken.toModel);
+        );
   }
 
   @override
@@ -63,7 +63,6 @@ class GlobalRepoImpl implements GlobalRepo {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.getWorkspaces(params: params),
-      accessToken: params.accessToken.toModel,
     );
   }
 
@@ -72,7 +71,6 @@ class GlobalRepoImpl implements GlobalRepo {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () =>
           remoteDataSource.createWorkspace(params: params),
-      accessToken: params.accessToken.toModel,
     );
   }
 }

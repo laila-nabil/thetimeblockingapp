@@ -71,7 +71,6 @@ class TagPage extends StatelessWidget {
                     tag: state.updateTagResult!, insideTagPage: true));
               } else if (state.tagsPageStatus == TagsPageStatus.navigateTag) {
                 tagsPageBloc.add(GetTasksForTagEvent(
-                    accessToken: authBloc.state.accessToken!,
                     workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                     tag: state.navigateTag!,
                     ));
@@ -87,8 +86,7 @@ class TagPage extends StatelessWidget {
                                 workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                                 newTag: state.navigateTag!.getModel,
                                 user: authBloc.state.user!,
-                                accessToken:
-                                    authBloc.state.accessToken!)));
+                                )));
                       },
                       titleWidget: Row(
                         children: [
@@ -102,8 +100,7 @@ class TagPage extends StatelessWidget {
                             DeleteTagParams(
                                 workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                                 tag: state.navigateTag!,
-                                accessToken:
-                                    authBloc.state.accessToken!)));
+                                )));
                       },
                       titleWidget: Row(
                         children: [
@@ -154,8 +151,7 @@ class TagPage extends StatelessWidget {
                                           .add(UpdateTagEvent.submit(
                                         insideTagPage: true,
                                         params: UpdateTagParams(
-                                            accessToken:
-                                                authBloc.state.accessToken!,
+
                                             newTag: state.navigateTag!
                                                 .copyWith(name: text)
                                                 .getModel,
@@ -231,13 +227,13 @@ class TagPage extends StatelessWidget {
                 context: context,
                 onRefresh: () async {
                   tagsPageBloc.add(GetTasksForTagEvent(
-                      accessToken: authBloc.state.accessToken!,
+
                       workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
                       tag: state.navigateTag!,
                       ));
                   globalBloc.add(GetAllInWorkspaceEvent(
                       workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
-                      accessToken: authBloc.state.accessToken!, user: authBloc.state.user!));
+                       user: authBloc.state.user!));
                 },
               );
             },
@@ -272,14 +268,14 @@ class TagPage extends StatelessWidget {
       onDeleteConfirmed: () {
         tagsPageBloc.add(DeleteTaskEvent(
             params: DeleteTaskParams(
-                task: task, accessToken: authBloc.state.accessToken!),
+                task: task, ),
             workspace:
                 BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
       },
       onCompleteConfirmed: () {
         final newTask = task.copyWith(status: globalBloc.state.statuses!.completedStatus);
         tagsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
-            accessToken: authBloc.state.accessToken!,
+
             task: newTask,
             backendMode: serviceLocator<BackendMode>(),
             user: authBloc.state.user!,

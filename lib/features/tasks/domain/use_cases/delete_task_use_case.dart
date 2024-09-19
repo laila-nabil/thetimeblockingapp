@@ -33,11 +33,11 @@ class DeleteTaskUseCase
 
 class DeleteTaskParams {
   final Task task;
-  final AccessToken accessToken;
+
 
   DeleteTaskParams({
     required this.task,
-    required this.accessToken,
+
   });
 
   String get taskId => task.id ?? "";

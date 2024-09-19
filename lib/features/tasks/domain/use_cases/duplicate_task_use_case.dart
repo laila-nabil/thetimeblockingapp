@@ -34,7 +34,7 @@ class DuplicateTaskUseCase {
               params: GetTasksInWorkspaceParams(
                   workspaceId: workspaceId,
                   filtersParams: GetTasksInWorkspaceFiltersParams(
-                      accessToken: params.accessToken),
+                      ),
                   backendMode: serviceLocator<BackendMode>().mode));
           await newTasks.fold((l)async{}, (tasks) async {
         final task = tasks.lastOrNull;
@@ -44,7 +44,7 @@ class DuplicateTaskUseCase {
                     params: AddTagToTaskParams(
                         task: task!,
                         tag: tag,
-                        accessToken: params.accessToken, user: params.user));
+                         user: params.user));
                 addTagResult.fold((l) => printDebug("addTagResult failed $l"),
                         (r) => printDebug("addTagResult success $r"));
               }

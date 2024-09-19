@@ -34,12 +34,11 @@ class CreateFolderInWorkspaceUseCase
 }
 
 class CreateFolderInSpaceParams extends Equatable {
-  final AccessToken accessToken;
+
   final Workspace workspace;
   final String folderName;
   final User user;
   const CreateFolderInSpaceParams({
-    required this.accessToken,
     required this.workspace,
     required this.folderName,
     required this.user,
@@ -55,5 +54,5 @@ class CreateFolderInSpaceParams extends Equatable {
 
   @override
   List<Object?> get props =>
-      [accessToken, workspace,folderName,user];
+      [ workspace,folderName,user];
 }

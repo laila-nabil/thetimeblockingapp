@@ -23,12 +23,12 @@ class CreateWorkspaceUseCase
 }
 
 class CreateWorkspaceParams extends Equatable {
-  final AccessToken accessToken;
+
   final String userId;
   String? name;
-  CreateWorkspaceParams({required this.accessToken, required this.userId,required String this.name});
+  CreateWorkspaceParams({ required this.userId,required String this.name});
 
-  CreateWorkspaceParams.defaultWorkspace({required this.accessToken, required this.userId,});
+  CreateWorkspaceParams.defaultWorkspace({required this.userId,});
 
   Map<String, dynamic> toJson() {
     return {
@@ -38,5 +38,5 @@ class CreateWorkspaceParams extends Equatable {
   }
 
   @override
-  List<Object?> get props => [accessToken, userId,name];
+  List<Object?> get props => [ userId,name];
 }
