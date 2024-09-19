@@ -31,24 +31,6 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
     } else {
       result = await remoteDataSourceRequest();
     }
-  } on TokenTimeOutException {
-    ///TODO improve
-    printDebug("TokenTimeOutException", printLevel: PrintLevel.error);
-    try {
-      final refreshTokenResult = await serviceLocator<AuthRemoteDataSource>().refreshToken(
-          refreshToken: serviceLocator<String>(
-              instanceName: ServiceLocatorName.refreshToken.name),
-          accessToken: accessToken);
-      await serviceLocator<AuthLocalDataSource>().saveSignInResult(refreshTokenResult);
-      serviceLocator.registerSingleton<String>(refreshTokenResult.refreshToken,
-          instanceName: ServiceLocatorName.refreshToken.name);
-      serviceLocator.registerSingleton<AccessToken>(refreshTokenResult.accessToken,
-          instanceName: ServiceLocatorName.accessToken.name);
-      result = await remoteDataSourceRequest();
-    } on Exception catch (e) {
-      printDebug("RefreshToken Exception $e", printLevel: PrintLevel.error);
-    }
-
   } catch (error) {
     printDebug(error, printLevel: PrintLevel.error);
     if (error is Exception) {

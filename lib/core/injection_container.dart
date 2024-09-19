@@ -321,7 +321,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(instanceName: ServiceLocatorName.accessToken.name).toModel);
+          url: _supabaseGlobals.url,);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync GlobalRemoteDataSourceImpl");
   }
@@ -336,9 +336,7 @@ TasksRemoteDataSource tasksRemoteDataSource() {
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(
-                  instanceName: ServiceLocatorName.accessToken.name)
-              .toModel);
+          url: _supabaseGlobals.url,);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync TasksRemoteDataSourceImpl");
   }
