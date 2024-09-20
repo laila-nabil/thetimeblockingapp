@@ -44,27 +44,21 @@ class AuthRepoImpl  implements AuthRepo{
           trySaveResult: (result) async {
             await authLocalDataSource
                 .saveSignInResult(result);
-            serviceLocator.registerSingleton<String>(result.refreshToken,
-                instanceName: ServiceLocatorName.refreshToken.name);
-            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
-                instanceName: ServiceLocatorName.accessToken.name);
+                serviceLocator<AppConfig>().refreshToken = result.refreshToken;
+                serviceLocator<AppConfig>().accessToken = result.accessToken;
           },
           tryGetFromLocalStorage: () async {
             final result = await authLocalDataSource.getSignInResult();
-            serviceLocator.registerSingleton<String>(result.refreshToken,
-                instanceName: ServiceLocatorName.refreshToken.name);
-            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
-                instanceName: ServiceLocatorName.accessToken.name);
+            serviceLocator<AppConfig>().refreshToken = result.refreshToken;
+            serviceLocator<AppConfig>().accessToken = result.accessToken;
             return result;
           }, );
     }else{
       result = await repoHandleLocalGetRequest<SignInResultModel>(
           tryGetFromLocalStorage: () async {
             final result = await authLocalDataSource.getSignInResult();
-            serviceLocator.registerSingleton<String>(result.refreshToken,
-                instanceName: ServiceLocatorName.refreshToken.name);
-            serviceLocator.registerSingleton<AccessToken>(result.accessToken,
-                instanceName: ServiceLocatorName.accessToken.name);
+             serviceLocator<AppConfig>().refreshToken = result.refreshToken;
+            serviceLocator<AppConfig>().accessToken = result.accessToken;
             return result;
           });
     }

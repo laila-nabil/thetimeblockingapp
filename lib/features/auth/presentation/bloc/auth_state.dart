@@ -37,8 +37,7 @@ class AuthState extends Equatable {
     this.signUpResult,
   });
 
-  AccessToken get accessToken =>  serviceLocator<AccessToken>(
-      instanceName: ServiceLocatorName.accessToken.name);
+  AccessToken get accessToken =>  serviceLocator<AppConfig>().accessToken;
 
   bool get isLoading => authState == AuthStateEnum.loading;
 
@@ -72,11 +71,9 @@ class AuthState extends Equatable {
     SignUpResult? signUpResult,
   }) {
     if(resetState){
-      serviceLocator.registerSingleton<String>('',
-          instanceName: ServiceLocatorName.refreshToken.name);
-      serviceLocator.registerSingleton<AccessToken>(
-          const AccessToken(accessToken: '', tokenType: ''),
-          instanceName: ServiceLocatorName.accessToken.name);
+      serviceLocator<AppConfig>().refreshToken = '';
+      serviceLocator<AppConfig>().accessToken = const AccessToken(accessToken: '', tokenType: '');
+    
     }
     return AuthState(
       authState: authState ?? this.authState,

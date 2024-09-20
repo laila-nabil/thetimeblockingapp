@@ -48,16 +48,12 @@ final router = GoRouter(
       );
     },
     redirect: (context, GoRouterState? state) {
-      printDebug("redirectAfterAuthRouteName ${serviceLocator(
-          type: String,
-          instanceName:
-          ServiceLocatorName.redirectAfterAuthRouteName.name)}");
+      printDebug("redirectAfterAuthRouteName ${serviceLocator<AppConfig>().redirectAfterAuthRouteName}");
       printDebug("state?.uri ${state?.uri}");
       if (BlocProvider.of<AuthBloc>(context).state.user == null) {
         if(state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName){
           printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
-          serviceLocator.registerSingleton<String>(state?.uri.toString()??"",
-              instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
+          serviceLocator<AppConfig>().redirectAfterAuthRouteName = state?.uri.toString()??"";
         }
         return SupabaseOnBoardingAndAuthPage.routeName;
       }
@@ -95,18 +91,11 @@ final router = GoRouter(
                     true &&
                 BlocProvider.of<AuthBloc>(context).state.user != null &&
               BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true;
-            var redirectAuth = serviceLocator.get(
-                  type: String,
-                  instanceName:
-                  ServiceLocatorName.redirectAfterAuthRouteName.name);
-            if (userLoggedIn && (redirectAuth as String).isNotEmpty) {
+            var redirectAuth = serviceLocator<AppConfig>().redirectAfterAuthRouteName;
+            if (userLoggedIn && (redirectAuth).isNotEmpty) {
               String redirectAfterAuthRouteName = redirectAuth;
-
-              serviceLocator.registerSingleton<String>("",
-                  instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
-
-
-              return redirectAfterAuthRouteName;
+              serviceLocator<AppConfig>().redirectAfterAuthRouteName = '';
+               return redirectAfterAuthRouteName;
 
           }
           return null;

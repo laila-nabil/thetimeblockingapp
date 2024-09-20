@@ -148,7 +148,7 @@ class ListsPage extends StatelessWidget {
             final globalBloc = BlocProvider.of<GlobalBloc>(context);
             final authBloc = BlocProvider.of<AuthBloc>(context);
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
-            if (state.canGetData(globalState.isLoading) && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
+            if (state.canGetData(globalState.isLoading) && serviceLocator<AppConfig>().isWorkspaceAppWide) {
               getListsFolders(listsPageBloc,authBloc.state,globalBloc);
             }
             return ResponsiveScaffold(

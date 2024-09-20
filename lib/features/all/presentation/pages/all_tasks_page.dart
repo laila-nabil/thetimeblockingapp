@@ -68,8 +68,7 @@ class AllTasksPage extends StatelessWidget {
                       small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state.isInit && serviceLocator<bool>(
-                            instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
+                      if (state.isInit && serviceLocator<AppConfig>().isWorkspaceAppWide) {
                         getAllTasksInWorkspace(allTasksBloc,context);
                       }
                       return Padding(

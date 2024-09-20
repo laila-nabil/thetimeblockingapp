@@ -18,7 +18,7 @@ class FirebaseAnalyticsImpl implements Analytics {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(
-          serviceLocator<Env>(instanceName: ServiceLocatorName.env.name).isAnalyticsEnabled);
+          serviceLocator<AppConfig>().env.isAnalyticsEnabled);
       _instance = FirebaseAnalytics.instance;
       printDebug("FirebaseAnalyticsImpl initialize");
     } catch (e) {
@@ -53,7 +53,7 @@ class FirebaseAnalyticsImpl implements Analytics {
   Future<void> setCurrentScreen(String screenName) async {
     try {
       await _instance.setCurrentScreen(
-          screenName: serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name) ? "demo/$screenName" : screenName);
+          screenName: serviceLocator<AppConfig>().isDemo? "demo/$screenName" : screenName);
       printDebug("FirebaseAnalyticsImpl setCurrentScreen $screenName");
     } catch (e) {
       printDebug(e);

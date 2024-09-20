@@ -67,53 +67,30 @@ final serviceLocator = GetIt.instance;
 
 SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
 
-enum ServiceLocatorName {
-  defaultEnv,
-  env,
-  isDemo,
-  defaultTaskDuration,
-  isWorkspaceAppWide,
-  redirectAfterAuthRouteName,
-  refreshToken,
-  accessToken
+class AppConfig{
+   static const Env _defaultEnv = Env.debugLocally;
+   Env env = _defaultEnv;
+   bool isDemo = false;
+   Duration defaultTaskDuration = const Duration(hours: 1);
+
+   ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
+   bool isWorkspaceAppWide = true;
+   String redirectAfterAuthRouteName = '';
+   String refreshToken = '';
+   AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '') ;
 }
 
 void _initServiceLocator({required Network network}) {
   serviceLocator.allowReassignment = true;
 
   /// Globals
-  serviceLocator.registerSingleton<String>('',
-      instanceName: ServiceLocatorName.refreshToken.name);
-serviceLocator.registerSingleton<AccessToken>(const AccessToken(accessToken: '', tokenType: ''),
-      instanceName: ServiceLocatorName.accessToken.name);
+  serviceLocator.registerSingleton<AppConfig>(AppConfig());
 
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
 
   serviceLocator
       .registerSingleton<BackendMode>(BackendMode.supabase);
-
-  serviceLocator.registerSingleton<Env>(Env.debugLocally,
-      instanceName: ServiceLocatorName.defaultEnv.name);
-
-  serviceLocator
-      .registerSingleton<Env>(
-      (serviceLocator.get(instanceName: ServiceLocatorName.defaultEnv.name,type: Env) as Env),
-      instanceName: ServiceLocatorName.env.name);
-
-  serviceLocator
-      .registerSingleton<bool>(false,instanceName: ServiceLocatorName.isDemo.name);
-
-  serviceLocator.registerSingleton<Duration>(const Duration(hours: 1),
-      instanceName: ServiceLocatorName.defaultTaskDuration.name);
-
-  serviceLocator.registerSingleton<String>("",
-      instanceName: ServiceLocatorName.redirectAfterAuthRouteName.name);
-
-  ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
-
-  serviceLocator.registerSingleton<bool>(true,
-      instanceName:ServiceLocatorName.isWorkspaceAppWide.name);
 
   /// Bloc
   serviceLocator.registerFactory(() => GlobalBloc(
@@ -301,7 +278,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 }
 
 AuthRemoteDataSource authRemoteDataSource() {
-  if (serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name)) {
+  if (serviceLocator<AppConfig>().isDemo) {
     return AuthDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {
@@ -309,7 +286,7 @@ AuthRemoteDataSource authRemoteDataSource() {
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AccessToken>(instanceName: ServiceLocatorName.accessToken.name).toModel);
+          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AppConfig>().accessToken.toModel);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync AuthRemoteDataSourceImpl");
   }
@@ -328,7 +305,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
 }
 
 TasksRemoteDataSource tasksRemoteDataSource() {
-  if (serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name)) {
+  if (serviceLocator<AppConfig>().isDemo) {
     return TasksDemoRemoteDataSourceImpl();
   }
   switch (serviceLocator<BackendMode>().mode) {
@@ -349,10 +326,8 @@ void updateFromEnv() async {
   );
   printDebug("supabaseGlobals url ${_supabaseGlobals.url}");
   printDebug("supabaseGlobals key ${_supabaseGlobals.key}");
-  serviceLocator
-      .registerSingleton<Env>(Env.getEnv(
-          const String.fromEnvironment("env", defaultValue: "debugLocally")),
-      instanceName: ServiceLocatorName.defaultEnv.name);
+  serviceLocator<AppConfig>().env = Env.getEnv(
+          const String.fromEnvironment("env", defaultValue: "debugLocally"));
 }
 
 void initServiceLocator() {

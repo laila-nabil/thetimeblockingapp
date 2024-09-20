@@ -92,7 +92,7 @@ class TagsPage extends StatelessWidget {
                     small: BlocConsumer<TagsPageBloc, TagsPageState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.isInit && serviceLocator<bool>(instanceName:ServiceLocatorName.isWorkspaceAppWide.name)) {
+                    if (state.isInit && serviceLocator<AppConfig>().isWorkspaceAppWide) {
                       tagsPageBloc.add(GetTagsInWorkspaceEvent(
                           GetTagsInWorkspaceParams(
                               workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!)));

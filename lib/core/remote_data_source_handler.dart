@@ -13,9 +13,7 @@ Future<NetworkResponse> remoteDateRequestHandler<S>(
     required Future<NetworkResponse> Function(AccessTokenModel accessTokenModel) request
     }) async {
   late NetworkResponse response;
-  AccessTokenModel accessTokenModel = serviceLocator<AccessToken>(
-      instanceName: ServiceLocatorName.accessToken.name)
-      .toModel;
+  AccessTokenModel accessTokenModel = serviceLocator<AppConfig>().accessToken.toModel;
   try {
     response = await request(accessTokenModel);
   } on TokenTimeOutException {
@@ -24,16 +22,12 @@ Future<NetworkResponse> remoteDateRequestHandler<S>(
     try {
       final refreshTokenResult = await serviceLocator<AuthRemoteDataSource>()
           .refreshToken(
-              refreshToken: serviceLocator<String>(
-                  instanceName: ServiceLocatorName.refreshToken.name),
+              refreshToken: serviceLocator<AppConfig>().refreshToken,
               accessToken: accessTokenModel);
       await serviceLocator<AuthLocalDataSource>()
           .saveSignInResult(refreshTokenResult);
-      serviceLocator.registerSingleton<String>(refreshTokenResult.refreshToken,
-          instanceName: ServiceLocatorName.refreshToken.name);
-      serviceLocator.registerSingleton<AccessToken>(
-          refreshTokenResult.accessToken,
-          instanceName: ServiceLocatorName.accessToken.name);
+      serviceLocator<AppConfig>().refreshToken = refreshTokenResult.refreshToken;
+      serviceLocator<AppConfig>().accessToken = refreshTokenResult.accessToken;
       response = await request(refreshTokenResult.accessToken as AccessTokenModel);
     } on Exception catch (e) {
       printDebug("RefreshToken Exception $e", printLevel: PrintLevel.error);

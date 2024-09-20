@@ -28,7 +28,7 @@ Future<void> main() async {
   di.updateFromEnv();
   await di.serviceLocator<Analytics>().initialize();
   await di.serviceLocator<Analytics>().logAppOpen();
-  if (kIsWeb && serviceLocator<bool>(instanceName: ServiceLocatorName.isDemo.name) == false) {
+  if (kIsWeb && serviceLocator<AppConfig>().isDemo == false) {
     await tz_web.initializeTimeZone();
   } else {
     tz_not_web.initializeTimeZones();

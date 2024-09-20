@@ -67,9 +67,7 @@ class TaskPopupParams extends Equatable {
   }) {
     startDate = task?.startDateUtc ?? cellDate;
     dueDate = task?.dueDateUtc ??
-        cellDate?.add(
-            serviceLocator<Duration>(
-                instanceName: ServiceLocatorName.defaultTaskDuration.name));
+        cellDate?.add(serviceLocator<AppConfig>().defaultTaskDuration);
     isAllDay = false;
     list = task?.list;
     status = task?.status;
@@ -87,8 +85,7 @@ class TaskPopupParams extends Equatable {
     required this.isLoading,
   }) {
     startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<Duration>(
-        instanceName: ServiceLocatorName.defaultTaskDuration.name));
+    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<AppConfig>().defaultTaskDuration);
     isAllDay = false;
     list = null;
   }
@@ -361,9 +358,7 @@ class _TaskPopupState extends State<TaskPopup> {
 
           dueDate: widget.taskPopupParams.dueDate,
           startDate: widget.taskPopupParams.startDate,
-          workspace: serviceLocator<bool>(
-              instanceName: ServiceLocatorName
-                  .isWorkspaceAppWide.name)
+          workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
               ? globalState
               .selectedWorkspace
               : null,
@@ -378,9 +373,7 @@ class _TaskPopupState extends State<TaskPopup> {
         task: widget.taskPopupParams.task!,
         backendMode: serviceLocator<BackendMode>().mode,
         user: authState.user!,
-        workspace: serviceLocator<bool>(
-            instanceName: ServiceLocatorName
-                .isWorkspaceAppWide.name)
+        workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
             ? globalState.selectedWorkspace
             : widget.taskPopupParams.task!.workspace,
         tags: widget.taskPopupParams.task!.tags,

@@ -67,8 +67,7 @@ class SchedulePage extends StatelessWidget {
 
                         userId: authBloc.state.user!.id!)));
               }
-              var isWorkspaceAndSpaceAppWide = serviceLocator<bool>(
-                              instanceName: ServiceLocatorName.isWorkspaceAppWide.name);
+              var isWorkspaceAndSpaceAppWide = serviceLocator<AppConfig>().isWorkspaceAppWide;
               if (globalCurrentState.isLoading != true &&
                   state.isLoading != true &&
                   ((isWorkspaceAndSpaceAppWide == false && state.isInitial) ||

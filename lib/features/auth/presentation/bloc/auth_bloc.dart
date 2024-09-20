@@ -30,8 +30,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (l) async => emit(state.copyWith(
                 signInFailure: l,
                 authState: AuthStateEnum.signInFailed)), (r) async {
-          serviceLocator.registerSingleton<AccessToken>(r.accessToken,
-              instanceName: ServiceLocatorName.accessToken.name);
+                   serviceLocator<AppConfig>().refreshToken = r.refreshToken;
+                serviceLocator<AppConfig>().accessToken = r.accessToken;
+        
           emit(state.copyWith(
               user: r.user,
               authState: AuthStateEnum.signInSuccess));
@@ -57,8 +58,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (l) => emit(state.copyWith(
                 signInFailure: l,
                 authState: AuthStateEnum.signInFailed)), (r) {
-          serviceLocator.registerSingleton<AccessToken>(r.accessToken,
-              instanceName: ServiceLocatorName.accessToken.name);
+                  serviceLocator<AppConfig>().accessToken = r.accessToken;
+                  serviceLocator<AppConfig>().refreshToken = r.refreshToken;
           emit(state.copyWith(
               user: r.user,
               authState: AuthStateEnum.signInSuccess));
