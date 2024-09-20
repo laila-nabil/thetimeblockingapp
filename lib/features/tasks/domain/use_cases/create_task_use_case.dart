@@ -15,7 +15,7 @@ import 'get_tasks_in_single_workspace_use_case.dart';
 
 ///TODO Z add note or attachment with link to task url in timeblockingapp for quick access
 ///TODO Z enable navigation to specific task with task id
-///TODO D have brain dump/ inbox or default list
+///TODO have brain dump/ inbox or default list
 
 class CreateTaskUseCase {
   final TasksRepo repo;

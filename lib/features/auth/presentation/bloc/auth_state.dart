@@ -37,7 +37,6 @@ class AuthState extends Equatable {
     this.signUpResult,
   });
 
-  ///TODO B fix workaround
   AccessToken get accessToken =>  serviceLocator<AccessToken>(
       instanceName: ServiceLocatorName.accessToken.name);
 

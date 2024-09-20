@@ -209,7 +209,7 @@ class CreateTaskParams extends Equatable{
         taskPriority: task.priority,
         tags: tags,
         taskStatus: task.status,
-        ///TODO get Z parentTask
+        ///TODO get parentTask
         parentTask: null,
         dueDate: task.dueDateUtc,
         startDate: task.startDateUtc,
@@ -265,7 +265,7 @@ class CreateTaskParams extends Equatable{
       if(dueDate!=null)"due_date": dueDate?.toIso8601String(),
       if(startDate!=null)"start_date": startDate?.toIso8601String(),
       if(parentTask!=null)"parent_task_id": parentTask?.id,
-      "child_task_id": null,///TODO D child task
+      "child_task_id": null,///TODO Child task
     };
     if (type == TaskParamsEnum.create) {
       Map<String, Object?>  createMap = {

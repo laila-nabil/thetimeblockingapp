@@ -31,10 +31,10 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
 
-///TODO B task view as full page instead of popup
+///TODO task view as full page instead of popup
 
 ///TODO Z smart auto complete like Notion's / to select a list,tags,due date and start date
-///TODO D once start date is selected when creating task from floating button,end date is start + Globals.defaultTaskDuration
+///TODO once start date is selected when creating task from floating button,end date is start + defaultTaskDuration
 ///TODO Z input task duration
 
 // ignore: must_be_immutable
@@ -543,7 +543,7 @@ class _TaskPopupState extends State<TaskPopup> {
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
 
-                                ///TODO D create a new Folder in task view
+                                ///TODO Create a new Folder in task view
                                 ///Folder
                                 if (isFoldersListAvailable)
                                   CustomDropDown(
@@ -594,7 +594,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                   style: taskLocationTextStyle,
                                 ),
 
-                                ///TODO D create a new list in task view
+                                ///TODO Create a new list in task view
                                 ///List
                                 if ((taskParams
                                     .getAvailableLists(selectedFolder)
@@ -805,7 +805,7 @@ class _TaskPopupState extends State<TaskPopup> {
                               spacing: AppSpacing.xSmall8.value,
                               children: [
 
-                                ///TODO D is all day checkbox
+                                ///TODO is all day checkbox
                                 ///isAllDay
                                 if(false)Checkbox(
                                     value: widget.taskPopupParams.isAllDay,
@@ -973,7 +973,7 @@ class _TaskPopupState extends State<TaskPopup> {
                             spacerV,
 
                             ///Tags
-                            ///TODO D create new tags in task view
+                            ///TODO reate new tags in task view
                             if (viewTagsButton)
                               Column(
                                 crossAxisAlignment:

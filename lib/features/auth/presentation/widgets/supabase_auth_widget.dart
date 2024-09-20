@@ -16,8 +16,8 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_ca
 
 import '../bloc/auth_bloc.dart';
 
-///TODO C Sign in with magic link maybe
-///TODO C Sign in anon maybe ??
+///TODO Z Sign in with magic link maybe
+///TODO Z Sign in anon maybe ??
 
 class SupabaseAuthWidget extends StatefulWidget {
   const SupabaseAuthWidget({

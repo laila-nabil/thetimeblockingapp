@@ -153,7 +153,7 @@ class _TaskWidgetState extends State<TaskWidget> {
     final isListInsideFolder =
         folderName?.isNotEmpty == true;
     return  Dismissible(key: Key(widget.task.id.toString()),
-      ///TODO C add icons to background
+      ///TODO  add icons to background
       background: Container(color: AppColors.success(context.isDarkMode),),
       secondaryBackground: Container(color: AppColors.error(context.isDarkMode),),
       confirmDismiss: (dismissDirection) async {

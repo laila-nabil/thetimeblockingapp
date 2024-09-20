@@ -25,7 +25,7 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/global/presentation/bloc/global_bloc.dart';
 import '../entities/workspace.dart';
 
-///TODO C in desktop,show folders and list as sub to Lists
+///TODO in desktop,show folders and list as sub to Lists
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});

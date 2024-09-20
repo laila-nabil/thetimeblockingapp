@@ -415,7 +415,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                                   });
                                                 },
                                                 type: CustomButtonType.secondaryLabel),
-                                            ///TODO B remove next button since onboarding only 2 steps
+                                            ///TODO remove next button since onboarding only 2 steps
                                             CustomButton.noIcon(
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep2Next,
@@ -441,7 +441,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                           ),
                                           Wrap(
                                             children: [
-                                              ///TODO B remove skip button since onboarding only 2 steps
+                                              ///TODO remove skip button since onboarding only 2 steps
                                               CustomButton.noIcon(
                                                   analyticsEvent:
                                                   AnalyticsEvents.onBoardingStep2Skip,
@@ -521,7 +521,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                             SizedBox(
                                               width: AppSpacing.xSmall8.value,
                                             ),
-                                            ///TODO B remove next button since onboarding only 2 steps
+                                            ///TODO remove next button since onboarding only 2 steps
                                             CustomButton.noIcon(
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep2Next,
@@ -545,7 +545,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                               ),
                                               Row(
                                                 children: [
-                                                  ///TODO B remove skip button since onboarding only 2 steps
+                                                  ///TODO remove skip button since onboarding only 2 steps
                                                   CustomButton.noIcon(
                                                       analyticsEvent: AnalyticsEvents
                                                           .onBoardingStep2Skip,

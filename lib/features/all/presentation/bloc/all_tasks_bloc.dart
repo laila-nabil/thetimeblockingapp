@@ -20,7 +20,7 @@ part 'all_tasks_event.dart';
 
 part 'all_tasks_state.dart';
 
-///TODO C have upcoming section with any dated, soon section that has tb_soon tag and later section with tb_later tag and auto add to it
+///TODO have upcoming section with any dated, soon section that has tb_soon tag and later section with tb_later tag and auto add to it
 
 class AllTasksBloc extends Bloc<AllTasksEvent, AllTasksState> {
   final GetTasksInSingleWorkspaceUseCase

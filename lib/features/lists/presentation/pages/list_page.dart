@@ -61,7 +61,7 @@ class ListPage extends StatelessWidget {
                         backendMode: BackendMode.supabase), list: list));
               }
               return ResponsiveScaffold(
-                ///TODO D Bulk actions on tasks
+                ///TODO Bulk actions on tasks
                 // pageActions: null,
                 floatingActionButton: AddItemFloatingActionButton(
                   onPressed: () {

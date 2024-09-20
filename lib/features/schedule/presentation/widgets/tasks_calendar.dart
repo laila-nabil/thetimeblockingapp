@@ -38,7 +38,7 @@ class TasksCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     return SfCalendar(
-      ///TODO D save selected view in calendar
+      ///TODO save selected view in calendar
       // view: CalendarView.day,
       allowedViews: const [
         CalendarView.day,
@@ -57,7 +57,7 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-      ///TODO D calendar widget color in calendar is based on list with checkbox colored based on status as design
+      ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
@@ -78,7 +78,7 @@ class TasksCalendar extends StatelessWidget {
       },
 
       timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO D adjust TimeSlotViewSettings in calendar
+        ///TODO adjust TimeSlotViewSettings in calendar
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: false
