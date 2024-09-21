@@ -324,6 +324,8 @@ class CreateTaskParams extends Equatable{
     Folder? folder,
     bool? clearFolder,
     bool? clearPriority,
+    bool? clearStartDate,
+    bool? clearDueDate,
   }) {
     Workspace? selectedWorkspace = workspace ?? this.workspace;
     TaskPriority? selectedPriority =
@@ -342,8 +344,10 @@ class CreateTaskParams extends Equatable{
             selectedWorkspace.lists?.contains(selectedList) == false)) {
       selectedList = null;
     }
-    DateTime? selectedStartDate = startDate ?? this.startDate;
-    DateTime? selectedDueDate = dueDate ?? this.dueDate;
+    DateTime? selectedStartDate =
+        clearStartDate == true ? null : (startDate ?? this.startDate);
+    DateTime? selectedDueDate =
+        clearDueDate == true ? null : (dueDate ?? this.dueDate);
     if (selectedStartDate != null &&
         selectedDueDate?.isBefore(selectedStartDate) == true) {
       printDebug("selectedStartDate $selectedStartDate");

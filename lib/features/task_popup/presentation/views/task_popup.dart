@@ -884,7 +884,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                       SizedBox(
                                         height: AppSpacing.x2Small4.value,
                                       ),
-                                      CustomButton.noIcon(
+                                      CustomButton.custom(
                                         onPressed: () {
                                           showDateTimePicker(
                                             context: context,
@@ -911,10 +911,36 @@ class _TaskPopupState extends State<TaskPopup> {
                                         },
                                         type: CustomButtonType
                                             .greyOutlinedLabel,
-                                        label:
-                                        DateTimeExtensions.customToString(
-                                            taskParams.startDate) ??
-                                            "YYYY-MM-DD HH:MM AM",
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(DateTimeExtensions.customToString(
+                                                taskParams.startDate) ??
+                                                "YYYY-MM-DD HH:MM AM"),
+                                            if(taskParams.startDate!=null)Container(
+                                              margin: const EdgeInsetsDirectional.only(start: 8),
+                                              child: InkWell(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.clear,
+                                                    color: AppColors.error(
+                                                        context.isDarkMode),
+                                                    size: 10,
+                                                  ),
+                                                ),
+                                                onTap: (){
+                                                  setState(() {
+                                                    taskParams = taskParams.copyWith(
+                                                        clearStartDate:
+                                                        true);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        )
+
                                       )
                                     ],
                                   )
@@ -956,7 +982,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                       SizedBox(
                                         height: AppSpacing.x2Small4.value,
                                       ),
-                                      CustomButton.noIcon(
+                                      CustomButton.custom(
                                         onPressed: () {
                                           showDateTimePicker(
                                             context: context,
@@ -973,10 +999,35 @@ class _TaskPopupState extends State<TaskPopup> {
                                         },
                                         type: CustomButtonType
                                             .greyOutlinedLabel,
-                                        label:
-                                        DateTimeExtensions.customToString(
-                                            taskParams.dueDate) ??
-                                            "YYYY-MM-DD HH:MM AM",
+                                        child:Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(DateTimeExtensions.customToString(
+                                                taskParams.dueDate) ??
+                                                "YYYY-MM-DD HH:MM AM"),
+                                            if(taskParams.dueDate!=null)Container(
+                                              margin: const EdgeInsetsDirectional.only(start: 8),
+                                              child: InkWell(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.clear,
+                                                    color: AppColors.error(
+                                                        context.isDarkMode),
+                                                    size: 10,
+                                                  ),
+                                                ),
+                                                onTap: (){
+                                                  setState(() {
+                                                    taskParams = taskParams.copyWith(
+                                                        clearDueDate:
+                                                        true);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ) ,
                                       ),
                                     ],
                                   )
