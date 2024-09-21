@@ -35,12 +35,12 @@ final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
     initialLocation: SupabaseOnBoardingAndAuthPage.routeName,
     debugLogDiagnostics: true,
-    observers: [MyNavObserver(),serviceLocator<Analytics>().navigatorObserver],
+    observers: [MyNavObserver(), serviceLocator<Analytics>().navigatorObserver],
     errorBuilder: (context, state) {
       String errorMessage = appLocalization.translate("pageNotFound");
       return ResponsiveScaffold(
-          responsiveBody: ResponsiveTParams(
-              small: Text(errorMessage), large: Text(errorMessage)),
+        responsiveBody: ResponsiveTParams(
+            small: Text(errorMessage), large: Text(errorMessage)),
         context: context,
         onRefresh: () async {
           GoRouter.of(context).go(SupabaseOnBoardingAndAuthPage.routeName);
@@ -48,12 +48,15 @@ final router = GoRouter(
       );
     },
     redirect: (context, GoRouterState? state) {
-      printDebug("redirectAfterAuthRouteName ${serviceLocator<AppConfig>().redirectAfterAuthRouteName}");
+      printDebug(
+          "redirectAfterAuthRouteName ${serviceLocator<AppConfig>().redirectAfterAuthRouteName}");
       printDebug("state?.uri ${state?.uri}");
       if (BlocProvider.of<AuthBloc>(context).state.user == null) {
-        if(state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName){
-          printDebug("state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
-          serviceLocator<AppConfig>().redirectAfterAuthRouteName = state?.uri.toString()??"";
+        if (state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName) {
+          printDebug(
+              "state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
+          serviceLocator<AppConfig>().redirectAfterAuthRouteName =
+              state?.uri.toString() ?? "";
         }
         return SupabaseOnBoardingAndAuthPage.routeName;
       }
@@ -62,124 +65,222 @@ final router = GoRouter(
     routes: [
       GoRoute(
           path: SupabaseOnBoardingAndAuthPage.routeName,
-          builder: (context, state) {
-            return SupabaseOnBoardingAndAuthPage();
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: SupabaseOnBoardingAndAuthPage(),
+              key: state.pageKey,
+              transitionsBuilder: transitionBuilder,
+            );
           },
           redirect: (context, state) async {
             if (BlocProvider.of<AuthBloc>(context).state.user != null &&
-                BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true) {
+                BlocProvider.of<GlobalBloc>(context)
+                        .state
+                        .workspaces
+                        ?.isNotEmpty ==
+                    true) {
               return SchedulePage.routeName;
             }
             return null;
           }),
       GoRoute(
-        path: SchedulePage.routeName,
-        builder: (context, state) {
-          bool? waitForStartGetTasks;
-          if(state.extra is bool){
-            waitForStartGetTasks = state.extra as bool;
-          }
-          return SchedulePage(waitForStartGetTasks: waitForStartGetTasks??false,);
-        },
-        redirect: (context,state) async{
-          final userLoggedIn = BlocProvider
-              .of<AuthBloc>(context)
+          path: SchedulePage.routeName,
+          pageBuilder: (context, state) {
+            bool? waitForStartGetTasks;
+            if (state.extra is bool) {
+              waitForStartGetTasks = state.extra as bool;
+            }
+            return CustomTransitionPage(
+              child: SchedulePage(
+                waitForStartGetTasks: waitForStartGetTasks ?? false,
+              ),
+              key: state.pageKey,
+              transitionsBuilder: transitionBuilder,
+            );
+          },
+          redirect: (context, state) async {
+            final userLoggedIn = BlocProvider.of<AuthBloc>(context)
                         .state
                         .accessToken
                         .accessToken
                         .isNotEmpty ==
                     true &&
                 BlocProvider.of<AuthBloc>(context).state.user != null &&
-              BlocProvider.of<GlobalBloc>(context).state.workspaces?.isNotEmpty == true;
-            var redirectAuth = serviceLocator<AppConfig>().redirectAfterAuthRouteName;
+                BlocProvider.of<GlobalBloc>(context)
+                        .state
+                        .workspaces
+                        ?.isNotEmpty ==
+                    true;
+            var redirectAuth =
+                serviceLocator<AppConfig>().redirectAfterAuthRouteName;
             if (userLoggedIn && (redirectAuth).isNotEmpty) {
               String redirectAfterAuthRouteName = redirectAuth;
               serviceLocator<AppConfig>().redirectAfterAuthRouteName = '';
-               return redirectAfterAuthRouteName;
-
-          }
-          return null;
-        }
-      ),
+              return redirectAfterAuthRouteName;
+            }
+            return null;
+          }),
       GoRoute(
         path: AllTasksPage.routeName,
-        builder: (context, state) => const AllTasksPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const AllTasksPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: ArchivePage.routeName,
-        builder: (context, state) => const ArchivePage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const ArchivePage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: HelpPage.routeName,
-        builder: (context, state) => const HelpPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const HelpPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: ListsPage.routeName,
-        builder: (context, state) =>  const ListsPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const ListsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
-        path: ListPage.routeName,
-        builder: (context, state) => ListPage(
+          path: ListPage.routeName,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: ListPage(
                 listsPageBloc: (state.extra as List)[0] as ListsPageBloc,
                 list: (state.extra as List)[1] as TasksList,
               ),
-          redirect: (context,state){
-          if(state.extra == null){
-            return ListsPage.routeName;
-          }
-          return null;
-        }
-      ),
+              key: state.pageKey,
+              transitionsBuilder: transitionBuilder,
+            );
+          },
+          redirect: (context, state) {
+            if (state.extra == null) {
+              return ListsPage.routeName;
+            }
+            return null;
+          }),
       GoRoute(
         path: MapsPage.routeName,
-        builder: (context, state) => const MapsPage(),
-      ),
-      GoRoute(
-        path: MapsPage.routeName,
-        builder: (context, state) => const MapsPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const MapsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: SettingsPage.routeName,
-        builder: (context, state) => const SettingsPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const SettingsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: SomedayPage.routeName,
-        builder: (context, state) => const SomedayPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const SomedayPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: TagsPage.routeName,
-        builder: (context, state) => const TagsPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const TagsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
-        path: TagPage.routeName,
-        builder: (context, state) => TagPage(
-            tagName: state.uri.queryParameters[TagPage.queryParametersList.first]
-            as String,tagsPageBloc: state.extra as TagsPageBloc),
-        redirect: (context,state){
-          if(state.extra == null){
-            return TagsPage.routeName;
-          }
-          return null;
-        }
-      ),
+          path: TagPage.routeName,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: TagPage(
+                  tagName: state.uri
+                          .queryParameters[TagPage.queryParametersList.first]
+                      as String,
+                  tagsPageBloc: state.extra as TagsPageBloc),
+              key: state.pageKey,
+              transitionsBuilder: transitionBuilder,
+            );
+          },
+          redirect: (context, state) {
+            if (state.extra == null) {
+              return TagsPage.routeName;
+            }
+            return null;
+          }),
       GoRoute(
         path: TrashPage.routeName,
-        builder: (context, state) => const TrashPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const TrashPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: PrivacyPolicyPage.routeName,
-        builder: (context, state) => PrivacyPolicyPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: PrivacyPolicyPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
       GoRoute(
         path: TermsConditionsPage.routeName,
-        builder: (context, state) => TermsConditionsPage(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: TermsConditionsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
       ),
     ]);
+
+Widget transitionBuilder(context, animation, secondaryAnimation, child) {
+  return FadeTransition(
+    opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+    child: child,
+  );
+}
 
 class MyNavObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    printDebug('GoRouter didPush: ${route.str}, previousRoute= ${previousRoute?.str}');
+    printDebug(
+        'GoRouter didPush: ${route.str}, previousRoute= ${previousRoute?.str}');
   }
 
   @override
