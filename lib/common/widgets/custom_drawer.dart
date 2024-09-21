@@ -14,6 +14,7 @@ import 'package:thetimeblockingapp/features/lists/presentation/pages/list_page.d
 import 'package:thetimeblockingapp/features/lists/presentation/pages/lists_page.dart';
 import 'package:thetimeblockingapp/features/maps/presentation/pages/maps_page.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/pages/schedule_page.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/pages/settings_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/pages/tags_page.dart';
@@ -36,17 +37,21 @@ class CustomDrawer extends StatelessWidget {
     final showSmallDesign = context.showSmallDesign;
     return BlocBuilder<GlobalBloc, GlobalState>(
       builder: (context, state) {
-        return CustomDrawerWidget(
-            showSmallDesign: showSmallDesign,
-            router: GoRouter.of(context),
-            selectWorkspace: (selected) {
-              if (selected is Workspace && state.isLoading == false) {
-                globalBloc.add(GetAllInWorkspaceEvent(
-                    workspace: selected,
-                    user: BlocProvider.of<AuthBloc>(context).state.user!));
-              }
-            },
-            appLocalization: appLocalization);
+        return BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            return CustomDrawerWidget(
+                showSmallDesign: showSmallDesign,
+                router: GoRouter.of(context),
+                selectWorkspace: (selected) {
+                  if (selected is Workspace && state.isLoading == false) {
+                    globalBloc.add(GetAllInWorkspaceEvent(
+                        workspace: selected,
+                        user: BlocProvider.of<AuthBloc>(context).state.user!));
+                  }
+                },
+                appLocalization: appLocalization);
+          },
+        );
       },
     );
   }
@@ -89,54 +94,48 @@ class CustomDrawerWidget extends StatelessWidget {
                 onPressed: () {
                   context.go(SchedulePage.routeName);
                 },
-                isSelected:
-                    location.contains(SchedulePage.routeName) ==
-                        true),
-          
+                isSelected: location.contains(SchedulePage.routeName) == true),
+
             _DrawerItem(
                 title: appLocalization.translate("AllTasks"),
                 iconPath: (isSelected) =>
-                isSelected ? AppIcons.folderbold :AppIcons.folder,
+                    isSelected ? AppIcons.folderbold : AppIcons.folder,
                 onPressed: () {
                   context.go(AllTasksPage.routeName);
                 },
-                isSelected:
-                    location.contains(AllTasksPage.routeName) ==
-                        true),
+                isSelected: location.contains(AllTasksPage.routeName) == true),
             _DrawerItem(
                 title: appLocalization.translate("Lists"),
                 iconPath: (isSelected) =>
-                isSelected ? AppIcons.listbold :AppIcons.list,
+                    isSelected ? AppIcons.listbold : AppIcons.list,
                 onPressed: () {
                   context.go(ListsPage.routeName);
                 },
-                isSelected: location
-                            .contains(ListsPage.routeName) ==
-                        true ||
+                isSelected: location.contains(ListsPage.routeName) == true ||
                     location.contains(ListPage.routeName) == true),
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
-                iconPath:(isSelected) =>
-                isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
+                iconPath: (isSelected) =>
+                    isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },
-                isSelected: location.contains(TagsPage.routeName) ==
-                        true ||
+                isSelected: location.contains(TagsPage.routeName) == true ||
                     location.contains(TagPage.routeName) == true),
             // ignore: dead_code
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Maps"),
                   iconPath: (isSelected) =>
-                  isSelected ? AppIcons.mapbold :AppIcons.map,
+                      isSelected ? AppIcons.mapbold : AppIcons.map,
                   onPressed: () {
                     context.go(MapsPage.routeName);
                   },
-                  isSelected:
-                      location.contains(MapsPage.routeName) ==
-                          true),
-            Divider(height: 1,color: AppColors.grey(context.isDarkMode).shade100,),
+                  isSelected: location.contains(MapsPage.routeName) == true),
+            Divider(
+              height: 1,
+              color: AppColors.grey(context.isDarkMode).shade100,
+            ),
             const Spacer(),
             // ignore: dead_code
             // if (false)
@@ -153,53 +152,60 @@ class CustomDrawerWidget extends StatelessWidget {
               _DrawerItem(
                   title: appLocalization.translate("Trash"),
                   iconPath: (isSelected) =>
-                  isSelected ? AppIcons.binbold :AppIcons.bin,
+                      isSelected ? AppIcons.binbold : AppIcons.bin,
                   onPressed: () {
                     context.go(TrashPage.routeName);
                   },
-                  isSelected:
-                      location.contains(TrashPage.routeName) ==
-                          true),
+                  isSelected: location.contains(TrashPage.routeName) == true),
 
             _DrawerItem(
                 title: appLocalization.translate("Settings"),
                 iconPath: (isSelected) =>
-                isSelected ? AppIcons.settingsvbold :AppIcons.settingsv,
+                    isSelected ? AppIcons.settingsvbold : AppIcons.settingsv,
                 onPressed: () {
                   context.go(SettingsPage.routeName);
                 },
-                isSelected:
-                    location.contains(SettingsPage.routeName) ==
-                        true),
+                isSelected: location.contains(SettingsPage.routeName) == true),
             // ignore: dead_code
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Help"),
-                  iconPath: (isSelected) =>
-                  isSelected ? AppIcons.infocirclebold :AppIcons.infocircle,
+                  iconPath: (isSelected) => isSelected
+                      ? AppIcons.infocirclebold
+                      : AppIcons.infocircle,
                   onPressed: () {
                     context.go(HelpPage.routeName);
                   },
-                  isSelected:
-                  location.contains(HelpPage.routeName) ==
-                      true),
+                  isSelected: location.contains(HelpPage.routeName) == true),
             Container(
-              margin: const EdgeInsets.only(top: 22,right: 24,left: 24,bottom: 20),
+              margin: const EdgeInsets.only(
+                  top: 22, right: 24, left: 24, bottom: 20),
               child: Row(
                 children: [
                   InkWell(
-                    child: Image.asset(AppAssets.github,width: 24,height: 24,),
-                    onTap: ()=>launchWithURL(url: "https://github.com/laila-nabil/"),
+                    child: Image.asset(
+                      AppAssets.github,
+                      width: 24,
+                      height: 24,
+                    ),
+                    onTap: () =>
+                        launchWithURL(url: "https://github.com/laila-nabil/"),
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   InkWell(
-                    child: Image.asset(AppAssets.twitter,width: 24,height: 24,),
-                    onTap: ()=>launchWithURL(url: "https://twitter.com/laila_nabil_"),
+                    child: Image.asset(
+                      AppAssets.twitter,
+                      width: 24,
+                      height: 24,
+                    ),
+                    onTap: () =>
+                        launchWithURL(url: "https://twitter.com/laila_nabil_"),
                   ),
                 ],
               ),
             )
-
           ],
         ),
       ),
@@ -249,8 +255,7 @@ class _DrawerItem extends StatelessWidget {
             }),
             padding: WidgetStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
-            shape:
-                WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+            shape: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
               return RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               );
