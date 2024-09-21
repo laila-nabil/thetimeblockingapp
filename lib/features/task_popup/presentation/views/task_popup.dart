@@ -865,9 +865,18 @@ class _TaskPopupState extends State<TaskPopup> {
                                             lastDate: lastDate,
                                           ).then((value) {
                                             setState(() {
+                                              DateTime? dueDate;
+                                              if(taskParams.dueDate == null){
+                                                dueDate =
+                                                    value?.add(serviceLocator<
+                                                        AppConfig>()
+                                                        .defaultTaskDuration);
+                                              }
                                               taskParams = taskParams
                                                   .copyWith(
-                                                  startDate: value);
+                                                  startDate: value,
+                                                  dueDate: dueDate
+                                              );
                                             });
                                           });
                                         },
