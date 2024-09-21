@@ -13,7 +13,7 @@ Future<NetworkResponse> supabaseResponseHandler(
   http.Response? response;
   try {
     response = await httpResponse();
-    if(response.statusCode == 401){
+    if(response.statusCode == 401 || response.statusCode == 403){
       throw TokenTimeOutException();
     }
     if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204) {
