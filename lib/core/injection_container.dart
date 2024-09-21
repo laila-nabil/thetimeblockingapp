@@ -78,6 +78,7 @@ class AppConfig{
    String redirectAfterAuthRouteName = '';
    String refreshToken = '';
    AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '') ;
+   bool confirmationEmailEnabled = false;
 }
 
 void _initServiceLocator({required Network network}) {

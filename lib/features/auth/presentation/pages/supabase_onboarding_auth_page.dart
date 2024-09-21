@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../schedule/presentation/pages/schedule_page.dart';
@@ -118,7 +121,8 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             if (state.canGoSchedulePage == true) {
               context.go(SchedulePage.routeName, extra: true);
             }
-            if(state.authState == AuthStateEnum.signUpSuccess){
+            if(state.authState == AuthStateEnum.signUpSuccess &&
+                serviceLocator<AppConfig>().confirmationEmailEnabled) {
               showCustomAlert(
                   customAlertType: CustomAlertType.information,
                   customAlertThemeType: CustomAlertThemeType.filled,
@@ -151,6 +155,13 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             final settingsBloc = BlocProvider.of<SettingsBloc>(context);
             if(state.authState == AuthStateEnum.initial){
               authBloc.add(CheckAlreadySignedInEvent());
+            }
+            if (state.authState == AuthStateEnum.signUpSuccess &&
+                serviceLocator<AppConfig>().confirmationEmailEnabled == false) {
+              authBloc.add(SignInEvent(SignInParams(
+                  email: emailController.text,
+                  password: passwordController.text,
+                  accessToken: const AccessToken(accessToken: '', tokenType: ''))));
             }
             return ResponsiveScaffold(
               hideAppBarDrawer: true,
