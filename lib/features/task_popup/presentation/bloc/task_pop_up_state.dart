@@ -27,8 +27,8 @@ class TaskPopUpState extends Equatable {
           taskParams?.tags != taskParams?.task?.tags ||
           taskParams?.taskPriority != taskParams?.task?.priority ||
           taskParams?.taskStatus != taskParams?.task?.status ||
-          taskParams?.dueDate != taskParams?.task?.dueDateUtc ||
-          taskParams?.startDate != taskParams?.task?.startDateUtc ||
+          taskParams?.dueDate != taskParams?.task?.dueDate ||
+          taskParams?.startDate != taskParams?.task?.startDate ||
           taskParams?.parentTask != null ||
           taskParams?.linkedTask != null);
     }
@@ -51,8 +51,8 @@ class TaskPopUpState extends Equatable {
         updatedDescription: taskParams?.description,
         updatedTags: taskParams?.tags == task.tags ? null : taskParams?.tags,
         updatedDueDate:
-            taskParams?.dueDate == task.dueDateUtc ? null : taskParams?.dueDate,
-        updatedStartDate: taskParams?.startDate == task.startDateUtc
+            taskParams?.dueDate == task.dueDate ? null : taskParams?.dueDate,
+        updatedStartDate: taskParams?.startDate == task.startDate
             ? null
             : taskParams?.startDate,
         updatedTaskPriority: taskParams?.taskPriority == task.priority

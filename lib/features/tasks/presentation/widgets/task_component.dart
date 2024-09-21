@@ -98,12 +98,12 @@ class TaskComponent extends StatelessWidget {
                       list: task.list!,
                       title: task.title ?? "",
                       description: task.description,
-                      dueDate: task.dueDateUtc,
+                      dueDate: task.dueDate,
                       folder: task.folder,
                       workspace: task.workspace,
                       tags: task.tags,
                       taskPriority: task.priority,
-                      startDate: task.startDateUtc,
+                      startDate: task.startDate,
                         backendMode: serviceLocator<BackendMode>().mode,
                         user: authState.user!));
                     Navigator.pop(context);
@@ -310,10 +310,10 @@ class _TaskWidgetState extends State<TaskWidget> {
                     ),
                 ],
               ),
-              if (widget.task.startDateUtc != null &&
-                  widget.task.dueDateUtc != null)
+              if (widget.task.startDate != null &&
+                  widget.task.dueDate != null)
                 Text(
-                    "🕑 ${DateTimeExtensions.customToString(widget.task.startDateUtc)} => ${DateTimeExtensions.customToString(widget.task.dueDateUtc)}",
+                    "🕑 ${DateTimeExtensions.customToString(widget.task.startDate)} => ${DateTimeExtensions.customToString(widget.task.dueDate)}",
                     style: dateTextStyle)
               else
                 Text("", style: dateTextStyle),

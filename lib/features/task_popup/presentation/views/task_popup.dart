@@ -65,8 +65,8 @@ class TaskPopupParams extends Equatable {
     required this.bloc,
     required this.isLoading,
   }) {
-    startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ??
+    startDate = task?.startDate ?? cellDate;
+    dueDate = task?.dueDate ??
         cellDate?.add(serviceLocator<AppConfig>().defaultTaskDuration);
     isAllDay = false;
     list = task?.list;
@@ -84,8 +84,8 @@ class TaskPopupParams extends Equatable {
     required this.bloc,
     required this.isLoading,
   }) {
-    startDate = task?.startDateUtc ?? cellDate;
-    dueDate = task?.dueDateUtc ?? cellDate?.add(serviceLocator<AppConfig>().defaultTaskDuration);
+    startDate = task?.startDate ?? cellDate;
+    dueDate = task?.dueDate ?? cellDate?.add(serviceLocator<AppConfig>().defaultTaskDuration);
     isAllDay = false;
     list = null;
   }
@@ -127,8 +127,8 @@ class TaskPopupParams extends Equatable {
     required this.bloc,
     required this.isLoading, this.onDuplicate,
   }) {
-    startDate = task?.startDateUtc;
-    dueDate = task?.dueDateUtc;
+    startDate = task?.startDate;
+    dueDate = task?.dueDate;
     isAllDay = task?.isAllDay ?? false;
     cellDate = null;
     list = task?.list;
@@ -158,8 +158,8 @@ class TaskPopupParams extends Equatable {
     required this.bloc,
     required this.isLoading,
   }) {
-    startDate = task?.startDateUtc;
-    dueDate = task?.dueDateUtc;
+    startDate = task?.startDate;
+    dueDate = task?.dueDate;
     isAllDay = task?.isAllDay ?? false;
     cellDate = null;
     list = task?.list;
@@ -265,8 +265,8 @@ class _TaskPopupState extends State<TaskPopup> {
           taskParams.tags != taskParams.task?.tags ||
           taskParams.taskPriority != taskParams.task?.priority ||
           taskParams.taskStatus != taskParams.task?.status ||
-          taskParams.dueDate != taskParams.task?.dueDateUtc ||
-          taskParams.startDate != taskParams.task?.startDateUtc ||
+          taskParams.dueDate != taskParams.task?.dueDate ||
+          taskParams.startDate != taskParams.task?.startDate ||
           taskParams.parentTask != null ||
           taskParams.linkedTask != null);
     }
@@ -284,8 +284,8 @@ class _TaskPopupState extends State<TaskPopup> {
           updatedDescription: taskParams.description,
           updatedTags: taskParams.tags == task.tags ? null : taskParams.tags,
           updatedDueDate:
-          taskParams.dueDate == task.dueDateUtc ? null : taskParams.dueDate,
-          updatedStartDate: taskParams.startDate == task.startDateUtc
+          taskParams.dueDate == task.dueDate ? null : taskParams.dueDate,
+          updatedStartDate: taskParams.startDate == task.startDate
               ? null
               : taskParams.startDate,
           updatedTaskPriority: taskParams.taskPriority == task.priority
@@ -418,9 +418,9 @@ class _TaskPopupState extends State<TaskPopup> {
             DateTime.now().subtract(const Duration(days: 1000));
             final lastDate = DateTime.now().add(const Duration(days: 1000));
             final initialDueDate =
-                task?.dueDateUtc ?? widget.taskPopupParams.dueDate;
+                task?.dueDate ?? widget.taskPopupParams.dueDate;
             final initialStartDate =
-                task?.startDateUtc ?? widget.taskPopupParams.startDate;
+                task?.startDate ?? widget.taskPopupParams.startDate;
             final loading = widget.taskPopupParams.isLoading(blocState);
             final spacerV = SizedBox(
               height: AppSpacing.medium16.value,

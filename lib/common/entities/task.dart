@@ -34,10 +34,6 @@ class Task extends Equatable {
       dueDate!.hour == 24 &&
       startDate!.hour == 0;
 
-  DateTime? get dueDateUtc => dueDate?.toUtc();
-
-  DateTime? get startDateUtc => startDate?.toUtc();
-
   const Task({
     required this.id,
     required this.title,

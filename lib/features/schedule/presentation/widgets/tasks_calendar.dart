@@ -57,12 +57,13 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
+
       ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
       //       calendarAppointmentDetails: calendarAppointmentDetails);
       // },
-      // timeZone: BlocProvider.of<GlobalBloc>(context).state.user?.timezone,
+      timeZone: serviceLocator<AppConfig>().timezone,
       onTap: (d)=> onTapCalendarElement(d,authBloc),
       onLongPress: (d)=> onTapCalendarElement(d,authBloc),
       onAppointmentResizeEnd: (details){
@@ -90,7 +91,7 @@ class TasksCalendar extends StatelessWidget {
               task: task, user: authBloc.state.user!,
 
           updatedDueDate: details.droppingTime
-              !.add(task.dueDateUtc!.difference(task.startDateUtc!)),
+              !.add(task.dueDate!.difference(task.startDate!)),
           updatedStartDate: details.droppingTime,
           backendMode: serviceLocator<BackendMode>().mode
         )));
@@ -210,7 +211,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return tasks[index].startDateUtc ??
+    return tasks[index].startDate ??
         getEndTime(index).subtract(
            serviceLocator<AppConfig>().defaultTaskDuration);
   }
@@ -227,8 +228,8 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   DateTime getEndTime(int index) {
     printDebug("${tasks[index].title}=>"
-        " Tasks[index].dueDateUtc ${tasks[index].dueDateUtc}");
-    return tasks[index].dueDateUtc ?? super.getEndTime(index);
+        " Tasks[index].dueDate ${tasks[index].dueDate}");
+    return tasks[index].dueDate ?? super.getEndTime(index);
   }
 
   @override

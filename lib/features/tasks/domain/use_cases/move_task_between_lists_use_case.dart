@@ -29,12 +29,12 @@ class MoveTaskBetweenListsUseCase
 
         list: params.newList,
         title: task.title ?? "",
-        startDate: task.startDateUtc,
+        startDate: task.startDate,
         taskPriority: task.priority,
         taskStatus: task.status,
         workspace: task.workspace,
         folder: task.folder,
-        dueDate: task.dueDateUtc,
+        dueDate: task.dueDate,
         description: task.description,
         tags: task.tags,
         backendMode: serviceLocator<BackendMode>().mode, user: params.user));

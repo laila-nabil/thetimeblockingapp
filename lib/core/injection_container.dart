@@ -79,6 +79,8 @@ class AppConfig{
    String refreshToken = '';
    AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '') ;
    bool confirmationEmailEnabled = false;
+   ///TODO timezone
+   String timezone = 'Africa/Cairo';
 }
 
 void _initServiceLocator({required Network network}) {

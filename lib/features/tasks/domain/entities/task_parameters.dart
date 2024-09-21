@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
@@ -66,12 +67,12 @@ class CreateTaskParams extends Equatable{
       list: task.list!,
       title: task.title ?? "",
       description: task.description,
-      dueDate: task.dueDateUtc,
+      dueDate: task.dueDate,
       folder: task.folder,
       workspace: task.workspace,
       tags: task.tags,
       taskPriority: task.priority,
-      startDate: task.startDateUtc,
+      startDate: task.startDate,
       backendMode: backendMode, user: user,
       taskStatus: task.status
     );
@@ -114,12 +115,12 @@ class CreateTaskParams extends Equatable{
       : startDate != null;
 
   bool get didDueDateChange =>
-      task?.dueDateUtc != null &&
-      dueDate?.isAtSameMomentAs(task!.dueDateUtc!) == false;
+      task?.dueDate != null &&
+      dueDate?.isAtSameMomentAs(task!.dueDate!) == false;
 
   bool get didStartDateChange =>
-      task?.startDateUtc != null &&
-      startDate?.isAtSameMomentAs(task!.startDateUtc!) == false;
+      task?.startDate != null &&
+      startDate?.isAtSameMomentAs(task!.startDate!) == false;
 
   static TaskParamsEnum getTaskParamsEnum(Task? task) {
     printDebug("getTaskParamsEnum $task ${_isNewTask(task)
@@ -211,8 +212,8 @@ class CreateTaskParams extends Equatable{
         taskStatus: task.status,
         ///TODO get parentTask
         parentTask: null,
-        dueDate: task.dueDateUtc,
-        startDate: task.startDateUtc,
+        dueDate: task.dueDate,
+        startDate: task.startDate,
         backendMode: backendMode, user: user
         );
   }
@@ -262,8 +263,8 @@ class CreateTaskParams extends Equatable{
       if(getPriority!=null)"priority_id" : getPriority,
       if(list!=null)"list_id": list?.id,
       "user_id": user.id,
-      if(dueDate!=null)"due_date": dueDate?.toIso8601String(),
-      if(startDate!=null)"start_date": startDate?.toIso8601String(),
+      if(dueDate!=null)"due_date": "${dueDate?.toIso8601String()}${serviceLocator<AppConfig>().timezone}",
+      if(startDate!=null)"start_date": "${startDate?.toIso8601String()}${serviceLocator<AppConfig>().timezone}",
       if(parentTask!=null)"parent_task_id": parentTask?.id,
       "child_task_id": null,///TODO Child task
     };
