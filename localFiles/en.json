@@ -91,5 +91,7 @@
   "areYouNewHere?" : "Are you new here?",
   "alreadyHaveAnAccount?" : "Already have an account?",
   "createNewAccount" : "Create a new account",
-  "tryToSignIn" : "Try to sign in"
+  "tryToSignIn" : "Try to sign in",
+  "complete" : "Complete",
+  "areYouSureComplete" : "Are you sure you want to complete"
 }

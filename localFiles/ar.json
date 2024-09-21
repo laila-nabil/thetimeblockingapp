@@ -91,5 +91,7 @@
   "areYouNewHere?" : "هل أنت مستخدم جديد؟",
   "alreadyHaveAnAccount?" : "لديك حساب بالفعل؟",
   "createNewAccount" : "إنشاء حساب جديد",
-  "tryToSignIn" : "حاول تسجيل الدخول"
+  "tryToSignIn" : "حاول تسجيل الدخول",
+  "complete" : "اكمال",
+  "areYouSureComplete" : "هل أنت متأكد أنك تريد إكمال"
 }
