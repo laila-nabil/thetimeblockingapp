@@ -7,6 +7,8 @@ import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
@@ -57,7 +59,15 @@ class TasksCalendar extends StatelessWidget {
       dataSource: tasksDataSource,
       showNavigationArrow: true,
       controller: controller,
-
+      headerStyle: CalendarHeaderStyle(
+        backgroundColor: AppColors.background(context.isDarkMode),
+      ),
+      todayTextStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+          appFontSize: AppFontSize.paragraphSmall,
+          color: AppColors.white(false),
+          appFontWeight: AppFontWeight.regular)),
+      cellBorderColor: AppColors.grey(context.isDarkMode)
+          .withOpacity(context.isDarkMode ? 1 : 0.3),
       ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
       // appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return TaskCalendarWidget(
@@ -77,9 +87,11 @@ class TasksCalendar extends StatelessWidget {
               backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
       },
-
-      timeSlotViewSettings: const TimeSlotViewSettings(
-        ///TODO adjust TimeSlotViewSettings in calendar
+      timeSlotViewSettings: TimeSlotViewSettings(
+        timeTextStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+            appFontSize: AppFontSize.paragraphXSmall,
+            color: AppColors.grey(context.isDarkMode),
+            appFontWeight: AppFontWeight.thin))
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: false

@@ -13,6 +13,14 @@ extension DarkMode on BuildContext {
 
 ThemeData appTheme(bool isDarkMode) => ThemeData(
     useMaterial3: true,
+    drawerTheme: DrawerThemeData(
+      shape:  const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero
+      ),
+      elevation: 10,
+        shadowColor: isDarkMode
+            ? AppColors.white(false)
+            : AppColors.grey(isDarkMode)),
     colorScheme: ColorScheme(
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primary: AppColors.primary(isDarkMode),

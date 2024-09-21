@@ -41,7 +41,7 @@ dependencies:
   http: ^1.2.2
   logger: ^2.0.2+1
   table_calendar: ^3.0.9
-  syncfusion_flutter_calendar: ^26.1.42
+  syncfusion_flutter_calendar: ^27.1.48
   timezone: ^0.9.2
   webview_flutter: ^4.4.1
   widgetbook: ^3.7.1

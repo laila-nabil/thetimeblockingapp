@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum AppFontWeight {
+  thin(FontWeight.w300),
   regular(FontWeight.normal),
   medium(FontWeight.w500),
   semiBold(FontWeight.w600),
