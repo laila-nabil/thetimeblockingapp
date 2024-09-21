@@ -92,6 +92,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
           CustomTextInputField(
             controller: widget.emailController,
             focusNode: widget.emailFocusNode,
+            hintText: "email@gmail.com",
           ),
 
           SizedBox(
@@ -107,6 +108,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
           CustomTextInputField(
             controller: widget.passwordController,
             focusNode: widget.passwordFocusNode,
+            hintText: appLocalization.translate("password"),
             isPassword: true,
           ),
           SizedBox(
