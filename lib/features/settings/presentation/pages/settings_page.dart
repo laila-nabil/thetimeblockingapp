@@ -10,6 +10,7 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onboarding_auth_page.dart';
+import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 
@@ -36,7 +37,9 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+        final globalBloc = BlocProvider.of<GlobalBloc>(context);
         if (state.authState == AuthStateEnum.signOutSuccess) {
+          globalBloc.add(const ControlDrawerLargerScreen(false));
           router.go(SupabaseOnBoardingAndAuthPage.routeName);
         }
       },
