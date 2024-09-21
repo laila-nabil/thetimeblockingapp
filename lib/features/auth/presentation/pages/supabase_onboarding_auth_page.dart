@@ -232,13 +232,13 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep1Start,
                                                 label:
-                                                appLocalization.translate("getStarted"),
+                                                appLocalization.translate("learnMore"),
                                                 onPressed: () {
                                                   setState(() {
                                                     step = OnBoardingAndAuthStep.second;
                                                   });
                                                 },
-                                                type: CustomButtonType.primaryLabel),
+                                                type: CustomButtonType.secondaryLabel),
                                             CustomButton.noIcon(
                                               analyticsEvent: AnalyticsEvents
                                                   .onBoardingStep1SignInSupabase,
@@ -247,7 +247,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                                   step = OnBoardingAndAuthStep.auth;
                                                 });
                                               },
-                                              type: CustomButtonType.secondaryLabel,
+                                              type: CustomButtonType.primaryLabel,
                                               label: appLocalization.translate(
                                                   "signIn"),
                                             ),
@@ -306,28 +306,28 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                         CustomButton.noIcon(
                                             analyticsEvent:
                                             AnalyticsEvents.onBoardingStep1Start,
-                                            size: CustomButtonSize.large,
+                                            
                                             label: appLocalization.translate(
-                                                "getStarted"),
+                                                "learnMore"),
                                             onPressed: () {
                                               setState(() {
                                                 step = OnBoardingAndAuthStep.second;
                                               });
                                             },
-                                            type: CustomButtonType.primaryLabel),
+                                            type: CustomButtonType.secondaryLabel),
                                         const SizedBox(
                                           width: 8,
                                         ),
                                         CustomButton.noIcon(
                                           analyticsEvent:
                                           AnalyticsEvents.onBoardingStep1SignInSupabase,
-                                          size: CustomButtonSize.large,
+                                          
                                           onPressed: () {
                                             setState(() {
                                               step = OnBoardingAndAuthStep.auth;
                                             });
                                           },
-                                          type: CustomButtonType.secondaryLabel,
+                                          type: CustomButtonType.primaryLabel,
                                           label: appLocalization.translate("signIn"),
                                         ),
                                       ],
@@ -426,13 +426,12 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                                   });
                                                 },
                                                 type: CustomButtonType.secondaryLabel),
-                                            ///TODO remove next button since onboarding only 2 steps
                                             CustomButton.noIcon(
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep2Next,
                                                 size: CustomButtonSize.small,
                                                 label: appLocalization.translate(
-                                                    "next"),
+                                                    "signIn"),
                                                 onPressed: () {
                                                   setState(() {
                                                     step = OnBoardingAndAuthStep.third;
@@ -452,20 +451,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                           ),
                                           Wrap(
                                             children: [
-                                              ///TODO remove skip button since onboarding only 2 steps
-                                              CustomButton.noIcon(
-                                                  analyticsEvent:
-                                                  AnalyticsEvents.onBoardingStep2Skip,
-                                                  size: CustomButtonSize.small,
-                                                  label: appLocalization.translate(
-                                                      "skip"),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      step = OnBoardingAndAuthStep.auth;
-                                                    });
-                                                  },
-                                                  type: CustomButtonType
-                                                      .primaryTextLabel),
                                               demoButton(
                                                   AnalyticsEvents.onBoardingStep2Demo),
                                             ],
@@ -520,7 +505,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                             CustomButton.noIcon(
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep2Back,
-                                                size: CustomButtonSize.large,
+                                                
                                                 label: appLocalization.translate(
                                                     "back"),
                                                 onPressed: () {
@@ -536,9 +521,9 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                             CustomButton.noIcon(
                                                 analyticsEvent:
                                                 AnalyticsEvents.onBoardingStep2Next,
-                                                size: CustomButtonSize.large,
+                                                
                                                 label: appLocalization.translate(
-                                                    "next"),
+                                                    "signIn"),
                                                 onPressed: () {
                                                   setState(() {
                                                     step = OnBoardingAndAuthStep.third;
@@ -556,24 +541,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                               ),
                                               Row(
                                                 children: [
-                                                  ///TODO remove skip button since onboarding only 2 steps
-                                                  CustomButton.noIcon(
-                                                      analyticsEvent: AnalyticsEvents
-                                                          .onBoardingStep2Skip,
-                                                      size: CustomButtonSize.large,
-                                                      label:
-                                                      appLocalization.translate("skip"),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          step = OnBoardingAndAuthStep
-                                                              .auth;
-                                                        });
-                                                      },
-                                                      type: CustomButtonType
-                                                          .primaryTextLabel),
-                                                  SizedBox(
-                                                    width: AppSpacing.xSmall8.value,
-                                                  ),
                                                   demoButton(
                                                       AnalyticsEvents
                                                           .onBoardingStep2Demo),
