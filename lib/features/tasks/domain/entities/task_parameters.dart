@@ -327,7 +327,7 @@ class CreateTaskParams extends Equatable{
   }) {
     Workspace? selectedWorkspace = workspace ?? this.workspace;
     TaskPriority? selectedPriority =
-        clearFolder == true ? null : (taskPriority ?? this.taskPriority);
+        clearPriority == true ? null : (taskPriority ?? this.taskPriority);
     Folder? selectedFolder =
         clearFolder == true ? null : (folder ?? this.folder);
     if (selectedWorkspace?.folders?.contains(selectedFolder) == false) {
