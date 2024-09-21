@@ -709,72 +709,80 @@ class _TaskPopupState extends State<TaskPopup> {
 
                                 ///Priority
                                 if(globalState.priorities?.isNotEmpty == true)
-                                  CustomDropDown(
-                                    value: taskParams.taskPriority,
-                                    hint: Text(appLocalization
-                                        .translate("priority")),
-                                    onChanged: (priority) {
-                                      setState(() {
-                                        if(priority == null){
-                                          taskParams =
-                                          taskParams
-                                              .copyWith(
-                                              clearPriority:
-                                              true);
-                                        }
-                                        else{
-                                          taskParams =
-                                          taskParams
-                                              .copyWith(
-                                              taskPriority:
-                                              priority);
-                                        }
-                                      });
-                                    },
-                                    items: (globalState.priorities?.map((e) =>
-                                        DropdownMenuItem(
-                                          value: e,
-                                          child: Row(
-                                            children: [
-                                              Icon(AppIcons.flagbold,
-                                                  color: e.getColor ??
-                                                      AppColors.text(
-                                                          context.isDarkMode)),
-                                              const SizedBox(width: 2,),
-                                              Text(
-                                                e.name ??
-                                                    e.id?.toStringOrNull() ??
-                                                    "",
-                                                style: TextStyle(
-                                                    textBaseline:
-                                                    TextBaseline
-                                                        .alphabetic,
-                                                    color: e
-                                                        .getColor),
-                                              ),
-                                            ],
-                                          ),
-                                        ))
-                                        .toList() ??
-                                        []) +
-                                        [
-                                          DropdownMenuItem(
-                                              value: null,
+                                  Row(
+                                    children: [
+                                      CustomDropDown<TaskPriority>(
+                                        value: taskParams.taskPriority,
+                                        hint: Text(appLocalization
+                                            .translate("priority")),
+                                        onChanged: (priority) {
+                                          setState(() {
+                                            if(priority == null){
+                                              taskParams =
+                                              taskParams
+                                                  .copyWith(
+                                                  clearPriority:
+                                                  true);
+                                            }
+                                            else{
+                                              taskParams =
+                                              taskParams
+                                                  .copyWith(
+                                                  taskPriority:
+                                                  priority);
+                                            }
+                                          });
+                                        },
+                                        items: (globalState.priorities?.map((e) =>
+                                            DropdownMenuItem(
+                                              value: e,
                                               child: Row(
                                                 children: [
-                                                  Icon(
-                                                      AppIcons.flag,
-                                                      color: AppColors
-                                                          .grey(
-                                                          context.isDarkMode)
-                                                          .shade50),
+                                                  Icon(AppIcons.flagbold,
+                                                      color: e.getColor ??
+                                                          AppColors.text(
+                                                              context.isDarkMode)),
                                                   const SizedBox(width: 2,),
-                                                  Text(appLocalization
-                                                      .translate("clear")),
+                                                  Text(
+                                                    e.name ??
+                                                        e.id?.toStringOrNull() ??
+                                                        "",
+                                                    style: TextStyle(
+                                                        textBaseline:
+                                                        TextBaseline
+                                                            .alphabetic,
+                                                        color: e
+                                                            .getColor),
+                                                  ),
                                                 ],
-                                              ))
-                                        ],
-                                    isDarkMode: (context.isDarkMode),
+                                              ),
+                                            ))
+                                            .toList() ??
+                                            []),
+                                        isDarkMode: (context.isDarkMode),
+                                      ),
+                                      if( taskParams.taskPriority!=null)Container(
+                                        margin: const EdgeInsetsDirectional.only(start: 8),
+                                        child: InkWell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.clear,
+                                              color: AppColors.error(
+                                                  context.isDarkMode),
+                                              size: 10,
+                                            ),
+                                          ),
+                                          onTap: (){
+                                            setState(() {
+                                              taskParams = taskParams.copyWith(
+                                                  clearPriority:
+                                                  true);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                               ],
                             ),
