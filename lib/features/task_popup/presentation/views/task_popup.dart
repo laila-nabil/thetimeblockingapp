@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
@@ -539,48 +540,68 @@ class _TaskPopupState extends State<TaskPopup> {
                                 ///TODO Create a new Folder in task view
                                 ///Folder
                                 if (isFoldersListAvailable)
-                                  CustomDropDown(
-                                    isDense: true,
-                                    hint: Text(appLocalization
-                                        .translate("folder")),
-                                    style: taskLocationTextStyle,
-                                    value: selectedFolder,
-                                    icon: const Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Icon(
-                                          AppIcons.chevrondown, size: 14),
-                                    ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomDropDown<Folder?>(
+                                        isDense: true,
+                                        hint: Text(appLocalization
+                                            .translate("folder")),
+                                        style: taskLocationTextStyle,
+                                        value: selectedFolder,
+                                        icon: const Padding(
+                                          padding: EdgeInsets.all(4.0),
+                                          child: Icon(
+                                              AppIcons.chevrondown, size: 14),
+                                        ),
 
-                                    onChanged: (folder) {
-                                      setState(() {
-                                        if (folder == null) {
-                                          taskParams = taskParams.copyWith(
-                                              clearFolder:
-                                              true);
-                                        }
-                                        else {
-                                          taskParams = taskParams.copyWith(
-                                              folder:
-                                              folder);
-                                        }
-                                      });
-                                    },
-                                    items: (taskParams.workspace
-                                        ?.folders
-                                        ?.map((e) =>
-                                        DropdownMenuItem(
-                                            value: e,
-                                            child: Text(
-                                                e.name ?? "")))
-                                        .toList() ??
-                                        []) +
-                                        [
-                                          DropdownMenuItem(
-                                              value: null,
-                                              child: Text(appLocalization
-                                                  .translate("clear")))
-                                        ],
-                                    isDarkMode: (context.isDarkMode),
+                                        onChanged: (folder) {
+                                          setState(() {
+                                            if (folder == null) {
+                                              taskParams = taskParams.copyWith(
+                                                  clearFolder:
+                                                  true);
+                                            }
+                                            else {
+                                              taskParams = taskParams.copyWith(
+                                                  folder:
+                                                  folder);
+                                            }
+                                          });
+                                        },
+                                        items: (taskParams.workspace
+                                            ?.folders
+                                            ?.map((e) =>
+                                            DropdownMenuItem(
+                                                value: e,
+                                                child: Text(
+                                                    e.name ?? "")))
+                                            .toList() ??
+                                            []),
+                                        isDarkMode: (context.isDarkMode),
+                                      ),
+                                      if(selectedFolder!=null)Container(
+                                        margin: const EdgeInsetsDirectional.only(start: 8),
+                                        child: InkWell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: AppColors.error(
+                                                    context.isDarkMode),
+                                                size: 10,
+                                              ),
+                                            ),
+                                          onTap: (){
+                                            setState(() {
+                                              taskParams = taskParams.copyWith(
+                                                  clearFolder:
+                                                  true);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 Text(
                                   "/",
@@ -593,7 +614,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                     .getAvailableLists(selectedFolder)
                                     .isNotEmpty ==
                                     true))
-                                  CustomDropDown(
+                                  CustomDropDown<TasksList?>(
                                     isDense: true,
                                     style: taskLocationTextStyle,
                                     hint: Text(
@@ -631,7 +652,7 @@ class _TaskPopupState extends State<TaskPopup> {
 
                                 ///Status
                                 if(globalState.statuses?.isNotEmpty == true)
-                                  CustomDropDown(
+                                  CustomDropDown<TaskStatus?>(
                                     value: globalState.statuses
                                         ?.where((s) =>
                                     s.id ==

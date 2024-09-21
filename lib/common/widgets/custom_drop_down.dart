@@ -7,7 +7,7 @@ import '../../core/resources/app_icons.dart';
 
 ///TODO update UI to match Figma design
 
-class CustomDropDown extends DropdownButton {
+class CustomDropDown<T> extends DropdownButton<T> {
   static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
       color: AppColors.grey(isDarkMode).shade900,
@@ -61,7 +61,7 @@ class CustomDropDown extends DropdownButton {
   int get elevation => 0;
 }
 
-class CustomDropDownMenu extends DropdownMenu {
+class CustomDropDownMenu<T> extends DropdownMenu<T> {
   final bool isDarkMode;
   const CustomDropDownMenu({
     super.key,
