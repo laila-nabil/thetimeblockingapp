@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
+import 'injection_container.dart';
+
 extension ElementAtNullableOrEmpty<T> on List<T>? {
   T? tryElementAt(int index) {
     if (this != null &&
@@ -111,6 +113,14 @@ extension DateTimeExtensions on DateTime {
     } else {
       return "$y-$m-$d ${includeTime ? "$h:$min $amPm" : ""}";
     }
+  }
+
+  String toStringIncludeTimeZone() {
+    String result = toIso8601String();
+    if (result.endsWith('Z') == false) {
+      result = "$result${serviceLocator<AppConfig>().timezone}";
+    }
+    return result;
   }
 
   DateTime get dateAtZeroHour {

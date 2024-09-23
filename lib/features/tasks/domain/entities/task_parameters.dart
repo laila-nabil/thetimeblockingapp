@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -263,8 +264,8 @@ class CreateTaskParams extends Equatable{
       if(getPriority!=null)"priority_id" : getPriority,
       if(list!=null)"list_id": list?.id,
       "user_id": user.id,
-      if(dueDate!=null)"due_date": "${dueDate?.toIso8601String()}${serviceLocator<AppConfig>().timezone}",
-      if(startDate!=null)"start_date": "${startDate?.toIso8601String()}${serviceLocator<AppConfig>().timezone}",
+      if(dueDate!=null)"due_date": dueDate?.toStringIncludeTimeZone(),
+      if(startDate!=null)"start_date": startDate?.toStringIncludeTimeZone(),
       if(parentTask!=null)"parent_task_id": parentTask?.id,
       "child_task_id": null,///TODO Child task
     };
