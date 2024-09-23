@@ -4,7 +4,10 @@ List<TagModel>? tagsFromJson(json){
   if(json != null && json is List){
     List<TagModel> list = [];
     for (var v in json) {
-      list.add(TagModel.fromJson(v));
+      var tag = TagModel.fromJson(v);
+      if (tag != null) {
+        list.add(tag);
+      }
     }
     return list;
   }
@@ -38,7 +41,10 @@ class TagModel extends Tag {
   }
 
 
-  factory TagModel.fromJson(dynamic json) {
+  static TagModel? fromJson(dynamic json) {
+    if(json['id'] == null){
+      return null;
+    }
     return TagModel(
       id: json['id']?.toString(),
       name: json['name'],
