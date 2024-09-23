@@ -106,12 +106,16 @@ class TagsPage extends StatelessWidget {
                             padding: EdgeInsets.all(AppSpacing.medium16.value),
                             margin: EdgeInsets.only(
                                 bottom: AppSpacing.medium16.value),
-                            child: Text(
-                              appLocalization.translate("Tags"),
-                              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                  color: AppColors.grey(context.isDarkMode).shade900,
-                                  appFontWeight: AppFontWeight.medium,
-                                  appFontSize: AppFontSize.heading4)),
+                            child: Row(
+                              children: [
+                                Text(
+                                  appLocalization.translate("Tags"),
+                                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                      color: AppColors.grey(context.isDarkMode).shade900,
+                                      appFontWeight: AppFontWeight.medium,
+                                      appFontSize: AppFontSize.heading4)),
+                                ),
+                              ],
                             ),
                           ),
                           Expanded(
