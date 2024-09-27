@@ -25,7 +25,6 @@ class FolderModel extends Folder {
   const FolderModel({
     super.id,
     super.name,
-    super.spaceId,
     super.color,
     super.lists,
   });
@@ -35,7 +34,6 @@ class FolderModel extends Folder {
     return FolderModel(
       id: (json['id']as Object?)?.toStringOrNull(),
       name: json['name'],
-      spaceId: json['space_id'],
       color: json['color'],
       lists: lists
     );
@@ -45,7 +43,6 @@ class FolderModel extends Folder {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['space_id'] = spaceId;
     map['color'] = color;
     if (lists != null) {
       map['lists'] =  (lists as List<ListModel>).toJson();
