@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/network/supabase_exception_handler.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/response_interceptor.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
@@ -88,6 +89,9 @@ void _initServiceLocator({required Network network}) {
 
   /// Globals
   serviceLocator.registerSingleton<AppConfig>(AppConfig());
+
+  serviceLocator
+      .registerSingleton<ResponseInterceptorFunc>(responseInterceptor);
 
   serviceLocator
       .registerSingleton(Logger(printer: PrettyPrinter(methodCount: 3)));
@@ -289,7 +293,9 @@ AuthRemoteDataSource authRemoteDataSource() {
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url, accessTokenModel: serviceLocator<AppConfig>().accessToken.toModel);
+          url: _supabaseGlobals.url,
+          accessTokenModel: serviceLocator<AppConfig>().accessToken.toModel,
+          responseInterceptor: serviceLocator(), authLocalDataSource: serviceLocator());
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync AuthRemoteDataSourceImpl");
   }
@@ -301,7 +307,7 @@ GlobalRemoteDataSource globalRemoteDataSource() {
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url,);
+          url: _supabaseGlobals.url, responseInterceptor:serviceLocator(), authRemoteDataSource: serviceLocator(), authLocalDataSource: serviceLocator(),);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync GlobalRemoteDataSourceImpl");
   }
@@ -316,7 +322,7 @@ TasksRemoteDataSource tasksRemoteDataSource() {
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
           key: _supabaseGlobals.key,
-          url: _supabaseGlobals.url,);
+          url: _supabaseGlobals.url, responseInterceptor:serviceLocator(), authRemoteDataSource: serviceLocator(), authLocalDataSource: serviceLocator(),);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync TasksRemoteDataSourceImpl");
   }

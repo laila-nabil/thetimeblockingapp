@@ -8,10 +8,19 @@ import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import 'error/exceptions.dart';
 import 'network/network.dart';
 
-Future<NetworkResponse> remoteDateRequestHandler<S>(
-    {required Network network,
-    required Future<NetworkResponse> Function(AccessTokenModel accessTokenModel) request
-    }) async {
+typedef ResponseInterceptorFunc = Future<NetworkResponse> Function({
+  required Future<NetworkResponse> Function(AccessTokenModel accessTokenModel)
+      request,
+  required AuthRemoteDataSource authRemoteDataSource,
+  required AuthLocalDataSource authLocalDataSource,
+});
+
+Future<NetworkResponse> responseInterceptor<S>({
+  required Future<NetworkResponse> Function(AccessTokenModel accessTokenModel)
+      request,
+  required AuthRemoteDataSource authRemoteDataSource,
+  required AuthLocalDataSource authLocalDataSource,
+}) async {
   late NetworkResponse response;
   AccessTokenModel accessTokenModel = serviceLocator<AppConfig>().accessToken.toModel;
   try {
@@ -20,15 +29,13 @@ Future<NetworkResponse> remoteDateRequestHandler<S>(
     ///TODO improve
     printDebug("TokenTimeOutException", printLevel: PrintLevel.error);
     try {
-      final refreshTokenResult = await serviceLocator<AuthRemoteDataSource>()
-          .refreshToken(
-              refreshToken: serviceLocator<AppConfig>().refreshToken,
-              accessToken: accessTokenModel);
-      await serviceLocator<AuthLocalDataSource>()
-          .saveSignInResult(refreshTokenResult);
+      final refreshTokenResult = await authRemoteDataSource.refreshToken(
+          refreshToken: serviceLocator<AppConfig>().refreshToken, accessToken: accessTokenModel);
+      await authLocalDataSource.saveSignInResult(refreshTokenResult);
       serviceLocator<AppConfig>().refreshToken = refreshTokenResult.refreshToken;
       serviceLocator<AppConfig>().accessToken = refreshTokenResult.accessToken;
-      response = await request(refreshTokenResult.accessToken as AccessTokenModel);
+      response =
+          await request(refreshTokenResult.accessToken as AccessTokenModel);
     } on Exception catch (e) {
       printDebug("RefreshToken Exception $e", printLevel: PrintLevel.error);
     }

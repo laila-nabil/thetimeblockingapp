@@ -5,12 +5,13 @@ import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/core/remote_data_source_handler.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../../../../common/models/access_token_model.dart';
+import '../../../../core/response_interceptor.dart';
 import '../models/sign_in_result_model.dart';
 import '../models/sign_up_result_model.dart';
+import 'auth_local_data_source.dart';
 
 abstract class AuthRemoteDataSource {
 
@@ -29,11 +30,17 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final String key;
   final Network network;
   final AccessTokenModel accessTokenModel;
+  final ResponseInterceptorFunc responseInterceptor;
+  final AuthLocalDataSource authLocalDataSource;
+
   SupabaseAuthRemoteDataSourceImpl(
       {required this.network,
       required this.url,
       required this.key,
-      required this.accessTokenModel});
+      required this.accessTokenModel,
+      required this.responseInterceptor,
+      required this.authLocalDataSource,
+      });
 
   @override
   Future<SignInResultModel> signInSupabase(
@@ -49,7 +56,9 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<dartz.Unit> signOut() async{
-    NetworkResponse result = await remoteDateRequestHandler(network: network,
+    NetworkResponse result = await responseInterceptor(
+        authLocalDataSource:authLocalDataSource,
+        authRemoteDataSource: this,
         request: (accessToken) => network.post(
         headers: supabaseHeader(
             accessToken: accessToken,
