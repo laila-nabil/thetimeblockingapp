@@ -93,5 +93,7 @@
   "createNewAccount" : "Create a new account",
   "tryToSignIn" : "Try to sign in",
   "complete" : "Complete",
-  "areYouSureComplete" : "Are you sure you want to complete"
+  "areYouSureComplete" : "Are you sure you want to complete",
+  "deleteAccount" : "Delete account",
+  "areYouSureDeleteYourAccount" : "Are you sure you want to delete your account?\n this action is irreversible"
 }

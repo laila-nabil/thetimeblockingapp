@@ -93,5 +93,7 @@
   "createNewAccount" : "إنشاء حساب جديد",
   "tryToSignIn" : "حاول تسجيل الدخول",
   "complete" : "اكمال",
-  "areYouSureComplete" : "هل أنت متأكد أنك تريد إكمال"
+  "areYouSureComplete" : "هل أنت متأكد أنك تريد إكمال",
+  "deleteAccount" : "مسح حساب",
+  "areYouSureDeleteYourAccount" : "هل أنت متأكد أنك تريد حذف حسابك؟\nهذا الإجراء لا رجعة فيه"
 }

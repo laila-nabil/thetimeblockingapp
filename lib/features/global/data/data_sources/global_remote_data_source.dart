@@ -18,6 +18,7 @@ import '../../../../core/network/supabase_header.dart';
 import '../../../../core/print_debug.dart';
 import '../../../auth/data/data_sources/auth_remote_data_source.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import '../../domain/use_cases/delete_workspace_use_case.dart';
 import '../../domain/use_cases/get_workspaces_use_case.dart';
 
 abstract class GlobalRemoteDataSource {
@@ -35,6 +36,8 @@ abstract class GlobalRemoteDataSource {
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params);
 
   Future<dartz.Unit> createWorkspace({required CreateWorkspaceParams params});
+
+  Future<dartz.Unit> deleteWorkspace({required DeleteWorkspaceParams params});
 }
 
 class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
@@ -134,6 +137,17 @@ class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
             body: params.toJson(),
             headers: supabaseHeader(accessToken: accessToken, apiKey: key)));
     printDebug("response $response");
+    return dartz.unit;
+  }
+
+  @override
+  Future<dartz.Unit> deleteWorkspace({required DeleteWorkspaceParams params}) async {
+    await responseInterceptor(
+        authRemoteDataSource: authRemoteDataSource,
+        authLocalDataSource: authLocalDataSource,
+        request: (accessToken) => network.delete(
+            uri: Uri.parse("$url/rest/v1/workspace?id=eq.${params.workspace.id}"),
+            headers: supabaseHeader(accessToken: accessToken, apiKey: key)));
     return dartz.unit;
   }
 }

@@ -15,7 +15,10 @@ import 'package:thetimeblockingapp/features/global/data/data_sources/global_remo
 import 'package:thetimeblockingapp/features/global/data/repositories/global_repo_impl.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_remote_data_source.dart';
+import 'package:thetimeblockingapp/features/settings/domain/repositories/settings_repo.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/delete_account_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
@@ -39,6 +42,7 @@ import '../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
+import '../features/settings/data/repositories/settings_repo_impl.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
@@ -103,7 +107,7 @@ void _initServiceLocator({required Network network}) {
   serviceLocator.registerFactory(() => GlobalBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
-      serviceLocator(),serviceLocator(),serviceLocator()
+      serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
@@ -150,7 +154,6 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerFactory(() => SettingsBloc(
-        serviceLocator(),
         serviceLocator(),
       ));
 
@@ -254,13 +257,17 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 
   serviceLocator.registerLazySingleton(() => SignUpUseCase(serviceLocator()));
 
+  serviceLocator.registerLazySingleton(() => DeleteAccountUseCase(serviceLocator()));
+
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
-      () => AuthRepoImpl(serviceLocator(), serviceLocator()));
+      () => AuthRepoImpl(serviceLocator(), serviceLocator(),serviceLocator()));
   serviceLocator.registerLazySingleton<TasksRepo>(
       () => TasksRepoImpl(serviceLocator(),));
   serviceLocator.registerLazySingleton<GlobalRepo>(
           () => GlobalRepoImpl(serviceLocator(),));
+  serviceLocator.registerLazySingleton<SettingsRepo>(
+          () => SettingsRepoImpl(serviceLocator(),serviceLocator(),serviceLocator()));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
@@ -273,6 +280,9 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 
   serviceLocator.registerLazySingleton<GlobalRemoteDataSource>(
           () => globalRemoteDataSource());
+
+  serviceLocator.registerLazySingleton<SettingsRemoteDataSource>(
+          () => settingsRemoteDataSource());
 
   /// External
 
@@ -310,6 +320,19 @@ GlobalRemoteDataSource globalRemoteDataSource() {
           url: _supabaseGlobals.url, responseInterceptor:serviceLocator(), authRemoteDataSource: serviceLocator(), authLocalDataSource: serviceLocator(),);
     case BackendMode.offlineWithCalendarSync:
       throw UnimplementedError("offlineWithCalendarSync GlobalRemoteDataSourceImpl");
+  }
+}
+
+SettingsRemoteDataSourceImpl settingsRemoteDataSource() {
+
+  switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.supabase:
+      return SettingsRemoteDataSourceImpl(
+        network: serviceLocator(),
+        key: _supabaseGlobals.key,
+        url: _supabaseGlobals.url, responseInterceptor:serviceLocator(), authRemoteDataSource: serviceLocator(), authLocalDataSource: serviceLocator(),);
+    case BackendMode.offlineWithCalendarSync:
+      throw UnimplementedError("offlineWithCalendarSync SettingsRemoteDataSourceImpl");
   }
 }
 

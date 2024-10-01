@@ -23,6 +23,9 @@ abstract class AuthRemoteDataSource {
 
   Future<SignInResultModel> refreshToken(
       {required String refreshToken, required AccessToken accessToken});
+
+  Future< dartz.Unit> deleteAccount();
+
 }
 
 class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -89,5 +92,19 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         uri: Uri.parse("$url/auth/v1/token?grant_type=refresh_token"),
         body: {"refresh_token": refreshToken});
     return SignInResultModel.fromJson(json.decode(result.body));
+  }
+
+  @override
+  Future<dartz.Unit> deleteAccount() async {
+    NetworkResponse result = await responseInterceptor(
+        authRemoteDataSource: this,
+        authLocalDataSource: authLocalDataSource,
+        request: (accessToken) => network.post(
+          headers: supabaseHeader(
+              accessToken: accessToken,
+              apiKey: key),
+          uri: Uri.parse("$url/rest/v1/rpc/delete_user_account"),));
+    printDebug("deleteAccount api result $result");
+    return dartz.unit;
   }
 }

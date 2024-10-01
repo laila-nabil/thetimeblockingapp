@@ -5,6 +5,7 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_ca
 import '../../../../core/error/failures.dart';
 import '../entities/sign_in_result.dart';
 import '../entities/sign_up_result.dart';
+import '../use_cases/delete_account_use_case.dart';
 
 abstract class AuthRepo {
 
@@ -15,4 +16,7 @@ abstract class AuthRepo {
 
   Future<dartz.Either<Failure, SignUpResult>> signUp(
       {required SignUpParams params});
+
+  Future<dartz.Either<Failure, dartz.Unit>> deleteAccount(DeleteAccountParams params);
+
 }

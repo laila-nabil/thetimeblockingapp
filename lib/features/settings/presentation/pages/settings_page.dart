@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/router.dart';
@@ -13,6 +15,7 @@ import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onb
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/delete_account_use_case.dart';
 
 
 import '../../../../core/launch_url.dart';
@@ -38,7 +41,8 @@ class SettingsPage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         final globalBloc = BlocProvider.of<GlobalBloc>(context);
-        if (state.authState == AuthStateEnum.signOutSuccess) {
+        if (state.authState == AuthStateEnum.signOutSuccess ||
+            state.authState == AuthStateEnum.deleteAccountSuccess) {
           globalBloc.add(const ControlDrawerLargerScreen(false));
           router.go(SupabaseOnBoardingAndAuthPage.routeName);
         }
@@ -148,6 +152,37 @@ class SettingsPage extends StatelessWidget {
                       type: CustomButtonType.destructiveFilledLabel,
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.medium16.value,
+                    ),
+                    child: CustomButton.noIcon(
+                      label: appLocalization.translate("deleteAccount"),
+                      onPressed: () {
+                        showDialog<bool>(context: context, builder: (context){
+                          return CustomAlertDialog(
+                            loading: false,
+                            actions: [
+                              CustomButton.noIcon(
+                                  label: appLocalization.translate("deleteAccount"),
+                                  onPressed: () {
+                                    authBloc.add(DeleteAccount(DeleteAccountParams(authBloc.state.user!)));
+                                    Navigator.pop(context);
+                                  },type: CustomButtonType.destructiveFilledLabel),
+                              CustomButton.noIcon(
+                                  label: appLocalization.translate("cancel"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                            content: Text(
+                                appLocalization.translate("areYouSureDeleteYourAccount")),
+                          );
+                        });
+                      },
+                      type: CustomButtonType.destructiveTextLabel,
+                    ),
+                  ),
                   const Expanded(child: SizedBox()),
                   Padding(
                     padding: EdgeInsets.only(
@@ -184,7 +219,11 @@ class SettingsPage extends StatelessWidget {
               ),
             )),
             context: context,
-            onRefresh: () async {});
+                responsiveScaffoldLoading: ResponsiveScaffoldLoading(
+                    responsiveScaffoldLoadingEnum:
+                        ResponsiveScaffoldLoadingEnum.overlayLoading,
+                    isLoading: state.isLoading),
+                onRefresh: () async {});
       },
     );
   },

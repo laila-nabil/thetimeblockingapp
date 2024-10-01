@@ -34,3 +34,10 @@ class SignOutEvent extends AuthEvent {
   List<Object?> get props => [accessToken];
 }
 
+class DeleteAccount extends AuthEvent {
+  final DeleteAccountParams deleteAccountParams;
+
+  const DeleteAccount(this.deleteAccountParams);
+  @override
+  List<Object?> get props => [deleteAccountParams];
+}

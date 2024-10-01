@@ -34,4 +34,10 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
     throw UnimplementedError();
   }
 
+  @override
+  Future<dartz.Unit> deleteAccount() {
+    // TODO: implement deleteAccount
+    throw UnimplementedError();
+  }
+
 }

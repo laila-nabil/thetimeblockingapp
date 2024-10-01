@@ -21,3 +21,5 @@ class ChangeThemeEvent extends SettingsEvent {
   @override
   List<Object?> get props => [themeMode];
 }
+
+

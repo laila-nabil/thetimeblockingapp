@@ -14,6 +14,7 @@ enum AuthStateEnum {
   getWorkspacesSuccess,
   getWorkspacesFailed,
   triedGetSelectedWorkspacesSpace, signOutFailed, signOutSuccess,
+  deleteAccountSuccess,deleteAccountFailed
 }
 
 class AuthState extends Equatable {
@@ -25,6 +26,7 @@ class AuthState extends Equatable {
   final Failure? signUpFailure;
   final Failure? signOutFailure;
   final SignUpResult? signUpResult;
+  final Failure? deleteAccountFailure;
 
   const AuthState({
     required this.authState,
@@ -35,6 +37,7 @@ class AuthState extends Equatable {
     this.signUpFailure,
     this.signOutFailure,
     this.signUpResult,
+    this.deleteAccountFailure,
   });
 
   AccessToken get accessToken =>  serviceLocator<AppConfig>().accessToken;
@@ -57,6 +60,7 @@ class AuthState extends Equatable {
         signInFailure,
         signUpFailure,
         signOutFailure,
+        deleteAccountFailure,
       ];
 
   AuthState copyWith({
@@ -67,6 +71,7 @@ class AuthState extends Equatable {
     Failure? signInFailure,
     Failure? signUpFailure,
     Failure? signOutFailure,
+    Failure? deleteAccountFailure,
     bool resetState = false,
     SignUpResult? signUpResult,
   }) {
@@ -85,6 +90,7 @@ class AuthState extends Equatable {
       signUpFailure: signUpFailure ?? this.signUpFailure,
       signOutFailure: signOutFailure ?? this.signOutFailure,
       signUpResult: signUpResult ?? this.signUpResult,
+      deleteAccountFailure: deleteAccountFailure ?? this.deleteAccountFailure,
     );
   }
 }
