@@ -43,6 +43,7 @@ import '../features/auth/domain/use_cases/sign_up_use_case.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
+import '../features/settings/data/data_sources/settings_demo_remote_data_source.dart';
 import '../features/settings/data/repositories/settings_repo_impl.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
@@ -76,7 +77,8 @@ SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
 class AppConfig{
    static const Env _defaultEnv = Env.debugLocally;
    Env env = _defaultEnv;
-   bool isDemo = false;
+   bool get isDemo=> serviceLocator<BackendMode>() == BackendMode.demo;
+
    Duration defaultTaskDuration = const Duration(hours: 1);
 
    ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
@@ -296,10 +298,9 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 }
 
 AuthRemoteDataSource authRemoteDataSource() {
-  if (serviceLocator<AppConfig>().isDemo) {
-    return AuthDemoRemoteDataSourceImpl();
-  }
   switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.demo:
+      return AuthDemoRemoteDataSourceImpl();
     case BackendMode.supabase:
       return SupabaseAuthRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -312,10 +313,9 @@ AuthRemoteDataSource authRemoteDataSource() {
   }
 }
 GlobalRemoteDataSource globalRemoteDataSource() {
-  if (serviceLocator<AppConfig>().isDemo) {
-    return GlobalDemoRemoteDataSourceImpl();
-  }
   switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.demo:
+      return GlobalDemoRemoteDataSourceImpl();
     case BackendMode.supabase:
       return SupabaseGlobalRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -326,9 +326,10 @@ GlobalRemoteDataSource globalRemoteDataSource() {
   }
 }
 
-SettingsRemoteDataSourceImpl settingsRemoteDataSource() {
-
+SettingsRemoteDataSource settingsRemoteDataSource() {
   switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.demo:
+      return SettingsDemoRemoteDataSourceImpl();
     case BackendMode.supabase:
       return SettingsRemoteDataSourceImpl(
         network: serviceLocator(),
@@ -340,10 +341,9 @@ SettingsRemoteDataSourceImpl settingsRemoteDataSource() {
 }
 
 TasksRemoteDataSource tasksRemoteDataSource() {
-  if (serviceLocator<AppConfig>().isDemo) {
-    return TasksDemoRemoteDataSourceImpl();
-  }
   switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.demo:
+      return TasksDemoRemoteDataSourceImpl();
     case BackendMode.supabase:
       return SupabaseTasksRemoteDataSourceImpl(
           network: serviceLocator(),
@@ -374,6 +374,8 @@ void initServiceLocator() {
 Future<NetworkResponse> responseHandler(
     {required Future<Response> Function() httpResponse}) {
   switch (serviceLocator<BackendMode>().mode) {
+    case BackendMode.demo:
+      throw UnimplementedError("demo response handler");
     case BackendMode.supabase:
       return supabaseResponseHandler(httpResponse: httpResponse);
     case BackendMode.offlineWithCalendarSync:

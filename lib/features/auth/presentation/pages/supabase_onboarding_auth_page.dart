@@ -613,9 +613,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
   }
 
   Widget demoButton(AnalyticsEvents analyticsEvents) {
-    if(true){
-      return Container();
-    }
     return CustomButton.noIcon(
         analyticsEvent: analyticsEvents,
         label: appLocalization.translate("demo"),

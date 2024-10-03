@@ -1,4 +1,5 @@
 enum BackendMode {
+  demo,
   supabase,
   offlineWithCalendarSync;
 
