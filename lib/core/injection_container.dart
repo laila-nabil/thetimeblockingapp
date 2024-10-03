@@ -11,6 +11,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/response_interceptor.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
+import 'package:thetimeblockingapp/features/global/data/data_sources/global_demo_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/data/repositories/global_repo_impl.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
@@ -311,7 +312,9 @@ AuthRemoteDataSource authRemoteDataSource() {
   }
 }
 GlobalRemoteDataSource globalRemoteDataSource() {
-
+  if (serviceLocator<AppConfig>().isDemo) {
+    return GlobalDemoRemoteDataSourceImpl();
+  }
   switch (serviceLocator<BackendMode>().mode) {
     case BackendMode.supabase:
       return SupabaseGlobalRemoteDataSourceImpl(
