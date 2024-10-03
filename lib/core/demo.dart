@@ -1,6 +1,7 @@
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import '../common/models/supabase_folder_model.dart';
+import '../common/models/supabase_list_model.dart';
 import '../common/models/supabase_tag_model.dart';
 import '../common/models/supabase_task_model.dart';
 import '../common/models/supabase_user_model.dart';
@@ -8,9 +9,8 @@ import '../common/models/access_token_model.dart';
 import '../common/models/supabase_workspace_model.dart';
 
 class Demo {
-  static AccessTokenModel accessTokenModel =
-      const AccessTokenModel(
-          accessToken: "fake_accessToken", tokenType: "Bearer");
+  static AccessTokenModel accessTokenModel = const AccessTokenModel(
+      accessToken: "fake_accessToken", tokenType: "Bearer");
 
   static const int userId = 24332434;
   static const String userEmail = "demoEmail@gmail.com";
@@ -23,35 +23,34 @@ class Demo {
 
   static List<WorkspaceModel> workspaces = [
     const WorkspaceModel(
-        id: 9015057836,
-        name: "The Workspace a",
-        color: "#40BC86",
-       )
+      id: 9015057836,
+      name: "The Workspace a",
+      color: "#40BC86",
+    )
   ];
   static TaskStatus todo = const TaskStatus(
     id: "324312",
     name: "todo",
-    color: "#d3d3d3", isDone: false,
+    color: "#d3d3d3",
+    isDone: false,
   );
   static TaskStatus workingOn = const TaskStatus(
     id: "324312",
     name: "working on",
-    color: "#00d3d3", isDone: false,
+    color: "#00d3d3",
+    isDone: false,
   );
   static TaskStatus done = const TaskStatus(
     id: "324312",
     name: "done",
-    color: "#d3d300", isDone: false,
+    color: "#d3d300",
+    isDone: false,
   );
 
   static List<FolderModel> folders = [
-    FolderModel(
-        id: "242434242",
-        name: "Home",
-        spaceId: spaces.first,
-        lists: [
-          cartList,
-        ])
+    FolderModel(id: "242434242", name: "Home", lists: [
+      cartList,
+    ])
   ];
 
   static ListModel timeBlockingList = const ListModel(
@@ -62,21 +61,28 @@ class Demo {
     id: "242534242",
     name: "🛒 Cart",
   );
-  static List<ListModel> folderlessLists = [
-    timeBlockingList
-  ];
+  static List<ListModel> folderlessLists = [timeBlockingList];
 
   static List<ListModel> allLists = folderlessLists +
-          [
-            cartList,
-          ] ;
+      [
+        cartList,
+      ];
 
-  static TagModel designTag =
-      const TagModel(name: "design", tagBg: "#6A85FF");
-  static TagModel developmentTag =
-      const TagModel(name: "development", tagBg: "#6A00FF");
-  static TagModel documentationTag =
-      const TagModel(name: "documentation", tagBg: "#6A8500");
+  static TagModel designTag = TagModel(
+      name: "design",
+      color: "#6A85FF",
+      id: '1',
+      workspaceId: workspaces.first.id.toString());
+  static TagModel developmentTag = TagModel(
+      name: "development",
+      color: "#6A00FF",
+      id: '2',
+      workspaceId: workspaces.first.id.toString());
+  static TagModel documentationTag = TagModel(
+      name: "documentation",
+      color: "#6A8500",
+      id: '3',
+      workspaceId: workspaces.first.id.toString());
   static List<TagModel> tags = [
     designTag,
     developmentTag,
@@ -86,205 +92,159 @@ class Demo {
   static List<TaskModel> tasks = [
     TaskModel(
         id: "42432",
-        name: "create design in figma",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "create design in figma",
         tags: [designTag],
         status: done,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 2,
               hours: 12,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 2,
               hours: 8,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "5433rtw",
-        name: "Buy new mobile cover",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "Buy new mobile cover",
         tags: const [],
         status: done,
         list: cartList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 2,
               hours: 8,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 2,
               hours: 6,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "45436256",
-        name: "main widgets",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "main widgets",
         tags: [developmentTag],
         status: workingOn,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 1,
               hours: 8,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 1,
               hours: 4,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "45436256",
-        name: "create demo version",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "create demo version",
         tags: [developmentTag],
         status: todo,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .subtract(const Duration(
-              hours: 3,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now().millisecondsSinceEpoch.toString()),
+        startDate: DateTime.now().subtract(const Duration(
+          hours: 3,
+        )),
+        dueDate: DateTime.now(),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "45436256",
-        name: "plan the app",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "plan the app",
         tags: [developmentTag, designTag, documentationTag],
         status: done,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 3,
               hours: 8,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .subtract(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.subtract(const Duration(
               days: 3,
               hours: 4,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "6545346763",
-        name: "create task popup",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "create task popup",
         tags: [designTag],
         status: todo,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 2,
               hours: 8,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 2,
               hours: 12,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "65435344",
-        name: "schedule",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "schedule",
         tags: [developmentTag],
         status: todo,
         list: timeBlockingList,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 1,
               hours: 4,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 1,
               hours: 9,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "54456234",
-        name: "onboarding",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "onboarding",
         tags: [developmentTag],
         list: timeBlockingList,
         status: todo,
-        startDateUtcTimestamp: DateTime.now()
-            .add(const Duration(
-              hours: 3,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .add(const Duration(
-              hours: 9,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+        startDate: DateTime.now().add(const Duration(
+          hours: 3,
+        )),
+        dueDate: DateTime.now().add(const Duration(
+          hours: 9,
+        )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null),
     TaskModel(
         id: "343243545",
-        name: "update readme file",
-        space: spaces.first,
-        assignees: [clickUpUser.asAssignee],
+        title: "update readme file",
         tags: [documentationTag],
         status: todo,
-        startDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+        startDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 3,
               hours: 4,
-            ))
-            .millisecondsSinceEpoch
-            .toString(),
-        dueDateUtcTimestamp: DateTime.now()
-            .dateAtZeroHour
-            .add(const Duration(
+            )),
+        dueDate: DateTime.now().dateAtZeroHour.add(const Duration(
               days: 3,
               hours: 6,
-            ))
-            .millisecondsSinceEpoch
-            .toString()),
+            )),
+        description: '',
+        priority: null,
+        folder: null,
+        workspace: null,
+        list: null),
   ];
 }
