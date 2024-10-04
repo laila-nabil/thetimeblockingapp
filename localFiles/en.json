@@ -95,5 +95,8 @@
   "complete" : "Complete",
   "areYouSureComplete" : "Are you sure you want to complete",
   "deleteAccount" : "Delete account",
-  "areYouSureDeleteYourAccount" : "Are you sure you want to delete your account?\n this action is irreversible"
+  "areYouSureDeleteYourAccount" : "Are you sure you want to delete your account?\n this action is irreversible",
+  "madeWithLoveBy" : "Made with ❤️ by",
+  "lailaNabil" : "Laila Nabil",
+  "inCairoEgypt" : "in Cairo, Egypt"
 }

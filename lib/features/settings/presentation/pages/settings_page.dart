@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/router.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onboarding_auth_page.dart';
@@ -184,6 +185,35 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                   const Expanded(child: SizedBox()),
+                  Container(
+                    margin: const EdgeInsets.only(
+                        top: 22, right: 24, left: 24, bottom: 20),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          child: Image.asset(
+                            AppAssets.github,
+                            width: 24,
+                            height: 24,
+                          ),
+                          onTap: () =>
+                              launchWithURL(url: "https://github.com/laila-nabil/"),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                          child: Image.asset(
+                            AppAssets.twitter,
+                            width: 24,
+                            height: 24,
+                          ),
+                          onTap: () =>
+                              launchWithURL(url: "https://twitter.com/laila_nabil_"),
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                       top: AppSpacing.x2Small4.value,

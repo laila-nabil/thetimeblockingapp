@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -179,30 +180,30 @@ class CustomDrawerWidget extends StatelessWidget {
                   isSelected: location.contains(HelpPage.routeName) == true),
             Container(
               margin: const EdgeInsets.only(
-                  top: 22, right: 24, left: 24, bottom: 20),
-              child: Row(
+                   right: 24, left: 24, bottom: 10),
+              child:Row(
                 children: [
-                  InkWell(
-                    child: Image.asset(
-                      AppAssets.github,
-                      width: 24,
-                      height: 24,
-                    ),
-                    onTap: () =>
-                        launchWithURL(url: "https://github.com/laila-nabil/"),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
-                    child: Image.asset(
-                      AppAssets.twitter,
-                      width: 24,
-                      height: 24,
-                    ),
-                    onTap: () =>
-                        launchWithURL(url: "https://twitter.com/laila_nabil_"),
-                  ),
+                  RichText(
+                      text: TextSpan(
+                    text: appLocalization.translate("madeWithLoveBy") + " ",
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphX2Small,
+                        color: AppColors.grey(context.isDarkMode),
+                        appFontWeight: AppFontWeight.thin)),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: appLocalization.translate("lailaNabil"),
+                          style: TextStyle(
+                              fontWeight: AppFontWeight.bold.value,
+                              decoration: TextDecoration.underline),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () => launchWithURL(
+                                url: "https://github.com/laila-nabil/")),
+                      TextSpan(
+                          text:
+                              " " + appLocalization.translate("inCairoEgypt")),
+                    ],
+                  )),
                 ],
               ),
             )
