@@ -51,9 +51,8 @@ class Task extends Equatable {
     required this.workspace,
   });
 
-  Color get widgetColor => isCompleted
-      ? AppColors.grey(false).shade300
-      : priority?.getColor ?? AppColors.paletteBlue;
+  Color get widgetColor =>
+      (status?.getColor ?? AppColors.paletteBlue).withOpacity(0.1);
 
   @override
   List<Object?> get props => [
