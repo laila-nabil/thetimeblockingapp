@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 
@@ -12,9 +13,11 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_calendar_widget.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../bloc/schedule_bloc.dart';
 import '../../../task_popup/presentation/views/task_popup.dart';
@@ -69,10 +72,66 @@ class TasksCalendar extends StatelessWidget {
       cellBorderColor: AppColors.grey(context.isDarkMode)
           .withOpacity(context.isDarkMode ? 1 : 0.3),
       ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
-      // appointmentBuilder: (context, calendarAppointmentDetails) {
-      //   return TaskCalendarWidget(
-      //       calendarAppointmentDetails: calendarAppointmentDetails);
-      // },
+      scheduleViewSettings: ScheduleViewSettings(
+        appointmentItemHeight: 120
+      ),
+      appointmentBuilder: (context, calendarAppointmentDetails) {
+              printDebug("controller.view => ${controller.view}");
+              List<Task> tasks = [];
+              calendarAppointmentDetails.appointments.forEach(
+                  (appointment) => tasks.add(appointment as TaskModel));
+              var task = tasks.first;
+              return TaskCalendarWidget(
+                bounds: calendarAppointmentDetails.bounds,
+                calendarView: controller.view,
+                task: task,
+                bloc: scheduleBloc,
+                onDelete: (params) {
+                  scheduleBloc.add(DeleteTaskEvent(
+                    params: params,
+                  ));
+                  Navigator.maybePop(context);
+                },
+                onSave: (params) {
+                  scheduleBloc.add(UpdateTaskEvent(
+                    params: params,
+                  ));
+                  Navigator.maybePop(context);
+                },
+                isLoading: (state) => false,
+                onDuplicate: (params) {
+                  scheduleBloc.add(DuplicateTaskEvent(
+                    params: params,
+                    workspace: BlocProvider.of<GlobalBloc>(context)
+                        .state
+                        .selectedWorkspace!
+                        .id!,
+                  ));
+                },
+                onDeleteConfirmed: () {
+                  scheduleBloc.add(DeleteTaskEvent(
+                    params: DeleteTaskParams(
+                      task: task,
+                    ),
+                  ));
+                },
+                onCompleteConfirmed: () {
+                  var authState = BlocProvider.of<AuthBloc>(context).state;
+                  var globalState = BlocProvider.of<GlobalBloc>(context).state;
+                  final newTask = task.copyWith(
+                      status: globalState.statuses!.completedStatus);
+                  printDebug("newTask $newTask");
+                  scheduleBloc.add(UpdateTaskEvent(
+                    params: CreateTaskParams.startUpdateTask(
+                        task: newTask,
+                        backendMode: serviceLocator<BackendMode>(),
+                        user: authState.user!,
+                        workspace: newTask.workspace,
+                        tags: newTask.tags),
+                  ));
+                },
+              );
+            },
       timeZone: serviceLocator<AppConfig>().timezone,
       onTap: (d)=> onTapCalendarElement(d,authBloc),
       onLongPress: (d)=> onTapCalendarElement(d,authBloc),
@@ -231,11 +290,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     var task = tasks[index];
-    if(task.isCompleted){
-      return AppColors.grey(false).shade300;
-    }
-    return task.priority?.getColor ??
-        AppColors.paletteBlue;
+    return task.widgetColor;
   }
   @override
   DateTime getEndTime(int index) {

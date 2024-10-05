@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
+import '../../core/resources/app_colors.dart';
 import 'tag.dart';
 
 class Task extends Equatable {
@@ -47,6 +50,10 @@ class Task extends Equatable {
     required this.folder,
     required this.workspace,
   });
+
+  Color get widgetColor => isCompleted
+      ? AppColors.grey(false).shade300
+      : priority?.getColor ?? AppColors.paletteBlue;
 
   @override
   List<Object?> get props => [
