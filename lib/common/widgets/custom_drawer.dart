@@ -198,7 +198,7 @@ class CustomDrawerWidget extends StatelessWidget {
                               decoration: TextDecoration.underline),
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () => launchWithURL(
-                                url: "https://github.com/laila-nabil/")),
+                                url: "https://bento.me/lailanabil")),
                       TextSpan(
                           text:
                               " " + appLocalization.translate("inCairoEgypt")),
