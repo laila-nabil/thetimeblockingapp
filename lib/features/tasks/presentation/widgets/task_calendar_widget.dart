@@ -156,6 +156,9 @@ class _TaskCalendarWidget extends StatelessWidget {
   bool showCheckIcon(CalendarView? calendarView) =>
       calendarView == CalendarView.schedule || bounds.width > 400;
 
+  bool isDismissible(CalendarView? calendarView) =>
+      calendarView == CalendarView.schedule;
+
   @override
   Widget build(BuildContext context) {
     printDebug("bounds $bounds");
@@ -171,198 +174,209 @@ class _TaskCalendarWidget extends StatelessWidget {
         appFontSize: AppFontSize.paragraphX2Small,
         color: colors,
         appFontWeight: AppFontWeight.medium));
-    return Dismissible(
-      key: Key(task.id.toString()),
+    if (isDismissible(calendarView)) {
+      return Dismissible(
+        key: Key(task.id.toString()),
 
-      ///TODO  add icons to background
-      background: Container(
-        color: AppColors.success(context.isDarkMode),
-      ),
-      secondaryBackground: Container(
-        color: AppColors.error(context.isDarkMode),
-      ),
-      confirmDismiss: (dismissDirection) async {
-        if (dismissDirection == DismissDirection.endToStart) {
-          final res = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return CustomAlertDialog(
-                  loading: false,
-                  actions: [
-                    CustomButton.noIcon(
-                        label: appLocalization.translate("delete"),
-                        onPressed: () {
-                          onDeleteConfirmed();
-                          Navigator.pop(context);
-                        },
-                        type: CustomButtonType.destructiveFilledLabel),
-                    CustomButton.noIcon(
-                        label: appLocalization.translate("cancel"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ],
-                  content: Text(
-                      "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
-                );
-              });
-          return res;
-        }
-        if (task.isCompleted == false &&
-            dismissDirection == DismissDirection.startToEnd) {
-          final res = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return CustomAlertDialog(
-                  loading: false,
-                  actions: [
-                    CustomButton.noIcon(
-                        label: appLocalization.translate("complete"),
-                        onPressed: () {
-                          onCompleteConfirmed();
-                          Navigator.pop(context);
-                        },
-                        type: CustomButtonType.secondaryLabel),
-                    CustomButton.noIcon(
-                        label: appLocalization.translate("cancel"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ],
-                  content: Text(
-                      "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
-                );
-              });
-          return res;
-        }
-        return null;
-      },
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
-          decoration: BoxDecoration(
-              color: task.widgetColor,
-              border: Border(
-                  bottom: BorderSide(
-                      color: AppColors.grey(context.isDarkMode)
-                          .withOpacity(0.1)))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (showList(calendarView))
-                Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      if (isListInsideFolder)
-                        Text(
-                          folderName ?? "",
-                          style: taskLocationTextStyle,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      if (isListInsideFolder)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                          child: Text(
-                            "/",
-                            style: taskLocationTextStyle,
-                          ),
-                        ),
+        ///TODO  add icons to background
+        background: Container(
+          color: AppColors.success(context.isDarkMode),
+        ),
+        secondaryBackground: Container(
+          color: AppColors.error(context.isDarkMode),
+        ),
+        confirmDismiss: (dismissDirection) async {
+          if (dismissDirection == DismissDirection.endToStart) {
+            final res = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return CustomAlertDialog(
+                    loading: false,
+                    actions: [
+                      CustomButton.noIcon(
+                          label: appLocalization.translate("delete"),
+                          onPressed: () {
+                            onDeleteConfirmed();
+                            Navigator.pop(context);
+                          },
+                          type: CustomButtonType.destructiveFilledLabel),
+                      CustomButton.noIcon(
+                          label: appLocalization.translate("cancel"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ],
+                    content: Text(
+                        "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
+                  );
+                });
+            return res;
+          }
+          if (task.isCompleted == false &&
+              dismissDirection == DismissDirection.startToEnd) {
+            final res = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return CustomAlertDialog(
+                    loading: false,
+                    actions: [
+                      CustomButton.noIcon(
+                          label: appLocalization.translate("complete"),
+                          onPressed: () {
+                            onCompleteConfirmed();
+                            Navigator.pop(context);
+                          },
+                          type: CustomButtonType.secondaryLabel),
+                      CustomButton.noIcon(
+                          label: appLocalization.translate("cancel"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ],
+                    content: Text(
+                        "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
+                  );
+                });
+            return res;
+          }
+          return null;
+        },
+        child: buildInkWell(context, isListInsideFolder, folderName,
+            taskLocationTextStyle, listName, dateTextStyle),
+      );
+    }
+    return buildInkWell(context, isListInsideFolder, folderName,
+        taskLocationTextStyle, listName, dateTextStyle);
+  }
+
+  InkWell buildInkWell(
+      BuildContext context,
+      bool isListInsideFolder,
+      String? folderName,
+      TextStyle taskLocationTextStyle,
+      String? listName,
+      TextStyle dateTextStyle) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+        decoration: BoxDecoration(
+            color: task.widgetColor,
+            border: Border(
+                bottom: BorderSide(
+                    color:
+                        AppColors.grey(context.isDarkMode).withOpacity(0.1)))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (showList(calendarView))
+              Padding(
+                padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (isListInsideFolder)
                       Text(
-                        listName ?? '',
+                        folderName ?? "",
                         style: taskLocationTextStyle,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
-                ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (showCheckIcon(calendarView))
-                            Icon(
-                              task.isCompleted
-                                  ? AppIcons.checkboxchecked
-                                  : AppIcons.checkbox,
-                              color: task.status?.getColor ??
-                                  AppColors.text(context.isDarkMode),
-                              size: 15,
-                            ),
-                          if (showCheckIcon(calendarView))
-                            SizedBox(
-                              width: AppSpacing.x2Small4.value,
-                            ),
-                          Expanded(
-                            child: Text(
-                              task.title ?? "",
-                              style: AppTextStyle.getTextStyle(
-                                      AppTextStyleParams(
-                                          appFontSize:
-                                              AppFontSize.paragraphXSmall,
-                                          color:
-                                              AppColors.grey(context.isDarkMode)
-                                                  .shade900,
-                                          appFontWeight:
-                                              AppFontWeight.semiBold))
-                                  .copyWith(
-                                      decoration: task.isCompleted
-                                          ? TextDecoration.lineThrough
-                                          : null),
-                              maxLines: maxLines(bounds, calendarView),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                    if (isListInsideFolder)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                        child: Text(
+                          "/",
+                          style: taskLocationTextStyle,
+                        ),
                       ),
+                    Text(
+                      listName ?? '',
+                      style: taskLocationTextStyle,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (false && actions?.isNotEmpty == true)
-                      CustomPopupMenu(
-                        items: actions ?? [],
-                      ),
                   ],
                 ),
               ),
-              if (showTime(calendarView) &&
-                  task.startDate != null &&
-                  task.dueDate != null)
-                Text(
-                  "🕑 ${DateFormat('mm:hh').format(task.startDate!)} => ${DateFormat('mm:hh').format(task.dueDate!)}",
-                  style: dateTextStyle,
-                )
-              else if (showTime(calendarView))
-                Text("", style: dateTextStyle),
-              if (showTags(calendarView) && task.tags.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    spacing: AppSpacing.x2Small4.value,
-                    runSpacing: AppSpacing.x2Small4.value,
-                    direction: Axis.horizontal,
-                    verticalDirection: VerticalDirection.down,
-                    children: task.tags
-                        .map((e) =>
-                            TagChip(tagName: e.name ?? "", color: e.getColor))
-                        .toList(),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (showCheckIcon(calendarView))
+                          Icon(
+                            task.isCompleted
+                                ? AppIcons.checkboxchecked
+                                : AppIcons.checkbox,
+                            color: task.status?.getColor ??
+                                AppColors.text(context.isDarkMode),
+                            size: 15,
+                          ),
+                        if (showCheckIcon(calendarView))
+                          SizedBox(
+                            width: AppSpacing.x2Small4.value,
+                          ),
+                        Expanded(
+                          child: Text(
+                            task.title ?? "",
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                    appFontSize: AppFontSize.paragraphXSmall,
+                                    color: AppColors.grey(context.isDarkMode)
+                                        .shade900,
+                                    appFontWeight: AppFontWeight.semiBold))
+                                .copyWith(
+                                    decoration: task.isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : null),
+                            maxLines: maxLines(bounds, calendarView),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              else if (showTags(calendarView))
-                Padding(
-                  padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-                  child: Text(''),
-                )
-            ],
-          ),
+                  if (false && actions?.isNotEmpty == true)
+                    CustomPopupMenu(
+                      items: actions ?? [],
+                    ),
+                ],
+              ),
+            ),
+            if (showTime(calendarView) &&
+                task.startDate != null &&
+                task.dueDate != null)
+              Text(
+                "🕑 ${DateFormat('mm:hh').format(task.startDate!)} => ${DateFormat('mm:hh').format(task.dueDate!)}",
+                style: dateTextStyle,
+              )
+            else if (showTime(calendarView))
+              Text("", style: dateTextStyle),
+            if (showTags(calendarView) && task.tags.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: AppSpacing.x2Small4.value,
+                  runSpacing: AppSpacing.x2Small4.value,
+                  direction: Axis.horizontal,
+                  verticalDirection: VerticalDirection.down,
+                  children: task.tags
+                      .map((e) =>
+                          TagChip(tagName: e.name ?? "", color: e.getColor))
+                      .toList(),
+                ),
+              )
+            else if (showTags(calendarView))
+              Padding(
+                padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+                child: Text(''),
+              )
+          ],
         ),
       ),
     );
