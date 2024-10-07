@@ -93,9 +93,13 @@ extension DateTimeExtensions on DateTime {
     return "0$n";
   }
 
-  static String? customToString(DateTime? dateTime,{bool includeTime = true}){
+  static String? customToString(DateTime? dateTime,
+      {bool includeDayMonthYear = true, bool includeTime = true}) {
     if(dateTime == null){
       return null;
+    }
+    if(dateTime.isUtc == true){
+      dateTime = dateTime.toLocal();
     }
     String y = _fourDigits(dateTime.year);
     String m = _twoDigits(dateTime.month);
@@ -108,11 +112,7 @@ extension DateTimeExtensions on DateTime {
     }
     String h = _twoDigits(hour);
     String min = _twoDigits(dateTime.minute);
-    if (dateTime.isUtc == true) {
-      return "$y-$m-$d ${includeTime ? "$h:$min $amPm.Z":""}";
-    } else {
-      return "$y-$m-$d ${includeTime ? "$h:$min $amPm" : ""}";
-    }
+    return "${includeDayMonthYear ? "$y-$m-$d " : ""}${includeTime ? "$h:$min $amPm" : ""}";
   }
 
   String toStringIncludeTimeZone() {
