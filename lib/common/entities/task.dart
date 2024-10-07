@@ -52,7 +52,7 @@ class Task extends Equatable {
   });
 
   Color get widgetColor =>
-      (status?.getColor ?? AppColors.paletteBlue).withOpacity(0.1);
+      (status?.getColor ?? AppColors.paletteBlue);
 
   @override
   List<Object?> get props => [

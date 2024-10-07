@@ -261,8 +261,11 @@ class _TaskCalendarWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
-            color: task.widgetColor,
+            color: task.widgetColor.withOpacity(0.1),
             border: Border(
+                left: BorderSide(
+                    color:
+                    task.widgetColor,width: 1),
                 bottom: BorderSide(
                     color:
                         AppColors.grey(context.isDarkMode).withOpacity(0.1)))),
