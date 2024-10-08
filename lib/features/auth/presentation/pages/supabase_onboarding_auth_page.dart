@@ -617,6 +617,10 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         analyticsEvent: analyticsEvents,
         label: appLocalization.translate("demo"),
         onPressed: () {
+          // BlocProvider.of<AuthBloc>(context).add(SignInEvent(SignInParams(
+          //     email: '',
+          //     password: '',
+          //     accessToken: AccessToken(accessToken: '', tokenType: ''))));
           final url = _demoUrl;
           launchWithURL(url: url);
         },
