@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -42,7 +43,8 @@ class AuthRepoImpl  implements AuthRepo{
   @override
   Future<dartz.Either<Failure, SignInResultModel>> signIn({required SignInParams params}) async {
     dartz.Either<Failure, SignInResultModel> result;
-    if(params.email.isNotEmpty && params.password.isNotEmpty){
+    if (serviceLocator<BackendMode>() == BackendMode.demo ||
+        (params.email.isNotEmpty && params.password.isNotEmpty)) {
       result = await repoHandleRemoteRequest<SignInResultModel>(
           remoteDataSourceRequest: () async =>
               await authRemoteDataSource.signInSupabase(params: params),
