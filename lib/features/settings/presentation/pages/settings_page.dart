@@ -56,14 +56,13 @@ class SettingsPage extends StatelessWidget {
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
                 small: Padding(
-              padding: EdgeInsets.all(AppSpacing.medium16.value),
+              padding: EdgeInsets.all(AppSpacing.x3Big32.value),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(AppSpacing.medium16.value),
                         margin:
                             EdgeInsets.only(bottom: AppSpacing.medium16.value),
                         child: Text(
@@ -81,7 +80,7 @@ class SettingsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        appLocalization.translate("language"),
+                        appLocalization.translate("email"),
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphSmall,
                             color: AppColors.grey(context.isDarkMode).shade900,
@@ -90,22 +89,49 @@ class SettingsPage extends StatelessWidget {
                       SizedBox(
                         height: AppSpacing.x2Small4.value,
                       ),
-                      CustomDropDownMenu(
-                        initialSelection: appLocalization.languagesEnumToLocale(
-                            appLocalization.getCurrentLanguagesEnum(context)!),
-                        dropdownMenuEntries: context.supportedLocales
-                            .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                                value: e,
-                                label:
-                                    appLocalization.translate(e.languageCode)))
-                            .toList(),
-                        onSelected: (selected) {
-                          bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
-                              locale: selected, context: context)));
-                        },
-                        isDarkMode: (context.isDarkMode),
+                      Text(
+                        BlocProvider.of<AuthBloc>(context).state.user?.email??"",
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphSmall,
+                            color: AppColors.grey(context.isDarkMode).shade700,
+                            appFontWeight: AppFontWeight.regular)),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.xSmall8.value,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          appLocalization.translate("language"),
+                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphSmall,
+                              color: AppColors.grey(context.isDarkMode).shade900,
+                              appFontWeight: AppFontWeight.medium)),
+                        ),
+                        SizedBox(
+                          height: AppSpacing.x2Small4.value,
+                        ),
+                        CustomDropDownMenu(
+                          initialSelection: appLocalization.languagesEnumToLocale(
+                              appLocalization.getCurrentLanguagesEnum(context)!),
+                          dropdownMenuEntries: context.supportedLocales
+                              .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                                  value: e,
+                                  label:
+                                      appLocalization.translate(e.languageCode)))
+                              .toList(),
+                          onSelected: (selected) {
+                            bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
+                                locale: selected, context: context)));
+                          },
+                          isDarkMode: (context.isDarkMode),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
