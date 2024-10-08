@@ -363,6 +363,11 @@ void updateFromEnv() async {
   printDebug("supabaseGlobals key ${_supabaseGlobals.key}");
   serviceLocator<AppConfig>().env = Env.getEnv(
           const String.fromEnvironment("env", defaultValue: "debugLocally"));
+  var backendMode = BackendMode.getBackendMode(
+      const String.fromEnvironment("backend", defaultValue: "supabase"));
+  serviceLocator
+      .registerSingleton<BackendMode>(backendMode);
+  printDebug("backend is ${_supabaseGlobals.key}");
 }
 
 void initServiceLocator() {

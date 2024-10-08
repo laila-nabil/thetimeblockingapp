@@ -1,5 +1,5 @@
-import 'package:thetimeblockingapp/common/entities/priority.dart';
-import 'package:thetimeblockingapp/common/entities/status.dart';
+import 'package:thetimeblockingapp/common/models/priority_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import '../common/models/supabase_folder_model.dart';
 import '../common/models/supabase_list_model.dart';
@@ -29,19 +29,19 @@ class Demo {
       color: "#40BC86",
     )
   ];
-  static TaskStatus todo = const TaskStatus(
+  static TaskStatusModel todo = const TaskStatusModel(
     id: "324312",
     name: "todo",
     color: "#d3d3d3",
     isDone: false,
   );
-  static TaskStatus workingOn = const TaskStatus(
+  static TaskStatusModel workingOn = const TaskStatusModel(
     id: "324312",
     name: "working on",
     color: "#00d3d3",
     isDone: false,
   );
-  static TaskStatus done = const TaskStatus(
+  static TaskStatusModel done = const TaskStatusModel(
     id: "324312",
     name: "done",
     color: "#d3d300",
@@ -50,10 +50,10 @@ class Demo {
 
   static get statuses => [todo,workingOn,done];
   
-  static TaskPriority low = TaskPriority(id: '0', name: "low", color: "d8d8d8");
-  static TaskPriority normal = TaskPriority(id: '1', name: "normal", color: "6fddff");
-  static TaskPriority high = TaskPriority(id: '2', name: "high", color: "f8ae00");
-  static TaskPriority urgent = TaskPriority(id: '3', name: "urgent", color: "f50000");
+  static TaskPriorityModel low = TaskPriorityModel(id: '0', name: "low", color: "d8d8d8");
+  static TaskPriorityModel normal = TaskPriorityModel(id: '1', name: "normal", color: "6fddff");
+  static TaskPriorityModel high = TaskPriorityModel(id: '2', name: "high", color: "f8ae00");
+  static TaskPriorityModel urgent = TaskPriorityModel(id: '3', name: "urgent", color: "f50000");
 
 
   static get priorities => [low,normal,high,urgent];
