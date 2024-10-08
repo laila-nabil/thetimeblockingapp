@@ -177,13 +177,29 @@ class _TaskCalendarWidget extends StatelessWidget {
     if (isDismissible(calendarView)) {
       return Dismissible(
         key: Key(task.id.toString()),
-
-        ///TODO  add icons to background
         background: Container(
           color: AppColors.success(context.isDarkMode),
+          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            appLocalization.translate("complete"),
+            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                appFontSize: AppFontSize.paragraphSmall,
+                color: AppColors.white(false),
+                appFontWeight: AppFontWeight.medium)),
+          ),
         ),
         secondaryBackground: Container(
           color: AppColors.error(context.isDarkMode),
+          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+          alignment: AlignmentDirectional.centerEnd,
+          child: Text(
+            appLocalization.translate("delete"),
+            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                appFontSize: AppFontSize.paragraphSmall,
+                color: AppColors.white(false),
+                appFontWeight: AppFontWeight.medium)),
+          ),
         ),
         confirmDismiss: (dismissDirection) async {
           if (dismissDirection == DismissDirection.endToStart) {
