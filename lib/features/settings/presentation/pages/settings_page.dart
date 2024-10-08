@@ -129,6 +129,24 @@ class SettingsPage extends StatelessWidget {
                                 locale: selected, context: context)));
                           },
                           isDarkMode: (context.isDarkMode),
+                          inputDecorationTheme: InputDecorationTheme(
+                            labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                appFontSize: AppFontSize.paragraphSmall,
+                                color: AppColors.grey(context.isDarkMode).shade900,
+                                appFontWeight: AppFontWeight.regular)),
+                            hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                appFontSize: AppFontSize.paragraphSmall,
+                                color: AppColors.error(context.isDarkMode).shade900,
+                                appFontWeight: AppFontWeight.regular)),
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            constraints: BoxConstraints.tight(const
+                            Size.fromHeight(40)),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: BorderSide(color: AppColors.grey(context.isDarkMode).shade300)
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -181,7 +199,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: AppSpacing.medium16.value,
+                      top: AppSpacing.xSmall8.value,
                     ),
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("deleteAccount"),
@@ -213,7 +231,7 @@ class SettingsPage extends StatelessWidget {
                   const Expanded(child: SizedBox()),
                   Container(
                     margin: const EdgeInsets.only(
-                        top: 22, right: 24, left: 24, bottom: 20),
+                        top: 22, right: 24, left: 24, bottom: 10),
                     child: Row(
                       children: [
                         InkWell(
@@ -240,35 +258,29 @@ class SettingsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: AppSpacing.x2Small4.value,
-                    ),
-                    child: CustomButton.noIcon(
-                      label: appLocalization.translate("termsOfUse"),
-                      onPressed: () {
-                        launchWithURL(
-                            url:
-                            "https://timeblocking.web.app/${TermsConditionsPage
-                                .routeName}");
-                      },
-                      type: CustomButtonType.greyTextLabel,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: AppSpacing.x2Small4.value,
-                    ),
-                    child: CustomButton.noIcon(
-                      label: appLocalization.translate("privacyPolicy"),
-                      onPressed: () {
-                        launchWithURL(
-                            url:
-                            "https://timeblocking.web.app/${PrivacyPolicyPage
-                                .routeName}");
-                      },
-                      type: CustomButtonType.greyTextLabel,
-                    ),
+                  Row(
+                    children: [
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("termsOfUse"),
+                        onPressed: () {
+                          launchWithURL(
+                              url:
+                              "https://timeblocking.web.app/${TermsConditionsPage
+                                  .routeName}");
+                        },
+                        type: CustomButtonType.greyTextLabel,
+                      ),
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("privacyPolicy"),
+                        onPressed: () {
+                          launchWithURL(
+                              url:
+                              "https://timeblocking.web.app/${PrivacyPolicyPage
+                                  .routeName}");
+                        },
+                        type: CustomButtonType.greyTextLabel,
+                      ),
+                    ],
                   ),
 
                 ],
