@@ -1,3 +1,4 @@
+import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import '../common/models/supabase_folder_model.dart';
@@ -46,6 +47,16 @@ class Demo {
     color: "#d3d300",
     isDone: false,
   );
+
+  static get statuses => [todo,workingOn,done];
+  
+  static TaskPriority low = TaskPriority(id: '0', name: "low", color: "d8d8d8");
+  static TaskPriority normal = TaskPriority(id: '1', name: "normal", color: "6fddff");
+  static TaskPriority high = TaskPriority(id: '2', name: "high", color: "f8ae00");
+  static TaskPriority urgent = TaskPriority(id: '3', name: "urgent", color: "f50000");
+
+
+  static get priorities => [low,normal,high,urgent];
 
   static List<FolderModel> folders = [
     FolderModel(id: "242434242", name: "Home", lists: [
@@ -105,7 +116,7 @@ class Demo {
               hours: 8,
             )),
         description: '',
-        priority: null,
+        priority: urgent,
         folder: null,
         workspace: null),
     TaskModel(
@@ -123,7 +134,7 @@ class Demo {
               hours: 6,
             )),
         description: '',
-        priority: null,
+        priority: high,
         folder: null,
         workspace: null),
     TaskModel(
@@ -141,7 +152,7 @@ class Demo {
               hours: 4,
             )),
         description: '',
-        priority: null,
+        priority: low,
         folder: null,
         workspace: null),
     TaskModel(

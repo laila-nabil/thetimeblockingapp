@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/common/models/priority_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_status_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/core/demo.dart';
+import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/response_interceptor.dart';
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/create_workspace_use_case.dart';
@@ -26,44 +28,37 @@ import 'global_remote_data_source.dart';
 class GlobalDemoRemoteDataSourceImpl implements GlobalRemoteDataSource {
   @override
   Future<dartz.Unit> createWorkspace({required CreateWorkspaceParams params}) {
-    // TODO: implement createWorkspace
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> deleteWorkspace({required DeleteWorkspaceParams params}) {
-    // TODO: implement deleteWorkspace
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<WorkspaceModel> getAllInWorkspace({required GetAllInWorkspaceParams params}) {
-    // TODO: implement getAllInWorkspace
-    throw UnimplementedError();
+    return Future.value(Demo.workspaces.first);
   }
 
   @override
   Future<List<TaskPriorityModel>> getPriorities(GetPrioritiesParams params) {
-    // TODO: implement getPriorities
-    throw UnimplementedError();
+    return Future.value(Demo.priorities);
   }
 
   @override
   Future<List<TaskStatusModel>> getStatuses(GetStatusesParams params) {
-    // TODO: implement getStatuses
-    throw UnimplementedError();
+    return Future.value(Demo.statuses);
   }
 
   @override
   Future<List<TaskModel>> getTasksInWorkspace({required GetTasksInWorkspaceParams params}) {
-    // TODO: implement getTasksInWorkspace
-    throw UnimplementedError();
+    return Future.value(Demo.tasks);
   }
 
   @override
   Future<List<WorkspaceModel>> getWorkspaces({required GetWorkspacesParams params}) {
-    // TODO: implement getWorkspaces
-    throw UnimplementedError();
+    return Future.value(Demo.workspaces);
   }
 
 }

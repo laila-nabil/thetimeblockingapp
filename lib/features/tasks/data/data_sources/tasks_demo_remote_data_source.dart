@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/models/supabase_tag_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
+import 'package:thetimeblockingapp/core/demo.dart';
+import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
@@ -24,105 +26,89 @@ import '../../domain/use_cases/update_tag_use_case.dart';
 class TasksDemoRemoteDataSourceImpl implements TasksRemoteDataSource {
   @override
   Future<dartz.Unit> addTagToTask({required AddTagToTaskParams params}) {
-    // TODO  implement addTagToTask
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> createFolderInWorkspace(
       {required CreateFolderInSpaceParams params}) {
-    // TODO  implement createFolderInSpace
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> createFolderlessList(
       {required CreateFolderlessListParams params}) {
-    // TODO  implement createFolderlessList
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> createListInFolder(
       {required CreateListInFolderParams params}) {
-    // TODO  implement createListInFolder
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> createTagInWorkspace(
       {required CreateTagInWorkspaceParams params}) {
-    // TODO  implement createTagInSpace
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> createTaskInList({required CreateTaskParams params}) {
-    // TODO  implement createTaskInList
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> deleteFolder({required DeleteFolderParams params}) {
-    // TODO  implement deleteFolder
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> deleteList({required DeleteListParams params}) {
-    // TODO  implement deleteList
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> deleteTag({required DeleteTagParams params}) {
-    // TODO  implement deleteTag
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> deleteTask({required DeleteTaskParams params}) {
-    // TODO  implement deleteTask
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<List<TagModel>> getTags({required GetTagsInWorkspaceParams params}) {
-    // TODO  implement getTags
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<List<TaskModel>> getTasksInWorkspace(
       {required GetTasksInWorkspaceParams params}) {
-    // TODO  implement getTasksInWorkspace
-    throw UnimplementedError();
+    return Future.value(Demo.tasks);
   }
 
 
   @override
   Future<dartz.Unit> removeTagFromTask(
       {required RemoveTagFromTaskParams params}) {
-    // TODO  implement removeTagFromTask
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> updateTag({required UpdateTagParams params}) {
-    // TODO  implement updateTag
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<dartz.Unit> updateTask({required CreateTaskParams params}) {
-    // TODO  implement updateTask
-    throw UnimplementedError();
+    throw const DemoFailure(message: "");
   }
 
   @override
   Future<WorkspaceModel> getAllInWorkspace(
       {required GetAllInWorkspaceParams params}) {
-    // TODO  implement getAllInWorkspace
-    throw UnimplementedError();
+    return Future.value(Demo.workspaces.first);
   }
 }
