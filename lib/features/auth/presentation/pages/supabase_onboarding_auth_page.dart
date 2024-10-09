@@ -620,11 +620,7 @@ class _SupabaseOnBoardingAndAuthPageState
         analyticsEvent: analyticsEvents,
         label: appLocalization.translate("demo"),
         onPressed: () {
-          serviceLocator.registerSingleton<BackendMode>(BackendMode.demo);
-          // BlocProvider.of<AuthBloc>(context).add(SignInEvent(SignInParams(
-          //     email: '',
-          //     password: '',
-          //     accessToken: AccessToken(accessToken: '', tokenType: ''))));
+          launchWithURL(url: "www.demoo-timeblocking.web.app");
         },
         type: CustomButtonType.primaryTextLabel);
   }
