@@ -1,10 +1,19 @@
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/launch_url.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
@@ -28,13 +37,13 @@ class ResponsiveScaffoldLoading {
 
   bool get isLoadingOverlay =>
       isLoading &&
-      responsiveScaffoldLoadingEnum ==
-          ResponsiveScaffoldLoadingEnum.overlayLoading;
+          responsiveScaffoldLoadingEnum ==
+              ResponsiveScaffoldLoadingEnum.overlayLoading;
 
   bool get isLoadingContent =>
       isLoading &&
-      responsiveScaffoldLoadingEnum ==
-          ResponsiveScaffoldLoadingEnum.contentLoading;
+          responsiveScaffoldLoadingEnum ==
+              ResponsiveScaffoldLoadingEnum.contentLoading;
 }
 
 class ResponsiveScaffold extends Scaffold {
@@ -105,7 +114,7 @@ class ResponsiveScaffold extends Scaffold {
                           Expanded(
                             child: Column(
                               children: [
-                                if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                                if(serviceLocator<AppConfig>().isDemo)signUpToUse(authBloc),
                                 Expanded(
                                   child: _ResponsiveBody(
                                     responsiveTParams: responsiveBody,
@@ -127,7 +136,7 @@ class ResponsiveScaffold extends Scaffold {
                       builder: (context, state) {
                         return Column(
                           children: [
-                            if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                            if(serviceLocator<AppConfig>().isDemo)signUpToUse(authBloc),
                             Expanded(
                               child: _ResponsiveBody(
                                 responsiveTParams: responsiveBody,
@@ -146,7 +155,7 @@ class ResponsiveScaffold extends Scaffold {
           }
           return Column(
             children: [
-              if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+              if(serviceLocator<AppConfig>().isDemo)signUpToUse(authBloc),
               Expanded(
                 child: _ResponsiveBody(
                   responsiveTParams: responsiveBody,
@@ -170,13 +179,47 @@ class ResponsiveScaffold extends Scaffold {
   PreferredSizeWidget? get appBar => hideAppBarDrawer
       ? null
       : CustomAppBar(
-          pageActions: pageActions,
-          showSmallDesign: context.showSmallDesign,
-          isDarkMode: context.isDarkMode,
-        );
+    pageActions: pageActions,
+    showSmallDesign: context.showSmallDesign,
+    isDarkMode: context.isDarkMode,
+  );
 
   ///TODO demo
-  Widget signInToUse(AuthBloc authBloc){
+  Widget signUpToUse(AuthBloc authBloc){
+    if(serviceLocator<BackendMode>()== BackendMode.demo) {
+      return true
+          ? Padding(
+        padding: EdgeInsets.all(AppSpacing.small12.value),
+        child: CustomAlertWidget(
+          customAlertType: CustomAlertType.warning,
+          customAlertThemeType: CustomAlertThemeType.accent,
+          title: "${appLocalization.translate("signUpToUse")} ${appLocalization.translate("connectWithClickup")}",
+          primaryCta: appLocalization.translate("signUpTo"),
+          primaryCtaOnPressed: (){
+
+            if (kIsWeb) {
+              launchWithURL(url: '');
+            } else if (Platform.isAndroid || Platform.isIOS) {
+              //
+            }
+          },
+        ),
+      )
+          : Row(
+        children: [
+          Text(appLocalization.translate("continueWithClickupToUse")),
+          CustomButton.noIcon(
+              type: CustomButtonType.greyTextLabel,
+              label: appLocalization.translate("connectWithClickup"), onPressed: (){
+            if (kIsWeb) {
+              launchWithURL(url: '');
+            } else if (Platform.isAndroid || Platform.isIOS) {
+              ///TODO
+            }
+          })
+        ],
+      );
+    }
     return Container();
   }
 }
@@ -184,8 +227,8 @@ class ResponsiveScaffold extends Scaffold {
 class _ResponsiveBody extends StatelessWidget {
   const _ResponsiveBody(
       {this.responsiveScaffoldLoading,
-      required this.responsiveTParams,
-      required this.onRefresh});
+        required this.responsiveTParams,
+        required this.onRefresh});
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final ResponsiveTParams<Widget> responsiveTParams;
   final Future<void> Function() onRefresh;
@@ -198,17 +241,17 @@ class _ResponsiveBody extends StatelessWidget {
         child: context.responsiveT(
             params: responsiveScaffoldLoading?.isLoadingContent == true
                 ? ResponsiveTParams(
-                    small: CustomLoading(color: Theme.of(context).primaryColor),
-                    large: CustomLoading(color: Theme.of(context).primaryColor))
+                small: CustomLoading(color: Theme.of(context).primaryColor),
+                large: CustomLoading(color: Theme.of(context).primaryColor))
                 : responsiveTParams));
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
-            alignment: Alignment.center,
-            children: [
-              actualResponsiveBody,
-              const LoadingOverlay(),
-            ],
-          )
+      alignment: Alignment.center,
+      children: [
+        actualResponsiveBody,
+        const LoadingOverlay(),
+      ],
+    )
         : actualResponsiveBody;
     final content = RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -216,18 +259,18 @@ class _ResponsiveBody extends StatelessWidget {
         child: context.responsiveT(params: responsiveTParams));
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
-            alignment: Alignment.center,
-            children: [
-              content,
-              const LoadingOverlay(),
-            ],
-          )
+      alignment: Alignment.center,
+      children: [
+        content,
+        const LoadingOverlay(),
+      ],
+    )
         : (responsiveScaffoldLoading?.isLoadingOverlay == true)
-            ? context.responsiveT(
-                params: ResponsiveTParams(
-                    small: CustomLoading(color: Theme.of(context).primaryColor),
-                    large:
-                        CustomLoading(color: Theme.of(context).primaryColor)))
-            : content;
+        ? context.responsiveT(
+        params: ResponsiveTParams(
+            small: CustomLoading(color: Theme.of(context).primaryColor),
+            large:
+            CustomLoading(color: Theme.of(context).primaryColor)))
+        : content;
   }
 }
