@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -620,7 +621,11 @@ class _SupabaseOnBoardingAndAuthPageState
         analyticsEvent: analyticsEvents,
         label: appLocalization.translate("demo"),
         onPressed: () {
-          launchWithURL(url: "www.demoo-timeblocking.web.app");
+          if(kIsWeb){
+            launchWithURL(url: "https://demoo-timeblocking.web.app/Schedule");
+          }else{
+            //TODO
+          }
         },
         type: CustomButtonType.primaryTextLabel);
   }

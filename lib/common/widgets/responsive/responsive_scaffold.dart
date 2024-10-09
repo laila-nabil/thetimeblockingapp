@@ -184,7 +184,6 @@ class ResponsiveScaffold extends Scaffold {
     isDarkMode: context.isDarkMode,
   );
 
-  ///TODO demo
   Widget signUpToUse(AuthBloc authBloc){
     if(serviceLocator<BackendMode>()== BackendMode.demo) {
       return true
@@ -196,11 +195,10 @@ class ResponsiveScaffold extends Scaffold {
           title: "${appLocalization.translate("signUpToUse")} ${appLocalization.translate("connectWithClickup")}",
           primaryCta: appLocalization.translate("signUpTo"),
           primaryCtaOnPressed: (){
-
             if (kIsWeb) {
-              launchWithURL(url: '');
+              launchWithURL(url: "https://timeblocking.web.app/Auth");
             } else if (Platform.isAndroid || Platform.isIOS) {
-              //
+              //TODO
             }
           },
         ),
