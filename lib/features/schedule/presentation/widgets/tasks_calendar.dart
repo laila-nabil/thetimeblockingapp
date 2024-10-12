@@ -51,9 +51,10 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
-      // monthViewSettings: const MonthViewSettings(
-      //   showAgenda: true,
-      // ),
+      monthViewSettings: const MonthViewSettings(
+        showAgenda: true,
+        numberOfWeeksInView: 5,
+      ),
       allowDragAndDrop: true,
       allowAppointmentResize: true,
       allowViewNavigation: true,
@@ -153,7 +154,7 @@ class TasksCalendar extends StatelessWidget {
             appFontWeight: AppFontWeight.thin))
       ),
       dragAndDropSettings: const DragAndDropSettings(
-        allowNavigation: false
+        allowNavigation: true
       ),
       onDragEnd: (details){
         final task = details.appointment as Task;

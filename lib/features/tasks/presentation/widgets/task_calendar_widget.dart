@@ -157,7 +157,8 @@ class _TaskCalendarWidget extends StatelessWidget {
       calendarView == CalendarView.schedule || bounds.width > 400;
 
   bool isDismissible(CalendarView? calendarView) =>
-      calendarView == CalendarView.schedule;
+      calendarView == CalendarView.schedule ||
+      calendarView == CalendarView.month;
 
   @override
   Widget build(BuildContext context) {
