@@ -9,29 +9,27 @@ import 'package:posthog_flutter/posthog_flutter.dart';
 
 
 class PostHogImpl implements Analytics {
-  late Posthog _instance;
+  Posthog? _instance;
 
   @override
   Future<void> initialize() async {
     try {
-      _instance = Posthog();
       if(serviceLocator<AppConfig>().env.isAnalyticsEnabled){
-        await _instance.enable();
-        await _instance.debug(serviceLocator<AppConfig>().env.isDebug);
+        _instance = Posthog();
+        printDebug("PostHogImpl initialize");
       }
-      printDebug("PostHogImpl initialize");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 
   @override
   Future<void> logAppOpen() async {
     try {
-      await _instance.capture(eventName: 'logAppOpen');
+      await _instance?.capture(eventName: 'logAppOpen');
       printDebug("PostHogImpl logAppOpen");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 
@@ -39,31 +37,31 @@ class PostHogImpl implements Analytics {
   Future<void> logEvent(String eventName,
       {Map<String, Object>? parameters}) async {
     try {
-      await _instance.capture(eventName: eventName,properties: parameters);
+      await _instance?.capture(eventName: eventName,properties: parameters);
       printDebug("PostHogImpl logEvent $eventName ${parameters.toString()}");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 
   @override
   Future<void> setCurrentScreen(String screenName) async {
     try {
-      await _instance.screen(
+      await _instance?.screen(
           screenName: serviceLocator<AppConfig>().isDemo? "demo/$screenName" : screenName);
       printDebug("PostHogImpl setCurrentScreen $screenName");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 
   @override
   Future<void> setUserId(User user) async {
     try {
-      await _instance.identify(userId: user.id??"",userProperties: {"email" : user.email??""});
+      await _instance?.identify(userId: user.id??"",userProperties: {"email" : user.email??""});
       printDebug("PostHogImpl setUserId ${user.id}");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 
@@ -73,10 +71,10 @@ class PostHogImpl implements Analytics {
   @override
   Future<void> resetUser() async{
     try {
-      await _instance.reset();
+      await _instance?.reset();
       printDebug("PostHogImpl reset UserId");
     } catch (e) {
-      printDebug(e);
+      printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
 }
