@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -240,7 +241,7 @@ class CustomButton extends StatelessWidget {
     onPressedWithAnalytics() {
       if (onPressed != null) {
         if (analyticsEvent != null) {
-          serviceLocator<Analytics>().logEvent(analyticsEvent!.name);
+          unawaited(serviceLocator<Analytics>().logEvent(analyticsEvent!.name));
         }
         onPressed!();
       }

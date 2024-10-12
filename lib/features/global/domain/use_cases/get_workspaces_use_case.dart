@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -19,18 +21,18 @@ class GetWorkspacesUseCase
       GetWorkspacesParams params) async {
     final result = await repo.getWorkspaces(params: params);
     await result.fold(
-        (l)async  =>  serviceLocator<Analytics>()
+        (l)async  =>  unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
               AnalyticsEventParameter.data.name: "workspaces",
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
-            }),
+            })),
         (r)async {
-          serviceLocator<Analytics>()
+          unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.getData.name, parameters: {
               AnalyticsEventParameter.data.name: "workspaces",
               AnalyticsEventParameter.status.name: true,
-            });
+            }));
           if (r.isEmpty) {
         final result = await repo.createWorkspace(
             params: CreateWorkspaceParams.defaultWorkspace(

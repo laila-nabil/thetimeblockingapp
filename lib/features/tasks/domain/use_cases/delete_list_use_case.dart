@@ -1,4 +1,6 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'dart:async';
+
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -16,15 +18,15 @@ class DeleteListUseCase
   Future<dartz.Either<Failure, dartz.Unit>?> call(DeleteListParams params) async {
     final result = await repo.deleteList(params);
     await result?.fold(
-            (l) async =>await serviceLocator<Analytics>()
+            (l) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.deleteList.name, parameters: {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        }),
-            (r) async =>await  serviceLocator<Analytics>()
+        })),
+            (r) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.deleteList.name, parameters: {
           AnalyticsEventParameter.status.name: true,
-        }));
+        })));
     return result;
   }
 }

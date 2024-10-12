@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
@@ -18,15 +20,15 @@ class DeleteAccountUseCase implements UseCase<dartz.Unit, DeleteAccountParams> {
   Future<dartz.Either<Failure, dartz.Unit>> call(DeleteAccountParams params) async {
     final result = await repo.deleteAccount(params);
     await result.fold(
-        (l) async => await serviceLocator<Analytics>()
+        (l) async => unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.deleteAccount.name, parameters: {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString()
-            }), (r) async {
-      await serviceLocator<Analytics>().logEvent(
+            })), (r) async {
+      unawaited(serviceLocator<Analytics>().logEvent(
           AnalyticsEvents.deleteAccount.name,
-          parameters: {AnalyticsEventParameter.status.name: true});
-      await serviceLocator<Analytics>().resetUser();
+          parameters: {AnalyticsEventParameter.status.name: true}));
+      unawaited(serviceLocator<Analytics>().resetUser());
     });
     return result;
   }

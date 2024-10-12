@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
@@ -20,15 +22,15 @@ class DeleteTagUseCase
       DeleteTagParams params) async {
     final result = await repo.deleteTag(params);
     await result?.fold(
-            (l) async =>await serviceLocator<Analytics>()
+            (l) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.deleteTag.name, parameters: {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        }),
-            (r) async =>await  serviceLocator<Analytics>()
+        })),
+            (r) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.deleteTag.name, parameters: {
           AnalyticsEventParameter.status.name: true,
-        }));
+        })));
     return result;
   }
 }

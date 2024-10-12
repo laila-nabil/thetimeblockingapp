@@ -1,4 +1,6 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'dart:async';
+
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
@@ -20,17 +22,17 @@ class GetTagsInWorkspaceUseCase
       GetTagsInWorkspaceParams params) async {
     final result = await repo.getTags(params: params);
     await result.fold(
-            (l) async => await serviceLocator<Analytics>()
+            (l) async => unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.getData.name, parameters: {
           AnalyticsEventParameter.data.name: "tags",
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        }),
-            (r) async => await serviceLocator<Analytics>()
+        })),
+            (r) async => unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.getData.name, parameters: {
           AnalyticsEventParameter.data.name: "tags",
           AnalyticsEventParameter.status.name: true,
-        }));
+        })));
     return result;
   }
 }

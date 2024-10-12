@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -71,15 +73,15 @@ class UpdateTaskUseCase implements UseCase<dartz.Unit, CreateTaskParams> {
     printDebug("updateTaskResult $updateTaskResult");
     printDebug("failures $failures");
     if (failures.isNotEmpty) {
-      await serviceLocator<Analytics>().logEvent(eventName, parameters: {
+      unawaited(serviceLocator<Analytics>().logEvent(eventName, parameters: {
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: failures.toString(),
-      });
+      }));
       return dartz.Left(FailuresList(failures: failures));
     }
-    await serviceLocator<Analytics>().logEvent(eventName, parameters: {
+    unawaited(serviceLocator<Analytics>().logEvent(eventName, parameters: {
       AnalyticsEventParameter.status.name: true,
-    });
+    }));
     return const dartz.Right(dartz.unit);
 
   }

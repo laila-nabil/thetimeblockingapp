@@ -1,4 +1,6 @@
-import 'package:dartz/dartz.dart' as dartz; 
+import 'dart:async';
+
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -18,15 +20,15 @@ class RemoveTagFromTaskUseCase
   Future<dartz.Either<Failure, dartz.Unit>?> call(RemoveTagFromTaskParams params) async {
     var result = await repo.removeTagFromTask(params: params);
     await result.fold(
-            (l) async => await serviceLocator<Analytics>()
+            (l) async => unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.removeTagToTask.name, parameters: {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        }),
-            (r) async => await serviceLocator<Analytics>()
+        })),
+            (r) async => unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.removeTagToTask.name, parameters: {
           AnalyticsEventParameter.status.name: true,
-        }));
+        })));
     return result;
   }
 }

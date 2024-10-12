@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
@@ -43,20 +45,20 @@ class MoveTaskBetweenListsUseCase
           task: task, ));
     }
     if (createResult?.isRight() == true && deleteResult?.isRight() == true) {
-      await serviceLocator<Analytics>()
+      unawaited(serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.moveTaskBetweenLists.name, parameters: {
         AnalyticsEventParameter.status.name: true,
-      });
+      }));
       return const dartz.Right(dartz.unit);
     } else {
       List<Failure> failures = [];
       createResult?.fold((l) => failures.add(l), (r) => null);
       deleteResult?.fold((l) => failures.add(l), (r) => null);
-      await serviceLocator<Analytics>()
+      unawaited(serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.moveTaskBetweenLists.name, parameters: {
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: failures.toString(),
-      });
+      }));
       return dartz.Left(FailuresList(failures: failures));
     }
   }

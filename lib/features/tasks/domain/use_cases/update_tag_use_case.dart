@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
@@ -26,24 +28,24 @@ class UpdateTagUseCase
   Future<dartz.Either<Failure, dartz.Unit>?> call(
       UpdateTagParams params) async{
     if(readyToSubmit(params.newTag) == false){
-      await serviceLocator<Analytics>()
+      unawaited(serviceLocator<Analytics>()
           .logEvent(AnalyticsEvents.updateTag.name, parameters: {
         AnalyticsEventParameter.status.name: false,
         AnalyticsEventParameter.error.name: "must not contain ? at the end",
-      });
+      }));
       return const dartz.Left(InputFailure(message: "must not contain ? at the end"));
     }
     final result = await repo.updateTag(params);
     await result?.fold(
-            (l) async =>await serviceLocator<Analytics>()
+            (l) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.updateTag.name, parameters: {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        }),
-            (r) async =>await  serviceLocator<Analytics>()
+        })),
+            (r) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.updateTag.name, parameters: {
           AnalyticsEventParameter.status.name: true,
-        }));
+        })));
     return result;
   }
 }

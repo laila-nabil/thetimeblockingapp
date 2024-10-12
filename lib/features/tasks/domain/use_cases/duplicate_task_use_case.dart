@@ -24,11 +24,11 @@ class DuplicateTaskUseCase {
       int workspaceId) async {
     final result = await repo.createTaskInList(params);
     await result?.fold(
-        (l) async =>await  serviceLocator<Analytics>()
+        (l) async =>unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.duplicateTask.name, parameters: {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
-            }),
+            })),
         (r) async {
           final newTasks = await repo.getTasksInWorkspace(
               params: GetTasksInWorkspaceParams(

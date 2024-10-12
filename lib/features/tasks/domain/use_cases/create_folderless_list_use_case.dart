@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart' as dartz; 
@@ -22,15 +23,15 @@ class CreateFolderlessListUseCase
       CreateFolderlessListParams params) async {
     final result = await repo.createFolderlessList(params);
     await result?.fold(
-        (l) async => await serviceLocator<Analytics>()
+        (l) async => unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.createList.name, parameters: {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
-            }),
-        (r) async => await serviceLocator<Analytics>()
+            })),
+        (r) async => unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.createList.name, parameters: {
               AnalyticsEventParameter.status.name: true,
-            }));
+            })));
     return result;
   }
 }

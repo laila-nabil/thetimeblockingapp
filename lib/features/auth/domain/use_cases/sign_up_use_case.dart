@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
@@ -18,15 +20,15 @@ class SignUpUseCase implements UseCase<SignUpResult, SignUpParams> {
   Future<dartz.Either<Failure, SignUpResult>?> call(SignUpParams params) async {
     final result = await repo.signUp(params: params);
     await result.fold(
-        (l) async => await serviceLocator<Analytics>()
+        (l) async => unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.signUp.name, parameters: {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
-            }),
-        (r) async => await serviceLocator<Analytics>()
+            })),
+        (r) async => unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.signUp.name, parameters: {
               AnalyticsEventParameter.status.name: true,
-            }));
+            })));
     return result;
   }
 }

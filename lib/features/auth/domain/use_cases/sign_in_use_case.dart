@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
 import 'package:sentry/sentry.dart';
@@ -21,11 +23,11 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
     await result.fold(
         (l) async {
           if (l is! EmptyCacheFailure) {
-        await serviceLocator<Analytics>()
+        unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.signIn.name, parameters: {
           AnalyticsEventParameter.status.name: false,
           AnalyticsEventParameter.error.name: l.toString(),
-        });
+        }));
       }
     },
         (r) async {
@@ -33,12 +35,12 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
         (scope) =>
             scope.setUser(SentryUser(id: r.user.id, email: r.user.email)),
       );
-          await serviceLocator<Analytics>()
+          unawaited(serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.signIn.name, parameters: {
               AnalyticsEventParameter.status.name: true,
-            });
-          await serviceLocator<Analytics>()
-                .setUserId(r.user);
+            }));
+          unawaited(serviceLocator<Analytics>()
+                .setUserId(r.user));
         });
     return result;
   }

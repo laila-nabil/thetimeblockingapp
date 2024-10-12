@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 
@@ -10,10 +12,10 @@ class ChangeLanguageUseCase {
   ChangeLanguageUseCase(this.localization);
 
   Future<void> call(ChangeLanguageParams params) {
-    serviceLocator<Analytics>().logEvent(AnalyticsEvents.changeLanguage.name,
+    unawaited(serviceLocator<Analytics>().logEvent(AnalyticsEvents.changeLanguage.name,
         parameters: {
           AnalyticsEventParameter.language.name: params.locale.languageCode
-        });
+        }));
 
     return localization.setLocale(params.context, params.locale);
   }
