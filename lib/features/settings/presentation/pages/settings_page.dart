@@ -190,11 +190,29 @@ class SettingsPage extends StatelessWidget {
                     child: CustomButton.noIcon(
                       label: appLocalization.translate("signOut"),
                       onPressed: () {
-                        authBloc.add(SignOutEvent(BlocProvider.of<AuthBloc>(context)
-                            .state
-                            .accessToken));
+                        showDialog<bool>(context: context, builder: (context){
+                          return CustomAlertDialog(
+                            loading: false,
+                            actions: [
+                              CustomButton.noIcon(
+                                  label: appLocalization.translate("signOut"),
+                                  onPressed: () {
+                                    authBloc.add(SignOutEvent(BlocProvider.of<AuthBloc>(context)
+                                        .state
+                                        .accessToken));
+                                  },type: CustomButtonType.destructiveFilledLabel),
+                              CustomButton.noIcon(
+                                  label: appLocalization.translate("cancel"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                            content: Text(
+                                appLocalization.translate("areYouSureSignOut")),
+                          );
+                        });
                       },
-                      type: CustomButtonType.destructiveFilledLabel,
+                      type: CustomButtonType.greyTextLabel,
                     ),
                   ),
                   Padding(
