@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'error/exception_to_failure.dart';
@@ -23,8 +26,9 @@ Future<dartz.Either<Failure, T>> repoHandleRemoteRequest<T>({
     } else {
       result = await remoteDataSourceRequest();
     }
-  } catch (error) {
+  } catch (error,stacktrace) {
     printDebug(error, printLevel: PrintLevel.error);
+    unawaited(Sentry.captureException(error,stackTrace: stacktrace));
     if (error is Exception) {
       return dartz.Left(exceptionToFailure(error));
     }

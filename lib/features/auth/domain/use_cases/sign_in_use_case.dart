@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:equatable/equatable.dart';
+import 'package:sentry/sentry.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -23,10 +24,16 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
               AnalyticsEventParameter.status.name: false,
               AnalyticsEventParameter.error.name: l.toString(),
             }),
-        (r) async => await serviceLocator<Analytics>()
+        (r) async {
+          Sentry.configureScope(
+        (scope) =>
+            scope.setUser(SentryUser(id: r.user.id, email: r.user.email)),
+      );
+          await serviceLocator<Analytics>()
                 .logEvent(AnalyticsEvents.signIn.name, parameters: {
               AnalyticsEventParameter.status.name: true,
-            }));
+            });
+        });
     return result;
   }
 }
