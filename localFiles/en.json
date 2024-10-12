@@ -99,5 +99,16 @@
   "areYouSureDeleteYourAccount" : "Are you sure you want to delete your account?\n this action is irreversible",
   "madeWithLoveBy" : "Made with ❤️ by",
   "lailaNabil" : "Laila Nabil",
-  "inCairoEgypt" : "in Cairo, Egypt"
+  "inCairoEgypt" : "in Cairo, Egypt",
+  "requestFeature": "Request a new feature",
+  "featureRequest": "Feature request",
+  "featureDetails": "Feature details",
+  "reportIssue": "Report an issue",
+  "issueDetails": "Issue details",
+  "issue": "Issue",
+  "send" : "Send",
+  "somethingWentWrong": "Something went wrong",
+  "issueSentSuccessfully": "Issue is sent successfully",
+  "featureRequestSentSuccessfully": "Feature request is sent successfully"
+
 }

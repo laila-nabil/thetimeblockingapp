@@ -22,4 +22,21 @@ class ChangeThemeEvent extends SettingsEvent {
   List<Object?> get props => [themeMode];
 }
 
+class RequestFeatureEvent extends SettingsEvent{
+  final RequestFeatureParams params;
+
+  RequestFeatureEvent(this.params);
+
+  @override
+  List<Object?> get props => [params];
+}
+
+class ReportIssueEvent extends SettingsEvent{
+  final ReportIssueParams params;
+
+  ReportIssueEvent(this.params);
+
+  @override
+  List<Object?> get props => [params];
+}
 

@@ -44,7 +44,7 @@ class CustomDrawer extends StatelessWidget {
                 showSmallDesign: showSmallDesign,
                 router: GoRouter.of(context),
                 selectWorkspace: (selected) {
-                  if (selected is Workspace && state.isLoading == false) {
+                  if (selected is Workspace && state.settingsStateEnum == false) {
                     globalBloc.add(GetAllInWorkspaceEvent(
                         workspace: selected,
                         user: BlocProvider.of<AuthBloc>(context).state.user!));

@@ -10,6 +10,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/shared_preferences_local_data_source.dart';
 import 'package:thetimeblockingapp/core/network/network_http.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
@@ -58,7 +59,7 @@ class WidgetBookApp extends StatelessWidget {
         return MultiBlocProvider(providers: [
           BlocProvider(
             create: (context) => SettingsBloc(
-              ChangeLanguageUseCase(appLocalization),
+              ChangeLanguageUseCase(appLocalization),serviceLocator(),serviceLocator()
             ),
           ),
           BlocProvider(

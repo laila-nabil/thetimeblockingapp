@@ -99,5 +99,15 @@
   "areYouSureDeleteYourAccount" : "هل أنت متأكد أنك تريد حذف حسابك؟\nهذا الإجراء لا رجعة فيه",
   "madeWithLoveBy" : "Made with ❤️ by",
   "lailaNabil" : "Laila Nabil",
-  "inCairoEgypt" : "in Cairo, Egypt"
+  "inCairoEgypt" : "in Cairo, Egypt",
+  "requestFeature": "اطلب ميزة جديدة",
+  "featureRequest": "طلب ميزة",
+  "featureDetails": "تفاصيل الميزة",
+  "reportIssue": "الإبلاغ عن مشكلة",
+  "issueDetails": "تفاصيل المشكلة",
+  "issue": "مشكلة",
+  "send" : "ارسل",
+  "somethingWentWrong": "حدث خطأ ما",
+  "issueSentSuccessfully": "تم إرسال المشكلة بنجاح",
+  "featureRequestSentSuccessfully": "تم إرسال طلب الميزة بنجاح"
 }

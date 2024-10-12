@@ -20,6 +20,7 @@ import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_
 import 'package:thetimeblockingapp/features/settings/domain/repositories/settings_repo.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/delete_account_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/request_feature_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
@@ -44,6 +45,7 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../features/settings/data/repositories/settings_repo_impl.dart';
+import '../features/settings/domain/use_cases/report_issue_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
@@ -155,7 +157,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerFactory(() => SettingsBloc(
-        serviceLocator(),
+        serviceLocator(),serviceLocator(),serviceLocator()
       ));
 
   /// UseCases
@@ -259,6 +261,10 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => SignUpUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => DeleteAccountUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => RequestFeatureUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => ReportIssueUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(

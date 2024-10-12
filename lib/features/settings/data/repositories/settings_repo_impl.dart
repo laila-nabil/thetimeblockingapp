@@ -8,6 +8,8 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/delete_works
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/settings/domain/repositories/settings_repo.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/report_issue_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/request_feature_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote_data_source.dart';
 
 import '../../../../core/repo_handler.dart';
@@ -20,5 +22,21 @@ class SettingsRepoImpl implements SettingsRepo {
 
   SettingsRepoImpl(this.settingsRemoteDataSource, this.globalRemoteDataSource,
       this.authLocalDataSource);
+
+  @override
+  Future<Either<Failure, Unit>> requestFeature(RequestFeatureParams params) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () async =>
+      await settingsRemoteDataSource.requestFeature(params: params),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> reportIssue(ReportIssueParams params) {
+    return repoHandleRemoteRequest(
+      remoteDataSourceRequest: () async =>
+      await settingsRemoteDataSource.reportIssue(params: params),
+    );
+  }
 
 }

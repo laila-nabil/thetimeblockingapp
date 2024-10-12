@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drop_down.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
@@ -17,6 +18,8 @@ import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc
 import 'package:thetimeblockingapp/features/privacy_policy/privacy_policy_page.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/delete_account_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/widgets/report_issue.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/widgets/request_feature.dart';
 
 
 import '../../../../core/launch_url.dart';
@@ -49,7 +52,43 @@ class SettingsPage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return BlocBuilder<SettingsBloc, SettingsState>(
+        return BlocConsumer<SettingsBloc, SettingsState>(
+          listener: (context, state) {
+            if(state.settingsStateEnum == SettingsStateEnum.reportIssueSuccess){
+              showCustomAlert(
+                  context: context,
+                  customAlertType: CustomAlertType.success,
+                  customAlertThemeType: CustomAlertThemeType.filled,
+                  title: appLocalization.translate("issueSentSuccessfully"));
+            }
+            if(state.settingsStateEnum == SettingsStateEnum.requestFeatureSuccess){
+              showCustomAlert(
+                  context: context,
+                  customAlertType: CustomAlertType.success,
+                  customAlertThemeType: CustomAlertThemeType.filled,
+                  title: appLocalization.translate("featureRequestSentSuccessfully"));
+            }
+            if (state.settingsStateEnum ==
+                    SettingsStateEnum.requestFeatureFailed &&
+                state.requestFeatureFailure != null) {
+              showCustomAlert(
+                  context: context,
+                  customAlertType: CustomAlertType.error,
+                  customAlertThemeType: CustomAlertThemeType.filled,
+                  title: state.requestFeatureFailure?.message ??
+                      appLocalization.translate("somethingWentWrong"));
+            }
+            if (state.settingsStateEnum ==
+                SettingsStateEnum.reportIssueFailed &&
+                state.reportIssueFailure != null) {
+              showCustomAlert(
+                  context: context,
+                  customAlertType: CustomAlertType.error,
+                  customAlertThemeType: CustomAlertThemeType.filled,
+                  title: state.reportIssueFailure?.message ??
+                      appLocalization.translate("somethingWentWrong"));
+            }
+          },
           builder: (context, state) {
         final bloc = BlocProvider.of<SettingsBloc>(context);
         final authBloc = BlocProvider.of<AuthBloc>(context);
@@ -188,6 +227,30 @@ class SettingsPage extends StatelessWidget {
                       top: AppSpacing.medium16.value,
                     ),
                     child: CustomButton.noIcon(
+                      label: appLocalization.translate("requestFeature"),
+                      onPressed: () {
+                        showRequestFeatureDialog(context);
+                      },
+                      type: CustomButtonType.greyTextLabel,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.medium16.value,
+                    ),
+                    child: CustomButton.noIcon(
+                      label: appLocalization.translate("reportIssue"),
+                      onPressed: () {
+                        showReportIssueDialog(context);
+                      },
+                      type: CustomButtonType.greyTextLabel,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.medium16.value,
+                    ),
+                    child: CustomButton.noIcon(
                       label: appLocalization.translate("signOut"),
                       onPressed: () {
                         showDialog<bool>(context: context, builder: (context){
@@ -308,7 +371,7 @@ class SettingsPage extends StatelessWidget {
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.overlayLoading,
-                    isLoading: state.isLoading),
+                    isLoading: state.settingsStateEnum == SettingsStateEnum.loading),
                 onRefresh: () async {});
       },
     );
