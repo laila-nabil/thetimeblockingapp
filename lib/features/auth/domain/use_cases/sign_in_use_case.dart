@@ -19,11 +19,15 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
   Future<dartz.Either<Failure, SignInResult>?> call(SignInParams params) async {
     final result = await repo.signIn(params: params);
     await result.fold(
-        (l) async => await serviceLocator<Analytics>()
-                .logEvent(AnalyticsEvents.signIn.name, parameters: {
-              AnalyticsEventParameter.status.name: false,
-              AnalyticsEventParameter.error.name: l.toString(),
-            }),
+        (l) async {
+          if (l is! EmptyCacheFailure) {
+        await serviceLocator<Analytics>()
+            .logEvent(AnalyticsEvents.signIn.name, parameters: {
+          AnalyticsEventParameter.status.name: false,
+          AnalyticsEventParameter.error.name: l.toString(),
+        });
+      }
+    },
         (r) async {
           Sentry.configureScope(
         (scope) =>
