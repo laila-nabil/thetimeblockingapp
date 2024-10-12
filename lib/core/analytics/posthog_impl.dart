@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
+import '../../common/entities/user.dart';
 import '../environment.dart';
 import 'analytics.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
@@ -57,10 +58,10 @@ class PostHogImpl implements Analytics {
   }
 
   @override
-  Future<void> setUserId(String userId) async {
+  Future<void> setUserId(User user) async {
     try {
-      await _instance.identify(userId: userId);
-      printDebug("PostHogImpl setUserId $userId");
+      await _instance.identify(userId: user.id??"",userProperties: {"email" : user.email??""});
+      printDebug("PostHogImpl setUserId ${user.id}");
     } catch (e) {
       printDebug(e);
     }

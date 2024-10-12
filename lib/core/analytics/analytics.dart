@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:thetimeblockingapp/common/entities/user.dart';
 
 enum AnalyticsEvents {
   onBoardingStep1SignInSupabase,
@@ -51,7 +52,7 @@ abstract class Analytics {
 
   Future<void> setCurrentScreen(String screenName);
 
-  Future<void> setUserId(String userId);
+  Future<void> setUserId(User user);
 
   Future<void> resetUser();
 

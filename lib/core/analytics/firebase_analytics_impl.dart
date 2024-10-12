@@ -4,6 +4,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:thetimeblockingapp/firebase_options.dart';
 
+import '../../common/entities/user.dart';
 import '../environment.dart';
 import '../injection_container.dart';
 import 'analytics.dart';
@@ -61,10 +62,10 @@ class FirebaseAnalyticsImpl implements Analytics {
   }
 
   @override
-  Future<void> setUserId(String userId) async {
+  Future<void> setUserId(User user) async {
     try {
-      await _instance.setUserId(id: userId);
-      printDebug("FirebaseAnalyticsImpl setUserId $userId");
+      await _instance.setUserId(id: user.id);
+      printDebug("FirebaseAnalyticsImpl setUserId ${user.id}");
     } catch (e) {
       printDebug(e);
     }

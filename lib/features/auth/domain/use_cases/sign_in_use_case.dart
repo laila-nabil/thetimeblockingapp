@@ -37,6 +37,8 @@ class SignInUseCase implements UseCase<SignInResult, SignInParams> {
                 .logEvent(AnalyticsEvents.signIn.name, parameters: {
               AnalyticsEventParameter.status.name: true,
             });
+          await serviceLocator<Analytics>()
+                .setUserId(r.user);
         });
     return result;
   }
