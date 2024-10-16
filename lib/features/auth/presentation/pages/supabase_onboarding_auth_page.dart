@@ -709,6 +709,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         url:
                         "https://timeblocking.web.app/${TermsConditionsPage
                             .routeName}");
+                    // context.go(TermsConditionsPage.routeName);
                   },
               ),
               TextSpan(text: " ${appLocalization.translate("and")} "),
@@ -721,6 +722,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         url:
                         "https://timeblocking.web.app/${PrivacyPolicyPage
                             .routeName}");
+                    // context.go(PrivacyPolicyPage.routeName);
                   },
               ),
               TextSpan(

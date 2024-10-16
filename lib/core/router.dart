@@ -51,7 +51,9 @@ final router = GoRouter(
       printDebug(
           "redirectAfterAuthRouteName ${serviceLocator<AppConfig>().redirectAfterAuthRouteName}");
       printDebug("state?.uri ${state?.uri}");
-      if (BlocProvider.of<AuthBloc>(context).state.user == null) {
+      if (state?.uri.toString() != TermsConditionsPage.routeName &&
+          state?.uri.toString() != PrivacyPolicyPage.routeName &&
+          BlocProvider.of<AuthBloc>(context).state.user == null) {
         if (state?.uri.toString() != SupabaseOnBoardingAndAuthPage.routeName) {
           printDebug(
               "state in redirect before authpage name:${state?.name},location:${state?.uri},extra:${state?.extra},fullPath:${state?.fullPath},matchedLocation:${state?.matchedLocation},pageKey:${state?.pageKey},pathParameters:${state?.pathParameters}");
