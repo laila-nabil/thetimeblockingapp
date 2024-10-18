@@ -58,7 +58,7 @@ class PostHogImpl implements Analytics {
   @override
   Future<void> setUserId(User user) async {
     try {
-      await _instance?.identify(userId: user.id??"",userProperties: {"email" : user.email??""});
+      await _instance?.identify(userId: user.id??"");
       printDebug("PostHogImpl setUserId ${user.id}");
     } catch (e) {
       printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
