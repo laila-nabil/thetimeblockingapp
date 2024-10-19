@@ -1,3 +1,4 @@
+/*
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -91,4 +92,4 @@ class FirebaseAnalyticsObserver extends NavigatorObserver {
     serviceLocator<Analytics>().setCurrentScreen(
         "${route.settings.name}/${route.settings.arguments}");
   }
-}
+}*/
