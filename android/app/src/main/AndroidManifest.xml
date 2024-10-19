@@ -9,7 +9,7 @@
         </intent>
     </queries>
    <application
-        android:label="thetimeblockingapp"
+        android:label="Time blocking"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
