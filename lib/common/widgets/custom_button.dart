@@ -66,7 +66,7 @@ extension CustomButtonTypeExt on CustomButtonType {
   bool get hasIcon => name.toLowerCase().contains("icon");
 }
 
-enum CustomButtonSize { small, large, xlarge }
+enum CustomButtonSize { xSmall ,small, large, xlarge }
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
@@ -247,18 +247,76 @@ class CustomButton extends StatelessWidget {
       }
     }
 
-    final isSmall = size == CustomButtonSize.small;
-    final double buttonHeight = isSmall ? 36 : 56;
+    double buttonHeight (){
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return 22;
+        case CustomButtonSize.small:
+          return 36;
+        case CustomButtonSize.large:
+          return 56;
+        case CustomButtonSize.xlarge:
+          return 56;
+      }
+    }
+    double iconSize() {
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return 15;
+        case CustomButtonSize.small:
+          return 15;
+        case CustomButtonSize.large:
+          return 18;
+        case CustomButtonSize.xlarge:
+          return 18;
+      }
+    }
+
+    AppFontSize fontSize() {
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return AppFontSize.paragraphX2Small;
+        case CustomButtonSize.small:
+          return AppFontSize.paragraphSmall;
+        case CustomButtonSize.large:
+          return AppFontSize.paragraphMedium;
+        case CustomButtonSize.xlarge:
+          return AppFontSize.paragraphMedium;
+      }
+    }
     final notOnlyLabel = type.hasIcon || child != null;
     final borderRadius = BorderRadius.circular(6);
-    final verticalFilledOutlinedVerticalPadding = isSmall ? 8.0 : 16.0;
+    double horizontalPadding(bool notOnlyLabel) {
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return (notOnlyLabel ? 6 : 10);
+        case CustomButtonSize.small:
+          return (notOnlyLabel ? 12 : 16);
+        case CustomButtonSize.large:
+          return (notOnlyLabel ? 16 : 24);
+        case CustomButtonSize.xlarge:
+          return (notOnlyLabel ? 16 : 24);
+      }
+    }
+    double verticalFilledOutlinedVerticalPadding (){
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return 8;
+        case CustomButtonSize.small:
+          return 8;
+        case CustomButtonSize.large:
+          return 16;
+        case CustomButtonSize.xlarge:
+          return 16;
+      }
+    }
     final filledButtonBackgroundColor = type.isPrimary
         ? AppColors.primary(context.isDarkMode).shade500
         : type.isGrey
             ? AppColors.grey(context.isDarkMode).shade500
             : AppColors.error(context.isDarkMode).shade500;
     final filledButtonStyle = ButtonStyle(
-        fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
+        fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight())),
         backgroundColor: WidgetStateProperty.resolveWith<Color>(
             (Set<WidgetState> states) {
           if (states.contains(WidgetState.focused) ||
@@ -292,19 +350,15 @@ class CustomButton extends StatelessWidget {
         }),
         padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return EdgeInsets.symmetric(
-              vertical: verticalFilledOutlinedVerticalPadding,
-              horizontal: isSmall
-                  ? (notOnlyLabel ? 12 : 16)
-                  : (notOnlyLabel ? 16 : 24));
+              vertical: verticalFilledOutlinedVerticalPadding(),
+              horizontal: horizontalPadding(notOnlyLabel));
         }),
         textStyle:
             WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return AppTextStyle.getTextStyle(AppTextStyleParams(
               color: AppColors.white(context.isDarkMode),
               appFontWeight: AppFontWeight.semiBold,
-              appFontSize: isSmall
-                  ? AppFontSize.paragraphSmall
-                  : AppFontSize.paragraphMedium,));
+              appFontSize: fontSize(),));
         }));
 
     Color outlinedButtonBorderColor(Set<WidgetState> states) =>
@@ -332,7 +386,7 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade700
             : AppColors.error(context.isDarkMode).shade400;
     final outlinedButtonStyle = ButtonStyle(
-      fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight)),
+      fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight())),
       side: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return BorderSide(
             color: outlinedButtonBorderColor(states),
@@ -369,17 +423,15 @@ class CustomButton extends StatelessWidget {
       }),
       padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return EdgeInsets.symmetric(
-            vertical: verticalFilledOutlinedVerticalPadding,
+            vertical: verticalFilledOutlinedVerticalPadding(),
             horizontal:
-                isSmall ? (notOnlyLabel ? 12 : 16) : (notOnlyLabel ? 16 : 24));
+                horizontalPadding(notOnlyLabel));
       }),
       textStyle: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
             color: AppColors.white(context.isDarkMode),
             appFontWeight: AppFontWeight.semiBold,
-            appFontSize: isSmall
-                ? AppFontSize.paragraphSmall
-                : AppFontSize.paragraphMedium,));
+            appFontSize: fontSize(),));
       }),
     );
     final labelWidget = Text(
@@ -388,12 +440,12 @@ class CustomButton extends StatelessWidget {
     final iconWidget = icon?.fold(
             (l) => Image.asset(
                   l,
-                  width: isSmall ? 15 : 18,
+                  width: iconSize(),
                   fit: BoxFit.fitWidth,
                 ),
             (r) => Icon(
                   r,
-                  size: isSmall ? 15 : 18,
+                  size: iconSize(),
                 )) ??
         Container();
     Widget filledLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
@@ -467,7 +519,7 @@ class CustomButton extends StatelessWidget {
             alignment: Alignment.center,
             color: AppColors.white(context.isDarkMode),
             disabledColor: AppColors.white(context.isDarkMode),
-            padding: EdgeInsets.all(verticalFilledOutlinedVerticalPadding),
+            padding: EdgeInsets.all(verticalFilledOutlinedVerticalPadding()),
             icon: iconWidget,
           ),
         ),
@@ -511,8 +563,8 @@ class CustomButton extends StatelessWidget {
           ),
         );
     final outlinedIconButton = SizedBox(
-      width: buttonHeight,
-      height: buttonHeight,
+      width: buttonHeight(),
+      height: buttonHeight(),
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
@@ -522,7 +574,7 @@ class CustomButton extends StatelessWidget {
               alignment: Alignment.center,
               padding: const WidgetStatePropertyAll(EdgeInsets.zero),
               fixedSize:
-                  WidgetStatePropertyAll(Size(buttonHeight, buttonHeight))),
+                  WidgetStatePropertyAll(Size(buttonHeight(), buttonHeight()))),
           child: iconWidget,
         ),
       ),
@@ -551,19 +603,25 @@ class CustomButton extends StatelessWidget {
     final textButtonStyle = ButtonStyle(
       textStyle: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return AppTextStyle.getTextStyle(AppTextStyleParams(
-            appFontSize: isSmall
-                ? AppFontSize.paragraphSmall
-                : AppFontSize.paragraphMedium,
+            appFontSize: fontSize(),
             color: textForegroundColor(states),
             appFontWeight: AppFontWeight.semiBold,));
       }),
       foregroundColor: WidgetStateProperty.resolveWith(
           (Set<WidgetState> states) => textForegroundColor(states)),
       padding: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
-        return isSmall
-            ? EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16))
-            : EdgeInsets.zero;
+        switch (size) {
+          case CustomButtonSize.xSmall:
+            return EdgeInsets.symmetric(
+                vertical: 8.0, horizontal: (notOnlyLabel ? 8 : 10));
+          case CustomButtonSize.small:
+            return EdgeInsets.symmetric(
+                vertical: 8.0, horizontal: (notOnlyLabel ? 12 : 16));
+          case CustomButtonSize.large:
+            return EdgeInsets.zero;
+          case CustomButtonSize.xlarge:
+            return EdgeInsets.zero;
+        }
       }),
     );
     Widget textLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
@@ -596,8 +654,8 @@ class CustomButton extends StatelessWidget {
           label: labelWidget,
         ));
     final textIconButton = SizedBox(
-      width: buttonHeight,
-      height: buttonHeight,
+      width: buttonHeight(),
+      height: buttonHeight(),
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
@@ -612,8 +670,8 @@ class CustomButton extends StatelessWidget {
       ),
     );
     final iconMinPaddingButton = SizedBox(
-      width: isSmall ? 15 : 18,
-      height: isSmall ? 15 : 18,
+      width: iconSize(),
+      height: iconSize(),
       child: CustomToolTip(
         message: tooltip,
         child: IconButton(
@@ -624,7 +682,7 @@ class CustomButton extends StatelessWidget {
             alignment: Alignment.center,
             padding: const WidgetStatePropertyAll(EdgeInsets.zero),
           ),
-          iconSize: isSmall ? 15 : 18,
+          iconSize: iconSize(),
           icon: iconWidget,
         ),
       ),
@@ -726,4 +784,4 @@ class CustomButton extends StatelessWidget {
             child == null ? dartz.Right(label ?? "") : dartz.Left(child ?? Container()));
     }
   }
-}
+  }

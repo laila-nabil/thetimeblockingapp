@@ -24,8 +24,10 @@ import 'package:thetimeblockingapp/features/trash/presentation/pages/trash_page.
 import '../../core/launch_url.dart';
 import '../../core/resources/app_icons.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/widgets/supabase_auth_widget.dart';
 import '../../features/global/presentation/bloc/global_bloc.dart';
 import '../entities/workspace.dart';
+import 'custom_alert_widget.dart';
 
 ///TODO in desktop,show folders and list as sub to Lists
 
@@ -158,7 +160,6 @@ class CustomDrawerWidget extends StatelessWidget {
                     context.go(TrashPage.routeName);
                   },
                   isSelected: location.contains(TrashPage.routeName) == true),
-
             _DrawerItem(
                 title: appLocalization.translate("Settings"),
                 iconPath: (isSelected) =>

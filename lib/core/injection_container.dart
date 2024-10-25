@@ -11,6 +11,8 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/response_interceptor.dart';
 import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc.dart';
 import 'package:thetimeblockingapp/features/auth/domain/repositories/auth_repo.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_demo_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/data/repositories/global_repo_impl.dart';
@@ -111,6 +113,7 @@ void _initServiceLocator({required Network network}) {
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(
       serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()
+      ,serviceLocator(),serviceLocator()
 ));
   serviceLocator.registerFactory(() => ScheduleBloc(
         serviceLocator(),
@@ -259,6 +262,10 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => SignInUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => SignUpUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => SignUpAnonymouslyUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => UpdateUserUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => DeleteAccountUseCase(serviceLocator()));
 

@@ -109,5 +109,8 @@
   "send" : "ارسل",
   "somethingWentWrong": "حدث خطأ ما",
   "issueSentSuccessfully": "تم إرسال المشكلة بنجاح",
-  "featureRequestSentSuccessfully": "تم إرسال طلب الميزة بنجاح"
+  "featureRequestSentSuccessfully": "تم إرسال طلب الميزة بنجاح",
+  "continueAsAGuest" : "أكمل كضيف",
+  "createAnAccountToAccessYourDataFromAnyDevice": "قم بإنشاء حساب للوصول إلى بياناتك من أي جهاز"
+
 }

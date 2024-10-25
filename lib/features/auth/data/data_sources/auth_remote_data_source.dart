@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/core/network/network.dart';
 import 'package:thetimeblockingapp/core/network/supabase_header.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/auth/data/models/sign_up_anonymously_result_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 import '../../../../common/models/access_token_model.dart';
 import '../../../../core/response_interceptor.dart';
 import '../models/sign_in_result_model.dart';
@@ -25,6 +29,10 @@ abstract class AuthRemoteDataSource {
       {required String refreshToken, required AccessToken accessToken});
 
   Future< dartz.Unit> deleteAccount();
+
+  Future<SignUpAnonymouslyResultModel> signUpAnonymouslySupabase({required SignUpAnonymouslyParams params});
+
+  Future<SupabaseUserModel> updateUser({required UpdateUserParams params});
 
 }
 
@@ -75,7 +83,7 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<SignUpResultModel> signUpSupabase({required SignUpParams params}) async {
     final result = await network.post(
         headers: supabaseHeader(
-            accessToken: const AccessTokenModel(accessToken: "", tokenType: ""),
+            accessToken: params.accessToken,
             apiKey: key),
         uri: Uri.parse("$url/auth/v1/signup"),
         body: {"email": params.email, "password": params.password});
@@ -106,5 +114,28 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           uri: Uri.parse("$url/rest/v1/rpc/delete_user_account"),));
     printDebug("deleteAccount api result $result");
     return dartz.unit;
+  }
+
+  @override
+  Future<SignUpAnonymouslyResultModel> signUpAnonymouslySupabase(
+      {required SignUpAnonymouslyParams params}) async {
+    final result = await network.post(
+        headers: supabaseHeader(
+            accessToken: const AccessTokenModel(accessToken: "", tokenType: ""),
+            apiKey: key),
+        uri: Uri.parse("$url/auth/v1/signup"),
+        body: {});
+    return SignUpAnonymouslyResultModel.fromJson(json.decode(result.body));
+  }
+
+  @override
+  Future<SupabaseUserModel> updateUser({required UpdateUserParams params}) async {
+    final result = await network.put(
+        headers: supabaseHeader(
+            accessToken: params.accessToken,
+            apiKey: key),
+        uri: Uri.parse("$url/auth/v1/user"),
+        body: params.toMap());
+    return SupabaseUserModel.fromJson(json.decode(result.body));
   }
 }

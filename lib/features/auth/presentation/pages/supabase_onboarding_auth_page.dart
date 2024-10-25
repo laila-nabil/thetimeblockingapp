@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../schedule/presentation/pages/schedule_page.dart';
@@ -253,7 +254,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                             ),
                                           ],
                                         ),
-                                        demoButton(
+                                        tryAppButton(
                                           AnalyticsEvents.onBoardingStep1Demo,
                                         ),
                                       ],
@@ -335,7 +336,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    demoButton(
+                                    tryAppButton(
                                       AnalyticsEvents.onBoardingStep1Demo,
                                     ),
                                     Container(
@@ -451,7 +452,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                           ),
                                           Wrap(
                                             children: [
-                                              demoButton(
+                                              tryAppButton(
                                                   AnalyticsEvents.onBoardingStep2Demo),
                                             ],
                                           ),
@@ -541,7 +542,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                               ),
                                               Row(
                                                 children: [
-                                                  demoButton(
+                                                  tryAppButton(
                                                       AnalyticsEvents
                                                           .onBoardingStep2Demo),
                                                 ],
@@ -612,16 +613,13 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
     );
   }
 
-  Widget demoButton(AnalyticsEvents analyticsEvents) {
-    if(true){
-      return Container();
-    }
+  Widget tryAppButton(AnalyticsEvents analyticsEvents) {
     return CustomButton.noIcon(
         analyticsEvent: analyticsEvents,
-        label: appLocalization.translate("demo"),
+        label: appLocalization.translate("continueAsAGuest"),
         onPressed: () {
-          final url = _demoUrl;
-          launchWithURL(url: url);
+          BlocProvider.of<AuthBloc>(context).add(SignUpAnonymouslyEvent(
+              SignUpAnonymouslyParams(captchaToken: null)));
         },
         type: CustomButtonType.primaryTextLabel);
   }

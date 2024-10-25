@@ -38,7 +38,7 @@ enum AnalyticsEvents {
   addTagToTask,
   removeTagToTask,
   signIn,
-  signUp, deleteAccount, requestFeature, reportIssue,
+  signUp, deleteAccount, requestFeature, reportIssue, signUpAnonymously, updateUser,
 }
 
 enum AnalyticsEventParameter { language, link, status, error ,data}

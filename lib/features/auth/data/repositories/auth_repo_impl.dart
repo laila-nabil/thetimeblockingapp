@@ -1,4 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:thetimeblockingapp/common/entities/user.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 
 import 'package:thetimeblockingapp/core/error/failures.dart';
@@ -7,8 +10,11 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'package:thetimeblockingapp/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/sign_up_result_model.dart';
+import 'package:thetimeblockingapp/features/auth/domain/entities/sign_up_anonymously_result.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/delete_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
@@ -109,5 +115,40 @@ class AuthRepoImpl  implements AuthRepo{
     });
 
     return deleteAccountResult;
+  }
+
+  @override
+  Future<dartz.Either<Failure, SignUpAnonymouslyResult>> signUpAnonymously(
+      {required SignUpAnonymouslyParams params}) async {
+    dartz.Either<Failure, SignUpAnonymouslyResult> result;
+
+    result = await repoHandleRemoteRequest<SignUpAnonymouslyResult>(
+      remoteDataSourceRequest: () async =>
+      await authRemoteDataSource.signUpAnonymouslySupabase(params: params),
+      trySaveResult: (result) async {
+        if (result.accessToken != null &&
+            result.user != null &&
+            result.refreshToken != null) {
+          await authLocalDataSource.saveSignInResult(SignInResultModel(
+              accessToken: result.accessToken as AccessTokenModel,
+              user: result.user as SupabaseUserModel,
+              refreshToken: result.refreshToken!));
+          serviceLocator<AppConfig>().refreshToken = result.refreshToken!;
+          serviceLocator<AppConfig>().accessToken = result.accessToken!;
+        }
+      },);
+    return result;
+  }
+
+  @override
+  Future<dartz.Either<Failure, User>> updateUser({required UpdateUserParams params}) async {
+    dartz.Either<Failure, User> result;
+    result = await repoHandleRemoteRequest<User>(
+      remoteDataSourceRequest: () async =>
+      await authRemoteDataSource.updateUser(params: params),
+      trySaveResult: (result) async {
+        await authLocalDataSource.saveSupabaseUser(result as SupabaseUserModel);
+      },);
+    return result;
   }
 }

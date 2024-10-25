@@ -109,6 +109,8 @@
   "send" : "Send",
   "somethingWentWrong": "Something went wrong",
   "issueSentSuccessfully": "Issue is sent successfully",
-  "featureRequestSentSuccessfully": "Feature request is sent successfully"
+  "featureRequestSentSuccessfully": "Feature request is sent successfully",
+  "continueAsAGuest" : "Continue as a guest",
+  "createAnAccountToAccessYourDataFromAnyDevice": "Create an account to access your data from any device"
 
 }

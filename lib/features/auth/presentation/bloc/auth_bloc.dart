@@ -6,7 +6,9 @@ import 'package:thetimeblockingapp/core/usecase.dart';
 import 'package:thetimeblockingapp/features/auth/domain/entities/sign_up_result.dart';
 
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 
 import '../../../../common/entities/user.dart';
 import '../../../../core/error/failures.dart';
@@ -20,10 +22,19 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInUseCase _signInUseCase;
+  final SignUpAnonymouslyUseCase _signUpAnonymouslyUseCase;
+  final UpdateUserUseCase _updateUserUseCase;
   final SignOutUseCase _signOutUseCase;
   final SignUpUseCase _signUpUseCase;
   final DeleteAccountUseCase _deleteAccountUseCase;
-  AuthBloc( this._signInUseCase,this._signOutUseCase, this._signUpUseCase, this._deleteAccountUseCase)
+
+  AuthBloc(
+      this._signInUseCase,
+      this._signOutUseCase,
+      this._signUpUseCase,
+      this._deleteAccountUseCase,
+      this._signUpAnonymouslyUseCase,
+      this._updateUserUseCase)
       : super(const AuthState(authState: AuthStateEnum.initial)) {
     on<AuthEvent>((event, emit) async {
       if (event is SignInEvent) {
@@ -50,6 +61,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(state.copyWith(
               signUpResult: r,
               authState: AuthStateEnum.signUpSuccess));
+        });
+      }else if (event is SignUpAnonymouslyEvent) {
+        emit(state.copyWith(authState: AuthStateEnum.loading));
+        final result = await _signUpAnonymouslyUseCase(event.params);
+        await result?.fold(
+                (l) async => emit(state.copyWith(
+                signUpFailure: l,
+                authState: AuthStateEnum.signUpFailed)), (r) async {
+          if(r.refreshToken!=null){
+            serviceLocator<AppConfig>().refreshToken = r.refreshToken!;
+          }
+          if(r.accessToken!=null){
+            serviceLocator<AppConfig>().accessToken = r.accessToken!;
+          }
+          emit(state.copyWith(
+              user: r.user,
+              authState: AuthStateEnum.signUpSuccess));
+        });
+      }else if (event is UpdateUserEvent) {
+        emit(state.copyWith(authState: AuthStateEnum.loading));
+        final result = await _updateUserUseCase(event.params);
+        await result?.fold(
+                (l) async => emit(state.copyWith(
+                updateUserFailure: l,
+                authState: AuthStateEnum.updateUserFailed)), (r) async {
+          emit(state.copyWith(
+              user: r,
+              authState: AuthStateEnum.updateUserSuccess));
         });
       }else if (event is CheckAlreadySignedInEvent) {
         emit(state.copyWith(authState: AuthStateEnum.loading));

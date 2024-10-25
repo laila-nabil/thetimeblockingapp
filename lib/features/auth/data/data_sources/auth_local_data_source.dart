@@ -15,7 +15,7 @@ abstract class AuthLocalDataSource {
   Future<void> _saveAccessToken(
       AccessTokenModel accessTokenModel);
 
-  Future<void> _saveSupabaseUser(SupabaseUserModel user);
+  Future<void> saveSupabaseUser(SupabaseUserModel user);
 
   Future<void> _saveRefreshToken(String refreshToken);
 
@@ -64,7 +64,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<void> _saveSupabaseUser(SupabaseUserModel user) {
+  Future<void> saveSupabaseUser(SupabaseUserModel user) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.supabaseUser.name,
         value: user.toJson());
@@ -86,7 +86,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> saveSignInResult(SignInResultModel signInResultModel) async{
-    await _saveSupabaseUser(signInResultModel.user as SupabaseUserModel);
+    await saveSupabaseUser(signInResultModel.user as SupabaseUserModel);
     await _saveAccessToken(signInResultModel.accessToken.toModel);
     await _saveRefreshToken(signInResultModel.refreshToken);
   }

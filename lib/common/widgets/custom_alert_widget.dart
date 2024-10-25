@@ -22,6 +22,7 @@ class CustomAlertWidget extends StatelessWidget {
     this.secondaryCta,
     this.secondaryCtaOnPressed,
     this.onClose,
+    this.smallVersion = false,
   });
 
   final CustomAlertType customAlertType;
@@ -33,7 +34,7 @@ class CustomAlertWidget extends StatelessWidget {
   final String? secondaryCta;
   final void Function()? secondaryCtaOnPressed;
   final void Function()? onClose;
-
+  final bool smallVersion;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -63,8 +64,13 @@ class CustomAlertWidget extends StatelessWidget {
                     isDarkMode: context.isDarkMode)),
             borderRadius: BorderRadius.circular(AppBorderRadius.xLarge.value),
           ),
-          padding: EdgeInsetsDirectional.fromSTEB(AppSpacing.big20.value,
-              AppSpacing.big20.value, 60, AppSpacing.big20.value),
+          padding: smallVersion
+              ? EdgeInsetsDirectional.fromSTEB(AppSpacing.small12.value,
+                  AppSpacing.small12.value,
+                  AppSpacing.small12.value,
+                  AppSpacing.small12.value)
+              : EdgeInsetsDirectional.fromSTEB(AppSpacing.big20.value,
+                  AppSpacing.big20.value, 60, AppSpacing.big20.value),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -84,7 +90,9 @@ class CustomAlertWidget extends StatelessWidget {
                     Text(
                       title,
                       style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                          appFontSize: AppFontSize.paragraphMedium,
+                          appFontSize: smallVersion
+                              ? AppFontSize.paragraphX2Small
+                              : AppFontSize.paragraphMedium,
                           color: titleTextColor(
                               customAlertType: customAlertType,
                               customAlertThemeType: customAlertThemeType,
@@ -97,7 +105,10 @@ class CustomAlertWidget extends StatelessWidget {
                             EdgeInsets.only(top: AppSpacing.x2Small4.value),
                         child: Text(details ?? "",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                appFontSize: AppFontSize.paragraphSmall,
+                                appFontSize:
+                                smallVersion
+                                    ? AppFontSize.paragraphX2Small
+                                    : AppFontSize.paragraphSmall,
                                 color: detailsTextColor(
                                     customAlertType: customAlertType,
                                     customAlertThemeType: customAlertThemeType,
@@ -117,10 +128,16 @@ class CustomAlertWidget extends StatelessWidget {
                               type: CustomButtonType.greyTextLabel),
                         if (primaryCtaOnPressed != null &&
                             primaryCta?.isNotEmpty == true)
-                          CustomButton.noIcon(
-                              label: primaryCta ?? "",
-                              onPressed: primaryCtaOnPressed,
-                              type: CustomButtonType.greyFilledLabel),
+                          smallVersion
+                              ? CustomButton.noIcon(
+                                  label: primaryCta ?? "",
+                                  onPressed: primaryCtaOnPressed,
+                                  size: CustomButtonSize.xSmall,
+                                  type: CustomButtonType.greyTextLabel)
+                              : CustomButton.noIcon(
+                                  label: primaryCta ?? "",
+                                  onPressed: primaryCtaOnPressed,
+                                  type: CustomButtonType.greyFilledLabel),
                       ],
                     )
                   ],
