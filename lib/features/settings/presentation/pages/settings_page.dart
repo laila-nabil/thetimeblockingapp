@@ -106,6 +106,7 @@ class SettingsPage extends StatelessWidget {
                 small: Padding(
               padding: EdgeInsets.all(AppSpacing.x3Big32.value),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
