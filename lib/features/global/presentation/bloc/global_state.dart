@@ -77,4 +77,15 @@ class GlobalState extends Equatable {
       getPrioritiesFailure: getPrioritiesFailure ?? this.getPrioritiesFailure,
     );
   }
+
+  GlobalState clearUserData() {
+    return GlobalState(
+      isLoading: isLoading,
+      drawerLargerScreenOpen: false ,
+      statuses: statuses ,
+      getStatusesFailure: getStatusesFailure,
+      priorities: priorities ,
+      getPrioritiesFailure: getPrioritiesFailure,
+    );
+  }
 }

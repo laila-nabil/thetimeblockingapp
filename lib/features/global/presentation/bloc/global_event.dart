@@ -44,3 +44,9 @@ class GetPrioritiesEvent extends GlobalEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ClearUserDataEvent extends GlobalEvent {
+
+  @override
+  List<Object?> get props => [];
+}

@@ -48,7 +48,7 @@ class SettingsPage extends StatelessWidget {
         final globalBloc = BlocProvider.of<GlobalBloc>(context);
         if (state.authState == AuthStateEnum.signOutSuccess ||
             state.authState == AuthStateEnum.deleteAccountSuccess) {
-          globalBloc.add(const ControlDrawerLargerScreen(false));
+          globalBloc.add(ClearUserDataEvent());
           router.go(SupabaseOnBoardingAndAuthPage.routeName);
         }
         if(state.authState == AuthStateEnum.updateUserFailed){

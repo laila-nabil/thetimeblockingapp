@@ -64,6 +64,8 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         final result = await _getWorkspacesUseCase(event.params);
         result.fold((l) => emit(state.copyWith(getWorkspacesFailure: l)),
                 (r) => emit(state.copyWith(workspaces: r)));
+      } else if(event is ClearUserDataEvent){
+        emit(state.clearUserData());
       }
     });
   }
