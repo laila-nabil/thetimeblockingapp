@@ -23,6 +23,10 @@ class Workspace extends Equatable {
   final List<TasksList>? lists;
   final List<Tag>? tags;
 
+
+  ///TODO
+  TasksList? get defaultList=> lists?.firstOrNull;
+
   @override
   List<Object?> get props => [
         id,

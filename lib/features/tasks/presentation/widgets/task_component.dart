@@ -49,6 +49,7 @@ class TaskComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authState = BlocProvider.of<AuthBloc>(context).state;
+    final globalState = BlocProvider.of<GlobalBloc>(context).state;
     return TaskWidget(
         actions: [
           CustomPopupItem(
@@ -81,6 +82,7 @@ class TaskComponent extends StatelessWidget {
                     task,
                     serviceLocator<BackendMode>().mode,
                     BlocProvider.of<AuthBloc>(context).state.user!,
+                    globalState.selectedWorkspace!.defaultList!,
                   )))
         ],
         showList: showListChip,
@@ -94,7 +96,7 @@ class TaskComponent extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
-
+                      defaultList: globalState.selectedWorkspace!.defaultList!,
                       list: task.list!,
                       title: task.title ?? "",
                       description: task.description,

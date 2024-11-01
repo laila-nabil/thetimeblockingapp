@@ -15,7 +15,6 @@ import 'get_tasks_in_single_workspace_use_case.dart';
 
 ///TODO Z add note or attachment with link to task url in timeblockingapp for quick access
 ///TODO Z enable navigation to specific task with task id
-///TODO have brain dump/ inbox or default list
 
 class CreateTaskUseCase {
   final TasksRepo repo;
@@ -24,7 +23,12 @@ class CreateTaskUseCase {
 
 
   Future<dartz.Either<Failure, dartz.Unit>?> call(CreateTaskParams params,int workspaceId) async {
-    final result = await repo.createTaskInList(params);
+    CreateTaskParams _params = params;
+    bool isCreatingNewTask = params.task == null;
+    if( isCreatingNewTask && _params.list == null) {
+      _params = _params.copyWith(list: params.defaultList);
+    }
+    final result = await repo.createTaskInList(_params);
     await result?.fold(
             (l) async =>unawaited(serviceLocator<Analytics>()
             .logEvent(AnalyticsEvents.createTask.name, parameters: {

@@ -248,17 +248,9 @@ class _TaskPopupState extends State<TaskPopup> {
   late CreateTaskParams taskParams;
 
   bool get readyToSubmit {
+    printDebug("this one");
     if (taskParams.task == null) {
-      return taskParams.title != null &&
-          taskParams.list != null &&
-          (taskParams.description != null ||
-              taskParams.tags?.isNotEmpty == true ||
-              taskParams.taskPriority != null ||
-              taskParams.taskStatus != null ||
-              taskParams.dueDate != null ||
-              taskParams.startDate != null ||
-              taskParams.parentTask != null ||
-              taskParams.linkedTask != null);
+      return taskParams.title != null;
     } else {
       return (taskParams.title != taskParams.task?.title ||
           taskParams.description != taskParams.task?.description ||
@@ -267,18 +259,17 @@ class _TaskPopupState extends State<TaskPopup> {
           taskParams.taskPriority != taskParams.task?.priority ||
           taskParams.taskStatus != taskParams.task?.status ||
           taskParams.dueDate != taskParams.task?.dueDate ||
-          taskParams.startDate != taskParams.task?.startDate ||
-          taskParams.parentTask != null ||
-          taskParams.linkedTask != null);
+          taskParams.startDate != taskParams.task?.startDate);
     }
   }
 
   CreateTaskParams onSaveTaskParams(DateTime? newTaskDueDate,
-      User user) {
+      User user,{required TasksList defaultList}) {
     CreateTaskParams params;
     final task = taskParams.task;
     if (task != null) {
       params = CreateTaskParams.updateTask(
+          defaultList: defaultList,
           task: taskParams.task!,
 
           updatedTitle: taskParams.title,
@@ -309,6 +300,7 @@ class _TaskPopupState extends State<TaskPopup> {
       );
     } else {
       params = taskParams ?? CreateTaskParams.createNewTask(
+          defaultList: defaultList,
           dueDate: newTaskDueDate,
           list: taskParams.list!,
 
@@ -356,7 +348,7 @@ class _TaskPopupState extends State<TaskPopup> {
     if(setTaskParams != true){
       taskParams = widget.taskPopupParams.task == null
           ? CreateTaskParams.startCreateNewTask(
-
+          defaultList: globalState.selectedWorkspace!.defaultList!,
           dueDate: widget.taskPopupParams.dueDate,
           startDate: widget.taskPopupParams.startDate,
           workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
@@ -371,6 +363,7 @@ class _TaskPopupState extends State<TaskPopup> {
               ? [widget.taskPopupParams.tag!]
               : [])
           : CreateTaskParams.startUpdateTask(
+        defaultList: globalState.selectedWorkspace!.defaultList!,
         task: widget.taskPopupParams.task!,
         backendMode: serviceLocator<BackendMode>().mode,
         user: authState.user!,
@@ -519,6 +512,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                 .of<AuthBloc>(context)
                                 .state
                                 .user!,
+                            defaultList: globalState.selectedWorkspace!.defaultList!
                           ));
                         }
                       },

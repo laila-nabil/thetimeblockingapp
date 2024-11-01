@@ -19,6 +19,7 @@ enum TaskParamsEnum { create, update }
 class CreateTaskParams extends Equatable{
   final BackendMode backendMode;
   final TaskParamsEnum type;
+  final TasksList defaultList;
   final TasksList? list;
   final String? title;
   final String? description;
@@ -63,6 +64,7 @@ class CreateTaskParams extends Equatable{
   }
 
   factory CreateTaskParams.fromTask(Task task,BackendMode backendMode, User user,
+      TasksList defaultList
       ){
     return CreateTaskParams.createNewTask(
       list: task.list!,
@@ -75,12 +77,14 @@ class CreateTaskParams extends Equatable{
       taskPriority: task.priority,
       startDate: task.startDate,
       backendMode: backendMode, user: user,
-      taskStatus: task.status
+      taskStatus: task.status,
+      defaultList: defaultList,
     );
   }
   const CreateTaskParams._(
       {this.list,
       this.title,
+      required this.defaultList,
       this.description,
       this.tags,
       this.taskStatus,
@@ -140,6 +144,7 @@ class CreateTaskParams extends Equatable{
     required List<Tag> tags,
     required BackendMode backendMode,
     required User user,
+    required TasksList defaultList,
 
   }) {
     printDebug("TaskParams startCreateNewTask task");
@@ -149,6 +154,7 @@ class CreateTaskParams extends Equatable{
           dueDate: dueDate,
           workspace: workspace,
           list: list,
+          defaultList: defaultList,
           folder: folder,
           tags: tags,
           backendMode: backendMode, user: user
@@ -170,12 +176,14 @@ class CreateTaskParams extends Equatable{
     Workspace? workspace,
     required BackendMode backendMode,
     required User user,
+    required TasksList defaultList,
   }) {
     printDebug("TaskParams createNewTask task");
     return CreateTaskParams._(
           type: TaskParamsEnum.create,
           workspace: workspace,
           list: list,
+        defaultList: defaultList,
           folder: folder,
           title: title,
           description: description,
@@ -197,6 +205,7 @@ class CreateTaskParams extends Equatable{
     required User user,
     required Workspace? workspace,
     required List<Tag> tags,
+    required TasksList defaultList,
   }) {
     printDebug("TaskParams startUpdateTask task $task");
     printDebug("startUpdateTask task ${task.workspace}");
@@ -208,6 +217,7 @@ class CreateTaskParams extends Equatable{
         workspace: workspace,
         folder: task.folder,
         list: task.list,
+        defaultList: defaultList,
         taskPriority: task.priority,
         tags: tags,
         taskStatus: task.status,
@@ -236,12 +246,14 @@ class CreateTaskParams extends Equatable{
     Folder? folder,
     required BackendMode backendMode,
     required User user,
+    required TasksList defaultList,
   }) =>
       CreateTaskParams._(
           type: TaskParamsEnum.update,
           workspace: null,
           user: user,
           list: list,
+          defaultList: defaultList,
           folder: folder,
           title: updatedTitle,
           description: updatedDescription,
@@ -310,6 +322,7 @@ class CreateTaskParams extends Equatable{
   CreateTaskParams copyWith({
     TaskParamsEnum? taskParamsEnum,
     TasksList? list,
+    TasksList? defaultList,
     String? title,
     String? description,
     List<Tag>? tags,
@@ -365,6 +378,7 @@ class CreateTaskParams extends Equatable{
       type:
           taskParamsEnum ?? type,
       list: selectedList,
+      defaultList: defaultList ?? this.defaultList,
       title: title ?? this.title,
       description: description ?? this.description,
       tags: tags ?? this.tags,
@@ -377,6 +391,7 @@ class CreateTaskParams extends Equatable{
       task: task ?? this.task,
       folder: selectedFolder,
       workspace: selectedWorkspace,
+
       backendMode: backendMode, user: user
     );
   }

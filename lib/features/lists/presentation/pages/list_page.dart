@@ -238,6 +238,7 @@ class ListPage extends StatelessWidget {
       onCompleteConfirmed: () {
         final newTask = task.copyWith(status: globalBloc.state.statuses!.completedStatus);
         listsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
+            defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
             task: newTask,
             backendMode: serviceLocator<BackendMode>(),
             user: authBloc.state.user!,

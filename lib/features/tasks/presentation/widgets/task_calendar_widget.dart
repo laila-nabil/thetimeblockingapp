@@ -89,6 +89,7 @@ class TaskCalendarWidget extends StatelessWidget {
                     task,
                     serviceLocator<BackendMode>().mode,
                     BlocProvider.of<AuthBloc>(context).state.user!,
+                    BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!.defaultList!,
                   )))
         ],
         onTap: () {
@@ -101,6 +102,7 @@ class TaskCalendarWidget extends StatelessWidget {
                   onSave: onSave,
                   onDuplicate: () {
                     onDuplicate(CreateTaskParams.createNewTask(
+                        defaultList: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!.defaultList!,
                         list: task.list!,
                         title: task.title ?? "",
                         description: task.description,

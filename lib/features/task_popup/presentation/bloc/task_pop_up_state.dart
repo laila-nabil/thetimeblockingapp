@@ -11,7 +11,6 @@ class TaskPopUpState extends Equatable {
 
     if (taskParams?.task == null) {
       return taskParams?.title != null &&
-          taskParams?.list != null &&
           (taskParams?.description != null ||
               taskParams?.tags?.isNotEmpty == true ||
               taskParams?.taskPriority != null ||
@@ -41,11 +40,13 @@ class TaskPopUpState extends Equatable {
   bool get viewTagsButton =>
       taskParams?.task != null || taskParams?.workspace != null;
 
-  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate,User user){
+  CreateTaskParams onSaveTaskParams (DateTime? newTaskDueDate,User user,
+      {required TasksList defaultList}){
     CreateTaskParams params;
     final task = taskParams?.task;
     if (task != null) {
       params = CreateTaskParams.updateTask(
+          defaultList: defaultList,
         task: taskParams!.task!,
         updatedTitle: taskParams?.title,
         updatedDescription: taskParams?.description,
@@ -74,6 +75,7 @@ class TaskPopUpState extends Equatable {
       );
     } else {
       params = taskParams ?? CreateTaskParams.createNewTask(
+          defaultList:  defaultList,
         dueDate: newTaskDueDate,
         list: taskParams!.list!,
         title: taskParams?.title ?? "",

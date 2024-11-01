@@ -201,6 +201,7 @@ class AllTasksPage extends StatelessWidget {
       printDebug("newTask $newTask");
       allTasksBloc.add(UpdateTaskEvent(
           params: CreateTaskParams.startUpdateTask(
+              defaultList: globalState.selectedWorkspace!.defaultList!,
               task: newTask,
               backendMode: serviceLocator<BackendMode>(),
               user: authState.user!,

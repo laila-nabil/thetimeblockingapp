@@ -28,7 +28,7 @@ class MoveTaskBetweenListsUseCase
     dartz.Either<Failure, dartz.Unit>? createResult;
     dartz.Either<Failure, dartz.Unit>? deleteResult;
     createResult = await repo.createTaskInList(CreateTaskParams.createNewTask(
-
+        defaultList: task.list!,//FIXME
         list: params.newList,
         title: task.title ?? "",
         startDate: task.startDate,
