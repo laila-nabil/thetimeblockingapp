@@ -151,10 +151,14 @@ class TasksCalendar extends StatelessWidget {
             )));
       },
       timeSlotViewSettings: TimeSlotViewSettings(
+        timeInterval: serviceLocator<AppConfig>().defaultTaskDuration,
+        timeFormat: 'h:mm a',
         timeTextStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-            appFontSize: AppFontSize.paragraphXSmall,
+            appFontSize: AppFontSize.paragraphX2Small,
             color: AppColors.grey(context.isDarkMode),
-            appFontWeight: AppFontWeight.thin))
+            appFontWeight: AppFontWeight.thin)),
+        timeRulerSize: 60,
+        minimumAppointmentDuration: Duration(minutes: 15),
       ),
       dragAndDropSettings: const DragAndDropSettings(
         allowNavigation: true

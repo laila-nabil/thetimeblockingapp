@@ -81,7 +81,7 @@ class AppConfig{
    static const Env _defaultEnv = Env.debugLocally;
    Env env = _defaultEnv;
    bool isDemo = false;
-   Duration defaultTaskDuration = const Duration(hours: 1);
+   Duration defaultTaskDuration = const Duration(minutes: 30);
 
    ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
    bool isWorkspaceAppWide = true;
