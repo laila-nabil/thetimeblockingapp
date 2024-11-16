@@ -35,9 +35,7 @@ class SchedulePage extends StatelessWidget {
           final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
-              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-              final globalBloc = BlocProvider.of<GlobalBloc>(context);
-              final authBloc = BlocProvider.of<AuthBloc>(context);
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context,listen: false);
               if(state.showTaskPopup == true){
                 showTaskPopup(
                   context: context,
@@ -49,7 +47,8 @@ class SchedulePage extends StatelessWidget {
             },
             builder: (context, state) {
               printDebug("ScheduleBloc state $state");
-              final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+              final scheduleBloc = BlocProvider.of<ScheduleBloc>(
+                  context, listen: false);
               final authBloc = BlocProvider.of<AuthBloc>(context);
               final changeTaskSuccessfully = state.changedTaskSuccessfully;
               if (globalCurrentState.priorities?.isNotEmpty != true) {
@@ -61,7 +60,7 @@ class SchedulePage extends StatelessWidget {
                     .add(GetStatusesEvent());
               }
               if (globalCurrentState.workspaces?.isNotEmpty != true) {
-                final globalBloc = BlocProvider.of<GlobalBloc>(context);
+                final globalBloc = BlocProvider.of<GlobalBloc>(context,listen: false);
                 globalBloc.add(GetAllWorkspacesEvent(
                     params: GetWorkspacesParams(
 
@@ -85,7 +84,7 @@ class SchedulePage extends StatelessWidget {
                 scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
                     GetTasksInWorkspaceParams(
                         workspaceId: workspace?.id ?? 0,
-                        filtersParams: scheduleBloc.state
+                        filtersParams: state
                             .defaultTasksInWorkspaceFiltersParams(
 
                                 user: authBloc.state.user),
@@ -158,10 +157,12 @@ class SchedulePage extends StatelessWidget {
                   responsiveBody: ResponsiveTParams(
                     small: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
+                        scheduleState: state,
                         selectedWorkspaceId:
                             globalCurrentState.selectedWorkspace?.id ?? 0),
                     large: _SchedulePageContent(
                         scheduleBloc: scheduleBloc,
+                        scheduleState: state,
                         selectedWorkspaceId:
                             globalCurrentState.selectedWorkspace?.id),
                   ),
@@ -172,7 +173,7 @@ class SchedulePage extends StatelessWidget {
                     GetTasksInWorkspaceParams(
                         workspaceId: selectedWorkspace?.id ?? 0,
                         filtersParams:
-                        scheduleBloc.state.defaultTasksInWorkspaceFiltersParams(
+                        state.defaultTasksInWorkspaceFiltersParams(
 
                             user: authBloc.state.user),
                         backendMode: serviceLocator<BackendMode>().mode)));
@@ -190,20 +191,21 @@ class SchedulePage extends StatelessWidget {
 
 class _SchedulePageContent extends StatelessWidget {
   const _SchedulePageContent(
-      {required this.scheduleBloc, this.selectedWorkspaceId});
+      {required this.scheduleBloc, this.selectedWorkspaceId,required this.scheduleState});
   final ScheduleBloc scheduleBloc;
   final int? selectedWorkspaceId;
-
+  final ScheduleState scheduleState;
   @override
   Widget build(BuildContext context) {
     return TasksCalendar(
       tasksDataSource: SupabaseTasksDataSource(
-          tasks: scheduleBloc.state.tasks
+          tasks: scheduleState.tasks
                   ?.where((element) => element.dueDate != null)
                   .toList() ??
               []),
       controller: scheduleBloc.controller,
       scheduleBloc: scheduleBloc,
+      scheduleState: scheduleState,
       selectedWorkspaceId: selectedWorkspaceId,
     );
   }

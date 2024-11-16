@@ -32,11 +32,13 @@ class TasksCalendar extends StatelessWidget {
     required this.tasksDataSource,
     required this.controller,
     required this.scheduleBloc,
+    required this.scheduleState,
   });
 
   final SupabaseTasksDataSource tasksDataSource;
   final CalendarController controller;
   final ScheduleBloc scheduleBloc;
+  final ScheduleState scheduleState;
   final void Function(CalendarTapDetails)? onTap;
   final int? selectedWorkspaceId;
   @override
@@ -179,18 +181,18 @@ class TasksCalendar extends StatelessWidget {
       onViewChanged: (viewChangedDetails){
 
         printDebug("onViewChange");
-        printDebug("viewChangedDetails.visibleDates.first.isBefore(scheduleBloc.state.tasksDueDateEarliestDate ${viewChangedDetails.visibleDates.first
-            .isBefore(scheduleBloc.state.tasksDueDateEarliestDate)}");
-        printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleBloc.state.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
-            .isAfter(scheduleBloc.state.tasksDueDateLatestDate)}");
+        printDebug("viewChangedDetails.visibleDates.first.isBefore(scheduleState.tasksDueDateEarliestDate ${viewChangedDetails.visibleDates.first
+            .isBefore(scheduleState.tasksDueDateEarliestDate)}");
+        printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleState.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
+            .isAfter(scheduleState.tasksDueDateLatestDate)}");
         if (viewChangedDetails.visibleDates.first
-            .isBefore(scheduleBloc.state.tasksDueDateEarliestDate) ||
+            .isBefore(scheduleState.tasksDueDateEarliestDate) ||
             viewChangedDetails.visibleDates.last
-                .isAfter(scheduleBloc.state.tasksDueDateLatestDate)) {
+                .isAfter(scheduleState.tasksDueDateLatestDate)) {
 
           final id = "${viewChangedDetails.visibleDates.tryElementAt(0)?.millisecondsSinceEpoch}${viewChangedDetails.visibleDates.lastOrNull?.millisecondsSinceEpoch}";
-          if (scheduleBloc.state.isLoading == false &&
-              scheduleBloc.state.getTasksForSingleWorkspaceScheduleEventId !=
+          if (scheduleState.isLoading == false &&
+              scheduleState.getTasksForSingleWorkspaceScheduleEventId !=
                   id) {
             printDebug("onViewChange HEREEEE");
             scheduleBloc.add(GetTasksForSingleWorkspaceScheduleEvent(
@@ -264,7 +266,7 @@ class TasksCalendar extends StatelessWidget {
                           params, workspaceId: selectedWorkspaceId!));
                 },
                 bloc: scheduleBloc,
-                isLoading:(state)=>scheduleBloc.state.isLoading
+                isLoading:(state)=>scheduleState.isLoading
             )));
       } else if (calendarTapDetails.targetElement ==
           CalendarElement.allDayPanel &&
