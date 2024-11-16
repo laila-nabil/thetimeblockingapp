@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
@@ -335,4 +338,19 @@ class SupabaseTasksDataSource extends CalendarDataSource {
 
   @override
   List? get appointments => tasks;
+}
+
+class SfLocalizationsArDelegate extends LocalizationsDelegate<SfLocalizations> {
+  const SfLocalizationsArDelegate();
+
+  @override
+  bool isSupported(Locale locale) => locale.languageCode == 'ar';
+
+  @override
+  Future<SfLocalizations> load(Locale locale) {
+    return SynchronousFuture<SfLocalizations>(SfLocalizationsAr());
+  }
+
+  @override
+  bool shouldReload(LocalizationsDelegate<SfLocalizations> old) => true;
 }

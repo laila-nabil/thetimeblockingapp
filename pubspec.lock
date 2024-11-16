@@ -984,7 +984,15 @@ packages:
       sha256: c54e0f4a56e713f68b4bdcac36f23c68cf35f3b0a02f0a9abb230c42ab64b3c6
       url: "https://pub.dev"
     source: hosted
-    version: "27.1.50"
+    version: "27.2.2"
+  syncfusion_localizations:
+    dependency: "direct main"
+    description:
+      name: syncfusion_localizations
+      sha256: c821c64ce38126ce1f5e5a36bc433157d49a03f04c19b45878cb82cca6267fde
+      url: "https://pub.dev"
+    source: hosted
+    version: "27.2.2"
   synchronized:
     dependency: transitive
     description:

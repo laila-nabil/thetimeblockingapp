@@ -21,6 +21,8 @@ if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
 import 'package:timezone/data/latest_all.dart'
 if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
+import 'features/schedule/presentation/widgets/tasks_calendar.dart';
+
 
 Future<void> main() async {
   final sentryDsn = const String.fromEnvironment("sentryDsn", defaultValue: "");
@@ -82,7 +84,7 @@ class MyApp extends StatelessWidget {
             themeMode: settingsState.themeMode,
             theme: appTheme(false),
             darkTheme: appTheme(true),
-            localizationsDelegates: context.localizationDelegates,
+            localizationsDelegates: context.localizationDelegates + [SfLocalizationsArDelegate()],
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateTitle: (BuildContext context) {

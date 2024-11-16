@@ -48,6 +48,7 @@ dependencies:
   posthog_flutter: ^4.5.0
   sentry_flutter: ^8.9.0
   flutter_widget_from_html_core: ^0.15.2
+  syncfusion_localizations: ^27.2.2
 
 dev_dependencies:
   flutter_test:
