@@ -40,7 +40,7 @@ class ListPage extends StatelessWidget {
     return BlocProvider.value(
       value: listsPageBloc,
       child: BlocBuilder<GlobalBloc, GlobalState>(
-        builder: (context, state) {
+        builder: (context, globalState) {
           final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<ListsPageBloc, ListsPageState>(
             listener: (context, state) {},
@@ -65,41 +65,56 @@ class ListPage extends StatelessWidget {
                 // pageActions: null,
                 floatingActionButton: AddItemFloatingActionButton(
                   onPressed: () {
-                    showTaskPopup(
-                        context: context,
-                        taskPopupParams: TaskPopupParams.addToList(
-                            list: state.currentList,
-                            folder: globalBloc.state.selectedWorkspace?.folders
-                                ?.where((f) =>
-                                    f.lists?.contains(state.currentList) ==
-                                    true)
-                                .firstOrNull,
-                            bloc: listsPageBloc,
-                            onSave: (params) {
-                              listsPageBloc.add(CreateTaskEvent(
-                                  params: params,
-                                  workspaceId:
-                                      BlocProvider.of<GlobalBloc>(context)
-                                          .state
-                                          .selectedWorkspace!
-                                          .id!, onSuccess: () {listsPageBloc.add(GetTasksInListEvent(
-                                  params: GetTasksInWorkspaceParams(
-                                      workspaceId: globalBloc.state.selectedWorkspace!.id!,
-                                      filtersParams: GetTasksInWorkspaceFiltersParams(
-                                          filterByList: list,
-                                          ),
-                                      backendMode: BackendMode.supabase), list: list));  }));
-                              Navigator.maybePop(context);
-                            },
-                            isLoading: (state) => state is! ListsPageState
-                                ? false
-                                : state.isLoading, workspace: globalBloc.state.selectedWorkspace));
+                    if (isLoading(
+                            state: state,
+                            globalState: globalState,
+                            authBloc: authBloc) ==
+                        false) {
+                      showTaskPopup(
+                          context: context,
+                          taskPopupParams: TaskPopupParams.addToList(
+                              list: state.currentList,
+                              folder: globalBloc
+                                  .state.selectedWorkspace?.folders
+                                  ?.where((f) =>
+                                      f.lists?.contains(state.currentList) ==
+                                      true)
+                                  .firstOrNull,
+                              bloc: listsPageBloc,
+                              onSave: (params) {
+                                listsPageBloc.add(CreateTaskEvent(
+                                    params: params,
+                                    workspaceId:
+                                        BlocProvider.of<GlobalBloc>(context)
+                                            .state
+                                            .selectedWorkspace!
+                                            .id!,
+                                    onSuccess: () {
+                                      listsPageBloc.add(GetTasksInListEvent(
+                                          params: GetTasksInWorkspaceParams(
+                                              workspaceId: globalBloc
+                                                  .state.selectedWorkspace!.id!,
+                                              filtersParams:
+                                                  GetTasksInWorkspaceFiltersParams(
+                                                filterByList: list,
+                                              ),
+                                              backendMode:
+                                                  BackendMode.supabase),
+                                          list: list));
+                                    }));
+                                Navigator.maybePop(context);
+                              },
+                              isLoading: (state) => state is! ListsPageState
+                                  ? false
+                                  : state.isLoading,
+                              workspace: globalBloc.state.selectedWorkspace));
+                    }
                   },
                 ),
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.contentLoading,
-                    isLoading: state.isLoading),
+                    isLoading: isLoading(state: state,globalState: globalState,authBloc: authBloc)),
                 responsiveBody: ResponsiveTParams(
                     small: Padding(
                   padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -180,6 +195,13 @@ class ListPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  bool isLoading(
+      {required ListsPageState state, required GlobalState globalState, required AuthBloc authBloc}) {
+    return state.isLoading||
+                      globalState.isLoading ||
+                      authBloc.state.isLoading;
   }
 
   Widget buildTaskWidget(

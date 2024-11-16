@@ -36,7 +36,11 @@ class SchedulePage extends StatelessWidget {
           return BlocConsumer<ScheduleBloc, ScheduleState>(
             listener: (context, state) {
               final scheduleBloc = BlocProvider.of<ScheduleBloc>(context,listen: false);
-              if(state.showTaskPopup == true){
+              if (isLoading(
+                      scheduleState: state,
+                      globalCurrentState: globalCurrentState,
+                      authBloc: BlocProvider.of<AuthBloc>(context))  == false &&
+                  state.showTaskPopup == true) {
                 showTaskPopup(
                   context: context,
                   taskPopupParams: state.taskPopupParams!,
@@ -119,10 +123,11 @@ class SchedulePage extends StatelessWidget {
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                       responsiveScaffoldLoadingEnum:
                           ResponsiveScaffoldLoadingEnum.overlayLoading,
-                      isLoading: state.persistingScheduleStates
-                              .contains(ScheduleStateEnum.loading) ||
-                          globalCurrentState.isLoading),
-                  pageActions: [
+                    isLoading: isLoading(
+                        scheduleState: state,
+                        globalCurrentState: globalCurrentState,
+                        authBloc: authBloc)),
+                pageActions: [
                     ///TODO Bulk actions on tasks
                     // CustomDropDownItem.text(
                     //   title: appLocalization.translate("filterBy") +
@@ -186,6 +191,16 @@ class SchedulePage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  bool isLoading(
+      {required ScheduleState scheduleState,
+      required GlobalState globalCurrentState,
+      required AuthBloc authBloc}) {
+    return scheduleState.persistingScheduleStates
+            .contains(ScheduleStateEnum.loading) ||
+        globalCurrentState.isLoading ||
+        authBloc.state.isLoading;
   }
 }
 

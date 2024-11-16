@@ -35,7 +35,7 @@ class AllTasksPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => serviceLocator<AllTasksBloc>(),
       child: BlocBuilder<GlobalBloc, GlobalState>(
-        builder: (context, startupState) {
+        builder: (context, globalState) {
           final globalBloc = BlocProvider.of<GlobalBloc>(context);
           return BlocConsumer<AllTasksBloc, AllTasksState>(
             listener: (context, state) {
@@ -45,26 +45,38 @@ class AllTasksPage extends StatelessWidget {
               return ResponsiveScaffold(
                   floatingActionButton: AddItemFloatingActionButton(
                     onPressed: () {
+                      if(isLoading(
+                          state: state,
+                          globalState: globalState,
+                          authBloc: BlocProvider.of<AuthBloc>(context)) == false){
                       showTaskPopup(
                           context: context,
                           taskPopupParams: TaskPopupParams.notAllDayTask(
-                              bloc: allTasksBloc,
-                              onSave: (params) {
-                                allTasksBloc.add(CreateTaskEvent(
-                                    params: params,
-                                    workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
-                                Navigator.maybePop(context);
-                              },
-                              isLoading: (state) => state is! AllTasksState
-                                  ? false
-                                  : state.isLoading, ));
-                    },
+                            bloc: allTasksBloc,
+                            onSave: (params) {
+                              allTasksBloc.add(CreateTaskEvent(
+                                  params: params,
+                                  workspace:
+                                      BlocProvider.of<GlobalBloc>(context)
+                                          .state
+                                          .selectedWorkspace!));
+                              Navigator.maybePop(context);
+                            },
+                            isLoading: (state) => state is! AllTasksState
+                                ? false
+                                : state.isLoading,
+                          ));
+                    }
+                  },
                   ),
                   responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                       responsiveScaffoldLoadingEnum:
                           ResponsiveScaffoldLoadingEnum.contentLoading,
-                      isLoading: state.isLoading || startupState.isLoading),
-                  responsiveBody: ResponsiveTParams(
+                    isLoading: isLoading(
+                        state: state,
+                        globalState: globalState,
+                        authBloc: BlocProvider.of<AuthBloc>(context))),
+                responsiveBody: ResponsiveTParams(
                       small: BlocConsumer<AllTasksBloc, AllTasksState>(
                     listener: (context, state) {},
                     builder: (context, state) {
@@ -162,6 +174,13 @@ class AllTasksPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  bool isLoading(
+      {required AllTasksState state, required GlobalState globalState, required AuthBloc authBloc}) {
+    return state.isLoading ||
+                      globalState.isLoading ||
+                      authBloc.state.isLoading;
   }
 
   Widget buildTaskWidget(Task task, BuildContext context,

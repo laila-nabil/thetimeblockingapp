@@ -111,26 +111,31 @@ class TagPage extends StatelessWidget {
                 ],
                 floatingActionButton: AddItemFloatingActionButton(
                   onPressed: () {
-                    showTaskPopup(
-                        context: context,
-                        taskPopupParams: TaskPopupParams.addToTag(
-                            tag: state.navigateTag,
-                            bloc: tagsPageBloc,
-                            onSave: (params) {
-                              tagsPageBloc.add(CreateTaskEvent(
-                                  params: params,
-                                  workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!));
-                              Navigator.maybePop(context);
-                            },
-                            isLoading: (state) => state is! TagsPageState
-                                ? false
-                                : state.isLoading));
+                    if(isLoading(state: state,globalBloc: globalBloc,authBloc: authBloc) == false){
+                      showTaskPopup(
+                          context: context,
+                          taskPopupParams: TaskPopupParams.addToTag(
+                              tag: state.navigateTag,
+                              bloc: tagsPageBloc,
+                              onSave: (params) {
+                                tagsPageBloc.add(CreateTaskEvent(
+                                    params: params,
+                                    workspace:
+                                        BlocProvider.of<GlobalBloc>(context)
+                                            .state
+                                            .selectedWorkspace!));
+                                Navigator.maybePop(context);
+                              },
+                              isLoading: (state) => state is! TagsPageState
+                                  ? false
+                                  : state.isLoading));
+                    }
                   },
                 ),
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.contentLoading,
-                    isLoading: state.isLoading),
+                    isLoading: isLoading(state: state,globalBloc: globalBloc,authBloc: authBloc)),
                 responsiveBody: ResponsiveTParams(
                     small: Padding(
                   padding: EdgeInsets.all(AppSpacing.medium16.value),
@@ -242,6 +247,12 @@ class TagPage extends StatelessWidget {
       ),
     );
   }
+
+  bool isLoading(
+          {required TagsPageState state,
+          required GlobalBloc globalBloc,
+          required AuthBloc authBloc}) =>
+      state.isLoading || globalBloc.state.isLoading || authBloc.state.isLoading;
 
   StatelessWidget buildTaskWidget(
       Task task, BuildContext context, TagsPageBloc tagsPageBloc,AuthBloc authBloc,GlobalBloc globalBloc) {
