@@ -65,9 +65,6 @@ Future<dartz.Either<Failure, dartz.Unit>> repoHandleLocalSaveRequest<T>({
 }) async {
     try {
       await trySaveResult();
-    }  on ServerException {
-      printDebug("repo ServerException", printLevel: PrintLevel.error);
-      return const dartz.Left(ServerFailure(message: ''));
     } catch (error) {
       printDebug("repo $error", printLevel: PrintLevel.error);
       if (error is Exception) {
