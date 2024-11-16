@@ -81,7 +81,6 @@ class TasksCalendar extends StatelessWidget {
         appointmentItemHeight: 120
       ),
       appointmentBuilder: (context, calendarAppointmentDetails) {
-              printDebug("controller.view => ${controller.view}");
               List<Task> tasks = [];
               calendarAppointmentDetails.appointments.forEach(
                   (appointment) => tasks.add(appointment as TaskModel));
@@ -181,10 +180,6 @@ class TasksCalendar extends StatelessWidget {
       onViewChanged: (viewChangedDetails){
 
         printDebug("onViewChange");
-        printDebug("viewChangedDetails.visibleDates.first.isBefore(scheduleState.tasksDueDateEarliestDate ${viewChangedDetails.visibleDates.first
-            .isBefore(scheduleState.tasksDueDateEarliestDate)}");
-        printDebug("viewChangedDetails.visibleDates.last.isAfter(scheduleState.tasksDueDateLatestDate) ${viewChangedDetails.visibleDates.last
-            .isAfter(scheduleState.tasksDueDateLatestDate)}");
         if (viewChangedDetails.visibleDates.first
             .isBefore(scheduleState.tasksDueDateEarliestDate) ||
             viewChangedDetails.visibleDates.last
@@ -307,8 +302,6 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   }
   @override
   DateTime getEndTime(int index) {
-    printDebug("${tasks[index].title}=>"
-        " Tasks[index].dueDate ${tasks[index].dueDate}");
     return tasks[index].dueDate ?? super.getEndTime(index);
   }
 

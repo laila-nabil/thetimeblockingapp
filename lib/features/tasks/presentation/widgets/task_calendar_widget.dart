@@ -164,7 +164,6 @@ class _TaskCalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    printDebug("bounds $bounds");
     final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
