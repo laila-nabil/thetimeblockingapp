@@ -605,7 +605,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                         )),
               },
               context: context,
-              onRefresh: () async {},
+              onRefresh: null,
             );
           },
         );

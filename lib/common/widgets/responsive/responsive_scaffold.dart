@@ -47,7 +47,7 @@ class ResponsiveScaffold extends Scaffold {
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final bool hideAppBarDrawer;
 
-  final Future<void> Function() onRefresh;
+  final Future<void> Function()? onRefresh;
 
   // ignore: prefer_const_constructors_in_immutables
   ResponsiveScaffold({
@@ -188,19 +188,32 @@ class _ResponsiveBody extends StatelessWidget {
       required this.onRefresh});
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
   final ResponsiveTParams<Widget> responsiveTParams;
-  final Future<void> Function() onRefresh;
+  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
-    final actualResponsiveBody = RefreshIndicator(
-        onRefresh: onRefresh,
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        child: context.responsiveT(
-            params: responsiveScaffoldLoading?.isLoadingContent == true
-                ? ResponsiveTParams(
-                    small: CustomLoading(color: Theme.of(context).primaryColor),
-                    large: CustomLoading(color: Theme.of(context).primaryColor))
-                : responsiveTParams));
+    late Widget actualResponsiveBody;
+    if (onRefresh == null) {
+      actualResponsiveBody = context.responsiveT(
+          params: responsiveScaffoldLoading?.isLoadingContent == true
+              ? ResponsiveTParams(
+                  small: CustomLoading(color: Theme.of(context).primaryColor),
+                  large: CustomLoading(color: Theme.of(context).primaryColor))
+              : responsiveTParams);
+    } else {
+      actualResponsiveBody = RefreshIndicator(
+          onRefresh: onRefresh!,
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+          child: context.responsiveT(
+              params: responsiveScaffoldLoading?.isLoadingContent == true
+                  ? ResponsiveTParams(
+                      small:
+                          CustomLoading(color: Theme.of(context).primaryColor),
+                      large:
+                          CustomLoading(color: Theme.of(context).primaryColor))
+                  : responsiveTParams));
+    }
+
     return (responsiveScaffoldLoading?.isLoadingOverlay == true)
         ? Stack(
             alignment: Alignment.center,
@@ -210,24 +223,5 @@ class _ResponsiveBody extends StatelessWidget {
             ],
           )
         : actualResponsiveBody;
-    final content = RefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: onRefresh,
-        child: context.responsiveT(params: responsiveTParams));
-    return (responsiveScaffoldLoading?.isLoadingOverlay == true)
-        ? Stack(
-            alignment: Alignment.center,
-            children: [
-              content,
-              const LoadingOverlay(),
-            ],
-          )
-        : (responsiveScaffoldLoading?.isLoadingOverlay == true)
-            ? context.responsiveT(
-                params: ResponsiveTParams(
-                    small: CustomLoading(color: Theme.of(context).primaryColor),
-                    large:
-                        CustomLoading(color: Theme.of(context).primaryColor)))
-            : content;
   }
 }

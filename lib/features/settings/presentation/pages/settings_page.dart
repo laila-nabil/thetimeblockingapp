@@ -437,7 +437,7 @@ class SettingsPage extends StatelessWidget {
                     isLoading:
                         state.settingsStateEnum == SettingsStateEnum.loading ||
                             authBloc.state.isLoading),
-                onRefresh: () async {});
+                onRefresh: null);
       },
     );
   },
