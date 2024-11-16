@@ -52,6 +52,7 @@ class TasksCalendar extends StatelessWidget {
         CalendarView.week,
         CalendarView.month,
       ],
+      showDatePickerButton: true,
       monthViewSettings: const MonthViewSettings(
         showAgenda: true,
         numberOfWeeksInView: 5,
