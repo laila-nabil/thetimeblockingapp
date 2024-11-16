@@ -321,96 +321,109 @@ class SettingsPage extends StatelessWidget {
                               type: CustomButtonType.greyTextLabel,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.xSmall8.value,
-                            ),
-                            child: CustomButton.noIcon(
-                              label: appLocalization.translate("deleteAccount"),
-                              onPressed: () {
-                                showDialog<bool>(context: context, builder: (context){
-                                  return CustomAlertDialog(
-                                    loading: false,
-                                    actions: [
-                                      CustomButton.noIcon(
-                                          label: appLocalization.translate("deleteAccount"),
-                                          onPressed: () {
-                                            authBloc.add(DeleteAccount(DeleteAccountParams(authBloc.state.user!)));
-                                            Navigator.pop(context);
-                                          },type: CustomButtonType.destructiveFilledLabel),
-                                      CustomButton.noIcon(
-                                          label: appLocalization.translate("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
-                                    ],
-                                    content: Text(
-                                        appLocalization.translate("areYouSureDeleteYourAccount")),
-                                  );
-                                });
-                              },
-                              type: CustomButtonType.destructiveTextLabel,
-                            ),
-                          ),
                         ],
                       ),
                     ),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(
-                            top: 22, right: 24, left: 24, bottom: 10),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              child: Image.asset(
-                                AppAssets.github,
-                                width: 24,
-                                height: 24,
-                              ),
-                              onTap: () =>
-                                  launchWithURL(url: "https://github.com/laila-nabil/"),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                              child: Image.asset(
-                                AppAssets.twitter,
-                                width: 24,
-                                height: 24,
-                              ),
-                              onTap: () =>
-                                  launchWithURL(url: "https://twitter.com/laila_nabil_"),
-                            ),
-                          ],
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: AppSpacing.xSmall8.value,
+                        ),
+                        child: CustomButton.noIcon(
+                          label: appLocalization.translate("deleteAccount"),
+                          onPressed: () {
+                            showDialog<bool>(context: context, builder: (context){
+                              return CustomAlertDialog(
+                                loading: false,
+                                actions: [
+                                  CustomButton.noIcon(
+                                      label: appLocalization.translate("deleteAccount"),
+                                      onPressed: () {
+                                        authBloc.add(DeleteAccount(DeleteAccountParams(authBloc.state.user!)));
+                                        Navigator.pop(context);
+                                      },type: CustomButtonType.destructiveFilledLabel),
+                                  CustomButton.noIcon(
+                                      label: appLocalization.translate("cancel"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                                content: Text(
+                                    appLocalization.translate("areYouSureDeleteYourAccount")),
+                              );
+                            });
+                          },
+                          type: CustomButtonType.destructiveTextLabel,
                         ),
                       ),
-                      Row(
-                        children: [
-                          CustomButton.noIcon(
-                            label: appLocalization.translate("termsOfUse"),
-                            onPressed: () {
-                              launchWithURL(
-                                  url:
-                                  "https://timeblocking.web.app/${TermsConditionsPage
-                                      .routeName}");
-                            },
-                            type: CustomButtonType.greyTextLabel,
-                          ),
-                          CustomButton.noIcon(
-                            label: appLocalization.translate("privacyPolicy"),
-                            onPressed: () {
-                              launchWithURL(
-                                  url:
-                                  "https://timeblocking.web.app/${PrivacyPolicyPage
-                                      .routeName}");
-                            },
-                            type: CustomButtonType.greyTextLabel,
-                          ),
-                        ],
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 10,bottom: 10),
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.center,
+                          spacing: 10,
+                          runSpacing: 10,
+                          runAlignment: WrapAlignment.spaceBetween,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CustomButton.noIcon(
+                                  label: appLocalization.translate("termsOfUse"),
+                                  onPressed: () {
+                                    launchWithURL(
+                                        url:
+                                        "https://timeblocking.web.app/${TermsConditionsPage
+                                            .routeName}");
+                                  },
+                                  type: CustomButtonType.greyTextLabel,
+                                ),
+                                CustomButton.noIcon(
+                                  label: appLocalization.translate("privacyPolicy"),
+                                  onPressed: () {
+                                    launchWithURL(
+                                        url:
+                                        "https://timeblocking.web.app/${PrivacyPolicyPage
+                                            .routeName}");
+                                  },
+                                  type: CustomButtonType.greyTextLabel,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                InkWell(
+                                  child: Image.asset(
+                                    AppAssets.github,
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                  onTap: () =>
+                                      launchWithURL(url: "https://github.com/laila-nabil/"),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  child: Image.asset(
+                                    AppAssets.twitter,
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                  onTap: () =>
+                                      launchWithURL(url: "https://twitter.com/laila_nabil_"),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   )
