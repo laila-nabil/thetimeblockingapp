@@ -25,8 +25,8 @@ import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/delete_task_use_case.dart';
 
-class TaskCalendarWidget extends StatelessWidget {
-  const TaskCalendarWidget({
+class TaskWidgetInCalendar extends StatelessWidget {
+  const TaskWidgetInCalendar({
     super.key,
     required this.task,
     required this.bloc,
@@ -279,11 +279,11 @@ class _TaskCalendarWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
-            color: task.widgetColor.withOpacity(0.1),
+            color: task.color.withOpacity(0.1),
             border: Border(
                 left: BorderSide(
                     color:
-                    task.widgetColor,width: 1),
+                    task.color,width: 1),
                 bottom: BorderSide(
                     color:
                         AppColors.grey(context.isDarkMode).withOpacity(0.1)))),

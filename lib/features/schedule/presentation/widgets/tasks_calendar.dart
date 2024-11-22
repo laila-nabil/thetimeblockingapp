@@ -16,7 +16,7 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
-import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_calendar_widget.dart';
+import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_widget_in_calendar.dart';
 
 import '../../../../core/extensions.dart';
 import '../../../../core/resources/app_colors.dart';
@@ -27,8 +27,8 @@ import '../../../task_popup/presentation/views/task_popup.dart';
 
 //TODO B FIXME fix UI after Flutter update
 
-class TasksCalendar extends StatelessWidget {
-  const TasksCalendar({
+class SyncfusionTasksCalendar extends StatelessWidget {
+  const SyncfusionTasksCalendar({
     super.key,
     this.onTap,
     this.selectedWorkspaceId,
@@ -88,7 +88,7 @@ class TasksCalendar extends StatelessWidget {
               calendarAppointmentDetails.appointments.forEach(
                   (appointment) => tasks.add(appointment as TaskModel));
               var task = tasks.first;
-              return TaskCalendarWidget(
+              return TaskWidgetInCalendar(
                 bounds: calendarAppointmentDetails.bounds,
                 calendarView: controller.view,
                 task: task,
@@ -257,7 +257,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
             taskPopupParams: TaskPopupParams.notAllDayTask(
-                cellDate: calendarTapDetails.date,
+                start: calendarTapDetails.date,
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(
                       params:
@@ -272,7 +272,7 @@ class TasksCalendar extends StatelessWidget {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
             taskPopupParams: TaskPopupParams.allDayTask(
-                cellDate: calendarTapDetails.date,
+                start: calendarTapDetails.date,
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(
                       params:
@@ -301,7 +301,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     var task = tasks[index];
-    return task.widgetColor;
+    return task.color;
   }
   @override
   DateTime getEndTime(int index) {

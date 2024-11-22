@@ -111,6 +111,9 @@
   "issueSentSuccessfully": "Issue is sent successfully",
   "featureRequestSentSuccessfully": "Feature request is sent successfully",
   "continueAsAGuest" : "Continue as a guest",
-  "createAnAccountToAccessYourDataFromAnyDevice": "Create an account to access your data from any device"
-
+  "createAnAccountToAccessYourDataFromAnyDevice": "Create an account to access your data from any device",
+  "day": "Day",
+  "week": "Week",
+  "multiWeek": "Multi Week",
+  "month": "Month"
 }

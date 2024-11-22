@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:equatable/equatable.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -28,8 +27,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final DuplicateTaskUseCase _duplicateTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
-
-  final CalendarController controller = CalendarController();
 
   ScheduleBloc(
       this._getTasksInSingleWorkspaceUseCase,
@@ -152,6 +149,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         emit(state.copyWith(
             showTaskPopup: event.showTaskPopup,
             taskPopupParams: event.taskPopupParams));
+      }
+      else if(event is ChangeCalendarView){
+        emit(state.copyWith(
+          viewIndex: event.viewIndex
+        ));
       }
     });
   }

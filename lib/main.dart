@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
             themeMode: settingsState.themeMode,
             theme: appTheme(false),
             darkTheme: appTheme(true),
-            localizationsDelegates: context.localizationDelegates + [SfLocalizationsArDelegate()],
+            localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateTitle: (BuildContext context) {

@@ -25,6 +25,7 @@ class ScheduleState extends Equatable {
   final String? getTasksForSingleWorkspaceScheduleEventId;
   final bool? showTaskPopup;
   final TaskPopupParams? taskPopupParams;
+  final int? viewIndex;
   const ScheduleState._({
     required this.persistingScheduleStates,
     this.nonPersistingScheduleState,
@@ -36,9 +37,12 @@ class ScheduleState extends Equatable {
     this.deleteTaskFailure,
     this.showTaskPopup,
     this.taskPopupParams,
+    this.viewIndex = defaultViewIndex,
     required this.tasksDueDateEarliestDate,
     required this.tasksDueDateLatestDate,
   });
+
+  static const int defaultViewIndex = 0;
 
   @override
   String toString() {
@@ -64,6 +68,7 @@ class ScheduleState extends Equatable {
         deleteTaskFailure,
         showTaskPopup,
         taskPopupParams,
+        viewIndex
       ];
 
   ///setting [persistingScheduleStateAddRemove] to right in stateAddRemove adds a state
@@ -82,6 +87,7 @@ class ScheduleState extends Equatable {
     String? getTasksForSingleWorkspaceScheduleEventId,
     bool? showTaskPopup,
     TaskPopupParams? taskPopupParams,
+    int? viewIndex
   }) {
     return ScheduleState._(
       persistingScheduleStates: persistingScheduleStateAddRemove != null?
@@ -102,6 +108,7 @@ class ScheduleState extends Equatable {
       updateTaskFailure:updateTaskFailure??this.updateTaskFailure,
       deleteTaskFailure: deleteTaskFailure??this.deleteTaskFailure,
       showTaskPopup: showTaskPopup??this.showTaskPopup,
+        viewIndex: viewIndex??this.viewIndex,
       taskPopupParams: taskPopupParams
     );
   }

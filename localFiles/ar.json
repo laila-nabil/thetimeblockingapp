@@ -111,6 +111,9 @@
   "issueSentSuccessfully": "تم إرسال المشكلة بنجاح",
   "featureRequestSentSuccessfully": "تم إرسال طلب الميزة بنجاح",
   "continueAsAGuest" : "أكمل كضيف",
-  "createAnAccountToAccessYourDataFromAnyDevice": "قم بإنشاء حساب للوصول إلى بياناتك من أي جهاز"
-
+  "createAnAccountToAccessYourDataFromAnyDevice": "قم بإنشاء حساب للوصول إلى بياناتك من أي جهاز",
+  "day": "يوم",
+  "week": "أسبوع",
+  "multiWeek": "أسبوعين",
+  "month": "شهر"
 }
