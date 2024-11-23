@@ -43,30 +43,30 @@ class AppColors {
         });
 
   static MaterialColor secondary(bool isDarkMode) => isDarkMode
-      ? MaterialColor(const Color(0xff0d5eba).value, const {
-          50: Color(0xff001633),
-          100: Color(0xff012657),
-          200: Color(0xff04326b),
-          300: Color(0xff034592),
-          400: Color(0xff0d5eba),
-          500: Color(0xff1671d9),
-          600: Color(0xff3d89df),
-          700: Color(0xff80bbff),
-          800: Color(0xffb6d8ff),
-          900: Color(0xffe3effc),
-        })
-      : MaterialColor(const Color(0xff1671d9).value, const {
-          50: Color(0xffe3effc),
-          100: Color(0xffb6d8ff),
-          200: Color(0xff80bbff),
-          300: Color(0xff3d89df),
-          400: Color(0xff1671d9),
-          500: Color(0xff0d5eba),
-          600: Color(0xff034592),
-          700: Color(0xff04326b),
-          800: Color(0xff012657),
-          900: Color(0xff001633),
-        });
+      ? MaterialColor(const Color(0xff290064).value, const {
+    50: Color(0xff290064),
+    100: Color(0xff360083),
+    200: Color(0xff4600A9),
+    300: Color(0xff5900D9),
+    400: Color(0xff6200EE),
+    500: Color(0xff8133F1),
+    600: Color(0xff9654F4),
+    700: Color(0xffB78AF7),
+    800: Color(0xffCEB0FA),
+    900: Color(0xffEFE6FD),
+  })
+      : MaterialColor(const Color(0xffEFE6FD).value, const {
+    50: Color(0xffEFE6FD),
+    100: Color(0xffCEB0FA),
+    200: Color(0xffB78AF7),
+    300: Color(0xff9654F4),
+    400: Color(0xff8133F1),
+    500: Color(0xff6200EE),
+    600: Color(0xff5900D9),
+    700: Color(0xff4600A9),
+    800: Color(0xff360083),
+    900: Color(0xff290064),
+  });
 
   ///SEMANTICS
 
