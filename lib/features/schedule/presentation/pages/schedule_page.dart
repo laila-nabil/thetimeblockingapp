@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kalender/kalender.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
@@ -244,9 +247,21 @@ class _SchedulePageContent extends StatelessWidget {
           name: appLocalization.translate("day"),
           numberOfDays: 1,
         ),
-        WeekConfiguration(name: appLocalization.translate("week")),
-        MultiWeekConfiguration(name: appLocalization.translate("multiWeek")),
-        MonthConfiguration(name: appLocalization.translate("month")),
+        CustomMultiDayConfiguration(
+            name: appLocalization.translate("2Days"),
+            numberOfDays: 2,
+            showWeekNumber: false),
+        WeekConfiguration(
+            name: appLocalization.translate("week"),
+            firstDayOfWeek: 6,
+            showWeekNumber: false),
+        MultiWeekConfiguration(
+          name: appLocalization.translate("multiWeek"),
+            showWeekNumber: false
+        ),
+        MonthConfiguration(
+          name: appLocalization.translate("month"),
+        ),
         ScheduleConfiguration(),
       ],
       currentConfigurationIndex:
