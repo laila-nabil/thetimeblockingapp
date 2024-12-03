@@ -8,7 +8,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/tasks_calendar.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion_tasks_calendar.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -22,7 +22,7 @@ import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
-import '../widgets/widgets/kcalendar/kalendar_tasks_calendar.dart';
+import '../widgets/kalendar_tasks_calendar.dart';
 
 ///TODO in desktop, month calendar view in drawer like SORTED for MAC
 
@@ -242,28 +242,6 @@ class _SchedulePageContent extends StatelessWidget {
       scheduleBloc: scheduleBloc,
       scheduleState: scheduleState,
       selectedWorkspaceId: selectedWorkspaceId,
-      viewConfigurations: [
-        CustomMultiDayConfiguration(
-          name: appLocalization.translate("day"),
-          numberOfDays: 1,
-        ),
-        CustomMultiDayConfiguration(
-            name: appLocalization.translate("2Days"),
-            numberOfDays: 2,
-            showWeekNumber: false),
-        WeekConfiguration(
-            name: appLocalization.translate("week"),
-            firstDayOfWeek: 6,
-            showWeekNumber: false),
-        MultiWeekConfiguration(
-          name: appLocalization.translate("multiWeek"),
-            showWeekNumber: false
-        ),
-        MonthConfiguration(
-          name: appLocalization.translate("month"),
-        ),
-        ScheduleConfiguration(),
-      ],
       currentConfigurationIndex:
           scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
     );

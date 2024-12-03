@@ -113,7 +113,8 @@
   "continueAsAGuest" : "أكمل كضيف",
   "createAnAccountToAccessYourDataFromAnyDevice": "قم بإنشاء حساب للوصول إلى بياناتك من أي جهاز",
   "day": "يوم",
-  "2day": "يومين",
+  "today": "اليوم",
+  "2Days": "يومين",
   "week": "أسبوع",
   "multiWeek": "أسبوعين",
   "month": "شهر"

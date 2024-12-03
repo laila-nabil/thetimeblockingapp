@@ -112,8 +112,9 @@
   "featureRequestSentSuccessfully": "Feature request is sent successfully",
   "continueAsAGuest" : "Continue as a guest",
   "createAnAccountToAccessYourDataFromAnyDevice": "Create an account to access your data from any device",
+  "today": "Today",
   "day": "Day",
-  "2day": "2 Days",
+  "2Days": "2 Days",
   "week": "Week",
   "multiWeek": "Multi Week",
   "month": "Month"

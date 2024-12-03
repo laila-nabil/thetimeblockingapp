@@ -21,7 +21,7 @@ if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
 import 'package:timezone/data/latest_all.dart'
 if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
-import 'features/schedule/presentation/widgets/tasks_calendar.dart';
+import 'features/schedule/presentation/widgets/syncfusion_tasks_calendar.dart';
 
 
 Future<void> main() async {

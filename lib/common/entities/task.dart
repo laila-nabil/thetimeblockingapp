@@ -54,6 +54,9 @@ class Task extends Equatable {
   Color get color =>
       (status?.getColor ?? AppColors.paletteBlue).withOpacity(0.2);
 
+  Duration? get duration =>
+      startDate == null ? null : dueDate?.difference(startDate!);
+
   @override
   List<Object?> get props => [
         id,

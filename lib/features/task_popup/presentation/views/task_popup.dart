@@ -82,11 +82,12 @@ class TaskPopupParams extends Equatable {
     required this.onSave,
     this.onDelete,
     this.start,
+    DateTime? end,
     required this.bloc,
     required this.isLoading,
   }) {
     start = task?.startDate ?? start;
-    dueDate = task?.dueDate ?? start?.add(serviceLocator<AppConfig>().defaultTaskDuration);
+    dueDate = end ?? task?.dueDate ?? start?.add(serviceLocator<AppConfig>().defaultTaskDuration);
     isAllDay = false;
     list = null;
   }
