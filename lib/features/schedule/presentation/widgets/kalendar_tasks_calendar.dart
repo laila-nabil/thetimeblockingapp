@@ -310,11 +310,11 @@ class KalendarTasksCalendar extends StatelessWidget {
   final int currentConfigurationIndex;
 
   static List<ViewConfiguration> viewConfigurations(bool isSmallScreen) => [
-        CustomMultiDayConfiguration(
+        DayConfiguration(
           name: appLocalization.translate("day"),
-          numberOfDays: 1,
           verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
           newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
+          initialHeightPerMinute: 1
         ),
         CustomMultiDayConfiguration(
             name: appLocalization.translate("2Days"),
