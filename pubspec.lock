@@ -471,10 +471,11 @@ packages:
   kalender:
     dependency: "direct main"
     description:
-      name: kalender
-      sha256: "63f1cdfbef014f5fd6d6f7552b2668034d10f98921601f9b6918af4e2074bc77"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "main-0.4.2"
+      resolved-ref: "57a54f7f81324e2c07e19c1dd86f6a17966c81e7"
+      url: "https://github.com/laila-nabil/kalender"
+    source: git
     version: "0.4.2"
   leak_tracker:
     dependency: transitive

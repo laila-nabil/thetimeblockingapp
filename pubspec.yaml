@@ -49,8 +49,8 @@ dependencies:
   sentry_flutter: ^8.9.0
   flutter_widget_from_html_core: ^0.15.2
   syncfusion_localizations: ^27.2.2
-  kalender: ^0.4.2
-
+  kalender:
+    path: packages/kalendar
 dev_dependencies:
   flutter_test:
     sdk: flutter
