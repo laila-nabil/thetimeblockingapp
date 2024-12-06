@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
+import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion_tasks_calendar.dart';
 
@@ -71,7 +72,9 @@ class SchedulePage extends StatelessWidget {
                         LanguagesEnum.en)));
               }
               if (globalCurrentState.statuses?.isNotEmpty != true) {
-                globalBloc.add(GetStatusesEvent());
+                globalBloc.add(GetStatusesEvent(GetStatusesParams(
+                    appLocalization.getCurrentLanguagesEnum(context) ??
+                        LanguagesEnum.en)));
               }
               if (globalCurrentState.workspaces?.isNotEmpty != true) {
                 final globalBloc =

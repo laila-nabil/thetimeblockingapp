@@ -52,9 +52,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
             (r) => emit(state.copyWith(priorities: r)));
       } else if (event is GetStatusesEvent) {
         emit(state.copyWith(isLoading: true));
-        final result = await _getStatusesUseCase(GetStatusesParams(
-          
-        ));
+        final result = await _getStatusesUseCase(event.getStatusesParams);
         result.fold((l) => emit(state.copyWith(getStatusesFailure: l)),
             (r) => emit(state.copyWith(statuses: r)));
       }else if (event is GetAllWorkspacesEvent) {

@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
@@ -44,7 +45,7 @@ class CreateTaskParams extends Equatable{
 
   int? get getPriority => int.tryParse(taskPriority?.id??"");
 
-  String? get getStatus => taskStatus?.name;
+  String? getStatus(LanguagesEnum languagesEnum) => taskStatus?.name(languagesEnum);
 
   int? get getDueDateMillisecondsSinceEpoch => dueDate?.millisecondsSinceEpoch;
 

@@ -27,13 +27,6 @@ class TaskPriorityModel extends TaskPriority {
   }
 
   factory TaskPriorityModel.fromJson(dynamic json) {
-    printDebug("TaskPriorityModel json is $json");
-    printDebug("TaskPriorityModel json is ${TaskPriorityModel(
-        id: (json['id'] as Object?)?.toStringOrNull(),
-        nameKey: json['name'],
-        nameAr: json['name_ar'],
-        nameEn: json['name_en'],
-        color: json['color'])}");
     return TaskPriorityModel(
         id: (json['id'] as Object?)?.toStringOrNull(),
         nameKey: json['name'],

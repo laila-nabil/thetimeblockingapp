@@ -682,7 +682,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                                             .isDarkMode)),
                                                 const SizedBox(width: 2,),
                                                 Text(
-                                                    e.name ?? "",
+                                                    e.name(appLocalization.getCurrentLanguagesEnum(context)??LanguagesEnum.ar) ?? "",
                                                     style: CustomDropDown
                                                         .textStyle(
                                                         context.isDarkMode)

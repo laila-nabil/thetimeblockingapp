@@ -35,8 +35,11 @@ class GetAllWorkspacesEvent extends GlobalEvent {
 
 
 class GetStatusesEvent extends GlobalEvent {
+  final GetStatusesParams getStatusesParams;
+
+  GetStatusesEvent(this.getStatusesParams);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [getStatusesParams];
 }
 
 class GetPrioritiesEvent extends GlobalEvent {

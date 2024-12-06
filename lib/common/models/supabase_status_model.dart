@@ -16,14 +16,18 @@ List<TaskStatusModel>? taskStatusModelFromJson(json){
 class TaskStatusModel extends TaskStatus {
   const TaskStatusModel(
       {required super.id,
-      required super.name,
+      required super.nameKey,
+      required super.nameAr,
+      required super.nameEn,
       required super.color,
       required super.isDone});
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    map['name'] = name;
+    map['name'] = nameKey;
+    map['name_ar'] = nameAr;
+    map['name_en'] = nameEn;
     map['color'] = color;
     map['is_done'] = isDone;
     return map;
@@ -32,7 +36,9 @@ class TaskStatusModel extends TaskStatus {
   factory TaskStatusModel.fromJson(dynamic json) {
     return TaskStatusModel(
         id: (json['id']as Object?)?.toStringOrNull(),
-        name: json['name'],
+        nameKey: json['name'],
+        nameAr: json['name_ar'],
+        nameEn: json['name_en'],
         color: json['color'],
         isDone: json['is_done']);
   }
