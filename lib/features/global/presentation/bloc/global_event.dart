@@ -40,9 +40,11 @@ class GetStatusesEvent extends GlobalEvent {
 }
 
 class GetPrioritiesEvent extends GlobalEvent {
+  final GetPrioritiesParams getPrioritiesParams;
 
+  GetPrioritiesEvent(this.getPrioritiesParams);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [getPrioritiesParams];
 }
 
 class ClearUserDataEvent extends GlobalEvent {

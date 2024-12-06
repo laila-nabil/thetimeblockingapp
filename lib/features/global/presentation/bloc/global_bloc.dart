@@ -47,9 +47,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
         }
       } else if (event is GetPrioritiesEvent) {
         emit(state.copyWith(isLoading: true));
-        final result = await _getPrioritiesUseCase(GetPrioritiesParams(
-          
-        ));
+        final result = await _getPrioritiesUseCase(event.getPrioritiesParams);
         result.fold((l) => emit(state.copyWith(getPrioritiesFailure: l)),
             (r) => emit(state.copyWith(priorities: r)));
       } else if (event is GetStatusesEvent) {
