@@ -199,9 +199,10 @@ class ListPage extends StatelessWidget {
 
   bool isLoading(
       {required ListsPageState state, required GlobalState globalState, required AuthBloc authBloc}) {
-    return state.isLoading||
-                      globalState.isLoading ||
-                      authBloc.state.isLoading;
+    return state.isLoading ||
+        globalState.isLoading ||
+        authBloc.state.isLoading ||
+        globalState.workspaces == null;
   }
 
   Widget buildTaskWidget(

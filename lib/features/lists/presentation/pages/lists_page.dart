@@ -155,8 +155,10 @@ class ListsPage extends StatelessWidget {
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.contentLoading,
-                    isLoading: state.isLoading || startupState.isLoading),
-                responsiveBody: ResponsiveTParams(
+                    isLoading: state.isLoading ||
+                      startupState.isLoading ||
+                      globalState.workspaces == null),
+              responsiveBody: ResponsiveTParams(
                     small: Padding(
                       padding: EdgeInsets.all(AppSpacing.medium16.value),
                       child: Column(

@@ -252,7 +252,9 @@ class TagPage extends StatelessWidget {
           {required TagsPageState state,
           required GlobalBloc globalBloc,
           required AuthBloc authBloc}) =>
-      state.isLoading || globalBloc.state.isLoading || authBloc.state.isLoading;
+      state.isLoading || globalBloc.state.isLoading ||
+      authBloc.state.isLoading ||
+      globalBloc.state.workspaces == null;
 
   StatelessWidget buildTaskWidget(
       Task task, BuildContext context, TagsPageBloc tagsPageBloc,AuthBloc authBloc,GlobalBloc globalBloc) {

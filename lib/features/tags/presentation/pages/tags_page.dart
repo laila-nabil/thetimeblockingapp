@@ -87,7 +87,8 @@ class TagsPage extends StatelessWidget {
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
                         ResponsiveScaffoldLoadingEnum.contentLoading,
-                    isLoading: state.isLoading || startupState.isLoading),
+                    isLoading: state.isLoading || startupState.isLoading||
+                        globalBloc.state.workspaces == null),
                 responsiveBody: ResponsiveTParams(
                     small: BlocConsumer<TagsPageBloc, TagsPageState>(
                   listener: (context, state) {},

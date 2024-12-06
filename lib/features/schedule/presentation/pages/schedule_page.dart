@@ -206,7 +206,8 @@ class SchedulePage extends StatelessWidget {
     return scheduleState.persistingScheduleStates
             .contains(ScheduleStateEnum.loading) ||
         globalCurrentState.isLoading ||
-        authBloc.state.isLoading;
+        authBloc.state.isLoading ||
+        globalCurrentState.workspaces == null;
   }
 }
 

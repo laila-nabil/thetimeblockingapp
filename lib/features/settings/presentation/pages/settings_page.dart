@@ -100,6 +100,7 @@ class SettingsPage extends StatelessWidget {
           builder: (context, state) {
         final bloc = BlocProvider.of<SettingsBloc>(context);
         final authBloc = BlocProvider.of<AuthBloc>(context);
+        final globalBloc = BlocProvider.of<GlobalBloc>(context);
         bool userNotAnonymous = authBloc.state.user?.email?.isNotEmpty == true;
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
@@ -436,7 +437,8 @@ class SettingsPage extends StatelessWidget {
                         ResponsiveScaffoldLoadingEnum.overlayLoading,
                     isLoading:
                         state.settingsStateEnum == SettingsStateEnum.loading ||
-                            authBloc.state.isLoading),
+                            authBloc.state.isLoading||
+                            globalBloc.state.workspaces == null),
                 onRefresh: null);
       },
     );
