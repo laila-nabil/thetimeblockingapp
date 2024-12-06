@@ -26,9 +26,9 @@ class HourLines extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         for (int i = 1; i < hoursADay; i++)
-          Positioned(
-            left: leftOffset,
-            right: 0,
+          PositionedDirectional(
+            start: leftOffset,
+            end: 0,
             height: thickness,
             top: (i * roundedHourHeight),
             child: Container(

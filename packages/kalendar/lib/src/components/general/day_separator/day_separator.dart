@@ -22,10 +22,10 @@ class DaySeparator extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         for (int i = 0; i < numberOfDays; i++)
-          Positioned(
+          PositionedDirectional(
             top: 0,
             bottom: 0,
-            left: (i * dayWidth + i) - (width / 2).floorToDouble(),
+            start: (i * dayWidth + i) - (width / 2).floorToDouble(),
             child: Container(
               width: width,
               color: color,

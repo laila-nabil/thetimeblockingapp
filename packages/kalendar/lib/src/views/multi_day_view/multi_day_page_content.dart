@@ -90,8 +90,8 @@ class MultiDayPageContent<T> extends StatelessWidget {
                     .toList()
                 : <DateTime>[];
 
-            final daySeparator = Positioned(
-              left: viewConfiguration.daySeparatorLeftOffset.toDouble(),
+            final daySeparator = PositionedDirectional(
+              start: viewConfiguration.daySeparatorLeftOffset.toDouble(),
               width: daySeparatorWidth,
               top: 0,
               bottom: 0,
@@ -151,8 +151,8 @@ class MultiDayPageContent<T> extends StatelessWidget {
 
             Widget? timeIndicator;
             if (DateTime.now().isWithin(visibleDateRange)) {
-              timeIndicator = Positioned(
-                left: left(
+              timeIndicator = PositionedDirectional(
+                start: start(
                   visibleDates.indexOf(DateTime.now().startOfDay),
                   dayWidth,
                 ),
@@ -195,8 +195,8 @@ class MultiDayPageContent<T> extends StatelessWidget {
     return eventGroups.map(
       (eventGroup) {
         final dayIndex = visibleDates.indexOf(eventGroup.date);
-        return Positioned(
-          left: left(dayIndex, dayWidth),
+        return PositionedDirectional(
+          start: start(dayIndex, dayWidth),
           width: dayWidth,
           top: 0,
           bottom: 0,
@@ -214,7 +214,7 @@ class MultiDayPageContent<T> extends StatelessWidget {
     );
   }
 
-  double left(int dayIndex, double dayWidth) {
+  double start(int dayIndex, double dayWidth) {
     return ((dayIndex * dayWidth + (dayIndex + 1)) +
         viewConfiguration.daySeparatorLeftOffset);
   }

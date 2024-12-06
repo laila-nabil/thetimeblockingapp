@@ -52,8 +52,11 @@ class MultiDayContent<T> extends StatelessWidget {
                 ),
               );
 
-              final pageView = Positioned.fill(
-                left: viewConfiguration.timelineWidth,
+              final pageView = PositionedDirectional(
+                start: viewConfiguration.timelineWidth,
+                end: 0,
+                bottom: 0,
+                top: 0,
                 child: PageView.builder(
                   // This key is used to force the page view to rebuild when the view configuration changes.
                   key: Key(viewConfiguration.hashCode.toString()),
