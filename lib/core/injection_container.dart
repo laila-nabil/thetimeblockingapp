@@ -18,6 +18,7 @@ import 'package:thetimeblockingapp/features/global/data/data_sources/global_remo
 import 'package:thetimeblockingapp/features/global/data/repositories/global_repo_impl.dart';
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/views/calendar.dart';
 import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/settings/domain/repositories/settings_repo.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
@@ -91,6 +92,8 @@ class AppConfig{
    bool confirmationEmailEnabled = false;
    ///TODO timezone
    String timezone = 'Africa/Cairo';
+   AppCalendar appCalendar = AppCalendar.kalender;
+   static int firstDayOfWeek = 6;
 }
 
 void _initServiceLocator({required Network network}) {

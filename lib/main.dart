@@ -17,11 +17,11 @@ import 'core/router.dart';
 import 'features/global/presentation/bloc/global_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/mock_web_packages/mock_timezone.dart'
-if (kIsWeb) 'package:timezone/browser.dart' as tz_web;
+if (kIsWeb) ''
+    '/browser.dart' as tz_web;
 import 'package:timezone/data/latest_all.dart'
 if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
-import 'features/schedule/presentation/widgets/syncfusion_tasks_calendar.dart';
 
 
 Future<void> main() async {

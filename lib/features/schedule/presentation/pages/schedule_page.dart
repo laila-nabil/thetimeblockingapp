@@ -1,16 +1,12 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kalender/kalender.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_statuses_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion_tasks_calendar.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -18,13 +14,12 @@ import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
-import '../../../../common/entities/task.dart';
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
-import '../widgets/kalendar_tasks_calendar.dart';
+import '../views/calendar.dart';
 
 ///TODO in desktop, month calendar view in drawer like SORTED for MAC
 
@@ -60,6 +55,7 @@ class SchedulePage extends StatelessWidget {
                     .add(const ShowTaskPopupEvent(showTaskPopup: false));
               }
             },
+            buildWhen: (prev,now)=>now.showTaskPopup == prev.showTaskPopup,
             builder: (context, state) {
               printDebug("ScheduleBloc state $state");
               final scheduleBloc =
@@ -170,12 +166,12 @@ class SchedulePage extends StatelessWidget {
                     ),
                 ],
                 responsiveBody: ResponsiveTParams(
-                  small: _SchedulePageContent(
+                  small: ScheduleView(
                       scheduleBloc: scheduleBloc,
                       scheduleState: state,
                       selectedWorkspaceId:
                           globalCurrentState.selectedWorkspace?.id ?? 0),
-                  large: _SchedulePageContent(
+                  large: ScheduleView(
                       scheduleBloc: scheduleBloc,
                       scheduleState: state,
                       selectedWorkspaceId:
@@ -214,43 +210,5 @@ class SchedulePage extends StatelessWidget {
         globalCurrentState.isLoading ||
         authBloc.state.isLoading ||
         globalCurrentState.workspaces == null;
-  }
-}
-
-class _SchedulePageContent extends StatelessWidget {
-  const _SchedulePageContent(
-      {required this.scheduleBloc,
-      this.selectedWorkspaceId,
-      required this.scheduleState});
-
-  final ScheduleBloc scheduleBloc;
-  final int? selectedWorkspaceId;
-  final ScheduleState scheduleState;
-
-  @override
-  Widget build(BuildContext context) {
-    final calendarController = CalendarController<Task>();
-    final tasks = scheduleState.tasks
-            ?.where((element) => element.dueDate != null)
-            .toList() ??
-        [];
-    final events = tasks
-        .map<CalendarEvent<Task>>((task) => CalendarEvent(
-            eventData: task,
-            dateTimeRange:
-                DateTimeRange(start: task.startDate!, end: task.dueDate!)))
-        .toList();
-    final CalendarEventsController<Task> eventsController =
-        CalendarEventsController<Task>();
-    eventsController.addEvents(events);
-    return KalendarTasksCalendar(
-      eventsController: eventsController,
-      controller: calendarController,
-      scheduleBloc: scheduleBloc,
-      scheduleState: scheduleState,
-      selectedWorkspaceId: selectedWorkspaceId,
-      currentConfigurationIndex:
-          scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
-    );
   }
 }
