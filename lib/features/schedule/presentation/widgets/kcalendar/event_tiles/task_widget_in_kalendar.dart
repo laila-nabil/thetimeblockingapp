@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
-import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/extensions.dart' as extensions;
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -70,7 +70,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
                     label: appLocalization.translate("delete"),
                     onPressed: () {
                       onDelete(DeleteTaskParams(
-                        task: event.eventData!,
+                        task: event.data!,
                       ));
                       Navigator.pop(context);
                     },
@@ -82,13 +82,13 @@ class TaskWidgetInKalendar extends StatelessWidget {
                     }),
               ],
               content: Text(
-                  "${appLocalization.translate("areYouSureDelete")} ${event.eventData!.title}?"),
+                  "${appLocalization.translate("areYouSureDelete")} ${event.data!.title}?"),
             )),
         CustomPopupItem(
             icon: AppIcons.copy,
             title: appLocalization.translate("duplicate"),
             onTap: () => onDuplicate(CreateTaskParams.fromTask(
-                  event.eventData!,
+                  event.data!,
                   serviceLocator<BackendMode>().mode,
                   BlocProvider.of<AuthBloc>(context).state.user!,
                   BlocProvider.of<GlobalBloc>(context)
@@ -100,8 +100,8 @@ class TaskWidgetInKalendar extends StatelessWidget {
 
   double get height {
     printDebug(
-        'height of task ${(heightPerMinute! * event.eventData!.duration!.inMinutes)}');
-    return (heightPerMinute! * event.eventData!.duration!.inMinutes);
+        'height of task ${(heightPerMinute! * event.data!.duration!.inMinutes)}');
+    return (heightPerMinute! * event.data!.duration!.inMinutes);
   }
 
   bool showActions(CalendarViewType? taskWidgetInKalendarType) =>
@@ -148,7 +148,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final task = event.eventData!;
+    final task = event.data!;
     final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
@@ -255,12 +255,12 @@ class TaskWidgetInKalendar extends StatelessWidget {
                 taskLocationTextStyle: taskLocationTextStyle,
                 showSmallDesign: context.showSmallDesign)
             : Card(
-                color: event.eventData?.color ?? Colors.blue,
+                color: event.data?.color ?? Colors.blue,
                 elevation: 0,
                 child: ListTile(
-                  title: Text(event.eventData?.title ?? ''),
+                  title: Text(event.data?.title ?? ''),
                   subtitle: Text(
-                    event.eventData?.description ?? '',
+                    event.data?.description ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -270,12 +270,12 @@ class TaskWidgetInKalendar extends StatelessWidget {
               ),
       );
       return Card(
-        color: event.eventData?.color ?? Colors.blue,
+        color: event.data?.color ?? Colors.blue,
         elevation: 0,
         child: ListTile(
-          title: Text(event.eventData?.title ?? ''),
+          title: Text(event.data?.title ?? ''),
           subtitle: Text(
-            event.eventData?.description ?? '',
+            event.data?.description ?? '',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -303,7 +303,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
       required String? folderName,
       required TextStyle taskLocationTextStyle,
       required bool showSmallDesign}) {
-    var task = event.eventData!;
+    var task = event.data!;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
         color: AppColors.grey(context.isDarkMode).shade400,
@@ -422,8 +422,8 @@ class TaskWidgetInKalendar extends StatelessWidget {
                 task.startDate != null &&
                 task.dueDate != null)
               Text(
-                "🕑 ${DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false)}"
-                " => ${DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false)}",
+                "🕑 ${extensions.DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false)}"
+                " => ${extensions.DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false)}",
                 style: dateTextStyle,
               )
             else if (showTime(taskWidgetInKalendarType))

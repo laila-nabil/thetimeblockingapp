@@ -10,8 +10,8 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
-class CalendarHeader extends StatelessWidget {
-  const CalendarHeader({
+class CustomCalendarHeader extends StatelessWidget {
+  const CustomCalendarHeader({
     super.key,
     required this.calendarController,
     required this.viewConfigurations,

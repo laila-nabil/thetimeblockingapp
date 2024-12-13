@@ -412,7 +412,7 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   Widget _calendarHeaderBuilder(DateTimeRange visibleDateTimeRange,
       List<ViewConfiguration> viewConfigurations) {
-    return CalendarHeader(
+    return CustomCalendarHeader(
       calendarController: controller,
       viewConfigurations: viewConfigurations,
       currentConfiguration: currentConfigurationIndex,

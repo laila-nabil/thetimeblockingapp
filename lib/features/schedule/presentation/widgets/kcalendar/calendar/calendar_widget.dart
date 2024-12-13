@@ -18,12 +18,8 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
-import '../dialogs/event_edit_dialog.dart';
-import '../dialogs/new_event_dialog.dart';
-import '../event_tiles/event_tile.dart';
-import '../event_tiles/multi_day_event_tile.dart';
-import '../event_tiles/schedule_event_tile.dart';
 import '../event_tiles/task_widget_in_kalendar.dart';
+import 'calendar_header.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({
@@ -54,26 +50,50 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     final globalBloc = BlocProvider.of<GlobalBloc>(context);
+    final scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
     return CalendarView<Task>(
-      controller: widget.calendarController,
+      calendarController: widget.calendarController,
       eventsController: widget.eventsController,
       viewConfiguration: widget.currentConfiguration,
-      tileBuilder: _tileBuilder,
-      multiDayTileBuilder: _multiDayTileBuilder,
-      scheduleTileBuilder: _scheduleTileBuilder,
-      components: widget.calendarComponents,
-      style: widget.calendarStyle,
-      layoutDelegates: widget.calendarLayoutDelegates,
-      eventHandlers: CalendarEventHandlers<Task>(
-        onEventChanged: onEventChanged,
-        onEventTapped: onEventTapped,
-        onDateTapped: onDateTapped,
-        onCreateEvent: (dateTimeRange) => onEventCreate(
-            dateTimeRange: dateTimeRange,
-            workspace: globalBloc.state.selectedWorkspace!,
-            list: globalBloc.state.selectedWorkspace!.defaultList!),
-        onEventCreated: onEventCreated,
+      header: CustomCalendarHeader(
+        calendarController: widget.calendarController,
+        viewConfigurations: viewConfigurations,
+        currentConfiguration: widget.currentConfiguration,
+        onViewConfigurationChanged: (viewConfiguration) {
+          scheduleBloc.add(ChangeCalendarView(viewIndex: viewConfiguration));
+        },
+        visibleDateTimeRange: visibleDateTimeRange,
       ),
+      body: CalendarBody(
+          multiDayTileComponents: TileComponents(tileBuilder: _tileBuilder,),
+          monthTileComponents: TileComponents(tileBuilder: _multiDayTileBuilder),
+          callbacks: CalendarCallbacks(
+            onEventChanged: onEventChanged,
+            onEventTapped: onEventTapped,
+            // onDateTapped: onDateTapped,
+            // onEventCreate: (dateTimeRange) => onEventCreate(
+            //     dateTimeRange: dateTimeRange,
+            //     workspace: globalBloc.state.selectedWorkspace!,
+            //     list: globalBloc.state.selectedWorkspace!.defaultList!),
+            onEventCreated: onEventCreated,
+          ),
+      ),
+      callbacks: CalendarCallbacks(
+          onEventChanged: onEventChanged,
+          onEventTapped: onEventTapped,
+          // onDateTapped: onDateTapped,
+          // onEventCreate: (dateTimeRange) => onEventCreate(
+          //     dateTimeRange: dateTimeRange,
+          //     workspace: globalBloc.state.selectedWorkspace!,
+          //     list: globalBloc.state.selectedWorkspace!.defaultList!),
+          onEventCreated: onEventCreated,
+      ),
+      // tileBuilder: _tileBuilder,
+      // multiDayTileBuilder: _multiDayTileBuilder,
+      // scheduleTileBuilder: _scheduleTileBuilder,
+      // components: widget.calendarComponents,
+      // style: widget.calendarStyle,
+      // layoutDelegates: widget.calendarLayoutDelegates,
     );
   }
 
@@ -83,7 +103,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       required TasksList list}) {
     return CalendarEvent<Task>(
       dateTimeRange: dateTimeRange,
-      eventData: Task(
+      data: Task(
           id: "id",
           title: 'New Event',
           description: '',
@@ -118,7 +138,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   /// This function is called when an event is tapped.
-  Future<void> onEventTapped(CalendarEvent<Task> event) async {
+  Future<void> onEventTapped(CalendarEvent<Task> event,RenderBox renderBox,) async {
     if (isMobile) {
       widget.eventsController.selectedEvent == event
           ? widget.eventsController.deselectEvent()
@@ -133,7 +153,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       scheduleBloc.add(ShowTaskPopupEvent(
           showTaskPopup: true,
           taskPopupParams: TaskPopupParams.openNotAllDayTask(
-            task: event.eventData,
+            task: event.data,
             onSave: (params) {
               scheduleBloc.add(UpdateTaskEvent(params: params));
             },
@@ -146,7 +166,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               var selectedWorkspace = globalBloc.state.selectedWorkspace;
               scheduleBloc.add(DuplicateTaskEvent(
                   params: CreateTaskParams.fromTask(
-                    event.eventData!,
+                    event.data!,
                     serviceLocator<BackendMode>().mode,
                     authBloc.state.user!,
                     selectedWorkspace!.defaultList!,
@@ -159,23 +179,23 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   /// This function is called when an event is changed.
   Future<void> onEventChanged(
-    DateTimeRange initialDateTimeRange,
     CalendarEvent<Task> event,
+    CalendarEvent<Task> updatedEvent,
   ) async {
-    if (event.eventData != null &&
-        (event.eventData?.dueDate?.isAtSameMomentAs(event.end) != true ||
-            event.eventData?.startDate?.isAtSameMomentAs(event.start) !=
+    if (event.data != null &&
+        (event.data?.dueDate?.isAtSameMomentAs(event.end) != true ||
+            event.data?.startDate?.isAtSameMomentAs(event.start) !=
                 true)) {
       var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
       var globalBloc = BlocProvider.of<GlobalBloc>(context);
       var authBloc = BlocProvider.of<AuthBloc>(context);
-      printDebug("initialDateTimeRange $initialDateTimeRange");
-      printDebug("event.eventData ${event.eventData}");
+      printDebug("updatedEvent $updatedEvent");
+      printDebug("event.data ${event.data}");
       printDebug("authBloc.state.user! ${authBloc.state.user!}");
       scheduleBloc.add(UpdateTaskEvent(
           params: CreateTaskParams.updateTask(
               defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
-              task: event.eventData!,
+              task: event.data!,
               updatedDueDate: event.end,
               updatedStartDate: event.start,
               backendMode: serviceLocator<BackendMode>().mode,
@@ -186,14 +206,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     // Show the snackbar and undo the changes if the user presses the undo button.
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${event.eventData?.title} changed'),
+        content: Text('${event.data?.title} changed'),
         // action: SnackBarAction(
         //   label: 'Undo',
         //   onPressed: () {
         //     widget.eventsController.updateEvent(
-        //       newEventData: event.eventData,
+        //       newEventData: event.data,
         //       newDateTimeRange: initialDateTimeRange,
-        //       test: (other) => other.eventData == event.eventData,
+        //       test: (other) => other.eventData == event.data,
         //     );
         //   },
         // ),
@@ -206,7 +226,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     // If the current view is not the single day view, change the view to the single day view.
     if (widget.currentConfiguration is! DayConfiguration) {
       // Set the selected date to the tapped date.
-      widget.calendarController.selectedDate = date;
+      widget.calendarController.initialDate = date;
       widget.onDateTapped();
       // widget.currentConfiguration = widget.viewConfigurations.first;
     }
@@ -214,7 +234,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   Widget _tileBuilder(
     CalendarEvent<Task> event,
-    TileConfiguration tileConfiguration,
+    DateTimeRange dateTimeRange,
   ) {
     return TaskWidgetInKalendar(
       event: event,
@@ -222,8 +242,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       drawOutline: tileConfiguration.drawOutline,
       continuesBefore: tileConfiguration.continuesBefore,
       continuesAfter: tileConfiguration.continuesAfter,
-      onDeleteConfirmed: () => onDeleteConfirmed(event.eventData!),
-      onCompleteConfirmed: () => onCompleteConfirmed(event.eventData!),
+      onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
+      onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
       viewConfiguration: widget.currentConfiguration,
       heightPerMinute: widget.calendarController.heightPerMinute?.value,
       onDelete: onDelete,
@@ -290,8 +310,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       tileType: tileConfiguration.tileType,
       continuesBefore: tileConfiguration.continuesBefore,
       continuesAfter: tileConfiguration.continuesAfter,
-      onCompleteConfirmed: () => onCompleteConfirmed(event.eventData!),
-      onDeleteConfirmed: () => onDeleteConfirmed(event.eventData!),
+      onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
+      onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
       viewConfiguration: widget.currentConfiguration,
       heightPerMinute: widget.calendarController.heightPerMinute?.value,
       onDelete: onDelete,
@@ -308,8 +328,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       event: event,
       date: date,
       tileType: TileType.normal,
-      onCompleteConfirmed: () => onCompleteConfirmed(event.eventData!),
-      onDeleteConfirmed: () => onDeleteConfirmed(event.eventData!),
+      onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
+      onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
       viewConfiguration: widget.currentConfiguration,
       heightPerMinute: widget.calendarController.heightPerMinute?.value,
       onDelete: onDelete,
