@@ -267,10 +267,11 @@ class KalendarTasksCalendar extends StatelessWidget {
 
     var currentView =
         viewConfigurations(context.showSmallDesign)[currentConfigurationIndex];
-    TileComponents<Task> tileComponents({bool body = true}) {
+    TileComponents<Task> tileComponents({bool header = true}) {
       return TileComponents<Task>(
         tileBuilder: (event, tileRange) {
           return TaskWidgetInKalendar(
+            taskLocation: TaskLocation.header,
             event: event,
             tileType: TileType.normal,
             onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
@@ -356,17 +357,19 @@ class KalendarTasksCalendar extends StatelessWidget {
                       scheduleBloc.add(ChangeCalendarView(viewIndex: value)),
                   visibleDateTimeRange: controller.visibleDateTimeRange.value),
               CalendarHeader(
-                multiDayTileComponents: tileComponents(),
-                multiDayHeaderConfiguration: MultiDayHeaderConfiguration(),
+                multiDayTileComponents: tileComponents(header: true),
+                multiDayHeaderConfiguration: MultiDayHeaderConfiguration(
+                  showTiles: false,
+                ),
               ),
               Divider()
             ],
           ),
           body: CalendarBody<Task>(
             multiDayTileComponents: tileComponents(),
-            monthTileComponents: tileComponents(body: false),
+            monthTileComponents: tileComponents(),
             multiDayBodyConfiguration: MultiDayBodyConfiguration(
-                showMultiDayEvents: false,
+                showMultiDayEvents: true,
                 eventLayoutStrategy:
                     (currentView is MultiDayViewConfiguration &&
                                 (currentView).numberOfDays < 4) ==

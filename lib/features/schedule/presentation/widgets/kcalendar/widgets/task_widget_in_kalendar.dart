@@ -26,13 +26,16 @@ import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.
 
 enum CalendarViewType { day, twoDays, week, multiWeek, month, schedule }
 
-enum TileType{selected,ghost,normal}
+enum TileType { selected, ghost, normal }
+
+enum TaskLocation { body, header }
 
 class TaskWidgetInKalendar extends StatelessWidget {
   const TaskWidgetInKalendar({
     super.key,
     required this.event,
     required this.tileType,
+    this.taskLocation = TaskLocation.body,
     this.drawOutline = false,
     this.continuesBefore = false,
     this.continuesAfter = false,
@@ -48,6 +51,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
 
   final CalendarEvent<Task> event;
   final TileType tileType;
+  final TaskLocation taskLocation;
   final bool drawOutline;
   final bool continuesBefore;
   final bool continuesAfter;
@@ -100,45 +104,47 @@ class TaskWidgetInKalendar extends StatelessWidget {
                 )))
       ];
 
-  double get height {
+  double get heightInCalendarBody {
     printDebug(
         'height of task ${(heightPerMinute! * event.data!.duration!.inMinutes)}');
     return (heightPerMinute! * event.data!.duration!.inMinutes);
   }
 
   bool showActions(CalendarViewType? taskWidgetInKalendarType) =>
-      taskWidgetInKalendarType == CalendarViewType.schedule ||
-      (taskWidgetInKalendarType != CalendarViewType.month &&
-          taskWidgetInKalendarType != CalendarViewType.multiWeek &&
-          taskWidgetInKalendarType != CalendarViewType.week &&
-          height > 250);
+      taskLocation == TaskLocation.body &&
+      (taskWidgetInKalendarType == CalendarViewType.schedule ||
+          (taskWidgetInKalendarType != CalendarViewType.month &&
+              taskWidgetInKalendarType != CalendarViewType.multiWeek &&
+              taskWidgetInKalendarType != CalendarViewType.week &&
+              heightInCalendarBody > 250));
 
   bool showList(CalendarViewType? taskWidgetInKalendarType) =>
-      taskWidgetInKalendarType == CalendarViewType.schedule ||
-      (
-          taskWidgetInKalendarType != CalendarViewType.multiWeek &&
-          taskWidgetInKalendarType != CalendarViewType.month &&
-          height > 250);
+      taskLocation == TaskLocation.body &&
+      (taskWidgetInKalendarType == CalendarViewType.schedule ||
+          (taskWidgetInKalendarType != CalendarViewType.multiWeek &&
+              taskWidgetInKalendarType != CalendarViewType.month &&
+              heightInCalendarBody > 250));
 
   bool showTags(CalendarViewType? taskWidgetInKalendarType) =>
-      taskWidgetInKalendarType == CalendarViewType.schedule ||
-      (taskWidgetInKalendarType != CalendarViewType.month &&
-          taskWidgetInKalendarType != CalendarViewType.multiWeek &&
-          taskWidgetInKalendarType != CalendarViewType.week &&
-          height > 400);
+      taskLocation == TaskLocation.body &&
+      (taskWidgetInKalendarType == CalendarViewType.schedule ||
+          (taskWidgetInKalendarType != CalendarViewType.month &&
+              taskWidgetInKalendarType != CalendarViewType.multiWeek &&
+              taskWidgetInKalendarType != CalendarViewType.week &&
+              heightInCalendarBody > 400));
 
   bool showTime(CalendarViewType? taskWidgetInKalendarType) =>
+      taskLocation == TaskLocation.body &&
       taskWidgetInKalendarType == CalendarViewType.schedule;
 
-  int maxLines(
-          Rect bounds, CalendarViewType? taskWidgetInKalendarType) =>
+  int maxLines(Rect bounds, CalendarViewType? taskWidgetInKalendarType) =>
       (taskWidgetInKalendarType != CalendarViewType.schedule &&
               bounds.height > 70)
           ? 2
           : 1;
 
-  bool showCheckIcon(CalendarViewType? taskWidgetInKalendarType,
-          bool showSmallDesign) =>
+  bool showCheckIcon(
+          CalendarViewType? taskWidgetInKalendarType, bool showSmallDesign) =>
       taskWidgetInKalendarType == CalendarViewType.schedule ||
       (taskWidgetInKalendarType != CalendarViewType.month &&
           taskWidgetInKalendarType != CalendarViewType.multiWeek &&
@@ -250,7 +256,8 @@ class TaskWidgetInKalendar extends StatelessWidget {
         child: true
             ? buildTaskWidgetInKalendar(
                 context: context,
-                taskWidgetInKalendarType: viewConfiguration.getCalendarViewType!,
+                taskWidgetInKalendarType:
+                    viewConfiguration.getCalendarViewType!,
                 isListInsideFolder: isListInsideFolder,
                 listName: listName,
                 folderName: folderName,
@@ -344,11 +351,9 @@ class TaskWidgetInKalendar extends StatelessWidget {
                               ? TextDecoration.lineThrough
                               : null),
                 ),
-                if (taskWidgetInKalendarType ==
-                    CalendarViewType.schedule)
+                if (taskWidgetInKalendarType == CalendarViewType.schedule)
                   const TextSpan(text: '\n'),
-                if (taskWidgetInKalendarType ==
-                    CalendarViewType.schedule)
+                if (taskWidgetInKalendarType == CalendarViewType.schedule)
                   TextSpan(
                     text: task.description ?? '',
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
