@@ -15,7 +15,7 @@ import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalendar/calendar/calendar_navigation_header.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalendar/widgets/calendar_navigation_header.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalendar/widgets/resize_handler.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
