@@ -23,7 +23,6 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_u
 
 import '../bloc/schedule_bloc.dart';
 import 'kcalendar/widgets/calendar_zoom.dart';
-import 'kcalendar/widgets/schedule_view.dart';
 import 'kcalendar/widgets/task_widget_in_kalendar.dart';
 
 class KalendarTasksCalendar extends StatelessWidget {
@@ -79,7 +78,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           name: appLocalization.translate("month"),
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
         ),
-        ScheduleConfiguration(name: appLocalization.translate("schedule")),
+        // ScheduleConfiguration(name: appLocalization.translate("schedule")),
       ];
 
   @override
@@ -317,9 +316,7 @@ class KalendarTasksCalendar extends StatelessWidget {
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
-        child: currentView is ScheduleConfiguration
-            ? ScheduleView()
-            : CalendarView<Task>(
+        child: CalendarView<Task>(
                 eventsController: eventsController,
                 calendarController: controller,
                 viewConfiguration: currentView,
