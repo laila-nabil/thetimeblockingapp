@@ -344,9 +344,41 @@ class KalendarTasksCalendar extends StatelessWidget {
                         thickness: appTheme(context.isDarkMode)
                             .dividerTheme
                             .thickness),
-                  )),
-                  monthComponents: MonthComponents(),
-                  monthComponentStyles: MonthComponentStyles(),
+                  ),),
+                  monthComponents: MonthComponents(
+                    bodyComponents: MonthBodyComponents(
+                      monthGridBuilder: (style) {
+                        final thickness = 0.3;
+                        final color = appTheme(context.isDarkMode).dividerTheme.color;
+                        return Stack(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              for (int i = 0; i < 8; i++)
+                                VerticalDivider(
+                                  width: thickness,
+                                  thickness: thickness,
+                                  color: color,
+                                ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              for (int i = 0; i < 6; i++)
+                                Divider(
+                                  height: thickness,
+                                  thickness: thickness,
+                                  color: color,
+                                ),
+                            ],
+                          ),
+                        ],
+                      );
+                      }
+                    )
+                  ),
                 ),
                 header: Column(
                   children: [
