@@ -22,7 +22,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 
 import '../bloc/schedule_bloc.dart';
-import 'kcalendar/calendar/calendar_zoom.dart';
+import 'kcalendar/widgets/calendar_zoom.dart';
 import 'kcalendar/widgets/task_widget_in_kalendar.dart';
 
 class KalendarTasksCalendar extends StatelessWidget {
