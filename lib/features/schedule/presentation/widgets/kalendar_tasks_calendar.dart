@@ -83,27 +83,26 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     CalendarEvent<Task> onEventCreate(
-      {required DateTimeRange dateTimeRange,
-      required Workspace workspace,
-      required TasksList list}) {
-    return CalendarEvent<Task>(
-      dateTimeRange: dateTimeRange,
-      data: Task(
-          id: "id",
-          title: 'New Event',
-          description: '',
-          status: null,
-          priority: null,
-          tags: [],
-          startDate: dateTimeRange.start,
-          dueDate: dateTimeRange.end,
-          list: list,
-          folder: null,
-          workspace: workspace),
-    );
-  }
+        {required DateTimeRange dateTimeRange,
+        required Workspace workspace,
+        required TasksList list}) {
+      return CalendarEvent<Task>(
+        dateTimeRange: dateTimeRange,
+        data: Task(
+            id: "id",
+            title: 'New Event',
+            description: '',
+            status: null,
+            priority: null,
+            tags: [],
+            startDate: dateTimeRange.start,
+            dueDate: dateTimeRange.end,
+            list: list,
+            folder: null,
+            workspace: workspace),
+      );
+    }
 
     /// This function is called when a new event is created.
     Future<void> onEventCreated(CalendarEvent<Task> event) async {
@@ -173,20 +172,25 @@ class KalendarTasksCalendar extends StatelessWidget {
       CalendarEvent<Task> updatedEvent,
     ) async {
       if (event.data != null &&
-          (event.data?.dueDate?.isAtSameMomentAs(event.end) != true ||
-              event.data?.startDate?.isAtSameMomentAs(event.start) != true)) {
+          (updatedEvent.data?.dueDate?.isAtSameMomentAs(event.end) != true ||
+              updatedEvent.data?.startDate?.isAtSameMomentAs(event.start) !=
+                  true)) {
         var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
         var globalBloc = BlocProvider.of<GlobalBloc>(context);
         var authBloc = BlocProvider.of<AuthBloc>(context);
-        printDebug("updatedEvent $updatedEvent");
+        printDebug("updatedEvent ${updatedEvent.data}");
         printDebug("event.data ${event.data}");
+        printDebug(
+            "start updatedEvent.start: ${updatedEvent.start}, event.start: ${event.start}");
+        printDebug(
+            "end updatedEvent.end: ${updatedEvent.end}, event.end: ${event.end}");
         printDebug("authBloc.state.user! ${authBloc.state.user!}");
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
                 defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
                 task: event.data!,
-                updatedDueDate: event.end,
-                updatedStartDate: event.start,
+                updatedDueDate: updatedEvent.end,
+                updatedStartDate: updatedEvent.start,
                 backendMode: serviceLocator<BackendMode>().mode,
                 user: authBloc.state.user!)));
       }
@@ -195,7 +199,7 @@ class KalendarTasksCalendar extends StatelessWidget {
       // Show the snackbar and undo the changes if the user presses the undo button.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${event.data?.title} changed'),
+          content: Text('${updatedEvent.data?.title} changed'),
           // action: SnackBarAction(
           //   label: 'Undo',
           //   onPressed: () {
@@ -261,6 +265,8 @@ class KalendarTasksCalendar extends StatelessWidget {
       ));
     }
 
+    var currentView =
+        viewConfigurations(context.showSmallDesign)[currentConfigurationIndex];
     TileComponents<Task> tileComponents({bool body = true}) {
       return TileComponents<Task>(
         tileBuilder: (event, tileRange) {
@@ -269,8 +275,7 @@ class KalendarTasksCalendar extends StatelessWidget {
             tileType: TileType.normal,
             onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
             onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
-            viewConfiguration: viewConfigurations(
-                context.showSmallDesign)[currentConfigurationIndex],
+            viewConfiguration: currentView,
             heightPerMinute: controller.viewController is MultiDayViewController
                 ? (controller.viewController as MultiDayViewController)
                     .heightPerMinute
@@ -313,8 +318,7 @@ class KalendarTasksCalendar extends StatelessWidget {
         child: CalendarView<Task>(
           eventsController: eventsController,
           calendarController: controller,
-          viewConfiguration: viewConfigurations(
-              context.showSmallDesign)[currentConfigurationIndex],
+          viewConfiguration: currentView,
           // Handle the callbacks made by the calendar.
           callbacks: CalendarCallbacks(
             onEventChanged: onEventChanged,
@@ -329,16 +333,15 @@ class KalendarTasksCalendar extends StatelessWidget {
           components: CalendarComponents(
             multiDayComponents: MultiDayComponents(),
             multiDayComponentStyles: MultiDayComponentStyles(
-              bodyStyles: MultiDayBodyComponentStyles(
-                daySeparatorStyle: DaySeparatorStyle(
-                    color: appTheme(context.isDarkMode).dividerTheme.color,
-                    width: 0.3),
-                hourLinesStyle: HourLinesStyle(
-                    color: appTheme(context.isDarkMode).dividerTheme.color,
-                    thickness:
-                    appTheme(context.isDarkMode).dividerTheme.thickness),
-              )
-            ),
+                bodyStyles: MultiDayBodyComponentStyles(
+              daySeparatorStyle: DaySeparatorStyle(
+                  color: appTheme(context.isDarkMode).dividerTheme.color,
+                  width: 0.3),
+              hourLinesStyle: HourLinesStyle(
+                  color: appTheme(context.isDarkMode).dividerTheme.color,
+                  thickness:
+                      appTheme(context.isDarkMode).dividerTheme.thickness),
+            )),
             monthComponents: MonthComponents(),
             monthComponentStyles: MonthComponentStyles(),
           ),
@@ -362,8 +365,14 @@ class KalendarTasksCalendar extends StatelessWidget {
           body: CalendarBody<Task>(
             multiDayTileComponents: tileComponents(),
             monthTileComponents: tileComponents(body: false),
-            multiDayBodyConfiguration:
-                MultiDayBodyConfiguration(showMultiDayEvents: false),
+            multiDayBodyConfiguration: MultiDayBodyConfiguration(
+                showMultiDayEvents: false,
+                eventLayoutStrategy:
+                    (currentView is MultiDayViewConfiguration &&
+                                (currentView).numberOfDays < 4) ==
+                            true
+                        ? sideBySideLayoutStrategy
+                        : overlapLayoutStrategy),
             monthBodyConfiguration: MultiDayHeaderConfiguration(),
           ),
         ),
@@ -375,7 +384,8 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   ///TODO not sure if correct
   bool get isMobile {
-    printDebug("getAppPlatformType().isMobile ${getAppPlatformType().isMobile}");
+    printDebug(
+        "getAppPlatformType().isMobile ${getAppPlatformType().isMobile}");
     return getAppPlatformType().isMobile;
   }
 }
