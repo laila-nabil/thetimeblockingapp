@@ -4,6 +4,8 @@ import 'package:kalender/kalender.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/functions.dart';
@@ -42,10 +44,11 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   static List<ViewConfiguration> viewConfigurations(bool isSmallScreen) => [
         MultiDayViewConfiguration.singleDay(
-            name: appLocalization.translate("day"),
-            // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
-            // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
-            initialHeightPerMinute: 1,),
+          name: appLocalization.translate("day"),
+          // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
+          // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
+          initialHeightPerMinute: 1,
+        ),
         MultiDayViewConfiguration.custom(
           name: appLocalization.translate("2Days"),
           numberOfDays: 2,
@@ -79,15 +82,56 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    CalendarEvent<Task> onEventCreate(
+      {required DateTimeRange dateTimeRange,
+      required Workspace workspace,
+      required TasksList list}) {
+    return CalendarEvent<Task>(
+      dateTimeRange: dateTimeRange,
+      data: Task(
+          id: "id",
+          title: 'New Event',
+          description: '',
+          status: null,
+          priority: null,
+          tags: [],
+          startDate: dateTimeRange.start,
+          dueDate: dateTimeRange.end,
+          list: list,
+          folder: null,
+          workspace: workspace),
+    );
+  }
+
+    /// This function is called when a new event is created.
+    Future<void> onEventCreated(CalendarEvent<Task> event) async {
+      // Show the new event dialog.
+      var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+      var globalBloc = BlocProvider.of<GlobalBloc>(context);
+      scheduleBloc.add(ShowTaskPopupEvent(
+          showTaskPopup: true,
+          taskPopupParams: TaskPopupParams.notAllDayTask(
+              start: event.start,
+              end: event.end,
+              onSave: (params) {
+                scheduleBloc.add(CreateTaskEvent(
+                    params: params,
+                    workspaceId: globalBloc.state.selectedWorkspace!.id!));
+              },
+              bloc: scheduleBloc,
+              isLoading: (state) => scheduleBloc.state.isLoading)));
+    }
+
     /// This function is called when an event is tapped.
     Future<void> onEventTapped(
       CalendarEvent<Task> event,
       RenderBox renderBox,
     ) async {
       if (isMobile) {
-        // widget.eventsController.selectedEvent == event
-        //     ? widget.eventsController.deselectEvent()
-        //     : widget.eventsController.selectEvent(event);
+        controller.selectedEvent == event
+            ? controller.deselectEvent()
+            : controller.selectEvent(event);
       } else {
         // Make a copy of the event to restore it if the user cancels the changes.
         CalendarEvent<Task> copyOfEvent = event.copyWith();
@@ -120,6 +164,49 @@ class KalendarTasksCalendar extends StatelessWidget {
               },
             )));
       }
+    }
+
+    /// This function is called when an event is changed.
+    Future<void> onEventChanged(
+      CalendarEvent<Task> event,
+      CalendarEvent<Task> updatedEvent,
+    ) async {
+      if (event.data != null &&
+          (event.data?.dueDate?.isAtSameMomentAs(event.end) != true ||
+              event.data?.startDate?.isAtSameMomentAs(event.start) != true)) {
+        var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+        var globalBloc = BlocProvider.of<GlobalBloc>(context);
+        var authBloc = BlocProvider.of<AuthBloc>(context);
+        printDebug("updatedEvent $updatedEvent");
+        printDebug("event.data ${event.data}");
+        printDebug("authBloc.state.user! ${authBloc.state.user!}");
+        scheduleBloc.add(UpdateTaskEvent(
+            params: CreateTaskParams.updateTask(
+                defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
+                task: event.data!,
+                updatedDueDate: event.end,
+                updatedStartDate: event.start,
+                backendMode: serviceLocator<BackendMode>().mode,
+                user: authBloc.state.user!)));
+      }
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      // Show the snackbar and undo the changes if the user presses the undo button.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${event.data?.title} changed'),
+          // action: SnackBarAction(
+          //   label: 'Undo',
+          //   onPressed: () {
+          //     widget.eventsController.updateEvent(
+          //       newEventData: event.data,
+          //       newDateTimeRange: initialDateTimeRange,
+          //       test: (other) => other.eventData == event.data,
+          //     );
+          //   },
+          // ),
+        ),
+      );
     }
 
     void onDuplicate(params) {
@@ -173,7 +260,6 @@ class KalendarTasksCalendar extends StatelessWidget {
       ));
     }
 
-
     TileComponents<Task> tileComponents({bool body = true}) {
       return TileComponents<Task>(
         tileBuilder: (event, tileRange) {
@@ -218,6 +304,8 @@ class KalendarTasksCalendar extends StatelessWidget {
       );
     }
 
+    final globalBloc = BlocProvider.of<GlobalBloc>(context, listen: false);
+
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
@@ -227,10 +315,14 @@ class KalendarTasksCalendar extends StatelessWidget {
           viewConfiguration: viewConfigurations(
               context.showSmallDesign)[currentConfigurationIndex],
           // Handle the callbacks made by the calendar.
-          callbacks: CalendarCallbacks<Task>(
-            onEventTapped: (event, renderBox) => controller.selectEvent(event),
-            onEventCreate: (event) => event,
-            onEventCreated: (event) => eventsController.addEvent(event),
+          callbacks: CalendarCallbacks(
+            onEventChanged: onEventChanged,
+            onEventTapped: onEventTapped,
+            onEventCreate: (task) => onEventCreate(
+                dateTimeRange: task.dateTimeRange,
+                workspace: globalBloc.state.selectedWorkspace!,
+                list: globalBloc.state.selectedWorkspace!.defaultList!),
+            onEventCreated: onEventCreated,
           ),
           // Customize the components.
           components: CalendarComponents(
@@ -243,7 +335,8 @@ class KalendarTasksCalendar extends StatelessWidget {
             children: [
               CalendarNavigationHeader(
                   calendarController: controller,
-                  viewConfigurations: viewConfigurations(context.showSmallDesign),
+                  viewConfigurations:
+                      viewConfigurations(context.showSmallDesign),
                   currentConfiguration: currentConfigurationIndex,
                   onViewConfigurationChanged: (value) =>
                       scheduleBloc.add(ChangeCalendarView(viewIndex: value)),
@@ -269,8 +362,11 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   BorderRadius get radius => BorderRadius.circular(8);
 
-  ///TODO not correct
-  bool get isMobile => getAppPlatformType().isMobile;
+  ///TODO not sure if correct
+  bool get isMobile {
+    printDebug("getAppPlatformType().isMobile ${getAppPlatformType().isMobile}");
+    return getAppPlatformType().isMobile;
+  }
 }
 
 /*
