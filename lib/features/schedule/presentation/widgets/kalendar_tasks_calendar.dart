@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/core/functions.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalendar/calendar/calendar_navigation_header.dart';
@@ -327,7 +328,17 @@ class KalendarTasksCalendar extends StatelessWidget {
           // Customize the components.
           components: CalendarComponents(
             multiDayComponents: MultiDayComponents(),
-            multiDayComponentStyles: MultiDayComponentStyles(),
+            multiDayComponentStyles: MultiDayComponentStyles(
+              bodyStyles: MultiDayBodyComponentStyles(
+                daySeparatorStyle: DaySeparatorStyle(
+                    color: appTheme(context.isDarkMode).dividerTheme.color,
+                    width: 0.3),
+                hourLinesStyle: HourLinesStyle(
+                    color: appTheme(context.isDarkMode).dividerTheme.color,
+                    thickness:
+                    appTheme(context.isDarkMode).dividerTheme.thickness),
+              )
+            ),
             monthComponents: MonthComponents(),
             monthComponentStyles: MonthComponentStyles(),
           ),
