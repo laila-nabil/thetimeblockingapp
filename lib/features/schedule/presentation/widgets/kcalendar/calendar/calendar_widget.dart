@@ -18,8 +18,8 @@
 // import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 // import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 //
-// import '../event_tiles/task_widget_in_kalendar.dart';
-// import 'calendar_header.dart';
+// import '../widgets/task_widget_in_kalendar.dart';
+// import 'calendar_navigation_header.dart';
 //
 // class CalendarWidget extends StatefulWidget {
 //   const CalendarWidget({

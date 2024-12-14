@@ -2,9 +2,12 @@
 
 import 'dart:ui';
 
+import 'package:kalender/kalender.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalendar/widgets/task_widget_in_kalendar.dart';
 
 import 'injection_container.dart';
+import 'localization/localization.dart';
 
 extension ElementAtNullableOrEmpty<T> on List<T>? {
   T? tryElementAt(int index) {
@@ -95,10 +98,10 @@ extension DateTimeExtensions on DateTime {
 
   static String? customToString(DateTime? dateTime,
       {bool includeDayMonthYear = true, bool includeTime = true}) {
-    if(dateTime == null){
+    if (dateTime == null) {
       return null;
     }
-    if(dateTime.isUtc == true){
+    if (dateTime.isUtc == true) {
       dateTime = dateTime.toLocal();
     }
     String y = _fourDigits(dateTime.year);
@@ -106,7 +109,7 @@ extension DateTimeExtensions on DateTime {
     String d = _twoDigits(dateTime.day);
     String amPm = "am";
     var hour = dateTime.hour;
-    if( hour > 12){
+    if (hour > 12) {
       hour -= 12;
       amPm = "pm";
     }
@@ -124,7 +127,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   DateTime get dateAtZeroHour {
-    return DateTime(year,month,day);
+    return DateTime(year, month, day);
   }
 }
 
@@ -172,14 +175,38 @@ extension UriExtension on Uri {
         path: path,
         queryParameters: queryParameters);
   }
-
 }
 
 extension StringExtensions on Object? {
-    String? toStringOrNull(){
-      if(this == null){
-        return null;
-      }
-      return toString();
+  String? toStringOrNull() {
+    if (this == null) {
+      return null;
     }
+    return toString();
+  }
+}
+
+extension ViewConfigurationExt on ViewConfiguration {
+  CalendarViewType? get getCalendarViewType {
+    if (this.name == appLocalization.translate("day")) {
+      return CalendarViewType.day;
+    }
+    if (this.name == appLocalization.translate("2Days")) {
+      return CalendarViewType.twoDays;
+    }
+    if (this.name == appLocalization.translate("week")) {
+      return CalendarViewType.week;
+    }
+    if (this.name == appLocalization.translate("multiWeek")) {
+      return CalendarViewType.multiWeek;
+    }
+    if (this.name == appLocalization.translate("month")) {
+      return CalendarViewType.month;
+    }
+    if (this.name == 'Schedule') {
+      return CalendarViewType.schedule;
+    }
+
+    return null;
+  }
 }

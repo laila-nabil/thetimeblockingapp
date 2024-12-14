@@ -236,12 +236,12 @@ class _SchedulePageContent extends StatelessWidget {
         [];
     final events = tasks
         .map<CalendarEvent<Task>>((task) => CalendarEvent(
-            eventData: task,
+            data: task,
             dateTimeRange:
                 DateTimeRange(start: task.startDate!, end: task.dueDate!)))
         .toList();
-    final CalendarEventsController<Task> eventsController =
-        CalendarEventsController<Task>();
+    final EventsController<Task> eventsController =
+    EventsController<Task>();
     eventsController.addEvents(events);
     return KalendarTasksCalendar(
       eventsController: eventsController,
