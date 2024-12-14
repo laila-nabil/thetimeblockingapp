@@ -359,7 +359,7 @@ class KalendarTasksCalendar extends StatelessWidget {
               CalendarHeader(
                 multiDayTileComponents: tileComponents(header: true),
                 multiDayHeaderConfiguration: MultiDayHeaderConfiguration(
-                  showTiles: false,
+                  showTiles: false
                 ),
               ),
               Divider()
