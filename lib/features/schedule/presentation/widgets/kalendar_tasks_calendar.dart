@@ -23,6 +23,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_u
 
 import '../bloc/schedule_bloc.dart';
 import 'kcalendar/widgets/calendar_zoom.dart';
+import 'kcalendar/widgets/schedule_view.dart';
 import 'kcalendar/widgets/task_widget_in_kalendar.dart';
 
 class KalendarTasksCalendar extends StatelessWidget {
@@ -78,7 +79,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           name: appLocalization.translate("month"),
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
         ),
-        // ScheduleConfiguration(),
+        ScheduleConfiguration(name: appLocalization.translate("schedule")),
       ];
 
   @override
@@ -316,69 +317,72 @@ class KalendarTasksCalendar extends StatelessWidget {
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
-        child: CalendarView<Task>(
-          eventsController: eventsController,
-          calendarController: controller,
-          viewConfiguration: currentView,
-          // Handle the callbacks made by the calendar.
-          callbacks: CalendarCallbacks(
-            onEventChanged: onEventChanged,
-            onEventTapped: onEventTapped,
-            onEventCreate: (task) => onEventCreate(
-                dateTimeRange: task.dateTimeRange,
-                workspace: globalBloc.state.selectedWorkspace!,
-                list: globalBloc.state.selectedWorkspace!.defaultList!),
-            onEventCreated: onEventCreated,
-          ),
-          // Customize the components.
-          components: CalendarComponents(
-            multiDayComponents: MultiDayComponents(),
-            multiDayComponentStyles: MultiDayComponentStyles(
-                bodyStyles: MultiDayBodyComponentStyles(
-              daySeparatorStyle: DaySeparatorStyle(
-                  color: appTheme(context.isDarkMode).dividerTheme.color,
-                  width: 0.3),
-              hourLinesStyle: HourLinesStyle(
-                  color: appTheme(context.isDarkMode).dividerTheme.color,
-                  thickness:
-                      appTheme(context.isDarkMode).dividerTheme.thickness),
-            )),
-            monthComponents: MonthComponents(),
-            monthComponentStyles: MonthComponentStyles(),
-          ),
-          header: Column(
-            children: [
-              CalendarNavigationHeader(
-                  calendarController: controller,
-                  viewConfigurations:
-                      viewConfigurations(context.showSmallDesign),
-                  currentConfiguration: currentConfigurationIndex,
-                  onViewConfigurationChanged: (value) =>
-                      scheduleBloc.add(ChangeCalendarView(viewIndex: value)),
-                  visibleDateTimeRange: controller.visibleDateTimeRange.value),
-              CalendarHeader(
-                multiDayTileComponents: tileComponents(header: true),
-                multiDayHeaderConfiguration: MultiDayHeaderConfiguration(
-                  showTiles: false
+        child: currentView is ScheduleConfiguration
+            ? ScheduleView()
+            : CalendarView<Task>(
+                eventsController: eventsController,
+                calendarController: controller,
+                viewConfiguration: currentView,
+                // Handle the callbacks made by the calendar.
+                callbacks: CalendarCallbacks(
+                  onEventChanged: onEventChanged,
+                  onEventTapped: onEventTapped,
+                  onEventCreate: (task) => onEventCreate(
+                      dateTimeRange: task.dateTimeRange,
+                      workspace: globalBloc.state.selectedWorkspace!,
+                      list: globalBloc.state.selectedWorkspace!.defaultList!),
+                  onEventCreated: onEventCreated,
+                ),
+                // Customize the components.
+                components: CalendarComponents(
+                  multiDayComponents: MultiDayComponents(),
+                  multiDayComponentStyles: MultiDayComponentStyles(
+                      bodyStyles: MultiDayBodyComponentStyles(
+                    daySeparatorStyle: DaySeparatorStyle(
+                        color: appTheme(context.isDarkMode).dividerTheme.color,
+                        width: 0.3),
+                    hourLinesStyle: HourLinesStyle(
+                        color: appTheme(context.isDarkMode).dividerTheme.color,
+                        thickness: appTheme(context.isDarkMode)
+                            .dividerTheme
+                            .thickness),
+                  )),
+                  monthComponents: MonthComponents(),
+                  monthComponentStyles: MonthComponentStyles(),
+                ),
+                header: Column(
+                  children: [
+                    CalendarNavigationHeader(
+                        calendarController: controller,
+                        viewConfigurations:
+                            viewConfigurations(context.showSmallDesign),
+                        currentConfiguration: currentConfigurationIndex,
+                        onViewConfigurationChanged: (value) => scheduleBloc
+                            .add(ChangeCalendarView(viewIndex: value)),
+                        visibleDateTimeRange:
+                            controller.visibleDateTimeRange.value),
+                    CalendarHeader(
+                      multiDayTileComponents: tileComponents(header: true),
+                      multiDayHeaderConfiguration:
+                          MultiDayHeaderConfiguration(showTiles: false),
+                    ),
+                    Divider()
+                  ],
+                ),
+                body: CalendarBody<Task>(
+                  multiDayTileComponents: tileComponents(),
+                  monthTileComponents: tileComponents(),
+                  multiDayBodyConfiguration: MultiDayBodyConfiguration(
+                      showMultiDayEvents: true,
+                      eventLayoutStrategy:
+                          (currentView is MultiDayViewConfiguration &&
+                                      (currentView).numberOfDays < 4) ==
+                                  true
+                              ? sideBySideLayoutStrategy
+                              : overlapLayoutStrategy),
+                  monthBodyConfiguration: MultiDayHeaderConfiguration(),
                 ),
               ),
-              Divider()
-            ],
-          ),
-          body: CalendarBody<Task>(
-            multiDayTileComponents: tileComponents(),
-            monthTileComponents: tileComponents(),
-            multiDayBodyConfiguration: MultiDayBodyConfiguration(
-                showMultiDayEvents: true,
-                eventLayoutStrategy:
-                    (currentView is MultiDayViewConfiguration &&
-                                (currentView).numberOfDays < 4) ==
-                            true
-                        ? sideBySideLayoutStrategy
-                        : overlapLayoutStrategy),
-            monthBodyConfiguration: MultiDayHeaderConfiguration(),
-          ),
-        ),
       ),
     );
   }
