@@ -68,7 +68,8 @@ class KalendarTasksCalendar extends StatelessWidget {
         ),
         if (isSmallScreen == false)
           MultiDayViewConfiguration.custom(
-              name: appLocalization.translate("multiWeek"), numberOfDays: 14
+              name: appLocalization.translate("multiWeek"), numberOfDays: 14,
+              firstDayOfWeek: 6,
               // showWeekNumber: false,
               // verticalStepDuration:
               // serviceLocator<AppConfig>().defaultTaskDuration,
