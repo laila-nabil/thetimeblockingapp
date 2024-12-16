@@ -326,7 +326,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                 scheduleViewConfiguration: currentView,
                 tileBuilder: (CalendarEvent<Task> event) {
                   return TaskWidgetInKalendar(
-                    taskLocation: TaskLocation.header,
+                    taskLocation: TaskLocation.body,
                     event: event,
                     tileType: TileType.normal,
                     onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
