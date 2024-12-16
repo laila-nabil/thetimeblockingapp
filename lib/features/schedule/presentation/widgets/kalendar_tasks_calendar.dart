@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/functions.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -128,10 +129,14 @@ class KalendarTasksCalendar extends StatelessWidget {
     /// This function is called when an event is tapped.
     Future<void> onEventTapped(
       CalendarEvent<Task> event,
-      RenderBox renderBox,
+      RenderBox? renderBox,
       bool showSmallDesign
     ) async {
-      if (isMobile(showSmallDesign)) {
+      var viewConfiguration =
+          viewConfigurations(showSmallDesign)[currentConfigurationIndex];
+      var isSchedule =
+          viewConfiguration.getCalendarViewType == CalendarViewType.schedule;
+      if (isMobile(showSmallDesign) && isSchedule == false) {
         controller.selectedEvent == event
             ? controller.deselectEvent()
             : controller.selectEvent(event);
@@ -325,7 +330,10 @@ class KalendarTasksCalendar extends StatelessWidget {
                 eventsController: eventsController,
                 scheduleViewConfiguration: currentView,
                 tileBuilder: (CalendarEvent<Task> event) {
-                  return TaskWidgetInKalendar(
+                  return TaskWidgetInKalendar.schedule(
+                    onEventTapped: (CalendarEvent<Task> event,
+                        ) =>
+                        onEventTapped(event, null, context.showSmallDesign),
                     taskLocation: TaskLocation.body,
                     event: event,
                     tileType: TileType.normal,
@@ -352,7 +360,9 @@ class KalendarTasksCalendar extends StatelessWidget {
                 callbacks: CalendarCallbacks(
                   onEventChanged: onEventChanged,
                   onEventTapped: (CalendarEvent<Task> event,
-                      RenderBox renderBox,)=>onEventTapped(event,renderBox,context.showSmallDesign),
+                    RenderBox renderBox,
+                  ) =>
+                      onEventTapped(event, renderBox, context.showSmallDesign),
                   onEventCreate: (task) => onEventCreate(
                       dateTimeRange: task.dateTimeRange,
                       workspace: globalBloc.state.selectedWorkspace!,

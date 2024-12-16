@@ -45,7 +45,24 @@ class TaskWidgetInKalendar extends StatelessWidget {
     required this.heightPerMinute,
     required this.onDelete,
     required this.onSave,
-    required this.onDuplicate,
+    required this.onDuplicate, this.onEventTapped,
+  });
+
+  const TaskWidgetInKalendar.schedule({
+    super.key,
+    required this.event,
+    required this.tileType,
+    this.taskLocation = TaskLocation.body,
+    this.drawOutline = false,
+    this.continuesBefore = false,
+    this.continuesAfter = false,
+    required this.onCompleteConfirmed,
+    required this.onDeleteConfirmed,
+    required this.viewConfiguration,
+    required this.heightPerMinute,
+    required this.onDelete,
+    required this.onSave,
+    required this.onDuplicate, required this.onEventTapped,
   });
 
   final CalendarEvent<Task> event;
@@ -62,6 +79,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
   final void Function(DeleteTaskParams) onDelete;
   final void Function(CreateTaskParams) onSave;
   final void Function(CreateTaskParams) onDuplicate;
+  final void Function(CalendarEvent<Task>)? onEventTapped;
 
   List<CustomPopupItem> actions(BuildContext context) => [
         CustomPopupItem(
@@ -170,112 +188,115 @@ class TaskWidgetInKalendar extends StatelessWidget {
 
     var getCalendarViewType = viewConfiguration.getCalendarViewType;
     if (isDismissible(getCalendarViewType)) {
-      return Dismissible(
-        key: Key(task.id.toString()),
-        background: Container(
-          color: AppColors.success(context.isDarkMode),
-          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
-          alignment: AlignmentDirectional.centerStart,
-          child: Text(
-            appLocalization.translate("complete"),
-            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                appFontSize: AppFontSize.paragraphSmall,
-                color: AppColors.white(false),
-                appFontWeight: AppFontWeight.medium)),
+      return InkWell(
+        onTap:onEventTapped == null ? null: ()=> onEventTapped!(event,),
+        child: Dismissible(
+          key: Key(task.id.toString()),
+          background: Container(
+            color: AppColors.success(context.isDarkMode),
+            padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              appLocalization.translate("complete"),
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphSmall,
+                  color: AppColors.white(false),
+                  appFontWeight: AppFontWeight.medium)),
+            ),
           ),
-        ),
-        secondaryBackground: Container(
-          color: AppColors.error(context.isDarkMode),
-          padding: EdgeInsets.all(AppSpacing.xSmall8.value),
-          alignment: AlignmentDirectional.centerEnd,
-          child: Text(
-            appLocalization.translate("delete"),
-            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                appFontSize: AppFontSize.paragraphSmall,
-                color: AppColors.white(false),
-                appFontWeight: AppFontWeight.medium)),
+          secondaryBackground: Container(
+            color: AppColors.error(context.isDarkMode),
+            padding: EdgeInsets.all(AppSpacing.xSmall8.value),
+            alignment: AlignmentDirectional.centerEnd,
+            child: Text(
+              appLocalization.translate("delete"),
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphSmall,
+                  color: AppColors.white(false),
+                  appFontWeight: AppFontWeight.medium)),
+            ),
           ),
-        ),
-        confirmDismiss: (dismissDirection) async {
-          if (dismissDirection == DismissDirection.endToStart) {
-            final res = await showDialog<bool>(
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(
-                    loading: false,
-                    actions: [
-                      CustomButton.noIcon(
-                          label: appLocalization.translate("delete"),
-                          onPressed: () {
-                            onDeleteConfirmed();
-                            Navigator.pop(context);
-                          },
-                          type: CustomButtonType.destructiveFilledLabel),
-                      CustomButton.noIcon(
-                          label: appLocalization.translate("cancel"),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    ],
-                    content: Text(
-                        "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
-                  );
-                });
-            return res;
-          }
-          if (task.isCompleted == false &&
-              dismissDirection == DismissDirection.startToEnd) {
-            final res = await showDialog<bool>(
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(
-                    loading: false,
-                    actions: [
-                      CustomButton.noIcon(
-                          label: appLocalization.translate("complete"),
-                          onPressed: () {
-                            onCompleteConfirmed();
-                            Navigator.pop(context);
-                          },
-                          type: CustomButtonType.secondaryLabel),
-                      CustomButton.noIcon(
-                          label: appLocalization.translate("cancel"),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    ],
-                    content: Text(
-                        "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
-                  );
-                });
-            return res;
-          }
-          return null;
-        },
-        child: true
-            ? buildTaskWidgetInKalendar(
-                context: context,
-                taskWidgetInKalendarType:
-                    getCalendarViewType!,
-                isListInsideFolder: isListInsideFolder,
-                listName: listName,
-                folderName: folderName,
-                taskLocationTextStyle: taskLocationTextStyle,
-                showSmallDesign: context.showSmallDesign)
-            : Card(
-                color: event.data?.color ?? Colors.blue,
-                elevation: 0,
-                child: ListTile(
-                  title: Text(event.data?.title ?? ''),
-                  subtitle: Text(
-                    event.data?.description ?? '',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+          confirmDismiss: (dismissDirection) async {
+            if (dismissDirection == DismissDirection.endToStart) {
+              final res = await showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      loading: false,
+                      actions: [
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("delete"),
+                            onPressed: () {
+                              onDeleteConfirmed();
+                              Navigator.pop(context);
+                            },
+                            type: CustomButtonType.destructiveFilledLabel),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ],
+                      content: Text(
+                          "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
+                    );
+                  });
+              return res;
+            }
+            if (task.isCompleted == false &&
+                dismissDirection == DismissDirection.startToEnd) {
+              final res = await showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      loading: false,
+                      actions: [
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("complete"),
+                            onPressed: () {
+                              onCompleteConfirmed();
+                              Navigator.pop(context);
+                            },
+                            type: CustomButtonType.secondaryLabel),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ],
+                      content: Text(
+                          "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
+                    );
+                  });
+              return res;
+            }
+            return null;
+          },
+          child: true
+              ? buildTaskWidgetInKalendar(
+                  context: context,
+                  taskWidgetInKalendarType:
+                      getCalendarViewType!,
+                  isListInsideFolder: isListInsideFolder,
+                  listName: listName,
+                  folderName: folderName,
+                  taskLocationTextStyle: taskLocationTextStyle,
+                  showSmallDesign: context.showSmallDesign)
+              : Card(
+                  color: event.data?.color ?? Colors.blue,
+                  elevation: 0,
+                  child: ListTile(
+                    title: Text(event.data?.title ?? ''),
+                    subtitle: Text(
+                      event.data?.description ?? '',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    mouseCursor: SystemMouseCursors.click,
+                    dense: true,
                   ),
-                  mouseCursor: SystemMouseCursors.click,
-                  dense: true,
                 ),
-              ),
+        ),
       );
       return Card(
         color: event.data?.color ?? Colors.blue,
