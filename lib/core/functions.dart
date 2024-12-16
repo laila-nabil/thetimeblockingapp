@@ -10,6 +10,7 @@ enum AppPlatform {
   windowsDesktop,
   linuxDesktop;
 
+  ///TODO
   bool isMobile(bool showSmallDesign) =>
       this == AppPlatform.androidApp ||
       this == AppPlatform.iosApp ||
