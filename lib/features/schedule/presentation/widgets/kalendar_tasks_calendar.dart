@@ -129,8 +129,9 @@ class KalendarTasksCalendar extends StatelessWidget {
     Future<void> onEventTapped(
       CalendarEvent<Task> event,
       RenderBox renderBox,
+      bool showSmallDesign
     ) async {
-      if (isMobile) {
+      if (isMobile(showSmallDesign)) {
         controller.selectedEvent == event
             ? controller.deselectEvent()
             : controller.selectEvent(event);
@@ -351,6 +352,8 @@ class KalendarTasksCalendar extends StatelessWidget {
                 callbacks: CalendarCallbacks(
                   onEventChanged: onEventChanged,
                   onEventTapped: onEventTapped,
+                  onEventTapped: (CalendarEvent<Task> event,
+                      RenderBox renderBox,)=>onEventTapped(event,renderBox,context.showSmallDesign),
                   onEventCreate: (task) => onEventCreate(
                       dateTimeRange: task.dateTimeRange,
                       workspace: globalBloc.state.selectedWorkspace!,
@@ -447,10 +450,10 @@ class KalendarTasksCalendar extends StatelessWidget {
   BorderRadius get radius => BorderRadius.circular(8);
 
   ///TODO not sure if correct
-  bool get isMobile {
+  bool isMobile(bool showSmallDesign) {
     printDebug(
         "getAppPlatformType().isMobile ${getAppPlatformType().isMobile}");
-    return getAppPlatformType().isMobile;
+    return getAppPlatformType().isMobile(showSmallDesign);
   }
 }
 

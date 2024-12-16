@@ -1,19 +1,17 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:thetimeblockingapp/core/print_debug.dart';
-import 'dart:html' as html;
 
 enum AppPlatform {
-  desktopWeb,
-  mobileWeb,
+  web,
   androidApp,
   iosApp,
   macOSDesktop,
   windowsDesktop,
   linuxDesktop;
 
-  bool get isMobile =>
-      this == AppPlatform.mobileWeb ||
+  bool isMobile(bool showSmallDesign) =>
+      (this == AppPlatform.web && showSmallDesign) ||
       this == AppPlatform.androidApp ||
       this == AppPlatform.iosApp ||
       this == AppPlatform.macOSDesktop;
@@ -21,16 +19,8 @@ enum AppPlatform {
 
 AppPlatform getAppPlatformType() {
   if (kIsWeb) {
-    final userAgent = html.window.navigator.userAgent.toLowerCase();
-    printDebug("userAgent $userAgent");
-    // Web platform
-    if (userAgent.contains("android") || userAgent.contains("iphone") || userAgent.contains("ipad")) {
-      printDebug("getAppPlatformType mobileWeb");
-      return AppPlatform.mobileWeb; // Running on desktop browser
-    } else {
-      printDebug("getAppPlatformType desktopWeb");
-      return AppPlatform.desktopWeb; // Running on a mobile browser
-    }
+    printDebug("getAppPlatformType web");
+    return AppPlatform.web;
   }
   // Native mobile or desktop app
   try {
@@ -53,6 +43,6 @@ AppPlatform getAppPlatformType() {
   } catch (e) {
     printDebug(e, printLevel: PrintLevel.error);
   }
-  printDebug("getAppPlatformType desktopWeb");
-  return AppPlatform.desktopWeb;
+  printDebug("getAppPlatformType web");
+  return AppPlatform.web;
 }

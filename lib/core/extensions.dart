@@ -214,8 +214,8 @@ extension ViewConfigurationExt on ViewConfiguration {
     if (this.name == appLocalization.translate("month")) {
       return CalendarViewType.month;
     }
-    // if (this.name == appLocalization.translate("schedule")) {
-    if (this.name == 'Schedule') {
+    if (this.name == appLocalization.translate("schedule")) {
+    // if (this.name == 'Schedule') {
       return CalendarViewType.schedule;
     }
 
