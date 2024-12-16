@@ -123,7 +123,7 @@ class CalendarNavigationHeader extends StatelessWidget {
                     dateAndTodayRow,
                     Spacer(),
                     DropdownMenu<int>(
-                      width: context.responsiveT<double>(params: ResponsiveTParams(small: 90,medium: 140)),
+                      width: context.responsiveT<double>(params: ResponsiveTParams<double>(small: 90.0,medium: 140.0)),
                       initialSelection: currentConfiguration,
                       textStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                           appFontSize: AppFontSize.paragraphXSmall,
