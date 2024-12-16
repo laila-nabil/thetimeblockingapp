@@ -351,7 +351,6 @@ class KalendarTasksCalendar extends StatelessWidget {
                 // Handle the callbacks made by the calendar.
                 callbacks: CalendarCallbacks(
                   onEventChanged: onEventChanged,
-                  onEventTapped: onEventTapped,
                   onEventTapped: (CalendarEvent<Task> event,
                       RenderBox renderBox,)=>onEventTapped(event,renderBox,context.showSmallDesign),
                   onEventCreate: (task) => onEventCreate(
