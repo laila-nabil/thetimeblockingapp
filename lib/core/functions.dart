@@ -11,7 +11,6 @@ enum AppPlatform {
   linuxDesktop;
 
   bool isMobile(bool showSmallDesign) =>
-      (this == AppPlatform.web && showSmallDesign) ||
       this == AppPlatform.androidApp ||
       this == AppPlatform.iosApp ||
       this == AppPlatform.macOSDesktop;
