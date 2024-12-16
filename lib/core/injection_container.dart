@@ -91,6 +91,8 @@ class AppConfig{
    bool confirmationEmailEnabled = false;
    ///TODO timezone
    String timezone = 'Africa/Cairo';
+
+   static int firstDayOfWeek = 6;
 }
 
 void _initServiceLocator({required Network network}) {

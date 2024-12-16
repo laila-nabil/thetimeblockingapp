@@ -50,6 +50,7 @@ dependencies:
   flutter_widget_from_html_core: ^0.15.2
   syncfusion_localizations: ^27.2.2
   kalender: ^0.5.0
+  scrollable_positioned_list: ^0.3.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

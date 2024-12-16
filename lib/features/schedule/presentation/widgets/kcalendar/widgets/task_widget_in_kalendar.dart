@@ -39,7 +39,6 @@ class TaskWidgetInKalendar extends StatelessWidget {
     this.drawOutline = false,
     this.continuesBefore = false,
     this.continuesAfter = false,
-    this.date,
     required this.onCompleteConfirmed,
     required this.onDeleteConfirmed,
     required this.viewConfiguration,
@@ -55,7 +54,6 @@ class TaskWidgetInKalendar extends StatelessWidget {
   final bool drawOutline;
   final bool continuesBefore;
   final bool continuesAfter;
-  final DateTime? date;
   final void Function() onCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final ViewConfiguration viewConfiguration;
@@ -170,7 +168,8 @@ class TaskWidgetInKalendar extends StatelessWidget {
         color: colors,
         appFontWeight: AppFontWeight.medium));
 
-    if (isDismissible(viewConfiguration.getCalendarViewType)) {
+    var getCalendarViewType = viewConfiguration.getCalendarViewType;
+    if (isDismissible(getCalendarViewType)) {
       return Dismissible(
         key: Key(task.id.toString()),
         background: Container(
@@ -257,7 +256,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
             ? buildTaskWidgetInKalendar(
                 context: context,
                 taskWidgetInKalendarType:
-                    viewConfiguration.getCalendarViewType!,
+                    getCalendarViewType!,
                 isListInsideFolder: isListInsideFolder,
                 listName: listName,
                 folderName: folderName,
@@ -296,7 +295,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
 
     return buildTaskWidgetInKalendar(
         context: context,
-        taskWidgetInKalendarType: viewConfiguration.getCalendarViewType!,
+        taskWidgetInKalendarType: getCalendarViewType!,
         isListInsideFolder: isListInsideFolder,
         listName: listName,
         folderName: folderName,

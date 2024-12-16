@@ -23,6 +23,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_u
 
 import '../bloc/schedule_bloc.dart';
 import 'kcalendar/widgets/calendar_zoom.dart';
+import 'kcalendar/widgets/schedule_view.dart';
 import 'kcalendar/widgets/task_widget_in_kalendar.dart';
 
 class KalendarTasksCalendar extends StatelessWidget {
@@ -60,7 +61,7 @@ class KalendarTasksCalendar extends StatelessWidget {
         ),
         MultiDayViewConfiguration.week(
           name: appLocalization.translate("week"),
-          firstDayOfWeek: 6,
+          firstDayOfWeek: AppConfig.firstDayOfWeek,
           // verticalStepDuration:
           // serviceLocator<AppConfig>().defaultTaskDuration,
           // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
@@ -68,18 +69,18 @@ class KalendarTasksCalendar extends StatelessWidget {
         ),
         if (isSmallScreen == false)
           MultiDayViewConfiguration.custom(
-              name: appLocalization.translate("multiWeek"), numberOfDays: 14,
-              firstDayOfWeek: 6,
-              // showWeekNumber: false,
-              // verticalStepDuration:
-              // serviceLocator<AppConfig>().defaultTaskDuration,
-              // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
-              ),
+            name: appLocalization.translate("multiWeek"), numberOfDays: 14,
+            firstDayOfWeek: AppConfig.firstDayOfWeek,
+            // showWeekNumber: false,
+            // verticalStepDuration:
+            // serviceLocator<AppConfig>().defaultTaskDuration,
+            // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
+          ),
         MonthViewConfiguration.singleMonth(
           name: appLocalization.translate("month"),
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
         ),
-        // ScheduleConfiguration(name: appLocalization.translate("schedule")),
+        ScheduleConfiguration(name: appLocalization.translate("schedule")),
       ];
 
   @override
@@ -317,7 +318,32 @@ class KalendarTasksCalendar extends StatelessWidget {
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
-        child: CalendarView<Task>(
+        child: currentView is ScheduleConfiguration
+            ? CustomScheduleView(
+                controller: controller,
+                eventsController: eventsController,
+                scheduleViewConfiguration: currentView,
+                tileBuilder: (CalendarEvent<Task> event) {
+                  return TaskWidgetInKalendar(
+                    taskLocation: TaskLocation.header,
+                    event: event,
+                    tileType: TileType.normal,
+                    onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
+                    onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
+                    viewConfiguration: currentView,
+                    heightPerMinute: controller.viewController
+                            is MultiDayViewController
+                        ? (controller.viewController as MultiDayViewController)
+                            .heightPerMinute
+                            .value
+                        : null,
+                    onDelete: onDelete,
+                    onSave: onSave,
+                    onDuplicate: onDuplicate,
+                  );
+                },
+              )
+            : CalendarView<Task>(
                 eventsController: eventsController,
                 calendarController: controller,
                 viewConfiguration: currentView,
@@ -335,50 +361,51 @@ class KalendarTasksCalendar extends StatelessWidget {
                 components: CalendarComponents(
                   multiDayComponents: MultiDayComponents(),
                   multiDayComponentStyles: MultiDayComponentStyles(
-                      bodyStyles: MultiDayBodyComponentStyles(
-                    daySeparatorStyle: DaySeparatorStyle(
-                        color: appTheme(context.isDarkMode).dividerTheme.color,
-                        width: 0.3),
-                    hourLinesStyle: HourLinesStyle(
-                        color: appTheme(context.isDarkMode).dividerTheme.color,
-                        thickness: appTheme(context.isDarkMode)
-                            .dividerTheme
-                            .thickness),
-                  ),),
-                  monthComponents: MonthComponents(
-                    bodyComponents: MonthBodyComponents(
-                      monthGridBuilder: (style) {
-                        final thickness = 0.3;
-                        final color = appTheme(context.isDarkMode).dividerTheme.color;
-                        return Stack(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              for (int i = 0; i < 8; i++)
-                                VerticalDivider(
-                                  width: thickness,
-                                  thickness: thickness,
-                                  color: color,
-                                ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              for (int i = 0; i < 6; i++)
-                                Divider(
-                                  height: thickness,
-                                  thickness: thickness,
-                                  color: color,
-                                ),
-                            ],
-                          ),
-                        ],
-                      );
-                      }
-                    )
+                    bodyStyles: MultiDayBodyComponentStyles(
+                      daySeparatorStyle: DaySeparatorStyle(
+                          color:
+                              appTheme(context.isDarkMode).dividerTheme.color,
+                          width: 0.3),
+                      hourLinesStyle: HourLinesStyle(
+                          color:
+                              appTheme(context.isDarkMode).dividerTheme.color,
+                          thickness: appTheme(context.isDarkMode)
+                              .dividerTheme
+                              .thickness),
+                    ),
                   ),
+                  monthComponents: MonthComponents(bodyComponents:
+                      MonthBodyComponents(monthGridBuilder: (style) {
+                    final thickness = 0.3;
+                    final color =
+                        appTheme(context.isDarkMode).dividerTheme.color;
+                    return Stack(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (int i = 0; i < 8; i++)
+                              VerticalDivider(
+                                width: thickness,
+                                thickness: thickness,
+                                color: color,
+                              ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (int i = 0; i < 6; i++)
+                              Divider(
+                                height: thickness,
+                                thickness: thickness,
+                                color: color,
+                              ),
+                          ],
+                        ),
+                      ],
+                    );
+                  })),
                 ),
                 header: Column(
                   children: [

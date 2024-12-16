@@ -129,6 +129,17 @@ extension DateTimeExtensions on DateTime {
   DateTime get dateAtZeroHour {
     return DateTime(year, month, day);
   }
+
+  /// Gets the start of the week with an offset.
+  DateTime startOfWeekWithOffset(int firstDayOfWeek) {
+    assert(
+    firstDayOfWeek >= 1 && firstDayOfWeek <= 7,
+    'firstDayOfWeek must be between 1 and 7',
+    );
+    return subtractDays(weekday - firstDayOfWeek).startOfDay;
+  }
+  /// Gets the start of the week.
+  DateTime get startOfWeek => startOfWeekWithOffset(1);
 }
 
 extension ListDateTimeExtensions on List<DateTime> {
@@ -203,6 +214,7 @@ extension ViewConfigurationExt on ViewConfiguration {
     if (this.name == appLocalization.translate("month")) {
       return CalendarViewType.month;
     }
+    // if (this.name == appLocalization.translate("schedule")) {
     if (this.name == 'Schedule') {
       return CalendarViewType.schedule;
     }
