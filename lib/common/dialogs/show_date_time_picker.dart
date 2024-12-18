@@ -25,7 +25,7 @@ Future<DateTime?> showDateTimePicker({
 
   final TimeOfDay? selectedTime = await showTimePicker(
     context: context,
-    initialTime: TimeOfDay.fromDateTime(initialDate),
+    initialTime: TimeOfDay.fromDateTime(initialDate.toLocal()),
   );
 
   return selectedTime == null
