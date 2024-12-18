@@ -24,46 +24,54 @@ class ScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (serviceLocator<AppConfig>().appCalendar) {
-      case AppCalendar.kalender:
-        final calendarController = kalender.CalendarController<Task>();
-        final tasks = scheduleState.tasks
-                ?.where((element) => element.dueDate != null)
-                .toList() ??
-            [];
-        final events = tasks
-            .map<kalender.CalendarEvent<Task>>((task) => kalender.CalendarEvent(
-                data: task,
-                dateTimeRange: DateTimeRange(
-                  start: task.startDate!.toLocal(),
-                  end: task.dueDate!.toLocal(),
-                )))
-            .toList();
-        final kalender.EventsController<Task> eventsController =
-        kalender.EventsController<Task>();
-        eventsController.addEvents(events);
-        return KalendarTasksCalendar(
-          eventsController: eventsController,
-          controller: calendarController,
-          scheduleBloc: scheduleBloc,
-          scheduleState: scheduleState,
-          selectedWorkspaceId: selectedWorkspaceId,
-          currentConfigurationIndex:
-              scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
-        );
-      case AppCalendar.syncfusion:
+    return FutureBuilder(future: serviceLocator<AppConfig>().appCalendar, builder: (context,snapshot){
+      if(snapshot.data == null){
+        return Container();
+      }
+      switch (snapshot.data) {
+        case AppCalendar.kalender:
+          final calendarController = kalender.CalendarController<Task>();
+          final tasks = scheduleState.tasks
+              ?.where((element) => element.dueDate != null)
+              .toList() ??
+              [];
+          final events = tasks
+              .map<kalender.CalendarEvent<Task>>((task) => kalender.CalendarEvent(
+              data: task,
+              dateTimeRange: DateTimeRange(
+                start: task.startDate!.toLocal(),
+                end: task.dueDate!.toLocal(),
+              )))
+              .toList();
+          final kalender.EventsController<Task> eventsController =
+          kalender.EventsController<Task>();
+          eventsController.addEvents(events);
+          return KalendarTasksCalendar(
+            eventsController: eventsController,
+            controller: calendarController,
+            scheduleBloc: scheduleBloc,
+            scheduleState: scheduleState,
+            selectedWorkspaceId: selectedWorkspaceId,
+            currentConfigurationIndex:
+            scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
+          );
+        case AppCalendar.syncfusion:
 
-        return SyncfusionTasksCalendar(
-          tasksDataSource: SupabaseTasksDataSource(
-              tasks: scheduleState.tasks
-                  ?.where((element) => element.dueDate != null)
-                  .toList() ??
-                  []),
-          controller: scheduleBloc.syncfusionCalendarController,
-          scheduleBloc: scheduleBloc,
-          scheduleState: scheduleState,
-          selectedWorkspaceId: selectedWorkspaceId,
-        );
-    }
+          return SyncfusionTasksCalendar(
+            tasksDataSource: SupabaseTasksDataSource(
+                tasks: scheduleState.tasks
+                    ?.where((element) => element.dueDate != null)
+                    .toList() ??
+                    []),
+            controller: scheduleBloc.syncfusionCalendarController,
+            scheduleBloc: scheduleBloc,
+            scheduleState: scheduleState,
+            selectedWorkspaceId: selectedWorkspaceId,
+          );
+        case null:
+          return Container();
+      }
+    });
+
   }
 }

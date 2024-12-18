@@ -56,5 +56,7 @@ abstract class Analytics {
 
   Future<void> resetUser();
 
+  Future<String> featureFlag(String featureKey);
+
   late NavigatorObserver navigatorObserver;
 }

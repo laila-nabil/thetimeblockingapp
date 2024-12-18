@@ -77,4 +77,17 @@ class PostHogImpl implements Analytics {
       printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
     }
   }
+
+  @override
+  Future<String> featureFlag(String featureKey) async {
+    Object? result;
+    try {
+      result = await _instance?.getFeatureFlag(featureKey);
+      printDebug("PostHogImpl featureFlag $result");
+      return result.toString();
+    } catch (e) {
+    printDebug("PostHogImpl error $e",printLevel: PrintLevel.error);
+    }
+    return "";
+  }
 }
