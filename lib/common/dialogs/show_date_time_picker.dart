@@ -29,7 +29,7 @@ Future<DateTime?> showDateTimePicker({
   );
 
   return selectedTime == null
-      ? selectedDate
+      ? initialDate
       : DateTime(
     selectedDate.year,
     selectedDate.month,
