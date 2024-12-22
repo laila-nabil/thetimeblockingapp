@@ -17,12 +17,10 @@ class CalendarNavigationHeader extends StatelessWidget {
     required this.viewConfigurations,
     required this.currentConfiguration,
     required this.onViewConfigurationChanged,
-    required this.visibleDateTimeRange,
   });
 
   final CalendarController calendarController;
   final List<ViewConfiguration> viewConfigurations;
-  final DateTimeRange visibleDateTimeRange;
   final int currentConfiguration;
   final void Function(int index) onViewConfigurationChanged;
 
@@ -55,17 +53,22 @@ class CalendarNavigationHeader extends StatelessWidget {
         final dateAndTodayRow = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              dateFormat.format(calendarController.visibleDateTimeRange.value.start),
-              style: context.showSmallDesign
-                  ? AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.paragraphMedium,
-                  color: AppColors.black(context.isDarkMode),
-                  appFontWeight: AppFontWeight.medium))
-                  : AppTextStyle.getTextStyle(AppTextStyleParams(
-                  appFontSize: AppFontSize.heading6,
-                  color: AppColors.black(context.isDarkMode),
-                  appFontWeight: AppFontWeight.medium)),
+            ValueListenableBuilder(
+              valueListenable: calendarController.visibleDateTimeRange,
+              builder: (context,visibleRange, child) {
+                return Text(
+                  dateFormat.format(visibleRange.start),
+                  style: context.showSmallDesign
+                      ? AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphMedium,
+                      color: AppColors.black(context.isDarkMode),
+                      appFontWeight: AppFontWeight.medium))
+                      : AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.heading6,
+                      color: AppColors.black(context.isDarkMode),
+                      appFontWeight: AppFontWeight.medium)),
+                );
+              }
             ),
             SizedBox(
                 width: context.showSmallDesign

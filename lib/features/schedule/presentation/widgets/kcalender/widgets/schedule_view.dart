@@ -26,7 +26,10 @@ class ScheduleConfiguration extends ScheduleViewConfiguration {
   ScheduleConfiguration({
     this.showHeader = true,
     required super.name,
+    required this.displayRange,
   });
+
+  final DateTimeRange displayRange;
 
   @override
   String get name => appLocalization.translate("schedule");

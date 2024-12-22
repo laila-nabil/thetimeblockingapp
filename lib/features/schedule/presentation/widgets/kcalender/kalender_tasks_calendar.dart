@@ -52,10 +52,12 @@ class KalendarTasksCalendar extends StatelessWidget {
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
           // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
           initialHeightPerMinute: 1,
+          displayRange:  displayRange()
         ),
         MultiDayViewConfiguration.custom(
           name: appLocalization.translate("2Days"),
           numberOfDays: 2,
+          displayRange:  displayRange()
           // verticalStepDuration:
           // serviceLocator<AppConfig>().defaultTaskDuration,
           // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
@@ -64,6 +66,7 @@ class KalendarTasksCalendar extends StatelessWidget {
         MultiDayViewConfiguration.week(
           name: appLocalization.translate("week"),
           firstDayOfWeek: AppConfig.firstDayOfWeek,
+          displayRange:  displayRange()
           // verticalStepDuration:
           // serviceLocator<AppConfig>().defaultTaskDuration,
           // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
@@ -73,6 +76,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           MultiDayViewConfiguration.custom(
             name: appLocalization.translate("multiWeek"), numberOfDays: 14,
             firstDayOfWeek: AppConfig.firstDayOfWeek,
+              displayRange:  displayRange()
             // showWeekNumber: false,
             // verticalStepDuration:
             // serviceLocator<AppConfig>().defaultTaskDuration,
@@ -80,10 +84,19 @@ class KalendarTasksCalendar extends StatelessWidget {
           ),
         MonthViewConfiguration.singleMonth(
           name: appLocalization.translate("month"),
+            displayRange:  displayRange()
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
         ),
-        ScheduleConfiguration(name: appLocalization.translate("schedule")),
+        ScheduleConfiguration(
+          name: appLocalization.translate("schedule"),
+          displayRange: displayRange(),
+        ),
       ];
+
+  static DateTimeRange displayRange() {
+    var now = DateTime.now();
+    return DateTimeRange(start: DateTime(now.year - 2), end: DateTime(now.year + 2));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -334,8 +347,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                     currentConfiguration: currentConfigurationIndex,
                     onViewConfigurationChanged: (value) => scheduleBloc
                         .add(ChangeCalendarView(viewIndex: value)),
-                    visibleDateTimeRange:
-                    controller.visibleDateTimeRange.value),
+                    ),
                 Divider(),
                 Expanded(
                   child: CustomScheduleView(
@@ -442,8 +454,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                         currentConfiguration: currentConfigurationIndex,
                         onViewConfigurationChanged: (value) => scheduleBloc
                             .add(ChangeCalendarView(viewIndex: value)),
-                        visibleDateTimeRange:
-                            controller.visibleDateTimeRange.value),
+                        ),
                     CalendarHeader(
                       multiDayTileComponents: tileComponents(header: true),
                       multiDayHeaderConfiguration:
