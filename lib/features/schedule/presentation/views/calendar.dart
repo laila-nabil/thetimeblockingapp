@@ -30,7 +30,6 @@ class ScheduleView extends StatelessWidget {
       }
       switch (snapshot.data) {
         case AppCalendar.kalender:
-          final calendarController = kalender.CalendarController<Task>();
           final tasks = scheduleState.tasks
               ?.where((element) => element.dueDate != null)
               .toList() ??
@@ -48,7 +47,7 @@ class ScheduleView extends StatelessWidget {
           eventsController.addEvents(events);
           return KalendarTasksCalendar(
             eventsController: eventsController,
-            controller: calendarController,
+            controller: scheduleBloc.kalenderCalendarController,
             scheduleBloc: scheduleBloc,
             scheduleState: scheduleState,
             selectedWorkspaceId: selectedWorkspaceId,

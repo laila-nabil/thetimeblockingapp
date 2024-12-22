@@ -14,6 +14,7 @@ import '../../../task_popup/presentation/views/task_popup.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as syncfusion;
+import 'package:kalender/kalender.dart' as kalender;
 part 'schedule_event.dart';
 
 part 'schedule_state.dart';
@@ -28,7 +29,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
   final syncfusion.CalendarController syncfusionCalendarController = syncfusion.CalendarController();
-
+  final kalenderCalendarController = kalender.CalendarController<Task>();
   ScheduleBloc(
       this._getTasksInSingleWorkspaceUseCase,
       this._createTaskUseCase,
