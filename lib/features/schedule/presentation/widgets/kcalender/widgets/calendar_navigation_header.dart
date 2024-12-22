@@ -9,6 +9,7 @@ import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/schedule_view.dart';
 
 class CalendarNavigationHeader extends StatelessWidget {
   const CalendarNavigationHeader({
@@ -26,6 +27,7 @@ class CalendarNavigationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isScheduleView = viewConfigurations[currentConfiguration] is ScheduleConfiguration;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isNarrow = context.showSmallDesign;
@@ -34,7 +36,7 @@ class CalendarNavigationHeader extends StatelessWidget {
 
         final navigationRow = Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: isScheduleView ? []: [
             IconButton(
               onPressed: () {
                 calendarController.animateToPreviousPage();
@@ -56,7 +58,7 @@ class CalendarNavigationHeader extends StatelessWidget {
         }
         final dateAndTodayRow = Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children:  isScheduleView ? []: [
             ValueListenableBuilder(
               valueListenable: visibleDateTimeRange,
               builder: (context,visibleRange, child) {
