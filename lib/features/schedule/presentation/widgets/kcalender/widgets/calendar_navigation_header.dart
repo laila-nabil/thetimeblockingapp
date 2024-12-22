@@ -50,11 +50,15 @@ class CalendarNavigationHeader extends StatelessWidget {
           ],
         );
 
+        var visibleDateTimeRange = calendarController.visibleDateTimeRange;
+        if(calendarController.viewController is MonthViewController){
+          visibleDateTimeRange = (calendarController.viewController as MonthViewController).visibleDateTimeRange;
+        }
         final dateAndTodayRow = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             ValueListenableBuilder(
-              valueListenable: calendarController.visibleDateTimeRange,
+              valueListenable: visibleDateTimeRange,
               builder: (context,visibleRange, child) {
                 return Text(
                   dateFormat.format(visibleRange.start),
