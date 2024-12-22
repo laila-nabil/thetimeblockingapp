@@ -21,6 +21,7 @@ import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalen
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 import '../../bloc/schedule_bloc.dart';
 import 'widgets/calendar_zoom.dart';
@@ -179,29 +180,27 @@ class KalendarTasksCalendar extends StatelessWidget {
       CalendarEvent<Task> event,
       CalendarEvent<Task> updatedEvent,
     ) async {
-      if (event.data != null &&
-          (updatedEvent.data?.dueDate?.isAtSameMomentAs(event.end) != true ||
-              updatedEvent.data?.startDate?.isAtSameMomentAs(event.start) !=
-                  true)) {
-        var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
-        var globalBloc = BlocProvider.of<GlobalBloc>(context);
-        var authBloc = BlocProvider.of<AuthBloc>(context);
-        printDebug("updatedEvent ${updatedEvent.data}");
-        printDebug("event.data ${event.data}");
-        printDebug(
-            "start updatedEvent.start: ${updatedEvent.start}, event.start: ${event.start}");
-        printDebug(
-            "end updatedEvent.end: ${updatedEvent.end}, event.end: ${event.end}");
-        printDebug("authBloc.state.user! ${authBloc.state.user!}");
-        scheduleBloc.add(UpdateTaskEvent(
-            params: CreateTaskParams.updateTask(
-                defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
-                task: event.data!,
-                updatedDueDate: updatedEvent.end,
-                updatedStartDate: updatedEvent.start,
-                backendMode: serviceLocator<BackendMode>().mode,
-                user: authBloc.state.user!)));
-      }
+      printDebug("kalender onEventChanged $event");
+      printDebug("kalender event.data ${event.data}");
+      printDebug("kalender updatedEvent.data ${updatedEvent.data}");
+      var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+      var globalBloc = BlocProvider.of<GlobalBloc>(context);
+      var authBloc = BlocProvider.of<AuthBloc>(context);
+      printDebug("updatedEvent ${updatedEvent.data}");
+      printDebug("event.data ${event.data}");
+      printDebug(
+          "start updatedEvent.start: ${updatedEvent.start}, event.start: ${event.start}");
+      printDebug(
+          "end updatedEvent.end: ${updatedEvent.end}, event.end: ${event.end}");
+      printDebug("authBloc.state.user! ${authBloc.state.user!}");
+      scheduleBloc.add(UpdateTaskEvent(
+          params: CreateTaskParams.updateTask(
+              defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
+              task: event.data!,
+              updatedDueDate: updatedEvent.end,
+              updatedStartDate: updatedEvent.start,
+              backendMode: serviceLocator<BackendMode>().mode,
+              user: authBloc.state.user!)));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       // Show the snackbar and undo the changes if the user presses the undo button.
@@ -219,6 +218,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           //   },
           // ),
         ),
+        snackBarAnimationStyle: AnimationStyle(duration: Durations.short1)
       );
     }
 
@@ -320,7 +320,7 @@ class KalendarTasksCalendar extends StatelessWidget {
     }
 
     final globalBloc = BlocProvider.of<GlobalBloc>(context, listen: false);
-
+    final authBloc = BlocProvider.of<AuthBloc>(context, listen: false);
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
