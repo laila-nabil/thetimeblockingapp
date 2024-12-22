@@ -483,12 +483,6 @@ class KalendarTasksCalendar extends StatelessWidget {
 
   BorderRadius get radius => BorderRadius.circular(8);
 
-  ///TODO not sure if correct
-  bool isMobile(bool showSmallDesign) {
-    printDebug(
-        "getAppPlatformType().isMobile ${getAppPlatformType().isMobile}");
-    return getAppPlatformType().isMobile(showSmallDesign);
-  }
 }
 
 /*
