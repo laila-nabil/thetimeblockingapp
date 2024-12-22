@@ -261,7 +261,13 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
         }
       }
     }
-    return scheduleGroups;
+
+    // Sort events in each ScheduleGroup by start date
+    for (final group in scheduleGroups) {
+      group.events.sort((a, b) => a.start.compareTo(b.start));
+    }
+
+    return scheduleGroups..sort((a, b) => a.date.compareTo(b.date));
   }
 
   void _jumpToStartDate() {
