@@ -92,18 +92,24 @@ class AppConfig{
    bool confirmationEmailEnabled = false;
    ///TODO timezone
    String timezone = 'Africa/Cairo';
-   Future<AppCalendar> appCalendar = _getAppCalendarFlag();
+   Future<AppCalendar> appCalendarFuture = _getAppCalendarFlag(initialization: true);
+   AppCalendar? appCalendar;
 
 
   static int firstDayOfWeek = 6;
 }
-Future<AppCalendar> _getAppCalendarFlag() async {
-  await Future.delayed(Duration(seconds: 1));
+Future<AppCalendar> _getAppCalendarFlag({required bool initialization}) async {
+  printDebug("get appCalendar _getAppCalendarFlag $initialization");
+  if(initialization){
+    await Future.delayed(Duration(seconds: 1));
+  }
   var featureFlag = await serviceLocator<Analytics>().featureFlag("Calendar_package");
-  return featureFlag ==
+  var result = featureFlag ==
         "syncfusion"
         ? AppCalendar.syncfusion
         : AppCalendar.kalender;
+  serviceLocator<AppConfig>().appCalendar = result;
+  return result;
 }
 
 void _initServiceLocator({required Network network}) {
