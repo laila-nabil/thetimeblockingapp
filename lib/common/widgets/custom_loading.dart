@@ -13,7 +13,7 @@ class LoadingOverlay extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: Colors.black12,
+      color: Colors.transparent,
       alignment: Alignment.center,
       child: CustomLoading(color: Theme.of(context).primaryColor),
     );
