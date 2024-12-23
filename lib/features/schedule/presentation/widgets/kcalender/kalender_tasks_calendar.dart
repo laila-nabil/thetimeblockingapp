@@ -346,7 +346,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                     viewConfigurations(context.showSmallDesign),
                     currentConfiguration: currentConfigurationIndex,
                     onViewConfigurationChanged: (value) => scheduleBloc
-                        .add(ChangeCalendarView(viewIndex: value)),
+                        .add(ChangeKalenderView(viewIndex: value)),
                     ),
                 Divider(),
                 Expanded(
@@ -453,7 +453,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                             viewConfigurations(context.showSmallDesign),
                         currentConfiguration: currentConfigurationIndex,
                         onViewConfigurationChanged: (value) => scheduleBloc
-                            .add(ChangeCalendarView(viewIndex: value)),
+                            .add(ChangeKalenderView(viewIndex: value)),
                         ),
                     CalendarHeader(
                       multiDayTileComponents: tileComponents(header: true),

@@ -52,7 +52,7 @@ class ScheduleView extends StatelessWidget {
             scheduleState: scheduleState,
             selectedWorkspaceId: selectedWorkspaceId,
             currentConfigurationIndex:
-                scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
+                scheduleState.kalenderViewIndex ?? ScheduleState.defaultKalenderViewIndex,
           );
         case AppCalendar.syncfusion:
           return SyncfusionTasksCalendar(
@@ -101,7 +101,7 @@ class ScheduleView extends StatelessWidget {
                 scheduleState: scheduleState,
                 selectedWorkspaceId: selectedWorkspaceId,
                 currentConfigurationIndex:
-                    scheduleState.viewIndex ?? ScheduleState.defaultViewIndex,
+                    scheduleState.kalenderViewIndex ?? ScheduleState.defaultKalenderViewIndex,
               );
             case AppCalendar.syncfusion:
               return SyncfusionTasksCalendar(

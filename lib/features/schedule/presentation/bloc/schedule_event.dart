@@ -67,10 +67,10 @@ class ShowTaskPopupEvent extends ScheduleEvent {
   List<Object?> get props => [showTaskPopup, taskPopupParams];
 }
 
-class ChangeCalendarView extends ScheduleEvent {
+class ChangeKalenderView extends ScheduleEvent {
   final int viewIndex;
 
-  const ChangeCalendarView(
+  const ChangeKalenderView(
       {required this.viewIndex});
 
   @override

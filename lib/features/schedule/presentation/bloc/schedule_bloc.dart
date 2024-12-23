@@ -152,9 +152,9 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
             showTaskPopup: event.showTaskPopup,
             taskPopupParams: event.taskPopupParams));
       }
-      else if(event is ChangeCalendarView){
+      else if(event is ChangeKalenderView){
         emit(state.copyWith(
-          viewIndex: event.viewIndex
+          kalenderViewIndex: event.viewIndex
         ));
       }
     });
