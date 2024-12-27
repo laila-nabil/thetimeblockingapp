@@ -14,6 +14,6 @@ bool isMobileDevice() {
       UniversalPlatform.isIOS ||
       defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS;
-  printDebug("isMobileDevice $isMobileDevice");
+  printDebug("isMobileDevice $result");
   return result;
 }
