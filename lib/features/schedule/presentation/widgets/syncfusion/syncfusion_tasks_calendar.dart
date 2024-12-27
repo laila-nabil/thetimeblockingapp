@@ -331,8 +331,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   Object? convertAppointmentToObject(
       Object? customData, Appointment appointment) {
-    printDebug("customData $customData");
-    printDebug("appointment $appointment");
+    //DON'T use printDebug here -> causes recursion
     return customData as TaskModel;
   }
 
