@@ -39,13 +39,14 @@ class ScheduleConfiguration extends ScheduleViewConfiguration {
 }
 
 class CustomScheduleView<T> extends StatefulWidget {
-  const CustomScheduleView({
+  CustomScheduleView({
     super.key,
     required this.controller,
     required this.eventsController,
     required this.scheduleViewConfiguration,
     this.components,
-    required this.tileBuilder,
+    required this.scheduleGroups,
+    required this.tileBuilder,required this.itemScrollController,
   });
 
   /// The [CalendarController] used to control the view.
@@ -59,9 +60,50 @@ class CustomScheduleView<T> extends StatefulWidget {
 
   /// The [CalendarComponents] used to build the components of the view.
   final CalendarComponents? components;
+
+  final List<ScheduleGroup<Task>> scheduleGroups;
+  final ItemScrollController itemScrollController;
   final Widget Function(
     CalendarEvent<Task> event,
   ) tileBuilder;
+
+  /// Returns a iterable of [ScheduleGroup]s.
+  /// * A [ScheduleGroup] is a group of [CalendarEvent]s that are on the same date.
+  static List<ScheduleGroup<Task>> getScheduleGroups(
+      {required EventsController<Task> eventsController}) {
+    final scheduleGroups = <ScheduleGroup<Task>>[];
+
+    for (final event in eventsController.events) {
+      for (final date in event.datesSpanned) {
+        final index = scheduleGroups.indexWhere(
+              (element) => element.date == date,
+        );
+
+        if (index == -1) {
+          final isFirstOfMonth = !scheduleGroups.any(
+                (group) => group.date.startOfMonth == date.startOfMonth,
+          );
+
+          scheduleGroups.add(
+            ScheduleGroup<Task>(
+              date: date,
+              events: [event],
+              isFirstOfMonth: isFirstOfMonth,
+            ),
+          );
+        } else {
+          scheduleGroups[index].addEvent(event);
+        }
+      }
+    }
+
+    // Sort events in each ScheduleGroup by start date
+    for (final group in scheduleGroups) {
+      group.events.sort((a, b) => a.start.compareTo(b.start));
+    }
+
+    return scheduleGroups..sort((a, b) => a.date.compareTo(b.date));
+  }
 
   @override
   State<CustomScheduleView<T>> createState() => _CustomScheduleViewState<T>();
@@ -81,6 +123,8 @@ class _CustomScheduleViewState<T> extends State<CustomScheduleView<T>> {
       viewConfiguration: widget.scheduleViewConfiguration,
       eventsController: widget.eventsController,
       tileBuilder: widget.tileBuilder,
+      itemScrollController: widget.itemScrollController,
+      scheduleGroups: widget.scheduleGroups,
     );
   }
 }
@@ -91,12 +135,14 @@ class _ScheduleContent<T> extends StatefulWidget {
     required this.controller,
     required this.viewConfiguration,
     required this.eventsController,
-    required this.tileBuilder,
+    required this.tileBuilder, required this.scheduleGroups, required this.itemScrollController,
   });
 
   final CalendarController<Task> controller;
   final ScheduleViewConfiguration viewConfiguration;
   final EventsController<Task> eventsController;
+  final List<ScheduleGroup<Task>> scheduleGroups;
+  final ItemScrollController itemScrollController;
   final Widget Function(
     CalendarEvent<Task> event,
   ) tileBuilder;
@@ -106,21 +152,30 @@ class _ScheduleContent<T> extends StatefulWidget {
 }
 
 class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
-  List<ScheduleGroup<Task>> scheduleGroups = [];
-  ItemScrollController? itemScrollController;
   ItemPositionsListener? itemPositionsListener;
 
 
   @override
   void initState() {
-    itemScrollController = ItemScrollController();
     itemPositionsListener = ItemPositionsListener.create();
-    scheduleGroups = getScheduleGroups();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
           (timeStamp) => _jumpToStartDate(),
     );
 
+  }
+
+  void animateToToday(){
+    final today = DateTime.now();
+    final index = widget.scheduleGroups.indexWhere((group) => group.date.isSameDay(today));
+
+    if (index != -1) {
+      widget.itemScrollController?.scrollTo(
+      index: index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -131,9 +186,9 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
         return ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: ScrollablePositionedList.builder(
-            itemCount: scheduleGroups.length,
+            itemCount: widget.scheduleGroups.length,
             itemBuilder: (context, index) {
-              final scheduleGroup = scheduleGroups[index];
+              final scheduleGroup = widget.scheduleGroups[index];
 
               var scheduleMonthHeaderStyle = ScheduleMonthHeaderStyle();
               final date =scheduleGroup.date;
@@ -224,7 +279,7 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
                 ],
               );
             },
-            itemScrollController: itemScrollController,
+            itemScrollController: widget.itemScrollController,
             itemPositionsListener: itemPositionsListener,
           ),
         );
@@ -233,69 +288,32 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
 
   }
 
-  /// Returns a iterable of [ScheduleGroup]s.
-  /// * A [ScheduleGroup] is a group of [CalendarEvent]s that are on the same date.
-  List<ScheduleGroup<Task>> getScheduleGroups() {
-    final scheduleGroups = <ScheduleGroup<Task>>[];
-
-    for (final event in widget.eventsController.events) {
-      for (final date in event.datesSpanned) {
-        final index = scheduleGroups.indexWhere(
-              (element) => element.date == date,
-        );
-
-        if (index == -1) {
-          final isFirstOfMonth = !scheduleGroups.any(
-                (group) => group.date.startOfMonth == date.startOfMonth,
-          );
-
-          scheduleGroups.add(
-            ScheduleGroup<Task>(
-              date: date,
-              events: [event],
-              isFirstOfMonth: isFirstOfMonth,
-            ),
-          );
-        } else {
-          scheduleGroups[index].addEvent(event);
-        }
-      }
-    }
-
-    // Sort events in each ScheduleGroup by start date
-    for (final group in scheduleGroups) {
-      group.events.sort((a, b) => a.start.compareTo(b.start));
-    }
-
-    return scheduleGroups..sort((a, b) => a.date.compareTo(b.date));
-  }
-
   void _jumpToStartDate() {
-    if (scheduleGroups.isEmpty) return;
+    if (widget.scheduleGroups.isEmpty) return;
 
     final date = DateTime.now();
 
-    var index = scheduleGroups.indexWhere(
+    var index = widget.scheduleGroups.indexWhere(
       (group) => group.date.isSameDay(date),
     );
 
     if (index == -1) {
-      index = scheduleGroups.indexWhere(
+      index = widget.scheduleGroups.indexWhere(
         (group) => AppConfig.firstDayOfWeek == date.startOfWeek,
       );
     }
 
     if (index == -1) {
-      index = scheduleGroups.indexWhere(
+      index = widget.scheduleGroups.indexWhere(
         (group) => group.date.startOfMonth == date.startOfMonth,
       );
     }
 
     if (index == -1) {
-      index = scheduleGroups.length ~/ 2;
+      index = widget.scheduleGroups.length ~/ 2;
     }
 
-    itemScrollController?.jumpTo(index: index);
+    widget.itemScrollController?.jumpTo(index: index);
   }
 }
 

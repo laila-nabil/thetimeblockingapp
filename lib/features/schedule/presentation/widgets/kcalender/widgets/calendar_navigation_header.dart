@@ -18,13 +18,14 @@ class CalendarNavigationHeader extends StatelessWidget {
     required this.viewConfigurations,
     required this.currentConfiguration,
     required this.onViewConfigurationChanged,
+    required this.animateToTodayScheduleView,
   });
 
   final CalendarController calendarController;
   final List<ViewConfiguration> viewConfigurations;
   final int currentConfiguration;
   final void Function(int index) onViewConfigurationChanged;
-
+  final void Function() animateToTodayScheduleView;
   @override
   Widget build(BuildContext context) {
     final isScheduleView = viewConfigurations[currentConfiguration] is ScheduleConfiguration;
@@ -58,7 +59,19 @@ class CalendarNavigationHeader extends StatelessWidget {
         }
         final dateAndTodayRow = Row(
           mainAxisSize: MainAxisSize.min,
-          children:  isScheduleView ? []: [
+          children:  isScheduleView ? [
+            OutlinedButton(
+              style: buttonStyle(false, context),
+              onPressed: animateToTodayScheduleView,
+              child: context.showSmallDesign ? Icon(Icons.today): Text(
+                appLocalization.translate("today"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphXSmall,
+                    color: AppColors.primary(context.isDarkMode),
+                    appFontWeight: AppFontWeight.regular)),
+              ),
+            ),
+          ]: [
             ValueListenableBuilder(
               valueListenable: visibleDateTimeRange,
               builder: (context,visibleRange, child) {

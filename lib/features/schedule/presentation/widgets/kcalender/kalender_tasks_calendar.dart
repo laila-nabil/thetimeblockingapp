@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kalender/kalender.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 
 import 'package:thetimeblockingapp/common/entities/task.dart';
@@ -334,6 +335,22 @@ class KalendarTasksCalendar extends StatelessWidget {
 
     final globalBloc = BlocProvider.of<GlobalBloc>(context, listen: false);
     final authBloc = BlocProvider.of<AuthBloc>(context, listen: false);
+    var scheduleGroups = CustomScheduleView.getScheduleGroups(
+                          eventsController: eventsController);
+    var itemScrollController = ItemScrollController();
+    var animateToTodayScheduleView = () {
+                      final today = DateTime.now();
+                      final index = scheduleGroups
+                          .indexWhere((group) => group.date.isSameDay(today));
+
+                      if (index != -1) {
+                        itemScrollController.scrollTo(
+                          index: index,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    };
     return Scaffold(
       body: CalendarZoomDetector(
         controller: controller,
@@ -345,14 +362,16 @@ class KalendarTasksCalendar extends StatelessWidget {
                     viewConfigurations:
                     viewConfigurations(context.showSmallDesign),
                     currentConfiguration: currentConfigurationIndex,
-                    onViewConfigurationChanged: (value) => scheduleBloc
-                        .add(ChangeKalenderView(viewIndex: value)),
-                    ),
-                Divider(),
+                    onViewConfigurationChanged: (value) => scheduleBloc.add(ChangeKalenderView(viewIndex: value)),
+                    animateToTodayScheduleView: animateToTodayScheduleView,
+                  ),
+                  Divider(),
                 Expanded(
                   child: CustomScheduleView(
                       controller: controller,
                       eventsController: eventsController,
+                      itemScrollController: itemScrollController,
+                      scheduleGroups: scheduleGroups,
                       scheduleViewConfiguration: currentView,
                       tileBuilder: (CalendarEvent<Task> event) {
                         return TaskWidgetInKalendar.schedule(
@@ -454,6 +473,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                         currentConfiguration: currentConfigurationIndex,
                         onViewConfigurationChanged: (value) => scheduleBloc
                             .add(ChangeKalenderView(viewIndex: value)),
+                      animateToTodayScheduleView: animateToTodayScheduleView,
                         ),
                     CalendarHeader(
                       multiDayTileComponents: tileComponents(header: true),
