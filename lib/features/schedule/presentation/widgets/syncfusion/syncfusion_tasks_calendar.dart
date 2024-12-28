@@ -175,15 +175,29 @@ class SyncfusionTasksCalendar extends StatelessWidget {
       ),
       onDragEnd: (details){
         final task = details.appointment as Task;
+        var updatedDueDate = details.droppingTime!
+            .add(task.dueDate!.difference(task.startDate!));
+        var updatedStartDate = details.droppingTime;
+        // Round off the start and end times to the nearest 15 minutes
+        int startMinutes = details.droppingTime!.minute;
+        int roundedStartMinutes = (startMinutes / 15).round() * 15;
+
+        // Update the appointment start and end times
+        updatedStartDate = DateTime(
+            details.droppingTime!.year,
+            details.droppingTime!.month,
+            details.droppingTime!.day,
+            details.droppingTime!.hour,
+            roundedStartMinutes);
+        updatedDueDate = updatedStartDate.add(task.duration!);
         scheduleBloc.add(UpdateTaskEvent(
             params: CreateTaskParams.updateTask(
                 defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
-              task: task, user: authBloc.state.user!,
-
-          updatedDueDate: details.droppingTime
-              !.add(task.dueDate!.difference(task.startDate!)),
-          updatedStartDate: details.droppingTime,
-          backendMode: serviceLocator<BackendMode>().mode
+                task: task,
+                user: authBloc.state.user!,
+                updatedDueDate: updatedDueDate,
+                updatedStartDate: updatedStartDate,
+                backendMode: serviceLocator<BackendMode>().mode
         )));
       },
       onViewChanged: (viewChangedDetails){
