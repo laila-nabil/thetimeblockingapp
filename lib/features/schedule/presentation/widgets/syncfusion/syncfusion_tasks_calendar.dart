@@ -167,7 +167,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
             appFontSize: AppFontSize.paragraphX2Small,
             color: AppColors.grey(context.isDarkMode),
             appFontWeight: AppFontWeight.thin)),
-        timeRulerSize: 60,
+        // timeRulerSize: 60,//SETTING timeRulerSize causes bug in month view hovering
         minimumAppointmentDuration: Duration(minutes: 15),
       ),
       dragAndDropSettings: const DragAndDropSettings(
