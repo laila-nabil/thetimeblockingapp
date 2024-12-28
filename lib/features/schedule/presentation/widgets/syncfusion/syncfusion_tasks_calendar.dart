@@ -7,6 +7,9 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/models/supabase_task_model.dart';
+import 'package:thetimeblockingapp/common/widgetbook.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/core/functions.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -57,8 +60,11 @@ class SyncfusionTasksCalendar extends StatelessWidget {
         CalendarView.month,
       ],
       showDatePickerButton: true,
-      monthViewSettings: const MonthViewSettings(
-        showAgenda: true,
+      monthViewSettings: MonthViewSettings(
+        appointmentDisplayMode: context.showSmallDesign
+            ? MonthAppointmentDisplayMode.indicator
+            : MonthAppointmentDisplayMode.appointment,
+        showAgenda: context.showSmallDesign,
         numberOfWeeksInView: 5,
       ),
       allowDragAndDrop: true,
