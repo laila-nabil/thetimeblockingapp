@@ -25,7 +25,6 @@ import '../../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_cas
 import '../../bloc/schedule_bloc.dart';
 import '../../../../task_popup/presentation/views/task_popup.dart';
 
-//TODO B FIXME fix UI after Flutter update
 
 class SyncfusionTasksCalendar extends StatelessWidget {
   const SyncfusionTasksCalendar({
@@ -150,6 +149,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
             params: CreateTaskParams.updateTask(
                 defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
               task: details.appointment as Task,
+              updatedStartDate: details.startTime,
               updatedDueDate: details.endTime,
               backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
