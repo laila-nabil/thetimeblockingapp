@@ -29,7 +29,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
   final syncfusion.CalendarController syncfusionCalendarController = syncfusion.CalendarController();
-  final kalenderCalendarController = kalender.CalendarController<Task>();
+  kalender.CalendarController<Task> kalenderCalendarController = kalender.CalendarController<Task>();
   ScheduleBloc(
       this._getTasksInSingleWorkspaceUseCase,
       this._createTaskUseCase,
@@ -88,6 +88,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
+          _resetInitialDateInKalender(event.params.startDate);
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -107,6 +108,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
+          _resetInitialDateInKalender(event.params.task?.startDate);
         });
       }
       else if (event is UpdateTaskEvent) {
@@ -126,6 +128,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.updateTaskSuccess,
           ));
+          _resetInitialDateInKalender(event.params.startDate);
         });
       }
       else if (event is DeleteTaskEvent) {
@@ -145,6 +148,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.deleteTaskSuccess,
           ));
+          _resetInitialDateInKalender(event.params.task.startDate);
         });
       }
       else if(event is ShowTaskPopupEvent){
@@ -158,5 +162,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         ));
       }
     });
+  }
+
+  void _resetInitialDateInKalender(DateTime? date) {
+    if (date != null) {
+      kalenderCalendarController = kalender.CalendarController<Task>(
+          initialDate: date);
+    }
   }
 }
