@@ -19,7 +19,7 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
-import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion/widgets/task_widget_in_sync_fusion_calendar.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion/widgets/task_widget_in_syncfusion_calendar.dart';
 
 import '../../../../../core/extensions.dart';
 import '../../../../../core/resources/app_colors.dart';
@@ -86,7 +86,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
           .withOpacity(context.isDarkMode ? 1 : 0.3),
       ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
       scheduleViewSettings: ScheduleViewSettings(
-        appointmentItemHeight: 120
+        appointmentItemHeight: 150
       ),
       appointmentBuilder: (context, calendarAppointmentDetails) {
               List<Task> tasks = [];

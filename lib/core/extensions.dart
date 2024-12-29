@@ -2,10 +2,12 @@
 
 import 'dart:ui';
 
-import 'package:kalender/kalender.dart';
+import 'package:kalender/kalender.dart' as kalender;
+import 'package:syncfusion_flutter_calendar/calendar.dart' as syncfusion;
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/task_widget_in_kalendar.dart';
 
+import '../features/schedule/presentation/widgets/task_widget_in_calendar.dart';
 import 'injection_container.dart';
 import 'localization/localization.dart';
 
@@ -197,8 +199,8 @@ extension StringExtensions on Object? {
   }
 }
 
-extension ViewConfigurationExt on ViewConfiguration {
-  CalendarViewType? get getCalendarViewType {
+extension ViewConfigurationExt on kalender.ViewConfiguration {
+  CalendarViewType get getCalendarViewType {
     if (this.name == appLocalization.translate("day")) {
       return CalendarViewType.day;
     }
@@ -216,9 +218,25 @@ extension ViewConfigurationExt on ViewConfiguration {
     }
     if (this.name == appLocalization.translate("schedule")) {
     // if (this.name == 'Schedule') {
-      return CalendarViewType.schedule;
+      return CalendarViewType.scheduleDynamicTaskHeight;
     }
+    return CalendarViewType.day;
+  }
+}
 
-    return null;
+extension syncfusionCalendarViewExt on syncfusion.CalendarView? {
+  CalendarViewType get getCalendarViewType {
+    switch(this){
+      case syncfusion.CalendarView.day:
+        return CalendarViewType.day;
+      case syncfusion.CalendarView.week:
+        return CalendarViewType.week;
+      case syncfusion.CalendarView.month:
+        return CalendarViewType.month;
+      case syncfusion.CalendarView.schedule:
+        return CalendarViewType.scheduleFixedTaskHeight;
+      default:
+        return CalendarViewType.day;
+    }
   }
 }

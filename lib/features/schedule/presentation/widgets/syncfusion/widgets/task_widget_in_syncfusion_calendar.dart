@@ -15,6 +15,7 @@ import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/task_widget_in_calendar.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/tag_chip.dart';
 
 import '../../../../../../common/widgets/custom_alert_dialog.dart';
@@ -53,7 +54,43 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    printDebug("bounds.height ${bounds.height}");
     final authState = BlocProvider.of<AuthBloc>(context).state;
+    return TaskWidgetInCalendar(
+        task: task,
+        onCompleteConfirmed: onCompleteConfirmed,
+        onDeleteConfirmed: onDeleteConfirmed,
+        onEventTapped: () {
+          showTaskPopup(
+              context: context,
+              taskPopupParams: TaskPopupParams.open(
+                  task: task,
+                  bloc: bloc,
+                  onDelete: onDelete,
+                  onSave: onSave,
+                  onDuplicate: () {
+                    onDuplicate(CreateTaskParams.createNewTask(
+                        defaultList: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!.defaultList!,
+                        list: task.list!,
+                        title: task.title ?? "",
+                        description: task.description,
+                        dueDate: task.dueDate,
+                        folder: task.folder,
+                        workspace: task.workspace,
+                        tags: task.tags,
+                        taskPriority: task.priority,
+                        startDate: task.startDate,
+                        backendMode: serviceLocator<BackendMode>().mode,
+                        user: authState.user!));
+                    Navigator.pop(context);
+                  },
+                  isLoading: (state) => isLoading(state)));
+        },
+        calendarViewType: calendarView?.getCalendarViewType ?? CalendarViewType.day,
+        heightPerMinute: bounds.height / task.duration!.inMinutes,
+        onDelete: onDelete,
+        onSave: onSave,
+        onDuplicate: onDuplicate);
     return _TaskCalendarWidget(
         bounds: bounds,
         calendarView: calendarView,

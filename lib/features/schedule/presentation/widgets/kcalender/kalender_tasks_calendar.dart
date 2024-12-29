@@ -25,6 +25,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_u
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 import '../../bloc/schedule_bloc.dart';
+import '../task_widget_in_calendar.dart';
 import 'widgets/calendar_zoom.dart';
 import 'widgets/schedule_view.dart';
 import 'widgets/task_widget_in_kalendar.dart';
@@ -149,8 +150,10 @@ class KalendarTasksCalendar extends StatelessWidget {
     ) async {
       var viewConfiguration =
           viewConfigurations(showSmallDesign)[currentConfigurationIndex];
-      var isSchedule =
-          viewConfiguration.getCalendarViewType == CalendarViewType.schedule;
+      var isSchedule = viewConfiguration.getCalendarViewType ==
+              CalendarViewType.scheduleDynamicTaskHeight ||
+          viewConfiguration.getCalendarViewType ==
+              CalendarViewType.scheduleFixedTaskHeight;
       if (false) {
         controller.selectedEvent == event
             ? controller.deselectEvent()
@@ -375,8 +378,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                       scheduleViewConfiguration: currentView,
                       tileBuilder: (CalendarEvent<Task> event) {
                         return TaskWidgetInKalendar.schedule(
-                          onEventTapped: (CalendarEvent<Task> event,
-                              ) => onEventTapped(event, null, context.showSmallDesign),
+                          onEventTapped: () => onEventTapped(event, null, context.showSmallDesign),
                           taskLocation: TaskLocation.body,
                           event: event,
                           tileType: TileType.normal,
