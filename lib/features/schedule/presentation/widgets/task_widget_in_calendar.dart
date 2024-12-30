@@ -118,7 +118,10 @@ class TaskWidgetInCalendar extends StatelessWidget {
                 )))
       ];
 
-  double get heightInCalendarBody {
+  double? get heightInCalendarBody {
+    if(heightPerMinute ==null){
+      return null;
+    }
     printDebug(
         'height of task ${(heightPerMinute! * task.duration!.inMinutes)}');
     return (heightPerMinute! * task.duration!.inMinutes);
@@ -130,14 +133,14 @@ class TaskWidgetInCalendar extends StatelessWidget {
           (calendarViewType != CalendarViewType.month &&
               calendarViewType != CalendarViewType.multiWeek &&
               calendarViewType != CalendarViewType.week &&
-              heightInCalendarBody > 250));
+              (heightInCalendarBody !=null && heightInCalendarBody! > 250)));
 
   bool showList(CalendarViewType? calendarViewType) =>
       taskLocation == TaskLocation.body &&
       (calendarViewType?.isSchedule == true  ||
           (calendarViewType != CalendarViewType.multiWeek &&
               calendarViewType != CalendarViewType.month &&
-              heightInCalendarBody > 250));
+              (heightInCalendarBody !=null && heightInCalendarBody! > 250)));
 
   bool showTags(CalendarViewType? calendarViewType) =>
       taskLocation == TaskLocation.body &&
@@ -145,19 +148,19 @@ class TaskWidgetInCalendar extends StatelessWidget {
           (calendarViewType != CalendarViewType.month &&
               calendarViewType != CalendarViewType.multiWeek &&
               calendarViewType != CalendarViewType.week &&
-              heightInCalendarBody > 400));
+              (heightInCalendarBody !=null && heightInCalendarBody! > 400)));
 
   bool showTime(CalendarViewType? calendarViewType) =>
       taskLocation == TaskLocation.body &&
           calendarViewType?.isSchedule == true ;
 
-  int? maxLines(double height, CalendarViewType? calendarViewType) {
+  int? maxLines(double? height, CalendarViewType? calendarViewType) {
     if (calendarViewType == CalendarViewType.scheduleDynamicTaskHeight) {
       return null;
     } else if (calendarViewType == CalendarViewType.scheduleFixedTaskHeight ||
-        height > 100) {
+        (height !=null && height > 100)) {
       return 3;
-    } else if (height > 70) {
+    } else if(height !=null && height > 70) {
       return 2;
     } else {
       return 1;
