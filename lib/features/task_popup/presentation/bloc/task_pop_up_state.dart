@@ -84,7 +84,7 @@ class TaskPopUpState extends Equatable {
         taskStatus: taskParams?.taskStatus,
         folder: taskParams?.folder,
         workspace: taskParams?.workspace,
-        startDate: taskParams?.startDate,
+        startDate: taskParams?.startDate?.dateTime,
         tags: taskParams?.tags,
         taskPriority: taskParams?.taskPriority,
         parentTask: taskParams?.parentTask

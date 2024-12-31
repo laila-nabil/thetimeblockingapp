@@ -23,6 +23,7 @@ import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../common/dialogs/show_date_time_picker.dart';
 import '../../../../common/entities/user.dart';
@@ -300,23 +301,7 @@ class _TaskPopupState extends State<TaskPopup> {
           user: user
       );
     } else {
-      params = taskParams ?? CreateTaskParams.createNewTask(
-          defaultList: defaultList,
-          dueDate: newTaskDueDate,
-          list: taskParams.list!,
-
-          title: taskParams.title ?? "",
-          description: taskParams.description,
-          backendMode: serviceLocator<BackendMode>().mode,
-          user: user,
-          taskStatus: taskParams.taskStatus,
-          folder: taskParams.folder,
-          workspace: taskParams.workspace,
-          startDate: taskParams.startDate,
-          tags: taskParams.tags,
-          taskPriority: taskParams.taskPriority,
-          parentTask: taskParams.parentTask
-      );
+      params = taskParams;
     }
     return params;
   }
@@ -351,8 +336,8 @@ class _TaskPopupState extends State<TaskPopup> {
       taskParams = widget.taskPopupParams.task == null
           ? CreateTaskParams.startCreateNewTask(
           defaultList: globalState.selectedWorkspace!.defaultList!,
-          dueDate: widget.taskPopupParams.dueDate,
-          startDate: widget.taskPopupParams.start,
+          dueDate: TaskDateTime(dateTime: widget.taskPopupParams.dueDate),
+          startDate: TaskDateTime(dateTime: widget.taskPopupParams.start),
           workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
               ? globalState
               .selectedWorkspace
@@ -822,53 +807,9 @@ class _TaskPopupState extends State<TaskPopup> {
                             Wrap(
                               spacing: AppSpacing.xSmall8.value,
                               children: [
-
-                                ///TODO is all day checkbox
-                                ///isAllDay
-                                if(false)Checkbox(
-                                    value: widget.taskPopupParams.isAllDay,
-                                    onChanged: null),
-
-                                ///All day Date
-                                if (false && widget.taskPopupParams.isAllDay)
-                                  CustomButton.noIcon(
-                                    onPressed: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime(
-                                            initialStartDate?.year ??
-                                                DateTime
-                                                    .now()
-                                                    .year,
-                                            initialStartDate?.month ??
-                                                DateTime
-                                                    .now()
-                                                    .month,
-                                            initialStartDate?.day ??
-                                                DateTime
-                                                    .now()
-                                                    .day),
-                                        firstDate: firstDate,
-                                        lastDate: lastDate,
-                                      ).then((value) {
-                                        setState(() {
-                                          taskParams = taskParams
-                                              .copyWith(startDate: value);
-                                        });
-                                      });
-                                    },
-                                    type: CustomButtonType.secondaryLabel,
-                                    label: " ${appLocalization.translate(
-                                        "date")}"
-                                        " ${DateTimeExtensions.customToString(
-                                        taskParams.startDate,
-                                        includeTime: false) ?? ""} ",
-                                  ),
-
                                 ///Start DATE
                                 if (widget.taskPopupParams.isAllDay == false)
-                                  true
-                                      ? Column(
+                                  Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
@@ -890,17 +831,17 @@ class _TaskPopupState extends State<TaskPopup> {
                                             lastDate: lastDate,
                                           ).then((value) {
                                             setState(() {
-                                              DateTime? dueDate;
-                                              if(taskParams.dueDate == null){
+                                              TaskDateTime? dueDate;
+                                              if(taskParams.dueDate?.dateTime == null){
                                                 dueDate =
-                                                    value?.add(serviceLocator<
+                                                    TaskDateTime(dateTime: value?.add(serviceLocator<
                                                         AppConfig>()
-                                                        .defaultTaskDuration);
+                                                        .defaultTaskDuration));
                                               }
                                               taskParams = taskParams
                                                   .copyWith(
-                                                  startDate: value,
-                                                  dueDate: dueDate
+                                                  startDate: TaskDateTime(dateTime: value),
+                                                  dueDate:dueDate
                                               );
                                             });
                                           });
@@ -911,7 +852,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(DateTimeExtensions.customToString(
-                                                taskParams.startDate) ??
+                                                taskParams.startDate?.dateTime) ??
                                                 "YYYY-MM-DD HH:MM AM"),
                                             if(taskParams.startDate!=null)Container(
                                               margin: const EdgeInsetsDirectional.only(start: 8),
@@ -928,8 +869,8 @@ class _TaskPopupState extends State<TaskPopup> {
                                                 onTap: (){
                                                   setState(() {
                                                     taskParams = taskParams.copyWith(
-                                                        clearStartDate:
-                                                        true);
+                                                        startDate:
+                                                        TaskDateTime(dateTime: null,cleared: true));
                                                   });
                                                 },
                                               ),
@@ -940,33 +881,11 @@ class _TaskPopupState extends State<TaskPopup> {
                                       )
                                     ],
                                   )
-                                      : CustomButton.noIcon(
-                                    onPressed: () {
-                                      showDateTimePicker(
-                                        context: context,
-                                        initialDate: initialStartDate ??
-                                            DateTime.now(),
-                                        firstDate: firstDate,
-                                        lastDate: lastDate,
-                                      ).then((value) {
-                                        setState(() {
-                                          taskParams = taskParams
-                                              .copyWith(
-                                              startDate: value);
-                                        });
-                                      });
-                                    },
-                                    type: CustomButtonType.secondaryLabel,
-                                    label:
-                                    " ${appLocalization.translate("startDate")}"
-                                        " ${DateTimeExtensions.customToString(
-                                        taskParams.startDate) ?? ""} ",
-                                  ),
+                                    ,
 
                                 ///DUE DATE
                                 if (widget.taskPopupParams.isAllDay == false)
-                                  true
-                                      ? Column(
+                                  Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
@@ -989,7 +908,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                           ).then((value) {
                                             setState(() {
                                               taskParams = taskParams
-                                                  .copyWith(dueDate: value);
+                                                  .copyWith(dueDate: TaskDateTime(dateTime:value));
                                             });
                                           });
                                         },
@@ -999,7 +918,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(DateTimeExtensions.customToString(
-                                                taskParams.dueDate) ??
+                                                taskParams.dueDate?.dateTime) ??
                                                 "YYYY-MM-DD HH:MM AM"),
                                             if(taskParams.dueDate!=null)Container(
                                               margin: const EdgeInsetsDirectional.only(start: 8),
@@ -1016,8 +935,8 @@ class _TaskPopupState extends State<TaskPopup> {
                                                 onTap: (){
                                                   setState(() {
                                                     taskParams = taskParams.copyWith(
-                                                        clearDueDate:
-                                                        true);
+                                                        dueDate:
+                                                        TaskDateTime(dateTime: null,cleared: true));
                                                   });
                                                 },
                                               ),
@@ -1026,25 +945,6 @@ class _TaskPopupState extends State<TaskPopup> {
                                         ) ,
                                       ),
                                     ],
-                                  )
-                                      : CustomButton.noIcon(
-                                    onPressed: () {
-                                      showDateTimePicker(
-                                        context: context,
-                                        initialDate:
-                                        initialDueDate ?? DateTime.now(),
-                                        firstDate: firstDate,
-                                        lastDate: lastDate,
-                                      ).then((value) {
-                                        taskParams = taskParams
-                                            .copyWith(dueDate: value);
-                                      });
-                                    },
-                                    type: CustomButtonType.secondaryLabel,
-                                    label:
-                                    " ${appLocalization.translate("dueDate")}"
-                                        " ${DateTimeExtensions.customToString(
-                                        taskParams.dueDate) ?? ""} ",
                                   ),
                               ],
                             ),

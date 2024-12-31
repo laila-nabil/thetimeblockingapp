@@ -88,7 +88,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.createTaskSuccess,
           ));
-          _resetInitialDateInKalender(event.params.startDate);
+          _resetInitialDateInKalender(event.params.startDate?.dateTime);
         });
       }
       else if (event is DuplicateTaskEvent) {
@@ -128,7 +128,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             nonPersistingScheduleState: ScheduleStateEnum.updateTaskSuccess,
           ));
-          _resetInitialDateInKalender(event.params.startDate);
+          _resetInitialDateInKalender(event.params.startDate?.dateTime);
         });
       }
       else if (event is DeleteTaskEvent) {

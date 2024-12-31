@@ -14,6 +14,7 @@ import 'package:thetimeblockingapp/common/entities/folder.dart';
 
 import '../../../../common/entities/tasks_list.dart';
 import '../../../../common/entities/task.dart';
+import 'task_date_time.dart';
 
 enum TaskParamsEnum { create, update }
 
@@ -27,8 +28,8 @@ class CreateTaskParams extends Equatable{
   final List<Tag>? tags;
   final TaskStatus? taskStatus;
   final TaskPriority? taskPriority;
-  final DateTime? dueDate;
-  final DateTime? startDate;
+  final TaskDateTime? dueDate;
+  final TaskDateTime? startDate;
   final Task? parentTask;
   final Task? linkedTask;
   final Task? task;
@@ -47,9 +48,9 @@ class CreateTaskParams extends Equatable{
 
   String? getStatus(LanguagesEnum languagesEnum) => taskStatus?.name(languagesEnum);
 
-  int? get getDueDateMillisecondsSinceEpoch => dueDate?.millisecondsSinceEpoch;
+  int? get getDueDateMillisecondsSinceEpoch => dueDate?.dateTime?.millisecondsSinceEpoch;
 
-  int? get getStartDateMillisecondsSinceEpoch => startDate?.millisecondsSinceEpoch;
+  int? get getStartDateMillisecondsSinceEpoch => startDate?.dateTime?.millisecondsSinceEpoch;
 
   String? get getParentTaskId => parentTask?.id;
 
@@ -122,11 +123,11 @@ class CreateTaskParams extends Equatable{
 
   bool get didDueDateChange =>
       task?.dueDate != null &&
-      dueDate?.isAtSameMomentAs(task!.dueDate!) == false;
+      dueDate?.dateTime?.isAtSameMomentAs(task!.dueDate!) == false;
 
   bool get didStartDateChange =>
       task?.startDate != null &&
-      startDate?.isAtSameMomentAs(task!.startDate!) == false;
+      startDate?.dateTime?.isAtSameMomentAs(task!.startDate!) == false;
 
   static TaskParamsEnum getTaskParamsEnum(Task? task) {
     printDebug("getTaskParamsEnum $task ${_isNewTask(task)
@@ -137,8 +138,8 @@ class CreateTaskParams extends Equatable{
       : TaskParamsEnum.update;
   }
   factory CreateTaskParams.startCreateNewTask({
-    DateTime? startDate,
-    DateTime? dueDate,
+    TaskDateTime? startDate,
+    TaskDateTime? dueDate,
     Workspace? workspace,
     TasksList? list,
     Folder? folder,
@@ -191,10 +192,10 @@ class CreateTaskParams extends Equatable{
           tags: tags,
           taskStatus: taskStatus,
           task: null,
-          dueDate: dueDate,
+          dueDate: TaskDateTime(dateTime: dueDate),
           linkedTask: linkedTask,
           parentTask: parentTask,
-          startDate: startDate,
+          startDate: TaskDateTime(dateTime: startDate),
           taskPriority: taskPriority,
           backendMode: backendMode, user: user
     );
@@ -224,8 +225,8 @@ class CreateTaskParams extends Equatable{
         taskStatus: task.status,
         ///TODO get parentTask
         parentTask: null,
-        dueDate: task.dueDate,
-        startDate: task.startDate,
+        dueDate: TaskDateTime(dateTime: task.dueDate, cleared: false),
+        startDate: TaskDateTime(dateTime: task.startDate),
         backendMode: backendMode, user: user
         );
   }
@@ -237,9 +238,9 @@ class CreateTaskParams extends Equatable{
     List<Tag>? updatedTags,
     TaskStatus? updatedTaskStatus,
     TaskPriority? updatedTaskPriority,
-    DateTime? updatedDueDate,
+    TaskDateTime? updatedDueDate,
     bool? updatedDueDateTime,
-    DateTime? updatedStartDate,
+    TaskDateTime? updatedStartDate,
     Task? updatedParentTask,
     Task? updatedLinkedTask,
     bool? updatedArchived,
@@ -270,18 +271,28 @@ class CreateTaskParams extends Equatable{
       );
 
   Map<String, dynamic> toJson() {
-    return {
+    var map = {
       if(title!=null)"title": title,
       if(description!=null)"description": description,
       if(taskStatus!=null)"status_id": int.tryParse(taskStatus?.id??""),
       if(getPriority!=null)"priority_id" : getPriority,
       if(list!=null)"list_id": list?.id,
       "user_id": user.id,
-      if(dueDate!=null)"due_date": dueDate?.toStringIncludeTimeZone(),
-      if(startDate!=null)"start_date": startDate?.toStringIncludeTimeZone(),
       if(parentTask!=null)"parent_task_id": parentTask?.id,
       "child_task_id": null,///TODO Child task
     };
+    if(dueDate?.cleared == true){
+      map.addAll({"due_date": null});
+    }else if(dueDate?.dateTime !=null ){
+      map.addAll({"due_date": dueDate?.dateTime?.toStringIncludeTimeZone()});
+    }
+    if(startDate?.cleared == true){
+      map.addAll({"start_date": null});
+    }else if(startDate?.dateTime !=null ){
+      map.addAll({"start_date": startDate?.dateTime?.toStringIncludeTimeZone()});
+    }
+
+    return map;
     if (type == TaskParamsEnum.create) {
       Map<String, Object?>  createMap = {
         "name": title,
@@ -329,9 +340,9 @@ class CreateTaskParams extends Equatable{
     List<Tag>? tags,
     TaskStatus? taskStatus,
     TaskPriority? taskPriority,
-    DateTime? dueDate,
+    TaskDateTime? dueDate,
     Duration? timeEstimate,
-    DateTime? startDate,
+    TaskDateTime? startDate,
     Task? parentTask,
     Task? linkedTask,
     Task? task,
@@ -339,8 +350,6 @@ class CreateTaskParams extends Equatable{
     Folder? folder,
     bool? clearFolder,
     bool? clearPriority,
-    bool? clearStartDate,
-    bool? clearDueDate,
   }) {
     Workspace? selectedWorkspace = workspace ?? this.workspace;
     TaskPriority? selectedPriority =
@@ -359,22 +368,26 @@ class CreateTaskParams extends Equatable{
             selectedWorkspace.lists?.contains(selectedList) == false)) {
       selectedList = null;
     }
-    DateTime? selectedStartDate =
-        clearStartDate == true ? null : (startDate ?? this.startDate);
-    DateTime? selectedDueDate =
-        clearDueDate == true ? null : (dueDate ?? this.dueDate);
-    if (selectedStartDate != null &&
-        selectedDueDate?.isBefore(selectedStartDate) == true) {
-      printDebug("selectedStartDate $selectedStartDate");
-      printDebug("selectedDueDate $selectedDueDate");
-      if (startDate != null) {
-        selectedDueDate = null;
-      } else if (dueDate != null) {
-        selectedStartDate = null;
+    var updatedStartDate = startDate ?? this.startDate;
+    var updatedDueDate = dueDate ?? this.dueDate;
+    printDebug("CreateTaskParams copyWith startDate?.dateTime ${startDate?.dateTime}");
+    printDebug("CreateTaskParams copyWith dueDate?.dateTime ${dueDate?.dateTime}");
+    printDebug("CreateTaskParams copyWith updatedStartDate ${updatedStartDate}");
+    printDebug("CreateTaskParams copyWith updatedDueDate ${updatedDueDate}");
+    if (updatedStartDate?.dateTime != null && updatedDueDate?.dateTime != null ) {
+      printDebug("CreateTaskParams copyWith updatedDueDate?.dateTime?.isBefore(updatedDueDate.dateTime!) ${updatedDueDate?.dateTime?.isBefore(updatedStartDate!.dateTime!)}");
+      printDebug("CreateTaskParams copyWith updatedDueDate?.dateTime?.toUtc().isBefore(updatedDueDate.dateTime!.toUtc()) ${updatedDueDate?.dateTime?.toUtc().isBefore(updatedStartDate!.dateTime!.toUtc())}");
+      if(updatedDueDate?.dateTime?.toUtc().isBefore(updatedStartDate!.dateTime!.toUtc()) == true){
+        if (dueDate?.dateTime !=null) {
+          updatedStartDate = null;
+          printDebug("CreateTaskParams copyWith updatedStartDate cleared ${updatedStartDate}");
+        } else if (startDate?.dateTime !=null) {
+          updatedDueDate = null;
+          printDebug("CreateTaskParams copyWith updatedDueDate cleared ${updatedDueDate}");
+        }
       }
-      printDebug("selectedStartDate $selectedStartDate");
-      printDebug("selectedDueDate $selectedDueDate");
     }
+    
     return CreateTaskParams._(
       type:
           taskParamsEnum ?? type,
@@ -385,8 +398,8 @@ class CreateTaskParams extends Equatable{
       tags: tags ?? this.tags,
       taskStatus: taskStatus ?? this.taskStatus,
       taskPriority: selectedPriority,
-      dueDate: selectedDueDate,
-      startDate: selectedStartDate,
+      dueDate: updatedDueDate,
+      startDate: updatedStartDate,
       parentTask: parentTask ?? this.parentTask,
       linkedTask: linkedTask ?? this.linkedTask,
       task: task ?? this.task,

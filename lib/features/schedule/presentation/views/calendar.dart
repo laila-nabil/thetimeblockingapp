@@ -30,7 +30,8 @@ class ScheduleView extends StatelessWidget {
       switch (serviceLocator<AppConfig>().appCalendar) {
         case AppCalendar.kalender:
           final tasks = scheduleState.tasks
-                  ?.where((element) => element.dueDate != null)
+                  ?.where((element) =>
+                      element.dueDate != null && element.startDate != null)
                   .toList() ??
               [];
           final events = tasks
@@ -58,7 +59,7 @@ class ScheduleView extends StatelessWidget {
           return SyncfusionTasksCalendar(
             tasksDataSource: SupabaseTasksDataSource(
                 tasks: scheduleState.tasks
-                        ?.where((element) => element.dueDate != null)
+                        ?.where((element) => element.dueDate != null && element.startDate != null)
                         .toList() ??
                     []),
             controller: scheduleBloc.syncfusionCalendarController,

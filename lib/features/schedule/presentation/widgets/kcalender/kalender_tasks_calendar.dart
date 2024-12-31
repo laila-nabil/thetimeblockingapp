@@ -20,6 +20,7 @@ import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/calendar_navigation_header.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/resize_handler.dart';
 import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
@@ -214,8 +215,8 @@ class KalendarTasksCalendar extends StatelessWidget {
           params: CreateTaskParams.updateTask(
               defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
               task: event.data!,
-              updatedDueDate: updatedEvent.end,
-              updatedStartDate: updatedEvent.start,
+              updatedDueDate: TaskDateTime(dateTime: updatedEvent.end),
+              updatedStartDate: TaskDateTime(dateTime: updatedEvent.start),
               backendMode: serviceLocator<BackendMode>().mode,
               user: authBloc.state.user!)));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();

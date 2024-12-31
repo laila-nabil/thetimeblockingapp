@@ -18,6 +18,7 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion/widgets/task_widget_in_syncfusion_calendar.dart';
 
@@ -155,8 +156,8 @@ class SyncfusionTasksCalendar extends StatelessWidget {
             params: CreateTaskParams.updateTask(
                 defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
               task: details.appointment as Task,
-              updatedStartDate: details.startTime,
-              updatedDueDate: details.endTime,
+              updatedStartDate: TaskDateTime(dateTime: details.startTime),
+              updatedDueDate: TaskDateTime(dateTime: details.endTime),
               backendMode: serviceLocator<BackendMode>().mode, user: authBloc.state.user!
             )));
       },
@@ -195,8 +196,8 @@ class SyncfusionTasksCalendar extends StatelessWidget {
                 defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
                 task: task,
                 user: authBloc.state.user!,
-                updatedDueDate: updatedDueDate,
-                updatedStartDate: updatedStartDate,
+                updatedDueDate: TaskDateTime(dateTime: updatedDueDate),
+                updatedStartDate: TaskDateTime(dateTime: updatedStartDate),
                 backendMode: serviceLocator<BackendMode>().mode
         )));
       },
