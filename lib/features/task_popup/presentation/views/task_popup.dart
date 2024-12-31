@@ -830,21 +830,28 @@ class _TaskPopupState extends State<TaskPopup> {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) {
-                                            setState(() {
-                                              TaskDateTime? dueDate;
-                                              if(taskParams.dueDate?.dateTime == null){
-                                                dueDate =
-                                                    TaskDateTime(dateTime: value?.add(serviceLocator<
-                                                        AppConfig>()
-                                                        .defaultTaskDuration));
+                                            if (value != null) {
+                                                setState(() {
+                                                  TaskDateTime? dueDate;
+                                                  if (taskParams
+                                                          .dueDate?.dateTime ==
+                                                      null) {
+                                                    dueDate = TaskDateTime(
+                                                        dateTime: value?.add(
+                                                            serviceLocator<
+                                                                    AppConfig>()
+                                                                .defaultTaskDuration));
+                                                  }
+                                                  taskParams =
+                                                      taskParams.copyWith(
+                                                          startDate:
+                                                              TaskDateTime(
+                                                                  dateTime:
+                                                                      value),
+                                                          dueDate: dueDate);
+                                                });
                                               }
-                                              taskParams = taskParams
-                                                  .copyWith(
-                                                  startDate: TaskDateTime(dateTime: value),
-                                                  dueDate:dueDate
-                                              );
                                             });
-                                          });
                                         },
                                         type: CustomButtonType
                                             .greyOutlinedLabel,
@@ -906,10 +913,14 @@ class _TaskPopupState extends State<TaskPopup> {
                                             firstDate: firstDate,
                                             lastDate: lastDate,
                                           ).then((value) {
-                                            setState(() {
-                                              taskParams = taskParams
-                                                  .copyWith(dueDate: TaskDateTime(dateTime:value));
-                                            });
+                                            if (value != null) {
+                                              setState(() {
+                                                taskParams =
+                                                    taskParams.copyWith(
+                                                        dueDate: TaskDateTime(
+                                                            dateTime: value));
+                                              });
+                                            }
                                           });
                                         },
                                         type: CustomButtonType
