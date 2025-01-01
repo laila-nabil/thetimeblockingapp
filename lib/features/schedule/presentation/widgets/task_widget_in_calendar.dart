@@ -424,26 +424,30 @@ class TaskWidgetInCalendar extends StatelessWidget {
             if (showList(calendarViewType))
               Padding(
                 padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                child: Expanded(
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        if (isListInsideFolder)
-                        TextSpan(
-                          text:folderName ?? "",
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            if (isListInsideFolder)
+                            TextSpan(
+                              text:folderName ?? "",
 
-                          ),
-                        if (isListInsideFolder)
-                          const TextSpan(text: ' / '),
-                        TextSpan(
-                          text: listName ?? '',
+                              ),
+                            if (isListInsideFolder)
+                              const TextSpan(text: ' / '),
+                            TextSpan(
+                              text: listName ?? '',
+                              style: taskLocationTextStyle,
+                            )
+                          ],
                           style: taskLocationTextStyle,
-                        )
-                      ],
-                      style: taskLocationTextStyle,
+                        ),
+                        maxLines: 2,
+                      ),
                     ),
-                    maxLines: 2,
-                  ),
+                  ],
                 ),
               ),
             calendarViewType == CalendarViewType.scheduleDynamicTaskHeight
