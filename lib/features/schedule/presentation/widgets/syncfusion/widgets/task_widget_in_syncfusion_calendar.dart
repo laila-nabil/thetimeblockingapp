@@ -51,13 +51,14 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
   final void Function() onDeleteConfirmed;
   final CalendarView? calendarView;
   final Rect bounds;
-
   @override
   Widget build(BuildContext context) {
-    printDebug("bounds.height ${bounds.height}");
+    final durationLongerThanDay = task.duration!.inDays >= 1;
+    printDebug("task ${task.title} durationLongerThanDay $durationLongerThanDay");
     final authState = BlocProvider.of<AuthBloc>(context).state;
     return TaskWidgetInCalendar(
         task: task,
+        taskLocation: durationLongerThanDay? TaskLocation.header : TaskLocation.body,
         onCompleteConfirmed: onCompleteConfirmed,
         onDeleteConfirmed: onDeleteConfirmed,
         onEventTapped: () {
@@ -87,7 +88,8 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
                   isLoading: (state) => isLoading(state)));
         },
         calendarViewType: calendarView?.getCalendarViewType ?? CalendarViewType.day,
-        heightPerMinute: bounds.height / task.duration!.inMinutes,
+        //not sure why bounds.height is not accurate
+        heightPerMinute: null,
         onDelete: onDelete,
         onSave: onSave,
         onDuplicate: onDuplicate);

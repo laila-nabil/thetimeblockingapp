@@ -180,6 +180,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    printDebug("task ${task.title} ${taskLocation}");
     final colors = AppColors.grey(context.isDarkMode).shade500;
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
@@ -280,6 +281,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
           },
           child: true
               ? buildTaskWidgetInKalendar(
+                  taskLocation: taskLocation,
                   context: context,
                   calendarViewType:
                   calendarViewType,
@@ -321,6 +323,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
     }
 
     return buildTaskWidgetInKalendar(
+        taskLocation: taskLocation,
         context: context,
         calendarViewType: calendarViewType,
         isListInsideFolder: isListInsideFolder,
@@ -337,6 +340,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
       required String? listName,
       required String? folderName,
       required TextStyle taskLocationTextStyle,
+      required TaskLocation taskLocation,
       required bool showSmallDesign}) {
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
@@ -411,7 +415,9 @@ class TaskWidgetInCalendar extends StatelessWidget {
             : null,
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: taskLocation == TaskLocation.header ? 0 : 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
