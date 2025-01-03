@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/widgetbook.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
@@ -31,8 +33,8 @@ Future<void> showRequestFeatureDialog(BuildContext context) {
             CustomButton.noIcon(
               label: appLocalization.translate("cancel"),
               onPressed: () {
-                Navigator.pop(context);
-              },
+                context.pop();
+;              },
               type: CustomButtonType.greyFilledLabel,
             ),
           ],
