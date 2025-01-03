@@ -96,9 +96,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
     return Container(
       constraints: BoxConstraints(maxWidth: showSmallDesign ? 400 : 500),
       padding: EdgeInsets.all(AppSpacing.medium16.value),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           if(anonymousUserAlreadySignedIn == false)Center(
             child: Image.asset(
