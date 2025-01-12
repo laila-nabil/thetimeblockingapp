@@ -364,16 +364,10 @@ class SettingsPage extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.only(
                             top: 10,bottom: 10),
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          alignment: WrapAlignment.center,
-                          spacing: 10,
-                          runSpacing: 10,
-                          runAlignment: WrapAlignment.spaceBetween,
-                          crossAxisAlignment: WrapCrossAlignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
+                            Wrap(
                               children: [
                                 CustomButton.noIcon(
                                   label: appLocalization.translate("termsOfUse"),
@@ -397,31 +391,35 @@ class SettingsPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                InkWell(
-                                  child: Image.asset(
-                                    AppAssets.github,
-                                    width: 24,
-                                    height: 24,
+                            SizedBox(height: 10,),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  InkWell(
+                                    child: Image.asset(
+                                      AppAssets.github,
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    onTap: () =>
+                                        launchWithURL(url: "https://github.com/laila-nabil/"),
                                   ),
-                                  onTap: () =>
-                                      launchWithURL(url: "https://github.com/laila-nabil/"),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                InkWell(
-                                  child: Image.asset(
-                                    AppAssets.twitter,
-                                    width: 24,
-                                    height: 24,
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                  onTap: () =>
-                                      launchWithURL(url: "https://twitter.com/laila_nabil_"),
-                                ),
-                              ],
+                                  InkWell(
+                                    child: Image.asset(
+                                      AppAssets.twitter,
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    onTap: () =>
+                                        launchWithURL(url: "https://twitter.com/laila_nabil_"),
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),
