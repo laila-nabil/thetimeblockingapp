@@ -191,9 +191,9 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
           SizedBox(
             height: AppSpacing.xBig24.value,
           ),
-          if(anonymousUserAlreadySignedIn == false)Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          if(anonymousUserAlreadySignedIn == false)Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
                   widget.isSignIn
