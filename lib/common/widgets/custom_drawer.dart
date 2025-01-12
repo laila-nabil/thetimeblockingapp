@@ -294,20 +294,22 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showSmallDesign = context.showSmallDesign;
-    return Container(
-      height: showSmallDesign ? 43 : 54,
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(
-                showSmallDesign ? 24 : 29, 0, 0, 0),
-            child: Image.asset(
-              AppAssets.logo(context.isDarkMode),
-              width: showSmallDesign ? 180 : 200,
+    return SafeArea(
+      child: Container(
+        height: showSmallDesign ? 43 : 54,
+        margin: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          children: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(
+                  showSmallDesign ? 24 : 29, 0, 0, 0),
+              child: Image.asset(
+                AppAssets.logo(context.isDarkMode),
+                width: showSmallDesign ? 180 : 200,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

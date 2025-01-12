@@ -93,68 +93,72 @@ class ResponsiveScaffold extends Scaffold {
         builder: (context, state) {
           final authBloc = BlocProvider.of<AuthBloc>(context);
           if (context.showSmallDesign == false) {
-            return BlocBuilder<GlobalBloc, GlobalState>(
-              builder: (context, state) {
-                if (state.drawerLargerScreenOpen) {
-                  return BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, state) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CustomDrawer(),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
-                                Expanded(
-                                  child: _ResponsiveBody(
-                                    responsiveTParams: responsiveBody,
-                                    responsiveScaffoldLoading: responsiveScaffoldLoading,
-                                    onRefresh: onRefresh,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-                return BlocBuilder<GlobalBloc, GlobalState>(
-                  builder: (context, state) {
+            return SafeArea(
+              child: BlocBuilder<GlobalBloc, GlobalState>(
+                builder: (context, state) {
+                  if (state.drawerLargerScreenOpen) {
                     return BlocBuilder<SettingsBloc, SettingsState>(
                       builder: (context, state) {
-                        return Column(
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                            const CustomDrawer(),
                             Expanded(
-                              child: _ResponsiveBody(
-                                responsiveTParams: responsiveBody,
-                                responsiveScaffoldLoading: responsiveScaffoldLoading,
-                                onRefresh: onRefresh,
+                              child: Column(
+                                children: [
+                                  if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                                  Expanded(
+                                    child: _ResponsiveBody(
+                                      responsiveTParams: responsiveBody,
+                                      responsiveScaffoldLoading: responsiveScaffoldLoading,
+                                      onRefresh: onRefresh,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         );
                       },
                     );
-                  },
-                );
-              },
+                  }
+                  return BlocBuilder<GlobalBloc, GlobalState>(
+                    builder: (context, state) {
+                      return BlocBuilder<SettingsBloc, SettingsState>(
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                              Expanded(
+                                child: _ResponsiveBody(
+                                  responsiveTParams: responsiveBody,
+                                  responsiveScaffoldLoading: responsiveScaffoldLoading,
+                                  onRefresh: onRefresh,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             );
           }
-          return Column(
-            children: [
-              if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
-              Expanded(
-                child: _ResponsiveBody(
-                  responsiveTParams: responsiveBody,
-                  responsiveScaffoldLoading: responsiveScaffoldLoading,
-                  onRefresh: onRefresh,
+          return SafeArea(
+            child: Column(
+              children: [
+                if(serviceLocator<AppConfig>().isDemo)signInToUse(authBloc),
+                Expanded(
+                  child: _ResponsiveBody(
+                    responsiveTParams: responsiveBody,
+                    responsiveScaffoldLoading: responsiveScaffoldLoading,
+                    onRefresh: onRefresh,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
 
