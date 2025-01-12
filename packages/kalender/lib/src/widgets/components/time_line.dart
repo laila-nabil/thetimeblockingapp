@@ -67,9 +67,9 @@ class TimeLine<T extends Object?> extends StatelessWidget {
     final textStyle = style?.textStyle ?? Theme.of(context).textTheme.labelMedium;
     final textDirection = style?.textDirection ?? TextDirection.ltr;
 
-    const displayTime = TimeOfDay(hour: 12, minute: 0);
+    const displayTime = TimeOfDay(hour: 11, minute: 0);
     final text = style?.stringBuilder?.call(displayTime) ?? displayTime.format(context);
-    final textSize = _textSize(text, textStyle);
+    final textSize = _textSize(text, textStyle,context);
     final textHeight = textSize.height;
     final textWidth = textSize.width;
 
@@ -197,13 +197,13 @@ class TimeLine<T extends Object?> extends StatelessWidget {
   }
 
   /// Returns the size of the text.
-  Size _textSize(String text, TextStyle? style) {
+  Size _textSize(String text, TextStyle? style,BuildContext context) {
     final textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       maxLines: 1,
+      textScaler: MediaQuery.textScalerOf(context),
       textDirection: this.style?.textDirection ?? TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: double.infinity);
-
     return textPainter.size;
   }
 }
