@@ -136,15 +136,17 @@ class _TimeIndicatorState extends State<TimeIndicator> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Positioned(
+        Positioned.directional(
+          textDirection: Directionality.of(context),
           top: top,
-          left: widget.timelineWidth,
-          right: 0,
+          start: widget.timelineWidth,
+          end: 0,
           child: line,
         ),
-        Positioned(
+        Positioned.directional(
+          textDirection: Directionality.of(context),
           top: circleTop,
-          left: circleLeft,
+          start: 0,
           width: circleWidth,
           height: circleHeight,
           child: timeIndicatorCircle,
