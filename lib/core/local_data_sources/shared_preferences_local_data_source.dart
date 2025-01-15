@@ -3,41 +3,63 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thetimeblockingapp/core/error/exceptions.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 class SharedPrefLocalDataSource implements LocalDataSource {
-  static late SharedPreferences _sharedPreferences;
+  SharedPreferencesAsync?  _sharedPreferences;
 
-  @override
-  Future<void> init() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
+  void _init() {
+    _sharedPreferences = _sharedPreferences ?? SharedPreferencesAsync();
   }
 
   @override
-  Future<String?> getData({required String key}) async {
-    await init();
-    final result = _sharedPreferences.get(key);
+  Future<String?> getStringData({required String key}) async {
+    _init();
+    final result = await _sharedPreferences?.getString(key);
     if (result !=null && result!="\"\"") {
       return result.toString();
     }
     throw(EmptyCacheException());
   }
 
-  @override
-  Future<void> setData<T>({required String key, required T value}) async {
-    await init();
-    bool? result;
-    if (value is int) result = await _sharedPreferences.setInt(key, value);
-    if (value is bool) result =  await _sharedPreferences.setBool(key, value);
-    if (value is double) result =  await _sharedPreferences.setDouble(key, value);
 
-    result = await  _sharedPreferences.setString(key, jsonEncode(value));
-    if(result != true){
-      throw(FailedCachingException());
+  @override
+  Future<bool?> getBoolData({required String key}) async {
+    _init();
+    final result = await _sharedPreferences?.getBool(key);
+    if (result !=null) {
+      return result;
     }
+    throw(EmptyCacheException());
   }
 
   @override
-  Future<bool> clear() {
-    return _sharedPreferences.clear();
+  Future<List<String>?> getStringListData({required String key})  async {
+    _init();
+    final result = await _sharedPreferences?.getStringList(key);
+    if (result !=null) {
+      return result;
+    }
+    throw(EmptyCacheException());
+  }
+
+  @override
+  Future<void> setData<T>({required String key, required T value}) async {
+    _init();
+    try {
+      if (value is int) await _sharedPreferences?.setInt(key, value);
+      if (value is bool)  await _sharedPreferences?.setBool(key, value);
+      if (value is double)  await _sharedPreferences?.setDouble(key, value);
+      await  _sharedPreferences?.setString(key, jsonEncode(value));
+    } catch (e) {
+      printDebug(e,printLevel: PrintLevel.error);
+      throw FailedCachingException();
+    }
+
+  }
+
+  @override
+  Future<void>? clear() {
+    return _sharedPreferences?.clear();
   }
 }

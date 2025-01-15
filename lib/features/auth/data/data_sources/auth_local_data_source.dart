@@ -34,7 +34,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<AccessTokenModel> _getAccessToken() async {
-    var data = await localDataSource.getData(
+    var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.accessToken.name);
     return AccessTokenModel.fromJson(json.decode(data ?? ""));
   }
@@ -58,7 +58,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<SupabaseUserModel> _getSupabaseUser() async {
-    var data = await localDataSource.getData(
+    var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.supabaseUser.name);
     return SupabaseUserModel.fromJson(json.decode(data.toString()));
   }
@@ -72,7 +72,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<String> _getRefreshToken()async {
-    var data = await localDataSource.getData(
+    var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.refreshToken.name);
     return json.decode(data.toString());
   }
