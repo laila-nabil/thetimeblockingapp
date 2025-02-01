@@ -691,6 +691,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         appFontWeight: AppFontWeight.bold))
         .copyWith(decoration: TextDecoration.underline);
     return RichText(
+        textScaler: MediaQuery.textScalerOf(context),
         text: TextSpan(
             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                 appFontSize: AppFontSize.paragraphXSmall,

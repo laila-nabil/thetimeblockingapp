@@ -367,6 +367,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
           ),
         Expanded(
           child: RichText(
+            textScaler: MediaQuery.textScalerOf(context),
             text: TextSpan(
               children: [
                 TextSpan(
@@ -428,6 +429,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
                   children: [
                     Expanded(
                       child: RichText(
+                        textScaler: MediaQuery.textScalerOf(context),
                         text: TextSpan(
                           children: [
                             if (isListInsideFolder)
