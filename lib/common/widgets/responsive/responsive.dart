@@ -33,6 +33,36 @@ extension AppResponsive on BuildContext {
     }
   }
 
+  Widget responsiveListWidgets({
+    required List<Widget> children,
+    double spacingHorizontal = 0,
+  }) {
+    final device = getDevice;
+    switch (device) {
+      case (AppScreen.small):
+        return Column(
+          children: children,
+        );
+      case (AppScreen.medium):
+        return Column(
+          children: children,
+        );
+      case (AppScreen.large):
+        return Row(
+          children: children
+                  .map<Widget>((child) => Expanded(
+                    child: Padding(
+                      padding:
+                            EdgeInsetsDirectional.only(end: spacingHorizontal),
+                      child: child,
+                    ),
+                  ))
+                  .toList()
+              ,
+        );
+    }
+  }
+
   AppScreen get getDevice {
     final width = MediaQuery.sizeOf(this).width;
     if (width >= AppScreen.large.width) {

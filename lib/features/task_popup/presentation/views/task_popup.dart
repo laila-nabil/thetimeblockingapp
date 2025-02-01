@@ -10,6 +10,7 @@ import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -428,6 +429,14 @@ class _TaskPopupState extends State<TaskPopup> {
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: AppSpacing.medium16.value,
                     vertical: AppSpacing.small12.value),
+                actionsOverflowAlignment: OverflowBarAlignment.start,
+                actionsPadding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10
+                ),
+                actionsAlignment: MainAxisAlignment.start,
+                actionsOverflowButtonSpacing: 0,
+                actionsOverflowDirection: VerticalDirection.down,
                 actions: [
                   if (task != null)
                     CustomButton.iconOnly(
@@ -627,8 +636,10 @@ class _TaskPopupState extends State<TaskPopup> {
                             spacerV,
 
                             ///Status && Priority
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 0,
+                              runSpacing: 0,
                               children: [
 
                                 ///Status
@@ -691,6 +702,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                 ///Priority
                                 if(globalState.priorities?.isNotEmpty == true)
                                   Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       CustomDropDown<TaskPriority>(
                                         value: taskParams.taskPriority,
@@ -804,24 +816,22 @@ class _TaskPopupState extends State<TaskPopup> {
                             ),
                             spacerV,
                             spacerV,
-                            Wrap(
-                              spacing: AppSpacing.xSmall8.value,
+                            context.responsiveListWidgets(
+                              spacingHorizontal:  AppSpacing.xSmall8.value,
                               children: [
-                                ///Start DATE
-                                if (widget.taskPopupParams.isAllDay == false)
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        appLocalization
-                                            .translate("startDate"),
-                                        style: sectionTitle,
-                                      ),
-                                      SizedBox(
-                                        height: AppSpacing.x2Small4.value,
-                                      ),
-                                      CustomButton.custom(
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      appLocalization
+                                          .translate("startDate"),
+                                      style: sectionTitle,
+                                    ),
+                                    SizedBox(
+                                      height: AppSpacing.x2Small4.value,
+                                    ),
+                                    CustomButton.custom(
                                         onPressed: () {
                                           showDateTimePicker(
                                             context: context,
@@ -831,36 +841,45 @@ class _TaskPopupState extends State<TaskPopup> {
                                             lastDate: lastDate,
                                           ).then((value) {
                                             if (value != null) {
-                                                setState(() {
-                                                  TaskDateTime? dueDate;
-                                                  if (taskParams
-                                                          .dueDate?.dateTime ==
-                                                      null) {
-                                                    dueDate = TaskDateTime(
-                                                        dateTime: value?.add(
-                                                            serviceLocator<
-                                                                    AppConfig>()
-                                                                .defaultTaskDuration));
-                                                  }
-                                                  taskParams =
-                                                      taskParams.copyWith(
-                                                          startDate:
-                                                              TaskDateTime(
-                                                                  dateTime:
-                                                                      value),
-                                                          dueDate: dueDate);
-                                                });
-                                              }
-                                            });
+                                              setState(() {
+                                                TaskDateTime? dueDate;
+                                                if (taskParams
+                                                    .dueDate?.dateTime ==
+                                                    null) {
+                                                  dueDate = TaskDateTime(
+                                                      dateTime: value?.add(
+                                                          serviceLocator<
+                                                              AppConfig>()
+                                                              .defaultTaskDuration));
+                                                }
+                                                taskParams =
+                                                    taskParams.copyWith(
+                                                        startDate:
+                                                        TaskDateTime(
+                                                            dateTime:
+                                                            value),
+                                                        dueDate: dueDate);
+                                              });
+                                            }
+                                          });
                                         },
                                         type: CustomButtonType
                                             .greyOutlinedLabel,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(DateTimeExtensions.customToString(
-                                                taskParams.startDate?.dateTime) ??
-                                                "YYYY-MM-DD HH:MM AM"),
+                                            Expanded(
+                                              child: Text(
+                                                DateTimeExtensions
+                                                    .customToString(
+                                                    taskParams
+                                                        .startDate
+                                                        ?.dateTime) ??
+                                                    "YYYY-MM-DD HH:MM AM",
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                              ),
+                                            ),
                                             if(taskParams.startDate!=null)Container(
                                               margin: const EdgeInsetsDirectional.only(start: 8),
                                               child: InkWell(
@@ -885,79 +904,82 @@ class _TaskPopupState extends State<TaskPopup> {
                                           ],
                                         )
 
-                                      )
-                                    ],
-                                  )
-                                    ,
-
-                                ///DUE DATE
-                                if (widget.taskPopupParams.isAllDay == false)
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        appLocalization
-                                            .translate("dueDate"),
-                                        style: sectionTitle,
-                                      ),
-                                      SizedBox(
-                                        height: AppSpacing.x2Small4.value,
-                                      ),
-                                      CustomButton.custom(
-                                        onPressed: () {
-                                          showDateTimePicker(
-                                            context: context,
-                                            initialDate:
-                                            initialDueDate ?? DateTime.now(),
-                                            firstDate: firstDate,
-                                            lastDate: lastDate,
-                                          ).then((value) {
-                                            if (value != null) {
-                                              setState(() {
-                                                taskParams =
-                                                    taskParams.copyWith(
-                                                        dueDate: TaskDateTime(
-                                                            dateTime: value));
-                                              });
-                                            }
-                                          });
-                                        },
-                                        type: CustomButtonType
-                                            .greyOutlinedLabel,
-                                        child:Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(DateTimeExtensions.customToString(
-                                                taskParams.dueDate?.dateTime) ??
-                                                "YYYY-MM-DD HH:MM AM"),
-                                            if(taskParams.dueDate!=null)Container(
-                                              margin: const EdgeInsetsDirectional.only(start: 8),
-                                              child: InkWell(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Icon(
-                                                    Icons.clear,
-                                                    color: AppColors.error(
-                                                        context.isDarkMode),
-                                                    size: 10,
-                                                  ),
-                                                ),
-                                                onTap: (){
-                                                  setState(() {
-                                                    taskParams = taskParams.copyWith(
-                                                        dueDate:
-                                                        TaskDateTime(dateTime: null,cleared: true));
-                                                  });
-                                                },
-                                              ),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      appLocalization
+                                          .translate("dueDate"),
+                                      style: sectionTitle,
+                                    ),
+                                    SizedBox(
+                                      height: AppSpacing.x2Small4.value,
+                                    ),
+                                    CustomButton.custom(
+                                      onPressed: () {
+                                        showDateTimePicker(
+                                          context: context,
+                                          initialDate:
+                                          initialDueDate ?? DateTime.now(),
+                                          firstDate: firstDate,
+                                          lastDate: lastDate,
+                                        ).then((value) {
+                                          if (value != null) {
+                                            setState(() {
+                                              taskParams =
+                                                  taskParams.copyWith(
+                                                      dueDate: TaskDateTime(
+                                                          dateTime: value));
+                                            });
+                                          }
+                                        });
+                                      },
+                                      type: CustomButtonType
+                                          .greyOutlinedLabel,
+                                      child:Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              DateTimeExtensions
+                                                  .customToString(
+                                                  taskParams.dueDate
+                                                      ?.dateTime) ??
+                                                  "YYYY-MM-DD HH:MM AM",
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ],
-                                        ) ,
-                                      ),
-                                    ],
-                                  ),
-                              ],
+                                          ),
+                                          if(taskParams.dueDate!=null)Container(
+                                            margin: const EdgeInsetsDirectional.only(start: 8),
+                                            child: InkWell(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Icon(
+                                                  Icons.clear,
+                                                  color: AppColors.error(
+                                                      context.isDarkMode),
+                                                  size: 10,
+                                                ),
+                                              ),
+                                              onTap: (){
+                                                setState(() {
+                                                  taskParams = taskParams.copyWith(
+                                                      dueDate:
+                                                      TaskDateTime(dateTime: null,cleared: true));
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ) ,
+                                    ),
+                                  ],
+                                )
+                              ]
                             ),
                             spacerV,
 
