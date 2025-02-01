@@ -136,12 +136,6 @@ class CalendarNavigationHeader extends StatelessWidget {
               ? Row(
                   children: [
                     navigationRow,
-                    SizedBox(
-                      width: context.responsiveT<double>(
-                          params: ResponsiveTParams(
-                              small: AppSpacing.xSmall8.value,
-                              medium: AppSpacing.medium16.value)),
-                    ),
                     dateAndTodayRow,
                     Spacer(),
                     DropdownMenu<int>(
