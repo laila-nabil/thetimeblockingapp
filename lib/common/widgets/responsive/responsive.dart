@@ -36,16 +36,32 @@ extension AppResponsive on BuildContext {
   Widget responsiveListWidgets({
     required List<Widget> children,
     double spacingHorizontal = 0,
+    double spacingSmallVertical = 0,
+    double spacingMediumVertical = 0,
   }) {
     final device = getDevice;
     switch (device) {
       case (AppScreen.small):
         return Column(
-          children: children,
+          children: spacingSmallVertical == 0 ? children : children
+              .map<Widget>((child) =>  Container(
+            alignment: Alignment.center,
+                padding:
+                EdgeInsetsDirectional.only(bottom: spacingSmallVertical),
+                child: child,
+              ))
+              .toList(),
         );
       case (AppScreen.medium):
         return Column(
-          children: children,
+          children: spacingMediumVertical == 0 ? children : children
+              .map<Widget>((child) =>  Container(
+                alignment: Alignment.center,
+                padding:
+                EdgeInsetsDirectional.only(bottom: spacingMediumVertical),
+                child: child,
+              ))
+              .toList(),
         );
       case (AppScreen.large):
         return Row(

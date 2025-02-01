@@ -818,6 +818,8 @@ class _TaskPopupState extends State<TaskPopup> {
                             spacerV,
                             context.responsiveListWidgets(
                               spacingHorizontal:  AppSpacing.xSmall8.value,
+                              spacingSmallVertical: AppSpacing.medium16.value,
+                              spacingMediumVertical: AppSpacing.medium16.value,
                               children: [
                                 Column(
                                   crossAxisAlignment:
@@ -847,7 +849,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                                     .dueDate?.dateTime ==
                                                     null) {
                                                   dueDate = TaskDateTime(
-                                                      dateTime: value?.add(
+                                                      dateTime: value.add(
                                                           serviceLocator<
                                                               AppConfig>()
                                                               .defaultTaskDuration));
@@ -865,6 +867,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                         },
                                         type: CustomButtonType
                                             .greyOutlinedLabel,
+                                        size: CustomButtonSize.large,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -940,6 +943,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                       },
                                       type: CustomButtonType
                                           .greyOutlinedLabel,
+                                      size: CustomButtonSize.large,
                                       child:Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
