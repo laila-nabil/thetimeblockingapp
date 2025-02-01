@@ -247,7 +247,7 @@ class CustomButton extends StatelessWidget {
       }
     }
 
-    double buttonHeight (){
+    double buttonMinIconButtonSize (){
       switch (size) {
         case CustomButtonSize.xSmall:
           return 22;
@@ -316,7 +316,7 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade500
             : AppColors.error(context.isDarkMode).shade500;
     final filledButtonStyle = ButtonStyle(
-        fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight())),
+        // fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonMaxHeight())),
         backgroundColor: WidgetStateProperty.resolveWith<Color>(
             (Set<WidgetState> states) {
           if (states.contains(WidgetState.focused) ||
@@ -386,7 +386,6 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade700
             : AppColors.error(context.isDarkMode).shade400;
     final outlinedButtonStyle = ButtonStyle(
-      fixedSize: WidgetStatePropertyAll(Size.fromHeight(buttonHeight())),
       side: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
         return BorderSide(
             color: outlinedButtonBorderColor(states),
@@ -563,8 +562,8 @@ class CustomButton extends StatelessWidget {
           ),
         );
     final outlinedIconButton = SizedBox(
-      width: buttonHeight(),
-      height: buttonHeight(),
+      width: buttonMinIconButtonSize(),
+      height: buttonMinIconButtonSize(),
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
@@ -574,7 +573,7 @@ class CustomButton extends StatelessWidget {
               alignment: Alignment.center,
               padding: const WidgetStatePropertyAll(EdgeInsets.zero),
               fixedSize:
-                  WidgetStatePropertyAll(Size(buttonHeight(), buttonHeight()))),
+                  WidgetStatePropertyAll(Size(buttonMinIconButtonSize(), buttonMinIconButtonSize()))),
           child: iconWidget,
         ),
       ),
@@ -654,8 +653,8 @@ class CustomButton extends StatelessWidget {
           label: labelWidget,
         ));
     final textIconButton = SizedBox(
-      width: buttonHeight(),
-      height: buttonHeight(),
+      width: buttonMinIconButtonSize(),
+      height: buttonMinIconButtonSize(),
       child: CustomToolTip(
         message: tooltip,
         child: TextButton(
