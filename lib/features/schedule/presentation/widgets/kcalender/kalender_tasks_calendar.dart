@@ -292,8 +292,8 @@ class KalendarTasksCalendar extends StatelessWidget {
       ));
     }
 
-    var currentView =
-        viewConfigurations(context.showSmallDesign)[currentConfigurationIndex];
+    var currentView = viewConfigurations(context.showSmallDesign)
+        .getViewConfiguration(currentConfigurationIndex);
     TileComponents<Task> tileComponents({bool header = true}) {
       return TileComponents<Task>(
         tileBuilder: (event, tileRange) {

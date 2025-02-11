@@ -8,6 +8,7 @@ import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
+import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/kalender_tasks_calendar.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/schedule_view.dart';
 
 class CalendarNavigationHeader extends StatelessWidget {
@@ -27,7 +28,8 @@ class CalendarNavigationHeader extends StatelessWidget {
   final void Function() animateToTodayScheduleView;
   @override
   Widget build(BuildContext context) {
-    final isScheduleView = viewConfigurations[currentConfiguration] is ScheduleConfiguration;
+    final isScheduleView = (viewConfigurations
+        .getViewConfiguration(currentConfiguration)) is ScheduleConfiguration;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isNarrow = context.showSmallDesign;
@@ -66,7 +68,7 @@ class CalendarNavigationHeader extends StatelessWidget {
                 child: OutlinedButton(
                   style: buttonStyle(currentConfiguration == i, context),
                   onPressed: () => onViewConfigurationChanged(i),
-                  child: Text(viewConfigurations[i].name),
+                  child: Text(viewConfigurations.getViewConfiguration(i).name),
                 ),
               ),
           ],
@@ -91,12 +93,12 @@ class CalendarNavigationHeader extends StatelessWidget {
                           color: AppColors.text(context.isDarkMode),
                           appFontWeight: AppFontWeight.regular)),
                       dropdownMenuEntries: [
-                        for (var i = 0; i < viewConfigurations.length; i++)
+                        for (var i = 0; i < KalendarTasksCalendar.viewConfigurations(true).length; i++)
                           DropdownMenuEntry<int>(
                               value: i,
-                              label: viewConfigurations[i].name,
+                              label: viewConfigurations.getViewConfiguration(i).name,
                               labelWidget: Text(
-                                viewConfigurations[i].name,
+                                viewConfigurations.getViewConfiguration(i).name,
                                 style: AppTextStyle.getTextStyle(
                                     AppTextStyleParams(
                                         appFontSize:

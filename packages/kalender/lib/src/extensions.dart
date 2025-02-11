@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kalender/kalender.dart';
 
 extension DateTimeRangeExtensions on DateTimeRange {
   /// The time difference in days between the [start] and [end] of the [DateTimeRange].
@@ -344,4 +345,11 @@ extension TimeOfDayExtension on TimeOfDay {
         hour: hour,
         minute: minute,
       );
+}
+
+extension ViewConfigurationExtensions on List<ViewConfiguration>{
+  ViewConfiguration getViewConfiguration(int index){
+   return elementAtOrNull(index) ?? last;
+  }
+
 }
