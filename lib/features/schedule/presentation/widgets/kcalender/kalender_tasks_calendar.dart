@@ -87,6 +87,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           ),
         MonthViewConfiguration.singleMonth(
           name: appLocalization.translate("month"),
+            firstDayOfWeek: AppConfig.firstDayOfWeek,
             displayRange:  displayRange()
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
         ),
