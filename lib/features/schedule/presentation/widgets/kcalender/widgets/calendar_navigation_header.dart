@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kalender/kalender.dart';
-import 'package:thetimeblockingapp/common/widgetbook.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/schedule_view.dart';
 
@@ -57,60 +56,6 @@ class CalendarNavigationHeader extends StatelessWidget {
         if(calendarController.viewController is MonthViewController){
           visibleDateTimeRange = (calendarController.viewController as MonthViewController).visibleDateTimeRange;
         }
-        final dateAndTodayRow = Row(
-          mainAxisSize: MainAxisSize.min,
-          children:  isScheduleView ? [
-            OutlinedButton(
-              style: buttonStyle(false, context),
-              onPressed: animateToTodayScheduleView,
-              child: context.showSmallDesign ? Icon(Icons.today): Text(
-                appLocalization.translate("today"),
-                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphXSmall,
-                    color: AppColors.primary(context.isDarkMode),
-                    appFontWeight: AppFontWeight.regular)),
-              ),
-            ),
-          ]: [
-            ValueListenableBuilder(
-              valueListenable: visibleDateTimeRange,
-              builder: (context,visibleRange, child) {
-                return Text(
-                  dateFormat.format(visibleRange.start),
-                  style: context.showSmallDesign
-                      ? AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphMedium,
-                      color: AppColors.black(context.isDarkMode),
-                      appFontWeight: AppFontWeight.medium))
-                      : AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.heading6,
-                      color: AppColors.black(context.isDarkMode),
-                      appFontWeight: AppFontWeight.medium)),
-                );
-              }
-            ),
-            SizedBox(
-                width: context.showSmallDesign
-                    ? AppSpacing.xSmall8.value
-                    : AppSpacing.medium16.value),
-            OutlinedButton(
-              style: buttonStyle(false, context),
-              onPressed: () {
-                calendarController.animateToDate(
-                  DateTime.now(),
-                  duration: const Duration(milliseconds: 300),
-                );
-              },
-              child: context.showSmallDesign ? Icon(Icons.today): Text(
-                appLocalization.translate("today"),
-                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    appFontSize: AppFontSize.paragraphXSmall,
-                    color: AppColors.primary(context.isDarkMode),
-                    appFontWeight: AppFontWeight.regular)),
-              ),
-            ),
-          ],
-        );
 
         final viewSelector = Row(
           mainAxisSize: MainAxisSize.min,
@@ -136,7 +81,7 @@ class CalendarNavigationHeader extends StatelessWidget {
               ? Row(
                   children: [
                     navigationRow,
-                    dateAndTodayRow,
+                    dateAndTodayRow(isScheduleView, context, visibleDateTimeRange, dateFormat),
                     Spacer(),
                     DropdownMenu<int>(
                       width: context.responsiveT<double>(params: ResponsiveTParams<double>(small: 90.0,medium: 140.0)),
@@ -198,13 +143,98 @@ class CalendarNavigationHeader extends StatelessWidget {
                         width: context.showSmallDesign
                             ? AppSpacing.xSmall8.value
                             : AppSpacing.medium16.value),
-                    Expanded(child: dateAndTodayRow),
+                    Expanded(child: dateAndTodayRow(isScheduleView, context, visibleDateTimeRange, dateFormat)),
                     viewSelector,
                   ],
                 ),
         );
       },
     );
+  }
+
+  Row dateAndTodayRow(
+      bool isScheduleView,
+      BuildContext context,
+      ValueNotifier<DateTimeRange> visibleDateTimeRange,
+      DateFormat dateFormat) {
+    if(isScheduleView){
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          OutlinedButton(
+            style: buttonStyle(false, context),
+            onPressed: animateToTodayScheduleView,
+            child: context.showSmallDesign
+                ? Icon(Icons.today)
+                : Text(
+              appLocalization.translate("today"),
+              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                  appFontSize: AppFontSize.paragraphXSmall,
+                  color: AppColors.primary(context.isDarkMode),
+                  appFontWeight: AppFontWeight.regular)),
+            ),
+          ),
+        ],
+      );
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children:  [
+              ValueListenableBuilder(
+                  valueListenable: visibleDateTimeRange,
+                  builder: (context, visibleRange, child) {
+                    printDebug('visibleRange monthDifference ${visibleRange.monthDifference}');
+                    return Text(
+                      navigationHeaderTitle(dateFormat, visibleRange),
+                      style: context.showSmallDesign
+                          ? AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphMedium,
+                              color: AppColors.black(context.isDarkMode),
+                              appFontWeight: AppFontWeight.medium))
+                          : AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.heading6,
+                              color: AppColors.black(context.isDarkMode),
+                              appFontWeight: AppFontWeight.medium)),
+                    );
+                  }),
+              SizedBox(
+                  width: context.showSmallDesign
+                      ? AppSpacing.xSmall8.value
+                      : AppSpacing.medium16.value),
+              OutlinedButton(
+                style: buttonStyle(false, context),
+                onPressed: () {
+                  calendarController.animateToDate(
+                    DateTime.now(),
+                    duration: const Duration(milliseconds: 300),
+                  );
+                },
+                child: context.showSmallDesign
+                    ? Icon(Icons.today)
+                    : Text(
+                        appLocalization.translate("today"),
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphXSmall,
+                            color: AppColors.primary(context.isDarkMode),
+                            appFontWeight: AppFontWeight.regular)),
+                      ),
+              ),
+            ],
+    );
+  }
+
+  String navigationHeaderTitle(DateFormat dateFormat, DateTimeRange visibleRange) {
+    printDebug("visibleRange.monthDifference ${visibleRange.monthDifference}");
+    printDebug("visibleRange.start ${visibleRange.start}");
+    printDebug("visibleRange.end ${visibleRange.end}");
+    var navigationHeaderTitle = dateFormat.format(visibleRange.start);
+    if(calendarController.viewController is MonthViewController && visibleRange.monthDifference  == 2){
+      navigationHeaderTitle = "${DateFormat('MMM yyyy').format(DateTime(visibleRange.start.year,visibleRange.start.month+1,1))}" ;
+    }
+    if(calendarController.viewController is MonthViewController && visibleRange.monthDifference == 1){
+      navigationHeaderTitle = "${DateFormat('MMM').format(visibleRange.start)}-${DateFormat('MMM yyyy').format(visibleRange.end)}" ;
+    }
+    return navigationHeaderTitle;
   }
 
   ButtonStyle buttonStyle(bool isSelected, BuildContext context) {
