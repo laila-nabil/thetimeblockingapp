@@ -80,15 +80,12 @@ class CustomScheduleView<T> extends StatefulWidget {
         );
 
         if (index == -1) {
-          final isFirstOfMonth = !scheduleGroups.any(
-                (group) => group.date.startOfMonth == date.startOfMonth,
-          );
+
 
           scheduleGroups.add(
             ScheduleGroup<Task>(
               date: date,
               events: [event],
-              isFirstOfMonth: isFirstOfMonth,
             ),
           );
         } else {
@@ -319,7 +316,6 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
 
 class ScheduleGroup<T> {
   const ScheduleGroup({
-    required this.isFirstOfMonth,
     required this.date,
     required this.events,
   });
@@ -327,7 +323,7 @@ class ScheduleGroup<T> {
   final DateTime date;
   final List<CalendarEvent<T>> events;
 
-  final bool isFirstOfMonth;
+  bool get isFirstOfMonth => date.day == 1;
 
   void addEvent(CalendarEvent<T> event) {
     if (!events.contains(event)) {
