@@ -21,6 +21,7 @@ import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/syncfusion/widgets/task_widget_in_syncfusion_calendar.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 
 import '../../../../../core/extensions.dart';
 import '../../../../../core/resources/app_colors.dart';
@@ -114,8 +115,10 @@ class SyncfusionTasksCalendar extends StatelessWidget {
                 isLoading: (state) => false,
                 onDuplicate: (params) {
                   scheduleBloc.add(DuplicateTaskEvent(
-                    params: params,
-                    workspace: BlocProvider.of<GlobalBloc>(context)
+              params: DuplicateTaskParams(
+                  createTaskParams: params,
+                  todoTaskStatus: globalBloc.state.statuses?.todoStatus),
+              workspace: BlocProvider.of<GlobalBloc>(context)
                         .state
                         .selectedWorkspace!
                         .id!,
@@ -264,12 +267,12 @@ class SyncfusionTasksCalendar extends StatelessWidget {
                     : state.isLoading,
                 onDuplicate: () {
               scheduleBloc.add(DuplicateTaskEvent(
-                  params: CreateTaskParams.fromTask(
-                      task,
-                      serviceLocator<BackendMode>().mode,
-                      authBloc.state.user!,
-                      globalBloc.state.selectedWorkspace!.defaultList!,
-                  ),
+                  params: DuplicateTaskParams(createTaskParams: CreateTaskParams.fromTask(
+                    task,
+                    serviceLocator<BackendMode>().mode,
+                    authBloc.state.user!,
+                    globalBloc.state.selectedWorkspace!.defaultList!,
+                  ), todoTaskStatus: globalBloc.state.statuses?.todoStatus),
                   workspace: selectedWorkspaceId!));
             },)));
       } else if (calendarTapDetails.targetElement ==

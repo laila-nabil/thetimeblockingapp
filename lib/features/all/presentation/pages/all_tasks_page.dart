@@ -10,6 +10,7 @@ import 'package:thetimeblockingapp/features/all/presentation/bloc/all_tasks_bloc
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
@@ -110,11 +111,11 @@ class AllTasksPage extends StatelessWidget {
                                       titleColor: AppColors.error(context.isDarkMode).shade500,
                                       children: state.getAllTasksResultOverdue
                                           .map<Widget>((e) => buildTaskWidget(
-                                          e, context, allTasksBloc))
+                                          e, context, allTasksBloc,globalState))
                                           .toList()):Column(
                                     children: state.getAllTasksResultOverdue
                                             .map((e) => buildTaskWidget(
-                                                e, context, allTasksBloc))
+                                                e, context, allTasksBloc,globalState))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultUpcoming.isNotEmpty)
@@ -123,11 +124,11 @@ class AllTasksPage extends StatelessWidget {
                                       titleColor: AppColors.warning(context.isDarkMode).shade500,
                                       children: state.getAllTasksResultUpcoming
                                           .map<Widget>((e) => buildTaskWidget(
-                                          e, context, allTasksBloc))
+                                          e, context, allTasksBloc,globalState))
                                           .toList()):Column(
                                     children: state.getAllTasksResultUpcoming
                                             .map((e) => buildTaskWidget(
-                                                e, context, allTasksBloc))
+                                                e, context, allTasksBloc,globalState))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultUnscheduled.isNotEmpty)
@@ -135,11 +136,11 @@ class AllTasksPage extends StatelessWidget {
                                       title: appLocalization.translate("Unscheduled"),
                                       children: state.getAllTasksResultUnscheduled
                                           .map<Widget>((e) => buildTaskWidget(
-                                          e, context, allTasksBloc))
+                                          e, context, allTasksBloc,globalState))
                                           .toList()):Column(
                                     children: state.getAllTasksResultUnscheduled
                                             .map((e) => buildTaskWidget(
-                                                e, context, allTasksBloc))
+                                                e, context, allTasksBloc,globalState))
                                             .toList(),
                                   ),
                                 if (state.getAllTasksResultCompleted.isNotEmpty)
@@ -149,11 +150,11 @@ class AllTasksPage extends StatelessWidget {
                                       titleColor: AppColors.success(context.isDarkMode).shade500,
                                       children: state.getAllTasksResultCompleted
                                           .map<Widget>((e) => buildTaskWidget(
-                                          e, context, allTasksBloc))
+                                          e, context, allTasksBloc,globalState))
                                           .toList()):Column(
                                     children: state.getAllTasksResultUnscheduled
                                         .map((e) => buildTaskWidget(
-                                        e, context, allTasksBloc))
+                                        e, context, allTasksBloc,globalState))
                                         .toList(),
                                   )
                               ],
@@ -184,7 +185,7 @@ class AllTasksPage extends StatelessWidget {
   }
 
   Widget buildTaskWidget(Task task, BuildContext context,
-      AllTasksBloc allTasksBloc) {
+      AllTasksBloc allTasksBloc,GlobalState globalState) {
     return TaskComponent(
           task: task,
           bloc: allTasksBloc,
@@ -201,8 +202,10 @@ class AllTasksPage extends StatelessWidget {
           isLoading: (state) => state is! AllTasksState ? false : state.isLoading,
           onDuplicate: (params) {
     allTasksBloc.add(DuplicateTaskEvent(
-      params: params,
-      workspace:
+          params: DuplicateTaskParams(
+              createTaskParams: params,
+              todoTaskStatus: globalState.statuses?.todoStatus),
+          workspace:
       BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
     ));
           }, onDeleteConfirmed: () {

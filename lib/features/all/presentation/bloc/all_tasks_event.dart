@@ -29,7 +29,7 @@ class CreateTaskEvent extends AllTasksEvent {
 }
 
 class DuplicateTaskEvent extends AllTasksEvent {
-  final CreateTaskParams params;
+  final DuplicateTaskParams params;
   final Workspace workspace;
 
   const DuplicateTaskEvent({

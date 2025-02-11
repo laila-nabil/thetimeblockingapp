@@ -111,7 +111,7 @@ class CreateTaskEvent extends TagsPageEvent {
 }
 
 class DuplicateTaskEvent extends TagsPageEvent {
-  final CreateTaskParams params;
+  final DuplicateTaskParams params;
   final Workspace workspace;
 
   const DuplicateTaskEvent({

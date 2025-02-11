@@ -23,6 +23,7 @@ import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_p
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 import '../../bloc/schedule_bloc.dart';
@@ -182,12 +183,12 @@ class KalendarTasksCalendar extends StatelessWidget {
               onDuplicate: () {
                 var selectedWorkspace = globalBloc.state.selectedWorkspace;
                 scheduleBloc.add(DuplicateTaskEvent(
-                    params: CreateTaskParams.fromTask(
+                    params: DuplicateTaskParams(createTaskParams: CreateTaskParams.fromTask(
                       event.data!,
                       serviceLocator<BackendMode>().mode,
                       authBloc.state.user!,
                       selectedWorkspace!.defaultList!,
-                    ),
+                    ), todoTaskStatus: globalBloc.state.statuses?.todoStatus),
                     workspace: selectedWorkspace.id!));
               },
             )));

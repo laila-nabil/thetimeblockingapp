@@ -24,6 +24,7 @@ import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
+import '../../../tasks/domain/use_cases/duplicate_task_use_case.dart';
 import '../bloc/lists_page_bloc.dart';
 
 
@@ -234,7 +235,9 @@ class ListPage extends StatelessWidget {
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
         listsPageBloc.add(DuplicateTaskEvent(
-          params: params,
+          params: DuplicateTaskParams(
+              createTaskParams: params,
+              todoTaskStatus: globalBloc.state.statuses?.todoStatus),
           workspace: BlocProvider.of<GlobalBloc>(context)
               .state
               .selectedWorkspace!, onSuccess: () { listsPageBloc.add(GetTasksInListEvent(

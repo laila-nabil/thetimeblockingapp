@@ -26,7 +26,7 @@ class CreateTaskEvent extends ScheduleEvent {
 }
 
 class DuplicateTaskEvent extends ScheduleEvent {
-  final CreateTaskParams params;
+  final DuplicateTaskParams params;
   final int workspace;
 
   const DuplicateTaskEvent({

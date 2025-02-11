@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
+import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_component.dart';
 
 import '../../../../common/enums/backend_mode.dart';
@@ -273,8 +274,10 @@ class TagPage extends StatelessWidget {
         Navigator.maybePop(context);
       }, onDuplicate: (params ) {
       tagsPageBloc.add(DuplicateTaskEvent(
-            params: params,
-            workspace:
+          params: DuplicateTaskParams(
+              createTaskParams: params,
+              todoTaskStatus: globalBloc.state.statuses?.todoStatus),
+          workspace:
                 BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!,
             ));
       },

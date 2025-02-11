@@ -40,4 +40,8 @@ extension ExTaskStatus on List<TaskStatus>{
   TaskStatus? get completedStatus{
     return where((s)=>s.isDone == true).firstOrNull ;
   }
+
+  TaskStatus? get todoStatus{
+    return firstOrNull ;
+  }
 }

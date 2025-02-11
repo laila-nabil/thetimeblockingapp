@@ -181,7 +181,7 @@ class CreateTaskEvent extends ListsPageEvent {
   List<Object?> get props => [params,workspaceId];
 }
 class DuplicateTaskEvent extends ListsPageEvent {
-  final CreateTaskParams params;
+  final DuplicateTaskParams params;
   final Workspace workspace;
   final Function() onSuccess;
   const DuplicateTaskEvent({
