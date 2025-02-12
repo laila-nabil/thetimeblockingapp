@@ -20,6 +20,13 @@ Future<void> showRequestFeatureDialog(BuildContext context) {
           title: Text(appLocalization.translate("requestFeature")),
           actions: [
             CustomButton.noIcon(
+              label: appLocalization.translate("cancel"),
+              onPressed: () {
+                context.pop();
+;              },
+              type: CustomButtonType.greyTextLabel,
+            ),
+            CustomButton.noIcon(
               label: appLocalization.translate("send"),
               onPressed: () {
                 BlocProvider.of<SettingsBloc>(context).add(RequestFeatureEvent(
@@ -29,13 +36,6 @@ Future<void> showRequestFeatureDialog(BuildContext context) {
                 Navigator.pop(context);
               },
               type: CustomButtonType.primaryLabel,
-            ),
-            CustomButton.noIcon(
-              label: appLocalization.translate("cancel"),
-              onPressed: () {
-                context.pop();
-;              },
-              type: CustomButtonType.greyFilledLabel,
             ),
           ],
           content: Column(

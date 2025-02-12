@@ -59,18 +59,19 @@ class TaskComponent extends StatelessWidget {
                 loading: false,
                 actions: [
                   CustomButton.noIcon(
-                      label: appLocalization.translate("delete"),
-                      onPressed: () {
-                        onDelete(DeleteTaskParams(
-                            task: task,
-                            ));
-                        Navigator.pop(context);
-                      },type: CustomButtonType.destructiveFilledLabel),
-                  CustomButton.noIcon(
+                      type: CustomButtonType.greyTextLabel,
                       label: appLocalization.translate("cancel"),
                       onPressed: () {
                         Navigator.pop(context);
                       }),
+                  CustomButton.noIcon(
+                      label: appLocalization.translate("delete"),
+                      onPressed: () {
+                        onDelete(DeleteTaskParams(
+                          task: task,
+                        ));
+                        Navigator.pop(context);
+                      },type: CustomButtonType.destructiveFilledLabel),
                 ],
                 content: Text(
                     "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
@@ -185,17 +186,19 @@ class _TaskWidgetState extends State<TaskWidget> {
             return CustomAlertDialog(
               loading: false,
               actions: [
+
+                CustomButton.noIcon(
+                    type: CustomButtonType.greyTextLabel,
+                    label: appLocalization.translate("cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
                 CustomButton.noIcon(
                     label: appLocalization.translate("delete"),
                     onPressed: () {
                       widget.onDeleteConfirmed();
                       Navigator.pop(context);
                     },type: CustomButtonType.destructiveFilledLabel),
-                CustomButton.noIcon(
-                    label: appLocalization.translate("cancel"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
               ],
               content: Text(
                   "${appLocalization.translate("areYouSureDelete")} ${widget.task.title}?"),
@@ -209,16 +212,17 @@ class _TaskWidgetState extends State<TaskWidget> {
               loading: false,
               actions: [
                 CustomButton.noIcon(
-                    label: appLocalization.translate("complete"),
-                    onPressed: () {
-                      widget.onCompleteConfirmed();
-                      Navigator.pop(context);
-                    },type: CustomButtonType.secondaryLabel),
-                CustomButton.noIcon(
+                    type: CustomButtonType.greyTextLabel,
                     label: appLocalization.translate("cancel"),
                     onPressed: () {
                       Navigator.pop(context);
                     }),
+                CustomButton.noIcon(
+                    label: appLocalization.translate("complete"),
+                    onPressed: () {
+                      widget.onCompleteConfirmed();
+                      Navigator.pop(context);
+                    },type: CustomButtonType.primaryLabel),
               ],
               content: Text(
                   "${appLocalization.translate("areYouSureComplete")} ${widget.task.title}?"),

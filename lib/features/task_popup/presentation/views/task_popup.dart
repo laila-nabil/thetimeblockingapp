@@ -465,6 +465,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                       type: CustomButtonType
                                           .destructiveFilledLabel),
                                   CustomButton.noIcon(
+                                      type: CustomButtonType.greyTextLabel,
                                       label: appLocalization
                                           .translate("cancel"),
                                       onPressed: () {
@@ -492,6 +493,7 @@ class _TaskPopupState extends State<TaskPopup> {
                       size: CustomButtonSize.large,
                     ),
                   CustomButton.noIcon(
+                      type: CustomButtonType.greyTextLabel,
                       onPressed: () => Navigator.maybePop(context),
                       label: appLocalization.translate("cancel")),
                   CustomButton.noIcon(

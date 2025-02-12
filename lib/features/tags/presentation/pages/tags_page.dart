@@ -57,6 +57,13 @@ class TagsPage extends StatelessWidget {
                       loading: false,
                       actions: [
                         CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              tagsPageBloc.add(DeleteTagEvent.cancelDelete());
+                              Navigator.pop(context);
+                            }),
+                        CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
                               tagsPageBloc.add(DeleteTagEvent.submit(
@@ -66,12 +73,6 @@ class TagsPage extends StatelessWidget {
                                       )));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              tagsPageBloc.add(DeleteTagEvent.cancelDelete());
-                              Navigator.pop(context);
-                            }),
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteTag?.name}?"),

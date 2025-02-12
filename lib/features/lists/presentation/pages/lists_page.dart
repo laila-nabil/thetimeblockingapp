@@ -57,6 +57,21 @@ class ListsPage extends StatelessWidget {
                       loading: false,
                       actions: [
                         CustomButton.noIcon(
+                          type: CustomButtonType.greyTextLabel,
+                          label: appLocalization.translate("cancel"),
+                          onPressed: () {
+                            listsPageBloc.add(
+                                DeleteListEvent.cancelDelete(onSuccess: () {
+                                  globalBloc.add(GetAllInWorkspaceEvent(
+
+                                      workspace:
+                                      globalBloc.state.selectedWorkspace!
+                                      , user: authBloc.state.user!
+                                  ));
+                                }));
+                            Navigator.pop(context);
+                          }),
+                        CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
                               listsPageBloc.add(DeleteListEvent.submit(
@@ -75,20 +90,6 @@ class ListsPage extends StatelessWidget {
                                   }));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              listsPageBloc.add(
-                                  DeleteListEvent.cancelDelete(onSuccess: () {
-                                globalBloc.add(GetAllInWorkspaceEvent(
-                                  
-                                  workspace:
-                                      globalBloc.state.selectedWorkspace!
-                                    , user: authBloc.state.user!
-                                ));
-                              }));
-                              Navigator.pop(context);
-                            }),
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteList?.name}?"),
@@ -102,6 +103,20 @@ class ListsPage extends StatelessWidget {
                     return CustomAlertDialog(
                       loading: false,
                       actions: [
+                        CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              listsPageBloc.add(
+                                  DeleteFolderEvent.cancelDelete(onSuccess: () {
+                                    globalBloc.add(GetAllInWorkspaceEvent(
+
+                                        workspace:
+                                        globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
+                                    ));
+                                  }));
+                              Navigator.pop(context);
+                            }),
                         CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
@@ -123,19 +138,6 @@ class ListsPage extends StatelessWidget {
                                   }));
                               Navigator.pop(context);
                             },type: CustomButtonType.destructiveFilledLabel),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              listsPageBloc.add(
-                                  DeleteFolderEvent.cancelDelete(onSuccess: () {
-                                globalBloc.add(GetAllInWorkspaceEvent(
-                                  
-                                  workspace:
-                                      globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                ));
-                              }));
-                              Navigator.pop(context);
-                            }),
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteFolder?.name}?"),

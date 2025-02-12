@@ -302,17 +302,18 @@ class SettingsPage extends StatelessWidget {
                                     loading: false,
                                     actions: [
                                       CustomButton.noIcon(
+                                          type: CustomButtonType.greyTextLabel,
+                                          label: appLocalization.translate("cancel"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                      CustomButton.noIcon(
                                           label: appLocalization.translate("signOut"),
                                           onPressed: () {
                                             authBloc.add(SignOutEvent(authBloc
                                                 .state
                                                 .accessToken));
                                           },type: CustomButtonType.destructiveFilledLabel),
-                                      CustomButton.noIcon(
-                                          label: appLocalization.translate("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
                                     ],
                                     content: Text(
                                         appLocalization.translate("areYouSureSignOut")),
@@ -342,16 +343,17 @@ class SettingsPage extends StatelessWidget {
                                 loading: false,
                                 actions: [
                                   CustomButton.noIcon(
+                                      type: CustomButtonType.greyTextLabel,
+                                      label: appLocalization.translate("cancel"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                  CustomButton.noIcon(
                                       label: appLocalization.translate("deleteAccount"),
                                       onPressed: () {
                                         authBloc.add(DeleteAccount(DeleteAccountParams(authBloc.state.user!)));
                                         Navigator.pop(context);
                                       },type: CustomButtonType.destructiveFilledLabel),
-                                  CustomButton.noIcon(
-                                      label: appLocalization.translate("cancel"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
                                 ],
                                 content: Text(
                                     appLocalization.translate("areYouSureDeleteYourAccount")),

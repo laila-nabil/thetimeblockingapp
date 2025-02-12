@@ -87,6 +87,12 @@ class TaskWidgetInCalendar extends StatelessWidget {
               loading: false,
               actions: [
                 CustomButton.noIcon(
+                    type: CustomButtonType.greyTextLabel,
+                    label: appLocalization.translate("cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                CustomButton.noIcon(
                     label: appLocalization.translate("delete"),
                     onPressed: () {
                       onDelete(DeleteTaskParams(
@@ -95,11 +101,6 @@ class TaskWidgetInCalendar extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     type: CustomButtonType.destructiveFilledLabel),
-                CustomButton.noIcon(
-                    label: appLocalization.translate("cancel"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
               ],
               content: Text(
                   "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
@@ -232,17 +233,18 @@ class TaskWidgetInCalendar extends StatelessWidget {
                       loading: false,
                       actions: [
                         CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        CustomButton.noIcon(
                             label: appLocalization.translate("delete"),
                             onPressed: () {
                               onDeleteConfirmed();
                               Navigator.pop(context);
                             },
                             type: CustomButtonType.destructiveFilledLabel),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureDelete")} ${task.title}?"),
@@ -259,17 +261,18 @@ class TaskWidgetInCalendar extends StatelessWidget {
                       loading: false,
                       actions: [
                         CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        CustomButton.noIcon(
                             label: appLocalization.translate("complete"),
                             onPressed: () {
                               onCompleteConfirmed();
                               Navigator.pop(context);
                             },
-                            type: CustomButtonType.secondaryLabel),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
+                            type: CustomButtonType.primaryLabel),
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),

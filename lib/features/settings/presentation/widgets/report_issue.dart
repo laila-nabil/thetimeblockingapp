@@ -20,6 +20,11 @@ Future<void> showReportIssueDialog(BuildContext context) {
         title: Text(appLocalization.translate("reportIssue")),
           actions: [
             CustomButton.noIcon(
+              label: appLocalization.translate("cancel"),
+              onPressed: () {},
+              type: CustomButtonType.greyTextLabel,
+            ),
+            CustomButton.noIcon(
               label: appLocalization.translate("send"),
               onPressed: () {
                 BlocProvider.of<SettingsBloc>(context).add(ReportIssueEvent(
@@ -29,11 +34,6 @@ Future<void> showReportIssueDialog(BuildContext context) {
                 context.pop();
               },
               type: CustomButtonType.primaryLabel,
-            ),
-            CustomButton.noIcon(
-              label: appLocalization.translate("cancel"),
-              onPressed: () {},
-              type: CustomButtonType.greyFilledLabel,
             ),
           ],
         content: Column(
