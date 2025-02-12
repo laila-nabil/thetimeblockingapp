@@ -431,11 +431,11 @@ class _TaskPopupState extends State<TaskPopup> {
                     vertical: AppSpacing.small12.value),
                 actionsOverflowAlignment: OverflowBarAlignment.start,
                 actionsPadding: EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 10
+                  horizontal: AppSpacing.medium16.value,
+                  vertical: AppSpacing.x2Small4.value
                 ),
-                actionsAlignment: MainAxisAlignment.start,
-                actionsOverflowButtonSpacing: 0,
+                actionsAlignment: MainAxisAlignment.end,
+                actionsOverflowButtonSpacing: AppSpacing.xSmall8.value,
                 actionsOverflowDirection: VerticalDirection.down,
                 actions: [
                   if (task != null)
