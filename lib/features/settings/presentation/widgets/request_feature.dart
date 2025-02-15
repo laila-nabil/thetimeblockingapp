@@ -23,7 +23,7 @@ Future<void> showRequestFeatureDialog(BuildContext context) {
               label: appLocalization.translate("cancel"),
               onPressed: () {
                 context.pop();
-;              },
+              },
               type: CustomButtonType.greyTextLabel,
             ),
             CustomButton.noIcon(

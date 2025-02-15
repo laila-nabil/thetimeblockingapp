@@ -21,7 +21,9 @@ Future<void> showReportIssueDialog(BuildContext context) {
           actions: [
             CustomButton.noIcon(
               label: appLocalization.translate("cancel"),
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+              },
               type: CustomButtonType.greyTextLabel,
             ),
             CustomButton.noIcon(
