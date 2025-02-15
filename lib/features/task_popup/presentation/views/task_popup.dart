@@ -481,6 +481,9 @@ class _TaskPopupState extends State<TaskPopup> {
                       },
                       size: CustomButtonSize.large,
                       type: CustomButtonType.destructiveTextIcon,
+                    ) else
+                    SizedBox(
+                      height: 48,
                     ),
                   if (task != null &&
                       widget.taskPopupParams.onDuplicate != null)
