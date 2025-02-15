@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
+import 'package:thetimeblockingapp/core/environment.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:upgrader/upgrader.dart';
 import 'core/bloc_observer.dart';
 import 'core/injection_container.dart';
 import 'core/localization/localization.dart';
@@ -39,8 +41,13 @@ Future<void> main() async {
     },
     appRunner: () async {
       WidgetsFlutterBinding.ensureInitialized();
+
       await appLocalization.ensureInitialized();
       di.initServiceLocator();
+      if (serviceLocator<AppConfig>().env == Env.debugLocally) {
+        // Only call clearSavedSettings() during testing to reset internal values.
+        await Upgrader.clearSavedSettings(); // REMOVE this for release builds
+      }
       di.updateFromEnv();
       await di.serviceLocator<Analytics>().initialize();
       await di.serviceLocator<Analytics>().logAppOpen();
@@ -92,6 +99,17 @@ class MyApp extends StatelessWidget {
               return appName;
             },
             scrollBehavior: MyCustomScrollBehavior(),
+            builder: (context, child) {
+              return UpgradeAlert(
+                showReleaseNotes: false,
+                upgrader: Upgrader(
+                  debugLogging: serviceLocator<AppConfig>().env == Env.debugLocally,
+                  languageCode: appLocalization.getCurrentLangCode(context)
+                ),
+                navigatorKey: router.routerDelegate.navigatorKey,
+                child: child ?? Text('child'),
+              );
+            },
           );
         },
       ),
