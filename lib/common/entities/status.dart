@@ -42,6 +42,6 @@ extension ExTaskStatus on List<TaskStatus>{
   }
 
   TaskStatus? get todoStatus{
-    return firstOrNull ;
+    return lastOrNull ;
   }
 }
