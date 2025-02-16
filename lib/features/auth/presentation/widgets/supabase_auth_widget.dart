@@ -96,129 +96,131 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
     return Container(
       constraints: BoxConstraints(maxWidth: showSmallDesign ? 400 : 500),
       padding: EdgeInsets.all(AppSpacing.medium16.value),
-      child: ListView(
-        children: [
-          if(anonymousUserAlreadySignedIn == false)Center(
-            child: Image.asset(
-              AppAssets.logo(context.isDarkMode),
-              width: showSmallDesign ? 180 : 200,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            if(anonymousUserAlreadySignedIn == false)Center(
+              child: Image.asset(
+                AppAssets.logo(context.isDarkMode),
+                width: showSmallDesign ? 180 : 200,
+              ),
             ),
-          ),
-          if(anonymousUserAlreadySignedIn == false)SizedBox(
-            height: AppSpacing.large40.value,
-          ),
-          Center(
-            child: Text(
-              widget.isSignIn
-                  ? appLocalization.translate("signIn")
-                  : appLocalization.translate("signUp"),
+            if(anonymousUserAlreadySignedIn == false)SizedBox(
+              height: AppSpacing.large40.value,
+            ),
+            Center(
+              child: Text(
+                widget.isSignIn
+                    ? appLocalization.translate("signIn")
+                    : appLocalization.translate("signUp"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium,
+                    appFontSize: AppFontSize.heading5)),
+              ),
+            ),
+            SizedBox(
+              height: AppSpacing.medium16.value,
+            ),
+        
+            //email
+            Text(
+              appLocalization.translate('email'),
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   color: AppColors.grey(context.isDarkMode).shade900,
                   appFontWeight: AppFontWeight.medium,
-                  appFontSize: AppFontSize.heading5)),
+                  appFontSize: AppFontSize.paragraphMedium)),
             ),
-          ),
-          SizedBox(
-            height: AppSpacing.medium16.value,
-          ),
-
-          //email
-          Text(
-            appLocalization.translate('email'),
-            style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                color: AppColors.grey(context.isDarkMode).shade900,
-                appFontWeight: AppFontWeight.medium,
-                appFontSize: AppFontSize.paragraphMedium)),
-          ),
-          CustomTextInputField(
-            controller: emailController,
-            focusNode: emailFocusNode,
-            hintText: "email@gmail.com",
-          ),
-
-          SizedBox(
-            height: AppSpacing.xBig24.value,
-          ),
-
-          //password
-          Text(appLocalization.translate('password'),
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  color: AppColors.grey(context.isDarkMode).shade900,
-                  appFontWeight: AppFontWeight.medium,
-                  appFontSize: AppFontSize.paragraphMedium))),
-          CustomTextInputField(
-            controller: passwordController,
-            focusNode: passwordFocusNode,
-            hintText: appLocalization.translate("password"),
-            isPassword: true,
-          ),
-          SizedBox(
-            height: AppSpacing.x3Big32.value,
-          ),
-          CustomButton.noIcon(
-              focusNode: submitFocusNode,
-              analyticsEvent: widget.isSignIn
-                  ? AnalyticsEvents.signIn
-                  : AnalyticsEvents.signUp,
-              label: widget.isSignIn
-                  ? appLocalization.translate("signIn")
-                  : appLocalization.translate("signUp"),
-              onPressed: () {
-                printDebug(
-                    "${emailController.text} : ${passwordController.text}");
-                if (widget.isSignIn) {
-                  widget.authBloc.add(SignInEvent(SignInParams(
-                    email: emailController.text,
-                    password: passwordController.text,
-                    accessToken:
-                        const AccessToken(accessToken: '', tokenType: ''),
-                  )));
-                } else if(anonymousUserAlreadySignedIn == false) {
-                  widget.authBloc.add(SignUpEvent(SignUpParams(
-                    email: emailController.text,
-                    password: passwordController.text,
-                    accessToken: widget.authBloc.state.accessToken,
-                  )));
-                } else if(anonymousUserAlreadySignedIn == true) {
-                  widget.authBloc.add(UpdateUserEvent(UpdateUserParams(
-                    email: emailController.text,
-                    password: passwordController.text,
-                    accessToken: widget.authBloc.state.accessToken,
-                  )));
-                  context.pop();
-                }
-              }),
-          SizedBox(
-            height: AppSpacing.xBig24.value,
-          ),
-          if(anonymousUserAlreadySignedIn == false)Wrap(
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                  widget.isSignIn
-                      ? appLocalization.translate('areYouNewHere?')
-                      : appLocalization.translate('alreadyHaveAnAccount?'),
-                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      color: AppColors.grey(context.isDarkMode).shade500,
-                      appFontWeight: AppFontWeight.medium,
-                      appFontSize: AppFontSize.paragraphSmall))),
-              if (showSmallDesign == false)
-                SizedBox(
-                  width: AppSpacing.x2Small4.value,
-                ),
-              CustomButton.noIcon(
-                  focusNode: changeAuthModeFocusNode,
-                  type: CustomButtonType.primaryTextLabel,
-                  label: widget.isSignIn
-                      ? appLocalization.translate("createNewAccount")
-                      : appLocalization.translate("tryToSignIn"),
-                  onPressed: () {
-                    widget.toggleSignInMode();
-                  }),
-            ],
-          )
-        ],
+            CustomTextInputField(
+              controller: emailController,
+              focusNode: emailFocusNode,
+              hintText: "email@gmail.com",
+            ),
+        
+            SizedBox(
+              height: AppSpacing.xBig24.value,
+            ),
+        
+            //password
+            Text(appLocalization.translate('password'),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium,
+                    appFontSize: AppFontSize.paragraphMedium))),
+            CustomTextInputField(
+              controller: passwordController,
+              focusNode: passwordFocusNode,
+              hintText: appLocalization.translate("password"),
+              isPassword: true,
+            ),
+            SizedBox(
+              height: AppSpacing.x3Big32.value,
+            ),
+            CustomButton.noIcon(
+                focusNode: submitFocusNode,
+                analyticsEvent: widget.isSignIn
+                    ? AnalyticsEvents.signIn
+                    : AnalyticsEvents.signUp,
+                label: widget.isSignIn
+                    ? appLocalization.translate("signIn")
+                    : appLocalization.translate("signUp"),
+                onPressed: () {
+                  printDebug(
+                      "${emailController.text} : ${passwordController.text}");
+                  if (widget.isSignIn) {
+                    widget.authBloc.add(SignInEvent(SignInParams(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      accessToken:
+                          const AccessToken(accessToken: '', tokenType: ''),
+                    )));
+                  } else if(anonymousUserAlreadySignedIn == false) {
+                    widget.authBloc.add(SignUpEvent(SignUpParams(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      accessToken: widget.authBloc.state.accessToken,
+                    )));
+                  } else if(anonymousUserAlreadySignedIn == true) {
+                    widget.authBloc.add(UpdateUserEvent(UpdateUserParams(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      accessToken: widget.authBloc.state.accessToken,
+                    )));
+                    context.pop();
+                  }
+                }),
+            SizedBox(
+              height: AppSpacing.xBig24.value,
+            ),
+            if(anonymousUserAlreadySignedIn == false)Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                    widget.isSignIn
+                        ? appLocalization.translate('areYouNewHere?')
+                        : appLocalization.translate('alreadyHaveAnAccount?'),
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        color: AppColors.grey(context.isDarkMode).shade500,
+                        appFontWeight: AppFontWeight.medium,
+                        appFontSize: AppFontSize.paragraphSmall))),
+                if (showSmallDesign == false)
+                  SizedBox(
+                    width: AppSpacing.x2Small4.value,
+                  ),
+                CustomButton.noIcon(
+                    focusNode: changeAuthModeFocusNode,
+                    type: CustomButtonType.primaryTextLabel,
+                    label: widget.isSignIn
+                        ? appLocalization.translate("createNewAccount")
+                        : appLocalization.translate("tryToSignIn"),
+                    onPressed: () {
+                      widget.toggleSignInMode();
+                    }),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
