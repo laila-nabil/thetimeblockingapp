@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kalender/kalender.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -33,8 +33,11 @@ class CalendarNavigationHeader extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final isNarrow = context.showSmallDesign;
-        final dateFormat =
-            isNarrow ? DateFormat('MMM yyyy') : DateFormat('MMMM yyyy');
+        final dateFormat = isNarrow
+            ? DateFormat(
+                'MMM yyyy', appLocalization.getCurrentLangCode(context))
+            : DateFormat(
+                'MMMM yyyy,', appLocalization.getCurrentLangCode(context));
 
         final navigationRow = Row(
           mainAxisSize: MainAxisSize.min,
@@ -187,7 +190,7 @@ class CalendarNavigationHeader extends StatelessWidget {
                   builder: (context, visibleRange, child) {
                     printDebug('visibleRange monthDifference ${visibleRange.monthDifference}');
                     return Text(
-                      navigationHeaderTitle(dateFormat, visibleRange),
+                      navigationHeaderTitle(dateFormat, visibleRange,context),
                       style: context.showSmallDesign
                           ? AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.paragraphMedium,
@@ -225,16 +228,20 @@ class CalendarNavigationHeader extends StatelessWidget {
     );
   }
 
-  String navigationHeaderTitle(DateFormat dateFormat, DateTimeRange visibleRange) {
+  String navigationHeaderTitle(DateFormat dateFormat, DateTimeRange visibleRange,BuildContext context) {
     printDebug("visibleRange.monthDifference ${visibleRange.monthDifference}");
     printDebug("visibleRange.start ${visibleRange.start}");
     printDebug("visibleRange.end ${visibleRange.end}");
     var navigationHeaderTitle = dateFormat.format(visibleRange.start);
-    if(calendarController.viewController is MonthViewController && visibleRange.monthDifference  == 2){
-      navigationHeaderTitle = "${DateFormat('MMM yyyy').format(DateTime(visibleRange.start.year,visibleRange.start.month+1,1))}" ;
+    if (calendarController.viewController is MonthViewController &&
+        visibleRange.monthDifference == 2) {
+      navigationHeaderTitle =
+          "${DateFormat('MMM yyyy', appLocalization.getCurrentLangCode(context)).format(DateTime(visibleRange.start.year, visibleRange.start.month + 1, 1))}";
     }
-    if(calendarController.viewController is MonthViewController && visibleRange.monthDifference == 1){
-      navigationHeaderTitle = "${DateFormat('MMM').format(visibleRange.start)}-${DateFormat('MMM yyyy').format(visibleRange.end)}" ;
+    if (calendarController.viewController is MonthViewController &&
+        visibleRange.monthDifference == 1) {
+      navigationHeaderTitle =
+          "${DateFormat('MMM', appLocalization.getCurrentLangCode(context)).format(visibleRange.start)}-${DateFormat('MMM yyyy', appLocalization.getCurrentLangCode(context)).format(visibleRange.end)}";
     }
     return navigationHeaderTitle;
   }
