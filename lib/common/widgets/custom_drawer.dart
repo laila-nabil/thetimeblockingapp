@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
@@ -46,7 +47,8 @@ class CustomDrawer extends StatelessWidget {
                 showSmallDesign: showSmallDesign,
                 router: GoRouter.of(context),
                 selectWorkspace: (selected) {
-                  if (selected is Workspace && state.settingsStateEnum == false) {
+                  if (selected is Workspace &&
+                      state.settingsStateEnum == false) {
                     globalBloc.add(GetAllInWorkspaceEvent(
                         workspace: selected,
                         user: BlocProvider.of<AuthBloc>(context).state.user!));
@@ -93,7 +95,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("Schedule"),
                 iconPath: (isSelected) =>
-                    isSelected ? AppIcons.calendarbold : AppIcons.calendar,
+                isSelected ? AppIcons.calendarbold : AppIcons.calendar,
                 onPressed: () {
                   context.go(SchedulePage.routeName);
                 },
@@ -102,7 +104,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("AllTasks"),
                 iconPath: (isSelected) =>
-                    isSelected ? AppIcons.folderbold : AppIcons.folder,
+                isSelected ? AppIcons.folderbold : AppIcons.folder,
                 onPressed: () {
                   context.go(AllTasksPage.routeName);
                 },
@@ -110,7 +112,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("Lists"),
                 iconPath: (isSelected) =>
-                    isSelected ? AppIcons.listbold : AppIcons.list,
+                isSelected ? AppIcons.listbold : AppIcons.list,
                 onPressed: () {
                   context.go(ListsPage.routeName);
                 },
@@ -119,7 +121,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("Tags"),
                 iconPath: (isSelected) =>
-                    isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
+                isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
                 onPressed: () {
                   context.go(TagsPage.routeName);
                 },
@@ -130,7 +132,7 @@ class CustomDrawerWidget extends StatelessWidget {
               _DrawerItem(
                   title: appLocalization.translate("Maps"),
                   iconPath: (isSelected) =>
-                      isSelected ? AppIcons.mapbold : AppIcons.map,
+                  isSelected ? AppIcons.mapbold : AppIcons.map,
                   onPressed: () {
                     context.go(MapsPage.routeName);
                   },
@@ -155,7 +157,7 @@ class CustomDrawerWidget extends StatelessWidget {
               _DrawerItem(
                   title: appLocalization.translate("Trash"),
                   iconPath: (isSelected) =>
-                      isSelected ? AppIcons.binbold : AppIcons.bin,
+                  isSelected ? AppIcons.binbold : AppIcons.bin,
                   onPressed: () {
                     context.go(TrashPage.routeName);
                   },
@@ -163,7 +165,7 @@ class CustomDrawerWidget extends StatelessWidget {
             _DrawerItem(
                 title: appLocalization.translate("Settings"),
                 iconPath: (isSelected) =>
-                    isSelected ? AppIcons.settingsvbold : AppIcons.settingsv,
+                isSelected ? AppIcons.settingsvbold : AppIcons.settingsv,
                 onPressed: () {
                   context.go(SettingsPage.routeName);
                 },
@@ -172,41 +174,39 @@ class CustomDrawerWidget extends StatelessWidget {
             if (false)
               _DrawerItem(
                   title: appLocalization.translate("Help"),
-                  iconPath: (isSelected) => isSelected
-                      ? AppIcons.infocirclebold
-                      : AppIcons.infocircle,
+                  iconPath: (isSelected) =>
+                  isSelected ? AppIcons.infocirclebold : AppIcons.infocircle,
                   onPressed: () {
                     context.go(HelpPage.routeName);
                   },
                   isSelected: location.contains(HelpPage.routeName) == true),
             Container(
-              margin: const EdgeInsets.only(
-                   right: 24, left: 24, bottom: 10),
-              child:Row(
+              margin: const EdgeInsets.only(right: 24, left: 24, bottom: 10),
+              child: Row(
                 children: [
                   Expanded(
                     child: RichText(
                         textScaler: MediaQuery.textScalerOf(context),
                         text: TextSpan(
-                      text: appLocalization.translate("madeWithLoveBy") + " ",
-                      style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                          appFontSize: AppFontSize.paragraphX2Small,
-                          color: AppColors.grey(context.isDarkMode),
-                          appFontWeight: AppFontWeight.thin)),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: appLocalization.translate("lailaNabil"),
-                            style: TextStyle(
-                                fontWeight: AppFontWeight.bold.value,
-                                decoration: TextDecoration.underline),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () => launchWithURL(
-                                  url: "https://bento.me/lailanabil")),
-                        TextSpan(
-                            text:
-                                " " + appLocalization.translate("inCairoEgypt")),
-                      ],
-                    )),
+                          text: appLocalization.translate("madeWithLoveBy") + " ",
+                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                              appFontSize: AppFontSize.paragraphX2Small,
+                              color: AppColors.grey(context.isDarkMode),
+                              appFontWeight: AppFontWeight.thin)),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: appLocalization.translate("lailaNabil"),
+                                style: TextStyle(
+                                    fontWeight: AppFontWeight.bold.value,
+                                    decoration: TextDecoration.underline),
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () => launchWithURL(
+                                      url: "https://bento.me/lailanabil")),
+                            TextSpan(
+                                text: " " +
+                                    appLocalization.translate("inCairoEgypt")),
+                          ],
+                        )),
                   ),
                 ],
               ),
@@ -217,6 +217,8 @@ class CustomDrawerWidget extends StatelessWidget {
     );
   }
 }
+
+
 
 class _DrawerItem extends StatelessWidget {
   const _DrawerItem(
@@ -314,6 +316,157 @@ class _Logo extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MorePage extends StatelessWidget {
+  const MorePage({super.key});
+
+  static const routeName = "/more";
+
+  @override
+  Widget build(BuildContext context) {
+    var location = MorePage.routeName;
+    return BlocBuilder<GlobalBloc, GlobalState>(
+      builder: (context, state) {
+        return BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            return ResponsiveScaffold(
+              context: context,
+              onRefresh: null,
+              responsiveBody: ResponsiveTParams(
+                  small: Container(
+                    color: AppColors.background(context.isDarkMode),
+                    padding: EdgeInsets.only(
+                        top: AppSpacing.medium16.value,
+                        left: AppSpacing.xSmall8.value,
+                        right: AppSpacing.xSmall8.value),
+                    child: Column(
+                      children: [
+                        const _Logo(),
+                        _DrawerItem(
+                            title: appLocalization.translate("Schedule"),
+                            iconPath: (isSelected) =>
+                            isSelected ? AppIcons.calendarbold : AppIcons.calendar,
+                            onPressed: () {
+                              context.go(SchedulePage.routeName);
+                            },
+                            isSelected: location.contains(SchedulePage.routeName) == true),
+
+                        _DrawerItem(
+                            title: appLocalization.translate("AllTasks"),
+                            iconPath: (isSelected) =>
+                            isSelected ? AppIcons.folderbold : AppIcons.folder,
+                            onPressed: () {
+                              context.push(AllTasksPage.routeName);
+                            },
+                            isSelected: location.contains(AllTasksPage.routeName) == true),
+                        _DrawerItem(
+                            title: appLocalization.translate("Lists"),
+                            iconPath: (isSelected) =>
+                            isSelected ? AppIcons.listbold : AppIcons.list,
+                            onPressed: () {
+                              context.go(ListsPage.routeName);
+                            },
+                            isSelected: location.contains(ListsPage.routeName) == true ||
+                                location.contains(ListPage.routeName) == true),
+                        _DrawerItem(
+                            title: appLocalization.translate("Tags"),
+                            iconPath: (isSelected) =>
+                            isSelected ? AppIcons.hashtagBold : AppIcons.hashtag,
+                            onPressed: () {
+                              context.go(TagsPage.routeName);
+                            },
+                            isSelected: location.contains(TagsPage.routeName) == true ||
+                                location.contains(TagPage.routeName) == true),
+                        // ignore: dead_code
+                        if (false)
+                          _DrawerItem(
+                              title: appLocalization.translate("Maps"),
+                              iconPath: (isSelected) =>
+                              isSelected ? AppIcons.mapbold : AppIcons.map,
+                              onPressed: () {
+                                context.go(MapsPage.routeName);
+                              },
+                              isSelected: location.contains(MapsPage.routeName) == true),
+                        // ignore: dead_code
+                        // if (false)
+                        // _DrawerItem(
+                        //     title: appLocalization.translate("Archive"),
+                        //     iconPath: Icons.archive_outlined,
+                        //     onPressed: () {
+                        //       context.go(ArchivePage.routeName);
+                        //     },
+                        //     isSelected:
+                        //         router?.location.contains(ArchivePage.routeName) == true),
+                        // ignore: dead_code
+                        if (false)
+                          _DrawerItem(
+                              title: appLocalization.translate("Trash"),
+                              iconPath: (isSelected) =>
+                              isSelected ? AppIcons.binbold : AppIcons.bin,
+                              onPressed: () {
+                                context.go(TrashPage.routeName);
+                              },
+                              isSelected: location.contains(TrashPage.routeName) == true),
+                        _DrawerItem(
+                            title: appLocalization.translate("Settings"),
+                            iconPath: (isSelected) =>
+                            isSelected ? AppIcons.settingsvbold : AppIcons.settingsv,
+                            onPressed: () {
+                              context.push(SettingsPage.routeName);
+                            },
+                            isSelected: location.contains(SettingsPage.routeName) == true),
+                        // ignore: dead_code
+                        if (false)
+                          _DrawerItem(
+                              title: appLocalization.translate("Help"),
+                              iconPath: (isSelected) =>
+                              isSelected ? AppIcons.infocirclebold : AppIcons.infocircle,
+                              onPressed: () {
+                                context.go(HelpPage.routeName);
+                              },
+                              isSelected: location.contains(HelpPage.routeName) == true),
+                        const Spacer(),
+                        Container(
+                          margin: const EdgeInsets.only(right: 24, left: 24, bottom: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: RichText(
+                                    textScaler: MediaQuery.textScalerOf(context),
+                                    text: TextSpan(
+                                      text: appLocalization.translate("madeWithLoveBy") + " ",
+                                      style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                          appFontSize: AppFontSize.paragraphX2Small,
+                                          color: AppColors.grey(context.isDarkMode),
+                                          appFontWeight: AppFontWeight.thin)),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: appLocalization.translate("lailaNabil"),
+                                            style: TextStyle(
+                                                fontWeight: AppFontWeight.bold.value,
+                                                decoration: TextDecoration.underline),
+                                            recognizer: new TapGestureRecognizer()
+                                              ..onTap = () => launchWithURL(
+                                                  url: "https://bento.me/lailanabil")),
+                                        TextSpan(
+                                            text: " " +
+                                                appLocalization.translate("inCairoEgypt")),
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+            );
+          },
+        );
+      },
     );
   }
 }

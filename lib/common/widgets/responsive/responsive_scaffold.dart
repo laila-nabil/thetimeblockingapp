@@ -2,15 +2,26 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
+import 'package:thetimeblockingapp/features/all/presentation/pages/all_tasks_page.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/auth/presentation/pages/supabase_onboarding_auth_page.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:thetimeblockingapp/features/settings/presentation/pages/settings_page.dart';
+import 'package:thetimeblockingapp/features/tags/presentation/pages/tag_page.dart';
+import 'package:thetimeblockingapp/features/terms_conditions/terms_conditions_page.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../../features/global/presentation/bloc/global_bloc.dart';
+import '../../../features/lists/presentation/pages/list_page.dart';
+import '../../../features/privacy_policy/privacy_policy_page.dart';
 import '../custom_app_bar.dart';
+import '../custom_bottom_nav_bar.dart';
 import '../custom_pop_up_menu.dart';
 import '../custom_loading.dart';
 
@@ -45,7 +56,6 @@ class ResponsiveScaffold extends Scaffold {
   final ResponsiveTParams<Widget> responsiveBody;
 
   final ResponsiveScaffoldLoading? responsiveScaffoldLoading;
-  final bool hideAppBarDrawer;
 
   final Future<void> Function()? onRefresh;
 
@@ -56,7 +66,6 @@ class ResponsiveScaffold extends Scaffold {
     required this.context,
     this.pageActions,
     this.responsiveScaffoldLoading,
-    this.hideAppBarDrawer = false,
     required this.onRefresh,
     super.floatingActionButton,
     super.floatingActionButtonLocation,
@@ -66,7 +75,6 @@ class ResponsiveScaffold extends Scaffold {
     super.onDrawerChanged,
     super.endDrawer,
     super.onEndDrawerChanged,
-    super.bottomNavigationBar,
     super.bottomSheet,
     super.backgroundColor,
     super.resizeToAvoidBottomInset,
@@ -166,18 +174,49 @@ class ResponsiveScaffold extends Scaffold {
   }
 
   @override
-  Widget? get drawer => hideAppBarDrawer
+  Widget? get drawer => hideAppBarDrawer()
       ? null
       : (context.showSmallDesign ? const CustomDrawer() : null);
 
   @override
-  PreferredSizeWidget? get appBar => hideAppBarDrawer
+  PreferredSizeWidget? get appBar => hideAppBar()
       ? null
       : CustomAppBar(
           pageActions: pageActions,
           showSmallDesign: context.showSmallDesign,
           isDarkMode: context.isDarkMode,
         );
+
+  bool hideAppBar() {
+    var currentPath = GoRouterState.of(context).path;
+    return currentPath == MorePage.routeName ||
+        currentPath == SupabaseOnBoardingAndAuthPage.routeName;
+  }
+
+  Widget? get bottomNavigationBar {
+    return showBottomNavBar()
+      ? CustomBottomNavBar()
+          : null;
+  }
+
+  bool showBottomNavBar() {
+    var currentPath = GoRouterState.of(context).path;
+    var pageCheck = currentPath != SupabaseOnBoardingAndAuthPage.routeName &&
+        currentPath != PrivacyPolicyPage.routeName &&
+        currentPath != SettingsPage.routeName &&
+        currentPath != TagPage.routeName &&
+        currentPath != ListPage.routeName &&
+        currentPath != AllTasksPage.routeName &&
+        currentPath != TermsConditionsPage.routeName;
+    return (pageCheck &&
+        UniversalPlatform.isMobile);
+  }
+
+  bool hideAppBarDrawer(){
+    var currentPath = GoRouterState.of(context).path;
+    return UniversalPlatform.isMobile ||
+        currentPath == SupabaseOnBoardingAndAuthPage.routeName;
+  }
 
   ///TODO demo
   Widget signInToUse(AuthBloc authBloc){

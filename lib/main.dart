@@ -7,6 +7,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/environment.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:upgrader/upgrader.dart';
 import 'core/bloc_observer.dart';
@@ -80,6 +81,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => di.serviceLocator<SettingsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.serviceLocator<ListsPageBloc>(),
         ),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(

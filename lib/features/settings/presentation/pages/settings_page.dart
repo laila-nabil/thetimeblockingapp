@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
@@ -422,7 +423,40 @@ class SettingsPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 24, left: 24, bottom: 10),
+                              child:Row(
+                                children: [
+                                  Expanded(
+                                    child: RichText(
+                                        textScaler: MediaQuery.textScalerOf(context),
+                                        text: TextSpan(
+                                          text: appLocalization.translate("madeWithLoveBy") + " ",
+                                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                              appFontSize: AppFontSize.paragraphX2Small,
+                                              color: AppColors.grey(context.isDarkMode),
+                                              appFontWeight: AppFontWeight.thin)),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: appLocalization.translate("lailaNabil"),
+                                                style: TextStyle(
+                                                    fontWeight: AppFontWeight.bold.value,
+                                                    decoration: TextDecoration.underline),
+                                                recognizer: new TapGestureRecognizer()
+                                                  ..onTap = () => launchWithURL(
+                                                      url: "https://bento.me/lailanabil")),
+                                            TextSpan(
+                                                text:
+                                                " " + appLocalization.translate("inCairoEgypt")),
+                                          ],
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

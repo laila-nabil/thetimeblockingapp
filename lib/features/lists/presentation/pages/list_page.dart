@@ -33,6 +33,7 @@ class ListPage extends StatelessWidget {
       {super.key, required this.list, required this.listsPageBloc});
 
   static const routeName = "/List";
+  static const inboxRouteName = "/inbox";
   final TasksList list;
   final ListsPageBloc listsPageBloc;
 

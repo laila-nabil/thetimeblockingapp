@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
+import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -181,6 +182,24 @@ final router = GoRouter(
             return null;
           }),
       GoRoute(
+          path: ListPage.inboxRouteName,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: ListPage(
+                listsPageBloc: (state.extra as List)[0] as ListsPageBloc,
+                list: (state.extra as List)[1] as TasksList,
+              ),
+              key: state.pageKey,
+              transitionsBuilder: transitionBuilder,
+            );
+          },
+          redirect: (context, state) {
+            if (state.extra == null) {
+              return ListsPage.routeName;
+            }
+            return null;
+          }),
+      GoRoute(
         path: MapsPage.routeName,
         pageBuilder: (context, state) {
           return CustomTransitionPage(
@@ -264,6 +283,16 @@ final router = GoRouter(
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             child: TermsConditionsPage(),
+            key: state.pageKey,
+            transitionsBuilder: transitionBuilder,
+          );
+        },
+      ),
+      GoRoute(
+        path: MorePage.routeName,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: MorePage(),
             key: state.pageKey,
             transitionsBuilder: transitionBuilder,
           );

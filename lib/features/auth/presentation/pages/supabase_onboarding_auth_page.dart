@@ -165,7 +165,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                   accessToken: const AccessToken(accessToken: '', tokenType: ''))));
             }
             return ResponsiveScaffold(
-              hideAppBarDrawer: true,
               responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                   responsiveScaffoldLoadingEnum:
                   ResponsiveScaffoldLoadingEnum.overlayLoading,
