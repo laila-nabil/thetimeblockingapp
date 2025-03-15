@@ -278,6 +278,22 @@ class ListPage extends StatelessWidget {
                     ),
                 backendMode: BackendMode.supabase), list: list)); }));
       },
+      onUnCompleteConfirmed: () {
+        final newTask = task.copyWith(status: globalBloc.state.statuses!.todoStatus);
+        listsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
+            defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
+            task: newTask,
+            backendMode: serviceLocator<BackendMode>(),
+            user: authBloc.state.user!,
+            workspace: newTask.workspace,
+            tags: newTask.tags), onSuccess: () { listsPageBloc.add(GetTasksInListEvent(
+            params: GetTasksInWorkspaceParams(
+                workspaceId: globalBloc.state.selectedWorkspace!.id!,
+                filtersParams: GetTasksInWorkspaceFiltersParams(
+                  filterByList: list,
+                ),
+                backendMode: BackendMode.supabase), list: list)); }));
+      },
     );
   }
 }

@@ -2420,7 +2420,10 @@ class WidgetBookApp extends StatelessWidget {
                           TaskWidget(
                             showList: showList,
                             task: task,
-                            onTap: () {}, onDeleteConfirmed: () {  }, onCompleteConfirmed: () {  },
+                            onTap: () {},
+                            onDeleteConfirmed: () {},
+                            onCompleteConfirmed: () {},
+                            onUnCompleteConfirmed: () {},
                           )
                         ],
                       ),
@@ -2533,12 +2536,18 @@ class WidgetBookApp extends StatelessWidget {
                         TaskWidget(
                           showList: showList1,
                           task: task1,
-                          onTap: () {}, onDeleteConfirmed: () {  }, onCompleteConfirmed: () {  },
+                          onTap: () {},
+                          onDeleteConfirmed: () {},
+                          onCompleteConfirmed: () {},
+                          onUnCompleteConfirmed: () {},
                         ),
                         TaskWidget(
                           showList: showList2,
                           task: task2,
-                          onTap: () {}, onDeleteConfirmed: () {  }, onCompleteConfirmed: () {  },
+                          onTap: () {},
+                          onDeleteConfirmed: () {},
+                          onCompleteConfirmed: () {},
+                          onUnCompleteConfirmed: () {},
                         )
                       ],
                     );

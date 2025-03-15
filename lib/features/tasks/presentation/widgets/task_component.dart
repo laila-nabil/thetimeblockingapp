@@ -33,6 +33,7 @@ class TaskComponent extends StatelessWidget {
     required this.onDuplicate,
     required this.onDeleteConfirmed,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     this.showListChip = true,
   });
 
@@ -43,6 +44,7 @@ class TaskComponent extends StatelessWidget {
   final void Function(CreateTaskParams) onSave;
   final void Function(CreateTaskParams) onDuplicate;
   final void Function() onCompleteConfirmed;
+  final void Function() onUnCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final bool showListChip;
 
@@ -115,6 +117,7 @@ class TaskComponent extends StatelessWidget {
         },
         onDeleteConfirmed: onDeleteConfirmed,
         onCompleteConfirmed: onCompleteConfirmed,
+        onUnCompleteConfirmed: onUnCompleteConfirmed,
         task: task);
   }
 }
@@ -126,11 +129,13 @@ class TaskWidget extends StatefulWidget {
       required this.task,
       required this.showList,
       required this.onDeleteConfirmed,
+      required this.onUnCompleteConfirmed,
       required this.onCompleteConfirmed,
       this.actions});
 
   final void Function() onTap;
   final void Function() onCompleteConfirmed;
+  final void Function() onUnCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final Task task;
   final bool showList;
@@ -303,13 +308,22 @@ class _TaskWidgetState extends State<TaskWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            widget.task.isCompleted
-                                ? AppIcons.checkboxchecked
-                                : AppIcons.checkbox,
-                            color: widget.task.status?.getColor ??
-                                AppColors.text(context.isDarkMode),
-                            size: 20,
+                          InkWell(
+                            onTap: () {
+                              if (widget.task.isCompleted) {
+                                widget.onUnCompleteConfirmed();
+                              } else {
+                                widget.onCompleteConfirmed();
+                              }
+                            },
+                            child: Icon(
+                              widget.task.isCompleted
+                                  ? AppIcons.checkboxchecked
+                                  : AppIcons.checkbox,
+                              color: widget.task.status?.getColor ??
+                                  AppColors.text(context.isDarkMode),
+                              size: 20,
+                            ),
                           ),
                           SizedBox(
                             width: AppSpacing.xSmall8.value,

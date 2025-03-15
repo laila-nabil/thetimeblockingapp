@@ -298,6 +298,16 @@ class TagPage extends StatelessWidget {
             workspace: newTask.workspace,
             tags: newTask.tags), workspace: globalBloc.state.selectedWorkspace!));
       },
+      onUnCompleteConfirmed: () {
+        final newTask = task.copyWith(status: globalBloc.state.statuses!.todoStatus);
+        tagsPageBloc.add(UpdateTaskEvent(params:  CreateTaskParams.startUpdateTask(
+            defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
+            task: newTask,
+            backendMode: serviceLocator<BackendMode>(),
+            user: authBloc.state.user!,
+            workspace: newTask.workspace,
+            tags: newTask.tags), workspace: globalBloc.state.selectedWorkspace!));
+      },
     );
   }
 }
