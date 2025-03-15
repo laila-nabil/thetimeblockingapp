@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 
 class TaskStatus extends Equatable {
   final String? id;
@@ -39,6 +40,11 @@ class TaskStatus extends Equatable {
 extension ExTaskStatus on List<TaskStatus>{
   TaskStatus? get completedStatus{
     return where((s)=>s.isDone == true).firstOrNull ;
+  }
+  TaskStatus? get toDoStatus{
+    return where((s) =>
+            s.isDone == false && s.nameEn?.toLowerCase().contains("to") == true)
+        .firstOrNull;
   }
 
   TaskStatus? get todoStatus{

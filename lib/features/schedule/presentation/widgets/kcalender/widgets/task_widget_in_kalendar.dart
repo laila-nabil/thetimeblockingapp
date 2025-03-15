@@ -32,6 +32,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
     required this.tileType,
     this.taskLocation = TaskLocation.body,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     required this.onDeleteConfirmed,
     required this.viewConfiguration,
     required this.heightPerMinute,
@@ -47,6 +48,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
     required this.tileType,
     this.taskLocation = TaskLocation.body,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     required this.onDeleteConfirmed,
     required this.viewConfiguration,
     required this.heightPerMinute,
@@ -60,6 +62,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
   final TileType tileType;
   final TaskLocation taskLocation;
   final void Function() onCompleteConfirmed;
+  final void Function() onUnCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final ViewConfiguration viewConfiguration;
   final double? heightPerMinute;
@@ -77,6 +80,7 @@ class TaskWidgetInKalendar extends StatelessWidget {
         taskLocation: taskLocation,
         tileType: tileType,
         onCompleteConfirmed: onCompleteConfirmed,
+        onUnCompleteConfirmed: onUnCompleteConfirmed,
         onDeleteConfirmed: onDeleteConfirmed,
         calendarViewType: viewConfiguration.getCalendarViewType,
         heightPerMinute: heightPerMinute,

@@ -44,6 +44,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
     this.tileType = TileType.normal,
     this.taskLocation = TaskLocation.body,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     required this.onDeleteConfirmed,
     required this.calendarViewType,
     required this.heightPerMinute,
@@ -58,6 +59,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
     required this.tileType,
     this.taskLocation = TaskLocation.body,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     required this.onDeleteConfirmed,
     required this.calendarViewType,
     required this.heightPerMinute,
@@ -70,6 +72,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
   final TileType tileType;
   final TaskLocation taskLocation;
   final void Function() onCompleteConfirmed;
+  final void Function() onUnCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final CalendarViewType calendarViewType;
   final double? heightPerMinute;
@@ -171,6 +174,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
   bool showCheckIcon(
           CalendarViewType? calendarViewType, bool showSmallDesign) =>
       calendarViewType?.isSchedule == true ||
+      calendarViewType == CalendarViewType.day  ||
       (calendarViewType != CalendarViewType.month &&
           calendarViewType != CalendarViewType.multiWeek &&
           calendarViewType != CalendarViewType.week &&
@@ -355,13 +359,22 @@ class TaskWidgetInCalendar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         if (showCheckIcon(calendarViewType, showSmallDesign))
-          Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Icon(
-              task.isCompleted ? AppIcons.checkboxchecked : AppIcons.checkbox,
-              color:
-                  task.status?.getColor ?? AppColors.text(context.isDarkMode),
-              size: 15,
+          InkWell(
+            onTap:(){
+              if (task.isCompleted) {
+                onUnCompleteConfirmed();
+              } else {
+                onCompleteConfirmed();
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Icon(
+                task.isCompleted ? AppIcons.checkboxchecked : AppIcons.checkbox,
+                color:
+                    task.status?.getColor ?? AppColors.text(context.isDarkMode),
+                size: 15,
+              ),
             ),
           ),
         if (showCheckIcon(calendarViewType, showSmallDesign))

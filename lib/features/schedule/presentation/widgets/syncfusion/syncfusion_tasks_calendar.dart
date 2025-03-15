@@ -147,6 +147,22 @@ class SyncfusionTasksCalendar extends StatelessWidget {
                         tags: newTask.tags),
                   ));
                 },
+                onUnCompleteConfirmed: () {
+                  var authState = BlocProvider.of<AuthBloc>(context).state;
+                  var globalState = BlocProvider.of<GlobalBloc>(context).state;
+                  final newTask = task.copyWith(
+                      status: globalState.statuses!.todoStatus);
+                  printDebug("newTask $newTask");
+                  scheduleBloc.add(UpdateTaskEvent(
+                    params: CreateTaskParams.startUpdateTask(
+                        defaultList: globalState.selectedWorkspace!.defaultList!,
+                        task: newTask,
+                        backendMode: serviceLocator<BackendMode>(),
+                        user: authState.user!,
+                        workspace: newTask.workspace,
+                        tags: newTask.tags),
+                  ));
+                },
               );
             },
       timeZone: serviceLocator<AppConfig>().timezone,

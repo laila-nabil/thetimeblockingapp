@@ -37,6 +37,7 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
     required this.onDuplicate,
     required this.onDeleteConfirmed,
     required this.onCompleteConfirmed,
+    required this.onUnCompleteConfirmed,
     required this.calendarView,
     required this.bounds,
   });
@@ -48,6 +49,7 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
   final void Function(CreateTaskParams) onSave;
   final void Function(CreateTaskParams) onDuplicate;
   final void Function() onCompleteConfirmed;
+  final void Function() onUnCompleteConfirmed;
   final void Function() onDeleteConfirmed;
   final CalendarView? calendarView;
   final Rect bounds;
@@ -60,6 +62,7 @@ class TaskWidgetInSyncfusionCalendar extends StatelessWidget {
         task: task,
         taskLocation: durationLongerThanDay? TaskLocation.header : TaskLocation.body,
         onCompleteConfirmed: onCompleteConfirmed,
+        onUnCompleteConfirmed: onUnCompleteConfirmed,
         onDeleteConfirmed: onDeleteConfirmed,
         onEventTapped: () {
           showTaskPopup(

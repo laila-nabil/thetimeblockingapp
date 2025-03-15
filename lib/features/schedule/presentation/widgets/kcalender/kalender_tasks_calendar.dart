@@ -311,6 +311,23 @@ class KalendarTasksCalendar extends StatelessWidget {
             tags: newTask.tags),
       ));
     }
+    void onUnCompleteConfirmed(Task task) {
+      var authState = BlocProvider.of<AuthBloc>(context).state;
+      var globalState = BlocProvider.of<GlobalBloc>(context).state;
+      var scheduleBloc = BlocProvider.of<ScheduleBloc>(context);
+      final newTask =
+          task.copyWith(status: globalState.statuses!.toDoStatus);
+      printDebug("newTask $newTask");
+      scheduleBloc.add(UpdateTaskEvent(
+        params: CreateTaskParams.startUpdateTask(
+            defaultList: globalState.selectedWorkspace!.defaultList!,
+            task: newTask,
+            backendMode: serviceLocator<BackendMode>(),
+            user: authState.user!,
+            workspace: newTask.workspace,
+            tags: newTask.tags),
+      ));
+    }
 
     void onDeleteConfirmed(Task task) {
       BlocProvider.of<ScheduleBloc>(context, listen: false).add(DeleteTaskEvent(
@@ -331,6 +348,7 @@ class KalendarTasksCalendar extends StatelessWidget {
             tileType: TileType.normal,
             onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
             onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
+            onUnCompleteConfirmed: () => onUnCompleteConfirmed(event.data!),
             viewConfiguration: currentView,
             heightPerMinute: controller.viewController is MultiDayViewController
                 ? (controller.viewController as MultiDayViewController)
@@ -414,6 +432,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                           tileType: TileType.normal,
                           onDeleteConfirmed: () => onDeleteConfirmed(event.data!),
                           onCompleteConfirmed: () => onCompleteConfirmed(event.data!),
+                          onUnCompleteConfirmed: () => onUnCompleteConfirmed(event.data!),
                           viewConfiguration: currentView,
                           heightPerMinute: controller.viewController
                                   is MultiDayViewController
