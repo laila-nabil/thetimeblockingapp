@@ -209,16 +209,32 @@ class KalendarTasksCalendar extends StatelessWidget {
       printDebug("updatedEvent ${updatedEvent.data}");
       printDebug("event.data ${event.data}");
       printDebug(
-          "start updatedEvent.start: ${updatedEvent.start}, event.start: ${event.start}");
+          "start updatedEvent.start: ${updatedEvent.start} ${updatedEvent.data?.startDate}, event.start: ${event.start}");
       printDebug(
-          "end updatedEvent.end: ${updatedEvent.end}, event.end: ${event.end}");
+          "end updatedEvent.end: ${updatedEvent.end}  ${updatedEvent.data?.dueDate}, event.end: ${event.end}");
       printDebug("authBloc.state.user! ${authBloc.state.user!}");
+      var isMonthView = viewConfigurations(context.showSmallDesign)[currentConfigurationIndex] is MonthViewConfiguration;
+      printDebug("isMonthView $isMonthView");
       scheduleBloc.add(UpdateTaskEvent(
           params: CreateTaskParams.updateTask(
               defaultList: globalBloc.state.selectedWorkspace!.defaultList!,
               task: event.data!,
-              updatedDueDate: TaskDateTime(dateTime: updatedEvent.end),
-              updatedStartDate: TaskDateTime(dateTime: updatedEvent.start),
+              updatedDueDate: TaskDateTime(
+                  dateTime: isMonthView
+                      ? DateTime(
+                          updatedEvent.end.year,
+                          updatedEvent.end.month,
+                          updatedEvent.end.day,
+                          event.end.hour,
+                          event.end.minute)
+                      : updatedEvent.end),
+              updatedStartDate: TaskDateTime(dateTime: isMonthView? DateTime(
+                  updatedEvent.start.year,
+                  updatedEvent.start.month,
+                  updatedEvent.start.day,
+                  event.start.hour,
+                  event.start.minute)
+                  :  updatedEvent.start),
               backendMode: serviceLocator<BackendMode>().mode,
               user: authBloc.state.user!)));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
