@@ -107,364 +107,64 @@ class SettingsPage extends StatelessWidget {
             responsiveBody: ResponsiveTParams(
                 small: Padding(
               padding: EdgeInsets.all(AppSpacing.x3Big32.value),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Container(
-                        margin:
-                        EdgeInsets.only(bottom: AppSpacing.medium16.value),
-                        child: Text(
-                          appLocalization.translate("Settings"),
-                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                              color:
-                              AppColors.grey(context.isDarkMode).shade900,
-                              appFontWeight: AppFontWeight.medium,
-                              appFontSize: AppFontSize.heading4)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if(userNotAnonymous == false)Padding(
-                                padding: EdgeInsets.all(AppSpacing.small12.value),
-                                child: CustomAlertWidget(
-                                  customAlertType: CustomAlertType.warning,
-                                  customAlertThemeType:
-                                  CustomAlertThemeType.accent,
-                                  title:
-                                  "${appLocalization.translate("createAnAccountToAccessYourDataFromAnyDevice")}",
-                                  primaryCta: appLocalization.translate("signUp"),
-                                  primaryCtaOnPressed: () {
-                                    showDialog(
-                                        context: context, builder: (ctx) {
-                                      return AlertDialog(
-                                        content: SupabaseAuthWidget(
-                                            authBloc: authBloc,
-                                            isSignIn: false,
-                                            emailController: null,
-                                            emailFocusNode: null,
-                                            passwordController: null,
-                                            passwordFocusNode: null,
-                                            submitFocusNode: null,
-                                            changeAuthModeFocusNode: null,
-                                            toggleSignInMode: () {}),
-                                      )
-                                      ;
-                                    });
-                                  },
-                                ),
-                              ),
-                              if(userNotAnonymous)Text(
-                                appLocalization.translate("email"),
-                                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                    appFontSize: AppFontSize.paragraphSmall,
-                                    color: AppColors.grey(context.isDarkMode).shade900,
-                                    appFontWeight: AppFontWeight.medium)),
-                              ),
-                              if(userNotAnonymous)SizedBox(
-                                height: AppSpacing.x2Small4.value,
-                              ),
-                              if(userNotAnonymous)Text(
-                                authBloc.state.user?.email??"",
-                                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                    appFontSize: AppFontSize.paragraphSmall,
-                                    color: AppColors.grey(context.isDarkMode).shade700,
-                                    appFontWeight: AppFontWeight.regular)),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.xSmall8.value,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  appLocalization.translate("language"),
-                                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                      appFontSize: AppFontSize.paragraphSmall,
-                                      color: AppColors.grey(context.isDarkMode).shade900,
-                                      appFontWeight: AppFontWeight.medium)),
-                                ),
-                                SizedBox(
-                                  height: AppSpacing.x2Small4.value,
-                                ),
-                                CustomDropDownMenu(
-                                  initialSelection: appLocalization.languagesEnumToLocale(
-                                      appLocalization.getCurrentLanguagesEnum(context)!),
-                                  dropdownMenuEntries: context.supportedLocales
-                                      .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                                      value: e,
-                                      label:
-                                      appLocalization.translate(e.languageCode)))
-                                      .toList(),
-                                  onSelected: (selected) {
-                                    bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
-                                        locale: selected, context: context)));
-                                  },
-                                  isDarkMode: (context.isDarkMode),
-                                  inputDecorationTheme: InputDecorationTheme(
-                                    labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                        appFontSize: AppFontSize.paragraphSmall,
-                                        color: AppColors.grey(context.isDarkMode).shade900,
-                                        appFontWeight: AppFontWeight.regular)),
-                                    hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                        appFontSize: AppFontSize.paragraphSmall,
-                                        color: AppColors.error(context.isDarkMode).shade900,
-                                        appFontWeight: AppFontWeight.regular)),
-                                    isDense: true,
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                                    constraints: BoxConstraints.tight(const
-                                    Size.fromHeight(40)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(color: AppColors.grey(context.isDarkMode).shade300)
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          if(false)Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.xSmall8.value,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  appLocalization.translate("theme"),
-                                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                      appFontSize: AppFontSize.paragraphSmall,
-                                      color: AppColors.grey(context.isDarkMode).shade900,
-                                      appFontWeight: AppFontWeight.medium)),
-                                ),
-                                SizedBox(
-                                  height: AppSpacing.x2Small4.value,
-                                ),
-                                CustomDropDownMenu(
-                                  initialSelection: state.themeMode,
-                                  dropdownMenuEntries: ThemeMode.values
-                                      .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                                      value: e,
-                                      label: appLocalization.translate(e.name)))
-                                      .toList(),
-                                  onSelected: (selected) {
-                                    bloc.add(ChangeThemeEvent(selected));
-                                  },
-                                  isDarkMode: (context.isDarkMode),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.medium16.value,
-                            ),
-                            child: CustomButton.noIcon(
-                              label: appLocalization.translate("requestFeature"),
-                              onPressed: () {
-                                showRequestFeatureDialog(context);
-                              },
-                              type: CustomButtonType.greyTextLabel,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.medium16.value,
-                            ),
-                            child: CustomButton.noIcon(
-                              label: appLocalization.translate("reportIssue"),
-                              onPressed: () {
-                                showReportIssueDialog(context);
-                              },
-                              type: CustomButtonType.greyTextLabel,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: AppSpacing.medium16.value,
-                            ),
-                            child: CustomButton.noIcon(
-                              label: appLocalization.translate("signOut"),
-                              onPressed: () {
-                                showDialog<bool>(context: context, builder: (context){
-                                  return CustomAlertDialog(
-                                    loading: false,
-                                    actions: [
-                                      CustomButton.noIcon(
-                                          type: CustomButtonType.greyTextLabel,
-                                          label: appLocalization.translate("cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
-                                      CustomButton.noIcon(
-                                          label: appLocalization.translate("signOut"),
-                                          onPressed: () {
-                                            authBloc.add(SignOutEvent(authBloc
-                                                .state
-                                                .accessToken));
-                                          },type: CustomButtonType.destructiveFilledLabel),
-                                    ],
-                                    content: Text(
-                                        appLocalization.translate("areYouSureSignOut")),
-                                  );
-                                });
-                              },
-                              type: CustomButtonType.greyTextLabel,
+                          Container(
+                            margin:
+                            EdgeInsets.only(bottom: AppSpacing.medium16.value),
+                            child: Text(
+                              appLocalization.translate("Settings"),
+                              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                  color:
+                                  AppColors.grey(context.isDarkMode).shade900,
+                                  appFontWeight: AppFontWeight.medium,
+                                  appFontSize: AppFontSize.heading4)),
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      buildSettingsContent(userNotAnonymous, context, authBloc, bloc, state),
+                      buildSettingsFooter(context, authBloc)
+                    ],
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
+                ),
+              ),
+            ),
+                large: Padding(
+                  padding: EdgeInsets.all(AppSpacing.x3Big32.value),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: AppSpacing.xSmall8.value,
-                        ),
-                        child: CustomButton.noIcon(
-                          label: appLocalization.translate("deleteAccount"),
-                          onPressed: () {
-                            showDialog<bool>(context: context, builder: (context){
-                              return CustomAlertDialog(
-                                loading: false,
-                                actions: [
-                                  CustomButton.noIcon(
-                                      type: CustomButtonType.greyTextLabel,
-                                      label: appLocalization.translate("cancel"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                  CustomButton.noIcon(
-                                      label: appLocalization.translate("deleteAccount"),
-                                      onPressed: () {
-                                        authBloc.add(DeleteAccount(DeleteAccountParams(authBloc.state.user!)));
-                                        Navigator.pop(context);
-                                      },type: CustomButtonType.destructiveFilledLabel),
-                                ],
-                                content: Text(
-                                    appLocalization.translate("areYouSureDeleteYourAccount")),
-                              );
-                            });
-                          },
-                          type: CustomButtonType.destructiveTextLabel,
+                      Row(
+                        children: [
+                          Container(
+                            margin:
+                            EdgeInsets.only(bottom: AppSpacing.medium16.value),
+                            child: Text(
+                              appLocalization.translate("Settings"),
+                              style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                  color:
+                                  AppColors.grey(context.isDarkMode).shade900,
+                                  appFontWeight: AppFontWeight.medium,
+                                  appFontSize: AppFontSize.heading4)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: buildSettingsContent(userNotAnonymous, context, authBloc, bloc, state),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            top: 10,bottom: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Wrap(
-                              children: [
-                                CustomButton.noIcon(
-                                  label: appLocalization.translate("termsOfUse"),
-                                  onPressed: () {
-                                    launchWithURL(
-                                        url:
-                                        "https://timeblocking.web.app/${TermsConditionsPage
-                                            .routeName}");
-                                  },
-                                  type: CustomButtonType.greyTextLabel,
-                                ),
-                                CustomButton.noIcon(
-                                  label: appLocalization.translate("privacyPolicy"),
-                                  onPressed: () {
-                                    launchWithURL(
-                                        url:
-                                        "https://timeblocking.web.app/${PrivacyPolicyPage
-                                            .routeName}");
-                                  },
-                                  type: CustomButtonType.greyTextLabel,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  InkWell(
-                                    child: Image.asset(
-                                      AppAssets.github,
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    onTap: () =>
-                                        launchWithURL(url: "https://github.com/laila-nabil/"),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    child: Image.asset(
-                                      AppAssets.twitter,
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    onTap: () =>
-                                        launchWithURL(url: "https://twitter.com/laila_nabil_"),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 24, left: 24, bottom: 10),
-                              child:Row(
-                                children: [
-                                  Expanded(
-                                    child: RichText(
-                                        textScaler: MediaQuery.textScalerOf(context),
-                                        text: TextSpan(
-                                          text: appLocalization.translate("madeWithLoveBy") + " ",
-                                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                              appFontSize: AppFontSize.paragraphX2Small,
-                                              color: AppColors.grey(context.isDarkMode),
-                                              appFontWeight: AppFontWeight.thin)),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: appLocalization.translate("lailaNabil"),
-                                                style: TextStyle(
-                                                    fontWeight: AppFontWeight.bold.value,
-                                                    decoration: TextDecoration.underline),
-                                                recognizer: new TapGestureRecognizer()
-                                                  ..onTap = () => launchWithURL(
-                                                      url: "https://bento.me/lailanabil")),
-                                            TextSpan(
-                                                text:
-                                                " " + appLocalization.translate("inCairoEgypt")),
-                                          ],
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      buildSettingsFooter(context, authBloc)
                     ],
-                  )
-                ],
-              ),
-            )),
+                  ),
+                )
+            ),
             context: context,
                 responsiveScaffoldLoading: ResponsiveScaffoldLoading(
                     responsiveScaffoldLoadingEnum:
@@ -478,5 +178,353 @@ class SettingsPage extends StatelessWidget {
     );
   },
 );
+  }
+
+  Column buildSettingsContent(bool userNotAnonymous, BuildContext context,
+      AuthBloc authBloc, SettingsBloc bloc, SettingsState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (userNotAnonymous == false)
+              Padding(
+                padding: EdgeInsets.all(AppSpacing.small12.value),
+                child: CustomAlertWidget(
+                  customAlertType: CustomAlertType.warning,
+                  customAlertThemeType: CustomAlertThemeType.accent,
+                  title:
+                      "${appLocalization.translate("createAnAccountToAccessYourDataFromAnyDevice")}",
+                  primaryCta: appLocalization.translate("signUp"),
+                  primaryCtaOnPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          return AlertDialog(
+                            content: SupabaseAuthWidget(
+                                authBloc: authBloc,
+                                isSignIn: false,
+                                emailController: null,
+                                emailFocusNode: null,
+                                passwordController: null,
+                                passwordFocusNode: null,
+                                submitFocusNode: null,
+                                changeAuthModeFocusNode: null,
+                                toggleSignInMode: () {}),
+                          );
+                        });
+                  },
+                ),
+              ),
+            if (userNotAnonymous)
+              Text(
+                appLocalization.translate("email"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium)),
+              ),
+            if (userNotAnonymous)
+              SizedBox(
+                height: AppSpacing.x2Small4.value,
+              ),
+            if (userNotAnonymous)
+              Text(
+                authBloc.state.user?.email ?? "",
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey(context.isDarkMode).shade700,
+                    appFontWeight: AppFontWeight.regular)),
+              ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.xSmall8.value,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appLocalization.translate("language"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium)),
+              ),
+              SizedBox(
+                height: AppSpacing.x2Small4.value,
+              ),
+              CustomDropDownMenu(
+                initialSelection: appLocalization.languagesEnumToLocale(
+                    appLocalization.getCurrentLanguagesEnum(context)!),
+                dropdownMenuEntries: context.supportedLocales
+                    .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                        value: e,
+                        label: appLocalization.translate(e.languageCode)))
+                    .toList(),
+                onSelected: (selected) {
+                  bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
+                      locale: selected, context: context)));
+                },
+                isDarkMode: (context.isDarkMode),
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: AppColors.grey(context.isDarkMode).shade900,
+                      appFontWeight: AppFontWeight.regular)),
+                  hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: AppColors.error(context.isDarkMode).shade900,
+                      appFontWeight: AppFontWeight.regular)),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: AppColors.grey(context.isDarkMode).shade300)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (false)
+          Padding(
+            padding: EdgeInsets.only(
+              top: AppSpacing.xSmall8.value,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  appLocalization.translate("theme"),
+                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: AppColors.grey(context.isDarkMode).shade900,
+                      appFontWeight: AppFontWeight.medium)),
+                ),
+                SizedBox(
+                  height: AppSpacing.x2Small4.value,
+                ),
+                CustomDropDownMenu(
+                  initialSelection: state.themeMode,
+                  dropdownMenuEntries: ThemeMode.values
+                      .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                          value: e, label: appLocalization.translate(e.name)))
+                      .toList(),
+                  onSelected: (selected) {
+                    bloc.add(ChangeThemeEvent(selected));
+                  },
+                  isDarkMode: (context.isDarkMode),
+                ),
+              ],
+            ),
+          ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.medium16.value,
+          ),
+          child: CustomButton.noIcon(
+            label: appLocalization.translate("requestFeature"),
+            onPressed: () {
+              showRequestFeatureDialog(context);
+            },
+            type: CustomButtonType.greyTextLabel,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.medium16.value,
+          ),
+          child: CustomButton.noIcon(
+            label: appLocalization.translate("reportIssue"),
+            onPressed: () {
+              showReportIssueDialog(context);
+            },
+            type: CustomButtonType.greyTextLabel,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.medium16.value,
+          ),
+          child: CustomButton.noIcon(
+            label: appLocalization.translate("signOut"),
+            onPressed: () {
+              showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      loading: false,
+                      actions: [
+                        CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("signOut"),
+                            onPressed: () {
+                              authBloc.add(
+                                  SignOutEvent(authBloc.state.accessToken));
+                            },
+                            type: CustomButtonType.destructiveFilledLabel),
+                      ],
+                      content:
+                          Text(appLocalization.translate("areYouSureSignOut")),
+                    );
+                  });
+            },
+            type: CustomButtonType.greyTextLabel,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.xSmall8.value,
+          ),
+          child: CustomButton.noIcon(
+            label: appLocalization.translate("deleteAccount"),
+            onPressed: () {
+              showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      loading: false,
+                      actions: [
+                        CustomButton.noIcon(
+                            type: CustomButtonType.greyTextLabel,
+                            label: appLocalization.translate("cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        CustomButton.noIcon(
+                            label: appLocalization.translate("deleteAccount"),
+                            onPressed: () {
+                              authBloc.add(DeleteAccount(
+                                  DeleteAccountParams(authBloc.state.user!)));
+                              Navigator.pop(context);
+                            },
+                            type: CustomButtonType.destructiveFilledLabel),
+                      ],
+                      content: Text(appLocalization
+                          .translate("areYouSureDeleteYourAccount")),
+                    );
+                  });
+            },
+            type: CustomButtonType.destructiveTextLabel,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column buildSettingsFooter(BuildContext context, AuthBloc authBloc) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                children: [
+                  CustomButton.noIcon(
+                    label: appLocalization.translate("termsOfUse"),
+                    onPressed: () {
+                      launchWithURL(
+                          url:
+                              "https://timeblocking.web.app/${TermsConditionsPage.routeName}");
+                    },
+                    type: CustomButtonType.greyTextLabel,
+                  ),
+                  CustomButton.noIcon(
+                    label: appLocalization.translate("privacyPolicy"),
+                    onPressed: () {
+                      launchWithURL(
+                          url:
+                              "https://timeblocking.web.app/${PrivacyPolicyPage.routeName}");
+                    },
+                    type: CustomButtonType.greyTextLabel,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      child: Image.asset(
+                        AppAssets.github,
+                        width: 24,
+                        height: 24,
+                      ),
+                      onTap: () =>
+                          launchWithURL(url: "https://github.com/laila-nabil/"),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      child: Image.asset(
+                        AppAssets.twitter,
+                        width: 24,
+                        height: 24,
+                      ),
+                      onTap: () => launchWithURL(
+                          url: "https://twitter.com/laila_nabil_"),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 24, left: 24, bottom: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                          textScaler: MediaQuery.textScalerOf(context),
+                          text: TextSpan(
+                            text: appLocalization.translate("madeWithLoveBy") +
+                                " ",
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                appFontSize: AppFontSize.paragraphX2Small,
+                                color: AppColors.grey(context.isDarkMode),
+                                appFontWeight: AppFontWeight.thin)),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: appLocalization.translate("lailaNabil"),
+                                  style: TextStyle(
+                                      fontWeight: AppFontWeight.bold.value,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: new TapGestureRecognizer()
+                                    ..onTap = () => launchWithURL(
+                                        url: "https://bento.me/lailanabil")),
+                              TextSpan(
+                                  text: " " +
+                                      appLocalization
+                                          .translate("inCairoEgypt")),
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
