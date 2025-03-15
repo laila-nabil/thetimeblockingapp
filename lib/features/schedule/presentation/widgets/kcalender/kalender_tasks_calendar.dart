@@ -25,6 +25,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../bloc/schedule_bloc.dart';
 import '../task_widget_in_calendar.dart';
@@ -50,7 +51,9 @@ class KalendarTasksCalendar extends StatelessWidget {
   final int? selectedWorkspaceId;
   final int currentConfigurationIndex;
 
-  static List<ViewConfiguration> viewConfigurations(bool isSmallScreen) => [
+  static List<ViewConfiguration> viewConfigurations(bool isSmallScreen) {
+    bool isMobile = isMobileDevice();
+    return [
         MultiDayViewConfiguration.singleDay(
           name: appLocalization.translate("day"),
           // verticalStepDuration: serviceLocator<AppConfig>().defaultTaskDuration,
@@ -58,15 +61,22 @@ class KalendarTasksCalendar extends StatelessWidget {
           initialHeightPerMinute: 1,
           displayRange:  displayRange()
         ),
+        if (isMobile == false)
         MultiDayViewConfiguration.custom(
-          name: appLocalization.translate("2Days"),
-          numberOfDays: 2,
-          displayRange:  displayRange()
-          // verticalStepDuration:
-          // serviceLocator<AppConfig>().defaultTaskDuration,
-          // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
-          // showWeekNumber: false,
-        ),
+            name: appLocalization.translate("2Days"),
+            numberOfDays: 2,
+            displayRange: displayRange()
+            // verticalStepDuration:
+            // serviceLocator<AppConfig>().defaultTaskDuration,
+            // newEventDuration: serviceLocator<AppConfig>().defaultTaskDuration,
+            // showWeekNumber: false,
+            )
+      else
+        MultiDayViewConfiguration.freeScroll(
+            name: appLocalization.translate("2Days"),
+            displayRange: displayRange(),
+            numberOfDays: 2),
+      if (isMobile == false || isSmallScreen == false)
         MultiDayViewConfiguration.week(
           name: appLocalization.translate("week"),
           firstDayOfWeek: AppConfig.firstDayOfWeek,
@@ -97,6 +107,7 @@ class KalendarTasksCalendar extends StatelessWidget {
           displayRange: displayRange(),
         ),
       ];
+  }
 
   static DateTimeRange displayRange() {
     var now = DateTime.now();
