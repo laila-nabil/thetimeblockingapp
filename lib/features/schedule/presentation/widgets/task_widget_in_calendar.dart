@@ -336,7 +336,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
         showSmallDesign: context.showSmallDesign);
   }
 
-  DecoratedBox buildTaskWidgetInKalendar(
+  Widget buildTaskWidgetInKalendar(
       {required BuildContext context,
       required CalendarViewType calendarViewType,
       required bool isListInsideFolder,
@@ -410,88 +410,92 @@ class TaskWidgetInCalendar extends StatelessWidget {
           )
       ],
     );
-    return DecoratedBox(
+    return Container(
+      margin: EdgeInsetsDirectional.only(
+        start: 1,
+        end: calendarViewType == CalendarViewType.month  ? 0 : 15
+      ),
+      padding: EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: taskLocation == TaskLocation.header ? 0 : 4),
       decoration: BoxDecoration(
         color: _color(task.color ?? Colors.blue).withOpacity(0.2),
         borderRadius: BorderRadius.circular(8),
-        border: true
-            ? Border.all(color: _color(task.color ?? Colors.blue), width: 1)
-            : null,
-      ),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: taskLocation == TaskLocation.header ? 0 : 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (showList(calendarViewType))
-              Padding(
-                padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: RichText(
-                        textScaler: MediaQuery.textScalerOf(context),
-                        text: TextSpan(
-                          children: [
-                            if (isListInsideFolder)
-                            TextSpan(
-                              text:folderName ?? "",
-
-                              ),
-                            if (isListInsideFolder)
-                              const TextSpan(text: ' / '),
-                            TextSpan(
-                              text: listName ?? '',
-                              style: taskLocationTextStyle,
-                            )
-                          ],
-                          style: taskLocationTextStyle,
-                        ),
-                        maxLines: 2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            calendarViewType == CalendarViewType.scheduleDynamicTaskHeight
-                ? mainContent
-                : Expanded(
-                    child: mainContent,
-                  ),
-            if (showTime(calendarViewType) &&
-                task.startDate != null &&
-                task.dueDate != null)
-              Text(
-                "🕑 ${extensions.DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false)}"
-                " => ${extensions.DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false)}",
-                style: dateTextStyle,
-              )
-            else if (showTime(calendarViewType))
-              Text("", style: dateTextStyle),
-            if (showTags(calendarViewType) && task.tags.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: AppSpacing.x2Small4.value,
-                  runSpacing: AppSpacing.x2Small4.value,
-                  direction: Axis.horizontal,
-                  verticalDirection: VerticalDirection.down,
-                  children: task.tags
-                      .map((e) =>
-                          TagChip(tagName: e.name ?? "", color: e.getColor))
-                      .toList(),
-                ),
-              )
-            else if (showTags(calendarViewType))
-              Padding(
-                padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
-                child: Text(''),
-              )
-          ],
+        border: BorderDirectional(
+          start: BorderSide(
+              color: _color(task.priority?.getColor ?? task.color),
+              width: 5),
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (showList(calendarViewType))
+            Padding(
+              padding: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: RichText(
+                      textScaler: MediaQuery.textScalerOf(context),
+                      text: TextSpan(
+                        children: [
+                          if (isListInsideFolder)
+                          TextSpan(
+                            text:folderName ?? "",
+
+                            ),
+                          if (isListInsideFolder)
+                            const TextSpan(text: ' / '),
+                          TextSpan(
+                            text: listName ?? '',
+                            style: taskLocationTextStyle,
+                          )
+                        ],
+                        style: taskLocationTextStyle,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          calendarViewType == CalendarViewType.scheduleDynamicTaskHeight
+              ? mainContent
+              : Expanded(
+                  child: mainContent,
+                ),
+          if (showTime(calendarViewType) &&
+              task.startDate != null &&
+              task.dueDate != null)
+            Text(
+              "🕑 ${extensions.DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false)}"
+              " => ${extensions.DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false)}",
+              style: dateTextStyle,
+            )
+          else if (showTime(calendarViewType))
+            Text("", style: dateTextStyle),
+          if (showTags(calendarViewType) && task.tags.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                spacing: AppSpacing.x2Small4.value,
+                runSpacing: AppSpacing.x2Small4.value,
+                direction: Axis.horizontal,
+                verticalDirection: VerticalDirection.down,
+                children: task.tags
+                    .map((e) =>
+                        TagChip(tagName: e.name ?? "", color: e.getColor))
+                    .toList(),
+              ),
+            )
+          else if (showTags(calendarViewType))
+            Padding(
+              padding: EdgeInsets.only(top: AppSpacing.xSmall8.value),
+              child: Text(''),
+            )
+        ],
       ),
     );
   }
