@@ -28,7 +28,7 @@ import '../../../../../core/resources/app_colors.dart';
 import '../../../../tasks/domain/use_cases/delete_task_use_case.dart';
 import '../../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import '../../bloc/schedule_bloc.dart';
-import '../../../../task_popup/presentation/views/task_popup.dart';
+import '../../../../task_view/presentation/views/task_view.dart';
 
 
 class SyncfusionTasksCalendar extends StatelessWidget {
@@ -254,7 +254,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
         final task = calendarTapDetails.appointments?.first as Task;
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams.openNotAllDayTask(
+            taskPopupParams: TaskViewParams.openNotAllDayTask(
                 task: task,
                 onSave: (params) {
                   scheduleBloc.add(UpdateTaskEvent(params: params));
@@ -280,7 +280,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
           calendarTapDetails.appointments == null) {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams.notAllDayTask(
+            taskPopupParams: TaskViewParams.notAllDayTask(
                 start: calendarTapDetails.date,
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(
@@ -295,7 +295,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
           calendarTapDetails.appointments == null) {
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams.allDayTask(
+            taskPopupParams: TaskViewParams.allDayTask(
                 start: calendarTapDetails.date,
                 onSave: (params) {
                   scheduleBloc.add(CreateTaskEvent(

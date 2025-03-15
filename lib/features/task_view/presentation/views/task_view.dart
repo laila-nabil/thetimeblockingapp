@@ -12,6 +12,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/functions.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
@@ -34,14 +35,12 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/presentation/widgets/tag_chip.dart';
 
-///TODO task view as full page instead of popup
-
 ///TODO Z smart auto complete like Notion's / to select a list,tags,due date and start date
 ///TODO once start date is selected when creating task from floating button,end date is start + defaultTaskDuration
 ///TODO Z input task duration
 
 // ignore: must_be_immutable
-class TaskPopupParams extends Equatable {
+class TaskViewParams extends Equatable {
   Task? task;
   final void Function(CreateTaskParams params) onSave;
   void Function()? onDuplicate;
@@ -59,7 +58,7 @@ class TaskPopupParams extends Equatable {
   TaskStatus? status;
   TaskPriority? priority;
 
-  TaskPopupParams.openNotAllDayTask({
+  TaskViewParams.openNotAllDayTask({
     required this.task,
     required this.onSave,
     required this.onDelete,
@@ -79,7 +78,7 @@ class TaskPopupParams extends Equatable {
     workspace = task?.workspace;
   }
 
-  TaskPopupParams.notAllDayTask({
+  TaskViewParams.notAllDayTask({
     this.task,
     required this.onSave,
     this.onDelete,
@@ -94,7 +93,7 @@ class TaskPopupParams extends Equatable {
     list = null;
   }
 
-  TaskPopupParams.allDayTask({
+  TaskViewParams.allDayTask({
     this.task,
     required this.onSave,
     this.onDelete,
@@ -110,7 +109,7 @@ class TaskPopupParams extends Equatable {
     list = null;
   }
 
-  TaskPopupParams.addToList({
+  TaskViewParams.addToList({
     required this.onSave,
     this.onDelete,
     required this.list,
@@ -124,7 +123,7 @@ class TaskPopupParams extends Equatable {
     start = null;
   }
 
-  TaskPopupParams.open({
+  TaskViewParams.open({
     required this.task,
     required this.onSave,
     required this.onDelete,
@@ -142,7 +141,7 @@ class TaskPopupParams extends Equatable {
     status = task?.status;
   }
 
-  TaskPopupParams.addToTag({
+  TaskViewParams.addToTag({
     required this.onSave,
     this.onDelete,
     required this.tag,
@@ -155,7 +154,7 @@ class TaskPopupParams extends Equatable {
     list = null;
   }
 
-  TaskPopupParams.openFromTag({
+  TaskViewParams.openFromTag({
     required this.task,
     required this.onSave,
     required this.onDelete,
@@ -169,7 +168,7 @@ class TaskPopupParams extends Equatable {
     list = task?.list;
   }
 
-  TaskPopupParams._({this.task,
+  TaskViewParams._({this.task,
     required this.onSave,
     this.onDelete,
     required this.bloc,
@@ -179,7 +178,7 @@ class TaskPopupParams extends Equatable {
     this.startDate,
     this.dueDate});
 
-  TaskPopupParams copyWith({
+  TaskViewParams copyWith({
     Task? task,
     void Function(CreateTaskParams params)? onSave,
     void Function(DeleteTaskParams params)? onDelete,
@@ -189,7 +188,7 @@ class TaskPopupParams extends Equatable {
     DateTime? dueDate,
     TasksList? list,
   }) {
-    return TaskPopupParams._(
+    return TaskViewParams._(
       task: task ?? this.task,
       onSave: onSave ?? this.onSave,
       onDelete: onDelete ?? this.onDelete,
@@ -219,27 +218,42 @@ class TaskPopupParams extends Equatable {
 
 Future showTaskPopup({
   required BuildContext context,
-  required TaskPopupParams taskPopupParams,
+  required TaskViewParams taskViewParams,
 }) {
+  if(isTaskViewBottomSheet(context)){
+    return showModalBottomSheet(
+        context: context,
+        useSafeArea: true,
+        elevation: 0,
+        isScrollControlled: true,
+        builder: (ctx) {
+          return TaskView(
+            taskViewParams: taskViewParams,
+          );
+        });
+  }
   return showDialog(
       context: context,
       builder: (ctx) {
-        return TaskPopup(
-          taskPopupParams: taskPopupParams,
+        return TaskView(
+          taskViewParams: taskViewParams,
         );
       });
 }
 
-class TaskPopup extends StatefulWidget {
-  const TaskPopup({super.key, required this.taskPopupParams});
+bool isTaskViewBottomSheet(BuildContext context) =>
+    isMobileDevice() || context.showSmallDesign;
 
-  final TaskPopupParams taskPopupParams;
+class TaskView extends StatefulWidget {
+  const TaskView({super.key, required this.taskViewParams});
+
+  final TaskViewParams taskViewParams;
 
   @override
-  State<TaskPopup> createState() => _TaskPopupState();
+  State<TaskView> createState() => _TaskViewState();
 }
 
-class _TaskPopupState extends State<TaskPopup> {
+class _TaskViewState extends State<TaskView> {
 
   late TextEditingController titleController;
   late FocusNode titleFocusNode;
@@ -323,8 +337,8 @@ class _TaskPopupState extends State<TaskPopup> {
     titleFocusNode = FocusNode();
     descriptionController = TextEditingController();
     descriptionFocusNode = FocusNode();
-    titleController.text = widget.taskPopupParams.task?.title ?? "";
-    descriptionController.text = widget.taskPopupParams.task?.description ?? "";
+    titleController.text = widget.taskViewParams.task?.title ?? "";
+    descriptionController.text = widget.taskViewParams.task?.description ?? "";
     super.initState();
   }
 
@@ -334,31 +348,31 @@ class _TaskPopupState extends State<TaskPopup> {
     final globalState = BlocProvider.of<GlobalBloc>(context).state;
     if(setTaskParams != true){
       printDebug("globalState.selectedWorkspace!.defaultList! ${globalState.selectedWorkspace!.defaultList!}");
-      taskParams = widget.taskPopupParams.task == null
+      taskParams = widget.taskViewParams.task == null
           ? CreateTaskParams.startCreateNewTask(
           defaultList: globalState.selectedWorkspace!.defaultList!,
-          dueDate: TaskDateTime(dateTime: widget.taskPopupParams.dueDate),
-          startDate: TaskDateTime(dateTime: widget.taskPopupParams.start),
+          dueDate: TaskDateTime(dateTime: widget.taskViewParams.dueDate),
+          startDate: TaskDateTime(dateTime: widget.taskViewParams.start),
           workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
               ? globalState
               .selectedWorkspace
               : null,
-          list: widget.taskPopupParams.list,
-          folder: widget.taskPopupParams.folder,
+          list: widget.taskViewParams.list,
+          folder: widget.taskViewParams.folder,
           backendMode: serviceLocator<BackendMode>().mode,
           user: authState.user!,
-          tags: widget.taskPopupParams.tag != null
-              ? [widget.taskPopupParams.tag!]
+          tags: widget.taskViewParams.tag != null
+              ? [widget.taskViewParams.tag!]
               : [])
           : CreateTaskParams.startUpdateTask(
         defaultList: globalState.selectedWorkspace!.defaultList!,
-        task: widget.taskPopupParams.task!,
+        task: widget.taskViewParams.task!,
         backendMode: serviceLocator<BackendMode>().mode,
         user: authState.user!,
         workspace: serviceLocator<AppConfig>().isWorkspaceAppWide
             ? globalState.selectedWorkspace
-            : widget.taskPopupParams.task!.workspace,
-        tags: widget.taskPopupParams.task!.tags,
+            : widget.taskViewParams.task!.workspace,
+        tags: widget.taskViewParams.task!.tags,
       );
       setTaskParams = true;
     }
@@ -378,32 +392,32 @@ class _TaskPopupState extends State<TaskPopup> {
   Widget build(BuildContext context) {
     final radius = AppBorderRadius.xLarge.value;
     final borderRadius = BorderRadius.circular(radius);
-    var task = widget.taskPopupParams.task;
+    var task = widget.taskViewParams.task;
     final globalState = BlocProvider
         .of<GlobalBloc>(context)
         .state;
-    printDebug("taskPopupParams ${widget.taskPopupParams}");
+    printDebug("taskViewParams ${widget.taskViewParams}");
     final authState = BlocProvider
         .of<AuthBloc>(context)
         .state;
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(
-          value: widget.taskPopupParams.bloc,
+          value: widget.taskViewParams.bloc,
         ),
       ],
       child: BlocBuilder(
-          bloc: widget.taskPopupParams.bloc,
+          bloc: widget.taskViewParams.bloc,
           builder: (context, blocState) {
             printDebug("taskParams $taskParams");
             final firstDate =
             DateTime.now().subtract(const Duration(days: 1000));
             final lastDate = DateTime.now().add(const Duration(days: 1000));
             final initialDueDate =
-                task?.dueDate ?? widget.taskPopupParams.dueDate;
+                task?.dueDate ?? widget.taskViewParams.dueDate;
             final initialStartDate =
-                task?.startDate ?? widget.taskPopupParams.start;
-            final loading = widget.taskPopupParams.isLoading(blocState);
+                task?.startDate ?? widget.taskViewParams.start;
+            final loading = widget.taskViewParams.isLoading(blocState);
             final spacerV = SizedBox(
               height: AppSpacing.medium16.value,
             );
@@ -425,10 +439,17 @@ class _TaskPopupState extends State<TaskPopup> {
                 .firstOrNull;
             return CustomAlertDialog(
                 loading: loading,
-                shape: RoundedRectangleBorder(borderRadius: borderRadius),
+                elevation: isTaskViewBottomSheet(context) ? 0 : null,
+                shape: isTaskViewBottomSheet(context)
+                    ? RoundedRectangleBorder(side: BorderSide.none)
+                    : RoundedRectangleBorder(borderRadius: borderRadius),
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.medium16.value,
-                    vertical: AppSpacing.small12.value),
+                    horizontal: isTaskViewBottomSheet(context)
+                        ? 0
+                        : AppSpacing.medium16.value,
+                    vertical:isTaskViewBottomSheet(context)
+                        ? 0
+                        : AppSpacing.small12.value),
                 actionsOverflowAlignment: OverflowBarAlignment.start,
                 actionsPadding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.medium16.value,
@@ -441,7 +462,7 @@ class _TaskPopupState extends State<TaskPopup> {
                   if (task != null)
                     CustomButton.iconOnly(
                       icon: AppIcons.bin,
-                      onPressed: widget.taskPopupParams.onDelete == null
+                      onPressed: widget.taskViewParams.onDelete == null
                           ? null
                           : () {
                         Navigator.pop(context);
@@ -455,9 +476,9 @@ class _TaskPopupState extends State<TaskPopup> {
                                       label: appLocalization
                                           .translate("delete"),
                                       onPressed: () {
-                                        widget.taskPopupParams.onDelete!(
+                                        widget.taskViewParams.onDelete!(
                                             DeleteTaskParams(
-                                              task: widget.taskPopupParams
+                                              task: widget.taskViewParams
                                                   .task!,
                                             ));
                                         Navigator.pop(ctx);
@@ -475,7 +496,7 @@ class _TaskPopupState extends State<TaskPopup> {
                                 content: Text(
                                     "${appLocalization.translate(
                                         "areYouSureDelete")} ${widget
-                                        .taskPopupParams.task?.title}?"),
+                                        .taskViewParams.task?.title}?"),
                               );
                             });
                       },
@@ -486,11 +507,11 @@ class _TaskPopupState extends State<TaskPopup> {
                       height: 48,
                     ),
                   if (task != null &&
-                      widget.taskPopupParams.onDuplicate != null)
+                      widget.taskViewParams.onDuplicate != null)
                     CustomButton.iconOnly(
                       icon: AppIcons.copy,
                       onPressed: () {
-                        widget.taskPopupParams.onDuplicate!();
+                        widget.taskViewParams.onDuplicate!();
                       },
                       type: CustomButtonType.primaryTextIcon,
                       size: CustomButtonSize.large,
@@ -503,12 +524,12 @@ class _TaskPopupState extends State<TaskPopup> {
                       onPressed: () {
                         printDebug("onsave");
                         printDebug("taskParams $taskParams");
-                        printDebug("taskPopupParams ${widget.taskPopupParams}");
+                        printDebug("taskViewParams ${widget.taskViewParams}");
                         printDebug("loading $loading");
                         printDebug("readyToSubmit $readyToSubmit");
                         if (loading != true && readyToSubmit) {
-                          widget.taskPopupParams.onSave(onSaveTaskParams(
-                            widget.taskPopupParams.dueDate,
+                          widget.taskViewParams.onSave(onSaveTaskParams(
+                            widget.taskViewParams.dueDate,
                             BlocProvider
                                 .of<AuthBloc>(context)
                                 .state

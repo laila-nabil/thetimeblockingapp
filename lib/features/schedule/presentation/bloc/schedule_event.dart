@@ -58,7 +58,7 @@ class DeleteTaskEvent extends ScheduleEvent {
 
 class ShowTaskPopupEvent extends ScheduleEvent {
   final bool showTaskPopup;
-  final TaskPopupParams? taskPopupParams;
+  final TaskViewParams? taskPopupParams;
 
   const ShowTaskPopupEvent(
       {required this.showTaskPopup, this.taskPopupParams});

@@ -9,7 +9,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameter
 
 import '../../../../common/entities/user.dart';
 
-import '../views/task_popup.dart';
+import '../views/task_view.dart';
 
 part 'task_pop_up_event.dart';
 
@@ -21,7 +21,7 @@ class TaskPopUpBloc extends Bloc<TaskPopUpEvent, TaskPopUpState> {
   final TextEditingController descriptionController = TextEditingController();
   final FocusNode descriptionFocusNode = FocusNode();
 
-  final TaskPopupParams taskPopupParams;
+  final TaskViewParams taskPopupParams;
 
   TaskPopUpBloc({required this.taskPopupParams})
       : super(const TaskPopUpState()) {

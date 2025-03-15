@@ -7,7 +7,7 @@ import 'package:thetimeblockingapp/core/injection_container.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
-import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
+import 'package:thetimeblockingapp/features/task_view/presentation/views/task_view.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
@@ -74,7 +74,7 @@ class ListPage extends StatelessWidget {
                         false) {
                       showTaskPopup(
                           context: context,
-                          taskPopupParams: TaskPopupParams.addToList(
+                          taskViewParams: TaskViewParams.addToList(
                               list: state.currentList,
                               folder: globalBloc
                                   .state.selectedWorkspace?.folders

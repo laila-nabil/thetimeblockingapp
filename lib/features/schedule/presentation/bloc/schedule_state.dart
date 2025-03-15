@@ -24,7 +24,7 @@ class ScheduleState extends Equatable {
   final DateTime tasksDueDateLatestDate;
   final String? getTasksForSingleWorkspaceScheduleEventId;
   final bool? showTaskPopup;
-  final TaskPopupParams? taskPopupParams;
+  final TaskViewParams? taskPopupParams;
   final int? kalenderViewIndex;
   const ScheduleState._({
     required this.persistingScheduleStates,
@@ -86,7 +86,7 @@ class ScheduleState extends Equatable {
     DateTime? tasksDueDateLatestDate,
     String? getTasksForSingleWorkspaceScheduleEventId,
     bool? showTaskPopup,
-    TaskPopupParams? taskPopupParams,
+    TaskViewParams? taskPopupParams,
     int? kalenderViewIndex
   }) {
     return ScheduleState._(

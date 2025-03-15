@@ -10,7 +10,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_tas
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/update_task_use_case.dart';
 
 
-import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../task_view/presentation/views/task_view.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as syncfusion;

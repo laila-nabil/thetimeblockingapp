@@ -23,7 +23,7 @@ import '../../../../core/resources/app_design.dart';
 import '../../../../core/resources/app_icons.dart';
 import '../../../../core/resources/text_styles.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
-import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../task_view/presentation/views/task_view.dart';
 import '../../../tasks/domain/entities/task_parameters.dart';
 import '../../../tasks/domain/use_cases/delete_tag_use_case.dart';
 import '../../../tasks/domain/use_cases/delete_task_use_case.dart';
@@ -115,7 +115,7 @@ class TagPage extends StatelessWidget {
                     if(isLoading(state: state,globalBloc: globalBloc,authBloc: authBloc) == false){
                       showTaskPopup(
                           context: context,
-                          taskPopupParams: TaskPopupParams.addToTag(
+                          taskViewParams: TaskViewParams.addToTag(
                               tag: state.navigateTag,
                               bloc: tagsPageBloc,
                               onSave: (params) {

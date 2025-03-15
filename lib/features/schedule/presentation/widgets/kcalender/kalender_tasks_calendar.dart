@@ -19,7 +19,7 @@ import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dar
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/calendar_navigation_header.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/widgets/kcalender/widgets/resize_handler.dart';
-import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
+import 'package:thetimeblockingapp/features/task_view/presentation/views/task_view.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_date_time.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/entities/task_parameters.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/delete_task_use_case.dart';
@@ -144,7 +144,7 @@ class KalendarTasksCalendar extends StatelessWidget {
       var globalBloc = BlocProvider.of<GlobalBloc>(context);
       scheduleBloc.add(ShowTaskPopupEvent(
           showTaskPopup: true,
-          taskPopupParams: TaskPopupParams.notAllDayTask(
+          taskPopupParams: TaskViewParams.notAllDayTask(
               start: event.start,
               end: event.end,
               onSave: (params) {
@@ -181,7 +181,7 @@ class KalendarTasksCalendar extends StatelessWidget {
         var globalBloc = BlocProvider.of<GlobalBloc>(context);
         scheduleBloc.add(ShowTaskPopupEvent(
             showTaskPopup: true,
-            taskPopupParams: TaskPopupParams.openNotAllDayTask(
+            taskPopupParams: TaskViewParams.openNotAllDayTask(
               task: event.data,
               onSave: (params) {
                 scheduleBloc.add(UpdateTaskEvent(params: params));

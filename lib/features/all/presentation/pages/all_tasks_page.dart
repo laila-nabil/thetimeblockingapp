@@ -22,7 +22,7 @@ import '../../../../core/localization/localization.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../global/presentation/bloc/global_bloc.dart';
-import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../task_view/presentation/views/task_view.dart';
 
 import '../../../tasks/presentation/widgets/toggleable_section.dart';
 
@@ -52,7 +52,7 @@ class AllTasksPage extends StatelessWidget {
                           authBloc: BlocProvider.of<AuthBloc>(context)) == false){
                       showTaskPopup(
                           context: context,
-                          taskPopupParams: TaskPopupParams.notAllDayTask(
+                          taskViewParams: TaskViewParams.notAllDayTask(
                             bloc: allTasksBloc,
                             onSave: (params) {
                               allTasksBloc.add(CreateTaskEvent(

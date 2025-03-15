@@ -29,8 +29,8 @@ import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
 import 'package:thetimeblockingapp/features/tags/presentation/bloc/tags_page_bloc.dart';
-import 'package:thetimeblockingapp/features/task_popup/presentation/bloc/task_pop_up_bloc.dart';
-import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
+import 'package:thetimeblockingapp/features/task_view/presentation/bloc/task_pop_up_bloc.dart';
+import 'package:thetimeblockingapp/features/task_view/presentation/views/task_view.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/repositories/tasks_repo.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/add_tags_to_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder_in_workspace_use_case.dart';
@@ -141,8 +141,8 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
         serviceLocator(),
       ));
-  serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskPopupParams, dynamic>(
-      (TaskPopupParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
+  serviceLocator.registerFactoryParam<TaskPopUpBloc, TaskViewParams, dynamic>(
+      (TaskViewParams s, dynamic i) => TaskPopUpBloc(taskPopupParams: s));
 
   serviceLocator.registerFactory(() => ListsPageBloc(
         serviceLocator(),

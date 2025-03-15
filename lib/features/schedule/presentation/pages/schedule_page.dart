@@ -11,7 +11,7 @@ import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspac
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
-import 'package:thetimeblockingapp/features/task_popup/presentation/views/task_popup.dart';
+import 'package:thetimeblockingapp/features/task_view/presentation/views/task_view.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/get_tasks_in_single_workspace_use_case.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
@@ -49,7 +49,7 @@ class SchedulePage extends StatelessWidget {
                   state.showTaskPopup == true) {
                 showTaskPopup(
                   context: context,
-                  taskPopupParams: state.taskPopupParams!,
+                  taskViewParams: state.taskPopupParams!,
                 );
                 scheduleBloc
                     .add(const ShowTaskPopupEvent(showTaskPopup: false));
@@ -110,7 +110,7 @@ class SchedulePage extends StatelessWidget {
                   onPressed: () {
                     scheduleBloc.add(ShowTaskPopupEvent(
                         showTaskPopup: true,
-                        taskPopupParams: TaskPopupParams.notAllDayTask(
+                        taskPopupParams: TaskViewParams.notAllDayTask(
                           onSave: (params) {
                             scheduleBloc.add(CreateTaskEvent(
                                 params: params,

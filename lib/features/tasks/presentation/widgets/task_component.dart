@@ -18,7 +18,7 @@ import '../../../../common/widgets/custom_alert_dialog.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../core/localization/localization.dart';
-import '../../../task_popup/presentation/views/task_popup.dart';
+import '../../../task_view/presentation/views/task_view.dart';
 import '../../domain/entities/task_parameters.dart';
 import '../../domain/use_cases/delete_task_use_case.dart';
 
@@ -90,7 +90,7 @@ class TaskComponent extends StatelessWidget {
         onTap: () {
           showTaskPopup(
               context: context,
-              taskPopupParams: TaskPopupParams.open(
+              taskViewParams: TaskViewParams.open(
                   task: task,
                   bloc: bloc,
                   onDelete: onDelete,
