@@ -6,6 +6,7 @@ import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/entities/task_folder_list.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -330,6 +331,7 @@ class _TaskViewState extends State<TaskView> {
       taskParams.task != null || taskParams.workspace != null;
 
   late bool setTaskParams = false;
+  bool folderAndListDropDown = true;
 
   @override
   void initState() {
@@ -548,7 +550,36 @@ class _TaskViewState extends State<TaskView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Wrap(
+                            if(folderAndListDropDown)
+                              CustomDropDown<TaskFolderList?>(
+                                isDense: true,
+                                style: taskLocationTextStyle,
+                                hint: Text(
+                                    appLocalization.translate("list")),
+                                value: taskParams
+                                    .getAvailableFoldersLists()
+                                    .where((fl) => fl.isSameId(
+                                        folderId: taskParams.folder?.id ?? "",
+                                        listId: taskParams.list?.id ?? ""))
+                                    .firstOrNull,
+                                onChanged: (fl) {
+                                  setState(() {
+                                    taskParams = taskParams.copyWith(
+                                    folder: fl?.folder,
+                                    list: fl?.list
+                                    );
+                                  });
+                                },
+                                items: taskParams.getAvailableFoldersLists()
+                                    .map((e) =>
+                                    DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e.name ?? "")))
+                                    .toList() ??
+                                    [],
+                                isDarkMode: (context.isDarkMode),
+                              )
+                              else Wrap(
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/entities/tag.dart';
+import 'package:thetimeblockingapp/common/entities/task_folder_list.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
@@ -63,6 +64,19 @@ class CreateTaskParams extends Equatable{
       return List.of(workspace?.lists ?? []);
     }
     return <TasksList>[];
+  }
+
+  List<TaskFolderList> getAvailableFoldersLists() {
+    List<TaskFolderList> result = [];
+    workspace?.lists?.forEach((list){
+      result.add(TaskFolderList(folder: null, list: list));
+    });
+    workspace?.folders?.forEach((folder){
+      folder.lists?.forEach((list){
+        result.add(TaskFolderList(folder: folder, list: list));
+      });
+    });
+    return result;
   }
 
   factory CreateTaskParams.fromTask(Task task,BackendMode backendMode, User user,
