@@ -199,7 +199,9 @@ class _TaskCalendarWidget extends StatelessWidget {
       (calendarView != CalendarView.schedule && bounds.height > 70) ? 2 : 1;
 
   bool showCheckIcon(CalendarView? calendarView) =>
-      calendarView == CalendarView.schedule || bounds.width > 400;
+      calendarView == CalendarView.week ||
+      calendarView == CalendarView.schedule ||
+      bounds.width > 400;
 
   bool isDismissible(CalendarView? calendarView) =>
       calendarView == CalendarView.schedule ||
