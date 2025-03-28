@@ -13,6 +13,7 @@ import '../../../../common/enums/backend_mode.dart';
 import '../../../../common/widgets/add_item_floating_action_button.dart';
 import '../../../../common/widgets/custom_pop_up_menu.dart';
 import '../../../../common/widgets/custom_text_input_field.dart';
+import '../../../../common/widgets/empty_list_widget.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/injection_container.dart';
@@ -224,6 +225,8 @@ class TagPage extends StatelessWidget {
                                       .map<Widget>((e) => buildTaskWidget(
                                           e, context, tagsPageBloc,authBloc,globalBloc))
                                       .toList()),
+                            if (state.currentTagTasksResult?.isNotEmpty != true)
+                              EmptyListWidget()
                           ],
                         ),
                       )

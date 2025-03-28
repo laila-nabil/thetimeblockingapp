@@ -121,5 +121,7 @@
   "month": "Month",
   "Inbox": "Inbox",
   "Brain Dump": "Brain dump",
-  "More": "More"
+  "More": "More",
+  "noTasksMessage" : "No tasks yet. Add a new task to get started",
+  "noTagsMessage" : "Your tags list is empty. Stay productive by using tags"
 }

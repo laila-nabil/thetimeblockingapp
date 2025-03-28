@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
+import 'package:thetimeblockingapp/common/widgets/empty_tags_list_widget.dart';
 
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
@@ -120,6 +121,8 @@ class TagsPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          if (state.getTagsInSpaceResult?.isNotEmpty != true)
+                            EmptyTagsListWidget(),
                           Expanded(
                             child: SingleChildScrollView(
                                 child: Column(

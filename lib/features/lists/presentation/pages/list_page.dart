@@ -16,6 +16,7 @@ import 'package:thetimeblockingapp/features/tasks/presentation/widgets/task_comp
 import 'package:thetimeblockingapp/features/tasks/presentation/widgets/toggleable_section.dart';
 
 import '../../../../common/widgets/add_item_floating_action_button.dart';
+import '../../../../common/widgets/empty_list_widget.dart';
 import '../../../../common/widgets/responsive/responsive.dart';
 import '../../../../common/widgets/responsive/responsive_scaffold.dart';
 import '../../../../core/localization/localization.dart';
@@ -33,7 +34,8 @@ class ListPage extends StatelessWidget {
       {super.key, required this.list, required this.listsPageBloc});
 
   static const routeName = "/List";
-  static const inboxRouteName = "/inbox";
+  static const
+  inboxRouteName = "/inbox";
   final TasksList list;
   final ListsPageBloc listsPageBloc;
 
@@ -177,6 +179,8 @@ class ListPage extends StatelessWidget {
                                         .map<Widget>((e) => buildTaskWidget(
                                             e, context, listsPageBloc,globalBloc,authBloc))
                                         .toList()),
+                              if (state.currentListTasks?.isNotEmpty != true)
+                                EmptyListWidget()
                             ],
                           ),
                         ),

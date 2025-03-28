@@ -5,9 +5,11 @@ import 'package:logger/logger.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:thetimeblockingapp/common/entities/task.dart';
 import 'package:thetimeblockingapp/common/widgetbook.dart';
+import 'package:thetimeblockingapp/common/widgets/empty_list_widget.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
@@ -177,6 +179,9 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.scheduleGroups.length == 0) {
+      return EmptyListWidget();
+    }
     return ListenableBuilder(
       listenable: widget.eventsController,
       builder: (context, child) {
