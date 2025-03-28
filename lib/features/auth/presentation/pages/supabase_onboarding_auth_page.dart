@@ -183,8 +183,8 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Spacer(
-                                      flex: 86,
+                                    SizedBox(
+                                              height:  AppSpacing.x3Big32.value,
                                     ),
                                     Image.asset(
                                       AppAssets.logo(context.isDarkMode),
@@ -192,28 +192,36 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                       height: 39,
                                       fit: BoxFit.contain,
                                     ),
-                                    const Spacer(
-                                      flex: 34,
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          AppBorderRadius.x3Large.value),
-                                      child: Image.asset(
-                                        AppAssets.onBoarding1mobile,
-                                        width: 246,
-                                        height: 290,
-                                        fit: BoxFit.contain,
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: AppSpacing.xBig24.value,
+                                            ),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(
+                                                  AppBorderRadius.x3Large.value),
+                                              child: Image.asset(
+                                                AppAssets.onBoarding1mobile,
+                                                width: 246,
+                                                height: 290,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: AppSpacing.xBig24.value
+                                            ),
+                                            Text(
+                                                appLocalization.translate(
+                                                    "welcomeTimeblockingapp"),
+                                                style: contentStyleMobile),
+                                            SizedBox(
+                                                height: AppSpacing.x3Big32.value
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const Spacer(
-                                      flex: 66,
-                                    ),
-                                    Text(
-                                        appLocalization.translate(
-                                            "welcomeTimeblockingapp"),
-                                        style: contentStyleMobile),
-                                    const Spacer(
-                                      flex: 88,
                                     ),
                                     Wrap(
                                       spacing: AppSpacing.xSmall8.value,
@@ -282,8 +290,8 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Spacer(
-                                      flex: 105,
+                                    SizedBox(
+                                              height:  105,
                                     ),
                                     Image.asset(
                                       AppAssets.logo(context.isDarkMode),
@@ -291,15 +299,15 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                       height: 39,
                                       fit: BoxFit.contain,
                                     ),
-                                    const Spacer(
-                                      flex: 70,
+                                    SizedBox(
+                                              height:  70,
                                     ),
                                     Text(
                                         appLocalization.translate(
                                             "welcomeTimeblockingapp"),
                                         style: contentStyleDesktop),
-                                    const Spacer(
-                                      flex: 390,
+                                    SizedBox(
+                                              height:  390,
                                     ),
                                     Row(
                                       children: [
@@ -685,7 +693,9 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
 
   Widget agreeOurPrivacyTerms() {
     final linkStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
-        appFontSize: AppFontSize.paragraphXSmall,
+        appFontSize: context.showSmallDesign
+            ? AppFontSize.paragraphX2Small
+            : AppFontSize.paragraphXSmall,
         color: AppColors.primary(context.isDarkMode),
         appFontWeight: AppFontWeight.bold))
         .copyWith(decoration: TextDecoration.underline);
@@ -693,7 +703,9 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         textScaler: MediaQuery.textScalerOf(context),
         text: TextSpan(
             style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                appFontSize: AppFontSize.paragraphXSmall,
+                appFontSize: context.showSmallDesign
+                    ? AppFontSize.paragraphX2Small
+                    : AppFontSize.paragraphXSmall,
                 color: AppColors.grey(context.isDarkMode),
                 appFontWeight: AppFontWeight.regular)),
             text: "${appLocalization.translate("byUsingTheAppAgreeOur")} ",
