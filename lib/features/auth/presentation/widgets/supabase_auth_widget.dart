@@ -99,59 +99,60 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            if(anonymousUserAlreadySignedIn == false)Center(
-              child: Image.asset(
-                AppAssets.logo(context.isDarkMode),
-                width: showSmallDesign ? 180 : 200,
-              ),
-            ),
-            if(anonymousUserAlreadySignedIn == false)SizedBox(
-              height: AppSpacing.large40.value,
-            ),
-            Center(
-              child: Text(
-                widget.isSignIn
-                    ? appLocalization.translate("signIn")
-                    : appLocalization.translate("signUp"),
-                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    color: AppColors.grey(context.isDarkMode).shade900,
-                    appFontWeight: AppFontWeight.medium,
-                    appFontSize: AppFontSize.heading5)),
-              ),
-            ),
-            SizedBox(
-              height: AppSpacing.medium16.value,
-            ),
-        
-            //email
-            Text(
-              appLocalization.translate('email'),
-              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                  color: AppColors.grey(context.isDarkMode).shade900,
-                  appFontWeight: AppFontWeight.medium,
-                  appFontSize: AppFontSize.paragraphMedium)),
-            ),
-            CustomTextInputField(
-              controller: emailController,
-              focusNode: emailFocusNode,
-              hintText: "email@gmail.com",
-            ),
-        
-            SizedBox(
-              height: AppSpacing.xBig24.value,
-            ),
-        
-            //password
-            Text(appLocalization.translate('password'),
-                style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                    color: AppColors.grey(context.isDarkMode).shade900,
-                    appFontWeight: AppFontWeight.medium,
-                    appFontSize: AppFontSize.paragraphMedium))),
-            CustomTextInputField(
-              controller: passwordController,
-              focusNode: passwordFocusNode,
-              hintText: appLocalization.translate("password"),
-              isPassword: true,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    widget.isSignIn
+                        ? appLocalization.translate("signIn")
+                        : appLocalization.translate("signUp"),
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        color: AppColors.grey(context.isDarkMode).shade900,
+                        appFontWeight: AppFontWeight.medium,
+                        appFontSize: AppFontSize.heading5)),
+                  ),
+                ),
+                SizedBox(
+                  height: AppSpacing.medium16.value,
+                ),
+                //email
+                Text(
+                  appLocalization.translate('email'),
+                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      color: AppColors.grey(context.isDarkMode).shade900,
+                      appFontWeight: AppFontWeight.medium,
+                      appFontSize: AppFontSize.paragraphMedium)),
+                ),
+                SizedBox(
+                    height: AppSpacing.x2Small4.value
+                ),
+                CustomTextInputField(
+                  controller: emailController,
+                  focusNode: emailFocusNode,
+                  hintText: "email@gmail.com",
+                ),
+
+                SizedBox(
+                  height: AppSpacing.xBig24.value,
+                ),
+
+                //password
+                Text(appLocalization.translate('password'),
+                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        color: AppColors.grey(context.isDarkMode).shade900,
+                        appFontWeight: AppFontWeight.medium,
+                        appFontSize: AppFontSize.paragraphMedium))),
+                SizedBox(
+                    height: AppSpacing.x2Small4.value
+                ),
+                CustomTextInputField(
+                  controller: passwordController,
+                  focusNode: passwordFocusNode,
+                  hintText: appLocalization.translate("password"),
+                  isPassword: true,
+                ),
+              ],
             ),
             SizedBox(
               height: AppSpacing.x3Big32.value,
