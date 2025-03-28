@@ -83,64 +83,72 @@ class CalendarNavigationHeader extends StatelessWidget {
             vertical: AppSpacing.small12.value,
           ),
           child: isNarrow
-              ? Row(
-                  children: [
-                    navigationRow,
-                    dateAndTodayRow(isScheduleView, context, visibleDateTimeRange, dateFormat),
-                    Spacer(),
-                    DropdownMenu<int>(
-                      width: context.responsiveT<double>(params: ResponsiveTParams<double>(small: 90.0,medium: 140.0)),
-                      initialSelection: currentConfiguration,
-                      textStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                          appFontSize: AppFontSize.paragraphXSmall,
-                          color: AppColors.text(context.isDarkMode),
-                          appFontWeight: AppFontWeight.regular)),
-                      dropdownMenuEntries: [
-                        for (var i = 0; i < KalendarTasksCalendar.viewConfigurations(true).length; i++)
-                          DropdownMenuEntry<int>(
-                              value: i,
-                              label: viewConfigurations.getViewConfiguration(i).name,
-                              labelWidget: Text(
-                                viewConfigurations.getViewConfiguration(i).name,
-                                style: AppTextStyle.getTextStyle(
-                                    AppTextStyleParams(
-                                        appFontSize:
-                                            AppFontSize.paragraphXSmall,
-                                        color:
-                                            AppColors.text(context.isDarkMode),
-                                        appFontWeight: AppFontWeight.regular)),
-                              )),
+              ? Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        navigationRow,
+                        Spacer(),
+                        dateAndTodayRow(isScheduleView, context, visibleDateTimeRange, dateFormat),
                       ],
-                      enableSearch: false,
-                      onSelected: (int? value) {
-                        if (value == null) return;
-                        onViewConfigurationChanged(value);
-                      },
-                      trailingIcon: Transform.translate(
-                          offset: Offset(0, -5),
-                          child: Icon(Icons.arrow_drop_down, size: 20)),
-                      selectedTrailingIcon: Transform.translate(
-                          offset: Offset(0, -5),
-                          child: Icon(Icons.arrow_drop_up, size: 20)),
-                      inputDecorationTheme: InputDecorationTheme(
-                        alignLabelWithHint: true,
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: AppSpacing.small12.value, vertical: 0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              AppBorderRadius.x3Large.value),
-                          borderSide: BorderSide(
-                            color: AppColors.grey(context.isDarkMode)
-                                .withOpacity(0.3),
-                          ),
+                    ),
+                  DropdownMenu<int>(
+                      width: context.responsiveT<double>(
+                          params: ResponsiveTParams<double>(
+                              small: 150.0, medium: 160.0)),
+                      initialSelection: currentConfiguration,
+                    textStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                        appFontSize: AppFontSize.paragraphXSmall,
+                        color: AppColors.text(context.isDarkMode),
+                        appFontWeight: AppFontWeight.regular)),
+                    dropdownMenuEntries: [
+                      for (var i = 0; i < KalendarTasksCalendar.viewConfigurations(true).length; i++)
+                        DropdownMenuEntry<int>(
+                            value: i,
+                            label: viewConfigurations.getViewConfiguration(i).name,
+                            labelWidget: Text(
+                              viewConfigurations.getViewConfiguration(i).name,
+                              style: AppTextStyle.getTextStyle(
+                                  AppTextStyleParams(
+                                      appFontSize:
+                                      AppFontSize.paragraphXSmall,
+                                      color:
+                                      AppColors.text(context.isDarkMode),
+                                      appFontWeight: AppFontWeight.regular)),
+                            )),
+                    ],
+                    enableSearch: false,
+                    onSelected: (int? value) {
+                      if (value == null) return;
+                      onViewConfigurationChanged(value);
+                    },
+                    trailingIcon: Transform.translate(
+                        offset: Offset(0, -5),
+                        child: Icon(Icons.arrow_drop_down, size: 20)),
+                    selectedTrailingIcon: Transform.translate(
+                        offset: Offset(0, -5),
+                        child: Icon(Icons.arrow_drop_up, size: 20)),
+                    inputDecorationTheme: InputDecorationTheme(
+                      alignLabelWithHint: true,
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.small12.value, vertical: 0),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            AppBorderRadius.x3Large.value),
+                        borderSide: BorderSide(
+                          color: AppColors.grey(context.isDarkMode)
+                              .withOpacity(0.3),
                         ),
-                        constraints: BoxConstraints.tight(const
-                        Size.fromHeight(32)),
-                        isDense: true,
                       ),
-                    )
-                  ],
-                )
+                      constraints: BoxConstraints.tight(const
+                      Size.fromHeight(32)),
+                      isDense: true,
+                    ),
+                  )
+                ],
+              )
               : Row(
                   children: [
                     navigationRow,

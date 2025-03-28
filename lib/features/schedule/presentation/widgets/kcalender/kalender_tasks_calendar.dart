@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kalender/kalender.dart';
@@ -513,7 +514,15 @@ class KalendarTasksCalendar extends StatelessWidget {
                         ),
                       ],
                     );
-                  })),
+                  }),
+                  headerComponents: MonthHeaderComponents(
+                          weekDayHeaderBuilder: (date, weekDayHeaderStyle) =>
+                              Text(
+                                DateFormat('EEE',appLocalization
+                                        .getCurrentLocale(context).languageCode)
+                                    .format(date),
+                                style: weekDayHeaderStyle?.textStyle,
+                              ))),
                 ),
                 header: Column(
                   children: [
