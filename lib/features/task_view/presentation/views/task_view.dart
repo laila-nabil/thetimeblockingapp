@@ -502,7 +502,7 @@ class _TaskViewState extends State<TaskView> {
                               );
                             });
                       },
-                      size: CustomButtonSize.large,
+                      size: CustomButtonSize.small,
                       type: CustomButtonType.destructiveTextIcon,
                     ) else
                     SizedBox(
@@ -516,7 +516,7 @@ class _TaskViewState extends State<TaskView> {
                         widget.taskViewParams.onDuplicate!();
                       },
                       type: CustomButtonType.primaryTextIcon,
-                      size: CustomButtonSize.large,
+                      size: CustomButtonSize.small,
                     ),
                   CustomButton.noIcon(
                       type: CustomButtonType.greyTextLabel,
