@@ -426,8 +426,10 @@ class TaskWidgetInCalendar extends StatelessWidget {
     return Container(
       margin: EdgeInsetsDirectional.only(
         start: 1,
-        end: calendarViewType == CalendarViewType.month  ? 0 : 15
-      ),
+          end: calendarViewType == CalendarViewType.month ||
+                  MediaQuery.sizeOf(context).width < 600
+              ? 0
+              : 15),
       padding: EdgeInsets.symmetric(
           horizontal: 8,
           vertical: taskLocation == TaskLocation.header ? 0 : 4),
