@@ -290,8 +290,8 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                              height:  105,
+                                    const Spacer(
+                                      flex: 105,
                                     ),
                                     Image.asset(
                                       AppAssets.logo(context.isDarkMode),
@@ -299,15 +299,15 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                                       height: 39,
                                       fit: BoxFit.contain,
                                     ),
-                                    SizedBox(
-                                              height:  70,
+                                    const Spacer(
+                                      flex: 70,
                                     ),
                                     Text(
                                         appLocalization.translate(
                                             "welcomeTimeblockingapp"),
                                         style: contentStyleDesktop),
-                                    SizedBox(
-                                              height:  390,
+                                    const Spacer(
+                                      flex: 390,
                                     ),
                                     Row(
                                       children: [
