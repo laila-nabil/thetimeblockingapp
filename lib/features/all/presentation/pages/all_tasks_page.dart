@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
+import 'package:thetimeblockingapp/common/widgets/empty_list_widget.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
@@ -156,7 +157,9 @@ class AllTasksPage extends StatelessWidget {
                                         .map((e) => buildTaskWidget(
                                         e, context, allTasksBloc,globalState))
                                         .toList(),
-                                  )
+                                  ),
+                                if (state.allTasksResult?.isNotEmpty != true)
+                                  EmptyListWidget()
                               ],
                             ),
                           )
