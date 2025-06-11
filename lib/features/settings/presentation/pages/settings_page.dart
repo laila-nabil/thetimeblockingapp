@@ -290,38 +290,54 @@ class SettingsPage extends StatelessWidget {
             ],
           ),
         ),
-        if (false)
-          Padding(
-            padding: EdgeInsets.only(
-              top: AppSpacing.xSmall8.value,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  appLocalization.translate("theme"),
-                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.xSmall8.value,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appLocalization.translate("theme"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey(context.isDarkMode).shade900,
+                    appFontWeight: AppFontWeight.medium)),
+              ),
+              SizedBox(
+                height: AppSpacing.x2Small4.value,
+              ),
+              CustomDropDownMenu(
+                initialSelection: state.themeMode,
+                dropdownMenuEntries: [ThemeMode.light,ThemeMode.dark]
+                    .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                    value: e, label: appLocalization.translate(e.name)))
+                    .toList(),
+                onSelected: (selected) {
+                  bloc.add(ChangeThemeEvent(selected));
+                },
+                isDarkMode: (context.isDarkMode),
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
                       color: AppColors.grey(context.isDarkMode).shade900,
-                      appFontWeight: AppFontWeight.medium)),
+                      appFontWeight: AppFontWeight.regular)),
+                  hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: AppColors.error(context.isDarkMode).shade900,
+                      appFontWeight: AppFontWeight.regular)),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: AppColors.grey(context.isDarkMode).shade300)),
                 ),
-                SizedBox(
-                  height: AppSpacing.x2Small4.value,
-                ),
-                CustomDropDownMenu(
-                  initialSelection: state.themeMode,
-                  dropdownMenuEntries: ThemeMode.values
-                      .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                          value: e, label: appLocalization.translate(e.name)))
-                      .toList(),
-                  onSelected: (selected) {
-                    bloc.add(ChangeThemeEvent(selected));
-                  },
-                  isDarkMode: (context.isDarkMode),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
         Padding(
           padding: EdgeInsets.only(
             top: AppSpacing.medium16.value,

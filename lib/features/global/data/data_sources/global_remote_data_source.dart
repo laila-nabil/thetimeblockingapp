@@ -38,6 +38,8 @@ abstract class GlobalRemoteDataSource {
   Future<dartz.Unit> createWorkspace({required CreateWorkspaceParams params});
 
   Future<dartz.Unit> deleteWorkspace({required DeleteWorkspaceParams params});
+
+  // Future<WorkspaceModel> getSettings();
 }
 
 class SupabaseGlobalRemoteDataSourceImpl implements GlobalRemoteDataSource {
