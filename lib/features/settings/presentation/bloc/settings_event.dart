@@ -15,11 +15,11 @@ class ChangeLanguageEvent extends SettingsEvent {
 
 class ChangeThemeEvent extends SettingsEvent {
   final ThemeMode themeMode;
-
-  const ChangeThemeEvent(this.themeMode);
+  final String userId;
+  const ChangeThemeEvent(this.themeMode, this.userId);
 
   @override
-  List<Object?> get props => [themeMode];
+  List<Object?> get props => [themeMode,userId];
 }
 
 class RequestFeatureEvent extends SettingsEvent{

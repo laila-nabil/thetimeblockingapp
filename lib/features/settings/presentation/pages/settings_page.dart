@@ -314,7 +314,7 @@ class SettingsPage extends StatelessWidget {
                     value: e, label: appLocalization.translate(e.name)))
                     .toList(),
                 onSelected: (selected) {
-                  bloc.add(ChangeThemeEvent(selected));
+                  bloc.add(ChangeThemeEvent(selected,authBloc.state.user?.id??""));
                 },
                 isDarkMode: (context.isDarkMode),
                 inputDecorationTheme: InputDecorationTheme(

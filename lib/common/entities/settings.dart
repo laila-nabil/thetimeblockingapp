@@ -11,7 +11,7 @@ class Settings extends Equatable {
     this.isDarkMode,
     this.enableAnalytics,
     this.activeWorkspaceId,
-    this.userId,
+    required this.userId,
   });
 
   final String? langCode;
