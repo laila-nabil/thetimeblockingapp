@@ -25,6 +25,7 @@ import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_lan
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/delete_account_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/request_feature_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/sign_out_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/domain/use_cases/update_settings_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_priorities_use_case.dart';
 import 'package:thetimeblockingapp/features/global/presentation/bloc/global_bloc.dart';
@@ -293,6 +294,8 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton(() => RequestFeatureUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => ReportIssueUseCase(serviceLocator()));
+
+  serviceLocator.registerLazySingleton(() => UpdateSettingsUseCase(serviceLocator()));
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
