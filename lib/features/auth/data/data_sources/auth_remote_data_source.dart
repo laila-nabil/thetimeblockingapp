@@ -37,11 +37,9 @@ abstract class AuthRemoteDataSource {
 
   Future<SupabaseSettingsModel?> getSettings(String userId);
 
-  Future<void> createSettings({required SupabaseSettingsModel supabaseSettingsModel,
+  Future<void> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
     required AccessTokenModel accessToken});
 
-  Future<void> updateSettings({required SupabaseSettingsModel supabaseSettingsModel,
-    required AccessTokenModel accessToken});
 }
 
 class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -157,7 +155,7 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> createSettings({required SupabaseSettingsModel supabaseSettingsModel,
+  Future<void> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
     required AccessTokenModel accessToken}) async {
     NetworkResponse result = await responseInterceptor(
         authRemoteDataSource: this,
@@ -167,15 +165,5 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             body: supabaseSettingsModel.toJson(),
             headers: supabaseHeader(accessToken: accessToken, apiKey: key)));
     printDebug("Result $result");
-  }
-
-  @override
-  Future<void> updateSettings(
-      {required SupabaseSettingsModel supabaseSettingsModel,
-      required AccessTokenModel accessToken}) async {
-    final result = await network.put(
-        headers: supabaseHeader(accessToken: accessToken, apiKey: key),
-        uri: Uri.parse("$url/auth/v1/settings"),
-        body: supabaseSettingsModel.toJson());
   }
 }

@@ -108,7 +108,7 @@ class AuthRepoImpl implements AuthRepo {
     if (getSettings.getOrNull == null) {
       final createSettings = await repoHandleRemoteRequest<void>(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.createSettings(
+            await authRemoteDataSource.createUpdateSettings(
                 supabaseSettingsModel: Settings(
                   userId: userId,
                 ).toModel,

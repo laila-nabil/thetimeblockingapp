@@ -66,7 +66,7 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> createSettings({required SupabaseSettingsModel supabaseSettingsModel, required AccessTokenModel accessToken}) {
+  Future<void> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel, required AccessTokenModel accessToken}) {
     // TODO: implement createSettings
     throw UnimplementedError();
   }
