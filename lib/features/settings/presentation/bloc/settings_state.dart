@@ -13,7 +13,7 @@ enum SettingsStateEnum {
 
 class SettingsState extends Equatable {
   final Locale? currentLanguage;
-  final ThemeMode themeMode;
+  final ThemeMode? themeMode;
   final SettingsStateEnum settingsStateEnum;
   final Failure? requestFeatureFailure;
   final Failure? updateSettingsFailure;
@@ -21,7 +21,7 @@ class SettingsState extends Equatable {
 
   const SettingsState({
     this.currentLanguage,
-    this.themeMode = ThemeMode.light,
+    this.themeMode,
     required this.settingsStateEnum,
     this.requestFeatureFailure,
     this.updateSettingsFailure,

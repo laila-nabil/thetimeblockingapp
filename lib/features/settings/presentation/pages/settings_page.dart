@@ -97,12 +97,20 @@ class SettingsPage extends StatelessWidget {
                   title: state.reportIssueFailure?.message ??
                       appLocalization.translate("somethingWentWrong"));
             }
+
           },
           builder: (context, state) {
         final bloc = BlocProvider.of<SettingsBloc>(context);
         final authBloc = BlocProvider.of<AuthBloc>(context);
         final globalBloc = BlocProvider.of<GlobalBloc>(context);
         bool userNotAnonymous = authBloc.state.user?.email?.isNotEmpty == true;
+        if(state.settingsStateEnum == SettingsStateEnum.initial){
+              bloc.add(ChangeThemeEvent(
+                  serviceLocator<AppConfig>().settings?.isDarkMode == true
+                      ? ThemeMode.dark
+                      : ThemeMode.light,
+                  authBloc.state.user?.id ?? ""));
+            }
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
                 small: Padding(
