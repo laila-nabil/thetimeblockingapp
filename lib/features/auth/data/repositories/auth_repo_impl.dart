@@ -111,7 +111,7 @@ class AuthRepoImpl implements AuthRepo {
             await authRemoteDataSource.createSettings(
                 supabaseSettingsModel: Settings(
                   userId: userId
-                ) as SupabaseSettingsModel,
+                ).toModel,
                 accessToken: accessToken!.toModel),
       );
       if(createSettings.isRight()){

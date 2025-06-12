@@ -149,7 +149,11 @@ class SupabaseAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         request: (accessToken) => network.get(
             uri: Uri.parse("$url/rest/v1/settings?user_id=eq.${userId}"),
             headers: supabaseHeader(accessToken: accessToken, apiKey: key)));
-    return SupabaseSettingsModel.fromJson(json.decode(response.body)[0]);
+    var json2 = json.decode(response.body);
+    if(json2 is List){
+      return SupabaseSettingsModel.fromJson(json2.firstOrNull);
+    }
+    return null;
   }
 
   @override
