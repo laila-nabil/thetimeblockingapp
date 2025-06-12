@@ -82,7 +82,8 @@ class AuthState extends Equatable {
     if(resetState){
       serviceLocator<AppConfig>().refreshToken = '';
       serviceLocator<AppConfig>().accessToken = const AccessToken(accessToken: '', tokenType: '');
-    
+      serviceLocator<AppConfig>().settings = null;
+
     }
     return AuthState(
       authState: authState ?? this.authState,

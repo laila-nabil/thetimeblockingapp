@@ -1,3 +1,4 @@
+import 'package:thetimeblockingapp/common/models/supabase_settings_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/sign_in_result_model.dart';
@@ -5,26 +6,17 @@ import '../../../../common/models/access_token_model.dart';
 import 'dart:convert';
 
 abstract class AuthLocalDataSource {
-  Future<AccessTokenModel> _getAccessToken();
-
-  Future<SupabaseUserModel> _getSupabaseUser();
-
-  Future<String> _getRefreshToken();
-
-
-  Future<void> _saveAccessToken(
-      AccessTokenModel accessTokenModel);
-
   Future<void> saveSupabaseUser(SupabaseUserModel user);
-
-  Future<void> _saveRefreshToken(String refreshToken);
 
   Future<void> saveSignInResult(SignInResultModel signInResultModel);
 
+  Future<void> saveSettings(SupabaseSettingsModel supabaseSettingsModel);
+
   Future<SignInResultModel> getSignInResult();
 
-  Future<void> signOut();
+  Future<SupabaseSettingsModel?> getSettings();
 
+  Future<void> signOut();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -32,18 +24,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   AuthLocalDataSourceImpl(this.localDataSource);
 
-  @override
   Future<AccessTokenModel> _getAccessToken() async {
     var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.accessToken.name);
     return AccessTokenModel.fromJson(json.decode(data ?? ""));
   }
 
-
-
-  @override
-  Future<void> _saveAccessToken(
-      AccessTokenModel accessTokenModel) {
+  Future<void> _saveAccessToken(AccessTokenModel accessTokenModel) {
     return localDataSource.setData(
         key: LocalDataSourceKeys.accessToken.name,
         value: accessTokenModel.toJson());
@@ -56,7 +43,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     }
   }
 
-  @override
   Future<SupabaseUserModel> _getSupabaseUser() async {
     var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.supabaseUser.name);
@@ -66,33 +52,29 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> saveSupabaseUser(SupabaseUserModel user) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.supabaseUser.name,
-        value: user.toJson());
+        key: LocalDataSourceKeys.supabaseUser.name, value: user.toJson());
   }
 
-  @override
-  Future<String> _getRefreshToken()async {
+  Future<String> _getRefreshToken() async {
     var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.refreshToken.name);
     return json.decode(data.toString());
   }
 
-  @override
   Future<void> _saveRefreshToken(String refreshToken) {
     return localDataSource.setData(
-        key: LocalDataSourceKeys.refreshToken.name,
-        value: refreshToken);
+        key: LocalDataSourceKeys.refreshToken.name, value: refreshToken);
   }
 
   @override
-  Future<void> saveSignInResult(SignInResultModel signInResultModel) async{
+  Future<void> saveSignInResult(SignInResultModel signInResultModel) async {
     await saveSupabaseUser(signInResultModel.user as SupabaseUserModel);
     await _saveAccessToken(signInResultModel.accessToken.toModel);
     await _saveRefreshToken(signInResultModel.refreshToken);
   }
 
   @override
-  Future<SignInResultModel> getSignInResult()async {
+  Future<SignInResultModel> getSignInResult() async {
     final access = await _getAccessToken();
     final user = await _getSupabaseUser();
     final refreshToken = await _getRefreshToken();
@@ -100,4 +82,17 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         accessToken: access, user: user, refreshToken: refreshToken);
   }
 
+  @override
+  Future<void> saveSettings(SupabaseSettingsModel supabaseSettingsModel) {
+    return localDataSource.setData(
+        key: LocalDataSourceKeys.settings.name,
+        value: supabaseSettingsModel.toJson());
+  }
+
+  @override
+  Future<SupabaseSettingsModel?> getSettings() async {
+    var data = await localDataSource.getStringData(
+        key: LocalDataSourceKeys.settings.name);
+    return SupabaseSettingsModel.fromJson(json.decode(data.toString()));
+  }
 }

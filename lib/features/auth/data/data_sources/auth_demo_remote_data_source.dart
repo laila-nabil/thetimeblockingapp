@@ -1,4 +1,6 @@
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
+import 'package:thetimeblockingapp/common/models/supabase_settings_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/sign_up_anonymously_result_model.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
@@ -54,6 +56,24 @@ class AuthDemoRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<SupabaseUserModel> updateUser({required UpdateUserParams params}) {
     // TODO: implement updateUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SupabaseSettingsModel?> getSettings(String userId) {
+    // TODO: implement getSettings
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> createSettings({required SupabaseSettingsModel supabaseSettingsModel, required AccessTokenModel accessToken}) {
+    // TODO: implement createSettings
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateSettings({required SupabaseSettingsModel supabaseSettingsModel, required AccessTokenModel accessToken}) {
+    // TODO: implement updateSettings
     throw UnimplementedError();
   }
 }

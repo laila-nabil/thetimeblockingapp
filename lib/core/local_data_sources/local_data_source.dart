@@ -2,6 +2,7 @@ enum LocalDataSourceKeys {
   accessToken,
   supabaseUser,
   refreshToken,
+  settings,
 }
 
 abstract class LocalDataSource {

@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:dartz/dartz.dart';
 import 'package:kalender/kalender.dart' as kalender;
 import 'package:syncfusion_flutter_calendar/calendar.dart' as syncfusion;
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -238,5 +239,15 @@ extension syncfusionCalendarViewExt on syncfusion.CalendarView? {
       default:
         return CalendarViewType.day;
     }
+  }
+}
+
+extension EitherExt<L,R> on Either<L,R>{
+  R? get getOrNull {
+    R? result;
+    this.fold((l){}, (r){
+      result = r;
+    });
+    return result;
   }
 }

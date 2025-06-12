@@ -38,6 +38,7 @@ import 'package:thetimeblockingapp/features/tasks/domain/use_cases/create_folder
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/duplicate_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tag_from_task_use_case.dart';
 import 'package:thetimeblockingapp/features/tasks/domain/use_cases/remove_tags_from_task_use_case.dart';
+import '../common/entities/settings.dart';
 import '../features/auth/data/data_sources/auth_demo_remote_data_source.dart';
 import '../features/auth/data/data_sources/auth_local_data_source.dart';
 import '../features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -89,6 +90,7 @@ class AppConfig{
    String redirectAfterAuthRouteName = '';
    String refreshToken = '';
    AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '') ;
+   Settings? settings ;
    bool confirmationEmailEnabled = false;
    ///TODO timezone
    String timezone = 'Africa/Cairo';
