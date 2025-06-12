@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:thetimeblockingapp/common/entities/settings.dart';
+import 'package:thetimeblockingapp/common/models/access_token_model.dart';
 import 'package:thetimeblockingapp/common/models/supabase_workspace_model.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -14,6 +16,7 @@ import 'package:thetimeblockingapp/features/tasks/data/data_sources/tasks_remote
 
 import '../../../../core/repo_handler.dart';
 import '../../../auth/domain/use_cases/delete_account_use_case.dart';
+import '../../domain/use_cases/update_settings_use_case.dart';
 
 class SettingsRepoImpl implements SettingsRepo {
   final SettingsRemoteDataSource settingsRemoteDataSource;
@@ -27,7 +30,7 @@ class SettingsRepoImpl implements SettingsRepo {
   Future<Either<Failure, Unit>> requestFeature(RequestFeatureParams params) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () async =>
-      await settingsRemoteDataSource.requestFeature(params: params),
+          await settingsRemoteDataSource.requestFeature(params: params),
     );
   }
 
@@ -35,8 +38,18 @@ class SettingsRepoImpl implements SettingsRepo {
   Future<Either<Failure, Unit>> reportIssue(ReportIssueParams params) {
     return repoHandleRemoteRequest(
       remoteDataSourceRequest: () async =>
-      await settingsRemoteDataSource.reportIssue(params: params),
+          await settingsRemoteDataSource.reportIssue(params: params),
     );
   }
 
+  @override
+   Future<Either<Failure, Unit>> createUpdateSettings(
+      {required CreateUpdateSettingsParams createUpdateSettingsParams}) {
+    return  repoHandleRemoteRequest(
+        remoteDataSourceRequest: () async =>
+            await settingsRemoteDataSource.createUpdateSettings(
+                supabaseSettingsModel:
+                    createUpdateSettingsParams.newSettings.toModel,
+                accessToken: createUpdateSettingsParams.accessToken.toModel));
+  }
 }

@@ -296,7 +296,7 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
 
   /// Repos
   serviceLocator.registerLazySingleton<AuthRepo>(
-      () => AuthRepoImpl(serviceLocator(), serviceLocator(),serviceLocator()));
+      () => AuthRepoImpl(serviceLocator(), serviceLocator(),serviceLocator(),serviceLocator()));
   serviceLocator.registerLazySingleton<TasksRepo>(
       () => TasksRepoImpl(serviceLocator(),));
   serviceLocator.registerLazySingleton<GlobalRepo>(

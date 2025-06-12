@@ -3,6 +3,8 @@ import 'package:thetimeblockingapp/core/response_interceptor.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/report_issue_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/request_feature_use_case.dart';
 
+import '../../../../common/models/access_token_model.dart';
+import '../../../../common/models/supabase_settings_model.dart';
 import '../../../../core/network/network.dart';
 import '../../../../core/network/supabase_header.dart';
 import '../../../../core/print_debug.dart';
@@ -14,7 +16,8 @@ abstract class SettingsRemoteDataSource{
 
   Future<dartz.Unit> reportIssue({required ReportIssueParams params});
 
-
+  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
+    required AccessTokenModel accessToken});
 }
 
 class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource{
@@ -60,4 +63,17 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource{
     return dartz.unit;
   }
 
+  @override
+  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
+    required AccessTokenModel accessToken}) async {
+    NetworkResponse result = await responseInterceptor(
+        authRemoteDataSource: authRemoteDataSource,
+        authLocalDataSource: authLocalDataSource,
+        request: (accessToken) => network.post(
+            uri: Uri.parse("$url/rest/v1/settings"),
+            body: supabaseSettingsModel.toJson(),
+            headers: supabaseHeader(accessToken: accessToken, apiKey: key)));
+    printDebug("Result $result");
+    return dartz.unit;
+  }
 }

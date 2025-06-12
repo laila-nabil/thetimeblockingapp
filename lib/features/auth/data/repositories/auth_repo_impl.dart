@@ -21,6 +21,7 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_us
 import 'package:thetimeblockingapp/features/global/data/data_sources/global_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/delete_workspace_use_case.dart';
 import 'package:thetimeblockingapp/features/global/domain/use_cases/get_workspaces_use_case.dart';
+import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_remote_data_source.dart';
 import '../../../../common/entities/access_token.dart';
 import '../../../../core/error/exception_to_failure.dart';
 
@@ -34,9 +35,10 @@ class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
   final GlobalRemoteDataSource globalRemoteDataSource;
+  final SettingsRemoteDataSource settingsRemoteDataSource;
 
   AuthRepoImpl(this.authRemoteDataSource, this.authLocalDataSource,
-      this.globalRemoteDataSource);
+      this.globalRemoteDataSource,this.settingsRemoteDataSource);
 
   @override
   Future<dartz.Either<Failure, dartz.Unit>> signOut() async {
@@ -108,7 +110,7 @@ class AuthRepoImpl implements AuthRepo {
     if (getSettings.getOrNull == null) {
       final createSettings = await repoHandleRemoteRequest<void>(
         remoteDataSourceRequest: () async =>
-            await authRemoteDataSource.createUpdateSettings(
+            await settingsRemoteDataSource.createUpdateSettings(
                 supabaseSettingsModel: Settings(
                   userId: userId,
                 ).toModel,

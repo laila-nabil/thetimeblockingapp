@@ -5,6 +5,8 @@ import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonym
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 
+import '../../../../common/models/access_token_model.dart';
+import '../../../../common/models/supabase_settings_model.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/sign_in_result.dart';
 import '../entities/sign_up_anonymously_result.dart';
@@ -27,4 +29,5 @@ abstract class AuthRepo {
       {required SignUpAnonymouslyParams params});
 
   Future<dartz.Either<Failure, User>> updateUser({required UpdateUserParams params});
+
 }
