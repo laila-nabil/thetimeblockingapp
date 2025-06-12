@@ -38,7 +38,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             currentLanguage: state.currentLanguage,
             themeMode: event.themeMode));
         final result = await _updateSettingsUseCase(CreateUpdateSettingsParams(
-            Settings(isDarkMode: event.themeMode == ThemeMode.dark, userId: '')));
+            Settings(isDarkMode: event.themeMode == ThemeMode.dark, userId: event.userId)));
         result.fold(
                 (l) => emit(
               state.copyWith(
