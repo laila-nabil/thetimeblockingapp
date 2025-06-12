@@ -40,15 +40,15 @@ class SupabaseSettingsModel extends Settings {
 
   Map<String, dynamic> toJson() {
     return {
-      'lang_code': this.langCode,
-      'sync_with_google_calendar': this.syncWithGoogleCalendar,
-      'sync_with_outlook_calendar': this.syncWithOutlookCalendar,
-      'start_week_day_sat': this.startWeekDaySat,
-      'text_size': this.textSize,
-      'is_dark_mode': this.isDarkMode,
-      'enable_analytics': this.enableAnalytics,
-      'active_workspace_id': this.activeWorkspaceId,
-      'user_id': this.userId,
+      if(langCode != null)'lang_code': this.langCode,
+      if(syncWithGoogleCalendar != null)'sync_with_google_calendar': this.syncWithGoogleCalendar,
+      if(syncWithOutlookCalendar != null)'sync_with_outlook_calendar': this.syncWithOutlookCalendar,
+      if(startWeekDaySat != null)'start_week_day_sat': this.startWeekDaySat,
+      if(textSize != null)'text_size': this.textSize,
+      if(isDarkMode != null)'is_dark_mode': this.isDarkMode,
+      if(enableAnalytics != null)'enable_analytics': this.enableAnalytics,
+      if(activeWorkspaceId != null)'active_workspace_id': this.activeWorkspaceId,
+      if(userId != null)'user_id': this.userId,
     };
   }
 }
