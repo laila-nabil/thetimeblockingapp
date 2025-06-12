@@ -13,7 +13,6 @@ import '../entities/settings.dart';
 
 class SupabaseSettingsModel extends Settings {
   SupabaseSettingsModel({
-    super.id,
     super.langCode,
     super.syncWithGoogleCalendar,
     super.syncWithOutlookCalendar,
@@ -27,7 +26,6 @@ class SupabaseSettingsModel extends Settings {
 
   factory SupabaseSettingsModel.fromJson(dynamic json) {
     return SupabaseSettingsModel(
-      id: json['id'],
       langCode: json['lang_code'],
       syncWithGoogleCalendar: json['sync_with_google_calendar'],
       syncWithOutlookCalendar: json['sync_with_outlook_calendar'],
@@ -42,16 +40,15 @@ class SupabaseSettingsModel extends Settings {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': this.id,
-      'langCode': this.langCode,
-      'syncWithGoogleCalendar': this.syncWithGoogleCalendar,
-      'syncWithOutlookCalendar': this.syncWithOutlookCalendar,
-      'startWeekDaySat': this.startWeekDaySat,
-      'textSize': this.textSize,
-      'isDarkMode': this.isDarkMode,
-      'enableAnalytics': this.enableAnalytics,
-      'activeWorkspaceId': this.activeWorkspaceId,
-      'userId': this.userId,
+      'lang_code': this.langCode,
+      'sync_with_google_calendar': this.syncWithGoogleCalendar,
+      'sync_with_outlook_calendar': this.syncWithOutlookCalendar,
+      'start_week_day_sat': this.startWeekDaySat,
+      'text_size': this.textSize,
+      'is_dark_mode': this.isDarkMode,
+      'enable_analytics': this.enableAnalytics,
+      'active_workspace_id': this.activeWorkspaceId,
+      'user_id': this.userId,
     };
   }
 }

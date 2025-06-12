@@ -3,7 +3,6 @@ import 'package:thetimeblockingapp/common/models/supabase_settings_model.dart';
 
 class Settings extends Equatable {
   Settings({
-    this.id,
     this.langCode,
     this.syncWithGoogleCalendar,
     this.syncWithOutlookCalendar,
@@ -15,7 +14,6 @@ class Settings extends Equatable {
     this.userId,
   });
 
-  final num? id;
   final String? langCode;
   final bool? syncWithGoogleCalendar;
   final bool? syncWithOutlookCalendar;
@@ -31,7 +29,6 @@ class Settings extends Equatable {
       userId: userId,
       activeWorkspaceId: activeWorkspaceId,
       enableAnalytics: enableAnalytics,
-      id: id,
       isDarkMode: isDarkMode,
       langCode: langCode,
       startWeekDaySat: startWeekDaySat,
@@ -44,7 +41,6 @@ class Settings extends Equatable {
   @override
   List<Object?> get props =>
       [
-        id,
         langCode,
         syncWithGoogleCalendar,
         syncWithOutlookCalendar,
