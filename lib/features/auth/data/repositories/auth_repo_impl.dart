@@ -95,17 +95,17 @@ class AuthRepoImpl implements AuthRepo {
     final getSettings = await repoHandleRemoteRequest<SupabaseSettingsModel?>(
       remoteDataSourceRequest: () async =>
           await authRemoteDataSource.getSettings(userId ?? ""),
-      trySaveResult: (result) async {
-        if (result != null) {
-          await authLocalDataSource.saveSettings(result);
-          serviceLocator<AppConfig>().settings = result;
-        }
-      },
-      tryGetFromLocalStorage: () async {
-        final result = await authLocalDataSource.getSettings();
-        serviceLocator<AppConfig>().settings = result;
-        return result;
-      },
+      // trySaveResult: (result) async {
+      //   if (result != null) {
+      //     await authLocalDataSource.saveSettings(result);
+      //     serviceLocator<AppConfig>().settings = result;
+      //   }
+      // },
+      // tryGetFromLocalStorage: () async {
+      //   final result = await authLocalDataSource.getSettings();
+      //   serviceLocator<AppConfig>().settings = result;
+      //   return result;
+      // },
     );
     if (getSettings.getOrNull == null) {
       final createSettings = await repoHandleRemoteRequest<void>(
