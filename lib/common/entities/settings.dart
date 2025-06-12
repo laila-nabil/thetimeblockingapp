@@ -27,7 +27,18 @@ class Settings extends Equatable {
   final String? userId;
 
   SupabaseSettingsModel get toModel{
-    return SupabaseSettingsModel();
+    return SupabaseSettingsModel(
+      userId: userId,
+      activeWorkspaceId: activeWorkspaceId,
+      enableAnalytics: enableAnalytics,
+      id: id,
+      isDarkMode: isDarkMode,
+      langCode: langCode,
+      startWeekDaySat: startWeekDaySat,
+      syncWithGoogleCalendar: syncWithGoogleCalendar,
+      syncWithOutlookCalendar: syncWithOutlookCalendar,
+      textSize: textSize
+    );
   }
 
   @override
