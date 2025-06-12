@@ -59,7 +59,7 @@ class WidgetBookApp extends StatelessWidget {
         return MultiBlocProvider(providers: [
           BlocProvider(
             create: (context) => SettingsBloc(
-              ChangeLanguageUseCase(appLocalization),serviceLocator(),serviceLocator()
+              ChangeLanguageUseCase(appLocalization),serviceLocator(),serviceLocator(),serviceLocator()
             ),
           ),
           BlocProvider(

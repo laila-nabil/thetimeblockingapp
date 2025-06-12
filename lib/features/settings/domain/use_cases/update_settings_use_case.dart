@@ -44,7 +44,6 @@ class UpdateSettingsUseCase
 
 class CreateUpdateSettingsParams {
   final Settings newSettings;
-  final AccessToken accessToken;
 
-  CreateUpdateSettingsParams(this.newSettings, this.accessToken);
+  CreateUpdateSettingsParams(this.newSettings,);
 }

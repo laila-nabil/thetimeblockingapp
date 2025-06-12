@@ -50,6 +50,6 @@ class SettingsRepoImpl implements SettingsRepo {
             await settingsRemoteDataSource.createUpdateSettings(
                 supabaseSettingsModel:
                     createUpdateSettingsParams.newSettings.toModel,
-                accessToken: createUpdateSettingsParams.accessToken.toModel));
+                ));
   }
 }

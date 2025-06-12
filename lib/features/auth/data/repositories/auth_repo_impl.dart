@@ -114,7 +114,7 @@ class AuthRepoImpl implements AuthRepo {
                 supabaseSettingsModel: Settings(
                   userId: userId,
                 ).toModel,
-                accessToken: accessToken!.toModel),
+                ),
       );
       if(createSettings.isRight()){
         _getCreateSaveSettings(userId: userId, accessToken: accessToken);

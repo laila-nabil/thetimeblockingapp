@@ -182,7 +182,7 @@ void _initServiceLocator({required Network network}) {
       ));
 
   serviceLocator.registerFactory(() => SettingsBloc(
-        serviceLocator(),serviceLocator(),serviceLocator()
+        serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()
       ));
 
   /// UseCases

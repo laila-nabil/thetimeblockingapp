@@ -6,7 +6,9 @@ enum SettingsStateEnum {
   requestFeatureSuccess,
   requestFeatureFailed,
   reportIssueSuccess,
-  reportIssueFailed
+  reportIssueFailed,
+  updateSettingsFailed,
+  updateSettingsSuccess
 }
 
 class SettingsState extends Equatable {
@@ -14,6 +16,7 @@ class SettingsState extends Equatable {
   final ThemeMode themeMode;
   final SettingsStateEnum settingsStateEnum;
   final Failure? requestFeatureFailure;
+  final Failure? updateSettingsFailure;
   final Failure? reportIssueFailure;
 
   const SettingsState({
@@ -21,6 +24,7 @@ class SettingsState extends Equatable {
     this.themeMode = ThemeMode.light,
     required this.settingsStateEnum,
     this.requestFeatureFailure,
+    this.updateSettingsFailure,
     this.reportIssueFailure,
   });
 
@@ -30,6 +34,7 @@ class SettingsState extends Equatable {
         themeMode,
         settingsStateEnum,
         requestFeatureFailure,
+        updateSettingsFailure,
         reportIssueFailure,
       ];
 
@@ -39,14 +44,15 @@ class SettingsState extends Equatable {
     SettingsStateEnum? settingsStateEnum,
     Failure? requestFeatureFailure,
     Failure? reportIssueFailure,
+    Failure? updateSettingsFailure,
   }) {
     return SettingsState(
       currentLanguage: currentLanguage ?? this.currentLanguage,
       themeMode: themeMode ?? this.themeMode,
       settingsStateEnum: settingsStateEnum ?? this.settingsStateEnum,
-      requestFeatureFailure:
-          requestFeatureFailure,
-      reportIssueFailure: reportIssueFailure ,
+      requestFeatureFailure: requestFeatureFailure,
+      reportIssueFailure: reportIssueFailure,
+      updateSettingsFailure: updateSettingsFailure,
     );
   }
 }

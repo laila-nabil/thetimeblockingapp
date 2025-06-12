@@ -16,8 +16,7 @@ abstract class SettingsRemoteDataSource{
 
   Future<dartz.Unit> reportIssue({required ReportIssueParams params});
 
-  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
-    required AccessTokenModel accessToken});
+  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel});
 }
 
 class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource{
@@ -64,8 +63,7 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource{
   }
 
   @override
-  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel,
-    required AccessTokenModel accessToken}) async {
+  Future<dartz.Unit> createUpdateSettings({required SupabaseSettingsModel supabaseSettingsModel}) async {
     NetworkResponse result = await responseInterceptor(
         authRemoteDataSource: authRemoteDataSource,
         authLocalDataSource: authLocalDataSource,
