@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -29,41 +31,42 @@ if (kIsWeb) 'core/mock_web_packages/mock_timezone.dart' as tz_not_web;
 
 Future<void> main() async {
   final sentryDsn = const String.fromEnvironment("sentryDsn", defaultValue: "");
-  await SentryFlutter.init(
-        (options) {
-      options.dsn = sentryDsn;
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-      // The sampling rate for profiling is relative to tracesSampleRate
-      // Setting to 1.0 will profile 100% of sampled transactions:
-      options.profilesSampleRate = 1.0;
-      options.enablePrintBreadcrumbs = false;
-    },
-    appRunner: () async {
-      WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryDsn;
+        // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+        // We recommend adjusting this value in production.
+        options.tracesSampleRate = 1.0;
+        // The sampling rate for profiling is relative to tracesSampleRate
+        // Setting to 1.0 will profile 100% of sampled transactions:
+        options.profilesSampleRate = 1.0;
+        options.enablePrintBreadcrumbs = false;
+      },
+    );
+    WidgetsFlutterBinding.ensureInitialized();
 
-      await appLocalization.ensureInitialized();
-      di.initServiceLocator();
-      if (serviceLocator<AppConfig>().env == Env.debugLocally) {
-        // Only call clearSavedSettings() during testing to reset internal values.
-        await Upgrader.clearSavedSettings(); // REMOVE this for release builds
-      }
-      di.updateFromEnv();
-      await di.serviceLocator<Analytics>().initialize();
-      await di.serviceLocator<Analytics>().logAppOpen();
-      if (kIsWeb && serviceLocator<AppConfig>().isDemo == false) {
-        await tz_web.initializeTimeZone();
-      } else {
-        tz_not_web.initializeTimeZones();
-      }
-      // turn off the # in the URLs on the web
-      usePathUrlStrategy();
-      Bloc.observer = MyBlocObserver();
-      runApp(appLocalization.localizationSetup(const MyApp()));
-    },
-  );
-
+    await appLocalization.ensureInitialized();
+    di.initServiceLocator();
+    if (serviceLocator<AppConfig>().env == Env.debugLocally) {
+      // Only call clearSavedSettings() during testing to reset internal values.
+      await Upgrader.clearSavedSettings(); // REMOVE this for release builds
+    }
+    di.updateFromEnv();
+    await di.serviceLocator<Analytics>().initialize();
+    await di.serviceLocator<Analytics>().logAppOpen();
+    if (kIsWeb && serviceLocator<AppConfig>().isDemo == false) {
+      await tz_web.initializeTimeZone();
+    } else {
+      tz_not_web.initializeTimeZones();
+    }
+    // turn off the # in the URLs on the web
+    usePathUrlStrategy();
+    Bloc.observer = MyBlocObserver();
+    runApp(appLocalization.localizationSetup(const MyApp()));
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
