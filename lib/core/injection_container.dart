@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/analytics/posthog_impl.dart';
@@ -399,8 +400,9 @@ void updateFromEnv() async {
 
 void initServiceLocator() {
   _initServiceLocator(
-      network:
-          NetworkHttp(httpClient: Client(), responseHandler: responseHandler));
+      network: NetworkHttp(
+          httpClient: SentryHttpClient(client: Client()),
+          responseHandler: responseHandler));
 }
 
 Future<NetworkResponse> responseHandler(
