@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart' as dartz;
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:thetimeblockingapp/common/entities/user.dart';
 import 'package:thetimeblockingapp/common/entities/workspace.dart';
@@ -18,26 +19,30 @@ class GetAllInWorkspaceUseCase implements UseCase<Workspace, GetAllInWorkspacePa
   @override
   Future<dartz.Either<Failure, Workspace>> call(
       GetAllInWorkspaceParams params) async{
-    final result = await repo.getAllInWorkspace(params: params);
+    Either<Failure, Workspace> result =
+        await repo.getAllInWorkspace(params: params);
     printDebug("getAllInWorkspace $result");
-    bool listsExist = true;
     if(result.isRight()){
-      result.fold((_){}, (r){
+      await result.fold((_){}, (r) async {
         bool noFolderlessLists = r.lists?.isNotEmpty!= true;
         bool noListsInFolders = r.folders?.isNotEmpty!= true;
         r.folders?.forEach((f){
           noListsInFolders = noListsInFolders && f.lists?.isNotEmpty!= true;
         });
-        if(noFolderlessLists && noListsInFolders ){
-          listsExist = false;
-        }});
+        printDebug("noFolderlessLists $noFolderlessLists");
+        printDebug("noListsInFolders $noListsInFolders");
+        printDebug("r.lists ${r.lists}");
+        if (r.lists?.isNotEmpty != true) {
+          final resultCreate = await tasksRepo.createFolderlessList(
+              CreateFolderlessListParams.defaultList(
+                  user: params.user, workspace: params.workspace));
+          printDebug("resultCreateList $resultCreate");
+          result =
+          await repo.getAllInWorkspace(params: params);
+        }
+      });
     }
-    if(listsExist == false){
-      final resultCreate = await tasksRepo.createFolderlessList(
-          CreateFolderlessListParams.defaultList(
-              user: params.user, workspace: params.workspace));
-      printDebug("resultCreate $resultCreate");
-    }
+
     return result;
   }
 }
