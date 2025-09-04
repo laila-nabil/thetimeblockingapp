@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/common/entities/tasks_list.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
@@ -36,7 +37,11 @@ final router = GoRouter(
     // refreshListenable: ValueNotifier<Locale>(sl<LanguageBloc>().state.currentLocale),
     initialLocation: SupabaseOnBoardingAndAuthPage.routeName,
     debugLogDiagnostics: true,
-    observers: [MyNavObserver(), serviceLocator<Analytics>().navigatorObserver],
+    observers: [
+      MyNavObserver(),
+      serviceLocator<Analytics>().navigatorObserver,
+      SentryNavigatorObserver()
+    ],
     errorBuilder: (context, state) {
       String errorMessage = appLocalization.translate("pageNotFound");
       return ResponsiveScaffold(
