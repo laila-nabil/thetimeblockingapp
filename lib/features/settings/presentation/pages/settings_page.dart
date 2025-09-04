@@ -107,30 +107,28 @@ class SettingsPage extends StatelessWidget {
             responsiveBody: ResponsiveTParams(
                 small: Padding(
               padding: EdgeInsets.all(AppSpacing.x3Big32.value),
-              child: Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            EdgeInsets.only(bottom: AppSpacing.medium16.value),
-                            child: Text(
-                              appLocalization.translate("Settings"),
-                              style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                  color:
-                                  AppColors.grey(context.isDarkMode).shade900,
-                                  appFontWeight: AppFontWeight.medium,
-                                  appFontSize: AppFontSize.heading4)),
-                            ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin:
+                          EdgeInsets.only(bottom: AppSpacing.medium16.value),
+                          child: Text(
+                            appLocalization.translate("Settings"),
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                color:
+                                AppColors.grey(context.isDarkMode).shade900,
+                                appFontWeight: AppFontWeight.medium,
+                                appFontSize: AppFontSize.heading4)),
                           ),
-                        ],
-                      ),
-                      buildSettingsContent(userNotAnonymous, context, authBloc, bloc, state),
-                      buildSettingsFooter(context, authBloc)
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    buildSettingsContent(userNotAnonymous, context, authBloc, bloc, state),
+                    buildSettingsFooter(context, authBloc)
+                  ],
                 ),
               ),
             ),
