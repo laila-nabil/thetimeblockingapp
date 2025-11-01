@@ -36,7 +36,7 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
       surface: AppColors.background(isDarkMode),
       onSurface: AppColors.text(isDarkMode),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: AppColors.background(isDarkMode),
       shadowColor: AppColors.grey(isDarkMode).shade500,
       surfaceTintColor: AppColors.background(isDarkMode),
