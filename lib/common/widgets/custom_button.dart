@@ -406,7 +406,7 @@ class CustomButton extends StatelessWidget {
                   : AppColors.error(context.isDarkMode,50);
         }
 
-        return AppColors.white(context.isDarkMode);
+        return  AppColors.background(context.isDarkMode);
       }),
       foregroundColor:
           WidgetStateProperty.resolveWith((Set<WidgetState> states) {

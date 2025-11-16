@@ -57,12 +57,14 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
   bool isOpened = false;
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.backgroundColor ?? AppColors.white(context.isDarkMode);
+    final defaultBackgroundColor =
+        context.isDarkMode ? AppColors.grey(false,800) : AppColors.white(false);
+    final backgroundColor = widget.backgroundColor ?? defaultBackgroundColor;
     return PopupMenuButton(
         tooltip: widget.tooltip,
-        color: AppColors.white(context.isDarkMode),
-        surfaceTintColor: AppColors.white(context.isDarkMode),
-        shadowColor: AppColors.secondary(context.isDarkMode,100),
+        color: defaultBackgroundColor,
+        surfaceTintColor: defaultBackgroundColor,
+        shadowColor: AppColors.secondary(context.isDarkMode).shade100,
         icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(
