@@ -27,10 +27,10 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
             : AppColors.grey(isDarkMode)),
     colorScheme: ColorScheme(
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
-      primary: AppColors.primary(isDarkMode),
+      primary: AppColors.primary,
       onPrimary: AppColors.white(false),
       secondary: AppColors.secondary(isDarkMode),
-      onSecondary: AppColors.primary(isDarkMode),
+      onSecondary: AppColors.primary,
       error: AppColors.error(isDarkMode),
       onError: AppColors.white(isDarkMode),
       surface: AppColors.background(isDarkMode),

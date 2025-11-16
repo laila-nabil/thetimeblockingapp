@@ -259,9 +259,9 @@ class CalendarNavigationHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       textStyle: const TextStyle(fontSize: 12),
       foregroundColor: isSelected
-          ? Theme.of(context).colorScheme.onPrimary
-          : Theme.of(context).colorScheme.surfaceTint,
-      backgroundColor: isSelected ? Theme.of(context).primaryColor : null,
+          ? AppColors.white(false)
+          : AppColors.text(context.isDarkMode),
+      backgroundColor: isSelected ? AppColors.primary(context.isDarkMode) : null,
       side: BorderSide(
         color: AppColors.grey(context.isDarkMode).withOpacity(0.3),
       ),
