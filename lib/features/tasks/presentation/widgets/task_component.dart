@@ -151,10 +151,14 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     final globalState = BlocProvider.of<GlobalBloc>(context).state ;
-    final colors = AppColors.grey(context.isDarkMode,500);
+    final colors = context.isDarkMode
+        ? AppColors.white(false)
+        : AppColors.grey(context.isDarkMode,500);
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
-        color: AppColors.grey(context.isDarkMode,400),
+        color: context.isDarkMode
+            ? AppColors.white(false)
+            : AppColors.grey(context.isDarkMode,400),
         appFontWeight: AppFontWeight.semiBold));
     final folderName = widget.task.folder?.name;
     final listName = widget.task.list?.name;
