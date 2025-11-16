@@ -22,9 +22,7 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
         borderRadius: BorderRadius.zero
       ),
       elevation: 10,
-        shadowColor: isDarkMode
-            ? AppColors.white(false)
-            : AppColors.grey(isDarkMode)),
+        shadowColor: AppColors.grey(isDarkMode)),
     colorScheme: ColorScheme(
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primary: AppColors.primary,
@@ -38,7 +36,9 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: AppColors.background(isDarkMode),
-      shadowColor: AppColors.grey(isDarkMode,500),
+      shadowColor: isDarkMode
+          ? AppColors.grey(isDarkMode,50)
+          : AppColors.grey(isDarkMode,500),
       surfaceTintColor: AppColors.background(isDarkMode),
     ),
     chipTheme: const ChipThemeData(
