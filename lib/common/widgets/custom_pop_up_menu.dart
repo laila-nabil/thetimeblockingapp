@@ -64,7 +64,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
         tooltip: widget.tooltip,
         color: defaultBackgroundColor,
         surfaceTintColor: defaultBackgroundColor,
-        shadowColor: AppColors.secondary(context.isDarkMode).shade100,
+        shadowColor: AppColors.secondary(context.isDarkMode,100),
         icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(

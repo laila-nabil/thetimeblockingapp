@@ -696,7 +696,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         appFontSize: context.showSmallDesign
             ? AppFontSize.paragraphX2Small
             : AppFontSize.paragraphXSmall,
-        color: AppColors.primary,
+        color: AppColors.primary(context.isDarkMode),
         appFontWeight: AppFontWeight.bold))
         .copyWith(decoration: TextDecoration.underline);
     return RichText(
