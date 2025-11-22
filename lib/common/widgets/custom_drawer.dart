@@ -249,7 +249,9 @@ class _DrawerItem extends StatelessWidget {
                 (Set<WidgetState> states) {
               if (states.contains(WidgetState.focused) ||
                   states.contains(WidgetState.pressed)) {
-                return AppColors.primary(context.isDarkMode,50);
+                return context.isDarkMode
+                    ? AppColors.grey(context.isDarkMode, 50)
+                    : AppColors.primary(context.isDarkMode, 50);
               }
               if (states.contains(WidgetState.hovered)) {
                 return AppColors.grey(context.isDarkMode,50);
