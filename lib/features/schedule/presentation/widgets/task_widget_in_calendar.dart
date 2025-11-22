@@ -440,7 +440,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
           horizontal: 8,
           vertical: taskLocation == TaskLocation.header ? 0 : 4),
       decoration: BoxDecoration(
-        color: _color(task.color ?? Colors.blue).withOpacity(0.2),
+        color: _color(task.color).withOpacity(context.isDarkMode ? 0.8 : 0.2),
         borderRadius: BorderRadius.circular(8),
         border: BorderDirectional(
           start: BorderSide(
