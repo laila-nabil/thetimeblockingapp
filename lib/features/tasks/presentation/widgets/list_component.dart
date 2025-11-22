@@ -36,7 +36,11 @@ class _ListComponentState extends State<ListComponent> {
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         decoration: BoxDecoration(
             color: onHover
-                ? AppColors.primary(context.isDarkMode,50).withOpacity(0.5)
+                ? (context.isDarkMode
+                ? AppColors.grey(context.isDarkMode, 200)
+                .withOpacity(0.5)
+                : AppColors.primary(context.isDarkMode, 50)
+                .withOpacity(0.5))
                 : AppColors.background(context.isDarkMode)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
