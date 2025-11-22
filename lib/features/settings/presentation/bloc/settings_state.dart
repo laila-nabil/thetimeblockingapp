@@ -18,7 +18,7 @@ class SettingsState extends Equatable {
 
   const SettingsState({
     this.currentLanguage,
-    this.themeMode = ThemeMode.light,
+    this.themeMode = ThemeMode.system,//default mode
     required this.settingsStateEnum,
     this.requestFeatureFailure,
     this.reportIssueFailure,
