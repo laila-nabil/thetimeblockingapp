@@ -61,7 +61,7 @@ class _TagComponentState extends State<TagComponent> {
                     widget.tag.name ?? "",
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
                         appFontSize: AppFontSize.paragraphSmall,
-                        color: AppColors.grey(context.isDarkMode).shade900,
+                        color: AppColors.grey(context.isDarkMode,900),
                         appFontWeight: AppFontWeight.semiBold)),
                   )
                 else

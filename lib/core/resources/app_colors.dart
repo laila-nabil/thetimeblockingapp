@@ -14,7 +14,7 @@ class AppColors {
     900: Color(0xff),
   });*/
 
-  static Color background(bool isDarkMode) => grey(isDarkMode).shade50;
+  static Color background(bool isDarkMode) => grey(isDarkMode,50);
 
   static MaterialColor _primary(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff8133F1).value, const {
@@ -46,7 +46,7 @@ class AppColors {
       ? (_primary(isDarkMode)[shade] ?? _primary(isDarkMode))
       : _primary(isDarkMode);
 
-  static MaterialColor secondary(bool isDarkMode) => isDarkMode
+  static MaterialColor _secondary(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff290064).value, const {
     50: Color(0xff290064),
     100: Color(0xff360083),
@@ -72,9 +72,13 @@ class AppColors {
     900: Color(0xff290064),
   });
 
+  static Color secondary(bool isDarkMode, [int? shade]) => shade != null
+      ? (_secondary(isDarkMode)[shade] ?? _secondary(isDarkMode))
+      : _secondary(isDarkMode);
+
   ///SEMANTICS
 
-  static MaterialColor warning(bool isDarkMode) => isDarkMode
+  static MaterialColor _warning(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xffDD900D).value, const {
           50: Color(0xff523300),
           100: Color(0xff664101),
@@ -100,7 +104,12 @@ class AppColors {
           900: Color(0xff523300),
         });
 
-  static MaterialColor error(bool isDarkMode) => isDarkMode
+  static Color warning(bool isDarkMode, [int? shade]) => shade != null
+      ? (_warning(isDarkMode)[shade] ?? _warning(isDarkMode))
+      : _warning(isDarkMode);
+
+
+  static MaterialColor _error(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xffCB1A14).value, const {
           50: Color(0xff591000),
           100: Color(0xff800501),
@@ -126,7 +135,11 @@ class AppColors {
           900: Color(0xff591000),
         });
 
-  static MaterialColor success(bool isDarkMode) => isDarkMode
+  static Color error(bool isDarkMode, [int? shade]) => shade != null
+      ? (_error(isDarkMode)[shade] ?? _error(isDarkMode))
+      : _error(isDarkMode);
+
+  static MaterialColor _success(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff099137).value, const {
           50: Color(0xff004617),
           100: Color(0xff015B20),
@@ -152,9 +165,13 @@ class AppColors {
           900: Color(0xff004617),
         });
 
+  static Color success(bool isDarkMode, [int? shade]) => shade != null
+      ? (_success(isDarkMode)[shade] ?? _success(isDarkMode))
+      : _success(isDarkMode);
+
   ///NEUTRALS
 
-  static MaterialColor brown(bool isDarkMode) => isDarkMode
+  static MaterialColor _brown(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff8D8484).value, const {
           50: Color(0xff3E3838),
           100: Color(0xff514A4A),
@@ -180,7 +197,11 @@ class AppColors {
           900: Color(0xff3E3838),
         });
 
-  static MaterialColor grey(bool isDarkMode) => isDarkMode
+  static Color brown(bool isDarkMode, [int? shade]) => shade != null
+      ? (_brown(isDarkMode)[shade] ?? _brown(isDarkMode))
+      : _brown(isDarkMode);
+
+  static MaterialColor _grey(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff667185).value, const {
           50: Color(0xff101928),
           100: Color(0xff1D2739),
@@ -206,11 +227,16 @@ class AppColors {
           900: Color(0xff101928),
         });
 
+  static Color grey(bool isDarkMode, [int? shade]) => shade != null
+      ? (_grey(isDarkMode)[shade] ?? _grey(isDarkMode))
+      : _grey(isDarkMode);
+
   static Color white(bool isDarkMode) =>
       isDarkMode ? Colors.black : Colors.white;
 
   static Color black(bool isDarkMode) =>
       isDarkMode ? Colors.white : Colors.black;
+
 
   static MaterialColor paletteYellow =
       MaterialColor(const Color(0xfffad469).value, const {

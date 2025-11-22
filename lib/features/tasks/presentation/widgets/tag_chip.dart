@@ -18,7 +18,7 @@ class TagChip extends StatelessWidget {
   appFontWeight: AppFontWeight.medium));
   @override
   Widget build(BuildContext context) {
-    final color = AppColors.grey(context.isDarkMode).shade600;
+    final color = AppColors.grey(context.isDarkMode,600);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 100),
       child: Chip(

@@ -114,7 +114,7 @@ class TagsPage extends StatelessWidget {
                                 Text(
                                   appLocalization.translate("Tags"),
                                   style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                                      color: AppColors.grey(context.isDarkMode).shade900,
+                                      color: AppColors.grey(context.isDarkMode,900),
                                       appFontWeight: AppFontWeight.medium,
                                       appFontSize: AppFontSize.heading4)),
                                 ),

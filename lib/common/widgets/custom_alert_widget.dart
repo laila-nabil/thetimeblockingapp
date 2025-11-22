@@ -166,11 +166,11 @@ class CustomAlertWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
-                border: Border.all(color: AppColors.grey(isDarkMode).shade200)),
+                border: Border.all(color: AppColors.grey(isDarkMode,200))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.grey(isDarkMode).shade900,
+              color: AppColors.grey(isDarkMode,900),
             ),
           );
         }
@@ -181,11 +181,11 @@ class CustomAlertWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
-                border: Border.all(color: AppColors.grey(isDarkMode).shade200)),
+                border: Border.all(color: AppColors.grey(isDarkMode,200))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.grey(isDarkMode).shade500,
+              color: AppColors.grey(isDarkMode,500)
             ),
           );
         }
@@ -194,12 +194,12 @@ class CustomAlertWidget extends StatelessWidget {
           height: containerSize,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            color: AppColors.grey(isDarkMode).shade50,
+            color: AppColors.grey(isDarkMode,50),
           ),
           child: Icon(
             AppIcons.infocircle,
             size: iconSize,
-            color: AppColors.grey(isDarkMode).shade500,
+            color: AppColors.grey(isDarkMode,500)
           ),
         );
       case CustomAlertType.information:
@@ -209,13 +209,13 @@ class CustomAlertWidget extends StatelessWidget {
             height: containerSize,
             decoration: BoxDecoration(
                 borderRadius: borderRadius,
-                color: AppColors.secondary(isDarkMode).shade50,
+                color: AppColors.secondary(isDarkMode,50),
                 border: Border.all(
-                    color: AppColors.secondary(isDarkMode).shade100)),
+                    color: AppColors.secondary(isDarkMode,100))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.secondary(isDarkMode).shade500,
+              color: AppColors.secondary(isDarkMode,500)
             ),
           );
         }
@@ -227,11 +227,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border: Border.all(
-                    color: AppColors.secondary(isDarkMode).shade100)),
+                    color: AppColors.secondary(isDarkMode,100))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.secondary(isDarkMode).shade600,
+              color: AppColors.secondary(isDarkMode,600),
             ),
           );
         }
@@ -240,12 +240,12 @@ class CustomAlertWidget extends StatelessWidget {
           height: containerSize,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            color: AppColors.secondary(isDarkMode).shade50,
+            color: AppColors.secondary(isDarkMode,50),
           ),
           child: Icon(
             AppIcons.infocircle,
             size: iconSize,
-            color: AppColors.secondary(isDarkMode).shade600,
+            color: AppColors.secondary(isDarkMode,600),
           ),
         );
       case CustomAlertType.success:
@@ -257,11 +257,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border:
-                    Border.all(color: AppColors.success(isDarkMode).shade100)),
+                    Border.all(color: AppColors.success(isDarkMode,100))),
             child: Icon(
               AppIcons.checkcircle,
               size: iconSize,
-              color: AppColors.success(isDarkMode).shade600,
+              color: AppColors.success(isDarkMode,600),
             ),
           );
         }
@@ -273,11 +273,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border:
-                    Border.all(color: AppColors.success(isDarkMode).shade100)),
+                    Border.all(color: AppColors.success(isDarkMode,100))),
             child: Icon(
               AppIcons.checkcircle,
               size: iconSize,
-              color: AppColors.success(isDarkMode).shade600,
+              color: AppColors.success(isDarkMode,600),
             ),
           );
         }
@@ -286,12 +286,12 @@ class CustomAlertWidget extends StatelessWidget {
           height: containerSize,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            color: AppColors.success(isDarkMode).shade50,
+            color: AppColors.success(isDarkMode,50),
           ),
           child: Icon(
             AppIcons.checkcircle,
             size: iconSize,
-            color: AppColors.success(isDarkMode).shade600,
+            color: AppColors.success(isDarkMode,600),
           ),
         );
       case CustomAlertType.warning:
@@ -303,11 +303,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border:
-                    Border.all(color: AppColors.warning(isDarkMode).shade100)),
+                    Border.all(color: AppColors.warning(isDarkMode,100))),
             child: Icon(
               AppIcons.infotriangle,
               size: iconSize,
-              color: AppColors.warning(isDarkMode).shade600,
+              color: AppColors.warning(isDarkMode,600),
             ),
           );
         }
@@ -319,11 +319,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border:
-                    Border.all(color: AppColors.warning(isDarkMode).shade100)),
+                    Border.all(color: AppColors.warning(isDarkMode,100))),
             child: Icon(
               AppIcons.infotriangle,
               size: iconSize,
-              color: AppColors.warning(isDarkMode).shade600,
+              color: AppColors.warning(isDarkMode,600),
             ),
           );
         }
@@ -332,12 +332,12 @@ class CustomAlertWidget extends StatelessWidget {
           height: containerSize,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            color: AppColors.warning(isDarkMode).shade50,
+            color: AppColors.warning(isDarkMode,50),
           ),
           child: Icon(
             AppIcons.infotriangle,
             size: iconSize,
-            color: AppColors.warning(isDarkMode).shade600,
+            color: AppColors.warning(isDarkMode,600),
           ),
         );
       case CustomAlertType.error:
@@ -347,13 +347,13 @@ class CustomAlertWidget extends StatelessWidget {
             height: containerSize,
             decoration: BoxDecoration(
                 borderRadius: borderRadius,
-                color: AppColors.error(isDarkMode).shade50,
+                color: AppColors.error(isDarkMode,50),
                 border:
-                    Border.all(color: AppColors.error(isDarkMode).shade100)),
+                    Border.all(color: AppColors.error(isDarkMode,100))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.error(isDarkMode).shade500,
+              color: AppColors.error(isDarkMode,500)
             ),
           );
         }
@@ -365,11 +365,11 @@ class CustomAlertWidget extends StatelessWidget {
                 borderRadius: borderRadius,
                 color: AppColors.white(isDarkMode),
                 border:
-                    Border.all(color: AppColors.error(isDarkMode).shade100)),
+                    Border.all(color: AppColors.error(isDarkMode,100))),
             child: Icon(
               AppIcons.infocircle,
               size: iconSize,
-              color: AppColors.error(isDarkMode).shade500,
+              color: AppColors.error(isDarkMode,500)
             ),
           );
         }
@@ -378,12 +378,12 @@ class CustomAlertWidget extends StatelessWidget {
           height: containerSize,
           decoration: BoxDecoration(
               borderRadius: borderRadius,
-              color: AppColors.error(isDarkMode).shade50,
-              border: Border.all(color: AppColors.error(isDarkMode).shade100)),
+              color: AppColors.error(isDarkMode,50),
+              border: Border.all(color: AppColors.error(isDarkMode,100))),
           child: Icon(
             AppIcons.infocircle,
             size: iconSize,
-            color: AppColors.error(isDarkMode).shade500,
+            color: AppColors.error(isDarkMode,500)
           ),
         );
     }
@@ -396,42 +396,42 @@ class CustomAlertWidget extends StatelessWidget {
     switch (customAlertType) {
       case CustomAlertType.base:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.grey(isDarkMode).shade700;
+          return AppColors.grey(isDarkMode,700);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.grey(isDarkMode).shade50;
+          return AppColors.grey(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.information:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.secondary(isDarkMode).shade500;
+          return AppColors.secondary(isDarkMode,500);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.secondary(isDarkMode).shade100;
+          return AppColors.secondary(isDarkMode,100);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.success:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.success(isDarkMode).shade600;
+          return AppColors.success(isDarkMode,600);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.success(isDarkMode).shade50;
+          return AppColors.success(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.warning:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.warning(isDarkMode).shade400;
+          return AppColors.warning(isDarkMode,400);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.warning(isDarkMode).shade50;
+          return AppColors.warning(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.error:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.error(isDarkMode).shade400;
+          return AppColors.error(isDarkMode,400);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.error(isDarkMode).shade50;
+          return AppColors.error(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
     }
@@ -444,42 +444,42 @@ class CustomAlertWidget extends StatelessWidget {
     switch (customAlertType) {
       case CustomAlertType.base:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.grey(isDarkMode).shade700;
+          return AppColors.grey(isDarkMode,700);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.grey(isDarkMode).shade50;
+          return AppColors.grey(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.information:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.secondary(isDarkMode).shade500;
+          return AppColors.secondary(isDarkMode,500);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.secondary(isDarkMode).shade100;
+          return AppColors.secondary(isDarkMode,100);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.success:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.success(isDarkMode).shade600;
+          return AppColors.success(isDarkMode,600);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.success(isDarkMode).shade50;
+          return AppColors.success(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.warning:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.warning(isDarkMode).shade400;
+          return AppColors.warning(isDarkMode,400);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.warning(isDarkMode).shade50;
+          return AppColors.warning(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
       case CustomAlertType.error:
         if (customAlertThemeType == CustomAlertThemeType.filled) {
-          return AppColors.error(isDarkMode).shade400;
+          return AppColors.error(isDarkMode,400);
         }
         if (customAlertThemeType == CustomAlertThemeType.accent) {
-          return AppColors.error(isDarkMode).shade50;
+          return AppColors.error(isDarkMode,50);
         }
         return AppColors.white(isDarkMode);
     }
@@ -490,12 +490,12 @@ class CustomAlertWidget extends StatelessWidget {
       required CustomAlertThemeType customAlertThemeType,
       required bool isDarkMode}) {
     if (customAlertType == CustomAlertType.warning) {
-      return AppColors.grey(isDarkMode).shade900;
+      return AppColors.grey(isDarkMode,900);
     }
     if (customAlertThemeType == CustomAlertThemeType.filled) {
       return AppColors.white(isDarkMode);
     }
-    return AppColors.grey(isDarkMode).shade900;
+    return AppColors.grey(isDarkMode,900);
   }
 
   Color detailsTextColor(
@@ -504,12 +504,12 @@ class CustomAlertWidget extends StatelessWidget {
       required bool isDarkMode}) {
     if (customAlertThemeType == CustomAlertThemeType.filled) {
       if (customAlertType == CustomAlertType.warning) {
-        return AppColors.grey(isDarkMode).shade900;
+        return AppColors.grey(isDarkMode,900);
       }
-      return AppColors.grey(isDarkMode).shade50;
+      return AppColors.grey(isDarkMode,50);
     }
 
-    return AppColors.grey(isDarkMode).shade600;
+    return AppColors.grey(isDarkMode,600);
   }
 }
 

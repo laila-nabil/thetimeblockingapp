@@ -19,7 +19,7 @@ class ListChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final isListInsideFolder = folderName?.isNotEmpty == true;
     const iconSize = 12.0;
-    final colors = AppColors.grey(context.isDarkMode).shade600;
+    final colors = AppColors.grey(context.isDarkMode,600);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 110),
       child: Chip(

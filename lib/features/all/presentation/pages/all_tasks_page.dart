@@ -98,7 +98,7 @@ class AllTasksPage extends StatelessWidget {
                               appLocalization.translate("AllTasks"),
                               style: AppTextStyle.getTextStyle(
                                   AppTextStyleParams(
-                                      color: AppColors.grey(context.isDarkMode).shade900,
+                                      color: AppColors.grey(context.isDarkMode,900),
                                       appFontWeight: AppFontWeight.medium,
                                       appFontSize: AppFontSize.heading4)),
                             ),
@@ -109,7 +109,7 @@ class AllTasksPage extends StatelessWidget {
                                 if (state.getAllTasksResultOverdue.isNotEmpty)
                                   true? ToggleableSection(
                                       title: appLocalization.translate("Overdue"),
-                                      titleColor: AppColors.error(context.isDarkMode).shade500,
+                                      titleColor: AppColors.error(context.isDarkMode,500),
                                       children: state.getAllTasksResultOverdue
                                           .map<Widget>((e) => buildTaskWidget(
                                           e, context, allTasksBloc,globalState))
@@ -122,7 +122,7 @@ class AllTasksPage extends StatelessWidget {
                                 if (state.getAllTasksResultUpcoming.isNotEmpty)
                                   true? ToggleableSection(
                                       title: appLocalization.translate("Upcoming"),
-                                      titleColor: AppColors.warning(context.isDarkMode).shade500,
+                                      titleColor: AppColors.warning(context.isDarkMode,500),
                                       children: state.getAllTasksResultUpcoming
                                           .map<Widget>((e) => buildTaskWidget(
                                           e, context, allTasksBloc,globalState))
@@ -148,7 +148,7 @@ class AllTasksPage extends StatelessWidget {
                                   true ? ToggleableSection(
                                       isOpenInStart: false,
                                       title: appLocalization.translate("Completed"),
-                                      titleColor: AppColors.success(context.isDarkMode).shade500,
+                                      titleColor: AppColors.success(context.isDarkMode,500),
                                       children: state.getAllTasksResultCompleted
                                           .map<Widget>((e) => buildTaskWidget(
                                           e, context, allTasksBloc,globalState))

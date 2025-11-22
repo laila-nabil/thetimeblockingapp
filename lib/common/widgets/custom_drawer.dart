@@ -139,7 +139,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   isSelected: location.contains(MapsPage.routeName) == true),
             Divider(
               height: 1,
-              color: AppColors.grey(context.isDarkMode).shade100,
+              color: AppColors.grey(context.isDarkMode,100),
             ),
             const Spacer(),
             // ignore: dead_code
@@ -252,7 +252,7 @@ class _DrawerItem extends StatelessWidget {
                 return AppColors.primary(context.isDarkMode,50);
               }
               if (states.contains(WidgetState.hovered)) {
-                return AppColors.grey(context.isDarkMode).shade50;
+                return AppColors.grey(context.isDarkMode,50);
               }
               return AppColors.background(context.isDarkMode);
             }),
@@ -281,7 +281,7 @@ class _DrawerItem extends StatelessWidget {
               title,
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey(context.isDarkMode).shade700,
+                  color: AppColors.grey(context.isDarkMode,700),
                   appFontWeight: isSelected
                       ? AppFontWeight.semiBold
                       : AppFontWeight.regular)),

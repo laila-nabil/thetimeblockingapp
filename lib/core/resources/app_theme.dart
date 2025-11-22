@@ -14,7 +14,7 @@ extension DarkMode on BuildContext {
 ThemeData appTheme(bool isDarkMode) => ThemeData(
     useMaterial3: true,
     dividerTheme: DividerThemeData(
-      color: AppColors.grey(isDarkMode).shade700,
+      color: AppColors.grey(isDarkMode,700),
       thickness: 0.1
     ),
     drawerTheme: DrawerThemeData(
@@ -38,7 +38,7 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: AppColors.background(isDarkMode),
-      shadowColor: AppColors.grey(isDarkMode).shade500,
+      shadowColor: AppColors.grey(isDarkMode,500),
       surfaceTintColor: AppColors.background(isDarkMode),
     ),
     chipTheme: const ChipThemeData(

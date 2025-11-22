@@ -108,7 +108,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
                         ? appLocalization.translate("signIn")
                         : appLocalization.translate("signUp"),
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                        color: AppColors.grey(context.isDarkMode).shade900,
+                        color: AppColors.grey(context.isDarkMode,900),
                         appFontWeight: AppFontWeight.medium,
                         appFontSize: AppFontSize.heading5)),
                   ),
@@ -120,7 +120,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
                 Text(
                   appLocalization.translate('email'),
                   style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      color: AppColors.grey(context.isDarkMode).shade900,
+                      color: AppColors.grey(context.isDarkMode,900),
                       appFontWeight: AppFontWeight.medium,
                       appFontSize: AppFontSize.paragraphMedium)),
                 ),
@@ -140,7 +140,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
                 //password
                 Text(appLocalization.translate('password'),
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                        color: AppColors.grey(context.isDarkMode).shade900,
+                        color: AppColors.grey(context.isDarkMode,900),
                         appFontWeight: AppFontWeight.medium,
                         appFontSize: AppFontSize.paragraphMedium))),
                 SizedBox(
@@ -202,7 +202,7 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
                         ? appLocalization.translate('areYouNewHere?')
                         : appLocalization.translate('alreadyHaveAnAccount?'),
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                        color: AppColors.grey(context.isDarkMode).shade500,
+                        color: AppColors.grey(context.isDarkMode,500),
                         appFontWeight: AppFontWeight.medium,
                         appFontSize: AppFontSize.paragraphSmall))),
                 if (showSmallDesign == false)

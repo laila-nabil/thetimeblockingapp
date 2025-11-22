@@ -428,13 +428,11 @@ class _TaskViewState extends State<TaskView> {
                     appFontSize: AppFontSize.paragraphSmall,
                     appFontWeight: AppFontWeight.medium,
                     color: AppColors
-                        .grey(context.isDarkMode)
-                        .shade800));
+                        .grey(context.isDarkMode,800)));
             final sectionTitle = AppTextStyle.getTextStyle(AppTextStyleParams(
                 appFontSize: AppFontSize.paragraphSmall,
                 color: AppColors
-                    .grey(context.isDarkMode)
-                    .shade900,
+                    .grey(context.isDarkMode,900),
                 appFontWeight: AppFontWeight.medium));
             var selectedFolder = taskParams.workspace?.folders
                 ?.where((f) => f.id == taskParams.folder?.id)
