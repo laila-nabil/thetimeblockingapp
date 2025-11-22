@@ -311,7 +311,7 @@ class CustomButton extends StatelessWidget {
       }
     }
     final filledButtonBackgroundColor = type.isPrimary
-        ? AppColors.primary(context.isDarkMode).shade500
+        ? AppColors.primary(context.isDarkMode,500)
         : type.isGrey
             ? AppColors.grey(context.isDarkMode).shade500
             : AppColors.error(context.isDarkMode).shade500;
@@ -325,7 +325,7 @@ class CustomButton extends StatelessWidget {
           }
           if (states.contains(WidgetState.hovered)) {
             return type.isPrimary
-                ? AppColors.primary(context.isDarkMode).shade400
+                ? AppColors.primary(context.isDarkMode,400)
                 : type.isGrey
                     ? AppColors.grey(context.isDarkMode).shade700
                     : AppColors.error(context.isDarkMode).shade300;
@@ -334,7 +334,7 @@ class CustomButton extends StatelessWidget {
             return AppColors.grey(context.isDarkMode).shade300;
           }
           return type.isPrimary
-              ? AppColors.primary(context.isDarkMode).shade500
+              ? AppColors.primary(context.isDarkMode,500)
               : type.isGrey
                   ? AppColors.grey(context.isDarkMode).shade500
                   : AppColors.error(context.isDarkMode).shade500;
@@ -366,8 +366,8 @@ class CustomButton extends StatelessWidget {
             ? AppColors.grey(context.isDarkMode).shade100
             : type.isSecondary
                 ? (states.contains(WidgetState.hovered)
-                    ? AppColors.primary(context.isDarkMode).shade700
-                    : AppColors.primary(context.isDarkMode).shade600)
+                    ? AppColors.primary(context.isDarkMode,700)
+                    : AppColors.primary(context.isDarkMode,600))
                 : type.isGrey
                     ? (states.contains(WidgetState.focused)
                         ? AppColors.grey(context.isDarkMode).shade100
@@ -381,7 +381,7 @@ class CustomButton extends StatelessWidget {
     final outlinedButtonDisabledForegroundColor =
         AppColors.grey(context.isDarkMode).shade400;
     final outlinedButtonForegroundColor = type.isSecondary
-        ? AppColors.primary(context.isDarkMode).shade600
+        ? AppColors.primary(context.isDarkMode,600)
         : type.isGrey
             ? AppColors.grey(context.isDarkMode).shade700
             : AppColors.error(context.isDarkMode).shade400;
@@ -400,7 +400,7 @@ class CustomButton extends StatelessWidget {
         if (states.contains(WidgetState.hovered) ||
             states.contains(WidgetState.focused)) {
           return type.isSecondary
-              ? AppColors.primary(context.isDarkMode).shade50
+              ? AppColors.primary(context.isDarkMode,50)
               : type.isGrey
                   ? AppColors.grey(context.isDarkMode).shade50
                   : AppColors.error(context.isDarkMode).shade50;
@@ -584,10 +584,10 @@ class CustomButton extends StatelessWidget {
       }
       if (type.isPrimary) {
         return states.contains(WidgetState.focused)
-            ? AppColors.primary(context.isDarkMode).shade700
+            ? AppColors.primary(context.isDarkMode,700)
             : states.contains(WidgetState.hovered)
-                ? AppColors.primary(context.isDarkMode).shade600
-                : AppColors.primary(context.isDarkMode).shade500;
+                ? AppColors.primary(context.isDarkMode,600)
+                : AppColors.primary(context.isDarkMode,500);
       }
       if (type.isGrey) {
         return states.contains(WidgetState.focused)

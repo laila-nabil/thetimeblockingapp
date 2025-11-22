@@ -16,18 +16,18 @@ class AppColors {
 
   static Color background(bool isDarkMode) => grey(isDarkMode).shade50;
 
-  static MaterialColor primary(bool isDarkMode) => isDarkMode
+  static MaterialColor _primary(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff8133F1).value, const {
-          50: Color(0xff290064),
-          100: Color(0xff360083),
-          200: Color(0xff4600A9),
-          300: Color(0xff5900D9),
-          400: Color(0xff6200EE),
-          500: Color(0xff8133F1),
-          600: Color(0xff9654F4),
-          700: Color(0xffB78AF7),
-          800: Color(0xffCEB0FA),
-          900: Color(0xffEFE6FD),
+          50: Color(0xffEFE6FD),
+          100: Color(0xffCEB0FA),
+          200: Color(0xffB78AF7),
+          300: Color(0xff9654F4),
+          400: Color(0xff8133F1),
+          500: Color(0xff6200EE),
+          600: Color(0xff5900D9),
+          700: Color(0xff4600A9),
+          800: Color(0xff360083),
+          900: Color(0xff290064),
         })
       : MaterialColor(const Color(0xff8133F1).value, const {
           50: Color(0xffEFE6FD),
@@ -41,6 +41,10 @@ class AppColors {
           800: Color(0xff360083),
           900: Color(0xff290064),
         });
+
+  static Color primary(bool isDarkMode, [int? shade]) => shade != null
+      ? (_primary(isDarkMode)[shade] ?? _primary(isDarkMode))
+      : _primary(isDarkMode);
 
   static MaterialColor secondary(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff290064).value, const {

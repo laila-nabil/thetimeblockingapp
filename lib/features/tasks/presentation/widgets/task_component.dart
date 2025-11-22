@@ -252,7 +252,7 @@ class _TaskWidgetState extends State<TaskWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
             color: onHover
-                ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+                ? AppColors.primary(context.isDarkMode,50).withOpacity(0.5)
                 : AppColors.background(context.isDarkMode),
           ),
           child: Column(

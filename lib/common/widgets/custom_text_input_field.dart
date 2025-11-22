@@ -362,7 +362,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                       ? OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: BorderSide(
-                              color: AppColors.primary(context.isDarkMode).shade100, width: 1),
+                              color: AppColors.primary(context.isDarkMode,100), width: 1),
                         )
                       : UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
@@ -375,8 +375,8 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
                                           ? AppColors.error(context.isDarkMode).shade300
                                           : isSuccess
                                               ? AppColors.success(context.isDarkMode).shade300
-                                              : AppColors.primary(context.isDarkMode).shade100)
-                                  : AppColors.primary(context.isDarkMode).shade100,
+                                              : AppColors.primary(context.isDarkMode,100))
+                                  : AppColors.primary(context.isDarkMode,100),
                               width: 1),
                         ),
                   border: isBox

@@ -89,7 +89,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                         bottom: isOpen
                             ? BorderSide(color: AppColors.grey(context.isDarkMode).shade200, width: 1)
                             : BorderSide.none),
-                    color:  onHover ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5) :null
+                    color:  onHover ? AppColors.primary(context.isDarkMode,50).withOpacity(0.5) :null
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
