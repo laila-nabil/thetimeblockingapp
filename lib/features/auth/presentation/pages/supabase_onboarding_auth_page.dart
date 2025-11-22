@@ -156,6 +156,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             final settingsBloc = BlocProvider.of<SettingsBloc>(context);
             if(state.authState == AuthStateEnum.initial){
               authBloc.add(CheckAlreadySignedInEvent());
+              settingsBloc.add(GetThemeModeEvent());
             }
             if (state.authState == AuthStateEnum.signUpSuccess &&
                 serviceLocator<AppConfig>().confirmationEmailEnabled == false) {

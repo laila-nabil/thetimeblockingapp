@@ -20,6 +20,7 @@ import 'package:thetimeblockingapp/features/global/data/repositories/global_repo
 import 'package:thetimeblockingapp/features/global/domain/repositories/global_repo.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:thetimeblockingapp/features/schedule/presentation/views/calendar.dart';
+import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:thetimeblockingapp/features/settings/data/data_sources/settings_remote_data_source.dart';
 import 'package:thetimeblockingapp/features/settings/domain/repositories/settings_repo.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/change_language_use_case.dart';
@@ -49,7 +50,9 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/lists/presentation/bloc/lists_page_bloc.dart';
 import '../features/global/domain/use_cases/get_statuses_use_case.dart';
 import '../features/settings/data/repositories/settings_repo_impl.dart';
+import '../features/settings/domain/use_cases/get_theme_mode_use_case.dart';
 import '../features/settings/domain/use_cases/report_issue_use_case.dart';
+import '../features/settings/domain/use_cases/save_theme_mode_use_case.dart';
 import '../features/tasks/data/data_sources/tasks_demo_remote_data_source.dart';
 import '../features/tasks/domain/use_cases/create_list_in_folder_use_case.dart';
 import '../features/tasks/domain/use_cases/add_tag_to_task_use_case.dart';
@@ -179,9 +182,8 @@ void _initServiceLocator({required Network network}) {
         serviceLocator(),
       ));
 
-  serviceLocator.registerFactory(() => SettingsBloc(
-        serviceLocator(),serviceLocator(),serviceLocator()
-      ));
+  serviceLocator.registerFactory(() => SettingsBloc(serviceLocator(),
+      serviceLocator(), serviceLocator(), serviceLocator(), serviceLocator()));
 
   /// UseCases
 
@@ -277,6 +279,12 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator
       .registerLazySingleton(() => ChangeLanguageUseCase(appLocalization));
 
+  serviceLocator
+      .registerLazySingleton(() => GetThemeModeUseCase(serviceLocator()));
+
+  serviceLocator
+      .registerLazySingleton(() => SaveThemeModeUseCase(serviceLocator()));
+
   serviceLocator.registerLazySingleton(() => SignOutUseCase(serviceLocator()));
 
   serviceLocator.registerLazySingleton(() => SignInUseCase(serviceLocator()));
@@ -301,13 +309,16 @@ serviceLocator.registerLazySingleton(() => GetPrioritiesUseCase(
   serviceLocator.registerLazySingleton<GlobalRepo>(
           () => GlobalRepoImpl(serviceLocator(),));
   serviceLocator.registerLazySingleton<SettingsRepo>(
-          () => SettingsRepoImpl(serviceLocator(),serviceLocator(),serviceLocator()));
+          () => SettingsRepoImpl(serviceLocator(),serviceLocator(),serviceLocator(),serviceLocator()));
 
   /// DataSources
   serviceLocator.registerLazySingleton<AuthRemoteDataSource>(
       () => authRemoteDataSource());
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(serviceLocator()));
+
+  serviceLocator.registerLazySingleton<SettingsLocalDataSource>(
+      () => SettingsLocalDataSourceImpl(serviceLocator()));
 
   serviceLocator.registerLazySingleton<TasksRemoteDataSource>(
       () => tasksRemoteDataSource());
