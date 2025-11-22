@@ -48,18 +48,18 @@ class AppColors {
 
   static MaterialColor _secondary(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xff290064).value, const {
-    50: Color(0xff290064),
-    100: Color(0xff360083),
-    200: Color(0xff4600A9),
-    300: Color(0xff5900D9),
-    400: Color(0xff6200EE),
-    500: Color(0xff8133F1),
-    600: Color(0xff9654F4),
-    700: Color(0xffB78AF7),
-    800: Color(0xffCEB0FA),
-    900: Color(0xffEFE6FD),
+          50: Color(0xffEFE6FD),
+          100: Color(0xffCEB0FA),
+          200: Color(0xffB78AF7),
+          300: Color(0xff9654F4),
+          400: Color(0xff8133F1),
+          500: Color(0xff6200EE),
+          600: Color(0xff5900D9),
+          700: Color(0xff4600A9),
+          800: Color(0xff360083),
+          900: Color(0xff290064),
   })
-      : MaterialColor(const Color(0xffEFE6FD).value, const {
+      : MaterialColor(const Color(0xff290064).value, const {
     50: Color(0xffEFE6FD),
     100: Color(0xffCEB0FA),
     200: Color(0xffB78AF7),
@@ -80,16 +80,16 @@ class AppColors {
 
   static MaterialColor _warning(bool isDarkMode) => isDarkMode
       ? MaterialColor(const Color(0xffDD900D).value, const {
-          50: Color(0xff523300),
-          100: Color(0xff664101),
-          200: Color(0xff865503),
-          300: Color(0xffAD6F07),
-          400: Color(0xffDD900D),
-          500: Color(0xffF3A218),
-          600: Color(0xffF5B546),
-          700: Color(0xffF7C164),
-          800: Color(0xffF7D394),
-          900: Color(0xffFEF6E7),
+          50: Color(0xffFEF6E7),
+          100: Color(0xffF7D394),
+          200: Color(0xffF7C164),
+          300: Color(0xffF5B546),
+          400: Color(0xffF3A218),
+          500: Color(0xffDD900D),
+          600: Color(0xffAD6F07),
+          700: Color(0xff865503),
+          800: Color(0xff664101),
+          900: Color(0xff523300),
         })
       : MaterialColor(const Color(0xffF3A218).value, const {
           50: Color(0xffFEF6E7),
@@ -110,7 +110,7 @@ class AppColors {
 
 
   static MaterialColor _error(bool isDarkMode) => isDarkMode
-      ? MaterialColor(const Color(0xffCB1A14).value, const {
+      ? MaterialColor(const Color(0xffD42620).value, const {
           50: Color(0xff591000),
           100: Color(0xff800501),
           200: Color(0xff9E0A05),
@@ -121,7 +121,7 @@ class AppColors {
           700: Color(0xffE26E6A),
           800: Color(0xffEB9B98),
           900: Color(0xffFBEAE9),
-        })
+  })
       : MaterialColor(const Color(0xffD42620).value, const {
           50: Color(0xffFBEAE9),
           100: Color(0xffEB9B98),
