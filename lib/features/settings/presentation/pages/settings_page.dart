@@ -288,7 +288,6 @@ class SettingsPage extends StatelessWidget {
             ],
           ),
         ),
-        if (false)
           Padding(
             padding: EdgeInsets.only(
               top: AppSpacing.xSmall8.value,
