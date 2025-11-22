@@ -51,8 +51,16 @@ class Task extends Equatable {
     required this.workspace,
   });
 
-  Color get color =>
-      (status?.getColor ?? AppColors.paletteBlue).withOpacity(0.2);
+  Color color(bool isDarkMode, {required bool isBackground}) {
+    var color = (status?.getColor ?? AppColors.paletteBlue);
+    if (isBackground) {
+      if(isDarkMode){
+            return color.withOpacity(0.7);
+          }
+      return color.withOpacity(0.2);
+    }
+    return color;
+  }
 
   Duration? get duration =>
       startDate == null ? null : dueDate?.difference(startDate!);

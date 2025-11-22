@@ -14,7 +14,7 @@ class EmptyListWidget extends StatelessWidget {
         appLocalization.translate("noTasksMessage"),
         style: AppTextStyle.getTextStyle(AppTextStyleParams(
             appFontSize: AppFontSize.paragraphXSmall,
-            color: AppColors.black(context.isDarkMode).withOpacity(0.8),
+            color: context.isDarkMode ? AppColors.white : AppColors.black.withOpacity(0.8),
             appFontWeight: AppFontWeight.thin)),
     );
   }

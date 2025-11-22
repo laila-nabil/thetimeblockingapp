@@ -138,7 +138,7 @@ class CalendarNavigationHeader extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             AppBorderRadius.x3Large.value),
                         borderSide: BorderSide(
-                          color: AppColors.grey(context.isDarkMode)
+                          color: AppColors.grey()
                               .withOpacity(0.3),
                         ),
                       ),
@@ -202,11 +202,11 @@ class CalendarNavigationHeader extends StatelessWidget {
                       style: context.showSmallDesign
                           ? AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.paragraphMedium,
-                              color: AppColors.black(context.isDarkMode),
+                              color: context.isDarkMode ? AppColors.white : AppColors.black,
                               appFontWeight: AppFontWeight.medium))
                           : AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.heading6,
-                              color: AppColors.black(context.isDarkMode),
+                              color: context.isDarkMode ? AppColors.white : AppColors.black,
                               appFontWeight: AppFontWeight.medium)),
                     );
                   }),
@@ -259,11 +259,11 @@ class CalendarNavigationHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       textStyle: const TextStyle(fontSize: 12),
       foregroundColor: isSelected
-          ? Theme.of(context).colorScheme.onPrimary
-          : Theme.of(context).colorScheme.surfaceTint,
-      backgroundColor: isSelected ? Theme.of(context).primaryColor : null,
+          ? AppColors.white
+          : AppColors.text(context.isDarkMode),
+      backgroundColor: isSelected ? AppColors.primary(context.isDarkMode) : null,
       side: BorderSide(
-        color: AppColors.grey(context.isDarkMode).withOpacity(0.3),
+        color: AppColors.grey().withOpacity(0.3),
       ),
     );
   }

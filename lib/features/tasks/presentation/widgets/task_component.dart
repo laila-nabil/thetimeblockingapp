@@ -151,10 +151,14 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     final globalState = BlocProvider.of<GlobalBloc>(context).state ;
-    final colors = AppColors.grey(context.isDarkMode).shade500;
+    final colors = context.isDarkMode
+        ? AppColors.white
+        : AppColors.grey(500);
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
-        color: AppColors.grey(context.isDarkMode).shade400,
+        color: context.isDarkMode
+            ? AppColors.white
+            : AppColors.grey(400),
         appFontWeight: AppFontWeight.semiBold));
     final folderName = widget.task.folder?.name;
     final listName = widget.task.list?.name;
@@ -169,19 +173,19 @@ class _TaskWidgetState extends State<TaskWidget> {
           appLocalization.translate("complete"),
           style: AppTextStyle.getTextStyle(AppTextStyleParams(
               appFontSize: AppFontSize.paragraphSmall,
-              color: AppColors.white(false),
+              color: AppColors.white,
               appFontWeight: AppFontWeight.medium)),
         ),
       ),
       secondaryBackground: Container(
-        color: AppColors.error(context.isDarkMode),
+        color: AppColors.error(),
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         alignment: AlignmentDirectional.centerEnd,
         child: Text(
           appLocalization.translate("delete"),
           style: AppTextStyle.getTextStyle(AppTextStyleParams(
               appFontSize: AppFontSize.paragraphSmall,
-              color: AppColors.white(false),
+              color: AppColors.white,
               appFontWeight: AppFontWeight.medium)),
         ),
       ),
@@ -252,7 +256,11 @@ class _TaskWidgetState extends State<TaskWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
             color: onHover
-                ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+                ? (context.isDarkMode
+                ? AppColors.grey( 200)
+                .withOpacity(0.1)
+                : AppColors.primary(context.isDarkMode, 50)
+                .withOpacity(0.5))
                 : AppColors.background(context.isDarkMode),
           ),
           child: Column(
@@ -320,8 +328,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                               widget.task.isCompleted
                                   ? AppIcons.checkboxchecked
                                   : AppIcons.checkbox,
-                              color: widget.task.status?.getColor ??
-                                  AppColors.text(context.isDarkMode),
+                              color: widget.task.color(context.isDarkMode,isBackground: false),
                               size: 20,
                             ),
                           ),
@@ -333,7 +340,9 @@ class _TaskWidgetState extends State<TaskWidget> {
                               widget.task.title ?? "",
                               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                       appFontSize: AppFontSize.paragraphSmall,
-                                      color: AppColors.grey(context.isDarkMode).shade900,
+                                      color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                                       appFontWeight: AppFontWeight.semiBold))
                                   .copyWith(
                                       decoration: widget.task.isCompleted

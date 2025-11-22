@@ -46,7 +46,7 @@ class CustomPopupMenu extends StatefulWidget {
   final String? tooltip;
   static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
-      color: AppColors.grey(isDarkMode).shade900,
+      color: isDarkMode ? AppColors.grey(50) : AppColors.grey(900),
       appFontWeight: AppFontWeight.regular));
 
   @override
@@ -57,12 +57,14 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
   bool isOpened = false;
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.backgroundColor ?? AppColors.white(context.isDarkMode);
+    final defaultBackgroundColor =
+        context.isDarkMode ? AppColors.grey(800) : AppColors.white;
+    final backgroundColor = widget.backgroundColor ?? defaultBackgroundColor;
     return PopupMenuButton(
         tooltip: widget.tooltip,
-        color: AppColors.white(context.isDarkMode),
-        surfaceTintColor: AppColors.white(context.isDarkMode),
-        shadowColor: AppColors.secondary(context.isDarkMode).shade100,
+        color: defaultBackgroundColor,
+        surfaceTintColor: defaultBackgroundColor,
+        shadowColor: AppColors.secondary(context.isDarkMode,100),
         icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(
@@ -71,7 +73,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                     borderRadius: BorderRadius.circular(6.0)),
                 shadows: [
                   if(isOpened)BoxShadow(
-                    color: AppColors.secondary(context.isDarkMode).shade50,
+                    color: AppColors.secondary(context.isDarkMode,50),
                     blurRadius: 0,
                     offset: const Offset(0, 0),
                     spreadRadius: 4,
@@ -80,7 +82,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
             child: Icon(
               AppIcons.dotsv,
               size: 16,
-              color: AppColors.grey(context.isDarkMode).shade500,
+              color: AppColors.grey(500),
             )),
         onOpened: (){
           setState(() {

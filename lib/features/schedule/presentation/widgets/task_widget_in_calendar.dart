@@ -186,10 +186,14 @@ class TaskWidgetInCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     printDebug("task ${task.title} ${taskLocation}");
-    final colors = AppColors.grey(context.isDarkMode).shade500;
+    final colors = context.isDarkMode
+        ? AppColors.white
+        : AppColors.grey(500);
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
-        color: AppColors.grey(context.isDarkMode).shade400,
+        color: context.isDarkMode
+            ? AppColors.white
+            : AppColors.grey(400),
         appFontWeight: AppFontWeight.semiBold));
     final folderName = task.folder?.name;
     final listName = task.list?.name;
@@ -212,19 +216,19 @@ class TaskWidgetInCalendar extends StatelessWidget {
               appLocalization.translate("complete"),
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.white(false),
+                  color: AppColors.white,
                   appFontWeight: AppFontWeight.medium)),
             ),
           ),
           secondaryBackground: Container(
-            color: AppColors.error(context.isDarkMode),
+            color: AppColors.error(),
             padding: EdgeInsets.all(AppSpacing.xSmall8.value),
             alignment: AlignmentDirectional.centerEnd,
             child: Text(
               appLocalization.translate("delete"),
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.white(false),
+                  color: AppColors.white,
                   appFontWeight: AppFontWeight.medium)),
             ),
           ),
@@ -298,7 +302,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
                   taskLocationTextStyle: taskLocationTextStyle,
                   showSmallDesign: context.showSmallDesign)
               : Card(
-                  color: task.color ?? Colors.blue,
+                  color: task.color(context.isDarkMode,isBackground: false) ?? Colors.blue,
                   elevation: 0,
                   child: ListTile(
                     title: Text(task.title ?? ''),
@@ -314,7 +318,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
         ),
       );
       return Card(
-        color: task.color ?? Colors.blue,
+        color: task.color(context.isDarkMode,isBackground: false) ?? Colors.blue,
         elevation: 0,
         child: ListTile(
           title: Text(task.title ?? ''),
@@ -351,7 +355,9 @@ class TaskWidgetInCalendar extends StatelessWidget {
       required bool showSmallDesign}) {
     final dateTextStyle = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphX2Small,
-        color: AppColors.grey(context.isDarkMode).shade400,
+        color: context.isDarkMode
+            ? AppColors.white
+            : AppColors.grey(400),
         appFontWeight: AppFontWeight.semiBold));
     var mainContent = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,7 +378,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
               child: Icon(
                 task.isCompleted ? AppIcons.checkboxchecked : AppIcons.checkbox,
                 color:
-                    task.status?.getColor ?? AppColors.text(context.isDarkMode),
+                    task.color(context.isDarkMode,isBackground: false),
                 size: 15,
               ),
             ),
@@ -390,7 +396,9 @@ class TaskWidgetInCalendar extends StatelessWidget {
                   text: task.title ?? '',
                   style: AppTextStyle.getTextStyle(AppTextStyleParams(
                           appFontSize: AppFontSize.paragraphXSmall,
-                          color: AppColors.grey(context.isDarkMode).shade900,
+                          color: context.isDarkMode
+                              ? AppColors.text(context.isDarkMode)
+                              : AppColors.grey(900),
                           appFontWeight: AppFontWeight.semiBold))
                       .copyWith(
                           decoration: task.isCompleted
@@ -404,7 +412,9 @@ class TaskWidgetInCalendar extends StatelessWidget {
                     text: task.description ?? '',
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphX2Small,
-                            color: AppColors.grey(context.isDarkMode).shade900,
+                            color: context.isDarkMode
+                                ? AppColors.text(context.isDarkMode)
+                                : AppColors.grey(900),
                             appFontWeight: AppFontWeight.semiBold))
                         .copyWith(
                             decoration: task.isCompleted
@@ -434,11 +444,11 @@ class TaskWidgetInCalendar extends StatelessWidget {
           horizontal: 8,
           vertical: taskLocation == TaskLocation.header ? 0 : 4),
       decoration: BoxDecoration(
-        color: _color(task.color ?? Colors.blue).withOpacity(0.2),
+        color: _color(task.color(context.isDarkMode,isBackground: true)),
         borderRadius: BorderRadius.circular(8),
         border: BorderDirectional(
           start: BorderSide(
-              color: _color(task.priority?.getColor ?? task.color),
+              color: _color(task.priority?.getColor ?? task.color(context.isDarkMode,isBackground: false)),
               width: 5),
         ),
       ),

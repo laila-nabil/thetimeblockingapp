@@ -119,7 +119,7 @@ class SettingsPage extends StatelessWidget {
                             appLocalization.translate("Settings"),
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                 color:
-                                AppColors.grey(context.isDarkMode).shade900,
+                                AppColors.grey(900),
                                 appFontWeight: AppFontWeight.medium,
                                 appFontSize: AppFontSize.heading4)),
                           ),
@@ -146,7 +146,7 @@ class SettingsPage extends StatelessWidget {
                               appLocalization.translate("Settings"),
                               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                   color:
-                                  AppColors.grey(context.isDarkMode).shade900,
+                                  AppColors.grey(900),
                                   appFontWeight: AppFontWeight.medium,
                                   appFontSize: AppFontSize.heading4)),
                             ),
@@ -220,7 +220,9 @@ class SettingsPage extends StatelessWidget {
                 appLocalization.translate("email"),
                 style: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade900,
+                    color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                     appFontWeight: AppFontWeight.medium)),
               ),
             if (userNotAnonymous)
@@ -232,7 +234,7 @@ class SettingsPage extends StatelessWidget {
                 authBloc.state.user?.email ?? "",
                 style: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade700,
+                    color: AppColors.grey(700),
                     appFontWeight: AppFontWeight.regular)),
               ),
           ],
@@ -248,7 +250,9 @@ class SettingsPage extends StatelessWidget {
                 appLocalization.translate("language"),
                 style: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey(context.isDarkMode).shade900,
+                    color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                     appFontWeight: AppFontWeight.medium)),
               ),
               SizedBox(
@@ -270,11 +274,13 @@ class SettingsPage extends StatelessWidget {
                 inputDecorationTheme: InputDecorationTheme(
                   labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.grey(context.isDarkMode).shade900,
+                      color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                       appFontWeight: AppFontWeight.regular)),
                   hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.error(context.isDarkMode).shade900,
+                      color: AppColors.error(900),
                       appFontWeight: AppFontWeight.regular)),
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -282,44 +288,62 @@ class SettingsPage extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6),
                       borderSide: BorderSide(
-                          color: AppColors.grey(context.isDarkMode).shade300)),
+                          color: AppColors.grey(300))),
                 ),
               ),
             ],
           ),
         ),
-        if (false)
-          Padding(
-            padding: EdgeInsets.only(
-              top: AppSpacing.xSmall8.value,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  appLocalization.translate("theme"),
-                  style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.grey(context.isDarkMode).shade900,
-                      appFontWeight: AppFontWeight.medium)),
-                ),
-                SizedBox(
-                  height: AppSpacing.x2Small4.value,
-                ),
-                CustomDropDownMenu(
-                  initialSelection: state.themeMode,
-                  dropdownMenuEntries: ThemeMode.values
-                      .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                          value: e, label: appLocalization.translate(e.name)))
-                      .toList(),
-                  onSelected: (selected) {
-                    bloc.add(ChangeThemeEvent(selected));
-                  },
-                  isDarkMode: (context.isDarkMode),
-                ),
-              ],
-            ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSpacing.xSmall8.value,
           ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appLocalization.translate("theme"),
+                style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                    appFontSize: AppFontSize.paragraphSmall,
+                    color: AppColors.grey( 900),
+                    appFontWeight: AppFontWeight.medium)),
+              ),
+              SizedBox(
+                height: AppSpacing.x2Small4.value,
+              ),
+              CustomDropDownMenu(
+                initialSelection: state.themeMode,
+                dropdownMenuEntries: ThemeMode.values
+                    .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                        value: e, label: appLocalization.translate(e.name)))
+                    .toList(),
+                onSelected: (selected) {
+                  bloc.add(ChangeThemeEvent(selected));
+                },
+                isDarkMode: (context.isDarkMode),
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
+                      appFontWeight: AppFontWeight.regular)),
+                  hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
+                      appFontSize: AppFontSize.paragraphSmall,
+                      color: AppColors.error(900),
+                      appFontWeight: AppFontWeight.regular)),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(
+                          color: AppColors.grey(300))),
+                ),
+              ),
+            ],
+          ),
+        ),
         Padding(
           padding: EdgeInsets.only(
             top: AppSpacing.medium16.value,
@@ -498,7 +522,7 @@ class SettingsPage extends StatelessWidget {
                                 " ",
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                 appFontSize: AppFontSize.paragraphX2Small,
-                                color: AppColors.grey(context.isDarkMode),
+                                color: AppColors.grey(),
                                 appFontWeight: AppFontWeight.thin)),
                             children: <TextSpan>[
                               TextSpan(

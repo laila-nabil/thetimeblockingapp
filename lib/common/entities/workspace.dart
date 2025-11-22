@@ -24,8 +24,13 @@ class Workspace extends Equatable {
   final List<Tag>? tags;
 
 
-  ///TODO
-  TasksList? get defaultList=> lists?.firstOrNull;
+
+  TasksList? get defaultList {
+    final theListsSorted = lists;
+    theListsSorted?.sort(
+        (a, b) => (int.tryParse(a.id ?? "")??0).compareTo(int.tryParse(b.id ?? "")??0));
+    return theListsSorted?.firstOrNull;
+  }
 
   @override
   List<Object?> get props => [

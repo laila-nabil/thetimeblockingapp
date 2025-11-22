@@ -172,7 +172,9 @@ class ListsPage extends StatelessWidget {
                             appLocalization.translate("Lists"),
                             style: AppTextStyle.getTextStyle(
                                 AppTextStyleParams(
-                                    color: AppColors.grey(context.isDarkMode).shade900,
+                                    color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                                     appFontWeight: AppFontWeight.medium,
                                     appFontSize: AppFontSize.heading4)),
                           ),

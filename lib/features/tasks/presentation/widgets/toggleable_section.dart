@@ -52,7 +52,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
       child: Container(
         decoration: BoxDecoration(
             color: AppColors.background(context.isDarkMode),
-            border: Border.all(color: AppColors.grey(context.isDarkMode).shade100, width: 1),
+            border: Border.all(color: AppColors.grey(100), width: 1),
             borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
             boxShadow: AppShadow.xSmall.shadows),
         margin: EdgeInsets.all(AppSpacing.medium16.value),
@@ -87,10 +87,15 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                 decoration: BoxDecoration(
                     border: Border(
                         bottom: isOpen
-                            ? BorderSide(color: AppColors.grey(context.isDarkMode).shade200, width: 1)
+                            ? BorderSide(color: AppColors.grey(200), width: 1)
                             : BorderSide.none),
-                    color:  onHover ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5) :null
-                ),
+                    color: onHover
+                        ? (context.isDarkMode
+                            ? AppColors.grey( 200)
+                                .withOpacity(0.1)
+                            : AppColors.primary(context.isDarkMode, 50)
+                                .withOpacity(0.5))
+                        : null),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -100,7 +105,7 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(
                             isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
-                            color: AppColors.grey(context.isDarkMode).shade500,
+                            color: AppColors.grey(500),
                             size: 20,
                           ),
                         ),
@@ -108,7 +113,9 @@ class _ToggleableSectionState extends State<ToggleableSection> {
                           widget.title,
                           style: AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.paragraphMedium,
-                              color: widget.titleColor ?? AppColors.grey(context.isDarkMode).shade900,
+                              color: widget.titleColor ?? (context.isDarkMode
+                                  ? AppColors.grey(50)
+                                  : AppColors.grey(900)),
                               appFontWeight: AppFontWeight.semiBold)),
                         )
                       ],

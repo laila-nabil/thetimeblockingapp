@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
+import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 
 
 
 class LoadingOverlay extends StatelessWidget {
   const LoadingOverlay(
-      {super.key, this.width = double.infinity, this.height = double.infinity});
+      {super.key,
+      this.width = double.infinity,
+      this.height = double.infinity,
+      required this.color});
   final double width;
   final double height;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class LoadingOverlay extends StatelessWidget {
       height: height,
       color: Colors.transparent,
       alignment: Alignment.center,
-      child: CustomLoading(color: Theme.of(context).primaryColor),
+      child: CustomLoading(color: color ),
     );
   }
 }
@@ -29,7 +35,10 @@ class CustomLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: CircularProgressIndicator(
-          color: color ?? Theme.of(context).primaryColor,
-        ));
+      color: color ??
+          (context.isDarkMode
+              ? AppColors.primary(context.isDarkMode, 50)
+              : AppColors.primary(context.isDarkMode)),
+    ));
   }
 }

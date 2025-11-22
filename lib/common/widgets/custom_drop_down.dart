@@ -10,8 +10,8 @@ import '../../core/resources/app_icons.dart';
 class CustomDropDown<T> extends DropdownButton<T> {
   static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
       appFontSize: AppFontSize.paragraphSmall,
-      color: AppColors.grey(isDarkMode).shade900,
-      appFontWeight: AppFontWeight.regular));
+          color: isDarkMode ? AppColors.grey(50) : AppColors.grey(900),
+          appFontWeight: AppFontWeight.regular));
 
   final bool isDarkMode;
   CustomDropDown({
@@ -42,7 +42,7 @@ class CustomDropDown<T> extends DropdownButton<T> {
   Color? get dropdownColor => AppColors.background(isDarkMode);
 
   @override
-  Color? get focusColor => AppColors.grey(isDarkMode).shade50;
+  Color? get focusColor => isDarkMode ? AppColors.grey(800) : AppColors.grey(50);
 
   @override
   Widget? get icon => const Icon(AppIcons.chevrondown, size: 0);

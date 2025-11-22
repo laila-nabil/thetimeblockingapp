@@ -139,7 +139,7 @@ class CustomDrawerWidget extends StatelessWidget {
                   isSelected: location.contains(MapsPage.routeName) == true),
             Divider(
               height: 1,
-              color: AppColors.grey(context.isDarkMode).shade100,
+              color: AppColors.grey(100),
             ),
             const Spacer(),
             // ignore: dead_code
@@ -191,7 +191,7 @@ class CustomDrawerWidget extends StatelessWidget {
                           text: appLocalization.translate("madeWithLoveBy") + " ",
                           style: AppTextStyle.getTextStyle(AppTextStyleParams(
                               appFontSize: AppFontSize.paragraphX2Small,
-                              color: AppColors.grey(context.isDarkMode),
+                              color: AppColors.grey(),
                               appFontWeight: AppFontWeight.thin)),
                           children: <TextSpan>[
                             TextSpan(
@@ -249,16 +249,20 @@ class _DrawerItem extends StatelessWidget {
                 (Set<WidgetState> states) {
               if (states.contains(WidgetState.focused) ||
                   states.contains(WidgetState.pressed)) {
-                return AppColors.primary(context.isDarkMode).shade50;
+                return context.isDarkMode
+                    ? AppColors.grey( 50).withValues(alpha: 0.3)
+                    : AppColors.primary(context.isDarkMode, 50);
               }
               if (states.contains(WidgetState.hovered)) {
-                return AppColors.grey(context.isDarkMode).shade50;
+                return context.isDarkMode
+                    ? AppColors.grey(50).withValues(alpha: 0.1)
+                    : AppColors.grey(50);
               }
               return AppColors.background(context.isDarkMode);
             }),
             foregroundColor: WidgetStateProperty.resolveWith<Color>(
                 (Set<WidgetState> states) {
-              return AppColors.white(context.isDarkMode);
+              return context.isDarkMode ? AppColors.black : AppColors.white;
             }),
             padding: WidgetStateProperty.all(
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
@@ -272,7 +276,7 @@ class _DrawerItem extends StatelessWidget {
             Icon(
               iconPath(isSelected),
               size: 20,
-              color: AppColors.black(context.isDarkMode),
+              color: context.isDarkMode ? AppColors.white : AppColors.black,
             ),
             SizedBox(
               width: AppSpacing.small12.value,
@@ -281,7 +285,9 @@ class _DrawerItem extends StatelessWidget {
               title,
               style: AppTextStyle.getTextStyle(AppTextStyleParams(
                   appFontSize: AppFontSize.paragraphSmall,
-                  color: AppColors.grey(context.isDarkMode).shade700,
+                  color: context.isDarkMode
+                      ? AppColors.grey( 50)
+                      : AppColors.grey( 700),
                   appFontWeight: isSelected
                       ? AppFontWeight.semiBold
                       : AppFontWeight.regular)),
@@ -440,7 +446,7 @@ class MorePage extends StatelessWidget {
                                       text: appLocalization.translate("madeWithLoveBy") + " ",
                                       style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                           appFontSize: AppFontSize.paragraphX2Small,
-                                          color: AppColors.grey(context.isDarkMode),
+                                          color: AppColors.grey(),
                                           appFontWeight: AppFontWeight.thin)),
                                       children: <TextSpan>[
                                         TextSpan(

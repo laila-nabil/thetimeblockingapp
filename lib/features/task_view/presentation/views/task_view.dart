@@ -427,14 +427,13 @@ class _TaskViewState extends State<TaskView> {
                 AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
                     appFontWeight: AppFontWeight.medium,
-                    color: AppColors
-                        .grey(context.isDarkMode)
-                        .shade800));
+                    color: context.isDarkMode ? AppColors
+                        .grey(50) : AppColors
+                        .grey(800)));
             final sectionTitle = AppTextStyle.getTextStyle(AppTextStyleParams(
                 appFontSize: AppFontSize.paragraphSmall,
                 color: AppColors
-                    .grey(context.isDarkMode)
-                    .shade900,
+                    .grey(900),
                 appFontWeight: AppFontWeight.medium));
             var selectedFolder = taskParams.workspace?.folders
                 ?.where((f) => f.id == taskParams.folder?.id)
@@ -634,8 +633,7 @@ class _TaskViewState extends State<TaskView> {
                                             padding: const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.clear,
-                                                color: AppColors.error(
-                                                    context.isDarkMode),
+                                                color: AppColors.error(),
                                                 size: 10,
                                               ),
                                             ),
@@ -818,8 +816,7 @@ class _TaskViewState extends State<TaskView> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Icon(
                                               Icons.clear,
-                                              color: AppColors.error(
-                                                  context.isDarkMode),
+                                              color: AppColors.error(),
                                               size: 10,
                                             ),
                                           ),
@@ -947,8 +944,7 @@ class _TaskViewState extends State<TaskView> {
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Icon(
                                                     Icons.clear,
-                                                    color: AppColors.error(
-                                                        context.isDarkMode),
+                                                    color: AppColors.error(),
                                                     size: 10,
                                                   ),
                                                 ),
@@ -1021,8 +1017,7 @@ class _TaskViewState extends State<TaskView> {
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: Icon(
                                                   Icons.clear,
-                                                  color: AppColors.error(
-                                                      context.isDarkMode),
+                                                  color: AppColors.error(),
                                                   size: 10,
                                                 ),
                                               ),

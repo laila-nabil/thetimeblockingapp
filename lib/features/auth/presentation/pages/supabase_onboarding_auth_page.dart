@@ -95,21 +95,23 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
 
   @override
   Widget build(BuildContext context) {
+    var textColor = AppColors.text(context.isDarkMode);
+    printDebug("context.isDarkMode ${context.isDarkMode}");
     final titleStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final contentStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphLarge,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final titleStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading3,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final contentStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     const boxConstraints = BoxConstraints(maxWidth: 510);
     return BlocConsumer<SettingsBloc, SettingsState>(
@@ -163,6 +165,13 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                   email: emailController.text,
                   password: passwordController.text,
                   accessToken: const AccessToken(accessToken: '', tokenType: ''))));
+            }
+            if(settingsState.settingsStateEnum == SettingsStateEnum.loading){
+              printDebug("settingsState.settingsStateEnum == SettingsStateEnum.loading");
+              return ResponsiveScaffold(
+                  responsiveBody: ResponsiveTParams(small: Text("Hi Hello")),
+                  context: context,
+                  onRefresh: () async {});
             }
             return ResponsiveScaffold(
               responsiveScaffoldLoading: ResponsiveScaffoldLoading(
@@ -696,7 +705,9 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         appFontSize: context.showSmallDesign
             ? AppFontSize.paragraphX2Small
             : AppFontSize.paragraphXSmall,
-        color: AppColors.primary(context.isDarkMode),
+        color: context.isDarkMode
+            ? AppColors.primary(context.isDarkMode, 300)
+            : AppColors.primary(context.isDarkMode),
         appFontWeight: AppFontWeight.bold))
         .copyWith(decoration: TextDecoration.underline);
     return RichText(
@@ -706,7 +717,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                 appFontSize: context.showSmallDesign
                     ? AppFontSize.paragraphX2Small
                     : AppFontSize.paragraphXSmall,
-                color: AppColors.grey(context.isDarkMode),
+                color: AppColors.grey(),
                 appFontWeight: AppFontWeight.regular)),
             text: "${appLocalization.translate("byUsingTheAppAgreeOur")} ",
             children: [

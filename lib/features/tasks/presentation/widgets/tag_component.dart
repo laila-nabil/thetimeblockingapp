@@ -43,7 +43,11 @@ class _TagComponentState extends State<TagComponent> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
             color: onHover
-            ? AppColors.primary(context.isDarkMode).shade50.withOpacity(0.5)
+            ? (context.isDarkMode
+                ? AppColors.grey( 200)
+                .withOpacity(0.1)
+                : AppColors.primary(context.isDarkMode, 50)
+                .withOpacity(0.5))
             :  AppColors.background(context.isDarkMode)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +65,9 @@ class _TagComponentState extends State<TagComponent> {
                     widget.tag.name ?? "",
                     style: AppTextStyle.getTextStyle(AppTextStyleParams(
                         appFontSize: AppFontSize.paragraphSmall,
-                        color: AppColors.grey(context.isDarkMode).shade900,
+                        color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                         appFontWeight: AppFontWeight.semiBold)),
                   )
                 else

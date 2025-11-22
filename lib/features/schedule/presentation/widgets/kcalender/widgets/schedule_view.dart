@@ -200,7 +200,7 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
               var dateNumTextStyle = AppTextStyle.getTextStyle(
                   AppTextStyleParams(
                       appFontSize: AppFontSize.paragraphXSmall,
-                      color: AppColors.black(context.isDarkMode),
+                      color: context.isDarkMode ? AppColors.white : AppColors.black,
                       appFontWeight: AppFontWeight.regular));
               return Column(
                 children: [
@@ -235,7 +235,7 @@ class _ScheduleContentState<T> extends State<_ScheduleContent<T>> {
                               style: AppTextStyle.getTextStyle(
                                   AppTextStyleParams(
                                       appFontSize: AppFontSize.paragraphXSmall,
-                                      color: AppColors.black(context.isDarkMode),
+                                      color: context.isDarkMode ? AppColors.white : AppColors.black,
                                       appFontWeight: AppFontWeight.regular)),
                             ),
                             date.isToday

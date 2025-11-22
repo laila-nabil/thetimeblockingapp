@@ -364,7 +364,7 @@ class KalendarTasksCalendar extends StatelessWidget {
         dropTargetTile: (event) => DecoratedBox(
           decoration: BoxDecoration(
             border:
-                Border.all(color: event.data!.color.withAlpha(80), width: 2),
+                Border.all(color: event.data!.color(context.isDarkMode,isBackground: false).withAlpha(80), width: 2),
             borderRadius: radius,
           ),
         ),
@@ -373,11 +373,11 @@ class KalendarTasksCalendar extends StatelessWidget {
           width: dropTargetWidgetSize.width * 0.8,
           height: dropTargetWidgetSize.height,
           decoration: BoxDecoration(
-              color: event.data!.color.withAlpha(100), borderRadius: radius),
+              color: event.data!.color(context.isDarkMode,isBackground: false).withAlpha(100), borderRadius: radius),
         ),
         tileWhenDraggingBuilder: (event) => Container(
           decoration: BoxDecoration(
-              color: event.data!.color.withAlpha(80), borderRadius: radius),
+              color: event.data!.color(context.isDarkMode,isBackground: false).withAlpha(80), borderRadius: radius),
         ),
         dragAnchorStrategy: pointerDragAnchorStrategy,
         verticalResizeHandle: const VerticalResizeHandle(),

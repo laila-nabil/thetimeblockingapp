@@ -176,7 +176,9 @@ class TagPage extends StatelessWidget {
                                 state.navigateTag?.name ?? "",
                                 style: AppTextStyle.getTextStyle(
                                     AppTextStyleParams(
-                                        color: AppColors.grey(context.isDarkMode).shade900,
+                                        color: context.isDarkMode
+                                            ? AppColors.grey(50)
+                                            : AppColors.grey(900),
                                         appFontWeight: AppFontWeight.medium,
                                         appFontSize: AppFontSize.heading4)),
                               ),
@@ -188,7 +190,7 @@ class TagPage extends StatelessWidget {
                                 .getCurrentTagTasksResultOverdue.isNotEmpty)
                               ToggleableSection(
                                   title: appLocalization.translate("Overdue"),
-                                  titleColor: AppColors.error(context.isDarkMode).shade500,
+                                  titleColor: AppColors.error(500),
                                   children: state
                                       .getCurrentTagTasksResultOverdue
                                       .map<Widget>((e) => buildTaskWidget(
@@ -198,7 +200,7 @@ class TagPage extends StatelessWidget {
                                 .getCurrentTagTasksResultUpcoming.isNotEmpty)
                               ToggleableSection(
                                   title: appLocalization.translate("Upcoming"),
-                                  titleColor: AppColors.warning(context.isDarkMode).shade500,
+                                  titleColor: AppColors.warning(context.isDarkMode,500),
                                   children: state
                                       .getCurrentTagTasksResultUpcoming
                                       .map<Widget>((e) => buildTaskWidget(
@@ -219,7 +221,7 @@ class TagPage extends StatelessWidget {
                               ToggleableSection(
                                   isOpenInStart: false,
                                   title: appLocalization.translate("Completed"),
-                                  titleColor: AppColors.success(context.isDarkMode).shade500,
+                                  titleColor: AppColors.success(context.isDarkMode,500),
                                   children: state
                                       .getCurrentTagTasksResultCompleted
                                       .map<Widget>((e) => buildTaskWidget(

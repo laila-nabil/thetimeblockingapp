@@ -7,6 +7,7 @@ import 'package:thetimeblockingapp/common/widgets/custom_drawer.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/all/presentation/pages/all_tasks_page.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
@@ -240,8 +241,9 @@ class _ResponsiveBody extends StatelessWidget {
       actualResponsiveBody = context.responsiveT(
           params: responsiveScaffoldLoading?.isLoadingContent == true
               ? ResponsiveTParams(
-                  small: CustomLoading(color: Theme.of(context).primaryColor),
-                  large: CustomLoading(color: Theme.of(context).primaryColor))
+                  small: CustomLoading(
+                      color: loadingColor(context)),
+                  large: CustomLoading(color: loadingColor(context)))
               : responsiveTParams);
     } else {
       actualResponsiveBody = RefreshIndicator(
@@ -251,9 +253,9 @@ class _ResponsiveBody extends StatelessWidget {
               params: responsiveScaffoldLoading?.isLoadingContent == true
                   ? ResponsiveTParams(
                       small:
-                          CustomLoading(color: Theme.of(context).primaryColor),
+                          CustomLoading(color: loadingColor(context)),
                       large:
-                          CustomLoading(color: Theme.of(context).primaryColor))
+                          CustomLoading(color: loadingColor(context)))
                   : responsiveTParams));
     }
 
@@ -262,9 +264,15 @@ class _ResponsiveBody extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               actualResponsiveBody,
-              const LoadingOverlay(),
+              LoadingOverlay(color: loadingColor(context),),
             ],
           )
         : actualResponsiveBody;
+  }
+
+  Color loadingColor(BuildContext context) {
+    return context.isDarkMode
+        ? AppColors.primary(context.isDarkMode,50)
+        : AppColors.primary(context.isDarkMode);
   }
 }

@@ -82,9 +82,9 @@ class SyncfusionTasksCalendar extends StatelessWidget {
       ),
       todayTextStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
           appFontSize: AppFontSize.paragraphSmall,
-          color: AppColors.white(false),
+          color: AppColors.white,
           appFontWeight: AppFontWeight.regular)),
-      cellBorderColor: AppColors.grey(context.isDarkMode)
+      cellBorderColor: AppColors.grey()
           .withOpacity(context.isDarkMode ? 1 : 0.3),
       ///TODO Calendar widget color in calendar is based on list with checkbox colored based on status as design
       scheduleViewSettings: ScheduleViewSettings(
@@ -185,7 +185,7 @@ class SyncfusionTasksCalendar extends StatelessWidget {
         timeFormat: 'h:mm a',
         timeTextStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
             appFontSize: AppFontSize.paragraphX2Small,
-            color: AppColors.grey(context.isDarkMode),
+            color: AppColors.grey(),
             appFontWeight: AppFontWeight.thin)),
         // timeRulerSize: 60,//SETTING timeRulerSize causes bug in month view hovering
         minimumAppointmentDuration: Duration(minutes: 15),
@@ -341,7 +341,7 @@ class SupabaseTasksDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     var task = tasks[index];
-    return task.color;
+    return task.color(true,isBackground: true);
   }
   @override
   DateTime getEndTime(int index) {
