@@ -73,13 +73,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final result = await _getThemeModeUseCase(NoParams());
         result.fold(
                 (l) {
-                  add(SaveThemeModeEvent(state.themeMode));
+                  add(SaveThemeModeEvent(AppConfig.defaultTheme));
                 },
-                (r) => emit(
-              state.copyWith(
-                themeMode: r
-              ),
-            ));
+                (r) {
+                  if (r == null) {
+                    add(SaveThemeModeEvent(AppConfig.defaultTheme));
+                  } else {
+                    emit(
+                      state.copyWith(themeMode: r),
+                    );
+                  }
+        });
       } else if(event is SaveThemeModeEvent){
         await _saveThemeModeUseCase(event.params);
       }

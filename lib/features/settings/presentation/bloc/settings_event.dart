@@ -40,9 +40,6 @@ class ReportIssueEvent extends SettingsEvent{
   List<Object?> get props => [params];
 }
 class GetThemeModeEvent extends SettingsEvent{
-
-  GetThemeModeEvent();
-
   @override
   List<Object?> get props => [];
 }

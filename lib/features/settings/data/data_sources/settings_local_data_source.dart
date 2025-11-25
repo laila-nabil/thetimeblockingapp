@@ -9,7 +9,7 @@ import 'dart:convert';
 abstract class SettingsLocalDataSource {
   Future<void> saveThemeMode(ThemeMode themeMode);
 
-  Future<ThemeMode> getThemeMode();
+  Future<ThemeMode?> getThemeMode();
 }
 
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
@@ -20,21 +20,18 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
   @override
   Future<void> saveThemeMode(ThemeMode themeMode) {
-    return localDataSource.setData(
-        key: LocalDataSourceKeys.themeMode.name, value: themeMode.index.toString());
+    return localDataSource.setIntData(
+        key: LocalDataSourceKeys.themeMode.name, value: themeMode.index);
   }
   
 
   @override
-  Future<ThemeMode> getThemeMode() async {
-    var data = await localDataSource.getStringData(
+  Future<ThemeMode?> getThemeMode() async {
+    var index = await localDataSource.getIntData(
         key: LocalDataSourceKeys.themeMode.name);
-    var indexParsed = int.tryParse(data??"");
-    if (data == null || indexParsed == null) {
-      await saveThemeMode(AppConfig.defaultTheme);
-      return AppConfig.defaultTheme;
+    if (index != null) {
+      return ThemeMode.values[index];
     }
-    return ThemeMode.values[indexParsed];
-
+    return null;
   }
 }

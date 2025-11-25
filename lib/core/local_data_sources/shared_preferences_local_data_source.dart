@@ -62,4 +62,26 @@ class SharedPrefLocalDataSource implements LocalDataSource {
   Future<void>? clear() {
     return _sharedPreferences?.clear();
   }
+
+  @override
+  Future<int?> getIntData({required String key}) async{
+    _init();
+    final result = await _sharedPreferences?.getInt(key);
+    if (result !=null) {
+      return result;
+    }
+    throw(EmptyCacheException());
+  }
+
+  @override
+  Future<void> setIntData({required String key, required int value}) async{
+    _init();
+    try {
+    await _sharedPreferences?.setInt(key, value);
+    } catch (e) {
+    printDebug(e,printLevel: PrintLevel.error);
+    throw FailedCachingException();
+    }
+
+  }
 }

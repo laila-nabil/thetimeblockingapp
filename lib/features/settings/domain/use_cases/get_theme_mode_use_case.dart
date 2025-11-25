@@ -10,13 +10,13 @@ import '../../../../core/injection_container.dart';
 import '../repositories/settings_repo.dart';
 
 class GetThemeModeUseCase
-    implements UseCase<ThemeMode, NoParams> {
+    implements UseCase<ThemeMode?, NoParams> {
   final SettingsRepo repo;
 
   GetThemeModeUseCase(this.repo);
 
   @override
-  Future<dartz.Either<Failure, ThemeMode>> call(NoParams) async {
+  Future<dartz.Either<Failure, ThemeMode?>> call(NoParams) async {
     final result = await repo.getThemeMode();
     await result.fold(
         (l) async => unawaited(serviceLocator<Analytics>()

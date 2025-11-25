@@ -13,7 +13,7 @@ abstract class SettingsRepo {
   Future<dartz.Either<Failure, dartz.Unit>> reportIssue(
       ReportIssueParams params);
 
-  Future<dartz.Either<Failure, ThemeMode>> getThemeMode();
+  Future<dartz.Either<Failure, ThemeMode?>> getThemeMode();
 
   Future<dartz.Either<Failure, dartz.Unit>> saveThemeMode(ThemeMode themeMode);
 }

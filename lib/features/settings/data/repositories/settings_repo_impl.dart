@@ -44,7 +44,7 @@ class SettingsRepoImpl implements SettingsRepo {
   }
 
   @override
-  Future<Either<Failure, ThemeMode>> getThemeMode() async {
+  Future<Either<Failure, ThemeMode?>> getThemeMode() async {
     try {
       final result = await settingsLocalDataSource.getThemeMode();
       return Right(result);
