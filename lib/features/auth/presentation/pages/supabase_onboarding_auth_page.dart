@@ -95,21 +95,23 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
 
   @override
   Widget build(BuildContext context) {
+    var textColor = AppColors.text(context.isDarkMode);
+    printDebug("context.isDarkMode ${context.isDarkMode}");
     final titleStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final contentStyleMobile = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.paragraphLarge,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final titleStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading3,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     final contentStyleDesktop = AppTextStyle.getTextStyle(AppTextStyleParams(
         appFontSize: AppFontSize.heading6,
-        color: AppColors.text(context.isDarkMode),
+        color: textColor,
         appFontWeight: AppFontWeight.medium));
     const boxConstraints = BoxConstraints(maxWidth: 510);
     return BlocConsumer<SettingsBloc, SettingsState>(

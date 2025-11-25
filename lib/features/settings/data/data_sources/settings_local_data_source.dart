@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/models/supabase_user_model.dart';
+import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/local_data_sources/local_data_source.dart';
 import 'package:thetimeblockingapp/features/auth/data/models/sign_in_result_model.dart';
 import '../../../../common/models/access_token_model.dart';
@@ -29,8 +30,11 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     var data = await localDataSource.getStringData(
         key: LocalDataSourceKeys.themeMode.name);
     var indexParsed = int.tryParse(data??"");
-    return data != null && indexParsed != null
-        ? ThemeMode.values[indexParsed]
-        : ThemeMode.system;
+    if (data == null || indexParsed == null) {
+      await saveThemeMode(AppConfig.defaultTheme);
+      return AppConfig.defaultTheme;
+    }
+    return ThemeMode.values[indexParsed];
+
   }
 }

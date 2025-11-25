@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
@@ -98,7 +99,7 @@ class AppConfig{
    String timezone = 'Africa/Cairo';
    Future<AppCalendar> appCalendarFuture = _getAppCalendarFlag(initialization: true);
    AppCalendar? appCalendar;
-
+   static const ThemeMode defaultTheme = ThemeMode.light;
 
   static int firstDayOfWeek = 6;
 }
