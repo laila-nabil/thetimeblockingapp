@@ -92,6 +92,10 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
           String appName = "Time blocking app";
+          final settingsBloc = BlocProvider.of<SettingsBloc>(context);
+          if(settingsState.settingsStateEnum == SettingsStateEnum.initial){
+            settingsBloc.add(GetThemeModeEvent());
+          }
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: router,

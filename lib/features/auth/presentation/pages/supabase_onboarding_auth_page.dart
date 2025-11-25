@@ -158,7 +158,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             final settingsBloc = BlocProvider.of<SettingsBloc>(context);
             if(state.authState == AuthStateEnum.initial){
               authBloc.add(CheckAlreadySignedInEvent());
-              settingsBloc.add(GetThemeModeEvent());
             }
             if (state.authState == AuthStateEnum.signUpSuccess &&
                 serviceLocator<AppConfig>().confirmationEmailEnabled == false) {
@@ -166,6 +165,13 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                   email: emailController.text,
                   password: passwordController.text,
                   accessToken: const AccessToken(accessToken: '', tokenType: ''))));
+            }
+            if(settingsState.settingsStateEnum == SettingsStateEnum.loading){
+              printDebug("settingsState.settingsStateEnum == SettingsStateEnum.loading");
+              return ResponsiveScaffold(
+                  responsiveBody: ResponsiveTParams(small: Text("Hi Hello")),
+                  context: context,
+                  onRefresh: () async {});
             }
             return ResponsiveScaffold(
               responsiveScaffoldLoading: ResponsiveScaffoldLoading(
