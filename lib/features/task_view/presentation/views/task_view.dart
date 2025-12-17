@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/entities/priority.dart';
 import 'package:thetimeblockingapp/common/entities/status.dart';
@@ -256,6 +257,8 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
 
+  bool showBorderCustomDropDown = true;
+
   late TextEditingController titleController;
   late FocusNode titleFocusNode;
 
@@ -432,7 +435,8 @@ class _TaskViewState extends State<TaskView> {
                         .grey(800)));
             final sectionTitle = AppTextStyle.getTextStyle(AppTextStyleParams(
                 appFontSize: AppFontSize.paragraphSmall,
-                color: AppColors
+                color: context.isDarkMode ? AppColors
+                    .grey(50): AppColors
                     .grey(900),
                 appFontWeight: AppFontWeight.medium));
             var selectedFolder = taskParams.workspace?.folders
@@ -550,7 +554,7 @@ class _TaskViewState extends State<TaskView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if(folderAndListDropDown)
-                              CustomDropDown<TaskFolderList?>(
+                              CustomDropDown<TaskFolderList>(
                                 isDense: true,
                                 style: taskLocationTextStyle,
                                 hint: Text(
@@ -571,12 +575,13 @@ class _TaskViewState extends State<TaskView> {
                                 },
                                 items: taskParams.getAvailableFoldersLists()
                                     .map((e) =>
-                                    DropdownMenuItem(
+                                    ShadOption(
                                         value: e,
                                         child: Text(e.name ?? "")))
                                     .toList() ??
                                     [],
                                 isDarkMode: (context.isDarkMode),
+                                showBorder: showBorderCustomDropDown,
                               )
                               else Wrap(
                               alignment: WrapAlignment.center,
@@ -589,7 +594,7 @@ class _TaskViewState extends State<TaskView> {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      CustomDropDown<Folder?>(
+                                      CustomDropDown<Folder>(
                                         isDense: true,
                                         hint: Text(appLocalization
                                             .translate("folder")),
@@ -618,13 +623,14 @@ class _TaskViewState extends State<TaskView> {
                                         items: (taskParams.workspace
                                             ?.folders
                                             ?.map((e) =>
-                                            DropdownMenuItem(
+                                            ShadOption(
                                                 value: e,
                                                 child: Text(
                                                     e.name ?? "")))
                                             .toList() ??
                                             []),
                                         isDarkMode: (context.isDarkMode),
+                                        showBorder: showBorderCustomDropDown,
                                       ),
                                       if(selectedFolder!=null)Container(
                                         margin: const EdgeInsetsDirectional.only(start: 8),
@@ -659,7 +665,7 @@ class _TaskViewState extends State<TaskView> {
                                     .getAvailableLists(selectedFolder)
                                     .isNotEmpty ==
                                     true))
-                                  CustomDropDown<TasksList?>(
+                                  CustomDropDown<TasksList>(
                                     isDense: true,
                                     style: taskLocationTextStyle,
                                     hint: Text(
@@ -679,12 +685,13 @@ class _TaskViewState extends State<TaskView> {
                                     items: taskParams.getAvailableLists(
                                         selectedFolder)
                                         .map((e) =>
-                                        DropdownMenuItem(
+                                        ShadOption(
                                             value: e,
                                             child: Text(e.name ?? "")))
                                         .toList() ??
                                         [],
                                     isDarkMode: (context.isDarkMode),
+                                    showBorder: showBorderCustomDropDown,
                                   ),
                               ],
                             ),
@@ -693,20 +700,20 @@ class _TaskViewState extends State<TaskView> {
                             ///Status && Priority
                             Wrap(
                               direction: Axis.horizontal,
-                              spacing: 0,
-                              runSpacing: 0,
+                              spacing: AppSpacing.xSmall8.value,
+                              runSpacing: AppSpacing.xSmall8.value,
                               children: [
 
                                 ///Status
                                 if(globalState.statuses?.isNotEmpty == true)
-                                  CustomDropDown<TaskStatus?>(
+                                  CustomDropDown<TaskStatus>(
                                     value: globalState.statuses
                                         ?.where((s) =>
                                     s.id ==
                                         taskParams.taskStatus?.id)
                                         .firstOrNull,
-                                    style: CustomDropDown
-                                        .textStyle(context.isDarkMode),
+                                    // style: CustomDropDown
+                                    //     .textStyle(context.isDarkMode),
                                     hint: Text(
                                         appLocalization.translate("status")),
                                     onChanged: (status) {
@@ -716,12 +723,11 @@ class _TaskViewState extends State<TaskView> {
                                       });
                                     },
                                     items: globalState.statuses
-                                        ?.map<
-                                        DropdownMenuItem<
-                                            TaskStatus>>((e) =>
-                                        DropdownMenuItem(
+                                        ?.map((e) =>
+                                        ShadOption(
                                             value: e,
                                             child: Row(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Icon(
                                                     e == globalState.statuses?.completedStatus
@@ -734,102 +740,81 @@ class _TaskViewState extends State<TaskView> {
                                                 const SizedBox(width: 2,),
                                                 Text(
                                                     e.name(appLocalization.getCurrentLanguagesEnum(context)??LanguagesEnum.ar) ?? "",
-                                                    style: CustomDropDown
-                                                        .textStyle(
-                                                        context.isDarkMode)
-                                                        .copyWith(
-                                                        color: e
-                                                            .getColor,
-                                                        fontWeight: taskParams
-                                                            .taskStatus ==
-                                                            e
-                                                            ? AppFontWeight
-                                                            .semiBold
-                                                            .value
-                                                            : null)),
+                                                    // style: CustomDropDown
+                                                    //     .textStyle(
+                                                    //     context.isDarkMode)
+                                                    //     .copyWith(
+                                                    //     color: e
+                                                    //         .getColor,
+                                                    //     fontWeight: taskParams
+                                                    //         .taskStatus ==
+                                                    //         e
+                                                    //         ? AppFontWeight
+                                                    //         .semiBold
+                                                    //         .value
+                                                    //         : null)
+                                                ),
                                               ],
                                             )))
                                         .toList() ??
                                         [],
                                     isDarkMode: (context.isDarkMode),
+                                    showBorder: showBorderCustomDropDown,
                                   ),
 
                                 ///Priority
                                 if(globalState.priorities?.isNotEmpty == true)
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CustomDropDown<TaskPriority>(
-                                        value: taskParams.taskPriority,
-                                        hint: Text(appLocalization
-                                            .translate("priority")),
-                                        onChanged: (priority) {
-                                          setState(() {
-                                            if(priority == null){
-                                              taskParams =
-                                              taskParams
-                                                  .copyWith(
-                                                  clearPriority:
-                                                  true);
-                                            }
-                                            else{
-                                              taskParams =
-                                              taskParams
-                                                  .copyWith(
-                                                  taskPriority:
-                                                  priority);
-                                            }
-                                          });
-                                        },
-                                        items: (globalState.priorities?.map((e) =>
-                                            DropdownMenuItem(
-                                              value: e,
-                                              child: Row(
-                                                children: [
-                                                  Icon(AppIcons.flagbold,
-                                                      color: e.getColor ??
-                                                          AppColors.text(
-                                                              context.isDarkMode)),
-                                                  const SizedBox(width: 2,),
-                                                  Text(
-                                                    e.name(appLocalization.getCurrentLanguagesEnum(context)??LanguagesEnum.en) ??
-                                                        e.id?.toStringOrNull() ??
-                                                        "",
-                                                    style: TextStyle(
-                                                        textBaseline:
-                                                        TextBaseline
-                                                            .alphabetic,
-                                                        color: e
-                                                            .getColor),
-                                                  ),
-                                                ],
+                                  CustomDropDown<TaskPriority>(
+                                    value: taskParams.taskPriority,
+                                    hint: Text(appLocalization
+                                        .translate("priority")),
+                                    onChanged: (priority) {
+                                      setState(() {
+                                        if(priority == null){
+                                          taskParams =
+                                          taskParams
+                                              .copyWith(
+                                              clearPriority:
+                                              true);
+                                        }
+                                        else{
+                                          taskParams =
+                                          taskParams
+                                              .copyWith(
+                                              taskPriority:
+                                              priority);
+                                        }
+                                      });
+                                    },
+                                    items: (globalState.priorities?.map((e) =>
+                                        ShadOption(
+                                          value: e,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(AppIcons.flagbold,
+                                                  color: e.getColor ??
+                                                      AppColors.text(
+                                                          context.isDarkMode)),
+                                              const SizedBox(width: 2,),
+                                              Text(
+                                                e.name(appLocalization.getCurrentLanguagesEnum(context)??LanguagesEnum.en) ??
+                                                    e.id?.toStringOrNull() ??
+                                                    "",
+                                                style: TextStyle(
+                                                    textBaseline:
+                                                    TextBaseline
+                                                        .alphabetic,
+                                                    color: e
+                                                        .getColor),
                                               ),
-                                            ))
-                                            .toList() ??
-                                            []),
-                                        isDarkMode: (context.isDarkMode),
-                                      ),
-                                      if( taskParams.taskPriority!=null)Container(
-                                        margin: const EdgeInsetsDirectional.only(start: 8),
-                                        child: InkWell(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.clear,
-                                              color: AppColors.error(),
-                                              size: 10,
-                                            ),
+                                            ],
                                           ),
-                                          onTap: (){
-                                            setState(() {
-                                              taskParams = taskParams.copyWith(
-                                                  clearPriority:
-                                                  true);
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ],
+                                        ))
+                                        .toList() ??
+                                        []),
+                                    isDarkMode: (context.isDarkMode),
+                                    showBorder: showBorderCustomDropDown,
                                   ),
                               ],
                             ),
@@ -925,17 +910,15 @@ class _TaskViewState extends State<TaskView> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Expanded(
-                                              child: Text(
-                                                DateTimeExtensions
-                                                    .customToString(
-                                                    taskParams
-                                                        .startDate
-                                                        ?.dateTime) ??
-                                                    "YYYY-MM-DD HH:MM AM",
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                              ),
+                                            Text(
+                                              DateTimeExtensions
+                                                  .customToString(
+                                                  taskParams
+                                                      .startDate
+                                                      ?.dateTime) ??
+                                                  "YYYY-MM-DD HH:MM AM",
+                                              overflow:
+                                              TextOverflow.ellipsis,
                                             ),
                                             if(taskParams.startDate!=null)Container(
                                               margin: const EdgeInsetsDirectional.only(start: 8),
@@ -976,7 +959,7 @@ class _TaskViewState extends State<TaskView> {
                                       height: AppSpacing.x2Small4.value,
                                     ),
                                     CustomButton.custom(
-                                      onPressed: () {
+                                          onPressed: () {
                                         showDateTimePicker(
                                           context: context,
                                           initialDate:
@@ -1000,15 +983,13 @@ class _TaskViewState extends State<TaskView> {
                                       child:Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Expanded(
-                                            child: Text(
-                                              DateTimeExtensions
-                                                  .customToString(
-                                                  taskParams.dueDate
-                                                      ?.dateTime) ??
-                                                  "YYYY-MM-DD HH:MM AM",
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                          Text(
+                                            DateTimeExtensions
+                                                .customToString(
+                                                taskParams.dueDate
+                                                    ?.dateTime) ??
+                                                "YYYY-MM-DD HH:MM AM",
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           if(taskParams.dueDate!=null)Container(
                                             margin: const EdgeInsetsDirectional.only(start: 8),

@@ -64,7 +64,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
         tooltip: widget.tooltip,
         color: defaultBackgroundColor,
         surfaceTintColor: defaultBackgroundColor,
-        shadowColor: AppColors.secondary(context.isDarkMode,100),
+        shadowColor: AppColors.primary(context.isDarkMode,100),
         icon: Container(
             padding: const EdgeInsets.all(4.0),
             decoration: ShapeDecoration(
@@ -73,7 +73,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                     borderRadius: BorderRadius.circular(6.0)),
                 shadows: [
                   if(isOpened)BoxShadow(
-                    color: AppColors.secondary(context.isDarkMode,50),
+                    color: AppColors.primary(context.isDarkMode,50),
                     blurRadius: 0,
                     offset: const Offset(0, 0),
                     spreadRadius: 4,

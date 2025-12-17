@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -13,6 +14,7 @@ import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/core/resources/assets_paths.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_in_use_case.dart';
+import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_anonymously_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:thetimeblockingapp/features/auth/domain/use_cases/update_user_use_case.dart';
 
@@ -33,6 +35,7 @@ class SupabaseAuthWidget extends StatefulWidget {
     required this.submitFocusNode,
     required this.changeAuthModeFocusNode,
     required this.toggleSignInMode,
+    this.showContinueAsGuest = true,
   });
 
   final AuthBloc authBloc;
@@ -44,6 +47,8 @@ class SupabaseAuthWidget extends StatefulWidget {
   final FocusNode? submitFocusNode;
   final FocusNode? changeAuthModeFocusNode;
   final void Function() toggleSignInMode;
+  final bool showContinueAsGuest;
+
 
   @override
   State<SupabaseAuthWidget> createState() => _SupabaseAuthWidgetState();
@@ -193,32 +198,61 @@ class _SupabaseAuthWidgetState extends State<SupabaseAuthWidget> {
             SizedBox(
               height: AppSpacing.xBig24.value,
             ),
-            if(anonymousUserAlreadySignedIn == false)Wrap(
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
+            if(anonymousUserAlreadySignedIn == false)Column(
               children: [
-                Text(
-                    widget.isSignIn
-                        ? appLocalization.translate('areYouNewHere?')
-                        : appLocalization.translate('alreadyHaveAnAccount?'),
-                    style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                        color: AppColors.grey(500),
-                        appFontWeight: AppFontWeight.medium,
-                        appFontSize: AppFontSize.paragraphSmall))),
-                if (showSmallDesign == false)
-                  SizedBox(
-                    width: AppSpacing.x2Small4.value,
-                  ),
-                CustomButton.noIcon(
-                    focusNode: changeAuthModeFocusNode,
-                    type: CustomButtonType.primaryTextLabel,
-                    label: widget.isSignIn
-                        ? appLocalization.translate("createNewAccount")
-                        : appLocalization.translate("tryToSignIn"),
-                    onPressed: () {
-                      widget.toggleSignInMode();
-                    }),
-              ],
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(
+                        widget.isSignIn
+                            ? appLocalization.translate('areYouNewHere?')
+                            : appLocalization.translate('alreadyHaveAnAccount?'),
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            color: AppColors.grey(500),
+                            appFontWeight: AppFontWeight.medium,
+                            appFontSize: AppFontSize.paragraphSmall))),
+                    if (showSmallDesign == false)
+                      SizedBox(
+                        width: AppSpacing.x2Small4.value,
+                      ),
+                    CustomButton.noIcon(
+                        focusNode: changeAuthModeFocusNode,
+                        type: CustomButtonType.primaryTextLabel,
+                        label: widget.isSignIn
+                            ? appLocalization.translate("createNewAccount")
+                            : appLocalization.translate("tryToSignIn"),
+                        onPressed: () {
+                          widget.toggleSignInMode();
+                        }),
+                  ],
+                ),
+                if (widget.showContinueAsGuest)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text( appLocalization.translate('or'),
+                            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                                color: AppColors.grey(500),
+                                appFontWeight: AppFontWeight.medium,
+                                appFontSize: AppFontSize.paragraphSmall))),
+                        if (showSmallDesign == false)
+                          SizedBox(
+                            width: AppSpacing.x2Small4.value,
+                          ),
+                        CustomButton.noIcon(
+                            analyticsEvent: AnalyticsEvents.signInAsGuest,
+                            label: appLocalization.translate("continueAsAGuest"),
+                            onPressed: () {
+                              BlocProvider.of<AuthBloc>(context).add(
+                                  SignUpAnonymouslyEvent(
+                                      SignUpAnonymouslyParams(captchaToken: null)));
+                            },
+                            type: CustomButtonType.primaryTextLabel),
+                      ],
+                    )
+                ],
             )
           ],
         ),

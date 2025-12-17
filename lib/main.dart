@@ -6,8 +6,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/environment.dart';
+import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/lists/presentation/bloc/lists_page_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
@@ -96,13 +98,48 @@ class MyApp extends StatelessWidget {
           if(settingsState.settingsStateEnum == SettingsStateEnum.initial){
             settingsBloc.add(GetThemeModeEvent());
           }
-          return MaterialApp.router(
+          return ShadApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: router,
             title: appName,
+            theme: ShadThemeData(
+              brightness: Brightness.light,
+              separatorTheme: ShadSeparatorTheme(
+                color:  appTheme(false).dividerTheme.color,
+                thickness: appTheme(false)
+                    .dividerTheme
+                    .thickness,
+              ),
+              colorScheme: ShadSlateColorScheme.light(
+                background: AppColors.background(false),
+                primary: AppColors.primary(false),
+                primaryForeground: AppColors.white,
+                secondary: AppColors.primary(false,50),
+                secondaryForeground: AppColors.black,
+                destructive: AppColors.error(),
+                destructiveForeground: AppColors.white,
+                border: AppColors.grey(700),
+              ),
+            ),
+            darkTheme: ShadThemeData(
+              brightness: Brightness.dark,
+              separatorTheme: ShadSeparatorTheme(
+                color:  appTheme(true).dividerTheme.color,
+                thickness: appTheme(true)
+                    .dividerTheme
+                    .thickness,
+              ),
+              colorScheme: ShadSlateColorScheme.dark(
+                  background: AppColors.background(true),
+                  primary: AppColors.primary(true),
+                primaryForeground: AppColors.white,
+                secondary: AppColors.primary(true,900),
+                secondaryForeground: AppColors.white,
+                destructive: AppColors.error(),
+                destructiveForeground:  AppColors.black ,
+                border:  AppColors.grey(100),
+              ),),
             themeMode: settingsState.themeMode,
-            theme: appTheme(false),
-            darkTheme: appTheme(true),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,

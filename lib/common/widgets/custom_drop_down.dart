@@ -1,95 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/text_styles.dart';
 
 import '../../core/resources/app_colors.dart';
 import '../../core/resources/app_design.dart';
 import '../../core/resources/app_icons.dart';
 
-///TODO update UI to match Figma design
+class CustomDropDown<T> extends StatelessWidget {
+  const CustomDropDown(
+      {super.key,
+      this.isDense,
+      this.isDarkMode,
+      this.style,
+      this.hint,
+      this.icon,
+      this.value,
+      this.onChanged,
+      required this.showBorder,
+      this.items = const []});
 
-class CustomDropDown<T> extends DropdownButton<T> {
-  static TextStyle textStyle(bool isDarkMode) => AppTextStyle.getTextStyle(AppTextStyleParams(
-      appFontSize: AppFontSize.paragraphSmall,
-          color: isDarkMode ? AppColors.grey(50) : AppColors.grey(900),
-          appFontWeight: AppFontWeight.regular));
-
-  final bool isDarkMode;
-  CustomDropDown({
-    super.key,
-    required super.items,
-    super.selectedItemBuilder,
-    super.value,
-    super.hint,
-    super.disabledHint,
-    required super.onChanged,
-    super.onTap,
-    super.style,
-    super.icon,
-    super.iconDisabledColor,
-    super.iconEnabledColor,
-    super.iconSize = 24.0,
-    super.isDense = false,
-    super.itemHeight = kMinInteractiveDimension,
-    super.focusNode,
-    super.autofocus = false,
-    super.menuMaxHeight,
-    super.enableFeedback,
-    super.alignment = AlignmentDirectional.centerStart,
-    required this.isDarkMode
-  });
+  final bool? isDense;
+  final bool? isDarkMode;
+  final TextStyle? style;
+  final Widget? hint;
+  final Widget? icon;
+  final T? value;
+  final ValueChanged<T?>? onChanged;
+  final List<ShadOption<T>> items;
+  final bool showBorder;
 
   @override
-  Color? get dropdownColor => AppColors.background(isDarkMode);
-
-  @override
-  Color? get focusColor => isDarkMode ? AppColors.grey(800) : AppColors.grey(50);
-
-  @override
-  Widget? get icon => const Icon(AppIcons.chevrondown, size: 0);
-
-  @override
-  EdgeInsetsGeometry? get padding => EdgeInsets.zero;
-
-  @override
-  BorderRadius? get borderRadius =>
-      BorderRadius.circular(AppBorderRadius.xSmall.value);
-
-  @override
-  Widget? get underline => Container();
-
-  @override
-  int get elevation => 0;
-}
-
-class CustomDropDownMenu<T> extends DropdownMenu<T> {
-  final bool isDarkMode;
-  const CustomDropDownMenu({
-    super.key,
-    super.enabled = true,
-    super.width,
-    super.menuHeight,
-    super.leadingIcon,
-    super.trailingIcon,
-    super.label,
-    super.hintText,
-    super.helperText,
-    super.errorText,
-    super.selectedTrailingIcon,
-    super.enableFilter = false,
-    super.enableSearch = true,
-    super.textStyle,
-    super.inputDecorationTheme,
-    super.controller,
-    required super.initialSelection,
-    required super.onSelected,
-    super.requestFocusOnTap,
-    required super.dropdownMenuEntries,
-    required this.isDarkMode
-  });
-
-
-  @override
-  MenuStyle? get menuStyle => MenuStyle(
-      surfaceTintColor:
-          WidgetStateColor.resolveWith((states) => AppColors.background(isDarkMode)));
+  Widget build(BuildContext context) {
+    return ShadSelect(
+      onChanged: onChanged,
+      placeholder: hint,
+      initialValue: value,
+      options: items,
+      allowDeselection: true,
+      shrinkWrap: true,
+      decoration: showBorder
+          ? ShadDecoration(disableSecondaryBorder: true)
+          : ShadDecoration(
+              border: ShadBorder.none, disableSecondaryBorder: true),
+      selectedOptionBuilder: (context, value) =>
+          items.where((i) => i.value == value).firstOrNull?.child ??
+          Container(),
+    );
+  }
 }

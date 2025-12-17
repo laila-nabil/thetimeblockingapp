@@ -37,6 +37,7 @@ enum AnalyticsEvents {
   getData, signOut,
   addTagToTask,
   removeTagToTask,
+  signInAsGuest,
   signIn,
   signUp, deleteAccount, requestFeature, reportIssue, signUpAnonymously, updateUser, getThemeMode, saveThemeMode,
 }

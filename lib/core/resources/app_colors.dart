@@ -34,36 +34,6 @@ abstract class AppColors {
       ? (_primary(isDarkMode)[shade] ?? _primary(isDarkMode))
       : _primary(isDarkMode);
 
-  static MaterialColor _secondary(bool isDarkMode) => isDarkMode
-      ? MaterialColor(const Color(0xff730990).value, const {
-          50: Color(0xfff1e7f4),
-          100: Color(0xffdcb4e4),
-          200: Color(0xffc98cd5),
-          300: Color(0xffb563c7),
-          400: Color(0xffa646b9),
-          500: Color(0xff9729ab),
-          600: Color(0xff8a1da0),
-          700: Color(0xff730990),
-          800: Color(0xff5c0773),
-          900: Color(0xff450556),
-  })
-      : MaterialColor(const Color(0xffd870f6).value, const {
-          50: Color(0xfffbeffd),
-          100: Color(0xfff5d6fa),
-          200: Color(0xffeec0f8),
-          300: Color(0xffe6a9f7),
-          400: Color(0xffde8cf6),
-          500: Color(0xffd870f6),
-          600: Color(0xffc465de),
-          700: Color(0xff994fac),
-          800: Color(0xff773e86),
-          900: Color(0xff5b3067),
-        });
-
-  static Color secondary(bool isDarkMode, [int? shade]) => shade != null
-      ? (_secondary(isDarkMode)[shade] ?? _secondary(isDarkMode))
-      : _secondary(isDarkMode);
-
   ///SEMANTICS
 
   static MaterialColor _warning(bool isDarkMode) => isDarkMode

@@ -84,23 +84,27 @@ final serviceLocator = GetIt.instance;
 SupabaseGlobals _supabaseGlobals = SupabaseGlobals();
 
 class AppConfig{
-   static const Env _defaultEnv = Env.debugLocally;
-   Env env = _defaultEnv;
-   bool isDemo = false;
-   Duration defaultTaskDuration = const Duration(minutes: 30);
+  static const Env _defaultEnv = Env.debugLocally;
+  Env env = _defaultEnv;
+  bool isDemo = false;
+  Duration defaultTaskDuration = const Duration(minutes: 30);
 
-   ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
-   bool isWorkspaceAppWide = true;
-   String redirectAfterAuthRouteName = '';
-   String refreshToken = '';
-   AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '') ;
-   bool confirmationEmailEnabled = false;
-   ///TODO timezone
-   String timezone = 'Africa/Cairo';
-   Future<AppCalendar> appCalendarFuture = _getAppCalendarFlag(initialization: true);
-   AppCalendar? appCalendar;
-   static const ThemeMode defaultTheme = ThemeMode.light;
+  ///[isWorkspaceAppWide] Workspace is selected from appbar/drawer only and is global to app or not
+  bool isWorkspaceAppWide = true;
+  String redirectAfterAuthRouteName = '';
+  String refreshToken = '';
+  AccessToken accessToken = const AccessToken(accessToken: '', tokenType: '');
 
+  bool confirmationEmailEnabled = false;
+
+  ///TODO timezone
+  String timezone = 'Africa/Cairo';
+  Future<AppCalendar> appCalendarFuture =
+      _getAppCalendarFlag(initialization: true);
+  AppCalendar? appCalendar;
+  static const ThemeMode defaultTheme = ThemeMode.light;
+
+  static const useShadCn = true;
   static int firstDayOfWeek = 6;
 }
 Future<AppCalendar> _getAppCalendarFlag({required bool initialization}) async {

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_widget.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
@@ -209,6 +210,7 @@ class SettingsPage extends StatelessWidget {
                                 passwordFocusNode: null,
                                 submitFocusNode: null,
                                 changeAuthModeFocusNode: null,
+                                showContinueAsGuest: false,
                                 toggleSignInMode: () {}),
                           );
                         });
@@ -258,38 +260,20 @@ class SettingsPage extends StatelessWidget {
               SizedBox(
                 height: AppSpacing.x2Small4.value,
               ),
-              CustomDropDownMenu(
-                initialSelection: appLocalization.languagesEnumToLocale(
+              CustomDropDown(
+                value: appLocalization.languagesEnumToLocale(
                     appLocalization.getCurrentLanguagesEnum(context)!),
-                dropdownMenuEntries: context.supportedLocales
-                    .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
+                items: context.supportedLocales
+                    .map<ShadOption>((e) => ShadOption(
                         value: e,
-                        label: appLocalization.translate(e.languageCode)))
+                        child: Text(appLocalization.translate(e.languageCode))))
                     .toList(),
-                onSelected: (selected) {
+                onChanged: (selected) {
                   bloc.add(ChangeLanguageEvent(ChangeLanguageParams(
                       locale: selected, context: context)));
                 },
                 isDarkMode: (context.isDarkMode),
-                inputDecorationTheme: InputDecorationTheme(
-                  labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphSmall,
-                      color: context.isDarkMode
-                                            ? AppColors.grey(50)
-                                            : AppColors.grey(900),
-                      appFontWeight: AppFontWeight.regular)),
-                  hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.error(900),
-                      appFontWeight: AppFontWeight.regular)),
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide(
-                          color: AppColors.grey(300))),
-                ),
+                showBorder: true,
               ),
             ],
           ),
@@ -311,35 +295,17 @@ class SettingsPage extends StatelessWidget {
               SizedBox(
                 height: AppSpacing.x2Small4.value,
               ),
-              CustomDropDownMenu(
-                initialSelection: state.themeMode,
-                dropdownMenuEntries: ThemeMode.values
-                    .map<DropdownMenuEntry>((e) => DropdownMenuEntry(
-                        value: e, label: appLocalization.translate(e.name)))
+              CustomDropDown(
+                value: state.themeMode,
+                items: [ThemeMode.light, ThemeMode.dark]
+                    .map<ShadOption>((e) => ShadOption(
+                        value: e, child: Text(appLocalization.translate(e.name)),))
                     .toList(),
-                onSelected: (selected) {
+                onChanged: (selected) {
                   bloc.add(ChangeThemeEvent(selected));
                 },
                 isDarkMode: (context.isDarkMode),
-                inputDecorationTheme: InputDecorationTheme(
-                  labelStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphSmall,
-                      color: context.isDarkMode
-                                            ? AppColors.grey(50)
-                                            : AppColors.grey(900),
-                      appFontWeight: AppFontWeight.regular)),
-                  hintStyle: AppTextStyle.getTextStyle(AppTextStyleParams(
-                      appFontSize: AppFontSize.paragraphSmall,
-                      color: AppColors.error(900),
-                      appFontWeight: AppFontWeight.regular)),
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  constraints: BoxConstraints.tight(const Size.fromHeight(40)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide(
-                          color: AppColors.grey(300))),
-                ),
+                showBorder: true,
               ),
             ],
           ),

@@ -200,7 +200,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
           ),
         Stack(
           children: [
-            Container(
+            if(context.isDarkMode == false)Container(
               height: isBox ? (textFieldHeight + (isSmall ? 2 : 0)) : 1,
               margin: isBox
                   ? EdgeInsets.only(

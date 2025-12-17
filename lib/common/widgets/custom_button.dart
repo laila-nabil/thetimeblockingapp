@@ -4,6 +4,7 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:dartz/dartz.dart' as dartz; 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/core/analytics/analytics.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
@@ -238,12 +239,296 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    onPressedWithAnalytics() {
+    void onPressedWithAnalytics() {
       if (onPressed != null) {
         if (analyticsEvent != null) {
           unawaited(serviceLocator<Analytics>().logEvent(analyticsEvent!.name));
         }
         onPressed!();
+      }
+    }
+    Text? labelWidget;
+    if (label != null) {
+      labelWidget = Text(
+        label ?? "",
+      );
+    }
+    double iconSize() {
+      switch (size) {
+        case CustomButtonSize.xSmall:
+          return 15;
+        case CustomButtonSize.small:
+          return 15;
+        case CustomButtonSize.large:
+          return 18;
+        case CustomButtonSize.xlarge:
+          return 18;
+      }
+    }
+    final double scale = MediaQuery.textScaleFactorOf(context);
+    // Adjust the gap based on the text scale factor. Start at 8, and lerp
+    // to 4 based on how large the text is.
+    final double gap = scale <= 1 ? 8 : lerpDouble(8, 4, math.min(scale - 1, 1))!;
+    final iconWidget = icon?.fold(
+            (l) => Image.asset(
+          l,
+          width: iconSize(),
+          fit: BoxFit.fitWidth,
+        ),
+            (r) => Icon(
+          r,
+          size: iconSize(),
+        )) ??
+        Container();
+
+    if(AppConfig.useShadCn){
+      switch(type){
+        case CustomButtonType.primaryLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child:labelWidget
+            ),
+          );
+        case CustomButtonType.primaryTrailingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              trailing: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.primaryLeadingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.primaryIcon || CustomButtonType.primaryIconMinPadding:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
+        case CustomButtonType.secondaryLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.secondary(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child:labelWidget
+            ),
+          );
+        case CustomButtonType.secondaryTrailingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.secondary(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              trailing: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.secondaryLeadingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.secondary(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.secondaryIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.secondary(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
+        case CustomButtonType.greyOutlinedLabel || CustomButtonType.greyFilledLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.outline(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: labelWidget ?? child
+            ),
+          );
+        case CustomButtonType.greyOutlinedTrailingIcon ||
+              CustomButtonType.greyFilledTrailingIcon ||
+              CustomButtonType.greyTextTrailingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.outline(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              trailing: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.greyOutlinedLeadingIcon || CustomButtonType.greyFilledLeadingIcon :
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.outline(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.greyOutlinedIcon ||
+              CustomButtonType.greyFilledIcon ||
+              CustomButtonType.greyIconMinPadding:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.outline(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
+        case CustomButtonType.destructiveFilledLabel || CustomButtonType.destructiveOutlinedLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child:labelWidget
+            ),
+          );
+        case CustomButtonType.primaryTextLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child:labelWidget
+            ),
+          );
+        case CustomButtonType.greyTextLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+                onPressed: onPressedWithAnalytics,
+                focusNode: focusNode,
+                child:labelWidget
+            ),
+          );
+        case CustomButtonType.destructiveTextLabel:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+                onPressed: onPressedWithAnalytics,
+                focusNode: focusNode,
+                child:labelWidget
+            ),
+          );
+        case CustomButtonType.destructiveFilledTrailingIcon ||
+              CustomButtonType.destructiveOutlinedTrailingIcon ||
+              CustomButtonType.destructiveTextTrailingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              trailing: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.primaryTextTrailingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              trailing: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.destructiveFilledLeadingIcon ||
+              CustomButtonType.destructiveOutlinedLeadingIcon ||
+              CustomButtonType.destructiveTextLeadingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.primaryTextLeadingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.greyTextLeadingIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              leading: iconWidget,
+              child: labelWidget,
+            ),
+          );
+        case CustomButtonType.destructiveFilledIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
+        case CustomButtonType.primaryTextIcon:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.link(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
+        case CustomButtonType.greyTextIcon:
+          return CustomToolTip(
+          message: tooltip,
+          child: ShadButton.link(
+            onPressed: onPressedWithAnalytics,
+            focusNode: focusNode,
+            child: iconWidget,
+          ),
+          );
+        case CustomButtonType.destructiveTextIcon ||
+              CustomButtonType.destructiveOutlinedIcon ||
+              CustomButtonType.destructiveIconMinPadding:
+          return CustomToolTip(
+            message: tooltip,
+            child: ShadButton.destructive(
+              onPressed: onPressedWithAnalytics,
+              focusNode: focusNode,
+              child: iconWidget,
+            ),
+          );
       }
     }
 
@@ -257,18 +542,6 @@ class CustomButton extends StatelessWidget {
           return 56;
         case CustomButtonSize.xlarge:
           return 56;
-      }
-    }
-    double iconSize() {
-      switch (size) {
-        case CustomButtonSize.xSmall:
-          return 15;
-        case CustomButtonSize.small:
-          return 15;
-        case CustomButtonSize.large:
-          return 18;
-        case CustomButtonSize.xlarge:
-          return 18;
       }
     }
 
@@ -439,20 +712,7 @@ class CustomButton extends StatelessWidget {
             appFontSize: fontSize(),));
       }),
     );
-    final labelWidget = Text(
-      label ?? "",
-    );
-    final iconWidget = icon?.fold(
-            (l) => Image.asset(
-                  l,
-                  width: iconSize(),
-                  fit: BoxFit.fitWidth,
-                ),
-            (r) => Icon(
-                  r,
-                  size: iconSize(),
-                )) ??
-        Container();
+
     Widget filledLabelButton(dartz.Either<Widget, String> child) => CustomToolTip(
           message: tooltip,
           child: FilledButton(
@@ -472,14 +732,11 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: filledButtonStyle,
-        label: labelWidget,
+        label: labelWidget ?? child !,
         icon: iconWidget,
       ),
     );
-    final double scale = MediaQuery.textScaleFactorOf(context);
-    // Adjust the gap based on the text scale factor. Start at 8, and lerp
-    // to 4 based on how large the text is.
-    final double gap = scale <= 1 ? 8 : lerpDouble(8, 4, math.min(scale - 1, 1))!;
+
     final filledTrailingIconButton = true ? CustomToolTip(
       message: tooltip,
       child: FilledButton(
@@ -489,7 +746,7 @@ class CustomButton extends StatelessWidget {
         child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Flexible(child: labelWidget),
+                  Flexible(child: labelWidget!),
                   SizedBox(width: gap),
                   iconWidget,
                 ],
@@ -501,7 +758,7 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressedWithAnalytics,
         focusNode: focusNode,
         style: filledButtonStyle,
-        label: labelWidget,
+        label: labelWidget!,
         icon: iconWidget,
       ),
     );

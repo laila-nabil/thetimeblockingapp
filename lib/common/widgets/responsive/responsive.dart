@@ -43,9 +43,10 @@ extension AppResponsive on BuildContext {
     switch (device) {
       case (AppScreen.small):
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: spacingSmallVertical == 0 ? children : children
               .map<Widget>((child) =>  Container(
-            alignment: Alignment.center,
                 padding:
                 EdgeInsetsDirectional.only(bottom: spacingSmallVertical),
                 child: child,
@@ -54,10 +55,11 @@ extension AppResponsive on BuildContext {
         );
       case (AppScreen.medium):
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: spacingMediumVertical == 0 ? children : children
               .map<Widget>((child) =>  Container(
-                alignment: Alignment.center,
-                padding:
+            padding:
                 EdgeInsetsDirectional.only(bottom: spacingMediumVertical),
                 child: child,
               ))

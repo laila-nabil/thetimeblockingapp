@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/entities/access_token.dart';
 import 'package:thetimeblockingapp/core/error/failures.dart';
 import 'package:thetimeblockingapp/core/injection_container.dart';
@@ -82,6 +84,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
   final FocusNode submitFocusNode = FocusNode();
   final FocusNode changeAuthModeFocusNode = FocusNode();
 
+  bool showBorderCustomDropDown = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -182,105 +185,103 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                 OnBoardingAndAuthStep.first =>
                     ResponsiveTParams(
                         small: changeLanguageWrapper(
-                            child: Center(
-                              child: Container(
-                                constraints: boxConstraints,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AppSpacing.x2Big28.value),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                              height:  AppSpacing.x3Big32.value,
-                                    ),
-                                    Image.asset(
-                                      AppAssets.logo(context.isDarkMode),
-                                      width: 258,
-                                      height: 39,
-                                      fit: BoxFit.contain,
-                                    ),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            SizedBox(
-                                              height: AppSpacing.xBig24.value,
-                                            ),
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(
-                                                  AppBorderRadius.x3Large.value),
-                                              child: Image.asset(
-                                                AppAssets.onBoarding1mobile,
-                                                width: 246,
-                                                height: 290,
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: AppSpacing.xBig24.value
-                                            ),
-                                            Text(
-                                                appLocalization.translate(
-                                                    "welcomeTimeblockingapp"),
-                                                style: contentStyleMobile),
-                                            SizedBox(
-                                                height: AppSpacing.x3Big32.value
-                                            ),
-                                          ],
-                                        ),
+                            child: SingleChildScrollView(
+                              child: Center(
+                                child: Container(
+                                  constraints: boxConstraints,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.x2Big28.value),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                                height:  AppSpacing.x3Big32.value,
                                       ),
-                                    ),
-                                    Wrap(
-                                      spacing: AppSpacing.xSmall8.value,
-                                      runSpacing: AppSpacing.xSmall8.value,
-                                      direction: Axis.vertical,
-                                      runAlignment: WrapAlignment.center,
-                                      alignment: WrapAlignment.center,
-                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                      children: [
-                                        Wrap(
-                                          spacing: AppSpacing.xSmall8.value,
-                                          runSpacing: AppSpacing.xSmall8.value,
-                                          alignment: WrapAlignment.center,
-                                          children: [
-                                            CustomButton.noIcon(
-                                                analyticsEvent:
-                                                AnalyticsEvents.onBoardingStep1Start,
-                                                label:
-                                                appLocalization.translate("learnMore"),
+                                      Image.asset(
+                                        AppAssets.logo(context.isDarkMode),
+                                        width: 258,
+                                        height: 39,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: AppSpacing.xBig24.value,
+                                          ),
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                                AppBorderRadius.x3Large.value),
+                                            child: Image.asset(
+                                              AppAssets.onBoarding1mobile,
+                                              width: 246,
+                                              height: 290,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: AppSpacing.xBig24.value
+                                          ),
+                                          Text(
+                                              appLocalization.translate(
+                                                  "welcomeTimeblockingapp"),
+                                              style: contentStyleMobile),
+                                          SizedBox(
+                                              height: AppSpacing.x3Big32.value
+                                          ),
+                                        ],
+                                      ),
+                                      Wrap(
+                                        spacing: AppSpacing.xSmall8.value,
+                                        runSpacing: AppSpacing.xSmall8.value,
+                                        direction: Axis.vertical,
+                                        runAlignment: WrapAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        crossAxisAlignment: WrapCrossAlignment.center,
+                                        children: [
+                                          Wrap(
+                                            spacing: AppSpacing.xSmall8.value,
+                                            runSpacing: AppSpacing.xSmall8.value,
+                                            alignment: WrapAlignment.center,
+                                            children: [
+                                              CustomButton.noIcon(
+                                                  analyticsEvent:
+                                                  AnalyticsEvents.onBoardingStep1Start,
+                                                  label:
+                                                  appLocalization.translate("learnMore"),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      step = OnBoardingAndAuthStep.second;
+                                                    });
+                                                  },
+                                                  type: CustomButtonType.secondaryLabel),
+                                              CustomButton.noIcon(
+                                                analyticsEvent: AnalyticsEvents
+                                                    .onBoardingStep1SignInSupabase,
                                                 onPressed: () {
                                                   setState(() {
-                                                    step = OnBoardingAndAuthStep.second;
+                                                    step = OnBoardingAndAuthStep.auth;
                                                   });
                                                 },
-                                                type: CustomButtonType.secondaryLabel),
-                                            CustomButton.noIcon(
-                                              analyticsEvent: AnalyticsEvents
-                                                  .onBoardingStep1SignInSupabase,
-                                              onPressed: () {
-                                                setState(() {
-                                                  step = OnBoardingAndAuthStep.auth;
-                                                });
-                                              },
-                                              type: CustomButtonType.primaryLabel,
-                                              label: appLocalization.translate(
-                                                  "signIn"),
-                                            ),
-                                          ],
-                                        ),
-                                        tryAppButton(
-                                          AnalyticsEvents.onBoardingStep1Demo,
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      height: AppSpacing.huge96.value,
-                                      alignment: Alignment.center,
-                                      child: agreeOurPrivacyTerms(),
-                                    )
-                                  ],
+                                                type: CustomButtonType.primaryLabel,
+                                                label: appLocalization.translate(
+                                                    "signIn"),
+                                              ),
+                                            ],
+                                          ),
+                                          tryAppButton(
+                                            AnalyticsEvents.onBoardingStep1Demo,
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        height: AppSpacing.huge96.value,
+                                        alignment: Alignment.center,
+                                        child: agreeOurPrivacyTerms(),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -378,104 +379,106 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                 OnBoardingAndAuthStep.second =>
                     ResponsiveTParams(
                         small: changeLanguageWrapper(
-                            child: Center(
-                              child: Container(
-                                constraints: boxConstraints,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AppSpacing.x2Big28.value),
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Spacer(
-                                      flex: 36,
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          AppBorderRadius.x3Large.value),
-                                      child: Image.asset(
-                                        AppAssets.onBoarding2mobile,
-                                        width: 246,
-                                        height: 290,
-                                        fit: BoxFit.contain,
+                            child: SingleChildScrollView(
+                              child: Center(
+                                child: Container(
+                                  constraints: boxConstraints,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.x2Big28.value),
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height:  AppSpacing.xBig24.value,
                                       ),
-                                    ),
-                                    const Spacer(
-                                      flex: 66,
-                                    ),
-                                    Text(
-                                      appLocalization.translate("simplifyTasks"),
-                                      style: titleStyleMobile,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      appLocalization.translate(
-                                          "timeBlockingAppStreamlinesTaskManagement"),
-                                      style: contentStyleMobile,
-                                    ),
-                                    const Spacer(
-                                      flex: 72,
-                                    ),
-                                    Wrap(
-                                      spacing: AppSpacing.xSmall8.value,
-                                      runSpacing: AppSpacing.xSmall8.value,
-                                      runAlignment: WrapAlignment.center,
-                                      alignment: WrapAlignment.center,
-                                      crossAxisAlignment: WrapCrossAlignment.center,
-                                      children: [
-                                        Wrap(
-                                          spacing: AppSpacing.xSmall8.value,
-                                          runSpacing: AppSpacing.xSmall8.value,
-                                          alignment: WrapAlignment.center,
-                                          children: [
-                                            CustomButton.noIcon(
-                                                analyticsEvent:
-                                                AnalyticsEvents.onBoardingStep2Back,
-                                                size: CustomButtonSize.small,
-                                                label: appLocalization.translate(
-                                                    "back"),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    step = OnBoardingAndAuthStep.first;
-                                                  });
-                                                },
-                                                type: CustomButtonType.secondaryLabel),
-                                            CustomButton.noIcon(
-                                                analyticsEvent:
-                                                AnalyticsEvents.onBoardingStep2Next,
-                                                size: CustomButtonSize.small,
-                                                label: appLocalization.translate(
-                                                    "signIn"),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    step = OnBoardingAndAuthStep.third;
-                                                  });
-                                                },
-                                                type: CustomButtonType.primaryLabel),
-                                          ],
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            AppBorderRadius.x3Large.value),
+                                        child: Image.asset(
+                                          AppAssets.onBoarding2mobile,
+                                          width: 246,
+                                          height: 290,
+                                          fit: BoxFit.contain,
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: AppSpacing.huge96.value,
-                                      child: Column(
+                                      ),
+                                      SizedBox(
+                                        height:  AppSpacing.xBig24.value,
+                                      ),
+                                      Text(
+                                        appLocalization.translate("simplifyTasks"),
+                                        style: titleStyleMobile,
+                                      ),
+                                      SizedBox(
+                                        height:  AppSpacing.small12.value,
+                                      ),
+                                      Text(
+                                        appLocalization.translate(
+                                            "timeBlockingAppStreamlinesTaskManagement"),
+                                        style: contentStyleMobile,
+                                      ),
+                                      SizedBox(
+                                        height:  AppSpacing.x3Big32.value,
+                                      ),
+                                      Wrap(
+                                        spacing: AppSpacing.xSmall8.value,
+                                        runSpacing: AppSpacing.xSmall8.value,
+                                        runAlignment: WrapAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        crossAxisAlignment: WrapCrossAlignment.center,
                                         children: [
-                                          const SizedBox(
-                                            height: 18,
-                                          ),
                                           Wrap(
+                                            spacing: AppSpacing.xSmall8.value,
+                                            runSpacing: AppSpacing.xSmall8.value,
+                                            alignment: WrapAlignment.center,
                                             children: [
-                                              tryAppButton(
-                                                  AnalyticsEvents.onBoardingStep2Demo),
+                                              CustomButton.noIcon(
+                                                  analyticsEvent:
+                                                  AnalyticsEvents.onBoardingStep2Back,
+                                                  size: CustomButtonSize.small,
+                                                  label: appLocalization.translate(
+                                                      "back"),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      step = OnBoardingAndAuthStep.first;
+                                                    });
+                                                  },
+                                                  type: CustomButtonType.secondaryLabel),
+                                              CustomButton.noIcon(
+                                                  analyticsEvent:
+                                                  AnalyticsEvents.onBoardingStep2Next,
+                                                  size: CustomButtonSize.small,
+                                                  label: appLocalization.translate(
+                                                      "signIn"),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      step = OnBoardingAndAuthStep.third;
+                                                    });
+                                                  },
+                                                  type: CustomButtonType.primaryLabel),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    )
-                                  ],
+                                      SizedBox(
+                                        height: AppSpacing.huge96.value,
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 18,
+                                            ),
+                                            Wrap(
+                                              children: [
+                                                tryAppButton(
+                                                    AnalyticsEvents.onBoardingStep2Demo),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -641,32 +644,49 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
   }
 
   Widget changeLanguageWrapper({required Widget child, required bool isSmall,required SettingsBloc settingsBloc}) {
+    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
+    final settingsState = settingsBloc.state;
     if (isSmall) {
       return Column(
         children: [
           Row(
             children: [
               const Expanded(child: SizedBox()),
-              CustomDropDownMenu(
-                initialSelection: appLocalization.languagesEnumToLocale(
-                    appLocalization.getCurrentLanguagesEnum(context)!),
-                dropdownMenuEntries: context.supportedLocales
-                    .map<DropdownMenuEntry>((e) =>
-                    DropdownMenuEntry(
-                        value: e,
-                        label: appLocalization.translate(e.languageCode)))
-                    .toList(),
-                onSelected: (selected) {
-                  settingsBloc.add(ChangeLanguageEvent(
-                      ChangeLanguageParams(
-                          locale: selected, context: context)));
-                },
-                isDarkMode: (context.isDarkMode),
-                inputDecorationTheme:
-                const InputDecorationTheme(border: InputBorder.none),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomDropDown(
+                  value: appLocalization.languagesEnumToLocale(
+                      appLocalization.getCurrentLanguagesEnum(context)!),
+                  items: context.supportedLocales
+                      .map<ShadOption>((e) =>
+                      ShadOption(
+                          value: e,
+                          child: Text(appLocalization.translate(e.languageCode))))
+                      .toList(),
+                  onChanged: (selected) {
+                    settingsBloc.add(ChangeLanguageEvent(
+                        ChangeLanguageParams(
+                            locale: selected, context: context)));
+                  },
+                  isDarkMode: (context.isDarkMode),
+                  showBorder: showBorderCustomDropDown,
+                ),
               )
             ],
           ),
+          if(kDebugMode)
+            CustomDropDown(
+              value: settingsState.themeMode,
+              items: [ThemeMode.light, ThemeMode.dark]
+                  .map<ShadOption>((e) => ShadOption(
+                value: e, child: Text(appLocalization.translate(e.name)),))
+                  .toList(),
+              onChanged: (selected) {
+                settingsBloc.add(ChangeThemeEvent(selected));
+              },
+              isDarkMode: (context.isDarkMode),
+              showBorder: true,
+            ),
           Expanded(child: child)
         ],
       );
@@ -676,25 +696,40 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
         Row(
           children: [
             const Expanded(child: SizedBox()),
-            CustomDropDownMenu(
-              initialSelection: appLocalization.languagesEnumToLocale(
-                  appLocalization.getCurrentLanguagesEnum(context)!),
-              dropdownMenuEntries: context.supportedLocales
-                  .map<DropdownMenuEntry>((e) =>
-                  DropdownMenuEntry(
-                      value: e,
-                      label: appLocalization.translate(e.languageCode)))
-                  .toList(),
-              onSelected: (selected) {
-                settingsBloc.add(ChangeLanguageEvent(
-                    ChangeLanguageParams(locale: selected, context: context)));
-              },
-              isDarkMode: (context.isDarkMode),
-              inputDecorationTheme:
-              const InputDecorationTheme(border: InputBorder.none),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomDropDown(
+                value: appLocalization.languagesEnumToLocale(
+                    appLocalization.getCurrentLanguagesEnum(context)!),
+                items: context.supportedLocales
+                    .map<ShadOption>((e) =>
+                    ShadOption(
+                        value: e,
+                        child: Text(appLocalization.translate(e.languageCode))))
+                    .toList(),
+                onChanged: (selected) {
+                  settingsBloc.add(ChangeLanguageEvent(
+                      ChangeLanguageParams(locale: selected, context: context)));
+                },
+                isDarkMode: (context.isDarkMode),
+                showBorder: showBorderCustomDropDown,
+              ),
             )
           ],
         ),
+        if(kDebugMode)
+          CustomDropDown(
+            value: settingsState.themeMode,
+            items: [ThemeMode.light, ThemeMode.dark]
+                .map<ShadOption>((e) => ShadOption(
+              value: e, child: Text(appLocalization.translate(e.name)),))
+                .toList(),
+            onChanged: (selected) {
+              settingsBloc.add(ChangeThemeEvent(selected));
+            },
+            isDarkMode: (context.isDarkMode),
+            showBorder: true,
+          ),
         Expanded(child: child)
       ],
     );

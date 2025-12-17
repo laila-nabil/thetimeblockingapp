@@ -7,15 +7,17 @@ import 'app_colors.dart';
 /// Dark mode extension
 extension DarkMode on BuildContext {
   bool get isDarkMode {
-    return BlocProvider.of<SettingsBloc>(this).state.themeMode == ThemeMode.dark;
+    return BlocProvider.of<SettingsBloc>(this).state.themeMode ==
+            ThemeMode.dark ||
+        Theme.brightnessOf(this) == Brightness.dark;
   }
 }
 
 ThemeData appTheme(bool isDarkMode) => ThemeData(
     useMaterial3: true,
     dividerTheme: DividerThemeData(
-      color: isDarkMode ? AppColors.grey(100) : AppColors.grey(700),
-      thickness: 0.1
+      color: isDarkMode ? AppColors.grey(700) : AppColors.grey(200),
+      thickness: 1
     ),
     drawerTheme: DrawerThemeData(
       shape:  const RoundedRectangleBorder(
@@ -27,7 +29,7 @@ ThemeData appTheme(bool isDarkMode) => ThemeData(
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primary: AppColors.primary(isDarkMode),
       onPrimary: AppColors.white,
-      secondary: AppColors.secondary(isDarkMode),
+      secondary: AppColors.primary(isDarkMode),
       onSecondary: AppColors.primary(isDarkMode),
       error: AppColors.error(),
       onError: isDarkMode ? AppColors.black : AppColors.white,
