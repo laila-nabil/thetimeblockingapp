@@ -44,6 +44,7 @@ class CustomBottomNavBar extends StatelessWidget {
         iconSize: iconSize,
         currentIndex: currentIndex(list, context),
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: context.isDarkMode ? AppColors.primary(true,300) : null,
         onTap: (index) {
           if (list[index].onTap != null) {
             list[index].onTap!();
