@@ -191,7 +191,8 @@ class ResponsiveScaffold extends Scaffold {
   bool hideAppBar() {
     var currentPath = GoRouterState.of(context).path;
     return currentPath == MorePage.routeName ||
-        currentPath == SupabaseOnBoardingAndAuthPage.routeName;
+        currentPath == SupabaseOnBoardingAndAuthPage.routeName ||
+        (UniversalPlatform.isWeb == false && context.canPop() == false);
   }
 
   Widget? get bottomNavigationBar {
