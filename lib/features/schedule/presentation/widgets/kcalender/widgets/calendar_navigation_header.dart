@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
@@ -222,14 +223,14 @@ class CalendarNavigationHeader extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                   );
                 },
-                child: context.showSmallDesign
-                    ? Icon(Icons.today)
-                    : Text(
+                child:  Text(
                         appLocalization.translate("today"),
                         style: AppTextStyle.getTextStyle(AppTextStyleParams(
                             appFontSize: AppFontSize.paragraphXSmall,
-                            color: AppColors.primary(context.isDarkMode),
-                            appFontWeight: AppFontWeight.regular)),
+                        color: context.isDarkMode
+                            ? (ShadTheme.of(context).secondaryButtonTheme.foregroundColor ?? AppColors.primary(context.isDarkMode))
+                            : AppColors.primary(context.isDarkMode),
+                        appFontWeight: AppFontWeight.regular)),
                       ),
               ),
             ],
