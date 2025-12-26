@@ -577,7 +577,14 @@ class _TaskViewState extends State<TaskView> {
                                     .map((e) =>
                                     ShadOption(
                                         value: e,
-                                        child: Text(e.name ?? "")))
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.list),
+                                            const SizedBox(width: 2,),
+                                            Text(e.name ?? ""),
+                                          ],
+                                        )))
                                     .toList() ??
                                     [],
                                 isDarkMode: (context.isDarkMode),
