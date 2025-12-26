@@ -576,6 +576,7 @@ class _TaskViewState extends State<TaskView> {
                                 items: taskParams.getAvailableFoldersLists()
                                     .map((e) =>
                                     ShadOption(
+                                        selectedIcon: const SizedBox(),
                                         value: e,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -631,6 +632,7 @@ class _TaskViewState extends State<TaskView> {
                                             ?.folders
                                             ?.map((e) =>
                                             ShadOption(
+                                                selectedIcon: const SizedBox(),
                                                 value: e,
                                                 child: Text(
                                                     e.name ?? "")))
@@ -693,6 +695,7 @@ class _TaskViewState extends State<TaskView> {
                                         selectedFolder)
                                         .map((e) =>
                                         ShadOption(
+                                            selectedIcon: const SizedBox(),
                                             value: e,
                                             child: Text(e.name ?? "")))
                                         .toList() ??
@@ -732,6 +735,7 @@ class _TaskViewState extends State<TaskView> {
                                     items: globalState.statuses
                                         ?.map((e) =>
                                         ShadOption(
+                                            selectedIcon: const SizedBox(),
                                             value: e,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -795,6 +799,7 @@ class _TaskViewState extends State<TaskView> {
                                     },
                                     items: (globalState.priorities?.map((e) =>
                                         ShadOption(
+                                          selectedIcon: const SizedBox(),
                                           value: e,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,

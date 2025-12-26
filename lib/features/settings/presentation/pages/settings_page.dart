@@ -265,6 +265,7 @@ class SettingsPage extends StatelessWidget {
                     appLocalization.getCurrentLanguagesEnum(context)!),
                 items: context.supportedLocales
                     .map<ShadOption>((e) => ShadOption(
+                    selectedIcon: const SizedBox(),
                         value: e,
                         child: Text(appLocalization.translate(e.languageCode))))
                     .toList(),
@@ -299,6 +300,7 @@ class SettingsPage extends StatelessWidget {
                 value: state.themeMode,
                 items: [ThemeMode.light, ThemeMode.dark]
                     .map<ShadOption>((e) => ShadOption(
+                  selectedIcon: const SizedBox(),
                         value: e, child: Text(appLocalization.translate(e.name)),))
                     .toList(),
                 onChanged: (selected) {

@@ -660,6 +660,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                   items: context.supportedLocales
                       .map<ShadOption>((e) =>
                       ShadOption(
+                          selectedIcon: const SizedBox(),
                           value: e,
                           child: Text(appLocalization.translate(e.languageCode))))
                       .toList(),
@@ -679,6 +680,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
               value: settingsState.themeMode,
               items: [ThemeMode.light, ThemeMode.dark]
                   .map<ShadOption>((e) => ShadOption(
+                selectedIcon: const SizedBox(),
                 value: e, child: Text(appLocalization.translate(e.name)),))
                   .toList(),
               onChanged: (selected) {
@@ -704,6 +706,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
                 items: context.supportedLocales
                     .map<ShadOption>((e) =>
                     ShadOption(
+                        selectedIcon: const SizedBox(),
                         value: e,
                         child: Text(appLocalization.translate(e.languageCode))))
                     .toList(),
@@ -722,6 +725,7 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             value: settingsState.themeMode,
             items: [ThemeMode.light, ThemeMode.dark]
                 .map<ShadOption>((e) => ShadOption(
+              selectedIcon: const SizedBox(),
               value: e, child: Text(appLocalization.translate(e.name)),))
                 .toList(),
             onChanged: (selected) {
