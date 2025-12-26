@@ -700,8 +700,8 @@ class _TaskViewState extends State<TaskView> {
                             ///Status && Priority
                             Wrap(
                               direction: Axis.horizontal,
-                              spacing: AppSpacing.xSmall8.value,
-                              runSpacing: AppSpacing.xSmall8.value,
+                              spacing: AppSpacing.medium16.value,
+                              runSpacing: AppSpacing.medium16.value,
                               children: [
 
                                 ///Status
