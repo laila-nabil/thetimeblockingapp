@@ -380,7 +380,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
                 task.isCompleted ? AppIcons.checkboxchecked : AppIcons.checkbox,
                 color:
                     task.color(context.isDarkMode,isBackground: false),
-                size: 15,
+                size: 18,
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/enums/backend_mode.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
 
@@ -330,7 +331,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                                   ? AppIcons.checkboxchecked
                                   : AppIcons.checkbox,
                               color: widget.task.color(context.isDarkMode,isBackground: false),
-                              size: 20,
+                              size: 24,
                             ),
                           ),
                           SizedBox(

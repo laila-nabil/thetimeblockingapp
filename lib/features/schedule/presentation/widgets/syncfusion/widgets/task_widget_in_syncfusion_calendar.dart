@@ -388,7 +388,7 @@ class _TaskCalendarWidget extends StatelessWidget {
                                 ? AppIcons.checkboxchecked
                                 : AppIcons.checkbox,
                             color: task.color(context.isDarkMode,isBackground: false),
-                            size: 15,
+                            size: 18,
                           ),
                         if (showCheckIcon(calendarView))
                           SizedBox(
