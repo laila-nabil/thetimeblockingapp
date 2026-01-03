@@ -107,8 +107,10 @@ class SettingsPage extends StatelessWidget {
         return ResponsiveScaffold(
             responsiveBody: ResponsiveTParams(
                 small: Padding(
-              padding: EdgeInsets.all(AppSpacing.x3Big32.value),
-              child: SingleChildScrollView(
+                      padding: context.showSmallDesign
+                          ? EdgeInsets.all(AppSpacing.medium16.value)
+                          : EdgeInsets.all(AppSpacing.x3Big32.value),
+                      child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Row(
@@ -120,7 +122,9 @@ class SettingsPage extends StatelessWidget {
                             appLocalization.translate("Settings"),
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                 color:
-                                AppColors.grey(900),
+                                context.isDarkMode
+                                    ? AppColors.grey(50)
+                                    : AppColors.grey(900),
                                 appFontWeight: AppFontWeight.medium,
                                 appFontSize: AppFontSize.heading4)),
                           ),
