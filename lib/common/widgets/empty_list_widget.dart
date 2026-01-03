@@ -10,12 +10,16 @@ class EmptyListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-        appLocalization.translate("noTasksMessage"),
-        style: AppTextStyle.getTextStyle(AppTextStyleParams(
-            appFontSize: AppFontSize.paragraphXSmall,
-            color: context.isDarkMode ? AppColors.white : AppColors.black.withOpacity(0.8),
-            appFontWeight: AppFontWeight.thin)),
+    return Row(
+      children: [
+        Text(
+            appLocalization.translate("noTasksMessage"),
+            style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                appFontSize: AppFontSize.paragraphXSmall,
+                color: context.isDarkMode ? AppColors.white : AppColors.black.withOpacity(0.8),
+                appFontWeight: AppFontWeight.thin)),
+        ),
+      ],
     );
   }
 }
