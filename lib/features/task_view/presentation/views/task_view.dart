@@ -927,7 +927,8 @@ class _TaskViewState extends State<TaskView> {
                                                   .customToString(
                                                   taskParams
                                                       .startDate
-                                                      ?.dateTime) ??
+                                                      ?.dateTime,
+                                                  isEnglish: appLocalization.isRTL(context) == false) ??
                                                   "YYYY-MM-DD HH:MM AM",
                                               overflow:
                                               TextOverflow.ellipsis,
@@ -999,7 +1000,8 @@ class _TaskViewState extends State<TaskView> {
                                             DateTimeExtensions
                                                 .customToString(
                                                 taskParams.dueDate
-                                                    ?.dateTime) ??
+                                                    ?.dateTime,
+                                                isEnglish: appLocalization.isRTL(context) == false) ??
                                                 "YYYY-MM-DD HH:MM AM",
                                             overflow: TextOverflow.ellipsis,
                                           ),

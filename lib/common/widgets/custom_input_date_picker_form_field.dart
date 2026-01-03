@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/core/extensions.dart';
+import 'package:thetimeblockingapp/core/localization/localization.dart';
 
 import '../../core/resources/app_icons.dart';
 
@@ -170,7 +171,8 @@ class _CustomInputDatePickerFormFieldState extends State<CustomInputDatePickerFo
 
   void _updateValueForSelectedDate() {
     if (_selectedDate != null) {
-      _inputText = DateTimeExtensions.customToString(_selectedDate);
+      _inputText = DateTimeExtensions.customToString(_selectedDate,
+          isEnglish: appLocalization.isRTL(context) == false);
       TextEditingValue textEditingValue = TextEditingValue(text: _inputText!);
       // Select the new text if we are auto focused and haven't selected the text before.
       if (widget.autofocus && !_autoSelected) {

@@ -365,7 +365,9 @@ class _TaskWidgetState extends State<TaskWidget> {
               if (widget.task.startDate != null &&
                   widget.task.dueDate != null)
                 Text(
-                    "🕑 ${DateTimeExtensions.customToString(widget.task.startDate)} => ${DateTimeExtensions.customToString(widget.task.dueDate)}",
+                    "🕑 ${DateTimeExtensions.customToString(widget.task.startDate,
+                        isEnglish: appLocalization.isRTL(context) == false)} => ${DateTimeExtensions.customToString(widget.task.dueDate,
+                        isEnglish: appLocalization.isRTL(context) == false)}",
                     style: dateTextStyle)
               else
                 Text("", style: dateTextStyle),

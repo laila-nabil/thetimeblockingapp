@@ -99,7 +99,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   static String? customToString(DateTime? dateTime,
-      {bool includeDayMonthYear = true, bool includeTime = true}) {
+      {bool includeDayMonthYear = true, bool includeTime = true,required bool isEnglish}) {
     if (dateTime == null) {
       return null;
     }
@@ -109,11 +109,11 @@ extension DateTimeExtensions on DateTime {
     String y = _fourDigits(dateTime.year);
     String m = _twoDigits(dateTime.month);
     String d = _twoDigits(dateTime.day);
-    String amPm = "am";
+    String amPm = isEnglish ? "am" : "ص";
     var hour = dateTime.hour;
     if (hour > 12) {
       hour -= 12;
-      amPm = "pm";
+      amPm = isEnglish ? "pm" : "م";
     }
     String h = _twoDigits(hour);
     String min = _twoDigits(dateTime.minute);

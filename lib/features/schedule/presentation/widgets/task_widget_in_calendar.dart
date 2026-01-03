@@ -495,8 +495,10 @@ class TaskWidgetInCalendar extends StatelessWidget {
               task.startDate != null &&
               task.dueDate != null)
             Text(
-              "🕑 ${extensions.DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false)}"
-              " => ${extensions.DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false)}",
+              "🕑 ${extensions.DateTimeExtensions.customToString(task.startDate, includeDayMonthYear: false,
+                  isEnglish: appLocalization.isRTL(context) == false)}"
+              " => ${extensions.DateTimeExtensions.customToString(task.dueDate, includeDayMonthYear: false,
+                  isEnglish: appLocalization.isRTL(context) == false)}",
               style: dateTextStyle,
             )
           else if (showTime(calendarViewType))
