@@ -228,7 +228,7 @@ class _TaskCalendarWidget extends StatelessWidget {
     if (isDismissible(calendarView)) {
       return Dismissible(
         key: Key(task.id.toString()),
-        background: Container(
+        background: task.isCompleted ? SizedBox() : Container(
           color: AppColors.success(context.isDarkMode),
           padding: EdgeInsets.all(AppSpacing.xSmall8.value),
           alignment: AlignmentDirectional.centerStart,

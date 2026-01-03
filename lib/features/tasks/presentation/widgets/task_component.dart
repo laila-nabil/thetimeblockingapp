@@ -165,7 +165,7 @@ class _TaskWidgetState extends State<TaskWidget> {
     final isListInsideFolder =
         folderName?.isNotEmpty == true;
     return  Dismissible(key: Key(widget.task.id.toString()),
-      background: Container(
+      background: widget.task.isCompleted ? SizedBox() : Container(
         color: AppColors.success(context.isDarkMode),
         padding: EdgeInsets.all(AppSpacing.xSmall8.value),
         alignment: AlignmentDirectional.centerStart,

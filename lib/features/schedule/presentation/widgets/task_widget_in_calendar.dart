@@ -208,7 +208,7 @@ class TaskWidgetInCalendar extends StatelessWidget {
         onTap:onEventTapped == null ? null: ()=> onEventTapped!(),
         child: Dismissible(
           key: Key(task.id.toString()),
-          background: Container(
+          background: task.isCompleted ? SizedBox() : Container(
             color: AppColors.success(context.isDarkMode),
             padding: EdgeInsets.all(AppSpacing.xSmall8.value),
             alignment: AlignmentDirectional.centerStart,
