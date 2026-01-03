@@ -216,28 +216,29 @@ class _TaskWidgetState extends State<TaskWidget> {
           return res;
         }
         if(widget.task.isCompleted  == false && dismissDirection == DismissDirection.startToEnd){
-          final res =  await showDialog<bool>(context: context, builder: (context){
-            return CustomAlertDialog(
-              loading: false,
-              actions: [
-                CustomButton.noIcon(
-                    type: CustomButtonType.greyTextLabel,
-                    label: appLocalization.translate("cancel"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                CustomButton.noIcon(
-                    label: appLocalization.translate("complete"),
-                    onPressed: () {
-                      widget.onCompleteConfirmed();
-                      Navigator.pop(context);
-                    },type: CustomButtonType.primaryLabel),
-              ],
-              content: Text(
-                  "${appLocalization.translate("areYouSureComplete")} ${widget.task.title}?"),
-            );
-          });
-          return res;
+          widget.onCompleteConfirmed();
+          // final res =  await showDialog<bool>(context: context, builder: (context){
+          //   return CustomAlertDialog(
+          //     loading: false,
+          //     actions: [
+          //       CustomButton.noIcon(
+          //           type: CustomButtonType.greyTextLabel,
+          //           label: appLocalization.translate("cancel"),
+          //           onPressed: () {
+          //             Navigator.pop(context);
+          //           }),
+          //       CustomButton.noIcon(
+          //           label: appLocalization.translate("complete"),
+          //           onPressed: () {
+          //             widget.onCompleteConfirmed();
+          //             Navigator.pop(context);
+          //           },type: CustomButtonType.primaryLabel),
+          //     ],
+          //     content: Text(
+          //         "${appLocalization.translate("areYouSureComplete")} ${widget.task.title}?"),
+          //   );
+          // });
+          // return res;
         }
         return null;
       },

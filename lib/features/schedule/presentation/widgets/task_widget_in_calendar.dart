@@ -262,31 +262,32 @@ class TaskWidgetInCalendar extends StatelessWidget {
             }
             if (task.isCompleted == false &&
                 dismissDirection == DismissDirection.startToEnd) {
-              final res = await showDialog<bool>(
-                  context: context,
-                  builder: (context) {
-                    return CustomAlertDialog(
-                      loading: false,
-                      actions: [
-                        CustomButton.noIcon(
-                            type: CustomButtonType.greyTextLabel,
-                            label: appLocalization.translate("cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                        CustomButton.noIcon(
-                            label: appLocalization.translate("complete"),
-                            onPressed: () {
-                              onCompleteConfirmed();
-                              Navigator.pop(context);
-                            },
-                            type: CustomButtonType.primaryLabel),
-                      ],
-                      content: Text(
-                          "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
-                    );
-                  });
-              return res;
+              onCompleteConfirmed();
+              // final res = await showDialog<bool>(
+              //     context: context,
+              //     builder: (context) {
+              //       return CustomAlertDialog(
+              //         loading: false,
+              //         actions: [
+              //           CustomButton.noIcon(
+              //               type: CustomButtonType.greyTextLabel,
+              //               label: appLocalization.translate("cancel"),
+              //               onPressed: () {
+              //                 Navigator.pop(context);
+              //               }),
+              //           CustomButton.noIcon(
+              //               label: appLocalization.translate("complete"),
+              //               onPressed: () {
+              //                 onCompleteConfirmed();
+              //                 Navigator.pop(context);
+              //               },
+              //               type: CustomButtonType.primaryLabel),
+              //         ],
+              //         content: Text(
+              //             "${appLocalization.translate("areYouSureComplete")} ${task.title}?"),
+              //       );
+              //     });
+              // return res;
             }
             return null;
           },
