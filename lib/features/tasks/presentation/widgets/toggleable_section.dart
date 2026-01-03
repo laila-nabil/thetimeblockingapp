@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
@@ -48,111 +49,114 @@ class _ToggleableSectionState extends State<ToggleableSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: AppSpacing.xSmall8.value),
-      child: Container(
-        decoration: BoxDecoration(
-            color: AppColors.background(context.isDarkMode),
-            border: Border.all(color: AppColors.grey(100), width: 1),
-            borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
-            boxShadow: AppShadow.xSmall.shadows),
-        margin: EdgeInsets.all(AppSpacing.medium16.value),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: () {
+      decoration: BoxDecoration(
+          color: AppColors.background(context.isDarkMode),
+          border: Border.all(color: AppColors.grey(100), width: 1),
+          borderRadius: BorderRadius.circular(AppBorderRadius.large.value),
+          boxShadow: AppShadow.xSmall.shadows),
+      margin: context.showSmallDesign
+          ? EdgeInsets.symmetric(
+              horizontal: AppSpacing.x2Small4.value,
+              vertical: AppSpacing.small12.value)
+          : EdgeInsets.symmetric(
+              horizontal: AppSpacing.small12.value,
+              vertical: AppSpacing.medium16.value),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                isOpen = !isOpen;
+              });
+            },
+            onHover: (hover){
+              if (hover!=onHover) {
                 setState(() {
-                  isOpen = !isOpen;
+                  onHover = hover;
                 });
-              },
-              onHover: (hover){
-                if (hover!=onHover) {
-                  setState(() {
-                    onHover = hover;
-                  });
-                }
-              },
-              child: Container(
-                margin: isOpen
-                    ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
-                    : EdgeInsets.zero,
-                padding: widget.actions?.isNotEmpty == true
-                    ? EdgeInsetsDirectional.only(
-                        top: AppSpacing.medium16.value,
-                        bottom: AppSpacing.medium16.value,
-                        start: AppSpacing.medium16.value,
-                        end: AppSpacing.xSmall8.value)
-                    : EdgeInsets.all(AppSpacing.medium16.value),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: isOpen
-                            ? BorderSide(color: AppColors.grey(200), width: 1)
-                            : BorderSide.none),
-                    color: onHover
-                        ? (context.isDarkMode
-                            ? AppColors.grey( 200)
-                                .withOpacity(0.1)
-                            : AppColors.primary(context.isDarkMode, 50)
-                                .withOpacity(0.5))
-                        : null),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: Icon(
-                            isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
-                            color: AppColors.grey(500),
-                            size: 20,
-                          ),
+              }
+            },
+            child: Container(
+              margin: isOpen
+                  ? EdgeInsets.only(bottom: AppSpacing.medium16.value)
+                  : EdgeInsets.zero,
+              padding: widget.actions?.isNotEmpty == true
+                  ? EdgeInsetsDirectional.only(
+                      top: AppSpacing.medium16.value,
+                      bottom: AppSpacing.medium16.value,
+                      start: AppSpacing.medium16.value,
+                      end: AppSpacing.xSmall8.value)
+                  : EdgeInsets.all(AppSpacing.medium16.value),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: isOpen
+                          ? BorderSide(color: AppColors.grey(200), width: 1)
+                          : BorderSide.none),
+                  color: onHover
+                      ? (context.isDarkMode
+                          ? AppColors.grey( 200)
+                              .withOpacity(0.1)
+                          : AppColors.primary(context.isDarkMode, 50)
+                              .withOpacity(0.5))
+                      : null),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Icon(
+                          isOpen ? AppIcons.chevrondown : AppIcons.chevronright,
+                          color: AppColors.grey(500),
+                          size: 20,
                         ),
-                        Text(
-                          widget.title,
-                          style: AppTextStyle.getTextStyle(AppTextStyleParams(
-                              appFontSize: AppFontSize.paragraphMedium,
-                              color: widget.titleColor ?? (context.isDarkMode
-                                  ? AppColors.grey(50)
-                                  : AppColors.grey(900)),
-                              appFontWeight: AppFontWeight.semiBold)),
+                      ),
+                      Text(
+                        widget.title,
+                        style: AppTextStyle.getTextStyle(AppTextStyleParams(
+                            appFontSize: AppFontSize.paragraphMedium,
+                            color: widget.titleColor ?? (context.isDarkMode
+                                ? AppColors.grey(50)
+                                : AppColors.grey(900)),
+                            appFontWeight: AppFontWeight.semiBold)),
+                      )
+                    ],
+                  ),
+                  if (widget.actions?.isNotEmpty == true)
+                    CustomPopupMenu(
+                        items: widget.actions ?? [],
                         )
-                      ],
-                    ),
-                    if (widget.actions?.isNotEmpty == true)
-                      CustomPopupMenu(
-                          items: widget.actions ?? [],
-                          )
-                  ],
-                ),
+                ],
               ),
             ),
-            if (isOpen)
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSpacing.medium16.value),
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: (widget.children +
-                            (widget.buttons
-                                    ?.map((button) => CustomButton.noIcon(
-                                          label: button.title,
-                                          onPressed: button.onTap,
-                                          type: CustomButtonType.greyTextLabel,
-                                        ))
-                                    .toList() ??
-                                []))
-                        .map((e) => Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: AppSpacing.medium16.value),
-                              child: e,
-                            ))
-                        .toList()),
-              ),
-          ],
-        ),
+          ),
+          if (isOpen)
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: AppSpacing.medium16.value),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: (widget.children +
+                          (widget.buttons
+                                  ?.map((button) => CustomButton.noIcon(
+                                        label: button.title,
+                                        onPressed: button.onTap,
+                                        type: CustomButtonType.greyTextLabel,
+                                      ))
+                                  .toList() ??
+                              []))
+                      .map((e) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom: AppSpacing.medium16.value),
+                            child: e,
+                          ))
+                      .toList()),
+            ),
+        ],
       ),
     );
   }
