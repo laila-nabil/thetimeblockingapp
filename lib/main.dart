@@ -129,6 +129,11 @@ class MyApp extends StatelessWidget {
                     .dividerTheme
                     .thickness,
               ),
+              linkButtonTheme: ShadButtonTheme(
+                foregroundColor:AppColors.primary(true,200),
+                hoverForegroundColor: AppColors.primary(true,100),
+                pressedForegroundColor:  AppColors.primary(true,400),
+              ),
               colorScheme: ShadSlateColorScheme.dark(
                   background: AppColors.background(true),
                   primary: AppColors.primary(true),
