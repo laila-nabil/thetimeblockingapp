@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/resources/app_colors.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_icons.dart';
@@ -22,7 +23,6 @@ class CustomAlertWidget extends StatelessWidget {
     this.secondaryCta,
     this.secondaryCtaOnPressed,
     this.onClose,
-    this.smallVersion = false,
   });
 
   final CustomAlertType customAlertType;
@@ -34,9 +34,9 @@ class CustomAlertWidget extends StatelessWidget {
   final String? secondaryCta;
   final void Function()? secondaryCtaOnPressed;
   final void Function()? onClose;
-  final bool smallVersion;
   @override
   Widget build(BuildContext context) {
+    final bool smallVersion = context.showSmallDesign;
     return Stack(
       children: [
         if (onClose == null)
@@ -91,7 +91,7 @@ class CustomAlertWidget extends StatelessWidget {
                       title,
                       style: AppTextStyle.getTextStyle(AppTextStyleParams(
                           appFontSize: smallVersion
-                              ? AppFontSize.paragraphX2Small
+                              ? AppFontSize.paragraphSmall
                               : AppFontSize.paragraphMedium,
                           color: titleTextColor(
                               customAlertType: customAlertType,
@@ -107,7 +107,7 @@ class CustomAlertWidget extends StatelessWidget {
                             style: AppTextStyle.getTextStyle(AppTextStyleParams(
                                 appFontSize:
                                 smallVersion
-                                    ? AppFontSize.paragraphX2Small
+                                    ? AppFontSize.paragraphXSmall
                                     : AppFontSize.paragraphSmall,
                                 color: detailsTextColor(
                                     customAlertType: customAlertType,
