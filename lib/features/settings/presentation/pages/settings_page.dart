@@ -290,7 +290,9 @@ class SettingsPage extends StatelessWidget {
                 appLocalization.translate("theme"),
                 style: AppTextStyle.getTextStyle(AppTextStyleParams(
                     appFontSize: AppFontSize.paragraphSmall,
-                    color: AppColors.grey( 900),
+                    color: context.isDarkMode
+                        ? AppColors.grey(50)
+                        : AppColors.grey(900),
                     appFontWeight: AppFontWeight.medium)),
               ),
               SizedBox(
