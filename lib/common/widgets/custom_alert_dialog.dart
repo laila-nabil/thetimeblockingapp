@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
 
 import 'custom_loading.dart';
 
-//since responsiveScaffoldLoading overlayLoading does not cover a pop up
+Future showDialogOrBottomSheet({
+  required BuildContext context,
+  required CustomAlertDialog Function(BuildContext context) builder,
+}) async {
+  if (context.showSmallDesign) {
+    return showModalBottomSheet(context: context, builder: builder);
+  }
+  return showDialog(context: context, builder: builder);
+}
 
+
+//since responsiveScaffoldLoading overlayLoading does not cover a pop up
 class CustomAlertDialog extends AlertDialog {
   const CustomAlertDialog({
     super.key,

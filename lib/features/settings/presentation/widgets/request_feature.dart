@@ -5,13 +5,15 @@ import 'package:thetimeblockingapp/common/widgetbook.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
+import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/localization/localization.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:thetimeblockingapp/features/settings/domain/use_cases/request_feature_use_case.dart';
 import 'package:thetimeblockingapp/features/settings/presentation/bloc/settings_bloc.dart';
 
 Future<void> showRequestFeatureDialog(BuildContext context) {
-  return showDialog(
+  TextEditingController controller = TextEditingController();
+  return showDialogOrBottomSheet(
       context: context,
       builder: (context) {
         TextEditingController controller = TextEditingController();
