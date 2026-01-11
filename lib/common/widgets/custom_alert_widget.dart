@@ -545,11 +545,13 @@ void showCustomAlert({
           SizedBox(
             width: AppSpacing.medium16.value,
           ),
-          Text(
-            title,
-            style: _titleTextStyle(smallVersion, context,
-                customAlertType: customAlertType,
-                customAlertThemeType: customAlertThemeType),
+          Expanded(
+            child: Text(
+              title,
+              style: _titleTextStyle(smallVersion, context,
+                  customAlertType: customAlertType,
+                  customAlertThemeType: customAlertThemeType),
+            ),
           ),
         ],
       ),
