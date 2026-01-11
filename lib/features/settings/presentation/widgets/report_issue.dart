@@ -11,7 +11,7 @@ import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
 Future<void> showReportIssueDialog(BuildContext context) {
-  return showDialog(
+  return showDialogOrBottomSheet(
     context: context,
     builder: (context) {
       TextEditingController controller = TextEditingController();
