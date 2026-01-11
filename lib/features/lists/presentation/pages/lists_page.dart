@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/entities/folder.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_alert_dialog.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_button.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_text_input_field.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive_scaffold.dart';
 
 import 'package:thetimeblockingapp/core/injection_container.dart';
+import 'package:thetimeblockingapp/core/print_debug.dart';
 import 'package:thetimeblockingapp/core/resources/app_design.dart';
 import 'package:thetimeblockingapp/core/resources/app_theme.dart';
 import 'package:thetimeblockingapp/features/auth/presentation/bloc/auth_bloc.dart';
@@ -32,6 +34,8 @@ class ListsPage extends StatelessWidget {
   const ListsPage({super.key});
 
   static const routeName = "/Lists";
+
+  static const bool showDialogOrBottomSheetInsteadOfInlineField = true;
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +146,138 @@ class ListsPage extends StatelessWidget {
                   );
                 });
           }
+          else if(state.tryCreateFolderInSpace && showDialogOrBottomSheetInsteadOfInlineField == true){
+            var globalState = BlocProvider.of<GlobalBloc>(context).state;
+            showDialogOrBottomSheet(
+                context: context,
+                isDismissible: false,
+                builder: (ctx) {
+                  TextEditingController controller = TextEditingController();
+                  return CustomAlertDialog(
+                    loading: false,
+                    title: Text(appLocalization.translate("createNewFolder")),
+                    actions: [
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("cancel"),
+                        onPressed: () {
+                          cancelCreateFolder(listsPageBloc, globalBloc, authBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.greyTextLabel,
+                      ),
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("submit"),
+                        onPressed: () {
+                          createFolder(listsPageBloc, controller.text, globalState, authBloc, globalBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.primaryLabel,
+                      ),
+                    ],
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomTextInputField(
+                          focusNode: FocusNode(),
+                          hintText: appLocalization.translate("folder"),
+                          labelText: appLocalization.translate("folderName"),
+                          maxLines: 1,
+                          controller:controller,
+                        )
+                      ],
+                    ),
+                  );
+                });
+          }
+          else if(state.tryCreateListInSpace && showDialogOrBottomSheetInsteadOfInlineField == true){
+            var globalState = BlocProvider.of<GlobalBloc>(context).state;
+            showDialogOrBottomSheet(
+                context: context,
+                isDismissible: false,
+                builder: (ctx) {
+                  TextEditingController controller = TextEditingController();
+                  return CustomAlertDialog(
+                    loading: false,
+                    title: Text(appLocalization.translate("createNewList")),
+                    actions: [
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("cancel"),
+                        onPressed: () {
+                          cancelCreateList(listsPageBloc, globalBloc, authBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.greyTextLabel,
+                      ),
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("submit"),
+                        onPressed: () {
+                          createListInSpace(listsPageBloc, controller.text, globalState, authBloc, globalBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.primaryLabel,
+                      ),
+                    ],
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomTextInputField(
+                          focusNode: FocusNode(),
+                          hintText: appLocalization.translate("list"),
+                          labelText: appLocalization.translate("listName"),
+                          maxLines: 1,
+                          controller:controller,
+                        )
+                      ],
+                    ),
+                  );
+                });
+          }
+          else if (state.listsPageStatus ==
+                  ListsPageStatus.createListInFolderTry &&
+              state.folderToCreateListIn != null &&
+              showDialogOrBottomSheetInsteadOfInlineField == true) {
+            var globalState = BlocProvider.of<GlobalBloc>(context).state;
+            showDialogOrBottomSheet(
+                context: context,
+                isDismissible: false,
+                builder: (ctx) {
+                  TextEditingController controller = TextEditingController();
+                  return CustomAlertDialog(
+                    loading: false,
+                    title: Text(appLocalization.translate("createNewList")),
+                    actions: [
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("cancel"),
+                        onPressed: () {
+                          cancelCreateList(listsPageBloc, globalBloc, authBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.greyTextLabel,
+                      ),
+                      CustomButton.noIcon(
+                        label: appLocalization.translate("submit"),
+                        onPressed: () {
+                          createListInFolder(listsPageBloc, state.folderToCreateListIn!, controller.text, authBloc, globalState, globalBloc);
+                          context.pop();
+                        },
+                        type: CustomButtonType.primaryLabel,
+                      ),
+                    ],
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomTextInputField(
+                          focusNode: FocusNode(),
+                          hintText: appLocalization.translate("list"),
+                          labelText: appLocalization.translate("listName"),
+                          maxLines: 1,
+                          controller:controller,
+                        )
+                      ],
+                    ),
+                  );
+                });
+          }
         },
         builder: (context, state) {
           final listsPageBloc = BlocProvider.of<ListsPageBloc>(context);
@@ -249,34 +385,12 @@ class ListsPage extends StatelessWidget {
                                                 [
                                                   if (state
                                                       .tryCreateListInFolder(
-                                                      folder))
+                                                      folder) && showDialogOrBottomSheetInsteadOfInlineField == false )
                                                     _CreateField(
                                                         onAdd: (text) {
-                                                          listsPageBloc.add(CreateListInFolderEvent.submit(
-                                                              createListInFolderParams: CreateListInFolderParams(
-
-                                                                  folder:
-                                                                  folder,
-                                                                  listName:
-                                                                  text, user: authBloc.state.user!, workspace: globalState.selectedWorkspace!),
-                                                              workspace:
-                                                              globalState
-                                                                  .selectedWorkspace!,
-                                                              onSuccess: () {
-                                                            globalBloc.add(GetAllInWorkspaceEvent(
-
-                                                              workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                                            ));
-                                                          }));
+                                                          createListInFolder(listsPageBloc, folder, text, authBloc, globalState, globalBloc);
                                                         }, onCancel: () {
-                                                      listsPageBloc.add(
-                                                          CreateListInFolderEvent
-                                                              .cancelCreate(onSuccess: (){
-                                                            globalBloc.add(GetAllInWorkspaceEvent(
-
-                                                              workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                                            ));
-                                                          }));
+                                                      cancelCreateList(listsPageBloc, globalBloc, authBloc);
                                                     })
                                                 ]))
                                         .toList() ??
@@ -312,30 +426,13 @@ class ListsPage extends StatelessWidget {
                                               []))
                                     ] +
                                     <Widget>[
-                                      state.tryCreateFolderInSpace
+                                      state.tryCreateFolderInSpace && showDialogOrBottomSheetInsteadOfInlineField == false
                                           ? _CreateField(
                                         onAdd: (text) {
-                                          listsPageBloc.add(CreateFolderInSpaceEvent.submit(
-                                              createFolderInSpaceParams:
-                                              CreateFolderInSpaceParams(
-
-                                                  folderName: text,
-                                                  workspace: globalState
-                                                      .selectedWorkspace!, user: authBloc.state.user!),
-                                              workspace: globalState
-                                                  .selectedWorkspace!,
-                                              onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-
-                                            workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                          )); }));
+                                          createFolder(listsPageBloc, text, globalState, authBloc, globalBloc);
                                         },
                                         onCancel: () {
-                                          listsPageBloc.add(
-                                              CreateFolderInSpaceEvent
-                                                  .cancelCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
-
-                                                workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                              )); }));
+                                          cancelCreateFolder(listsPageBloc, globalBloc, authBloc);
                                         },
                                       )
                                           : CustomButton.noIcon(
@@ -354,36 +451,11 @@ class ListsPage extends StatelessWidget {
                                       )
                                     ] +
                                     <Widget>[
-                                      state.tryCreateListInSpace
+                                      state.tryCreateListInSpace && showDialogOrBottomSheetInsteadOfInlineField == false
                                           ? _CreateField(onAdd: (text) {
-                                        listsPageBloc.add(CreateFolderlessListEvent.submit(
-                                            createFolderlessListParams:
-                                            CreateFolderlessListParams(
-
-                                                listName: text,
-                                                workspace: globalState
-                                                    .selectedWorkspace!, user: authBloc.state.user!),
-                                            workspace: globalState
-                                                .selectedWorkspace!,
-                                                onSuccess: () {
-                                                  globalBloc.add(
-                                                      GetAllInWorkspaceEvent(
-
-                                                    workspace: globalBloc
-                                                        .state
-                                                        .selectedWorkspace!
-                                                          , user: authBloc.state.user!
-                                                  ));
-                                                }));
+                                        createListInSpace(listsPageBloc, text, globalState, authBloc, globalBloc);
                                       }, onCancel: () {
-                                        listsPageBloc.add(
-                                            CreateListInFolderEvent
-                                                .cancelCreate(onSuccess: () {
-                                              globalBloc.add(GetAllInWorkspaceEvent(
-
-                                                workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
-                                              ));
-                                            }));
+                                        cancelCreateList(listsPageBloc, globalBloc, authBloc);
                                       })
                                           : CustomButton.noIcon(
                                         label:
@@ -417,6 +489,84 @@ class ListsPage extends StatelessWidget {
         },
       );
     });
+  }
+
+  void createListInSpace(ListsPageBloc listsPageBloc, String text, GlobalState globalState, AuthBloc authBloc, GlobalBloc globalBloc) {
+    listsPageBloc.add(CreateFolderlessListEvent.submit(
+        createFolderlessListParams:
+        CreateFolderlessListParams(
+
+            listName: text,
+            workspace: globalState
+                .selectedWorkspace!, user: authBloc.state.user!),
+        workspace: globalState
+            .selectedWorkspace!,
+            onSuccess: () {
+              globalBloc.add(
+                  GetAllInWorkspaceEvent(
+
+                workspace: globalBloc
+                    .state
+                    .selectedWorkspace!
+                      , user: authBloc.state.user!
+              ));
+            }));
+  }
+
+  void createListInFolder(ListsPageBloc listsPageBloc, Folder folder, String text, AuthBloc authBloc, GlobalState globalState, GlobalBloc globalBloc) {
+    listsPageBloc.add(CreateListInFolderEvent.submit(
+        createListInFolderParams: CreateListInFolderParams(
+
+            folder:
+            folder,
+            listName:
+            text, user: authBloc.state.user!, workspace: globalState.selectedWorkspace!),
+        workspace:
+        globalState
+            .selectedWorkspace!,
+        onSuccess: () {
+      globalBloc.add(GetAllInWorkspaceEvent(
+
+        workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
+      ));
+    }));
+  }
+
+  void cancelCreateList(ListsPageBloc listsPageBloc, GlobalBloc globalBloc, AuthBloc authBloc) {
+    listsPageBloc.add(
+        CreateListInFolderEvent
+            .cancelCreate(onSuccess: (){
+          globalBloc.add(GetAllInWorkspaceEvent(
+
+            workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
+          ));
+        }));
+  }
+
+  void cancelCreateFolder(ListsPageBloc listsPageBloc, GlobalBloc globalBloc, AuthBloc authBloc) {
+    listsPageBloc.add(
+        CreateFolderInSpaceEvent
+            .cancelCreate(onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+
+          workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
+        )); }));
+  }
+
+  void createFolder(ListsPageBloc listsPageBloc, String text,
+      GlobalState globalState, AuthBloc authBloc, GlobalBloc globalBloc) {
+    listsPageBloc.add(CreateFolderInSpaceEvent.submit(
+        createFolderInSpaceParams:
+        CreateFolderInSpaceParams(
+
+            folderName: text,
+            workspace: globalState
+                .selectedWorkspace!, user: authBloc.state.user!),
+        workspace: globalState
+            .selectedWorkspace!,
+        onSuccess: () { globalBloc.add(GetAllInWorkspaceEvent(
+
+      workspace: globalBloc.state.selectedWorkspace!, user: authBloc.state.user!
+    )); }));
   }
 
   void getListsFolders(ListsPageBloc listsPageBloc,AuthState authState,GlobalBloc globalBloc) {

@@ -8,13 +8,14 @@ import 'custom_loading.dart';
 Future showDialogOrBottomSheet({
   required BuildContext context,
   required CustomAlertDialog Function(BuildContext context) builder,
-}) async {
+  bool isDismissible = true}) async {
   if (context.showSmallDesign) {
-    return showModalBottomSheet(context: context, builder: builder);
+    return showModalBottomSheet(
+        isDismissible: isDismissible, context: context, builder: builder);
   }
-  return showDialog(context: context, builder: builder);
+  return showDialog(
+      barrierDismissible: isDismissible, context: context, builder: builder);
 }
-
 
 //since responsiveScaffoldLoading overlayLoading does not cover a pop up
 class CustomAlertDialog extends AlertDialog {
