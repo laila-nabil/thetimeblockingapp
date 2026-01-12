@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thetimeblockingapp/common/entities/tag.dart';
 import 'package:thetimeblockingapp/common/widgets/custom_pop_up_menu.dart';
 import 'package:thetimeblockingapp/common/widgets/empty_tags_list_widget.dart';
 
@@ -31,6 +32,8 @@ class TagsPage extends StatelessWidget {
   const TagsPage({super.key});
 
   static const routeName = "/Tags";
+
+  static const bool showDialogOrBottomSheetInsteadOfInlineField = true;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +80,48 @@ class TagsPage extends StatelessWidget {
                       ],
                       content: Text(
                           "${appLocalization.translate("areYouSureDelete")} ${state.toDeleteTag?.name}?"),
+                    );
+                  });
+            }
+            else if(state.tryCreateTagInSpace && showDialogOrBottomSheetInsteadOfInlineField == true){
+              showDialogOrBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  builder: (ctx) {
+                    TextEditingController controller = TextEditingController();
+                    return CustomAlertDialog(
+                      loading: false,
+                      title: Text(appLocalization.translate("createNewTag")),
+                      actions: [
+                        CustomButton.noIcon(
+                          label: appLocalization.translate("cancel"),
+                          onPressed: () {
+                            onCancel(tagsPageBloc);
+                            context.pop();
+                          },
+                          type: CustomButtonType.greyTextLabel,
+                        ),
+                        CustomButton.noIcon(
+                          label: appLocalization.translate("submit"),
+                          onPressed: () {
+                            onCreateTag(tagsPageBloc, controller.text, context, authBloc);
+                            context.pop();
+                          },
+                          type: CustomButtonType.primaryLabel,
+                        ),
+                      ],
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomTextInputField(
+                            focusNode: FocusNode(),
+                            hintText: appLocalization.translate("tagName"),
+                            labelText: appLocalization.translate("tag"),
+                            maxLines: 1,
+                            controller:controller,
+                          )
+                        ],
+                      ),
                     );
                   });
             }
@@ -132,7 +177,7 @@ class TagsPage extends StatelessWidget {
                                     children: (state.getTagsInSpaceResult ?? [])
                                             .map<Widget>((tag) => TagComponent(
                                                   updateTagInline:
-                                                      state.updateTagTry(tag)
+                                                      state.updateTagTry(tag) && showDialogOrBottomSheetInsteadOfInlineField == false
                                                           ? SizedBox(
                                                               width: 300,
                                                               child:
@@ -158,13 +203,12 @@ class TagsPage extends StatelessWidget {
                                                                         ));
                                                                       },
                                                                       onCancel: () {
-                                                                        tagsPageBloc.add(UpdateTagEvent.cancel(
-                                                                            insideTagPage:
-                                                                                false));
+                                                                        onCancel(tagsPageBloc);
                                                                       }),
                                                             )
                                                           : null,
                                                   actions: [
+                                                    if(false)
                                                     CustomPopupItem(
                                                         title: appLocalization
                                                             .translate("edit"),
@@ -200,17 +244,9 @@ class TagsPage extends StatelessWidget {
                                                 ))
                                             .toList() +
                                         [
-                                          state.tryCreateTagInSpace == true
+                                          state.tryCreateTagInSpace == true && showDialogOrBottomSheetInsteadOfInlineField == false
                                               ? _CreateEditField(onAdd: (text) {
-                                                  tagsPageBloc.add(
-                                                      CreateTagInSpaceEvent
-                                                          .submit(
-                                                    params: CreateTagInWorkspaceParams(
-
-                                                        tagName: text,
-                                                        workspace:
-                                                            BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!, user: authBloc.state.user!),
-                                                  ));
+                                                  onCreateTag(tagsPageBloc, text, context, authBloc);
                                                 }, onCancel: () {
                                                   tagsPageBloc.add(
                                                       CreateTagInSpaceEvent
@@ -247,6 +283,40 @@ class TagsPage extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void onCreateTag(TagsPageBloc tagsPageBloc, String text, BuildContext context, AuthBloc authBloc) {
+    tagsPageBloc.add(
+        CreateTagInSpaceEvent
+            .submit(
+      params: CreateTagInWorkspaceParams(
+
+          tagName: text,
+          workspace:
+              BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!, user: authBloc.state.user!),
+    ));
+  }
+
+  void onUpdate(TagsPageBloc tagsPageBloc, Tag tag, String text, AuthBloc authBloc, BuildContext context) {
+    tagsPageBloc.add(
+        UpdateTagEvent
+            .submit(
+      insideTagPage:
+          false,
+      params: UpdateTagParams(
+
+          newTag: tag
+              .copyWith(name: text)
+              .getModel,
+          user: authBloc.state.user!,
+          workspace: BlocProvider.of<GlobalBloc>(context).state.selectedWorkspace!),
+    ));
+  }
+
+  void onCancel(TagsPageBloc tagsPageBloc) {
+    tagsPageBloc.add(UpdateTagEvent.cancel(
+        insideTagPage:
+            false));
   }
 }
 

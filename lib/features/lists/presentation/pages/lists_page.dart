@@ -179,8 +179,8 @@ class ListsPage extends StatelessWidget {
                       children: [
                         CustomTextInputField(
                           focusNode: FocusNode(),
-                          hintText: appLocalization.translate("folder"),
-                          labelText: appLocalization.translate("folderName"),
+                          hintText: appLocalization.translate("folderName"),
+                          labelText: appLocalization.translate("folder"),
                           maxLines: 1,
                           controller:controller,
                         )
@@ -222,8 +222,8 @@ class ListsPage extends StatelessWidget {
                       children: [
                         CustomTextInputField(
                           focusNode: FocusNode(),
-                          hintText: appLocalization.translate("list"),
-                          labelText: appLocalization.translate("listName"),
+                          hintText: appLocalization.translate("listName"),
+                          labelText: appLocalization.translate("list"),
                           maxLines: 1,
                           controller:controller,
                         )
@@ -268,8 +268,8 @@ class ListsPage extends StatelessWidget {
                       children: [
                         CustomTextInputField(
                           focusNode: FocusNode(),
-                          hintText: appLocalization.translate("list"),
-                          labelText: appLocalization.translate("listName"),
+                          hintText: appLocalization.translate("listName"),
+                          labelText: appLocalization.translate("list"),
                           maxLines: 1,
                           controller:controller,
                         )
