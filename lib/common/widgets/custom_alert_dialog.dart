@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:thetimeblockingapp/common/widgets/responsive/responsive.dart';
 import 'package:thetimeblockingapp/core/print_debug.dart';
+import 'package:thetimeblockingapp/core/resources/app_design.dart';
 
 import 'custom_loading.dart';
 
@@ -11,7 +12,42 @@ Future showDialogOrBottomSheet({
   bool isDismissible = true}) async {
   if (context.showSmallDesign) {
     return showModalBottomSheet(
-        isDismissible: isDismissible, context: context, builder: builder);
+      isScrollControlled: true,
+        isDismissible: isDismissible, context: context, builder: (ctx){
+        var customAlertDialog = builder(ctx);
+        return SafeArea(
+          minimum: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.x3Big32.value),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(vertical:AppSpacing.medium16.value),
+                      child: customAlertDialog.title ?? const SizedBox(),
+                    ),
+                    customAlertDialog.content??const SizedBox(),
+                  SizedBox(height: AppSpacing.xSmall8.value,),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical:AppSpacing.xSmall8.value),
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Wrap(
+                      alignment: WrapAlignment.end,
+                      runAlignment: WrapAlignment.end,
+                      spacing: AppSpacing.xSmall8.value,
+                      children: customAlertDialog.actions ?? [],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+    });
   }
   return showDialog(
       barrierDismissible: isDismissible, context: context, builder: builder);
