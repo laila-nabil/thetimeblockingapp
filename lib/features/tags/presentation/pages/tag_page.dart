@@ -80,6 +80,7 @@ class TagPage extends StatelessWidget {
               return ResponsiveScaffold(
                 ///TODO Z Bulk actions on tasks
                 pageActions: [
+                  if(false)
                   CustomPopupItem.custom(
                       onTap: () {
                         tagsPageBloc.add(UpdateTagEvent.tryUpdate(
