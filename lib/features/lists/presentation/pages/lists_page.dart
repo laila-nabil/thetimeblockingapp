@@ -150,7 +150,7 @@ class ListsPage extends StatelessWidget {
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
             showDialogOrBottomSheet(
                 context: context,
-                isDismissible: false,
+                isDismissible: true,
                 builder: (ctx) {
                   TextEditingController controller = TextEditingController();
                   return CustomAlertDialog(
@@ -187,13 +187,17 @@ class ListsPage extends StatelessWidget {
                       ],
                     ),
                   );
-                });
+                }).then((_){
+              if(state.tryCreateFolderInSpace ){
+                cancelCreateFolder(listsPageBloc, globalBloc, authBloc);
+              }
+            });
           }
           else if(state.tryCreateListInSpace && showDialogOrBottomSheetInsteadOfInlineField == true){
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
             showDialogOrBottomSheet(
                 context: context,
-                isDismissible: false,
+                isDismissible: true,
                 builder: (ctx) {
                   TextEditingController controller = TextEditingController();
                   return CustomAlertDialog(
@@ -230,7 +234,11 @@ class ListsPage extends StatelessWidget {
                       ],
                     ),
                   );
-                });
+                }).then((_){
+              if(state.tryCreateListInSpace ){
+                cancelCreateList(listsPageBloc, globalBloc, authBloc);
+              }
+            });
           }
           else if (state.listsPageStatus ==
                   ListsPageStatus.createListInFolderTry &&
@@ -239,7 +247,7 @@ class ListsPage extends StatelessWidget {
             var globalState = BlocProvider.of<GlobalBloc>(context).state;
             showDialogOrBottomSheet(
                 context: context,
-                isDismissible: false,
+                isDismissible: true,
                 builder: (ctx) {
                   TextEditingController controller = TextEditingController();
                   return CustomAlertDialog(
@@ -276,7 +284,12 @@ class ListsPage extends StatelessWidget {
                       ],
                     ),
                   );
-                });
+                }).then((_){
+                  if(state.listsPageStatus ==
+                      ListsPageStatus.createListInFolderTry ){
+                    cancelCreateList(listsPageBloc, globalBloc, authBloc);
+                  }
+            });
           }
         },
         builder: (context, state) {
@@ -340,11 +353,11 @@ class ListsPage extends StatelessWidget {
                                             ],
                                             title: folder.name ?? "",
                                             buttons: [
-                                              if (state
-                                                  .tryCreateListInFolder(
-                                                  folder) ==
-                                                  false)
-                                                ToggleableSectionButtonParams(
+                                              if (showDialogOrBottomSheetInsteadOfInlineField ||
+                                                    state.tryCreateListInFolder(
+                                                            folder) ==
+                                                        false)
+                                                  ToggleableSectionButtonParams(
                                                     title:
                                                     "+ ${appLocalization.translate("createNewList")}",
                                                     onTap: () {

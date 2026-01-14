@@ -86,7 +86,7 @@ class TagsPage extends StatelessWidget {
             else if(state.tryCreateTagInSpace && showDialogOrBottomSheetInsteadOfInlineField == true){
               showDialogOrBottomSheet(
                   context: context,
-                  isDismissible: false,
+                  isDismissible: true,
                   builder: (ctx) {
                     TextEditingController controller = TextEditingController();
                     return CustomAlertDialog(
@@ -123,7 +123,11 @@ class TagsPage extends StatelessWidget {
                         ],
                       ),
                     );
-                  });
+                  }).then((_){
+                if(state.tryCreateTagInSpace  ){
+                  onCancel(tagsPageBloc);
+                }
+              });
             }
           },
           builder: (context, state) {
