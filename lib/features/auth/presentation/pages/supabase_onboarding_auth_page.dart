@@ -720,20 +720,6 @@ class _SupabaseOnBoardingAndAuthPageState extends State<SupabaseOnBoardingAndAut
             )
           ],
         ),
-        if(kDebugMode)
-          CustomDropDown(
-            value: settingsState.themeMode,
-            items: [ThemeMode.light, ThemeMode.dark]
-                .map<ShadOption>((e) => ShadOption(
-              selectedIcon: const SizedBox(),
-              value: e, child: Text(appLocalization.translate(e.name)),))
-                .toList(),
-            onChanged: (selected) {
-              settingsBloc.add(ChangeThemeEvent(selected));
-            },
-            isDarkMode: (context.isDarkMode),
-            showBorder: true,
-          ),
         Expanded(child: child)
       ],
     );
