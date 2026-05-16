@@ -547,7 +547,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                   multiDayTileComponents: tileComponents(),
                   monthTileComponents: tileComponents(),
                   multiDayBodyConfiguration: MultiDayBodyConfiguration(
-                      showMultiDayEvents: true,
+                      showMultiDayEvents: false,
                       eventLayoutStrategy:
                           (currentView is MultiDayViewConfiguration &&
                                       (currentView).numberOfDays < 4) ==
