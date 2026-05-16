@@ -538,7 +538,7 @@ class KalendarTasksCalendar extends StatelessWidget {
                     CalendarHeader(
                       multiDayTileComponents: tileComponents(header: true),
                       multiDayHeaderConfiguration:
-                          MultiDayHeaderConfiguration(showTiles: false),
+                          MultiDayHeaderConfiguration(showTiles: true,),//to show allDay events at header
                     ),
                     Divider()
                   ],
